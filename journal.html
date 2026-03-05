@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Journal | Best Wellness Therapy</title>
+</head>
+<body>
+  <nav>
+    <a href="/index.html">Home</a> |
+    <a href="/resources.html">Resources</a> |
+    <a href="/journal.html">Journal</a>
+  </nav>
+
+  <h1>Journal</h1>
+  <p>Local-only journal (saved on this device).</p>
+
+  <input id="t" placeholder="Title (optional)" /><br/><br/>
+  <textarea id="b" rows="8" placeholder="Write here..."></textarea><br/><br/>
+  <button id="s">Save</button>
+  <button id="c">Clear</button>
+  <p id="m">Not saved yet.</p>
+
+  <script>
+    const KEY="bwt_journal_v1";
+    const t=document.getElementById("t");
+    const b=document.getElementById("b");
+    const m=document.getElementById("m");
+    document.getElementById("s").onclick=()=>{
+      const entry={title:(t.value||"").trim(), text:(b.value||"").trim(), ts:Date.now()};
+      if(!entry.text){ m.textContent="Nothing to save."; return; }
+      const list=JSON.parse(localStorage.getItem(KEY)||"[]");
+      list.push(entry);
+      localStorage.setItem(KEY, JSON.stringify(list));
+      t.value=""; b.value="";
+      m.textContent="Saved locally ✔";
+    };
+    document.getElementById("c").onclick=()=>{ t.value=""; b.value=""; m.textContent="Cleared."; };
+  </script>
+</body>
+</html>
