@@ -4,38 +4,859 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Journal | Best Wellness Therapy</title>
+  <meta name="description" content="Private, local-only journal for notes, resources, and reflections. Searchable, tagged, and exportable." />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#0b0c0f;
+      --muted:#5b5f6a;
+      --line:#e9eaee;
+      --card:#f6f7f9;
+      --shadow: 0 12px 28px rgba(0,0,0,.06);
+      --r:18px;
+      --r2:14px;
+      --max:1080px;
+      --blue:#007aff;
+      --blue2:#0a84ff;
+      --danger:#ff3b30;
+      --ok:#34c759;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height:1.45;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 20px}
+    .nav{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.78);
+      backdrop-filter:saturate(180%) blur(18px);
+      border-bottom:1px solid var(--line);
+    }
+    .navin{display:flex; align-items:center; justify-content:space-between; padding:12px 0}
+    .brand{display:flex; gap:10px; align-items:center; font-weight:650; letter-spacing:-.2px}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--blue),var(--ok)); box-shadow:0 0 0 4px rgba(0,122,255,.10)}
+    .links{display:flex; gap:16px; align-items:center}
+    .links a{font-size:14px; color:var(--muted)}
+    .links a:hover{color:var(--text)}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-weight:650;
+      font-size:14px;
+      cursor:pointer;
+      transition: transform .08s ease, box-shadow .2s ease, border-color .2s ease;
+      user-select:none;
+    }
+    .btn:hover{transform:translateY(-1px); box-shadow:0 12px 20px rgba(0,0,0,.06); border-color:#dfe1e8}
+    .btn.primary{
+      color:#fff; border-color:transparent;
+      background:linear-gradient(180deg,var(--blue2),var(--blue));
+      box-shadow:0 14px 26px rgba(10,132,255,.22);
+    }
+    .btn.danger{
+      color:#fff; border-color:transparent;
+      background:linear-gradient(180deg,#ff6b63,var(--danger));
+      box-shadow:0 14px 26px rgba(255,59,48,.18);
+    }
+    .btn.ghost{background:transparent}
+
+    header.hero{padding:26px 0 18px}
+    h1{margin:0 0 8px; letter-spacing:-.8px; font-size:34px}
+    .sub{margin:0; color:var(--muted); max-width:88ch}
+    .note{margin-top:10px; color:#7b808c; font-size:12px}
+
+    .panel{
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:linear-gradient(180deg,#fff,#f8f9fb);
+      box-shadow: var(--shadow);
+      padding:14px;
+    }
+
+    .toolbar{
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center; justify-content:space-between;
+      margin-top:14px;
+    }
+    .leftTools,.rightTools{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .field{
+      display:flex; gap:10px; align-items:center;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:999px;
+      padding:10px 12px;
+      min-width: 260px;
+    }
+    .field input{
+      border:none; outline:none; width:100%;
+      font-size:14px;
+    }
+    .pill{
+      display:inline-flex; gap:8px; align-items:center;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:13px;
+      color:#2b2f38;
+      cursor:pointer;
+      user-select:none;
+    }
+    .pill.active{
+      border-color: rgba(0,122,255,.35);
+      box-shadow: 0 10px 18px rgba(10,132,255,.12);
+    }
+
+    .grid{
+      display:grid; gap:14px;
+      grid-template-columns: 1.05fr .95fr;
+      margin-top:14px;
+      align-items:start;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:#fff;
+      padding:14px;
+    }
+    .card.soft{background:var(--card)}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .row > *{flex: 0 0 auto}
+    label{font-size:12px; color:var(--muted)}
+    input[type="text"], textarea{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+      font-size:14px;
+      outline:none;
+      background:#fff;
+    }
+    textarea{min-height:190px; resize:vertical; line-height:1.5}
+    .meta{
+      display:grid; gap:10px;
+      grid-template-columns:1fr 1fr;
+      margin-top:10px;
+    }
+    .hint{font-size:12px; color:#7b808c; margin-top:8px}
+
+    .list{
+      display:flex; flex-direction:column; gap:10px;
+      margin-top:12px;
+    }
+    .item{
+      display:flex; gap:12px; align-items:flex-start;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background:#fff;
+      cursor:pointer;
+      transition: transform .08s ease, box-shadow .2s ease;
+    }
+    .item:hover{transform: translateY(-1px); box-shadow:0 12px 20px rgba(0,0,0,.06)}
+    .icon{
+      width:34px; height:34px; border-radius:12px;
+      background:linear-gradient(135deg, rgba(0,122,255,.14), rgba(52,199,89,.12));
+      border:1px solid rgba(0,122,255,.18);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--blue); font-weight:800;
+      flex: 0 0 auto;
+    }
+    .main b{display:block; letter-spacing:-.2px}
+    .main span{display:block; color:var(--muted); font-size:13px; margin-top:4px}
+    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
+    .tag{
+      font-size:12px;
+      padding:5px 8px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:#2b2f38;
+    }
+    .actions{margin-left:auto; display:flex; gap:8px; align-items:center}
+    .miniBtn{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      cursor:pointer;
+    }
+    .miniBtn:hover{border-color:#dfe1e8}
+    .muted{color:var(--muted)}
+    .status{
+      margin-top:10px;
+      font-size:13px;
+      color:#2b2f38;
+      display:flex; gap:8px; align-items:center;
+    }
+    .dotOk{width:8px;height:8px;border-radius:999px;background:var(--ok)}
+    .dotWarn{width:8px;height:8px;border-radius:999px;background:#ff9f0a}
+
+    .modalBack{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.35);
+      display:none;
+      align-items:center; justify-content:center;
+      padding:18px;
+      z-index:100;
+    }
+    .modal{
+      width:min(900px, 100%);
+      border-radius:20px;
+      background:#fff;
+      border:1px solid var(--line);
+      box-shadow:0 24px 60px rgba(0,0,0,.22);
+      overflow:hidden;
+    }
+    .modalTop{
+      display:flex; justify-content:space-between; align-items:center;
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+      background:rgba(255,255,255,.86);
+      backdrop-filter:saturate(180%) blur(18px);
+    }
+    .modalTop b{letter-spacing:-.2px}
+    .modalBody{padding:14px}
+    .modalBody textarea{min-height:260px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+      .field{min-width: 100%}
+      .meta{grid-template-columns:1fr}
+      h1{font-size:30px}
+      .links{display:none}
+    }
+  </style>
 </head>
+
 <body>
-  <nav>
-    <a href="/index.html">Home</a> |
-    <a href="/resources.html">Resources</a> |
-    <a href="/journal.html">Journal</a>
-  </nav>
+  <header class="nav">
+    <div class="wrap">
+      <div class="navin">
+        <a class="brand" href="/index.html" aria-label="Home">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Best Wellness Therapy</span>
+        </a>
+        <nav class="links" aria-label="Primary">
+          <a href="/index.html">Home</a>
+          <a href="/resources.html">Resources</a>
+          <a href="/journal.html" style="color:var(--text);font-weight:650;">Journal</a>
+        </nav>
+        <div class="rightTools">
+          <button class="btn" id="exportBtn" type="button">Export</button>
+          <button class="btn" id="importBtn" type="button">Import</button>
+          <button class="btn primary" id="newBtn" type="button">New entry</button>
+        </div>
+      </div>
+    </div>
+  </header>
 
-  <h1>Journal</h1>
-  <p>Local-only journal (saved on this device).</p>
+  <main class="wrap">
+    <header class="hero">
+      <h1>Journal</h1>
+      <p class="sub">
+        A private, local-only space for notes, resources, and reflections. Search, tag, pin, and export your entries.
+      </p>
+      <div class="note">
+        Stored on this device only (localStorage). Clearing browser data may remove entries. For cross-device sync, a backend is required.
+      </div>
+    </header>
 
-  <input id="t" placeholder="Title (optional)" /><br/><br/>
-  <textarea id="b" rows="8" placeholder="Write here..."></textarea><br/><br/>
-  <button id="s">Save</button>
-  <button id="c">Clear</button>
-  <p id="m">Not saved yet.</p>
+    <div class="panel">
+      <div class="toolbar" aria-label="Toolbar">
+        <div class="leftTools">
+          <div class="field" role="search">
+            <span class="muted" aria-hidden="true">⌕</span>
+            <input id="q" type="text" placeholder="Search title, content, tags..." />
+          </div>
+
+          <div class="row" aria-label="Filters">
+            <div class="pill active" id="fAll">All</div>
+            <div class="pill" id="fPinned">Pinned</div>
+            <div class="pill" id="fToday">Today</div>
+          </div>
+        </div>
+
+        <div class="rightTools">
+          <div class="pill" id="sortBtn" title="Toggle sorting">Sort: Newest</div>
+          <div class="pill" id="tagFilterBtn" title="Filter by tag">Tag: Any</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Editor -->
+        <section class="card" aria-label="Editor">
+          <div class="row" style="justify-content:space-between;">
+            <div>
+              <b id="modeTitle">Create entry</b>
+              <div class="hint">Tip: Use tags like <span class="mono">anxiety</span>, <span class="mono">sleep</span>, <span class="mono">resource</span>, <span class="mono">client</span>.</div>
+            </div>
+            <div class="row">
+              <button class="btn" id="copyBtn" type="button">Copy as text</button>
+              <button class="btn danger" id="deleteBtn" type="button" style="display:none;">Delete</button>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <label for="title">Title</label>
+            <input id="title" type="text" placeholder="Example: Intake notes / Resources to review / Reflection" />
+          </div>
+
+          <div class="meta">
+            <div>
+              <label for="tags">Tags (comma-separated)</label>
+              <input id="tags" type="text" placeholder="e.g., anxiety, sleep, resource" />
+            </div>
+            <div>
+              <label>Options</label>
+              <div class="row">
+                <button class="btn" id="pinBtn" type="button">Pin</button>
+                <button class="btn" id="saveBtn" type="button">Save</button>
+                <button class="btn ghost" id="clearBtn" type="button">Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="body">Content</label>
+            <textarea id="body" placeholder="Paste notes, links, or reflections here..."></textarea>
+            <div class="hint">
+              You can paste URLs, bullet lists, or long text. This stays on your device only.
+            </div>
+          </div>
+
+          <div class="status" id="statusRow" aria-live="polite">
+            <span class="dotWarn" aria-hidden="true"></span>
+            <span id="statusText">Not saved yet.</span>
+          </div>
+        </section>
+
+        <!-- List -->
+        <section class="card soft" aria-label="Entries">
+          <div class="row" style="justify-content:space-between;">
+            <b>Entries</b>
+            <span class="hint" id="count">0</span>
+          </div>
+          <div class="list" id="list"></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="hint" style="margin:14px 0 22px;">
+      Privacy note: this journal is local-only by default. If you later want login + sync + comments, that’s a backend feature (Worker + database + moderation).
+    </div>
+  </main>
+
+  <!-- Modal: Import/Export -->
+  <div class="modalBack" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modalTop">
+        <b id="modalTitle">Import / Export</b>
+        <button class="btn" id="closeModal" type="button">Close</button>
+      </div>
+      <div class="modalBody">
+        <p class="muted" id="modalHelp" style="margin-top:0">
+          Export creates a JSON backup. Import replaces or merges entries.
+        </p>
+        <textarea id="modalText" class="mono" placeholder="JSON will appear here..."></textarea>
+        <div class="row" style="margin-top:12px; justify-content:space-between;">
+          <div class="row">
+            <button class="btn" id="downloadBtn" type="button">Download JSON</button>
+            <button class="btn" id="copyJsonBtn" type="button">Copy JSON</button>
+          </div>
+          <div class="row">
+            <button class="btn" id="mergeImportBtn" type="button">Merge import</button>
+            <button class="btn danger" id="replaceImportBtn" type="button">Replace all</button>
+          </div>
+        </div>
+        <div class="hint" style="margin-top:10px;">
+          <b>Merge import</b> keeps existing entries and adds new ones. <b>Replace all</b> overwrites everything.
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    const KEY="bwt_journal_v1";
-    const t=document.getElementById("t");
-    const b=document.getElementById("b");
-    const m=document.getElementById("m");
-    document.getElementById("s").onclick=()=>{
-      const entry={title:(t.value||"").trim(), text:(b.value||"").trim(), ts:Date.now()};
-      if(!entry.text){ m.textContent="Nothing to save."; return; }
-      const list=JSON.parse(localStorage.getItem(KEY)||"[]");
-      list.push(entry);
+    // ====== Storage ======
+    const KEY = "bwt_journal_entries_v2";
+
+    /** @typedef {{id:string,title:string,body:string,tags:string[],pinned:boolean,ts:number,updated:number}} Entry */
+
+    function uid(){
+      return "e_" + Math.random().toString(16).slice(2) + "_" + Date.now().toString(16);
+    }
+    function now(){ return Date.now(); }
+    function safeParse(json, fallback){
+      try { return JSON.parse(json); } catch { return fallback; }
+    }
+    function load(){
+      const raw = localStorage.getItem(KEY);
+      const data = safeParse(raw || "[]", []);
+      // normalize
+      return Array.isArray(data) ? data.map(e => ({
+        id: String(e.id || uid()),
+        title: String(e.title || ""),
+        body: String(e.body || ""),
+        tags: Array.isArray(e.tags) ? e.tags.map(t=>String(t).trim()).filter(Boolean) : [],
+        pinned: Boolean(e.pinned),
+        ts: Number(e.ts || now()),
+        updated: Number(e.updated || e.ts || now()),
+      })) : [];
+    }
+    function save(list){
       localStorage.setItem(KEY, JSON.stringify(list));
-      t.value=""; b.value="";
-      m.textContent="Saved locally ✔";
-    };
-    document.getElementById("c").onclick=()=>{ t.value=""; b.value=""; m.textContent="Cleared."; };
+    }
+
+    // ====== DOM ======
+    const qEl = document.getElementById("q");
+    const listEl = document.getElementById("list");
+    const countEl = document.getElementById("count");
+
+    const titleEl = document.getElementById("title");
+    const tagsEl  = document.getElementById("tags");
+    const bodyEl  = document.getElementById("body");
+    const modeTitleEl = document.getElementById("modeTitle");
+
+    const saveBtn = document.getElementById("saveBtn");
+    const clearBtn= document.getElementById("clearBtn");
+    const pinBtn  = document.getElementById("pinBtn");
+    const deleteBtn = document.getElementById("deleteBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const newBtn  = document.getElementById("newBtn");
+
+    const fAll = document.getElementById("fAll");
+    const fPinned = document.getElementById("fPinned");
+    const fToday = document.getElementById("fToday");
+
+    const sortBtn = document.getElementById("sortBtn");
+    const tagFilterBtn = document.getElementById("tagFilterBtn");
+
+    const statusText = document.getElementById("statusText");
+    const statusRow = document.getElementById("statusRow");
+
+    // Modal
+    const modalBack = document.getElementById("modalBack");
+    const modalText = document.getElementById("modalText");
+    const exportBtn = document.getElementById("exportBtn");
+    const importBtn = document.getElementById("importBtn");
+    const closeModal= document.getElementById("closeModal");
+    const downloadBtn= document.getElementById("downloadBtn");
+    const copyJsonBtn= document.getElementById("copyJsonBtn");
+    const mergeImportBtn= document.getElementById("mergeImportBtn");
+    const replaceImportBtn= document.getElementById("replaceImportBtn");
+
+    // ====== State ======
+    /** @type {Entry[]} */
+    let entries = load();
+    /** @type {string|null} */
+    let editingId = null;
+
+    let filterMode = "all"; // all | pinned | today
+    let sortMode = "newest"; // newest | oldest | updated
+    let tagFilter = null; // string or null
+
+    // ====== Helpers ======
+    function setStatus(kind, text){
+      statusText.textContent = text;
+      const dot = statusRow.querySelector("span");
+      dot.className = kind === "ok" ? "dotOk" : "dotWarn";
+    }
+    function parseTags(input){
+      return (input || "")
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean)
+        .slice(0, 20);
+    }
+    function formatSnippet(s){
+      const t = (s || "").replace(/\s+/g, " ").trim();
+      return t.length > 110 ? t.slice(0,110) + "…" : t;
+    }
+    function sameDay(tsA, tsB){
+      const a=new Date(tsA), b=new Date(tsB);
+      return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+    }
+    function getAllTags(){
+      const set = new Set();
+      entries.forEach(e => e.tags.forEach(t => set.add(t)));
+      return Array.from(set).sort((a,b)=>a.localeCompare(b));
+    }
+    function applyFilters(list){
+      const q = (qEl.value || "").toLowerCase().trim();
+      const today = Date.now();
+
+      let out = list.slice();
+
+      if(filterMode === "pinned"){
+        out = out.filter(e => e.pinned);
+      }else if(filterMode === "today"){
+        out = out.filter(e => sameDay(e.updated, today));
+      }
+
+      if(tagFilter){
+        out = out.filter(e => e.tags.includes(tagFilter));
+      }
+
+      if(q){
+        out = out.filter(e => {
+          const hay = (e.title + " " + e.body + " " + e.tags.join(" ")).toLowerCase();
+          return hay.includes(q);
+        });
+      }
+
+      out.sort((a,b)=>{
+        // pinned always first
+        if(a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+
+        if(sortMode === "oldest") return a.ts - b.ts;
+        if(sortMode === "updated") return b.updated - a.updated;
+        return b.ts - a.ts; // newest
+      });
+
+      return out;
+    }
+    function render(){
+      const view = applyFilters(entries);
+      countEl.textContent = `${view.length} / ${entries.length}`;
+
+      if(!view.length){
+        listEl.innerHTML = `
+          <div class="hint" style="padding:10px 2px;">
+            No entries yet. Click <b>New entry</b> to start.
+          </div>`;
+        return;
+      }
+
+      listEl.innerHTML = "";
+      view.forEach(e => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.setAttribute("data-id", e.id);
+        const pinMark = e.pinned ? "📌 " : "";
+        div.innerHTML = `
+          <div class="icon" aria-hidden="true">${e.pinned ? "P" : "J"}</div>
+          <div class="main">
+            <b>${pinMark}${escapeHtml(e.title || "Untitled")}</b>
+            <span>${new Date(e.updated).toLocaleString()} · ${escapeHtml(formatSnippet(e.body))}</span>
+            <div class="tags">${e.tags.slice(0,6).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
+          </div>
+          <div class="actions">
+            <button class="miniBtn" data-pin="${e.id}" type="button" title="Toggle pin">${e.pinned ? "Unpin" : "Pin"}</button>
+            <button class="miniBtn" data-open="${e.id}" type="button" title="Open">Open</button>
+          </div>
+        `;
+        listEl.appendChild(div);
+      });
+
+      // Actions
+      listEl.querySelectorAll("button[data-open]").forEach(btn=>{
+        btn.addEventListener("click", (ev)=>{
+          ev.stopPropagation();
+          openEntry(btn.getAttribute("data-open"));
+        });
+      });
+      listEl.querySelectorAll("button[data-pin]").forEach(btn=>{
+        btn.addEventListener("click", (ev)=>{
+          ev.stopPropagation();
+          togglePin(btn.getAttribute("data-pin"));
+        });
+      });
+
+      // Click item opens
+      listEl.querySelectorAll(".item").forEach(item=>{
+        item.addEventListener("click", ()=>{
+          openEntry(item.getAttribute("data-id"));
+        });
+      });
+    }
+    function escapeHtml(s){
+      return String(s||"")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
+
+    function resetEditor(){
+      editingId = null;
+      titleEl.value = "";
+      tagsEl.value = "";
+      bodyEl.value = "";
+      modeTitleEl.textContent = "Create entry";
+      deleteBtn.style.display = "none";
+      pinBtn.textContent = "Pin";
+      setStatus("warn","Not saved yet.");
+    }
+
+    function openEntry(id){
+      const e = entries.find(x=>x.id===id);
+      if(!e) return;
+      editingId = id;
+      titleEl.value = e.title;
+      tagsEl.value = e.tags.join(", ");
+      bodyEl.value = e.body;
+      modeTitleEl.textContent = "Edit entry";
+      deleteBtn.style.display = "inline-flex";
+      pinBtn.textContent = e.pinned ? "Unpin" : "Pin";
+      setStatus("ok","Loaded. Edit and click Save.");
+    }
+
+    function upsertCurrent(){
+      const title = (titleEl.value||"").trim();
+      const body  = (bodyEl.value||"").trim();
+      const tags  = parseTags(tagsEl.value);
+
+      if(!body && !title){
+        setStatus("warn","Nothing to save.");
+        return;
+      }
+
+      if(editingId){
+        const i = entries.findIndex(x=>x.id===editingId);
+        if(i>=0){
+          entries[i] = {
+            ...entries[i],
+            title,
+            body,
+            tags,
+            updated: now(),
+          };
+        }
+      }else{
+        const e = /** @type {Entry} */({
+          id: uid(),
+          title,
+          body,
+          tags,
+          pinned: false,
+          ts: now(),
+          updated: now(),
+        });
+        entries.push(e);
+        editingId = e.id;
+      }
+      save(entries);
+      render();
+      setStatus("ok","Saved locally ✔");
+      // update pin button label
+      const cur = entries.find(x=>x.id===editingId);
+      if(cur) pinBtn.textContent = cur.pinned ? "Unpin" : "Pin";
+      deleteBtn.style.display = "inline-flex";
+      modeTitleEl.textContent = "Edit entry";
+    }
+
+    function deleteCurrent(){
+      if(!editingId) return;
+      const ok = confirm("Delete this entry? This cannot be undone.");
+      if(!ok) return;
+      entries = entries.filter(e=>e.id!==editingId);
+      save(entries);
+      resetEditor();
+      render();
+      setStatus("ok","Deleted.");
+    }
+
+    function togglePin(id){
+      const i = entries.findIndex(e=>e.id===id);
+      if(i<0) return;
+      entries[i].pinned = !entries[i].pinned;
+      entries[i].updated = now();
+      save(entries);
+      render();
+      // if currently editing, update label
+      if(editingId === id){
+        pinBtn.textContent = entries[i].pinned ? "Unpin" : "Pin";
+      }
+    }
+
+    function toggleFilter(active){
+      [fAll,fPinned,fToday].forEach(x=>x.classList.remove("active"));
+      active.classList.add("active");
+    }
+
+    function openModal(mode){
+      modalBack.style.display = "flex";
+      if(mode === "export"){
+        modalText.value = JSON.stringify(entries, null, 2);
+      }else{
+        modalText.value = "";
+        modalText.placeholder = "Paste JSON here...";
+      }
+    }
+    function closeModalFn(){
+      modalBack.style.display = "none";
+    }
+
+    function downloadJson(){
+      const blob = new Blob([modalText.value || ""], {type:"application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "journal-backup.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 500);
+    }
+
+    function copyToClipboard(text){
+      navigator.clipboard.writeText(text).then(()=>{
+        setStatus("ok","Copied ✔");
+      }).catch(()=>{
+        setStatus("warn","Copy failed (browser permission).");
+      });
+    }
+
+    function importData(mode){
+      const incoming = safeParse(modalText.value || "[]", null);
+      if(!Array.isArray(incoming)){
+        alert("Invalid JSON. Expected an array of entries.");
+        return;
+      }
+      const normalized = incoming.map(e => ({
+        id: String(e.id || uid()),
+        title: String(e.title || ""),
+        body: String(e.body || e.text || ""),
+        tags: Array.isArray(e.tags) ? e.tags.map(t=>String(t).trim()).filter(Boolean) : parseTags(e.tags || ""),
+        pinned: Boolean(e.pinned),
+        ts: Number(e.ts || now()),
+        updated: Number(e.updated || e.ts || now()),
+      }));
+
+      if(mode === "replace"){
+        const ok = confirm("Replace ALL entries with imported data?");
+        if(!ok) return;
+        entries = normalized;
+      }else{
+        // merge by id; if conflict, append with new id
+        const existingIds = new Set(entries.map(e=>e.id));
+        normalized.forEach(e=>{
+          if(existingIds.has(e.id)){
+            e.id = uid();
+          }
+          entries.push(e);
+        });
+      }
+      save(entries);
+      render();
+      closeModalFn();
+      resetEditor();
+      setStatus("ok","Import complete ✔");
+    }
+
+    function updateSortLabel(){
+      sortBtn.textContent = sortMode === "newest" ? "Sort: Newest" :
+                            sortMode === "oldest" ? "Sort: Oldest" : "Sort: Updated";
+    }
+    function updateTagFilterLabel(){
+      tagFilterBtn.textContent = tagFilter ? `Tag: ${tagFilter}` : "Tag: Any";
+    }
+
+    function chooseTagFilter(){
+      const tags = getAllTags();
+      const msg = tags.length
+        ? "Type a tag exactly to filter, or leave blank for Any:\n\n" + tags.join(", ")
+        : "No tags yet. Leave blank for Any.";
+      const v = prompt(msg, tagFilter || "");
+      if(v === null) return;
+      const t = v.trim();
+      tagFilter = t ? t : null;
+      updateTagFilterLabel();
+      render();
+    }
+
+    // ====== Wire up ======
+    qEl.addEventListener("input", ()=>render());
+
+    saveBtn.addEventListener("click", ()=>upsertCurrent());
+    clearBtn.addEventListener("click", ()=>resetEditor());
+    deleteBtn.addEventListener("click", ()=>deleteCurrent());
+    newBtn.addEventListener("click", ()=>resetEditor());
+
+    pinBtn.addEventListener("click", ()=>{
+      if(!editingId){
+        // if not saved yet, save first then pin
+        upsertCurrent();
+      }
+      if(editingId) togglePin(editingId);
+    });
+
+    copyBtn.addEventListener("click", ()=>{
+      const title = (titleEl.value||"").trim() || "Untitled";
+      const tags  = parseTags(tagsEl.value);
+      const body  = (bodyEl.value||"").trim();
+      const out = [
+        `# ${title}`,
+        tags.length ? `Tags: ${tags.join(", ")}` : "",
+        "",
+        body
+      ].filter(Boolean).join("\n");
+      copyToClipboard(out);
+    });
+
+    // Sorting
+    updateSortLabel();
+    sortBtn.addEventListener("click", ()=>{
+      sortMode = sortMode === "newest" ? "oldest" : (sortMode === "oldest" ? "updated" : "newest");
+      updateSortLabel();
+      render();
+    });
+
+    // Tag filter
+    updateTagFilterLabel();
+    tagFilterBtn.addEventListener("click", ()=>chooseTagFilter());
+
+    // Filters
+    fAll.addEventListener("click", ()=>{
+      filterMode="all"; toggleFilter(fAll); render();
+    });
+    fPinned.addEventListener("click", ()=>{
+      filterMode="pinned"; toggleFilter(fPinned); render();
+    });
+    fToday.addEventListener("click", ()=>{
+      filterMode="today"; toggleFilter(fToday); render();
+    });
+
+    // Modal
+    exportBtn.addEventListener("click", ()=>openModal("export"));
+    importBtn.addEventListener("click", ()=>openModal("import"));
+    closeModal.addEventListener("click", ()=>closeModalFn());
+    modalBack.addEventListener("click", (e)=>{ if(e.target===modalBack) closeModalFn(); });
+
+    downloadBtn.addEventListener("click", ()=>downloadJson());
+    copyJsonBtn.addEventListener("click", ()=>copyToClipboard(modalText.value||""));
+
+    mergeImportBtn.addEventListener("click", ()=>importData("merge"));
+    replaceImportBtn.addEventListener("click", ()=>importData("replace"));
+
+    // Keyboard shortcuts
+    document.addEventListener("keydown", (e)=>{
+      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==="s"){
+        e.preventDefault();
+        upsertCurrent();
+      }
+      if(e.key === "Escape" && modalBack.style.display === "flex"){
+        closeModalFn();
+      }
+    });
+
+    // Initial render
+    render();
+    resetEditor();
   </script>
 </body>
 </html>
