@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Post | Best Wellness Therapy</title>
   <link rel="stylesheet" href="/styles.css">
-
-  <!-- Markdown renderer (no build). -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
-
   <style>
     .md h1{margin:0 0 8px;font-size:32px;letter-spacing:-.8px;line-height:1.15}
     .md h2{margin:18px 0 8px;font-size:22px;letter-spacing:-.5px}
@@ -51,6 +47,93 @@
       const u = new URL(location.href);
       return u.searchParams.get(name) || "";
     }
+    function esc(s){
+      return String(s||"")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
+    }
+
+    // Minimal markdown -> HTML renderer:
+    // Supports: # H1, ## H2, paragraphs, - lists, **bold**, [text](url), > blockquote, ``` code ```
+    function mdToHtml(md){
+      const lines = (md || "").replace(/\r/g,"").split("\n");
+      let html = "";
+      let inList = false;
+      let inCode = false;
+      let codeBuf = [];
+
+      function closeList(){ if(inList){ html += "</ul>"; inList=false; } }
+      function flushCode(){
+        if(inCode){
+          html += "<pre><code>" + esc(codeBuf.join("\n")) + "</code></pre>";
+          inCode=false; codeBuf=[];
+        }
+      }
+      function inline(s){
+        let t = esc(s);
+        t = t.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+        t = t.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        return t;
+      }
+
+      for(let i=0;i<lines.length;i++){
+        const line = lines[i];
+
+        if(line.trim().startsWith("```")){
+          if(!inCode){
+            closeList();
+            inCode = true;
+            codeBuf = [];
+          }else{
+            flushCode();
+          }
+          continue;
+        }
+
+        if(inCode){
+          codeBuf.push(line);
+          continue;
+        }
+
+        if(/^#\s+/.test(line)){
+          closeList();
+          html += "<h1>" + inline(line.replace(/^#\s+/,"")) + "</h1>";
+          continue;
+        }
+        if(/^##\s+/.test(line)){
+          closeList();
+          html += "<h2>" + inline(line.replace(/^##\s+/,"")) + "</h2>";
+          continue;
+        }
+
+        if(/^\-\s+/.test(line)){
+          if(!inList){
+            html += "<ul>";
+            inList = true;
+          }
+          html += "<li>" + inline(line.replace(/^\-\s+/,"")) + "</li>";
+          continue;
+        }else{
+          closeList();
+        }
+
+        if(/^\>\s+/.test(line)){
+          html += "<blockquote>" + inline(line.replace(/^\>\s+/,"")) + "</blockquote>";
+          continue;
+        }
+
+        if(line.trim() === ""){
+          continue;
+        }
+
+        html += "<p>" + inline(line) + "</p>";
+      }
+
+      closeList();
+      flushCode();
+      return html;
+    }
 
     const slug = getParam("p").replace(/[^a-z0-9\-]/gi, "");
     const meta = document.getElementById("meta");
@@ -64,18 +147,10 @@
       fetch(`/journal-md/${slug}.md`)
         .then(r => { if(!r.ok) throw new Error("Not found"); return r.text(); })
         .then(md => {
-          const firstLine = (md.split("\n")[0] || "").replace(/^#\s*/,"").trim();
-          if(firstLine) document.title = firstLine + " | Best Wellness Therapy";
+          const first = (md.split("\n")[0] || "").replace(/^#\s*/,"").trim();
+          if(first) document.title = first + " | Best Wellness Therapy";
           meta.textContent = `/journal-md/${slug}.md`;
-
-          const render = () => {
-            if(window.marked){
-              content.innerHTML = window.marked.parse(md);
-            }else{
-              setTimeout(render, 30);
-            }
-          };
-          render();
+          content.innerHTML = mdToHtml(md);
         })
         .catch(() => {
           meta.textContent = "Post not found.";
