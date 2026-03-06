@@ -6,6 +6,7 @@
   <title>Resources | Best Wellness Therapy</title>
   <meta name="description" content="Trusted mental health resources: crisis support, finding care, education, self-help tools, and specialized hotlines." />
   <link rel="stylesheet" href="/styles.css">
+  <script src="/lang.js" defer></script>
 </head>
 <body>
   <header class="site">
@@ -16,35 +17,52 @@
           <a href="/index.html">Home</a>
           <a href="/resources.html" class="active">Resources</a>
           <a href="/journal.html">Journal</a>
+          <a href="#" id="langToggle" style="margin-left:18px;font-weight:850;">中文</a>
         </div>
       </div>
     </div>
   </header>
 
   <main class="wrap">
-    <h1>Mental Health Resources</h1>
-    <p class="subtitle">
-      A curated library of trusted links for crisis support, finding care, education, and practical self-help tools.
-      (External websites open in a new tab.)
-    </p>
+    <!-- Title + subtitle -->
+    <section data-lang="en">
+      <h1>Mental Health Resources</h1>
+      <p class="subtitle">
+        A curated library of trusted links for crisis support, finding care, education, and practical self-help tools.
+        (External websites open in a new tab.)
+      </p>
+    </section>
+    <section data-lang="zh" style="display:none;">
+      <h1>心理健康资源</h1>
+      <p class="subtitle">
+        可信资源库：危机支持、寻找治疗、科普资料、自助工具与专项热线。（点击会在新标签页打开）
+      </p>
+    </section>
 
+    <!-- Emergency callout -->
     <div class="callout">
-      <b>Emergency:</b> If you or someone else is in immediate danger, call your local emergency number.
-      In the U.S., you can contact <b>988</b> (call/text/chat) for 24/7 crisis support.
+      <span data-lang="en"><b>Emergency:</b> If you or someone else is in immediate danger, call your local emergency number. In the U.S., contact <b>988</b> (call/text/chat) for 24/7 crisis support.</span>
+      <span data-lang="zh" style="display:none;"><b>紧急情况：</b>如你或他人处于立即危险，请联系当地紧急服务。在美国可拨打/短信/在线聊天 <b>988</b> 获取 24/7 危机支持。</span>
     </div>
 
     <div class="grid" style="margin-top:14px;">
-      <!-- Crisis & immediate support -->
+      <!-- Crisis -->
       <div class="card">
-        <div class="itemTitle">Crisis & Immediate Support (U.S.)</div>
-        <div class="summary">24/7 crisis, suicide prevention, and urgent support.</div>
+        <div class="itemTitle">
+          <span data-lang="en">Crisis & Immediate Support (U.S.)</span>
+          <span data-lang="zh" style="display:none;">危机与紧急支持（美国）</span>
+        </div>
+        <div class="summary">
+          <span data-lang="en">24/7 crisis, suicide prevention, and urgent support.</span>
+          <span data-lang="zh" style="display:none;">24/7 危机支持、自杀预防与紧急求助入口。</span>
+        </div>
         <div style="margin-top:10px;">
-          <div class="summary"><a href="https://988lifeline.org/" target="_blank" rel="noopener noreferrer"><b>988 Suicide & Crisis Lifeline</b></a> — call/text/chat.</div>
-          <div class="summary"><a href="https://www.crisistextline.org/" target="_blank" rel="noopener noreferrer"><b>Crisis Text Line</b></a> — text-based crisis support.</div>
-          <div class="summary"><a href="https://www.thetrevorproject.org/get-help/" target="_blank" rel="noopener noreferrer"><b>The Trevor Project</b></a> — LGBTQ+ crisis support.</div>
-          <div class="summary"><a href="https://www.veteranscrisisline.net/" target="_blank" rel="noopener noreferrer"><b>Veterans Crisis Line</b></a> — for veterans and loved ones.</div>
-          <div class="summary"><a href="https://www.rainn.org/" target="_blank" rel="noopener noreferrer"><b>RAINN</b></a> — sexual assault hotline and resources.</div>
-          <div class="summary"><a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank" rel="noopener noreferrer"><b>SAMHSA National Helpline</b></a> — treatment referral and info.</div>
+          <div class="summary"><a href="https://988lifeline.org/" target="_blank" rel="noopener noreferrer"><b>988 Suicide &amp; Crisis Lifeline</b></a> — <span data-lang="en">call/text/chat</span><span data-lang="zh" style="display:none;">电话/短信/在线聊天</span></div>
+          <div class="summary"><a href="https://www.crisistextline.org/" target="_blank" rel="noopener noreferrer"><b>Crisis Text Line</b></a> — <span data-lang="en">text-based crisis support</span><span data-lang="zh" style="display:none;">短信危机支持</span></div>
+          <div class="summary"><a href="https://www.thetrevorproject.org/get-help/" target="_blank" rel="noopener noreferrer"><b>The Trevor Project</b></a> — <span data-lang="en">LGBTQ+ crisis support</span><span data-lang="zh" style="display:none;">LGBTQ+ 危机支持</span></div>
+          <div class="summary"><a href="https://www.veteranscrisisline.net/" target="_blank" rel="noopener noreferrer"><b>Veterans Crisis Line</b></a> — <span data-lang="en">for veterans and loved ones</span><span data-lang="zh" style="display:none;">退伍军人与家属支持</span></div>
+          <div class="summary"><a href="https://www.rainn.org/" target="_blank" rel="noopener noreferrer"><b>RAINN</b></a> — <span data-lang="en">sexual assault hotline/resources</span><span data-lang="zh" style="display:none;">性侵相关热线与资源</span></div>
+          <div class="summary"><a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank" rel="noopener noreferrer"><b>SAMHSA National Helpline</b></a> — <span data-lang="en">treatment referral &amp; info</span><span data-lang="zh" style="display:none;">治疗转介/信息</span></div>
         </div>
         <div class="tags">
           <span class="tag" style="cursor:default">crisis</span>
@@ -55,14 +73,20 @@
 
       <!-- Find care -->
       <div class="card">
-        <div class="itemTitle">Find a Therapist / Treatment</div>
-        <div class="summary">Directories and referral tools to find care.</div>
+        <div class="itemTitle">
+          <span data-lang="en">Find a Therapist / Treatment</span>
+          <span data-lang="zh" style="display:none;">寻找治疗师 / 治疗资源</span>
+        </div>
+        <div class="summary">
+          <span data-lang="en">Directories and referral tools to find care.</span>
+          <span data-lang="zh" style="display:none;">用于查找治疗师、机构与转介服务的入口。</span>
+        </div>
         <div style="margin-top:10px;">
           <div class="summary"><a href="https://www.psychologytoday.com/us/therapists" target="_blank" rel="noopener noreferrer"><b>Psychology Today Therapist Finder</b></a></div>
           <div class="summary"><a href="https://www.goodtherapy.org/find-therapist.html" target="_blank" rel="noopener noreferrer"><b>GoodTherapy Finder</b></a></div>
-          <div class="summary"><a href="https://findtreatment.gov/" target="_blank" rel="noopener noreferrer"><b>FindTreatment.gov</b></a> — U.S. mental health and substance use treatment locator.</div>
+          <div class="summary"><a href="https://findtreatment.gov/" target="_blank" rel="noopener noreferrer"><b>FindTreatment.gov</b></a> — <span data-lang="en">U.S. treatment locator</span><span data-lang="zh" style="display:none;">美国治疗机构检索</span></div>
           <div class="summary"><a href="https://www.samhsa.gov/find-help" target="_blank" rel="noopener noreferrer"><b>SAMHSA Find Help</b></a></div>
-          <div class="summary"><a href="https://www.opencounseling.com/" target="_blank" rel="noopener noreferrer"><b>OpenCounseling</b></a> — low-cost options by location.</div>
+          <div class="summary"><a href="https://www.opencounseling.com/" target="_blank" rel="noopener noreferrer"><b>OpenCounseling</b></a> — <span data-lang="en">low-cost options</span><span data-lang="zh" style="display:none;">低费用选择</span></div>
         </div>
         <div class="tags">
           <span class="tag" style="cursor:default">find care</span>
@@ -71,15 +95,21 @@
         </div>
       </div>
 
-      <!-- Education & research -->
+      <!-- Education -->
       <div class="card">
-        <div class="itemTitle">Education (Evidence-Based)</div>
-        <div class="summary">Reliable information on conditions, treatments, and research.</div>
+        <div class="itemTitle">
+          <span data-lang="en">Education (Evidence-Based)</span>
+          <span data-lang="zh" style="display:none;">科普与循证资料</span>
+        </div>
+        <div class="summary">
+          <span data-lang="en">Reliable information on conditions, treatments, and research.</span>
+          <span data-lang="zh" style="display:none;">可信的疾病/治疗科普信息入口。</span>
+        </div>
         <div style="margin-top:10px;">
-          <div class="summary"><a href="https://www.nimh.nih.gov/health" target="_blank" rel="noopener noreferrer"><b>NIMH</b></a> — National Institute of Mental Health</div>
-          <div class="summary"><a href="https://www.apa.org/topics" target="_blank" rel="noopener noreferrer"><b>APA Topics</b></a> — American Psychological Association</div>
+          <div class="summary"><a href="https://www.nimh.nih.gov/health" target="_blank" rel="noopener noreferrer"><b>NIMH</b></a></div>
+          <div class="summary"><a href="https://www.apa.org/topics" target="_blank" rel="noopener noreferrer"><b>APA Topics</b></a></div>
           <div class="summary"><a href="https://www.cdc.gov/mentalhealth/" target="_blank" rel="noopener noreferrer"><b>CDC Mental Health</b></a></div>
-          <div class="summary"><a href="https://www.nami.org/Home" target="_blank" rel="noopener noreferrer"><b>NAMI</b></a> — education & support groups</div>
+          <div class="summary"><a href="https://www.nami.org/Home" target="_blank" rel="noopener noreferrer"><b>NAMI</b></a></div>
           <div class="summary"><a href="https://www.ptsd.va.gov/" target="_blank" rel="noopener noreferrer"><b>National Center for PTSD (VA)</b></a></div>
         </div>
         <div class="tags">
@@ -89,15 +119,21 @@
         </div>
       </div>
 
-      <!-- Self-help tools -->
+      <!-- Self-help -->
       <div class="card">
-        <div class="itemTitle">Self-Help Tools & Skills</div>
-        <div class="summary">Practical exercises for stress, anxiety, and mood.</div>
+        <div class="itemTitle">
+          <span data-lang="en">Self-Help Tools &amp; Skills</span>
+          <span data-lang="zh" style="display:none;">自助工具与练习</span>
+        </div>
+        <div class="summary">
+          <span data-lang="en">Worksheets and practical exercises for stress, anxiety, and mood.</span>
+          <span data-lang="zh" style="display:none;">压力/焦虑/情绪相关的练习与工作表。</span>
+        </div>
         <div style="margin-top:10px;">
-          <div class="summary"><a href="https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself" target="_blank" rel="noopener noreferrer"><b>CCI Self-Help Resources</b></a> — CBT workbooks (high quality).</div>
-          <div class="summary"><a href="https://www.getselfhelp.co.uk/" target="_blank" rel="noopener noreferrer"><b>GetSelfHelp</b></a> — CBT worksheets and techniques.</div>
+          <div class="summary"><a href="https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself" target="_blank" rel="noopener noreferrer"><b>CCI Self-Help Resources</b></a> — <span data-lang="en">CBT workbooks</span><span data-lang="zh" style="display:none;">CBT 工作手册</span></div>
+          <div class="summary"><a href="https://www.getselfhelp.co.uk/" target="_blank" rel="noopener noreferrer"><b>GetSelfHelp</b></a> — <span data-lang="en">CBT worksheets</span><span data-lang="zh" style="display:none;">CBT 工作表</span></div>
           <div class="summary"><a href="https://www.mindful.org/meditation/mindfulness-getting-started/" target="_blank" rel="noopener noreferrer"><b>Mindful.org: Getting Started</b></a></div>
-          <div class="summary"><a href="https://www.therapistaid.com/" target="_blank" rel="noopener noreferrer"><b>Therapist Aid</b></a> — worksheets (some paid, many free).</div>
+          <div class="summary"><a href="https://www.therapistaid.com/" target="_blank" rel="noopener noreferrer"><b>Therapist Aid</b></a> — <span data-lang="en">worksheets (many free)</span><span data-lang="zh" style="display:none;">工作表（大量免费）</span></div>
         </div>
         <div class="tags">
           <span class="tag" style="cursor:default">CBT</span>
@@ -106,64 +142,110 @@
         </div>
       </div>
 
-      <!-- Substance use -->
+      <!-- Substance -->
       <div class="card">
-        <div class="itemTitle">Substance Use Support</div>
-        <div class="summary">Information and peer support resources.</div>
+        <div class="itemTitle">
+          <span data-lang="en">Substance Use Support</span>
+          <span data-lang="zh" style="display:none;">成瘾与物质使用支持</span>
+        </div>
+        <div class="summary">
+          <span data-lang="en">Information and peer support resources.</span>
+          <span data-lang="zh" style="display:none;">信息与同伴支持资源入口。</span>
+        </div>
         <div style="margin-top:10px;">
-          <div class="summary"><a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank" rel="noopener noreferrer"><b>SAMHSA Helpline</b></a> — treatment referral.</div>
+          <div class="summary"><a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank" rel="noopener noreferrer"><b>SAMHSA Helpline</b></a></div>
           <div class="summary"><a href="https://www.aa.org/" target="_blank" rel="noopener noreferrer"><b>Alcoholics Anonymous (AA)</b></a></div>
           <div class="summary"><a href="https://na.org/" target="_blank" rel="noopener noreferrer"><b>Narcotics Anonymous (NA)</b></a></div>
-          <div class="summary"><a href="https://www.smartrecovery.org/" target="_blank" rel="noopener noreferrer"><b>SMART Recovery</b></a> — science-informed peer support.</div>
+          <div class="summary"><a href="https://www.smartrecovery.org/" target="_blank" rel="noopener noreferrer"><b>SMART Recovery</b></a></div>
         </div>
         <div class="tags">
-          <span class="tag" style="cursor:default">SUD</span>
           <span class="tag" style="cursor:default">recovery</span>
           <span class="tag" style="cursor:default">support</span>
+          <span class="tag" style="cursor:default">SUD</span>
         </div>
       </div>
 
-      <!-- NYC / local -->
+      <!-- NYC -->
       <div class="card">
-        <div class="itemTitle">NYC / Local Options</div>
-        <div class="summary">If you’re in New York City, these are useful starting points.</div>
+        <div class="itemTitle">
+          <span data-lang="en">NYC / Local Options</span>
+          <span data-lang="zh" style="display:none;">纽约 / 本地资源</span>
+        </div>
+        <div class="summary">
+          <span data-lang="en">If you’re in NYC, these are useful starting points.</span>
+          <span data-lang="zh" style="display:none;">如果你在纽约，这些是很好的起点。</span>
+        </div>
         <div style="margin-top:10px;">
-          <div class="summary"><a href="https://nycwell.cityofnewyork.us/en/" target="_blank" rel="noopener noreferrer"><b>NYC Well</b></a> — 24/7 support, referrals, mobile crisis.</div>
-          <div class="summary"><a href="https://www.nyc.gov/site/doh/health/health-topics/mental-health.page" target="_blank" rel="noopener noreferrer"><b>NYC Department of Health: Mental Health</b></a></div>
-          <div class="summary"><a href="https://www.findhelp.org/" target="_blank" rel="noopener noreferrer"><b>FindHelp.org</b></a> — search local social services (food, housing, counseling).</div>
+          <div class="summary"><a href="https://nycwell.cityofnewyork.us/en/" target="_blank" rel="noopener noreferrer"><b>NYC Well</b></a></div>
+          <div class="summary"><a href="https://www.nyc.gov/site/doh/health/health-topics/mental-health.page" target="_blank" rel="noopener noreferrer"><b>NYC DOH: Mental Health</b></a></div>
+          <div class="summary"><a href="https://www.findhelp.org/" target="_blank" rel="noopener noreferrer"><b>FindHelp.org</b></a></div>
         </div>
         <div class="tags">
           <span class="tag" style="cursor:default">NYC</span>
-          <span class="tag" style="cursor:default">referral</span>
           <span class="tag" style="cursor:default">community</span>
+          <span class="tag" style="cursor:default">referral</span>
         </div>
       </div>
     </div>
 
-    <h2 style="margin-top:26px;">Quick Guides (Readable)</h2>
-    <p class="subtitle">Fast, practical pages for common concerns.</p>
+    <h2 style="margin-top:26px;">
+      <span data-lang="en">Quick Guides (Readable)</span>
+      <span data-lang="zh" style="display:none;">快速指南（易读）</span>
+    </h2>
+    <p class="subtitle">
+      <span data-lang="en">Fast pages for common concerns.</span>
+      <span data-lang="zh" style="display:none;">常见主题的快速入口。</span>
+    </p>
 
     <div class="grid">
       <a class="card" href="https://www.nimh.nih.gov/health/topics/anxiety-disorders" target="_blank" rel="noopener noreferrer">
-        <div class="itemTitle">Anxiety Disorders (NIMH)</div>
-        <div class="summary">Symptoms, types, and treatment overview.</div>
+        <div class="itemTitle">
+          <span data-lang="en">Anxiety Disorders (NIMH)</span>
+          <span data-lang="zh" style="display:none;">焦虑障碍（NIMH）</span>
+        </div>
+        <div class="summary">
+          <span data-lang="en">Symptoms, types, and treatment overview.</span>
+          <span data-lang="zh" style="display:none;">症状、类型与治疗概览。</span>
+        </div>
       </a>
+
       <a class="card" href="https://www.nimh.nih.gov/health/topics/depression" target="_blank" rel="noopener noreferrer">
-        <div class="itemTitle">Depression (NIMH)</div>
-        <div class="summary">Understanding depression and treatment options.</div>
+        <div class="itemTitle">
+          <span data-lang="en">Depression (NIMH)</span>
+          <span data-lang="zh" style="display:none;">抑郁（NIMH）</span>
+        </div>
+        <div class="summary">
+          <span data-lang="en">Understanding depression and treatment options.</span>
+          <span data-lang="zh" style="display:none;">抑郁介绍与治疗选择。</span>
+        </div>
       </a>
+
       <a class="card" href="https://www.cdc.gov/mentalhealth/learn/index.htm" target="_blank" rel="noopener noreferrer">
-        <div class="itemTitle">Mental Health Basics (CDC)</div>
-        <div class="summary">Foundations, common signs, and how to get help.</div>
+        <div class="itemTitle">
+          <span data-lang="en">Mental Health Basics (CDC)</span>
+          <span data-lang="zh" style="display:none;">心理健康基础（CDC）</span>
+        </div>
+        <div class="summary">
+          <span data-lang="en">Foundations, common signs, and how to get help.</span>
+          <span data-lang="zh" style="display:none;">基础知识、常见信号与求助方式。</span>
+        </div>
       </a>
+
       <a class="card" href="https://www.ptsd.va.gov/understand/what/ptsd_basics.asp" target="_blank" rel="noopener noreferrer">
-        <div class="itemTitle">PTSD Basics (VA)</div>
-        <div class="summary">Plain-language explanation of PTSD and recovery.</div>
+        <div class="itemTitle">
+          <span data-lang="en">PTSD Basics (VA)</span>
+          <span data-lang="zh" style="display:none;">PTSD 基础（VA）</span>
+        </div>
+        <div class="summary">
+          <span data-lang="en">Plain-language explanation of PTSD and recovery.</span>
+          <span data-lang="zh" style="display:none;">用通俗语言解释 PTSD 与恢复。</span>
+        </div>
       </a>
     </div>
 
     <div class="callout" style="margin-top:18px;">
-      Want this page to feel more “yours”? Tell me your focus (e.g., anxiety, ADHD, immigrant stress, couples), and I’ll add a curated section with targeted resources.
+      <span data-lang="en">Want a targeted section (ADHD, immigrant stress, couples, trauma)? Tell me your focus and I’ll expand this page.</span>
+      <span data-lang="zh" style="display:none;">想要更聚焦的专题（ADHD、移民压力、伴侣关系、创伤等）？告诉我方向，我会继续扩充这一页。</span>
     </div>
   </main>
 </body>
