@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Post | Best Wellness Therapy</title>
+  <link rel="stylesheet" href="/styles.css">
+
+  <!-- Markdown renderer (no build). -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+
+  <style>
+    .md h1{margin:0 0 8px;font-size:32px;letter-spacing:-.8px;line-height:1.15}
+    .md h2{margin:18px 0 8px;font-size:22px;letter-spacing:-.5px}
+    .md p{color:var(--muted); margin:10px 0}
+    .md ul{margin:8px 0 0; padding-left:18px; color:var(--muted)}
+    .md li{margin:6px 0}
+    .md a{color:var(--blue); text-decoration:underline}
+    .md blockquote{margin:14px 0;padding:12px 14px;border-left:4px solid rgba(0,122,255,.30);background:rgba(0,122,255,.06);border-radius:14px;color:var(--muted)}
+    .md code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 13px}
+    .md pre{overflow:auto; padding:12px; border:1px solid var(--line); border-radius:14px; background:#fff}
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <div class="nav">
+        <div class="brand"><span class="dot"></span> Best Wellness Therapy</div>
+        <div class="links">
+          <a href="/index.html">Home</a>
+          <a href="/resources.html">Resources</a>
+          <a href="/journal.html" class="active">Journal</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="mini" id="meta" style="margin-bottom:10px;"></div>
+    <section class="article">
+      <div id="content" class="md"></div>
+    </section>
+
+    <div class="callout" style="margin-top:18px;">
+      Educational only. Not medical advice. If in immediate danger, call local emergency services. In the U.S., contact 988.
+    </div>
+  </main>
+
+  <script>
+    function getParam(name){
+      const u = new URL(location.href);
+      return u.searchParams.get(name) || "";
+    }
+
+    const slug = getParam("p").replace(/[^a-z0-9\-]/gi, "");
+    const meta = document.getElementById("meta");
+    const content = document.getElementById("content");
+
+    if(!slug){
+      meta.textContent = "Missing post id. Example: /post.html?p=sleep-basics";
+      content.innerHTML = "<p>Please provide a post id.</p>";
+    }else{
+      meta.textContent = "Loading…";
+      fetch(`/journal-md/${slug}.md`)
+        .then(r => { if(!r.ok) throw new Error("Not found"); return r.text(); })
+        .then(md => {
+          const firstLine = (md.split("\n")[0] || "").replace(/^#\s*/,"").trim();
+          if(firstLine) document.title = firstLine + " | Best Wellness Therapy";
+          meta.textContent = `/journal-md/${slug}.md`;
+
+          const render = () => {
+            if(window.marked){
+              content.innerHTML = window.marked.parse(md);
+            }else{
+              setTimeout(render, 30);
+            }
+          };
+          render();
+        })
+        .catch(() => {
+          meta.textContent = "Post not found.";
+          content.innerHTML = `<p>Cannot find <b>/journal-md/${slug}.md</b></p>`;
+        });
+    }
+  </script>
+</body>
+</html>
