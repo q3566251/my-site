@@ -79,9 +79,27 @@ This journal is built for people who do not just want comfort — they want clar
 
     <div class="count" id="count"></div>
     <div class="list" id="list"></div>
-  </main>
 
-  <script>
+    <div id="secret-login" style="margin-top:40px;padding-top:18px;border-top:1px solid var(--line);">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Private access</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <input
+          id="secretToken"
+          type="password"
+          placeholder="Enter secret token"
+          style="max-width:320px;"
+        />
+        <button
+          id="secretLoginBtn"
+          style="border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-size:14px;cursor:pointer;"
+        >
+          Login
+        </button>
+      </div>
+      <div id="secretMsg" style="margin-top:10px;font-size:12px;color:var(--muted);"></div>
+    </div>
+  </main>
+    <script>
     // ===== 手动文章列表（第一步先写死）=====
     // 以后你再新增文章，只要在这里加一条对象即可（先别做自动索引）。
     const POSTS = [
@@ -111,6 +129,9 @@ This journal is built for people who do not just want comfort — they want clar
     const q = document.getElementById("q");
     const list = document.getElementById("list");
     const count = document.getElementById("count");
+    const secretToken = document.getElementById("secretToken");
+    const secretLoginBtn = document.getElementById("secretLoginBtn");
+    const secretMsg = document.getElementById("secretMsg");
 
     function esc(s){
       return String(s||"")
@@ -144,7 +165,42 @@ This journal is built for people who do not just want comfort — they want clar
     }
 
     q.addEventListener("input", render);
-    render();
+          render();
+
+    secretLoginBtn.addEventListener("click", async () => {
+      const token = (secretToken.value || "").trim();
+
+      if (!token) {
+        secretMsg.textContent = "Please enter your token.";
+        return;
+      }
+
+      secretMsg.textContent = "Checking...";
+
+      try {
+        const res = await fetch("/api/journal?admin=1", {
+          headers: {
+            "X-Journal-Token": token
+          }
+        });
+
+        if (res.ok) {
+          sessionStorage.setItem("journal_token", token);
+          secretMsg.textContent = "Login successful. Redirecting...";
+          window.location.href = "/journal-editor.html";
+        } else {
+          secretMsg.textContent = "Invalid token.";
+        }
+      } catch (err) {
+        secretMsg.textContent = "Connection error.";
+      }
+    });
+
+    secretToken.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        secretLoginBtn.click();
+      }
+    });
   </script>
 </body>
 </html>
