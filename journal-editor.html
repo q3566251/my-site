@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Journal Editor | Best Wellness Therapy</title>
+  <meta name="description" content="Private journal editor." />
+  <style>
+    :root{
+      --bg:#ffffff; --text:#0b0c0f; --muted:#5b5f6a; --line:#e9eaee;
+      --card:#f6f7f9; --r:18px; --max:1100px; --blue:#007aff;
+      --shadow:0 12px 28px rgba(0,0,0,.06);
+      --danger:#d92d20;
+      --ok:#16a34a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+    }
+    a{text-decoration:none;color:inherit}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
+    header{
+      position:sticky;top:0;z-index:30;
+      background:rgba(255,255,255,.88);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:12px 0;gap:16px;
+    }
+    .brand{
+      font-weight:750;letter-spacing:-.2px;display:flex;gap:10px;align-items:center
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background:linear-gradient(135deg,var(--blue),#34c759);
+      box-shadow:0 0 0 4px rgba(0,122,255,.10)
+    }
+    .links{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .links a,.links button{
+      color:var(--muted);
+      font-size:14px;
+      border:none;
+      background:none;
+      cursor:pointer;
+      padding:0;
+    }
+    .links a:hover,.links button:hover{color:var(--text)}
+    main{padding:22px 0 40px}
+    h1{margin:0 0 8px;font-size:30px;letter-spacing:-.7px}
+    .subtitle{margin:0 0 18px;color:var(--muted)}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:18px;
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+    }
+    .panel{
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:#fff;
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+      padding:16px;
+    }
+    .panel h2{
+      margin:0 0 12px;
+      font-size:18px;
+      letter-spacing:-.3px;
+    }
+    .label{
+      display:block;
+      margin:10px 0 6px;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:600;
+    }
+    input[type="text"], textarea, select{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+      font-size:14px;
+      outline:none;
+      background:#fff;
+    }
+    textarea{
+      min-height:240px;
+      resize:vertical;
+      line-height:1.6;
+    }
+    .row{
+      display:flex;gap:10px;flex-wrap:wrap;
+    }
+    .row > *{flex:1}
+    .toolbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:14px;
+      cursor:pointer;
+    }
+    .btn:hover{box-shadow:var(--shadow)}
+    .btn.primary{
+      background:var(--blue);
+      color:#fff;
+      border-color:var(--blue);
+    }
+    .btn.danger{
+      color:#fff;
+      background:var(--danger);
+      border-color:var(--danger);
+    }
+    .status{
+      margin-top:10px;
+      font-size:13px;
+      color:var(--muted);
+      min-height:18px;
+    }
+    .status.ok{color:var(--ok)}
+    .status.err{color:var(--danger)}
+    .search{
+      margin-bottom:12px;
+    }
+    .count{
+      font-size:12px;color:#7b808c;margin:0 0 10px;
+    }
+    .list{
+      display:grid;gap:12px;
+      max-height:72vh;
+      overflow:auto;
+      padding-right:4px;
+    }
+    .item{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      background:#fff;
+      cursor:pointer;
+      transition:.15s ease;
+    }
+    .item:hover{
+      box-shadow:var(--shadow);
+      transform:translateY(-1px);
+    }
+    .item.active{
+      border-color:var(--blue);
+      box-shadow:0 0 0 3px rgba(0,122,255,.08);
+    }
+    .title{
+      font-weight:800;
+      letter-spacing:-.2px;
+      margin-bottom:6px;
+    }
+    .meta{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+    .summary{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+      display:-webkit-box;
+      -webkit-line-clamp:3;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+    .chips{
+      display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;
+    }
+    .chip{
+      font-size:11px;
+      border:1px solid var(--line);
+      padding:4px 8px;
+      border-radius:999px;
+      background:var(--card);
+    }
+    .topnote{
+      margin:0 0 14px;
+      font-size:13px;
+      color:var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="nav">
+        <div class="brand"><span class="dot"></span> Best Wellness Therapy</div>
+        <div class="links">
+          <a href="/">Home</a>
+          <a href="/journal.html">Journal</a>
+          <button id="logoutBtn">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1>Journal Editor</h1>
+    <p class="subtitle">Private editing mode for journal posts.</p>
+
+    <div class="grid">
+      <section class="panel">
+        <h2>Editor</h2>
+        <p class="topnote">Use this page to create, edit, delete, and publish posts.</p>
+
+        <input type="hidden" id="entryId" />
+
+        <label class="label" for="title">Title</label>
+        <input id="title" type="text" placeholder="Post title" />
+
+        <div class="row">
+          <div>
+            <label class="label" for="slug">Slug</label>
+            <input id="slug" type="text" placeholder="example-post-slug" />
+          </div>
+          <div>
+            <label class="label" for="status">Status</label>
+            <select id="status">
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="label" for="body">Body</label>
+        <textarea id="body" placeholder="Write your journal post here..."></textarea>
+
+        <div class="toolbar">
+          <button class="btn" id="newBtn">New</button>
+          <button class="btn primary" id="saveBtn">Save</button>
+          <button class="btn danger" id="deleteBtn">Delete</button>
+        </div>
+
+        <div id="msg" class="status"></div>
+      </section>
+
+      <section class="panel">
+        <h2>All Posts</h2>
+
+        <div class="search">
+          <input id="search" type="text" placeholder="Search title / slug / body..." />
+        </div>
+        <div class="count" id="count"></div>
+        <div class="list" id="list"></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const token = sessionStorage.getItem("journal_token") || "";
+
+    if (!token) {
+      window.location.href = "/journal.html";
+    }
+
+    const entryId = document.getElementById("entryId");
+    const titleInput = document.getElementById("title");
+    const slugInput = document.getElementById("slug");
+    const statusInput = document.getElementById("status");
+    const bodyInput = document.getElementById("body");
+    const msg = document.getElementById("msg");
+
+    const newBtn = document.getElementById("newBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const deleteBtn = document.getElementById("deleteBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    const search = document.getElementById("search");
+    const count = document.getElementById("count");
+    const list = document.getElementById("list");
+
+    let entries = [];
+    let activeId = null;
+
+    function esc(s){
+      return String(s || "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
+    }
+
+    function shortText(s, n = 140){
+      const t = String(s || "").replace(/\s+/g, " ").trim();
+      return t.length > n ? t.slice(0, n) + "..." : t;
+    }
+
+    function makeSlug(s){
+      return String(s || "")
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function setMsg(text, type = ""){
+      msg.textContent = text;
+      msg.className = "status" + (type ? " " + type : "");
+    }
+
+    function resetForm(){
+      activeId = null;
+      entryId.value = "";
+      titleInput.value = "";
+      slugInput.value = "";
+      statusInput.value = "draft";
+      bodyInput.value = "";
+      setMsg("Ready for new entry.");
+      renderList();
+    }
+
+    function fillForm(item){
+      activeId = item.id;
+      entryId.value = item.id || "";
+      titleInput.value = item.title || "";
+      slugInput.value = item.slug || "";
+      statusInput.value = item.status || "draft";
+      bodyInput.value = item.body || "";
+      setMsg("Editing selected entry.");
+      renderList();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function apiFetch(url, options = {}){
+      const headers = {
+        ...(options.headers || {}),
+        "X-Journal-Token": token
+      };
+      const res = await fetch(url, { ...options, headers });
+      return res;
+    }
+
+    async function loadEntries(){
+      setMsg("Loading...");
+      try {
+        const res = await apiFetch("/api/journal?admin=1");
+        if (res.status === 401) {
+          sessionStorage.removeItem("journal_token");
+          window.location.href = "/journal.html";
+          return;
+        }
+        const data = await res.json();
+        entries = data.results || [];
+        renderList();
+        setMsg("Loaded.", "ok");
+      } catch (err) {
+        setMsg("Failed to load entries.", "err");
+      }
+    }
+
+    function renderList(){
+      const keyword = (search.value || "").toLowerCase().trim();
+
+      let view = entries.slice();
+      if (keyword) {
+        view = view.filter(x => {
+          const hay = (
+            (x.title || "") + " " +
+            (x.slug || "") + " " +
+            (x.body || "") + " " +
+            (x.status || "")
+          ).toLowerCase();
+          return hay.includes(keyword);
+        });
+      }
+
+      count.textContent = `${view.length} / ${entries.length} posts`;
+
+      list.innerHTML = view.map(x => `
+        <div class="item ${Number(activeId) === Number(x.id) ? "active" : ""}" data-id="${x.id}">
+          <div class="title">${esc(x.title || "(Untitled)")}</div>
+          <div class="meta">
+            ${esc(x.created_at || "")}
+            ${x.updated_at ? ` | updated: ${esc(x.updated_at)}` : ""}
+          </div>
+          <div class="summary">${esc(shortText(x.body || ""))}</div>
+          <div class="chips">
+            <span class="chip">${esc(x.status || "draft")}</span>
+            <span class="chip">${esc(x.slug || "")}</span>
+          </div>
+        </div>
+      `).join("");
+
+      [...list.querySelectorAll(".item")].forEach(el => {
+        el.addEventListener("click", () => {
+          const id = Number(el.getAttribute("data-id"));
+          const item = entries.find(x => Number(x.id) === id);
+          if (item) fillForm(item);
+        });
+      });
+    }
+
+    titleInput.addEventListener("input", () => {
+      if (!slugInput.value.trim()) {
+        slugInput.value = makeSlug(titleInput.value);
+      }
+    });
+
+    newBtn.addEventListener("click", () => {
+      resetForm();
+    });
+
+    saveBtn.addEventListener("click", async () => {
+      const id = entryId.value.trim();
+      const title = titleInput.value.trim();
+      const slug = makeSlug(slugInput.value || title);
+      const status = statusInput.value;
+      const body = bodyInput.value;
+
+      if (!body.trim()) {
+        setMsg("Body is required.", "err");
+        return;
+      }
+
+      setMsg("Saving...");
+
+      try {
+        const payload = { title, slug, status, body };
+
+        const res = await apiFetch(
+          id ? `/api/journal/${id}` : "/api/journal",
+          {
+            method: id ? "PUT" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          }
+        );
+
+        if (!res.ok) {
+          setMsg(`Save failed: ${res.status}`, "err");
+          return;
+        }
+
+        setMsg("Saved successfully.", "ok");
+        await loadEntries();
+        if (!id) resetForm();
+      } catch (err) {
+        setMsg("Save failed.", "err");
+      }
+    });
+
+    deleteBtn.addEventListener("click", async () => {
+      const id = entryId.value.trim();
+      if (!id) {
+        setMsg("Select a post first.", "err");
+        return;
+      }
+
+      if (!confirm("Delete this entry?")) return;
+
+      setMsg("Deleting...");
+
+      try {
+        const res = await apiFetch(`/api/journal/${id}`, {
+          method: "DELETE"
+        });
+
+        if (!res.ok) {
+          setMsg(`Delete failed: ${res.status}`, "err");
+          return;
+        }
+
+        setMsg("Deleted successfully.", "ok");
+        await loadEntries();
+        resetForm();
+      } catch (err) {
+        setMsg("Delete failed.", "err");
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      sessionStorage.removeItem("journal_token");
+      window.location.href = "/journal.html";
+    });
+
+    search.addEventListener("input", renderList);
+
+    loadEntries();
+  </script>
+</body>
+</html>
