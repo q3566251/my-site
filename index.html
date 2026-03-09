@@ -17,7 +17,7 @@
       --shadow: 0 10px 30px rgba(0,0,0,.06);
       --radius:18px;
       --radius2:14px;
-      --max:1080px;
+      --max:1180px;
       --accent:#007aff;
       --accent2:#0a84ff;
 
@@ -41,11 +41,13 @@
     }
 
     a{color:inherit; text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding:0 20px}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 24px}
 
     .nav{
-      position:sticky; top:0; z-index:100;
-      background:rgba(255,255,255,.78);
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(255,255,255,.82);
       backdrop-filter:saturate(180%) blur(18px);
       border-bottom:1px solid var(--line);
     }
@@ -73,7 +75,7 @@
       height:10px;
       border-radius:999px;
       background:linear-gradient(135deg, var(--accent), #34c759);
-      box-shadow: 0 0 0 4px rgba(0,122,255,.10);
+      box-shadow:0 0 0 4px rgba(0,122,255,.10);
     }
 
     .navlinks{
@@ -187,52 +189,76 @@
     }
 
     .btn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 10px 18px rgba(0,0,0,.06);
+      transform:translateY(-1px);
+      box-shadow:0 10px 18px rgba(0,0,0,.06);
       border-color:#dfe1e8;
     }
 
     .btn.primary{
       background:linear-gradient(180deg, var(--accent2), var(--accent));
       color:#fff;
-      border-color: transparent;
-      box-shadow: 0 12px 24px rgba(10,132,255,.22);
+      border-color:transparent;
+      box-shadow:0 12px 24px rgba(10,132,255,.22);
     }
 
     .btn.primary:hover{
-      box-shadow: 0 16px 30px rgba(10,132,255,.26);
+      box-shadow:0 16px 30px rgba(10,132,255,.26);
     }
 
-    .btn.ghost{background:transparent}
-
     .hero{
-      padding:64px 0 34px;
+      padding:54px 0 34px;
       background:var(--section-bg);
-      transition: background-color .28s ease;
+      transition:background-color .28s ease;
     }
 
     .heroGrid{
       display:grid;
-      gap:22px;
-      grid-template-columns: 1fr;
-      align-items:stretch;
+      gap:34px;
+      grid-template-columns:minmax(0, 1.02fr) minmax(420px, .98fr);
+      align-items:start;
     }
 
     .hTitle{
-      font-size:44px;
-      line-height:1.06;
-      letter-spacing:-1px;
-      margin:0 0 14px;
-      max-width:12ch;
+      font-size:58px;
+      line-height:1.03;
+      letter-spacing:-1.6px;
+      margin:0 0 16px;
+      max-width:8.8ch;
+    }
+
+    .heroIntro{
+      font-size:20px;
+      line-height:1.6;
+      color:var(--muted);
+      max-width:31ch;
+      margin:0 0 20px;
     }
 
     .hSub{
-      margin:0 0 14px;
+      margin:0 0 16px;
       color:var(--muted);
-      font-size:18px;
-      max-width:64ch;
-      line-height:1.7;
+      font-size:17px;
+      max-width:35ch;
+      line-height:1.75;
     }
+
+    .ctaBox{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:linear-gradient(135deg, rgba(0,122,255,.10), rgba(52,199,89,.08), rgba(255,159,10,.06));
+      padding:18px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin:22px 0 0;
+    }
+
+    .ctaBox .left{min-width:260px}
+    .ctaBox h3{margin:0 0 6px; letter-spacing:-.35px}
+    .ctaBox p{margin:0; color:var(--muted)}
+    .ctaBox .right{display:flex; gap:10px; flex-wrap:wrap}
 
     .chips{
       display:flex;
@@ -249,180 +275,6 @@
       color:#2b2f38;
       font-size:13px;
     }
-
-    .heroCard{
-      border:1px solid var(--line);
-      background:linear-gradient(180deg, #ffffff, #f8f9fb);
-      border-radius:var(--radius);
-      box-shadow: var(--shadow);
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-height: 240px;
-    }
-
-    .heroCard h3{margin:0 0 8px; letter-spacing:-.3px}
-    .heroCard p{margin:0 0 12px; color:var(--muted); font-size:14px}
-
-    .statRow{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-top:10px;
-    }
-
-    .stat{
-      border:1px solid var(--line);
-      background:#fff;
-      border-radius:var(--radius2);
-      padding:12px;
-    }
-
-    .stat b{
-      display:block;
-      font-size:16px;
-      letter-spacing:-.2px;
-    }
-
-    .stat span{
-      display:block;
-      color:var(--muted);
-      font-size:12px;
-      margin-top:4px;
-    }
-
-    section{
-      padding:44px 0;
-      border-top:1px solid var(--line);
-      background:var(--section-bg);
-      transition: background-color .28s ease, border-color .28s ease;
-    }
-
-    h2{
-      margin:0 0 12px;
-      font-size:28px;
-      letter-spacing:-.6px;
-    }
-
-    .lead{
-      margin:0 0 18px;
-      color:var(--muted);
-      max-width:78ch;
-    }
-
-    .grid3{display:grid; gap:14px; grid-template-columns: repeat(3, minmax(0,1fr));}
-    .grid2{display:grid; gap:14px; grid-template-columns: repeat(2, minmax(0,1fr));}
-
-    .card{
-      border:1px solid var(--line);
-      background:#fff;
-      border-radius:var(--radius);
-      padding:18px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.04);
-    }
-
-    .card.soft{background:var(--soft-bg)}
-
-    .card h3{margin:0 0 8px; letter-spacing:-.35px}
-    .card p{margin:0; color:var(--muted)}
-    .card ul{margin:12px 0 0; padding:0 0 0 18px; color:var(--muted)}
-    .card li{margin:6px 0}
-
-    .badgeRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-
-    .badge{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:8px 10px;
-      border-radius:999px;
-      background:#fff;
-      border:1px solid var(--line);
-      font-size:13px;
-      color:#2b2f38;
-    }
-
-    .dot2{width:8px; height:8px; border-radius:999px; background: #34c759}
-    .dot3{width:8px; height:8px; border-radius:999px; background: #ff9f0a}
-    .dot4{width:8px; height:8px; border-radius:999px; background: #ff375f}
-
-    .resourceList{display:grid; gap:10px; margin-top:14px}
-
-    .resource{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:#fff;
-      transition: transform .08s ease, box-shadow .2s ease;
-    }
-
-    .resource:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 12px 22px rgba(0,0,0,.06);
-    }
-
-    .rIcon{
-      width:34px;
-      height:34px;
-      border-radius:12px;
-      background:linear-gradient(135deg, rgba(0,122,255,.14), rgba(52,199,89,.12));
-      border:1px solid rgba(0,122,255,.18);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex:0 0 auto;
-      font-weight:800;
-      color: var(--accent);
-    }
-
-    .rMain b{display:block; letter-spacing:-.2px}
-    .rMain span{display:block; color:var(--muted); font-size:13px; margin-top:4px}
-    .rLink{margin-left:auto; color:var(--accent); font-weight:700; font-size:13px; white-space:nowrap}
-
-    details{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px 14px;
-      background:#fff;
-    }
-
-    summary{
-      cursor:pointer;
-      font-weight:650;
-      letter-spacing:-.2px;
-    }
-
-    details p{
-      margin:10px 0 0;
-      color:var(--muted);
-    }
-
-    .ctaBox{
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      background:linear-gradient(135deg, rgba(0,122,255,.10), rgba(52,199,89,.08), rgba(255,159,10,.06));
-      padding:20px;
-      display:flex;
-      gap:14px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      margin:20px 0 0;
-    }
-
-    .ctaBox .left{min-width:260px}
-    .ctaBox h3{margin:0 0 6px; letter-spacing:-.35px}
-    .ctaBox p{margin:0; color:var(--muted)}
-    .ctaBox .right{display:flex; gap:10px; flex-wrap:wrap}
 
     .themePanel{
       margin-top:18px;
@@ -491,6 +343,120 @@
       font-size:14px;
     }
 
+    .heroImageWrap{
+      display:flex;
+      align-items:flex-start;
+      justify-content:flex-end;
+      padding-top:18px;
+    }
+
+    .heroImage{
+      width:100%;
+      max-width:560px;
+      height:auto;
+      display:block;
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,.08);
+      object-fit:cover;
+    }
+
+    section{
+      padding:44px 0;
+      border-top:1px solid var(--line);
+      background:var(--section-bg);
+      transition: background-color .28s ease, border-color .28s ease;
+    }
+
+    h2{
+      margin:0 0 12px;
+      font-size:28px;
+      letter-spacing:-.6px;
+    }
+
+    .lead{
+      margin:0 0 18px;
+      color:var(--muted);
+      max-width:78ch;
+    }
+
+    .grid3{display:grid; gap:14px; grid-template-columns:repeat(3, minmax(0,1fr));}
+    .grid2{display:grid; gap:14px; grid-template-columns:repeat(2, minmax(0,1fr));}
+
+    .card{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:0 8px 20px rgba(0,0,0,.04);
+    }
+
+    .card.soft{background:var(--soft-bg)}
+    .card h3{margin:0 0 8px; letter-spacing:-.35px}
+    .card p{margin:0; color:var(--muted)}
+    .card ul{margin:12px 0 0; padding:0 0 0 18px; color:var(--muted)}
+    .card li{margin:6px 0}
+
+    .badgeRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+
+    .resourceList{display:grid; gap:10px; margin-top:14px}
+
+    .resource{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      transition: transform .08s ease, box-shadow .2s ease;
+    }
+
+    .resource:hover{
+      transform:translateY(-1px);
+      box-shadow:0 12px 22px rgba(0,0,0,.06);
+    }
+
+    .rIcon{
+      width:34px;
+      height:34px;
+      border-radius:12px;
+      background:linear-gradient(135deg, rgba(0,122,255,.14), rgba(52,199,89,.12));
+      border:1px solid rgba(0,122,255,.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 auto;
+      font-weight:800;
+      color:var(--accent);
+    }
+
+    .rMain b{display:block; letter-spacing:-.2px}
+    .rMain span{display:block; color:var(--muted); font-size:13px; margin-top:4px}
+    .rLink{margin-left:auto; color:var(--accent); font-weight:700; font-size:13px; white-space:nowrap}
+
+    details{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px 14px;
+      background:#fff;
+    }
+
+    summary{
+      cursor:pointer;
+      font-weight:650;
+      letter-spacing:-.2px;
+    }
+
+    details p{
+      margin:10px 0 0;
+      color:var(--muted);
+    }
+
     footer{
       padding:26px 0;
       border-top:1px solid var(--line);
@@ -514,10 +480,33 @@
       overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
     }
 
-    @media (max-width: 920px){
-      .heroGrid{grid-template-columns:1fr}
-      .hTitle{font-size:38px; max-width:none}
+    @media (max-width: 980px){
+      .heroGrid{
+        grid-template-columns:1fr;
+        gap:28px;
+      }
+
+      .heroImageWrap{
+        justify-content:flex-start;
+        padding-top:0;
+      }
+
+      .heroImage{
+        max-width:100%;
+      }
+
+      .hTitle{
+        max-width:none;
+        font-size:46px;
+      }
+
+      .heroIntro,
+      .hSub{
+        max-width:100%;
+      }
+
       .navin{flex-wrap:wrap}
+
       .navlinks{
         width:100%;
         justify-content:flex-start;
@@ -528,8 +517,9 @@
     @media (max-width: 780px){
       .grid3{grid-template-columns:1fr}
       .grid2{grid-template-columns:1fr}
-      .hero{padding:48px 0 28px}
-      .hTitle{font-size:34px}
+      .hero{padding:42px 0 28px}
+      .hTitle{font-size:38px}
+      .heroIntro{font-size:18px}
 
       .dropdown{
         left:0;
@@ -538,8 +528,8 @@
       }
 
       .hSub{
-        font-size:17px;
-        line-height:1.65;
+        font-size:16px;
+        line-height:1.7;
       }
     }
   </style>
@@ -624,12 +614,19 @@
         <div class="heroGrid">
           <div>
             <h1 class="hTitle">Calm, modern support<br>to heal and reflect.</h1>
+
+            <p class="heroIntro">
+              A supportive space to explore your experiences and make room for healing.
+            </p>
+
             <p class="hSub">
               Welcome. Life can feel fuller when there is room to be curious. Here, you are invited to explore what you are experiencing, without pressure to have everything figured out.
             </p>
+
             <p class="hSub">
               Please allow yourself to be human—to have imperfect parts, and to live through imperfect moments. We believe every experience matters and deserves to be understood with respect.
             </p>
+
             <p class="hSub">
               You do not have to simply get through life. You are allowed to experience it. Stay curious. Begin where you are.
             </p>
@@ -673,11 +670,18 @@
               <h4>Therapeutic environment</h4>
               <p>
                 We hope this therapeutic environment offers a sense of choice and empowerment.
-                Sometimes healing can begin with something simple: choosing a space that feels
-                comfortable, grounding, and more like your own as you explore what you hope for.
+                Sometimes healing can begin with something simple: choosing a space that feels comfortable, grounding, and more like your own as you explore what you hope for.
               </p>
             </div>
           </div>
+
+          <aside class="heroImageWrap" aria-label="Therapy space image">
+            <img
+              class="heroImage"
+              src="a_photograph_captures_a_serene_living_room_corner.png"
+              alt="A calm and welcoming therapy-inspired space with a chair, lamp, plant, and soft natural light."
+            />
+          </aside>
         </div>
       </div>
     </section>
@@ -885,7 +889,7 @@
           <div class="card">
             <h3>Book a consult</h3>
             <p style="margin-bottom:12px;">
-              Option A: add your booking link (Calendly / intake form).<br/>
+              Option A: add your booking link (Calendly / intake form).<br />
               Option B: email us and we’ll reply with next steps.
             </p>
             <div class="badgeRow">
@@ -898,8 +902,8 @@
           <div class="card">
             <h3>Location & availability</h3>
             <p>
-              Telehealth: Available<br/>
-              In-person: Add your city/neighborhood (optional)<br/>
+              Telehealth: Available<br />
+              In-person: Add your city/neighborhood (optional)<br />
               Hours: Add your typical availability
             </p>
             <ul>
@@ -917,7 +921,7 @@
     <div class="wrap">
       <div class="footGrid">
         <div class="mini">
-          <b>Best Wellness Therapy</b><br/>
+          <b>Best Wellness Therapy</b><br />
           <span>Modern, calm, evidence-informed support.</span>
           <div class="fine">
             This website is for informational purposes only and does not create a therapist-client relationship.
