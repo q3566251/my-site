@@ -350,16 +350,27 @@
       font-size:14px;
     }
 
-   .heroImageWrap{
+  .heroGrid{
+  display:grid;
+  gap:12px;
+  grid-template-columns:minmax(0, 1fr) 420px;
+  align-items:start;
+  overflow:visible;
+  position:relative;
+}
+
+.heroImageWrap{
   display:flex;
   align-items:flex-start;
   justify-content:flex-end;
   padding-top:0;
   overflow:visible;
+  position:relative;
+  z-index:1;
 }
 
 .heroImage{
-  width:620px;
+  width:820px;
   max-width:none;
   height:auto;
   display:block;
@@ -367,7 +378,7 @@
   box-shadow:0 12px 26px rgba(0,0,0,.08);
   object-fit:cover;
   opacity:.96;
-  margin-right:-80px;
+  margin-right:-260px;
 }
 
     section{
