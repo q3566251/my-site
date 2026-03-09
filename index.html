@@ -17,7 +17,7 @@
       --shadow: 0 10px 30px rgba(0,0,0,.06);
       --radius:18px;
       --radius2:14px;
-      --max:1180px;
+      --max:1320px;
       --accent:#007aff;
       --accent2:#0a84ff;
 
@@ -212,34 +212,41 @@
     }
 
     .heroGrid{
-  display:grid;
-  gap:48px;
-  grid-template-columns:minmax(560px, 1.35fr) minmax(280px, .75fr);
-  align-items:start;
+      display:grid;
+      gap:24px;
+      grid-template-columns:minmax(0, 1fr) 230px;
+      align-items:start;
+    }
+
+    .heroContent{
+      min-width:0;
+      max-width:none;
     }
 
     .hTitle{
-      font-size:58px;
-      line-height:1.03;
-      letter-spacing:-1.6px;
-      margin:0 0 16px;
-      max-width:8.8ch;
+      font-size:clamp(44px, 5vw, 76px);
+      line-height:1.05;
+      letter-spacing:-2px;
+      margin:0 0 24px;
+      max-width:none;
+      width:100%;
+      text-wrap:balance;
     }
 
-   .heroIntro{
-  font-size:20px;
-  line-height:1.6;
-  color:var(--muted);
-  max-width:42ch;
-  margin:0 0 20px;
-}
+    .heroIntro{
+      font-size:20px;
+      line-height:1.75;
+      color:var(--muted);
+      max-width:86ch;
+      margin:0 0 18px;
+    }
 
-.hSub{
-  margin:0 0 16px;
-  color:var(--muted);
-  font-size:17px;
-  max-width:46ch;
-  line-height:1.75;
+    .hSub{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:20px;
+      max-width:86ch;
+      line-height:1.78;
     }
 
     .ctaBox{
@@ -347,17 +354,18 @@
       display:flex;
       align-items:flex-start;
       justify-content:flex-end;
-      padding-top:18px;
+      padding-top:8px;
     }
 
     .heroImage{
       width:100%;
-      max-width:560px;
+      max-width:220px;
       height:auto;
       display:block;
-      border-radius:20px;
-      box-shadow:0 14px 34px rgba(0,0,0,.08);
+      border-radius:18px;
+      box-shadow:0 12px 26px rgba(0,0,0,.08);
       object-fit:cover;
+      opacity:.96;
     }
 
     section{
@@ -483,20 +491,14 @@
     @media (max-width: 980px){
       .heroGrid{
         grid-template-columns:1fr;
-        gap:28px;
+        gap:24px;
       }
 
       .heroImageWrap{
-        justify-content:flex-start;
-        padding-top:0;
-      }
-
-      .heroImage{
-        max-width:100%;
+        display:none;
       }
 
       .hTitle{
-        max-width:none;
         font-size:46px;
       }
 
@@ -520,16 +522,12 @@
       .hero{padding:42px 0 28px}
       .hTitle{font-size:38px}
       .heroIntro{font-size:18px}
+      .hSub{font-size:18px; line-height:1.7}
 
       .dropdown{
         left:0;
         right:auto;
         min-width:200px;
-      }
-
-      .hSub{
-        font-size:16px;
-        line-height:1.7;
       }
     }
   </style>
@@ -539,15 +537,15 @@
   <header class="nav" role="banner">
     <div class="wrap">
       <div class="navin">
-        <a class="brand" href="/" aria-label="Best Wellness Therapy home">
+        <a class="brand" href="index.html" aria-label="Best Wellness Therapy home">
           <span class="dot" aria-hidden="true"></span>
           <span>Best Wellness Therapy</span>
         </a>
 
         <nav class="navlinks" aria-label="Primary">
-          <a href="/">Home</a>
-          <a href="/services.html">Services</a>
-          <a href="/approach.html">Approach</a>
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <a href="approach.html">Approach</a>
 
           <div class="navItem">
             <button class="navTrigger" type="button" aria-label="Resources menu">
@@ -555,19 +553,19 @@
             </button>
             <div class="dropdown" role="menu" aria-label="Resources submenu">
               <div class="dropLabel">Resources</div>
-              <a class="dropLink" href="/resources.html">
+              <a class="dropLink" href="resources.html">
                 All Resources
                 <small>Main resource page</small>
               </a>
-              <a class="dropLink" href="/therapy-toolbox.html">
-    Therapy Toolbox
-  <small>Practical therapy tools and external resources</small>
-</a>
-              <a class="dropLink" href="/resource2.html">
+              <a class="dropLink" href="resource1.html">
+                Resource 1
+                <small>Replace with your first resource page</small>
+              </a>
+              <a class="dropLink" href="resource2.html">
                 Resource 2
                 <small>Replace with your second resource page</small>
               </a>
-              <a class="dropLink" href="/resource3.html">
+              <a class="dropLink" href="resource3.html">
                 Resource 3
                 <small>Replace with your third resource page</small>
               </a>
@@ -580,19 +578,19 @@
             </button>
             <div class="dropdown" role="menu" aria-label="Journal submenu">
               <div class="dropLabel">Journal</div>
-              <a class="dropLink" href="/journal.html">
+              <a class="dropLink" href="journal.html">
                 Journal Home
                 <small>Main journal page</small>
               </a>
-              <a class="dropLink" href="/journal-1.html">
+              <a class="dropLink" href="journal-1.html">
                 Journal 1
                 <small>Replace with your first journal article</small>
               </a>
-              <a class="dropLink" href="/journal-2.html">
+              <a class="dropLink" href="journal-2.html">
                 Journal 2
                 <small>Replace with your second journal article</small>
               </a>
-              <a class="dropLink" href="/journal-3.html">
+              <a class="dropLink" href="journal-3.html">
                 Journal 3
                 <small>Replace with your third journal article</small>
               </a>
@@ -612,12 +610,8 @@
     <section class="hero" aria-label="Hero">
       <div class="wrap">
         <div class="heroGrid">
-          <div>
-            <h1 class="hTitle">Calm, modern support<br>to heal and reflect.</h1>
-
-            <p class="heroIntro">
-              A supportive space to explore your experiences and make room for healing.
-            </p>
+          <div class="heroContent">
+            <h1 class="hTitle">A calm, modern space to heal, reflect, and explore life with support.</h1>
 
             <p class="hSub">
               Welcome. Life can feel fuller when there is room to be curious. Here, you are invited to explore what you are experiencing, without pressure to have everything figured out.
@@ -638,7 +632,7 @@
               </div>
               <div class="right">
                 <a class="btn primary" href="#contact">Request a consult</a>
-                <a class="btn" href="/resources.html">Browse resources</a>
+                <a class="btn" href="resources.html">Browse resources</a>
               </div>
             </div>
 
@@ -893,7 +887,7 @@
               Option B: email us and we’ll reply with next steps.
             </p>
             <div class="badgeRow">
-              <a class="btn primary" href="https://example.com/booking" target="_blank" rel="noopener noreferrer">Booking link</a>
+              <a class="btn primary" href="#contact">Booking link</a>
               <a class="btn" href="mailto:hello@bestwellnesstherapy.com">Email</a>
             </div>
             <div class="fine">Tip: change <code>hello@bestwellnesstherapy.com</code> to your real email.</div>
@@ -930,8 +924,8 @@
         </div>
         <div class="mini">
           <div>
-            <a href="/services.html">Services</a> ·
-            <a href="/resources.html">Resources</a> ·
+            <a href="services.html">Services</a> ·
+            <a href="resources.html">Resources</a> ·
             <a href="#faq">FAQ</a> ·
             <a href="#contact">Contact</a>
           </div>
