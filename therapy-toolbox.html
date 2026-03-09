@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Therapy Toolbox | Best Wellness Therapy</title>
+  <meta name="description" content="A deep therapy toolbox explaining major therapy models, what they do, what sessions feel like, and who they may fit." />
+  <meta name="theme-color" content="#ffffff" />
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --bg2:#f7f8fb;
+      --text:#0b0c0f;
+      --muted:#5b5f6a;
+      --muted2:#7c828d;
+      --line:#e7eaf0;
+      --card:#fbfbfd;
+      --shadow:0 10px 30px rgba(15,23,42,.06);
+      --shadow2:0 24px 60px rgba(15,23,42,.09);
+      --radius:24px;
+      --radius2:18px;
+      --max:1220px;
+      --accent:#007aff;
+      --accentSoft:rgba(0,122,255,.08);
+      --green:#34c759;
+      --orange:#ff9f0a;
+      --purple:#5856d6;
+      --red:#ff375f;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(circle at top left, rgba(0,122,255,.05), transparent 26%),
+        radial-gradient(circle at top right, rgba(88,86,214,.05), transparent 20%),
+        linear-gradient(180deg, #ffffff 0%, #fbfcfe 42%, #ffffff 100%);
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 22px}
+
+    .nav{
+      position:sticky; top:0; z-index:100;
+      background:rgba(255,255,255,.78);
+      backdrop-filter:saturate(180%) blur(18px);
+      border-bottom:1px solid rgba(231,234,240,.95);
+    }
+    .navin{
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+      padding:14px 0;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:-.24px}
+    .dot{
+      width:11px; height:11px; border-radius:999px;
+      background:linear-gradient(135deg, var(--accent), var(--green));
+      box-shadow:0 0 0 5px rgba(0,122,255,.10);
+      flex:0 0 auto;
+    }
+    .navlinks{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+    .navlinks a{font-size:14px; color:var(--muted)}
+    .navlinks a:hover{color:var(--text)}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:11px 16px; border-radius:999px;
+      border:1px solid var(--line); background:#fff;
+      font-size:14px; font-weight:650; color:var(--text);
+      transition:transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+    }
+    .btn:hover{transform:translateY(-1px); box-shadow:0 12px 22px rgba(0,0,0,.06)}
+    .btn.primary{
+      background:linear-gradient(180deg, #1b90ff 0%, #007aff 100%);
+      color:#fff; border-color:transparent;
+      box-shadow:0 14px 28px rgba(0,122,255,.22);
+    }
+
+    .hero{padding:46px 0 24px}
+    .heroShell{
+      border:1px solid var(--line);
+      border-radius:36px;
+      background:
+        radial-gradient(circle at 12% 14%, rgba(0,122,255,.08), transparent 22%),
+        radial-gradient(circle at 88% 22%, rgba(88,86,214,.08), transparent 18%),
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,248,251,.96));
+      box-shadow:var(--shadow2);
+      padding:34px;
+    }
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.88);
+      border-radius:999px; padding:8px 12px;
+      font-size:12px; font-weight:750; letter-spacing:.08em; text-transform:uppercase;
+      color:#233042;
+    }
+    .eyebrow .miniDot{width:8px; height:8px; border-radius:999px; background:linear-gradient(135deg, var(--accent), var(--purple))}
+    .heroGrid{display:grid; grid-template-columns:1fr; gap:18px; align-items:start; margin-top:16px}
+    .title{
+      margin:0;
+      font-size:clamp(28px, 4.2vw, 48px);
+      line-height:1.05; letter-spacing:-1px; max-width:16ch;
+    }
+    .sub{
+      margin:0; color:var(--muted); font-size:16px; max-width:none;
+    }
+    .heroActions{display:flex; gap:12px; flex-wrap:wrap; margin-top:0}
+
+    .heroPanel{
+      display:grid; gap:12px;
+      grid-template-columns:repeat(4, 1fr);
+    }
+    .quickCard{
+      border:1px solid var(--line); border-radius:22px; background:rgba(255,255,255,.92);
+      padding:16px; box-shadow:var(--shadow);
+      min-height:unset;
+    }
+    .quickCard b{display:block; font-size:19px; letter-spacing:-.3px; margin-bottom:7px}
+    .quickCard p{margin:0; color:var(--muted); font-size:14px}
+
+    section{padding:18px 0 56px}
+    .sectionHead{display:flex; justify-content:space-between; align-items:end; gap:18px; flex-wrap:wrap; margin-bottom:16px}
+    .tinyCaps{font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--accent)}
+    h2{margin:0 0 10px; font-size:34px; line-height:1.06; letter-spacing:-.9px}
+    .lead{margin:0; color:var(--muted); font-size:17px; max-width:72ch}
+
+    .toc{
+      display:grid; grid-template-columns:repeat(4, 1fr); gap:12px;
+    }
+    .toc a{
+      border:1px solid var(--line); border-radius:18px; background:#fff;
+      padding:14px 16px; box-shadow:var(--shadow);
+      font-size:14px; font-weight:700; color:#1d2733;
+    }
+    .toc a span{display:block; color:var(--muted2); font-size:12px; font-weight:600; margin-top:4px}
+
+    .deepGrid{display:grid; gap:16px}
+    .toolboxCard{
+      border:1px solid var(--line); border-radius:30px; background:linear-gradient(180deg, #ffffff, #fbfbfd);
+      box-shadow:var(--shadow2); overflow:hidden;
+    }
+    .toolTop{
+      padding:22px 22px 18px;
+      display:flex; justify-content:space-between; gap:16px; align-items:start; flex-wrap:wrap;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(248,250,253,.96));
+    }
+    .toolHead{display:flex; gap:14px; align-items:flex-start}
+    .code{
+      width:58px; height:58px; border-radius:20px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:15px; font-weight:900; letter-spacing:.04em;
+      background:linear-gradient(135deg, rgba(0,122,255,.14), rgba(88,86,214,.12));
+      color:var(--accent); border:1px solid rgba(0,122,255,.16);
+      flex:0 0 auto;
+    }
+    .toolHead h3{margin:0; font-size:28px; line-height:1.05; letter-spacing:-.7px}
+    .toolHead p{margin:8px 0 0; color:var(--muted); font-size:15px; max-width:70ch}
+
+    .fitBadge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:9px 12px; border-radius:999px;
+      border:1px solid var(--line); background:#fff; font-size:13px; font-weight:700; color:#29313b;
+    }
+    .fitDot{width:8px; height:8px; border-radius:999px; background:var(--green)}
+
+    .toolBody{
+      padding:20px 22px 24px;
+      display:grid; gap:14px;
+      grid-template-columns:1.15fr .85fr;
+    }
+    .infoGrid{display:grid; gap:12px; grid-template-columns:repeat(2, 1fr)}
+    .infoBox{
+      border:1px solid var(--line); border-radius:20px; background:#fff; padding:16px;
+    }
+    .label{font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--accent)}
+    .infoBox p{margin:8px 0 0; color:var(--text); font-size:14px}
+
+    .summaryBox{
+      border:1px solid var(--line); border-radius:24px; background:var(--bg2); padding:18px;
+      display:grid; gap:12px;
+    }
+    .summaryBlock{
+      border-radius:18px; background:#fff; border:1px solid var(--line); padding:14px;
+    }
+    .summaryBlock b{display:block; font-size:13px; letter-spacing:-.15px}
+    .summaryBlock span{display:block; margin-top:5px; color:var(--muted); font-size:13px}
+
+    .compareStrip{
+      margin-top:20px;
+      border:1px solid var(--line); border-radius:26px; background:linear-gradient(180deg, #fff, #fafbfe);
+      padding:20px; box-shadow:var(--shadow);
+    }
+    .compareTable{display:grid; grid-template-columns:1.1fr repeat(4, 1fr); gap:10px; margin-top:12px}
+    .compareCell{
+      border:1px solid var(--line); border-radius:16px; background:#fff; padding:12px;
+      font-size:13px;
+    }
+    .compareCell.head{font-weight:800; color:#1b2430; background:var(--bg2)}
+    .compareCell strong{display:block; font-size:14px; letter-spacing:-.2px}
+    .compareCell span{display:block; margin-top:4px; color:var(--muted)}
+
+    .cta{
+      border:1px solid var(--line); border-radius:32px; padding:28px;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(0,122,255,.12), transparent 24%),
+        radial-gradient(circle at 88% 18%, rgba(88,86,214,.10), transparent 22%),
+        linear-gradient(180deg, #ffffff, #f7f9fc);
+      box-shadow:var(--shadow2);
+    }
+    .cta h3{margin:0 0 10px; font-size:36px; line-height:1.03; letter-spacing:-1px; max-width:13ch}
+    .cta p{margin:0; color:var(--muted); font-size:17px; max-width:65ch}
+    .ctaActions{display:flex; gap:12px; flex-wrap:wrap; margin-top:22px}
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:26px 0 34px; color:var(--muted); font-size:13px;
+      background:rgba(255,255,255,.74);
+      backdrop-filter:blur(10px);
+    }
+    .foot{display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap}
+    .fine{font-size:12px; color:#7b808c; margin-top:7px; max-width:74ch}
+
+    @media (max-width: 1100px){
+      .toolBody{grid-template-columns:1fr}
+      .toc{grid-template-columns:repeat(2, 1fr)}
+      .heroPanel{grid-template-columns:repeat(2, 1fr)}
+    }
+
+    @media (max-width: 780px){
+      .navin{flex-direction:column; align-items:flex-start}
+      .navlinks{width:100%; gap:12px}
+      .hero{padding:28px 0 16px}
+      .heroShell{padding:22px}
+      .heroPanel,.infoGrid,.toc{grid-template-columns:1fr}
+      .title{max-width:none}
+      .toolTop,.toolBody{padding:18px}
+      h2{font-size:28px}
+      .cta{padding:22px}
+      .cta h3{font-size:30px}
+    }
+  </style>
+</head>
+<body>
+  <header class="nav" role="banner">
+    <div class="wrap">
+      <div class="navin">
+        <a class="brand" href="/index.html" aria-label="Best Wellness Therapy home">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Best Wellness Therapy</span>
+        </a>
+
+        <nav class="navlinks" aria-label="Primary">
+          <a href="/index.html#services">Services</a>
+          <a href="/index.html#approach">Approach</a>
+          <a href="/therapy-toolbox.html">Therapy Toolbox</a>
+          <a href="/journal.html">Journal</a>
+          <a href="/index.html#faq">FAQ</a>
+          <a href="/index.html#contact">Contact</a>
+        </nav>
+
+        <a class="btn primary" href="/index.html#contact">Book a consult</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-label="Therapy toolbox hero">
+      <div class="wrap">
+        <div class="heroShell">
+          <span class="eyebrow"><span class="miniDot" aria-hidden="true"></span> Therapy Toolbox</span>
+
+          <div class="heroGrid">
+            <div>
+              <h1 class="title">How therapy works.</h1>
+            </div>
+
+            <div class="heroPanel" aria-label="Quick orientation cards">
+              <div class="quickCard">
+                <b>Therapy names can sound abstract.</b>
+                <p>This toolbox explains what each approach focuses on, how sessions often feel, and which problems it tends to fit best.</p>
+              </div>
+              <div class="quickCard">
+                <b>Not all therapy feels the same.</b>
+                <p>Some models are structured and skill-based. Others are reflective, relational, or insight-oriented.</p>
+              </div>
+              <div class="quickCard">
+                <b>Most therapists integrate methods.</b>
+                <p>Real therapy is often blended: CBT structure, DBT skills, ACT values work, and trauma-informed pacing can all appear together.</p>
+              </div>
+              <div class="quickCard">
+                <b>Fit matters more than buzzwords.</b>
+                <p>The best method is not the trendiest one. It is the one that matches your goals, pace, and nervous system.</p>
+              </div>
+            </div>
+
+            <p class="sub">
+              Therapy names can sound abstract. This page breaks down major approaches by what they focus on, what sessions often feel like, what problems they fit best, and what kind of client may connect with them.
+            </p>
+
+            <div class="heroActions">
+              <a class="btn primary" href="#modalities">Explore modalities</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Toolbox map">
+      <div class="wrap">
+        <div class="sectionHead">
+          <div>
+            <div class="tinyCaps">Toolbox map</div>
+            <h2>Jump to a modality.</h2>
+            <p class="lead">Use this as a fast orientation layer before reading the deeper breakdowns.</p>
+          </div>
+        </div>
+
+        <div class="toc">
+          <a href="#cbt">CBT<span>Thoughts, behaviors, measurable change</span></a>
+          <a href="#dbt">DBT<span>Emotion regulation and distress tolerance</span></a>
+          <a href="#act">ACT<span>Values, flexibility, making room for discomfort</span></a>
+          <a href="#psychodynamic">Psychodynamic<span>Patterns, meanings, recurring relationships</span></a>
+          <a href="#mi">MI<span>Motivation, ambivalence, readiness for change</span></a>
+          <a href="#mindfulness">Mindfulness<span>Attention, awareness, less reactivity</span></a>
+          <a href="#solution">Solution-Focused<span>Goals, strengths, exceptions, forward movement</span></a>
+          <a href="#trauma">Trauma-Informed<span>Safety, pacing, control, nervous system sensitivity</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="modalities" aria-label="Deep toolbox modalities">
+      <div class="wrap">
+        <div class="sectionHead">
+          <div>
+            <div class="tinyCaps">Deep toolbox</div>
+            <h2>Understand the model, not just the name.</h2>
+            <p class="lead">Learning too many therapy approaches at once can feel overwhelming. This section is meant to give a simple structure so visitors can recognize that different therapies use different techniques and may create different effects. It is only a brief demo, not a complete training or treatment guide. In actual care, the clinician still needs to make professional judgments in real time, explain the options clearly, and decide collaboratively with the client what is most appropriate.</p>
+            <p class="lead" style="margin-top:10px; font-size:14px; color:#7c828d; max-width:86ch;">Disclaimer: This page is for general educational purposes only. The examples below are simplified and do not replace assessment, diagnosis, crisis support, or individualized clinical decision-making. Therapy choices should be discussed with a qualified clinician based on the person’s symptoms, goals, history, risks, and current needs.</p>
+          </div>
+        </div>
+
+        <div class="deepGrid">
+          <article class="toolboxCard" id="cbt">
+            <div class="toolTop">
+              <div class="toolHead">
+                <div class="code">CBT</div>
+                <div>
+                  <h3>Cognitive Behavioral Therapy</h3>
+                  <p>CBT focuses on how thoughts, emotions, and behaviors reinforce each other. It helps identify patterns that maintain anxiety, depression, avoidance, and self-defeating cycles.</p>
+                </div>
+              </div>
+              <span class="fitBadge"><span class="fitDot"></span> Best known for structure and practicality</span>
+            </div>
+            <div class="toolBody">
+              <div class="infoGrid">
+                <div class="infoBox"><div class="label">What it does</div><p>Targets distorted thinking, unhelpful beliefs, and behaviors that keep problems going.</p></div>
+                <div class="infoBox"><div class="label">What sessions feel like</div><p>Structured, direct, goal-oriented, often with exercises, tracking, or homework.</p></div>
+                <div class="infoBox"><div class="label">Often helps with</div><p>Anxiety, depression, OCD-related thinking patterns, avoidance, procrastination, panic, and rumination.</p></div>
+                <div class="infoBox"><div class="label">Can feel less ideal if</div><p>You want deeper exploration of identity, grief, relational complexity, or unconscious patterns first.</p></div>
+              </div>
+              <div class="summaryBox">
+                <div class="summaryBlock"><b>Good fit if</b><span>You like clarity, frameworks, measurable progress, and practical tools you can apply between sessions.</span></div>
+                <div class="summaryBlock"><b>Common techniques</b><span>Irrational thinking work, cognitive restructuring (reframing thoughts), journaling, behavioral experiments, activity scheduling, and exposure therapy to reduce anxiety.</span></div>
+                <div class="summaryBlock"><b>One-line summary</b><span>CBT helps you notice the loops that keep suffering in place, then interrupt them on purpose.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="toolboxCard" id="dbt">
+            <div class="toolTop">
+              <div class="toolHead">
+                <div class="code">DBT</div>
+                <div>
+                  <h3>Dialectical Behavior Therapy</h3>
+                  <p>DBT was designed to help people manage intense emotions and high-reactivity patterns. It emphasizes concrete skills for stability, safety, and better relationships.</p>
+                </div>
+              </div>
+              <span class="fitBadge"><span class="fitDot"></span> Best known for skills and emotional regulation</span>
+            </div>
+            <div class="toolBody">
+              <div class="infoGrid">
+                <div class="infoBox"><div class="label">What it does</div><p>Builds mindfulness, distress tolerance, emotion regulation, and interpersonal effectiveness.</p></div>
+                <div class="infoBox"><div class="label">What sessions feel like</div><p>Coaching-like, skill-heavy, practical, validating, and often focused on crisis prevention or behavior patterns.</p></div>
+                <div class="infoBox"><div class="label">Often helps with</div><p>Emotional overwhelm, impulsivity, self-harm risk, unstable relationships, anger, reactivity, and chronic invalidation histories.</p></div>
+                <div class="infoBox"><div class="label">Can feel less ideal if</div><p>You want long exploratory conversations without structured skills work or behavior change focus.</p></div>
+              </div>
+              <div class="summaryBox">
+                <div class="summaryBlock"><b>Good fit if</b><span>You need ways to survive emotional surges without making things worse.</span></div>
+                <div class="summaryBlock"><b>Common techniques</b><span>STOP skill, TIPP, opposite action, chain analysis, wise mind practice, distress tolerance skills, and interpersonal effectiveness scripts.</span></div>
+                <div class="summaryBlock"><b>One-line summary</b><span>DBT teaches what to do when emotions feel too strong to think clearly.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="toolboxCard" id="act">
+            <div class="toolTop">
+              <div class="toolHead">
+                <div class="code">ACT</div>
+                <div>
+                  <h3>Acceptance and Commitment Therapy</h3>
+                  <p>ACT helps people stop fighting their internal experience so aggressively and start moving toward what matters, even when discomfort is present.</p>
+                </div>
+              </div>
+              <span class="fitBadge"><span class="fitDot"></span> Best known for values and psychological flexibility</span>
+            </div>
+            <div class="toolBody">
+              <div class="infoGrid">
+                <div class="infoBox"><div class="label">What it does</div><p>Teaches acceptance, defusion from thoughts, present-moment awareness, and values-based action.</p></div>
+                <div class="infoBox"><div class="label">What sessions feel like</div><p>Reflective but practical, less about proving thoughts wrong and more about changing your relationship to them.</p></div>
+                <div class="infoBox"><div class="label">Often helps with</div><p>Anxiety, shame, perfectionism, self-criticism, chronic avoidance, and feeling stuck despite insight.</p></div>
+                <div class="infoBox"><div class="label">Can feel less ideal if</div><p>You want highly concrete symptom tracking or you dislike experiential metaphors and values language.</p></div>
+              </div>
+              <div class="summaryBox">
+                <div class="summaryBlock"><b>Good fit if</b><span>You already know your thoughts are harsh or repetitive, and want to stop being ruled by them.</span></div>
+                <div class="summaryBlock"><b>Common techniques</b><span>Cognitive defusion, values clarification, acceptance practice, self-as-context, committed action, and present-moment exercises.</span></div>
+                <div class="summaryBlock"><b>One-line summary</b><span>ACT helps you carry discomfort without letting it choose your life direction.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="toolboxCard" id="psychodynamic">
+            <div class="toolTop">
+              <div class="toolHead">
+                <div class="code">PDT</div>
+                <div>
+                  <h3>Psychodynamic Therapy</h3>
+                  <p>Psychodynamic work looks beneath the obvious surface of symptoms to understand recurring patterns, emotional defenses, attachment themes, and internal conflicts.</p>
+                </div>
+              </div>
+              <span class="fitBadge"><span class="fitDot"></span> Best known for insight and pattern depth</span>
+            </div>
+            <div class="toolBody">
+              <div class="infoGrid">
+                <div class="infoBox"><div class="label">What it does</div><p>Explores unconscious themes, relational templates, defense mechanisms, emotional meanings, and what keeps repeating across life.</p></div>
+                <div class="infoBox"><div class="label">What sessions feel like</div><p>Exploratory, reflective, relational, less scripted, sometimes slower and deeper than skill-based models.</p></div>
+                <div class="infoBox"><div class="label">Often helps with</div><p>Long-standing relational patterns, identity struggles, intimacy issues, emotional numbness, repeated self-sabotage, and vague chronic dissatisfaction.</p></div>
+                <div class="infoBox"><div class="label">Can feel less ideal if</div><p>You want rapid coping tools, a clearly structured agenda, or immediate behavioral action every session.</p></div>
+              </div>
+              <div class="summaryBox">
+                <div class="summaryBlock"><b>Good fit if</b><span>You keep asking “Why do I always end up here again?” and want more than surface-level advice.</span></div>
+                <div class="summaryBlock"><b>Common techniques</b><span>Exploring defenses, identifying recurring relational patterns, interpretation, free association, examining transference, and linking present emotions to earlier experiences.</span></div>
+                <div class="summaryBlock"><b>One-line summary</b><span>Psychodynamic therapy helps decode the emotional logic underneath repeated life patterns.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="toolboxCard" id="mi">
+            <div class="toolTop">
+              <div class="toolHead">
+                <div class="code">MI</div>
+                <div>
+                  <h3>Motivational Interviewing</h3>
+                  <p>MI is designed for ambivalence. It helps people find their own reasons for change instead of being pushed into compliance.</p>
+                </div>
+              </div>
+              <span class="fitBadge"><span class="fitDot"></span> Best known for resolving ambivalence</span>
+            </div>
+            <div class="toolBody">
+              <div class="infoGrid">
+                <div class="infoBox"><div class="label">What it does</div><p>Strengthens intrinsic motivation by exploring mixed feelings, values, and readiness rather than arguing.</p></div>
+                <div class="infoBox"><div class="label">What sessions feel like</div><p>Collaborative, respectful, non-pushy, curious, often centered on “part of me wants to change, part of me does not.”</p></div>
+                <div class="infoBox"><div class="label">Often helps with</div><p>Substance use, health behavior change, treatment resistance, procrastination, and low commitment to change.</p></div>
+                <div class="infoBox"><div class="label">Can feel less ideal if</div><p>You are already highly motivated and mostly need skills, trauma processing, or deeper psychotherapy.</p></div>
+              </div>
+              <div class="summaryBox">
+                <div class="summaryBlock"><b>Good fit if</b><span>You feel stuck in “I know I should, but I still am not doing it.”</span></div>
+                <div class="summaryBlock"><b>Common techniques</b><span>Open-ended questions, affirmations, reflective listening, summaries, eliciting change talk, and exploring decisional balance.</span></div>
+                <div class="summaryBlock"><b>One-line summary</b><span>MI helps change become more internally chosen and less externally forced.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="toolboxCard" id="mindfulness">
+            <div class="toolTop">
+              <div class="toolHead">
+                <div class="code">MB</div>
+                <div>
+                  <h3>Mindfulness-Based Approaches</h3>
+                  <p>Mindfulness-based work helps reduce automatic reactivity by strengthening present-moment attention, observing skills, and nervous-system settling.</p>
+                </div>
+              </div>
+              <span class="fitBadge"><span class="fitDot"></span> Best known for awareness and steadiness</span>
+            </div>
+            <div class="toolBody">
+              <div class="infoGrid">
+                <div class="infoBox"><div class="label">What it does</div><p>Builds attention, body awareness, nonjudgmental observation, and space between trigger and response.</p></div>
+                <div class="infoBox"><div class="label">What sessions feel like</div><p>Slower, noticing-oriented, sometimes experiential, often focused on breath, body, and internal observation.</p></div>
+                <div class="infoBox"><div class="label">Often helps with</div><p>Stress, anxiety, reactivity, sleep problems, attention instability, and difficulty slowing down.</p></div>
+                <div class="infoBox"><div class="label">Can feel less ideal if</div><p>You need strong external structure, are currently highly activated by inward attention, or want immediate cognitive analysis instead.</p></div>
+              </div>
+              <div class="summaryBox">
+                <div class="summaryBlock"><b>Good fit if</b><span>You live in your head constantly and want to reduce automatic reactivity.</span></div>
+                <div class="summaryBlock"><b>Common techniques</b><span>Breath awareness, body scans, grounding, noticing thoughts without attachment, present-moment observation, and sensory orientation practices.</span></div>
+                <div class="summaryBlock"><b>One-line summary</b><span>Mindfulness-based work helps you witness experience with less panic, fusion, and urgency.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="toolboxCard" id="solution">
+            <div class="toolTop">
+              <div class="toolHead">
+                <div class="code">SFBT</div>
+                <div>
+                  <h3>Solution-Focused Therapy</h3>
+                  <p>Solution-focused therapy spends less time dissecting the whole problem and more time identifying strengths, exceptions, goals, and what already works.</p>
+                </div>
+              </div>
+              <span class="fitBadge"><span class="fitDot"></span> Best known for brevity and forward momentum</span>
+            </div>
+            <div class="toolBody">
+              <div class="infoGrid">
+                <div class="infoBox"><div class="label">What it does</div><p>Clarifies goals, notices exceptions to the problem, and helps amplify workable behavior quickly.</p></div>
+                <div class="infoBox"><div class="label">What sessions feel like</div><p>Brief, focused, optimistic, strategic, and often oriented toward concrete next steps.</p></div>
+                <div class="infoBox"><div class="label">Often helps with</div><p>Short-term support needs, practical decision-making, behavior activation, and clients who want momentum more than deep excavation.</p></div>
+                <div class="infoBox"><div class="label">Can feel less ideal if</div><p>You need trauma processing, grief depth, or space to understand long-standing relational pain in detail.</p></div>
+              </div>
+              <div class="summaryBox">
+                <div class="summaryBlock"><b>Good fit if</b><span>You want therapy to move, not stall, and appreciate a strengths-based tone.</span></div>
+                <div class="summaryBlock"><b>Common techniques</b><span>Miracle question, scaling questions, exception finding, goal clarification, and identifying what is already working.</span></div>
+                <div class="summaryBlock"><b>One-line summary</b><span>Solution-focused work helps you build forward from what is already possible.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="toolboxCard" id="trauma">
+            <div class="toolTop">
+              <div class="toolHead">
+                <div class="code">TIC</div>
+                <div>
+                  <h3>Trauma-Informed Care</h3>
+                  <p>Trauma-informed care is less a single modality and more a clinical stance. It changes the pace, priorities, and relational safety of therapy.</p>
+                </div>
+              </div>
+              <span class="fitBadge"><span class="fitDot"></span> Best known for safety, pacing, and nervous-system respect</span>
+            </div>
+            <div class="toolBody">
+              <div class="infoGrid">
+                <div class="infoBox"><div class="label">What it does</div><p>Prioritizes safety, choice, consent, stabilization, and awareness of how trauma shapes body, trust, and perception.</p></div>
+                <div class="infoBox"><div class="label">What sessions feel like</div><p>Careful, paced, collaborative, less invasive, and sensitive to overwhelm, shutdown, dissociation, and control issues.</p></div>
+                <div class="infoBox"><div class="label">Often helps with</div><p>Trauma histories, hypervigilance, shutdown, emotional flooding, distrust, sensitivity to power dynamics, and nervous-system fragility.</p></div>
+                <div class="infoBox"><div class="label">Can feel less ideal if</div><p>You want fast confrontation without much pacing or if you equate slow safety-building with lack of progress.</p></div>
+              </div>
+              <div class="summaryBox">
+                <div class="summaryBlock"><b>Good fit if</b><span>You need therapy to feel safe enough for real work to happen.</span></div>
+                <div class="summaryBlock"><b>Common techniques</b><span>Pacing, grounding, consent-based check-ins, stabilization work, window of tolerance tracking, and collaborative choice-making.</span></div>
+                <div class="summaryBlock"><b>One-line summary</b><span>Trauma-informed care changes not only what therapy does, but how therapy feels in the room.</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+        <section aria-label="Final call to action">
+      <div class="wrap">
+        <div class="cta">
+          <h3>Still not sure what kind of therapy fits?</h3>
+          <p>
+            You do not have to figure it out alone. A consultation can help match your goals, symptoms, therapy preferences, and pacing needs with a model that feels more accurate—and more human.
+          </p>
+          <div class="ctaActions">
+            <a class="btn primary" href="/index.html#contact">Request a consult</a>
+            <a class="btn" href="#modalities">Review modalities again</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="wrap">
+      <div class="foot">
+        <div>
+          <strong>Best Wellness Therapy</strong>
+          <div class="fine">This page is educational and informational. It does not replace emergency care and does not establish a therapist-client relationship.</div>
+        </div>
+        <div>
+          <div><a href="/index.html">Home</a> · <a href="/therapy-toolbox.html">Therapy Toolbox</a> · <a href="/journal.html">Journal</a> · <a href="/index.html#contact">Contact</a></div>
+          <div class="fine">© <span id="year"></span> Best Wellness Therapy</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
