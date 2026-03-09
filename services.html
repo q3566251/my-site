@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Services | Best Wellness Therapy</title>
+  <meta name="description" content="Explore therapy services for anxiety, stress, burnout, relationships, and more. Best Wellness Therapy — evidence-informed, human-first care." />
+  <style>
+    :root{
+      --bg:#ffffff; --text:#0b0c0f; --muted:#5b5f6a; --line:#e9eaee; --card:#f6f7f9;
+      --shadow:0 10px 30px rgba(0,0,0,.06); --radius:18px; --radius2:14px; --max:1080px;
+      --accent:#007aff; --accent2:#0a84ff;
+      --page-bg:#ffffff; --section-bg:#ffffff; --soft-bg:#f6f7f9;
+    }
+    *{box-sizing:border-box}
+    html{zoom:0.9}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text); background:var(--page-bg); line-height:1.45;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      transition:background-color .28s ease;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line);}
+    .navin{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:18px;}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.2px;white-space:nowrap;flex:0 0 auto;}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),#34c759);box-shadow:0 0 0 4px rgba(0,122,255,.10);}
+    .navlinks{display:flex;gap:18px;align-items:center;flex:1 1 auto;justify-content:flex-end;}
+    .navlinks > a{color:var(--muted);font-size:14px;}
+    .navlinks > a:hover{color:var(--text);}
+    .navlinks > a.active{color:var(--text);font-weight:600;}
+    .navItem{position:relative;display:flex;align-items:center;}
+    .navTrigger{color:var(--muted);font-size:14px;background:none;border:none;padding:0;cursor:pointer;font:inherit;display:inline-flex;align-items:center;gap:6px;}
+    .navTrigger:hover{color:var(--text);}
+    .caret{font-size:11px;transform:translateY(1px);color:#8a8f9b;}
+    .dropdown{
+      position:absolute;top:calc(100% + 12px);left:0;min-width:220px;
+      background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:16px;
+      box-shadow:0 18px 40px rgba(0,0,0,.10);padding:8px;
+      opacity:0;visibility:hidden;transform:translateY(6px);
+      transition:opacity .18s ease,transform .18s ease,visibility .18s ease;z-index:120;
+    }
+    .navItem:hover .dropdown,.navItem:focus-within .dropdown{opacity:1;visibility:visible;transform:translateY(0);}
+    .dropLabel{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#8a8f9b;padding:8px 10px 6px;}
+    .dropLink{display:block;padding:10px 12px;border-radius:12px;font-size:14px;color:#232730;transition:background .16s ease;}
+    .dropLink:hover{background:#f5f7fb;color:var(--text);}
+    .dropLink small{display:block;color:var(--muted);font-size:12px;margin-top:3px;}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--text);font-size:14px;font-weight:600;transition:transform .08s ease,box-shadow .2s ease,border-color .2s ease;}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(0,0,0,.06);border-color:#dfe1e8}
+    .btn.primary{background:linear-gradient(180deg,var(--accent2),var(--accent));color:#fff;border-color:transparent;box-shadow:0 12px 24px rgba(10,132,255,.22);}
+    .btn.primary:hover{box-shadow:0 16px 30px rgba(10,132,255,.26)}
+
+    /* PAGE HERO */
+    .pageHero{padding:52px 0 36px;background:var(--section-bg);transition:background-color .28s ease;}
+    .pageHero h1{font-size:42px;line-height:1.06;letter-spacing:-1px;margin:0 0 10px;}
+    .pageHero p{color:var(--muted);font-size:17px;max-width:58ch;margin:0 0 24px;}
+    .breadcrumb{font-size:13px;color:var(--muted);margin-bottom:18px;}
+    .breadcrumb a{color:var(--accent);}
+    .breadcrumb span{margin:0 6px;}
+
+    /* SECTIONS */
+    section{padding:44px 0;border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    h2{margin:0 0 8px;font-size:26px;letter-spacing:-.5px;}
+    h3{margin:0 0 8px;letter-spacing:-.3px;}
+    .lead{margin:0 0 22px;color:var(--muted);max-width:72ch;font-size:15px;}
+    .grid3{display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr));}
+    .grid2{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr));}
+
+    /* CARDS */
+    .card{border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:22px;box-shadow:0 8px 20px rgba(0,0,0,.04);transition:transform .1s ease,box-shadow .2s ease;}
+    .card:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(0,0,0,.07);}
+    .card.soft{background:var(--soft-bg);box-shadow:none;}
+    .card.soft:hover{transform:none;box-shadow:none;}
+    .card h3{margin:0 0 6px;}
+    .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+    .card ul{margin:12px 0 0;padding:0 0 0 18px;color:var(--muted);font-size:14px;}
+    .card li{margin:6px 0;}
+    .serviceTag{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:10px;padding:3px 10px;border-radius:999px;border:1px solid;}
+
+    /* SERVICE TAG COLORS */
+    .tag-individual{color:#007aff;border-color:rgba(0,122,255,.2);background:rgba(0,122,255,.06);}
+    .tag-performance{color:#ff9f0a;border-color:rgba(255,159,10,.2);background:rgba(255,159,10,.06);}
+    .tag-relational{color:#34c759;border-color:rgba(52,199,89,.2);background:rgba(52,199,89,.06);}
+    .tag-groups{color:#af52de;border-color:rgba(175,82,222,.2);background:rgba(175,82,222,.06);}
+    .tag-consult{color:#ff375f;border-color:rgba(255,55,95,.2);background:rgba(255,55,95,.06);}
+
+    /* PROCESS STEPS */
+    .steps{display:grid;gap:0;counter-reset:step;}
+    .step{display:grid;grid-template-columns:48px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--line);}
+    .step:last-child{border-bottom:none;}
+    .stepNum{width:40px;height:40px;border-radius:999px;background:linear-gradient(135deg,rgba(0,122,255,.12),rgba(52,199,89,.10));border:1px solid rgba(0,122,255,.18);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--accent);flex:0 0 auto;}
+    .stepBody h4{margin:0 0 4px;font-size:15px;letter-spacing:-.2px;}
+    .stepBody p{margin:0;color:var(--muted);font-size:14px;line-height:1.6;}
+
+    /* FAQ */
+    details{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff;}
+    summary{cursor:pointer;font-weight:650;letter-spacing:-.2px;list-style:none;display:flex;justify-content:space-between;align-items:center;}
+    summary::after{content:'＋';font-size:15px;color:var(--muted);font-weight:300;}
+    details[open] summary::after{content:'－';}
+    details p{margin:10px 0 0;color:var(--muted);font-size:14px;line-height:1.65;}
+
+    /* CTA BANNER */
+    .ctaBanner{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(135deg,rgba(0,122,255,.10),rgba(52,199,89,.08),rgba(255,159,10,.06));padding:32px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+    .ctaBanner h3{margin:0 0 6px;font-size:22px;}
+    .ctaBanner p{margin:0;color:var(--muted);font-size:15px;max-width:52ch;}
+    .ctaBanner .btns{display:flex;gap:10px;flex-wrap:wrap;flex:0 0 auto;}
+
+    /* FOOTER */
+    footer{padding:26px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px;background:var(--section-bg);transition:background-color .28s ease;}
+    .footGrid{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .mini{max-width:90ch}
+    .fine{font-size:12px;color:#7b808c;margin-top:8px}
+
+    @keyframes rainbow { to { background-position: 300% center; } }
+    @media (max-width:920px){.grid3{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.grid3,.grid2{grid-template-columns:1fr}.pageHero h1{font-size:32px}}
+  </style>
+</head>
+<body>
+
+  <header class="nav" role="banner">
+    <div class="wrap">
+      <div class="navin">
+        <a class="brand" href="index.html">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Best Wellness Therapy</span>
+        </a>
+        <nav class="navlinks" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="services.html" class="active">Services</a>
+          <a href="approach.html">Approach</a>
+          <div class="navItem">
+            <button class="navTrigger" type="button">Resources <span class="caret">▾</span></button>
+            <div class="dropdown">
+              <div class="dropLabel">Resources</div>
+              <a class="dropLink" href="resources.html">All Resources <small>Main resource page</small></a>
+              <a class="dropLink" href="therapy-toolbox.html">Therapy Toolbox <small>Tools and worksheets</small></a>
+              <a class="dropLink" href="resource2.html">Resource 2</a>
+              <a class="dropLink" href="resource3.html">Resource 3</a>
+              <a class="dropLink" href="resource4.html">Resource 4</a>
+            </div>
+          </div>
+          <div class="navItem">
+            <button class="navTrigger" type="button">Journal <span class="caret">▾</span></button>
+            <div class="dropdown">
+              <div class="dropLabel">Journal</div>
+              <a class="dropLink" href="journal.html">Journal Home</a>
+              <a class="dropLink" href="journal-1.html">Journal 1</a>
+              <a class="dropLink" href="journal-2.html">Journal 2</a>
+              <a class="dropLink" href="journal-3.html">Journal 3</a>
+            </div>
+          </div>
+          <a href="index.html#faq">FAQ</a>
+          <a href="index.html#contact">Contact</a>
+        </nav>
+        <a class="btn primary" href="index.html#contact">Book a consult</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- PAGE HERO -->
+    <div class="pageHero">
+      <div class="wrap">
+        <div class="breadcrumb"><a href="index.html">Home</a><span>›</span>Services</div>
+        <h1>Services</h1>
+        <blockquote style="margin:0 0 18px;padding:0 0 0 16px;border-left:3px solid var(--text);font-size:22px;font-weight:700;line-height:1.3;color:var(--text);">Every person arrives with a different story.</blockquote>
+        <p style="color:var(--muted);font-size:16px;margin:0 0 24px;max-width:56ch;">Our services are designed to meet you where you are — practical, structured, and always at a pace that feels right.</p>
+        <a class="btn primary" href="index.html#contact">Book a free consult</a>
+      </div>
+    </div>
+
+    <!-- CORE SERVICES -->
+    <section aria-label="Core services">
+      <div class="wrap">
+        <h2>What we offer</h2>
+        <p class="lead">Not sure which fits? Start with a consult — we'll figure it out together.</p>
+        <div class="grid3">
+          <div class="card">
+            <div class="serviceTag tag-individual">Individual</div>
+            <h3>Anxiety &amp; Stress</h3>
+            <p>For those feeling overwhelmed, stuck in cycles of worry, or struggling to feel steady day to day.</p>
+            <ul>
+              <li>Coping skills &amp; emotional regulation</li>
+              <li>Identifying patterns and triggers</li>
+              <li>Practical routines for daily stability</li>
+              <li>Structured goal setting</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="serviceTag tag-performance">Performance</div>
+            <h3>Focus &amp; Burnout</h3>
+            <p>For high achievers, caregivers, or anyone running on empty — working hard but feeling disconnected.</p>
+            <ul>
+              <li>Values-based direction (ACT)</li>
+              <li>Focus systems &amp; behavioral plans</li>
+              <li>Stress physiology &amp; recovery</li>
+              <li>Sustainable motivation</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="serviceTag tag-relational">Relational</div>
+            <h3>Relationships</h3>
+            <p>For communication challenges, boundary struggles, conflict patterns, or feeling unseen by those closest to you.</p>
+            <ul>
+              <li>Attachment-informed tools</li>
+              <li>Boundary building</li>
+              <li>Conflict repair conversations</li>
+              <li>Strengthening connection</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="serviceTag tag-individual">Individual</div>
+            <h3>Life Transitions</h3>
+            <p>Navigating major change — a move, career shift, loss, new role, or identity shift — can feel destabilizing. We help you find your footing.</p>
+            <ul>
+              <li>Grief &amp; adjustment support</li>
+              <li>Identity and values clarity</li>
+              <li>Building new routines</li>
+              <li>Processing change with structure</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="serviceTag tag-performance">Performance</div>
+            <h3>Self-Esteem &amp; Confidence</h3>
+            <p>For those who struggle with self-criticism, imposter syndrome, or feeling like they're never quite enough.</p>
+            <ul>
+              <li>CBT-style thought reframing</li>
+              <li>Self-compassion practices</li>
+              <li>Identifying core beliefs</li>
+              <li>Behavioral experiments</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="serviceTag tag-consult">Consult</div>
+            <h3>Not Sure Yet?</h3>
+            <p>That's completely okay. Start with a free 15-minute consult. We'll map out what you're experiencing and find the right direction together.</p>
+            <ul>
+              <li>No pressure, no commitment</li>
+              <li>Clarify your goals</li>
+              <li>Find the right fit</li>
+              <li>Get a clear next step</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section aria-label="How it works">
+      <div class="wrap">
+        <h2>How it works</h2>
+        <p class="lead">Simple, clear, and designed around your life.</p>
+        <div class="grid2" style="align-items:start;">
+          <div class="steps">
+            <div class="step">
+              <div class="stepNum">1</div>
+              <div class="stepBody">
+                <h4>Free 15-min consult</h4>
+                <p>We talk about what's going on, what you're hoping for, and whether we're a good fit. No pressure.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="stepNum">2</div>
+              <div class="stepBody">
+                <h4>First full session</h4>
+                <p>We go deeper — your history, patterns, and goals. Together we outline a clear initial plan.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="stepNum">3</div>
+              <div class="stepBody">
+                <h4>Ongoing sessions</h4>
+                <p>Weekly or biweekly 50-minute sessions. Skills, reflection, and real progress between appointments.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="stepNum">4</div>
+              <div class="stepBody">
+                <h4>Progress check-ins</h4>
+                <p>We regularly review what's working and adjust — so therapy actually moves forward.</p>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;gap:12px;">
+            <div class="card soft">
+              <h3>Session details</h3>
+              <p style="margin-top:10px;">
+                <strong>Length:</strong> 50 minutes<br>
+                <strong>Frequency:</strong> Weekly or biweekly<br>
+                <strong>Format:</strong> Telehealth or in-person (where available)<br>
+                <strong>Response:</strong> Within 1–2 business days
+              </p>
+            </div>
+            <div class="card soft">
+              <h3>Who we work with</h3>
+              <p style="margin-top:10px;">Adults and young adults navigating anxiety, burnout, life change, relationships, and self-esteem. Culturally responsive, trauma-informed, and non-judgmental.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section aria-label="Services FAQ">
+      <div class="wrap">
+        <h2>Common questions</h2>
+        <p class="lead">Answers to what people often wonder before starting.</p>
+        <div class="grid2" style="gap:10px;">
+          <details>
+            <summary>How do I know which service is right for me?</summary>
+            <p>You don't have to figure that out alone. The free consult is specifically designed to help us understand what you're going through and match you with the right focus area.</p>
+          </details>
+          <details>
+            <summary>Can I switch focus areas mid-therapy?</summary>
+            <p>Absolutely. As your goals evolve, we adjust. Therapy is flexible — it follows your life, not a rigid template.</p>
+          </details>
+          <details>
+            <summary>Do you offer telehealth?</summary>
+            <p>Yes. Telehealth sessions are available depending on your location and applicable regulations. Many clients prefer the flexibility.</p>
+          </details>
+          <details>
+            <summary>How long does therapy usually take?</summary>
+            <p>It depends on your goals and depth of work. Some prefer 8–12 focused sessions; others benefit from longer engagement. We'll discuss this in your first session.</p>
+          </details>
+          <details>
+            <summary>Do you take insurance?</summary>
+            <p>Add your insurance policy details here — in-network, out-of-network, or superbill options.</p>
+          </details>
+          <details>
+            <summary>What if I've never been to therapy before?</summary>
+            <p>That's completely okay. Many clients are new to therapy. We'll take it at your pace, explain the process, and make sure you feel comfortable every step of the way.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section aria-label="Book a consult">
+      <div class="wrap">
+        <div class="ctaBanner">
+          <div>
+            <h3>Ready to take the first step?</h3>
+            <p>A 15-minute consult is free, low-pressure, and a good way to see if we're the right fit for you.</p>
+          </div>
+          <div class="btns">
+            <a class="btn primary" href="index.html#contact">Book a consult</a>
+            <a class="btn" href="index.html#resources">Browse resources</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <div class="wrap">
+      <div class="footGrid">
+        <div class="mini">
+          <b>Best Wellness Therapy</b><br/>
+          <span>Modern, calm, evidence-informed support.</span>
+          <div class="fine">This website is for informational purposes only and does not create a therapist-client relationship. For emergencies, contact local emergency services.</div>
+        </div>
+        <div class="mini">
+          <div><a href="services.html">Services</a> · <a href="resources.html">Resources</a> · <a href="index.html#faq">FAQ</a> · <a href="index.html#contact">Contact</a></div>
+          <div class="fine">© <span id="y"></span> Best Wellness Therapy</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
