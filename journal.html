@@ -157,9 +157,27 @@
         </div>
         <div>
           <div><a href="services.html">Services</a> · <a href="resources.html">Resources</a> · <a href="index.html#faq">FAQ</a> · <a href="index.html#contact">Contact</a></div>
-          <div class="fine">© <span id="y"></span> Best Wellness Therapy · <a href="admin-login.html" style="color:#c8cdd6;">Admin</a></div>
+          <div class="fine">© <span id="y"></span> Best Wellness Therapy</div>
         </div>
       </div>
+
+      <div style="margin-top:40px;padding-top:18px;border-top:1px solid var(--line);">
+        <div style="font-size:12px;color:#c8cdd6;margin-bottom:10px;">Private access</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <input
+            id="secretToken"
+            type="password"
+            placeholder="Enter secret token"
+            style="max-width:320px;border:1px solid var(--line);border-radius:999px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;background:#fff;"
+          />
+          <button
+            id="secretLoginBtn"
+            style="border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-size:14px;font-family:inherit;cursor:pointer;"
+          >Login</button>
+        </div>
+        <div id="secretMsg" style="margin-top:10px;font-size:12px;color:var(--muted);"></div>
+      </div>
+
     </div>
   </footer>
 
@@ -212,6 +230,32 @@
       });
 
     qEl.addEventListener("input", render);
+
+    // Private access
+    const secretToken    = document.getElementById("secretToken");
+    const secretLoginBtn = document.getElementById("secretLoginBtn");
+    const secretMsg      = document.getElementById("secretMsg");
+
+    secretLoginBtn.addEventListener("click", async () => {
+      const token = (secretToken.value || "").trim();
+      if (!token) { secretMsg.textContent = "Please enter your token."; return; }
+      secretMsg.textContent = "Checking…";
+      try {
+        const res = await fetch("/api/journal?admin=1", {
+          headers: { "X-Journal-Token": token }
+        });
+        if (res.ok) {
+          sessionStorage.setItem("journal_token", token);
+          secretMsg.textContent = "Login successful. Redirecting…";
+          window.location.href = "/journal-editor.html";
+        } else {
+          secretMsg.textContent = "Invalid token.";
+        }
+      } catch {
+        secretMsg.textContent = "Connection error.";
+      }
+    });
+    secretToken.addEventListener("keydown", e => { if (e.key === "Enter") secretLoginBtn.click(); });
   </script>
 </body>
 </html>
