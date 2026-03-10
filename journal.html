@@ -3,204 +3,215 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Journal Library | Best Wellness Therapy</title>
-  <meta name="description" content="Mental health journal library with simple, practical notes. Search by keyword." />
+  <title>Journal | Best Wellness Therapy</title>
+  <meta name="description" content="Mental health journal — clarity, insight, and practical tools for real life." />
   <style>
     :root{
-      --bg:#ffffff; --text:#0b0c0f; --muted:#5b5f6a; --line:#e9eaee;
-      --card:#f6f7f9; --r:18px; --max:980px; --blue:#007aff;
-      --shadow: 0 12px 28px rgba(0,0,0,.06);
+      --text:#0b0c0f; --muted:#5b5f6a; --line:#e9eaee; --card:#f6f7f9;
+      --radius:18px; --max:1080px;
+      --accent:#007aff; --accent2:#0a84ff;
+      --page-bg:#ffffff; --soft-bg:#f6f7f9;
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-    a{text-decoration:none;color:inherit}
-    .wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
-    header{
-      position:sticky;top:0;z-index:30;
-      background:rgba(255,255,255,.85);
-      backdrop-filter:blur(18px);
-      border-bottom:1px solid var(--line);
+    html{zoom:0.9}
+    html,body{height:100%}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--text);background:var(--page-bg);line-height:1.45;-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line);}
+    .navin{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:18px;}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.2px;white-space:nowrap;flex:0 0 auto;}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),#34c759);box-shadow:0 0 0 4px rgba(0,122,255,.10);}
+    .navlinks{display:flex;gap:18px;align-items:center;flex:1 1 auto;justify-content:flex-end;}
+    .navlinks > a{color:var(--muted);font-size:14px;}
+    .navlinks > a:hover{color:var(--text);}
+    .navlinks > a.active{color:var(--text);font-weight:600;}
+    .navItem{position:relative;display:flex;align-items:center;}
+    .navTrigger{color:var(--muted);font-size:14px;background:none;border:none;padding:0;cursor:pointer;font:inherit;display:inline-flex;align-items:center;gap:6px;}
+    .navTrigger:hover{color:var(--text);}
+    .caret{font-size:11px;transform:translateY(1px);color:#8a8f9b;}
+    .dropdown{position:absolute;top:calc(100% + 12px);left:0;min-width:220px;background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 40px rgba(0,0,0,.10);padding:8px;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .18s ease,transform .18s ease,visibility .18s ease;z-index:120;}
+    .navItem:hover .dropdown,.navItem:focus-within .dropdown{opacity:1;visibility:visible;transform:translateY(0);}
+    .dropLabel{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#8a8f9b;padding:8px 10px 6px;}
+    .dropLink{display:block;padding:10px 12px;border-radius:12px;font-size:14px;color:#232730;transition:background .16s ease;}
+    .dropLink:hover{background:#f5f7fb;color:var(--text);}
+    .dropLink small{display:block;color:var(--muted);font-size:12px;margin-top:3px;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--text);font-size:14px;font-weight:600;transition:transform .08s ease,box-shadow .2s ease,border-color .2s ease;}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(0,0,0,.06);border-color:#dfe1e8}
+    .btn.primary{background:linear-gradient(180deg,var(--accent2),var(--accent));color:#fff;border-color:transparent;box-shadow:0 12px 24px rgba(10,132,255,.22);}
+
+    /* PAGE INTRO */
+    .pageIntro{padding:52px 0 36px;border-bottom:1px solid var(--line);}
+    .pageIntro h1{font-size:40px;letter-spacing:-1px;margin:0 0 10px;line-height:1.06;}
+    .pageIntro blockquote{margin:0;padding:0 0 0 16px;border-left:3px solid var(--text);font-size:18px;font-weight:700;line-height:1.4;max-width:60ch;}
+
+    /* SEARCH */
+    .searchWrap{padding:28px 0 0;}
+    .searchWrap input{
+      width:100%;max-width:480px;
+      border:1px solid var(--line);border-radius:999px;
+      padding:10px 18px;font-size:14px;font-family:inherit;
+      outline:none;background:#fff;color:var(--text);
+      transition:border-color .15s ease;
     }
-    .nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
-    .brand{font-weight:750;letter-spacing:-.2px;display:flex;gap:10px;align-items:center}
-    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--blue),#34c759);box-shadow:0 0 0 4px rgba(0,122,255,.10)}
-    .links a{color:var(--muted);margin-left:14px;font-size:14px}
-    .links a:hover{color:var(--text)}
-    main{padding:22px 0 36px}
-    h1{margin:0 0 8px;font-size:30px;letter-spacing:-.7px}
-    .subtitle{margin:0 0 16px;color:var(--muted);max-width:90ch}
-    .search{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 10px}
-    input{
-      flex:1;min-width:260px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      padding:10px 12px;
-      font-size:14px;outline:none;background:#fff;
+    .searchWrap input:focus{border-color:#b0bec8;}
+    .count{font-size:12px;color:#9a9fa8;margin:12px 0 0;}
+
+    /* POST LIST */
+    .postList{padding:20px 0 52px;display:grid;gap:12px;}
+
+    .postItem{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:20px;
+      border:1px solid var(--line);border-radius:var(--radius);
+      padding:20px;background:#fff;
+      box-shadow:0 4px 14px rgba(0,0,0,.03);
+      transition:box-shadow .18s ease,transform .1s ease;
     }
-    .count{font-size:12px;color:#7b808c;margin:8px 0 14px}
-    .list{display:grid;gap:12px}
-    .item{
-      border:1px solid var(--line);
-      border-radius:var(--r);
-      padding:14px;
-      background:#fff;
-      box-shadow: 0 8px 18px rgba(0,0,0,.04);
-    }
-    .item:hover{box-shadow: var(--shadow); transform: translateY(-1px)}
-    .title{font-weight:800;letter-spacing:-.2px}
-    .meta{font-size:12px;color:var(--muted);margin-top:6px}
-    .summary{margin-top:8px;color:var(--muted)}
-    .tags{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
-    .tag{font-size:12px;border:1px solid var(--line);padding:5px 8px;border-radius:999px;background:var(--card)}
+    .postItem:hover{box-shadow:0 10px 26px rgba(0,0,0,.07);transform:translateY(-1px);}
+    .postItem .postBody{flex:1;}
+    .postItem h3{margin:0 0 4px;font-size:16px;letter-spacing:-.2px;}
+    .postItem .postMeta{font-size:12px;color:#9a9fa8;margin-bottom:8px;}
+    .postItem .postSummary{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+    .postItem .postTags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+    .postItem .postTag{font-size:12px;border:1px solid var(--line);padding:4px 10px;border-radius:999px;background:var(--soft-bg);color:var(--muted);}
+    .postArrow{color:var(--muted);font-size:15px;flex:0 0 auto;margin-top:2px;}
+    .postItem:hover .postArrow{color:var(--accent);}
+
+    /* EMPTY / LOADING */
+    .stateMsg{padding:40px 0;color:var(--muted);font-size:15px;}
+
+    /* FOOTER */
+    footer{padding:26px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px;}
+    .footGrid{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .fine{font-size:12px;color:#7b808c;margin-top:8px;}
   </style>
 </head>
 <body>
-  <header>
+
+  <header class="nav">
     <div class="wrap">
-      <div class="nav">
-        <div class="brand"><span class="dot"></span> Best Wellness Therapy</div>
-        <div class="links">
-          <a href="https://bestwellnesstherapy.com/">Home</a>
-          <a href="/resources.html">Resources</a>
-          <a href="/journal.html" style="color:var(--text);font-weight:800;">Journal</a>
-        </div>
+      <div class="navin">
+        <a class="brand" href="index.html">
+          <span class="dot"></span>
+          <span>Best Wellness Therapy</span>
+        </a>
+        <nav class="navlinks">
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <div class="navItem">
+            <button class="navTrigger">Resources <span class="caret">▾</span></button>
+            <div class="dropdown">
+              <div class="dropLabel">Resources</div>
+              <a class="dropLink" href="resources.html">All Resources <small>Main resource page</small></a>
+              <a class="dropLink" href="therapy-toolbox.html">Therapy Toolbox <small>Tools and worksheets</small></a>
+              <a class="dropLink" href="resource2.html">Resource 2</a>
+              <a class="dropLink" href="resource3.html">Resource 3</a>
+            </div>
+          </div>
+          <div class="navItem">
+            <button class="navTrigger">Journal <span class="caret">▾</span></button>
+            <div class="dropdown">
+              <div class="dropLabel">Journal</div>
+              <a class="dropLink" href="journal.html">Journal Home</a>
+              <a class="dropLink" href="journal-1.html">Journal 1</a>
+              <a class="dropLink" href="journal-2.html">Journal 2</a>
+              <a class="dropLink" href="journal-3.html">Journal 3</a>
+            </div>
+          </div>
+          <a href="index.html#faq">FAQ</a>
+          <a href="index.html#contact">Contact</a>
+        </nav>
+        <a class="btn primary" href="index.html#contact">Book a consult</a>
       </div>
     </div>
   </header>
 
-  <main class="wrap">
-    <h1>Mental Health Journal Library</h1>
-    <p class="subtitle">
-This journal is built for people who do not just want comfort — they want clarity, insight, and practical mental health tools that can actually be used in real life. I believe healing is not only about understanding emotions, but also about learning through experience, building real skills, and developing ways to navigate life with more strength, awareness, and direction.    </p>
-
-    <div class="search">
-      <input id="q" placeholder="Search title / summary / tags..." />
+  <main>
+    <div class="pageIntro">
+      <div class="wrap">
+        <h1>Journal</h1>
+        <blockquote>Clarity, insight, and practical tools for real life.</blockquote>
+      </div>
     </div>
 
-    <div class="count" id="count"></div>
-    <div class="list" id="list"></div>
-
-    <div id="secret-login" style="margin-top:40px;padding-top:18px;border-top:1px solid var(--line);">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Private access</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-        <input
-          id="secretToken"
-          type="password"
-          placeholder="Enter secret token"
-          style="max-width:320px;"
-        />
-        <button
-          id="secretLoginBtn"
-          style="border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-size:14px;cursor:pointer;"
-        >
-          Login
-        </button>
+    <div class="wrap">
+      <div class="searchWrap">
+        <input id="q" type="search" placeholder="Search posts…" autocomplete="off" />
+        <div class="count" id="count"></div>
       </div>
-      <div id="secretMsg" style="margin-top:10px;font-size:12px;color:var(--muted);"></div>
+      <div class="postList" id="list">
+        <div class="stateMsg">Loading…</div>
+      </div>
     </div>
   </main>
-    <script>
-    // ===== 手动文章列表（第一步先写死）=====
-    // 以后你再新增文章，只要在这里加一条对象即可（先别做自动索引）。
-    const POSTS = [
-      {
-        title: "Why Anxiety Feels So Physical",
-        date: "2026-03-05",
-        summary: "Anxiety is not just thoughts—it's a body alarm system. Learn what triggers it and how to calm it.",
-        tags: ["anxiety","stress","body"],
-        url: "/journal-posts/anxiety-body.html"
-      },
-      {
-        title: "Sleep Basics: Small Changes That Work",
-        date: "2026-03-06",
-        summary: "A simple checklist for better sleep without overhauling your life.",
-        tags: ["sleep","routine"],
-        url: "/post.html?p=sleep-basics"
-      },
-      {
-        title: "Grounding in 60 Seconds",
-        date: "2026-03-07",
-        summary: "A quick grounding practice you can do anywhere when emotions spike.",
-        tags: ["panic","grounding","skills"],
-        url: "/journal-posts/grounding-60s.html"
-      }
-    ];
 
-    const q = document.getElementById("q");
-    const list = document.getElementById("list");
-    const count = document.getElementById("count");
-    const secretToken = document.getElementById("secretToken");
-    const secretLoginBtn = document.getElementById("secretLoginBtn");
-    const secretMsg = document.getElementById("secretMsg");
+  <footer>
+    <div class="wrap">
+      <div class="footGrid">
+        <div>
+          <b>Best Wellness Therapy</b><br/>
+          <span>Modern, calm, evidence-informed support.</span>
+          <div class="fine">This website is for informational purposes only and does not create a therapist-client relationship.</div>
+        </div>
+        <div>
+          <div><a href="services.html">Services</a> · <a href="resources.html">Resources</a> · <a href="index.html#faq">FAQ</a> · <a href="index.html#contact">Contact</a></div>
+          <div class="fine">© <span id="y"></span> Best Wellness Therapy · <a href="admin-login.html" style="color:#c8cdd6;">Admin</a></div>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-    function esc(s){
-      return String(s||"")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;");
-    }
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    const qEl    = document.getElementById("q");
+    const listEl = document.getElementById("list");
+    const countEl= document.getElementById("count");
+    let ALL = [];
+
+    function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
     function render(){
-      const keyword = (q.value||"").toLowerCase().trim();
-      let view = POSTS.slice();
+      const kw = qEl.value.toLowerCase().trim();
+      const view = kw
+        ? ALL.filter(p => (p.title+" "+p.summary+" "+(p.tags||[]).join(" ")).toLowerCase().includes(kw))
+        : ALL.slice();
 
-      if(keyword){
-        view = view.filter(x => {
-          const hay = (x.title + " " + x.summary + " " + (x.tags||[]).join(" ")).toLowerCase();
-          return hay.includes(keyword);
-        });
+      countEl.textContent = ALL.length ? `${view.length} of ${ALL.length} posts` : "";
+
+      if(!view.length){
+        listEl.innerHTML = `<div class="stateMsg">No posts found.</div>`;
+        return;
       }
 
-      count.textContent = `${view.length} / ${POSTS.length} posts`;
-      list.innerHTML = view.map(x => `
-        <a class="item" href="${esc(x.url)}">
-          <div class="title">${esc(x.title)}</div>
-          <div class="meta">${esc(x.date || "")}</div>
-          <div class="summary">${esc(x.summary || "")}</div>
-          <div class="tags">
-            ${(x.tags||[]).slice(0,10).map(t => `<span class="tag">${esc(t)}</span>`).join("")}
+      listEl.innerHTML = view.map(p => `
+        <a class="postItem" href="${esc(p.url)}">
+          <div class="postBody">
+            <h3>${esc(p.title)}</h3>
+            <div class="postMeta">${esc(p.date)}</div>
+            ${p.summary ? `<p class="postSummary">${esc(p.summary)}</p>` : ""}
+            ${p.tags?.length ? `<div class="postTags">${p.tags.map(t=>`<span class="postTag">${esc(t)}</span>`).join("")}</div>` : ""}
           </div>
+          <div class="postArrow">→</div>
         </a>
       `).join("");
     }
 
-    q.addEventListener("input", render);
-          render();
+    // Fetch posts.json from repo root
+    fetch("posts.json")
+      .then(r => { if(!r.ok) throw new Error("not found"); return r.json(); })
+      .then(data => {
+        // Sort newest first
+        ALL = data.sort((a,b) => (b.date||"").localeCompare(a.date||""));
+        render();
+      })
+      .catch(() => {
+        listEl.innerHTML = `<div class="stateMsg">Could not load posts. Make sure <code>posts.json</code> exists in your repo root.</div>`;
+      });
 
-    secretLoginBtn.addEventListener("click", async () => {
-      const token = (secretToken.value || "").trim();
-
-      if (!token) {
-        secretMsg.textContent = "Please enter your token.";
-        return;
-      }
-
-      secretMsg.textContent = "Checking...";
-
-      try {
-        const res = await fetch("/api/journal?admin=1", {
-          headers: {
-            "X-Journal-Token": token
-          }
-        });
-
-        if (res.ok) {
-          sessionStorage.setItem("journal_token", token);
-          secretMsg.textContent = "Login successful. Redirecting...";
-          window.location.href = "/journal-editor.html";
-        } else {
-          secretMsg.textContent = "Invalid token.";
-        }
-      } catch (err) {
-        secretMsg.textContent = "Connection error.";
-      }
-    });
-
-    secretToken.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        secretLoginBtn.click();
-      }
-    });
+    qEl.addEventListener("input", render);
   </script>
 </body>
 </html>
