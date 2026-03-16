@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Z5S 层级测评</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;background:#f5f4f0;min-height:100vh;color:#1a1a1a}
+.page{display:none}.page.active{display:block}
+.wrap{max-width:660px;margin:0 auto;padding:2rem 1.25rem}
+
+/* INTRO */
+.hero{background:linear-gradient(135deg,#0f1520,#1a2540);border-radius:16px;padding:2.5rem 2rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(127,119,221,.35),transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(32,96,176,.2),transparent 50%)}
+.hero-inner{position:relative;z-index:1}
+.hero .sub{font-size:12px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
+.hero h1{font-size:27px;font-weight:700;color:#fff;margin-bottom:.6rem;letter-spacing:-.3px;line-height:1.2}
+.hero p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.65}
+
+.info-card{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.info-row{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#555;margin-bottom:.65rem;line-height:1.55}
+.info-row:last-child{margin-bottom:0}
+.info-dot{width:6px;height:6px;border-radius:50%;background:#7F77DD;flex-shrink:0;margin-top:6px}
+
+/* levels legend */
+.levels-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.5rem}
+.level-pill{border-radius:10px;padding:.75rem 1rem;text-align:center}
+.level-pill .lv-icon{font-size:16px;margin-bottom:.3rem}
+.level-pill .lv-name{font-size:12px;font-weight:700;line-height:1.3}
+.level-pill .lv-desc{font-size:10.5px;opacity:.75;line-height:1.4;margin-top:2px}
+
+/* QUESTION PAGE */
+.prog-hero{background:linear-gradient(150deg,#0f1520,#1a2540);border-radius:14px;padding:1.5rem 1.75rem;margin-bottom:1.75rem;position:relative;overflow:hidden}
+.prog-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 30%,rgba(127,119,221,.3),transparent 55%)}
+.prog-inner{position:relative;z-index:1}
+.prog-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.07em;text-transform:uppercase;margin-bottom:1rem}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.prog-label{font-size:13px;font-weight:600;color:rgba(255,255,255,.45)}
+.prog-count{font-size:13px;font-weight:700;color:rgba(255,255,255,.9)}
+.prog-bar{height:4px;background:rgba(255,255,255,.15);border-radius:2px}
+.prog-fill{height:100%;background:rgba(255,255,255,.65);border-radius:2px;transition:width .35s ease}
+.sys-badge{display:inline-flex;align-items:center;gap:6px;margin-top:.85rem;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);font-size:12px;color:rgba(255,255,255,.6);font-weight:500}
+
+/* question card */
+.qcard{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.4rem 1.5rem;margin-bottom:.85rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.qscenario{font-size:11px;font-weight:700;color:#aaa;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.6rem}
+.qtext{font-size:15px;line-height:1.7;color:#1a1a1a;font-weight:500;margin-bottom:1.1rem}
+.opts-list{display:flex;flex-direction:column;gap:8px}
+.opt-btn{width:100%;text-align:left;background:#f9f8f6;border:1.5px solid #e8e6e0;border-radius:10px;padding:.85rem 1rem;cursor:pointer;font-size:14px;line-height:1.6;color:#444;transition:all .15s;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;display:flex;align-items:flex-start;gap:10px}
+.opt-btn:hover{border-color:#7F77DD;background:#EEEDFE;color:#3C3089}
+.opt-btn.sel{border-color:#534AB7;background:#534AB7;color:#fff;font-weight:500}
+.opt-btn.sel .opt-dot{background:rgba(255,255,255,.5)}
+.opt-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px}
+
+.btn-row{display:flex;gap:12px;margin-top:1.75rem;padding-bottom:2.5rem}
+.btnP{background:#534AB7;color:#fff;border:none;border-radius:10px;padding:.85rem 2rem;font-size:15px;font-weight:500;cursor:pointer;flex:1;transition:background .15s;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.btnP:hover{background:#3C3489}
+.btnP:disabled{opacity:.35;cursor:not-allowed}
+.btnS{background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.8rem 1.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.btnS:hover{background:#f5f4f0}
+.btnFull{width:100%;font-size:16px;padding:1rem}
+
+/* RESULTS */
+.rcard{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.4rem 1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-label{font-size:11px;color:#aaa;letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-bottom:1rem}
+
+/* overview grid */
+.overview-grid{display:flex;flex-direction:column;gap:10px}
+.ov-row{display:flex;align-items:center;gap:14px;padding:.9rem 1rem;border-radius:10px;border:1px solid #e8e6e0}
+.ov-icon{font-size:20px;flex-shrink:0;width:32px;text-align:center}
+.ov-sys{font-size:13px;font-weight:700;min-width:60px}
+.ov-bar-wrap{flex:1}
+.ov-bar-track{height:6px;background:#f0eeea;border-radius:3px;overflow:hidden;margin-bottom:4px}
+.ov-bar-fill{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.ov-level-label{font-size:11px;font-weight:700;letter-spacing:.04em}
+.ov-score{font-size:12px;color:#bbb;min-width:32px;text-align:right}
+
+/* detail block */
+.detail-block{border-radius:10px;padding:1.1rem 1.2rem;margin-bottom:.75rem;border:1.5px solid transparent}
+.det-head{display:flex;align-items:center;gap:10px;margin-bottom:.75rem}
+.det-level-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:5px;letter-spacing:.04em;text-transform:uppercase}
+.det-body{font-size:14px;line-height:1.8;color:#333}
+.det-body p{margin-bottom:.5rem}
+.det-body p:last-child{margin-bottom:0}
+.det-note{margin-top:.75rem;padding:.75rem 1rem;border-radius:8px;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.07);font-size:13px;line-height:1.65;color:#555}
+.det-note-label{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.3rem}
+
+@media(max-width:480px){
+  .wrap{padding:1rem .85rem}
+  .levels-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="p0" class="page active">
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="sub">Z5S Level Measure · V1</div>
+      <h1>系统运行层级测评</h1>
+      <p>了解你的五个人格系统<br>各自在哪个运行层级</p>
+    </div>
+  </div>
+
+  <div class="levels-row">
+    <div class="level-pill" style="background:#fce8e4">
+      <div class="lv-icon">🔴</div>
+      <div class="lv-name" style="color:#902010">反应层级</div>
+      <div class="lv-desc" style="color:#902010">系统自动运行<br>你被它带着走</div>
+    </div>
+    <div class="level-pill" style="background:#fdf0dc">
+      <div class="lv-icon">🟡</div>
+      <div class="lv-name" style="color:#8a4e08">整合层级</div>
+      <div class="lv-desc" style="color:#8a4e08">你察觉到系统<br>开始有选择空间</div>
+    </div>
+    <div class="level-pill" style="background:#eef6e6">
+      <div class="lv-icon">🟢</div>
+      <div class="lv-name" style="color:#2a5a14">转化层级</div>
+      <div class="lv-desc" style="color:#2a5a14">你主动指挥系统<br>能调用也能放下</div>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-row"><div class="info-dot"></div>共 <strong>20 道情境题</strong>，每题三个选项，约需 5 分钟</div>
+    <div class="info-row"><div class="info-dot"></div>选最像你真实反应的，不是最理想的</div>
+    <div class="info-row"><div class="info-dot"></div>结果显示你五个系统各自所在的层级</div>
+  </div>
+  <button class="btnP btnFull" onclick="goTo(1)">开始测评</button>
+</div>
+</div>
+
+<!-- QUESTIONS -->
+<div id="p1" class="page">
+<div class="wrap">
+  <div class="prog-hero">
+    <div class="prog-inner">
+      <div class="prog-badge">Z5S Level Measure</div>
+      <div class="prog-top">
+        <span class="prog-label">进度</span>
+        <span class="prog-count" id="qcount">0 / 20</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="qbar" style="width:0%"></div></div>
+      <div class="sys-badge" id="cur-sys">· · ·</div>
+    </div>
+  </div>
+  <div id="questions"></div>
+  <div class="btn-row">
+    <button class="btnS" onclick="goTo(0)">← 返回</button>
+    <button class="btnP" id="qnext" disabled onclick="showResults()">查看结果 →</button>
+  </div>
+</div>
+</div>
+
+<!-- RESULTS -->
+<div id="p2" class="page">
+<div class="wrap" id="results"></div>
+</div>
+
+<script>
+var SYS={
+  A:{zh:'解释系统',name:'Interpretation',color:'#3e7c22',bg:'#eef6e6',tc:'#2a5a14',icon:'🔍'},
+  B:{zh:'执行系统',name:'Execution',color:'#2060b0',bg:'#e4eef8',tc:'#144080',icon:'⚡'},
+  C:{zh:'情感系统',name:'Emotion',color:'#c07010',bg:'#fdf0dc',tc:'#8a4e08',icon:'💛'},
+  D:{zh:'认同系统',name:'Identity',color:'#7050c8',bg:'#eeebfc',tc:'#4a34a0',icon:'🪞'},
+  E:{zh:'游戏系统',name:'Play',color:'#c03820',bg:'#fce8e4',tc:'#902010',icon:'🎮'},
+};
+
+// Level colors
+var LV={
+  reactive:{label:'反应层级',short:'反应',color:'#c03820',bg:'#fce8e4',tc:'#902010'},
+  integrative:{label:'整合层级',short:'整合',color:'#c07010',bg:'#fdf0dc',tc:'#8a4e08'},
+  transformational:{label:'转化层级',short:'转化',color:'#3e7c22',bg:'#eef6e6',tc:'#2a5a14'},
+};
+
+// 4 questions per system, 3 options each (r/i/t)
+var QS=[
+  // ── A 解释系统 ──────────────────────────────────────────
+  {sys:'A',scenario:'解释系统',q:'有人说了一句你认为不对的话：',
+   r:'你已经在反驳了，说完才发现对方脸色变了',
+   i:'你憋住了，但脑子一直在转，还是很难放下',
+   t:'你听完了，觉得没必要说，等了个更合适的时机再提'},
+
+  {sys:'A',scenario:'解释系统',q:'一件事出了问题：',
+   r:'你反复想了一整晚，也没真的想出什么，就是停不下来',
+   i:'你发现自己一直在转，提醒了自己几次，最后睡前才勉强放下',
+   t:'你问了自己：我现在理解的够用了吗？够用了，然后停下来'},
+
+  {sys:'A',scenario:'解释系统',q:'和人起了误解，对方现在情绪很差：',
+   r:'你还是把自己的逻辑说了一遍，对方更生气了',
+   i:'你感觉现在说不合适，但还是说了一点',
+   t:'你没有解释，只是先陪着，等情绪平了再谈'},
+
+  {sys:'A',scenario:'解释系统',q:'你感到焦虑，但说不清楚为什么：',
+   r:'越想越焦虑，脑子停不下来，反而更难受',
+   i:'你知道再想也没用，但就是停不下来',
+   t:'你问自己：现在分析能帮到我吗？然后放弃找原因，去做了别的事'},
+
+  // ── B 执行系统 ──────────────────────────────────────────
+  {sys:'B',scenario:'执行系统',q:'事情乱成一团：',
+   r:'你已经在动了，也不确定方向对不对，但不动更难受',
+   i:'你忍住了没动，但坐在那里非常不舒服',
+   t:'你先停了两分钟，想清楚了再动，这个停顿是你主动做的决定'},
+
+  {sys:'B',scenario:'执行系统',q:'团队还在讨论，你已经知道怎么做了：',
+   r:'你说"我们直接做吧"，有点不耐烦',
+   i:'你忍着没说，但心里已经在催了',
+   t:'你判断他们的讨论有价值，真的在听，不只是等'},
+
+  {sys:'B',scenario:'执行系统',q:'压力很大，事情堆成山：',
+   r:'你一头扎进去，做到精疲力竭，完全没注意到自己已经很累了',
+   i:'你强迫自己停下来，但停下来之后坐在那里也不知道干嘛',
+   t:'你停下来，告诉自己现在停下来是为了之后做得更好，然后真的去休息了'},
+
+  {sys:'B',scenario:'执行系统',q:'一件事进展很慢：',
+   r:'你已经在催了，甚至插手去做，事后才意识到对方其实没问题',
+   i:'你感到焦躁，忍住没催，但那个焦虑一直在',
+   t:'你先问自己：是真的需要推，还是我只是不舒服？然后再决定说不说'},
+
+  // ── C 情感系统 ──────────────────────────────────────────
+  {sys:'C',scenario:'情感系统',q:'走进一个气氛很沉的房间：',
+   r:'你的心情已经变了，自己也不知道什么时候开始的',
+   i:'你感觉到气氛在拉你，开始有意识地提醒自己不要被带走',
+   t:'你感受到了，但它停在"信息"的位置，你决定要不要让它影响你'},
+
+  {sys:'C',scenario:'情感系统',q:'有人批评你：',
+   r:'你的脸色已经变了，或者已经说了什么，后来才发现反应有点大',
+   i:'你没有表现出来，但心里还是很难受，一直在想',
+   t:'你感受到了，然后问自己：这个情绪在告诉我什么？用它来理解这件事'},
+
+  {sys:'C',scenario:'情感系统',q:'朋友跟你说了一件很难受的事：',
+   r:'你比他还难受，回家之后心情一直不好',
+   i:'你陪着他，但你知道自己被影响了，需要一些时间复原',
+   t:'你能真的感受到他的难受，同时你自己是稳的，两件事同时存在'},
+
+  {sys:'C',scenario:'情感系统',q:'需要快速做一个决定，但你心里很不舒服：',
+   r:'你按照感受做了，后来不确定自己决定对不对',
+   i:'你试图先把情绪放一边，但它一直在干扰你',
+   t:'你问自己：这个不舒服在提醒我什么？然后带着这个信息做决定'},
+
+  // ── D 认同系统 ──────────────────────────────────────────
+  {sys:'D',scenario:'认同系统',q:'别人说你做的一件事不好：',
+   r:'你觉得他在说你这个人有问题，防御或关掉',
+   i:'你知道他只是在说那件事，但心里还是觉得被戳到了',
+   t:'你听进去了他说的内容，而且能把它和你是谁这件事完全分开'},
+
+  {sys:'D',scenario:'认同系统',q:'被要求做一件感觉"不像自己"的事：',
+   r:'你立刻抗拒，不太能解释为什么，就是不对',
+   i:'你感到不适，但停下来问了自己：这真的违背我的价值观，还是只是陌生？',
+   t:'你能分清楚"这不是我的风格"和"这违背我的原则"，前者可以试，后者才是底线'},
+
+  {sys:'D',scenario:'认同系统',q:'你在某件事上坚持了很久，现在有点怀疑：',
+   r:'你开始觉得自己可能根本就是错的人，方向感全没了',
+   i:'你感到动摇，但知道这不等于你整个人出了问题，慢慢稳下来',
+   t:'你重新评估这件事，不管继续还是放弃，都不影响你知道自己是谁'},
+
+  {sys:'D',scenario:'认同系统',q:'面对一件有点违背习惯但不算违背原则的事：',
+   r:'你拒绝了，感觉不对，但说不清楚为什么',
+   i:'你犹豫了很久，内耗了一番，才勉强做了',
+   t:'你做了，因为你清楚这只是不习惯，不是不对，两件事你已经分得很清楚'},
+
+  // ── E 游戏系统 ──────────────────────────────────────────
+  {sys:'E',scenario:'游戏系统',q:'一件重要的事开始变得重复：',
+   r:'你已经开始找别的事做了，原来那件事就放在那里',
+   i:'你发现自己在分心，把自己拉回来，但很费力',
+   t:'你问自己：这里还有我没探索到的深度吗？然后决定留还是离开'},
+
+  {sys:'E',scenario:'游戏系统',q:'事情很多很重，你想去做点轻松的：',
+   r:'你去了，做完才发现什么都没解决，还多了一层愧疚',
+   i:'你想去，但提醒自己这可能是逃避，困在要不要的纠结里',
+   t:'你问自己：我现在需要真正切换状态，还是只是不想面对？然后做决定'},
+
+  {sys:'E',scenario:'游戏系统',q:'一件你开始做的事卡住了很久，你有个新想法：',
+   r:'你跳过去了，旧的那件事还在那里',
+   i:'你注意到自己想跳，提醒自己先把这件事做完，靠意志力撑着',
+   t:'你评估了：这件事值不值得继续，新的那个是不是真的更重要？然后有意识地决定'},
+
+  {sys:'E',scenario:'游戏系统',q:'生活进入一段很稳定的时期：',
+   r:'你开始觉得无聊，自动去找变化，有时候打破了本来运作好的事',
+   i:'你感到躁动，知道自己在找新刺激，开始评估是否真的需要改变',
+   t:'你在稳定里找到了往深处走的乐趣，不需要靠新鲜感才能有动力'},
+];
+
+// Detailed interpretations per system per level
+var DETAIL={
+  A:{
+    reactive:{
+      body:'你的解释系统目前在反应层级运行。当事情发生时，分析会自动启动——你通常在意识到之前就已经在解释、分析或寻找原因了。这不是坏事，解释系统的自动运行说明它是你处理世界的主要方式。',
+      note:'下一步：开始注意自己什么时候"已经在分析了"。不需要停止，只需要能看见它在发生。'
+    },
+    integrative:{
+      body:'你的解释系统处于整合层级。你能察觉到自己的分析模式在启动，也开始有能力在某些情况下调节它——虽然系统还是会跑，但你和它之间有了一点距离。',
+      note:'下一步：练习在察觉之后多问一步："现在分析这件事是有用的吗？"让觉察变成选择的入口。'
+    },
+    transformational:{
+      body:'你的解释系统处于转化层级。你能主动决定什么时候启动、什么时候停止分析，也能在解释系统不适用的情境中切换到其他方式。理解对你来说是工具，不是强迫症。',
+      note:'值得注意的是：在关系场景中，有时候放弃解释、直接感受反而更有效。你有这个能力。'
+    }
+  },
+  B:{
+    reactive:{
+      body:'你的执行系统目前在反应层级运行。面对问题或压力时，行动会自动启动——推进是你的默认反应，有时候动起来之后才知道方向对不对。这让你有很强的行动力，但也可能在错误的方向上快速前进。',
+      note:'下一步：在开始行动之前，给自己一个很短的暂停——哪怕只是问一句"方向对吗"。'
+    },
+    integrative:{
+      body:'你的执行系统处于整合层级。你能察觉到自己的推进冲动，也能在一定程度上控制它——你不会每次都立刻行动，但压住执行冲动对你来说还是需要努力的。',
+      note:'下一步：区分"我需要行动"和"我需要感觉到在行动"——这两件事不总是一样的。'
+    },
+    transformational:{
+      body:'你的执行系统处于转化层级。你能主动决定什么时候推进、什么时候等待，也能在需要时关闭执行模式，切换到理解或感受。高效对你来说不等于一直在动。',
+      note:'值得注意的是：在亲密关系或创意场景中，主动降低执行驱动往往能带来意想不到的空间。'
+    }
+  },
+  C:{
+    reactive:{
+      body:'你的情感系统目前在反应层级运行。情绪会自动响应环境和他人——你通常在意识到之前就已经被带动了。这让你有很高的情感感知力，但也意味着情绪有时候会在你还没准备好的情况下驱动你的反应。',
+      note:'下一步：开始注意"我什么时候已经被带进情绪了"。不需要阻止，只需要能看见它。'
+    },
+    integrative:{
+      body:'你的情感系统处于整合层级。你能感受到情绪，也能在大多数情况下不让它直接控制你的行为——你和情绪之间有了空间，虽然有时候它还是会溢出来。',
+      note:'下一步：练习把情绪当成信息来读："这个感受在告诉我什么？"让情绪成为你的资源，不只是需要管理的东西。'
+    },
+    transformational:{
+      body:'你的情感系统处于转化层级。你能深度感受情绪，同时保持对它的觉察和选择——情绪是你理解世界的重要工具，但不会自动控制你的行为。你可以选择在什么情境下让情绪引导你。',
+      note:'值得注意的是：在需要快速决策的高压场景中，有意识地区分"情绪信号"和"情绪干扰"，是让情感系统保持锋利的关键。'
+    }
+  },
+  D:{
+    reactive:{
+      body:'你的认同系统目前在反应层级运行。当价值观或自我认知受到挑战时，防御或收缩会自动触发——外部的否定容易直接等于"我这个人有问题"，这个连接在你能评估之前就发生了。',
+      note:'下一步：开始注意"这件事被否定"和"我这个人被否定"这两种感受有什么不同。'
+    },
+    integrative:{
+      body:'你的认同系统处于整合层级。你能区分事件评价和自我价值，也能在被触碰的时候给自己一点缓冲——虽然冲击还是会有，但你开始能在情绪里站稳了。',
+      note:'下一步：练习在被否定时多问自己一步："他在否定的是什么？这件事和我是谁有关吗？"'
+    },
+    transformational:{
+      body:'你的认同系统处于转化层级。你有稳定的内在参照，不容易被外部评价带偏——你知道原则是什么，也知道偏好和原则的区别。外部的变化不会动摇你知道自己是谁这件事。',
+      note:'值得注意的是：内在稳定不等于封闭——保持"我是谁可以更新"的弹性，是让认同系统真正有力量的关键。'
+    }
+  },
+  E:{
+    reactive:{
+      body:'你的游戏系统目前在反应层级运行。新鲜感和探索欲会自动触发——无聊或压力来了，切换状态或寻找刺激几乎是自动发生的，有时候是在帮你，有时候只是在逃跑，很难区分。',
+      note:'下一步：下次想切换状态的时候，先停一秒，问自己：我是真的需要切换，还是不想待在这里？'
+    },
+    integrative:{
+      body:'你的游戏系统处于整合层级。你能察觉到自己的探索冲动，也开始能区分"健康的切换"和"逃避"——虽然这个区分有时候还是会消耗你，但你已经在做了。',
+      note:'下一步：找一件值得深耕的事，在它变得无聊之后再留一会儿——深度也是一种探索。'
+    },
+    transformational:{
+      body:'你的游戏系统处于转化层级。你能主动调用和关闭探索模式，也不需要靠新鲜感维持动力——你可以在稳定中找到深度的乐趣，也可以在卡住的时候有意识地切换视角。',
+      note:'值得注意的是：转化层级的游戏系统最强大的地方是"能在任何情境里找到可玩的东西"——包括在沉重的、重复的、无聊的情境里。'
+    }
+  }
+};
+
+var ans={};
+
+// Shuffle questions
+(function(){
+  // Shuffle within each system group to preserve sys grouping, then shuffle groups
+  var groups={A:[],B:[],C:[],D:[],E:[]};
+  QS.forEach(function(q){groups[q.sys].push(q);});
+  // Shuffle each group
+  Object.keys(groups).forEach(function(k){
+    var g=groups[k];
+    for(var i=g.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=g[i];g[i]=g[j];g[j]=t;}
+  });
+  // Rebuild QS with shuffled groups order
+  var keys=Object.keys(groups);
+  for(var i=keys.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=keys[i];keys[i]=keys[j];keys[j]=t;}
+  var newQS=[];
+  keys.forEach(function(k){groups[k].forEach(function(q){newQS.push(q);});});
+  QS.length=0;
+  newQS.forEach(function(q){QS.push(q);});
+})();
+
+function buildQuestions(){
+  var c=document.getElementById('questions');
+  c.innerHTML='';
+  QS.forEach(function(q,i){
+    var s=SYS[q.sys];
+    // randomize option order but track which is r/i/t
+    var opts=[
+      {level:'reactive',text:q.r},
+      {level:'integrative',text:q.i},
+      {level:'transformational',text:q.t}
+    ];
+    // shuffle options
+    for(var x=opts.length-1;x>0;x--){var y=Math.floor(Math.random()*(x+1));var tmp=opts[x];opts[x]=opts[y];opts[y]=tmp;}
+
+    var optsHtml=opts.map(function(o,j){
+      return '<button class="opt-btn" id="q'+i+'_'+j+'" onclick="setAns('+i+','+j+',\''+o.level+'\')">'
+        +'<span class="opt-dot" style="background:#ddd;margin-top:7px"></span>'
+        +'<span>'+o.text+'</span>'
+        +'</button>';
+    }).join('');
+
+    c.innerHTML+='<div class="qcard" data-qi="'+i+'">'
+      +'<div class="qscenario">'+s.icon+' '+s.zh+'</div>'
+      +'<div class="qtext">'+q.q+'</div>'
+      +'<div class="opts-list">'+optsHtml+'</div>'
+      +'</div>';
+  });
+}
+
+var optionMap={};// qi -> [{level,text}] for rendering
+
+function setAns(qi,optIdx,level){
+  // deselect all in this question
+  for(var j=0;j<3;j++){
+    var b=document.getElementById('q'+qi+'_'+j);
+    if(b){b.className='opt-btn';b.querySelector('.opt-dot').style.background='#ddd';}
+  }
+  var sel=document.getElementById('q'+qi+'_'+optIdx);
+  if(sel){
+    sel.className='opt-btn sel';
+    sel.querySelector('.opt-dot').style.background='rgba(255,255,255,.5)';
+  }
+  ans[qi]=level;
+  var done=Object.keys(ans).length;
+  document.getElementById('qcount').textContent=done+' / 20';
+  document.getElementById('qbar').style.width=(done/20*100)+'%';
+  // Update current system badge
+  var curSys=QS[qi]?SYS[QS[qi].sys]:null;
+  if(curSys) document.getElementById('cur-sys').textContent=curSys.icon+' '+curSys.zh;
+  var btn=document.getElementById('qnext');
+  btn.disabled=done<20;
+  btn.textContent=done<20?'还有 '+(20-done)+' 题未选':'查看结果 →';
+}
+
+function goTo(n){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('p'+n).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showResults(){
+  // Tally scores per system per level
+  var tally={};
+  ['A','B','C','D','E'].forEach(function(k){
+    tally[k]={reactive:0,integrative:0,transformational:0};
+  });
+  QS.forEach(function(q,i){
+    if(ans[i]) tally[q.sys][ans[i]]++;
+  });
+
+  // Determine level per system (highest count wins; tie -> lower level)
+  function getLevel(k){
+    var t=tally[k];
+    if(t.transformational>t.integrative&&t.transformational>t.reactive) return 'transformational';
+    if(t.integrative>t.reactive) return 'integrative';
+    if(t.reactive>=t.integrative&&t.reactive>=t.transformational) return 'reactive';
+    return 'integrative';
+  }
+
+  var levels={};
+  ['A','B','C','D','E'].forEach(function(k){levels[k]=getLevel(k);});
+
+  // Overview bar: score as % of 4 questions
+  var ovHtml=['A','B','C','D','E'].map(function(k){
+    var s=SYS[k];
+    var lv=LV[levels[k]];
+    var t=tally[k];
+    // bar width based on level: reactive=33, integrative=66, transformational=100
+    var bw={reactive:33,integrative:66,transformational:100}[levels[k]];
+    return '<div class="ov-row" style="background:'+s.bg+'">'
+      +'<div class="ov-icon">'+s.icon+'</div>'
+      +'<div class="ov-sys" style="color:'+s.tc+'">'+s.zh+'</div>'
+      +'<div class="ov-bar-wrap">'
+      +'<div class="ov-bar-track"><div class="ov-bar-fill" data-w="'+bw+'" style="background:'+lv.color+'"></div></div>'
+      +'<div class="ov-level-label" style="color:'+lv.color+'">'+lv.label+'</div>'
+      +'</div>'
+      +'<div class="ov-score" style="color:'+s.tc+'">'+t[levels[k]]+'/4</div>'
+      +'</div>';
+  }).join('');
+
+  // Detailed blocks
+  var detHtml=['A','B','C','D','E'].map(function(k){
+    var s=SYS[k];
+    var lv=levels[k];
+    var lvDef=LV[lv];
+    var d=DETAIL[k][lv];
+    var t=tally[k];
+    return '<div class="detail-block" style="background:'+s.bg+';border-color:'+s.color+'44">'
+      +'<div class="det-head">'
+      +'<span style="font-size:18px">'+s.icon+'</span>'
+      +'<span style="font-size:14px;font-weight:700;color:'+s.tc+'">'+s.zh+'</span>'
+      +'<span class="det-level-badge" style="background:'+lvDef.color+';color:#fff">'+lvDef.label+'</span>'
+      +'<span style="font-size:11px;color:'+s.tc+';opacity:.6;margin-left:auto">'+t[lv]+'/4 题</span>'
+      +'</div>'
+      +'<div class="det-body" style="color:'+s.tc+'"><p>'+d.body+'</p></div>'
+      +'<div class="det-note"><div class="det-note-label" style="color:'+s.tc+'">下一步</div>'+d.note+'</div>'
+      +'</div>';
+  }).join('');
+
+  document.getElementById('results').innerHTML=
+    '<div style="border-bottom:1px solid #f0eeea;padding-bottom:1.5rem;margin-bottom:1.5rem">'
+    +'<div style="font-size:11px;color:#aaa;letter-spacing:.07em;text-transform:uppercase;font-weight:600;margin-bottom:.35rem">Z5S Level Measure · V1 结果</div>'
+    +'<h2 style="font-size:24px;font-weight:700;margin-bottom:.4rem">你的系统层级图谱</h2>'
+    +'<p style="font-size:13px;color:#888">五个系统各自的运行层级</p>'
+    +'</div>'
+
+    +'<div class="rcard"><div class="card-label">层级总览</div>'
+    +'<div class="overview-grid">'+ovHtml+'</div></div>'
+
+    +'<div class="rcard"><div class="card-label">详细解读</div>'+detHtml+'</div>'
+
+    +'<div style="text-align:center;margin-top:1.5rem;padding-bottom:2.5rem">'
+    +'<button onclick="resetAll()" style="background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.85rem 2.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,\'PingFang SC\',\'Hiragino Sans GB\',sans-serif">重新测评</button>'
+    +'</div>';
+
+  goTo(2);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    document.querySelectorAll('.ov-bar-fill[data-w]').forEach(function(b){b.style.width=b.dataset.w+'%';});
+  });});
+}
+
+function resetAll(){
+  Object.keys(ans).forEach(function(k){delete ans[k];});
+  buildQuestions();
+  document.getElementById('qcount').textContent='0 / 20';
+  document.getElementById('qbar').style.width='0%';
+  document.getElementById('qnext').disabled=true;
+  document.getElementById('qnext').textContent='还有 20 题未选';
+  document.getElementById('cur-sys').textContent='· · ·';
+  goTo(0);
+}
+
+buildQuestions();
+</script>
+</body>
+</html>
