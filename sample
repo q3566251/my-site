@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>应对系统测评</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB',sans-serif;background:#f5f4f0;min-height:100vh}
+  .quiz-wrap{max-width:700px;margin:0 auto;padding:2rem 1.25rem}
+  .section-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:1rem}
+  .tag-a{background:#EAF3DE;color:#3B6D11}
+  .tag-b{background:#E6F1FB;color:#185FA5}
+  .tag-c{background:#FAEEDA;color:#854F0B}
+  .tag-d{background:#EEEDFE;color:#534AB7}
+  .tag-e{background:#FAECE7;color:#993C1D}
+  .q-card{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .q-text{font-size:15px;color:#1a1a1a;line-height:1.7;margin-bottom:1rem}
+  .likert-row{display:flex;align-items:center;gap:10px;justify-content:space-between}
+  .likert-label{font-size:11px;color:#888;white-space:nowrap}
+  .likert-btns{display:flex;gap:8px}
+  .likert-btn{width:38px;height:38px;border-radius:50%;border:1.5px solid #ddd;background:#fff;cursor:pointer;font-size:14px;font-weight:500;color:#888;transition:all .15s;display:flex;align-items:center;justify-content:center}
+  .likert-btn:hover{border-color:#7F77DD;color:#7F77DD;background:#EEEDFE}
+  .likert-btn.sel{background:#7F77DD;border-color:#7F77DD;color:#fff}
+  .scenario-card{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .scenario-title{font-size:12px;font-weight:600;color:#888;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.75rem}
+  .scenario-q{font-size:15px;line-height:1.7;color:#1a1a1a;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid #f0eeea}
+  .opt-btn{width:100%;text-align:left;background:#fff;border:1px solid #e0deda;border-radius:10px;padding:.8rem 1rem;margin-bottom:.5rem;cursor:pointer;font-size:14px;line-height:1.6;color:#333;transition:all .15s}
+  .opt-btn:hover{border-color:#7F77DD;background:#EEEDFE}
+  .opt-btn.sel{border-color:#7F77DD;background:#EEEDFE;color:#3C3489;font-weight:500}
+  .opt-letter{font-weight:700;margin-right:.6rem;color:#7F77DD}
+  .btn-main{background:#534AB7;color:#fff;border:none;border-radius:10px;padding:.85rem 2rem;font-size:15px;font-weight:500;cursor:pointer;transition:background .15s}
+  .btn-main:hover{background:#3C3489}
+  .btn-main:disabled{opacity:.4;cursor:not-allowed}
+  .btn-sec{background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.8rem 1.5rem;font-size:14px;cursor:pointer;transition:all .15s}
+  .btn-sec:hover{background:#f5f4f0}
+  .progress-bar{height:5px;background:#e8e6e0;border-radius:3px;margin-bottom:2rem}
+  .progress-fill{height:100%;background:#7F77DD;border-radius:3px;transition:width .3s}
+  .result-card{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .system-bar{margin-bottom:.9rem}
+  .bar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+  .bar-name{font-size:13px;font-weight:600;color:#333}
+  .bar-pct{font-size:13px;color:#888;font-weight:500}
+  .bar-track{height:8px;background:#f0eeea;border-radius:4px;overflow:hidden}
+  .ai-feedback{background:#fafaf8;border-radius:10px;padding:1.25rem;margin-top:1rem;font-size:14.5px;line-height:1.85;color:#2a2a2a;white-space:pre-wrap;border:1px solid #eeebe5}
+  .loading-dots span{animation:blink 1.2s infinite;opacity:0}
+  .loading-dots span:nth-child(2){animation-delay:.25s}
+  .loading-dots span:nth-child(3){animation-delay:.5s}
+  @keyframes blink{0%,100%{opacity:0}50%{opacity:1}}
+  .chip{display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-right:6px;margin-bottom:4px}
+  .intro-hero{background:linear-gradient(135deg,#EEEDFE 0%,#E6F1FB 100%);border-radius:16px;padding:2rem;margin-bottom:2rem;text-align:center}
+  .system-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+  .system-grid-item{border-radius:10px;padding:.8rem 1rem}
+  @media(max-width:480px){
+    .likert-btns{gap:5px}
+    .likert-btn{width:34px;height:34px;font-size:13px}
+    .quiz-wrap{padding:1rem .75rem}
+  }
+</style>
+</head>
+<body>
+<div id="app-root"></div>
+<script>
+const {useState,useEffect,useRef,useCallback}=React;
+
+const SYSTEMS={
+  A:{name:'解释系统',en:'Interpretation',color:'#639922',bg:'#EAF3DE',textColor:'#3B6D11',desc:'先理解、分析、建构意义'},
+  B:{name:'执行系统',en:'Execution',color:'#378ADD',bg:'#E6F1FB',textColor:'#185FA5',desc:'先推进、先处理、先恢复控制感'},
+  C:{name:'情绪系统',en:'Emotion',color:'#EF9F27',bg:'#FAEEDA',textColor:'#854F0B',desc:'先感受、先觉察、先处理情绪连接'},
+  D:{name:'认同系统',en:'Identity',color:'#7F77DD',bg:'#EEEDFE',textColor:'#534AB7',desc:'先回到"我是谁、我值不值"'},
+  E:{name:'游戏系统',en:'Play',color:'#D85A30',bg:'#FAECE7',textColor:'#993C1D',desc:'靠灵活、创意、轻盈感恢复生命力'},
+};
+
+const P1=[
+  {sys:'A',text:'当我情绪不好时，我会想先弄清楚到底发生了什么。'},
+  {sys:'A',text:'我常会反复分析别人为什么那样说或那样做。'},
+  {sys:'A',text:'只要一件事还没想明白，我就很难真正放下。'},
+  {sys:'A',text:'我习惯用逻辑、概念或框架来整理自己的痛苦。'},
+  {sys:'B',text:'当我状态不好时，立刻做点什么通常比一直想更有效。'},
+  {sys:'B',text:'我习惯把复杂问题拆成步骤，再一个个解决。'},
+  {sys:'B',text:'即使情绪还在，我也会优先把事情往前推进。'},
+  {sys:'B',text:'当局面混乱时，我会本能地想重新建立秩序和掌控。'},
+  {sys:'C',text:'我能较快察觉到自己情绪上的细微变化。'},
+  {sys:'C',text:'当我难受时，我需要先承认自己真的在难受。'},
+  {sys:'C',text:'被理解、被共情，会明显帮助我稳定下来。'},
+  {sys:'C',text:'别人的情绪状态往往会比较明显地影响我。'},
+  {sys:'D',text:'遇到挫折时，我很容易想到这是否影响了我的价值感。'},
+  {sys:'D',text:'我做决定时，很在意这是否符合我的原则和边界。'},
+  {sys:'D',text:'一旦被轻视、被误解或被否定，我会很难轻易放下。'},
+  {sys:'D',text:'当我迷茫时，我需要重新确认自己是谁、想成为什么样的人。'},
+  {sys:'E',text:'幽默、创意或换个角度，常能帮我减轻压力。'},
+  {sys:'E',text:'当我被困住时，探索新方法会让我重新有能量。'},
+  {sys:'E',text:'我通常能在困难里找到一点趣味、可能性或新玩法。'},
+  {sys:'E',text:'对我来说，自由感和灵活感会明显提升我的状态。'},
+];
+
+const P2=[
+  {title:'情境1：被批评',q:'一个重要的人批评你，说你做得不够好。你的第一反应更像：',opts:[
+    {sys:'A',text:'我会反复回想细节，分析对方为什么这么说。'},
+    {sys:'B',text:'我会立刻想怎么改、怎么补救、怎么把结果拉回来。'},
+    {sys:'C',text:'我会先感到受伤、委屈，需要先被理解或安抚。'},
+    {sys:'D',text:'我会觉得自己的价值或被尊重感被碰到了。'},
+    {sys:'E',text:'我会试着换个角度、缓冲冲击，让自己别一下子垮掉。'},
+  ]},
+  {title:'情境2：被忽视',q:'对方明显冷淡，或者已读不回。你的第一反应更像：',opts:[
+    {sys:'A',text:'我会分析对方到底在想什么，这段关系出了什么问题。'},
+    {sys:'B',text:'我会主动推进，比如直接发消息、约时间、解决问题。'},
+    {sys:'C',text:'我会先感到难过或不安，想确认情感连接。'},
+    {sys:'D',text:'我会觉得自己被轻视了，开始重新评估这段关系值不值得。'},
+    {sys:'E',text:'我会先转移一下状态，或者用更轻松的方式去试探。'},
+  ]},
+  {title:'情境3：失败',q:'你很投入的一件事失败了。你的第一反应更像：',opts:[
+    {sys:'A',text:'我会先复盘原因，想搞懂失败是怎么形成的。'},
+    {sys:'B',text:'我会尽快制定下一步计划，把局面重新拉起来。'},
+    {sys:'C',text:'我会先承认自己的失落，允许自己难过一下。'},
+    {sys:'D',text:'我会开始怀疑自己是不是不够好、是不是不行。'},
+    {sys:'E',text:'我会想换条路、换种打法，重新找回一点活力。'},
+  ]},
+  {title:'情境4：冲突升级',q:'争吵升温，对方开始变得攻击。你的第一反应更像：',opts:[
+    {sys:'A',text:'我会试图澄清逻辑、讲清楚事实和误解。'},
+    {sys:'B',text:'我会想控制局面，尽快把冲突拉回可处理状态。'},
+    {sys:'C',text:'我会明显感到情绪冲击，需要先稳定自己。'},
+    {sys:'D',text:'我会很在意边界和尊重，可能迅速冷下来并拉开距离。'},
+    {sys:'E',text:'我会尝试转场、降温，避免关系完全卡死。'},
+  ]},
+  {title:'情境5：羞耻感',q:'你突然觉得自己很差、不值得。你的第一反应更像：',opts:[
+    {sys:'A',text:'我会想理解自己为什么会陷入这种感觉。'},
+    {sys:'B',text:'我会逼自己做点事，证明自己不是废物。'},
+    {sys:'C',text:'我会想被接住、被理解，或者先自我安抚。'},
+    {sys:'D',text:'我会强烈感觉自己的核心价值被击中了。'},
+    {sys:'E',text:'我会试图用更轻的方式和自己相处，不让羞耻彻底吞掉我。'},
+  ]},
+  {title:'情境6：失控感',q:'你感觉事情快失控了。你的第一反应更像：',opts:[
+    {sys:'A',text:'我会快速整理信息，想建立一个能解释局面的模型。'},
+    {sys:'B',text:'我会立刻排序优先级，开始做事，把控制感拿回来。'},
+    {sys:'C',text:'我会先关注身体和情绪，想办法把强度降下来。'},
+    {sys:'D',text:'我会回到原则、定位或价值上，提醒自己不能乱掉。'},
+    {sys:'E',text:'我会通过走动、音乐、转换状态等方式让自己重新灵活起来。'},
+  ]},
+];
+
+// ─── Intro ───────────────────────────────────────────────
+function Intro({onStart}){
+  return(
+    <div className="quiz-wrap">
+      <div className="intro-hero">
+        <div style={{fontSize:40,marginBottom:'.75rem'}}>🧭</div>
+        <h1 style={{fontSize:26,fontWeight:700,color:'#2a2060',marginBottom:'.6rem'}}>应对系统测评</h1>
+        <p style={{fontSize:15,color:'#534AB7',lineHeight:1.6}}>了解你在日常和压力下，依赖哪种内在系统来应对挑战</p>
+      </div>
+      <div className="system-grid">
+        {Object.entries(SYSTEMS).map(([k,s])=>(
+          <div key={k} className="system-grid-item" style={{background:s.bg}}>
+            <div style={{fontSize:13,fontWeight:600,color:s.textColor,marginBottom:3}}>{s.name}</div>
+            <div style={{fontSize:11,color:s.textColor,opacity:.8,lineHeight:1.4}}>{s.desc}</div>
+          </div>
+        ))}
+        <div className="system-grid-item" style={{background:'#f5f4f0',gridColumn:'span 2',textAlign:'center'}}>
+          <div style={{fontSize:13,color:'#666',lineHeight:1.5}}>共 <strong>26 道题</strong>，约需 <strong>5 分钟</strong>，完成后 AI 自动生成个性化反馈</div>
+        </div>
+      </div>
+      <p style={{fontSize:12.5,color:'#999',textAlign:'center',marginBottom:'1.5rem',lineHeight:1.6}}>请根据真实感受作答，选最像你的，没有对错之分</p>
+      <button className="btn-main" onClick={onStart} style={{width:'100%',fontSize:16,padding:'1rem'}}>开始测评</button>
+    </div>
+  );
+}
+
+// ─── Part 1 ───────────────────────────────────────────────
+function Part1({answers,setAnswers,onNext,onBack}){
+  const allDone=P1.every((_,i)=>answers[i]!==undefined);
+  const tagClass={A:'tag-a',B:'tag-b',C:'tag-c',D:'tag-d',E:'tag-e'};
+  const sysLabels={A:'A · 解释系统',B:'B · 执行系统',C:'C · 情绪系统',D:'D · 认同系统',E:'E · 游戏系统'};
+  const done=P1.filter((_,i)=>answers[i]!==undefined).length;
+  return(
+    <div className="quiz-wrap">
+      <div style={{marginBottom:'1.5rem'}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'.5rem'}}>
+          <div style={{fontSize:13,fontWeight:600,color:'#666'}}>第一部分：日常系统倾向</div>
+          <div style={{fontSize:13,color:'#7F77DD',fontWeight:600}}>{done}/20</div>
+        </div>
+        <div className="progress-bar"><div className="progress-fill" style={{width:`${(done/20)*100}%`}}/></div>
+        <p style={{fontSize:13,color:'#888',lineHeight:1.6}}>请用 1–5 分评价每句话符合你的程度<br/><span style={{color:'#aaa'}}>1 = 完全不像我，5 = 非常像我</span></p>
+      </div>
+      {P1.map((q,i)=>(
+        <div key={i} className="q-card">
+          <div style={{display:'flex',alignItems:'flex-start',gap:12}}>
+            <span style={{fontSize:12,color:'#bbb',minWidth:22,paddingTop:3,fontWeight:500}}>{i+1}</span>
+            <div style={{flex:1}}>
+              <div className={`section-tag ${tagClass[q.sys]}`}>{sysLabels[q.sys]}</div>
+              <div className="q-text">{q.text}</div>
+              <div className="likert-row">
+                <span className="likert-label">完全不像</span>
+                <div className="likert-btns">
+                  {[1,2,3,4,5].map(v=>(
+                    <button key={v} className={`likert-btn${answers[i]===v?' sel':''}`}
+                      onClick={()=>setAnswers(a=>{const n={...a};n[i]=v;return n})}>{v}</button>
+                  ))}
+                </div>
+                <span className="likert-label">非常像我</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+      <div style={{display:'flex',gap:12,marginTop:'1.5rem',paddingBottom:'2rem'}}>
+        <button className="btn-sec" onClick={onBack}>← 返回</button>
+        <button className="btn-main" onClick={onNext} disabled={!allDone} style={{flex:1}}>
+          {allDone?'进入第二部分 →':'还有 '+(20-done)+' 题未填'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Part 2 ───────────────────────────────────────────────
+function Part2({answers,setAnswers,onSubmit,onBack}){
+  const done=P2.filter((_,i)=>answers[i]!==undefined).length;
+  const allDone=P2.every((_,i)=>answers[i]!==undefined);
+  const letters={0:'A',1:'B',2:'C',3:'D',4:'E'};
+  return(
+    <div className="quiz-wrap">
+      <div style={{marginBottom:'1.5rem'}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'.5rem'}}>
+          <div style={{fontSize:13,fontWeight:600,color:'#666'}}>第二部分：压力情境反应</div>
+          <div style={{fontSize:13,color:'#7F77DD',fontWeight:600}}>{done}/6</div>
+        </div>
+        <div className="progress-bar"><div className="progress-fill" style={{width:`${(done/6)*100}%`}}/></div>
+        <p style={{fontSize:13,color:'#888',lineHeight:1.6}}>请选出最像你<strong>第一反应</strong>的选项，不是"最成熟"的，而是"你最可能先这样动"。</p>
+      </div>
+      {P2.map((sc,i)=>(
+        <div key={i} className="scenario-card">
+          <div className="scenario-title">{sc.title}</div>
+          <div className="scenario-q">{sc.q}</div>
+          {sc.opts.map((opt,j)=>(
+            <button key={j} className={`opt-btn${answers[i]===j?' sel':''}`}
+              onClick={()=>setAnswers(a=>{const n={...a};n[i]=j;return n})}>
+              <span className="opt-letter">{letters[j]}</span>{opt.text}
+            </button>
+          ))}
+        </div>
+      ))}
+      <div style={{display:'flex',gap:12,marginTop:'1.5rem',paddingBottom:'2rem'}}>
+        <button className="btn-sec" onClick={onBack}>← 返回</button>
+        <button className="btn-main" onClick={onSubmit} disabled={!allDone} style={{flex:1}}>
+          {allDone?'查看我的结果 →':'还有 '+(6-done)+' 题未选'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Results ───────────────────────────────────────────────
+function Results({p1Ans,p2Ans,onReset}){
+  const [feedback,setFeedback]=useState('');
+  const [loading,setLoading]=useState(true);
+  const chartRef=useRef(null);
+  const chartInst=useRef(null);
+
+  const sc=useCallback(()=>{
+    const p1={'A':0,'B':0,'C':0,'D':0,'E':0};
+    P1.forEach((q,i)=>{if(p1Ans[i])p1[q.sys]+=p1Ans[i];});
+    const p1Total=Object.values(p1).reduce((a,b)=>a+b,0);
+    const p1Pct={};
+    Object.keys(p1).forEach(k=>{p1Pct[k]=p1Total>0?Math.round((p1[k]/p1Total)*1000)/10:0;});
+    const p2={'A':0,'B':0,'C':0,'D':0,'E':0};
+    P2.forEach((sc,i)=>{if(p2Ans[i]!==undefined)p2[sc.opts[p2Ans[i]].sys]++;});
+    return{p1,p1Pct,p1Total,p2};
+  },[p1Ans,p2Ans])();
+
+  const sorted=Object.entries(sc.p1Pct).sort((a,b)=>b[1]-a[1]);
+  const top1=sorted[0];const top2=sorted[1];
+  const p2Sorted=Object.entries(sc.p2).sort((a,b)=>b[1]-a[1]);
+  const p2Top=p2Sorted[0];
+  const consistent=top1[0]===p2Top[0];
+
+  let typeLabel,typeDesc;
+  const gap=top1[1]-top2[1];
+  if(consistent){typeLabel='一致型';typeDesc='你平时和压力下使用同一个主系统，内在反应比较连续稳定。这意味着你的应对策略有较强的一致性，在熟悉的情境下通常表现稳定。';}
+  else{typeLabel='补偿型';typeDesc='压力来临时，你会切换到和平时不同的系统。这种"切系统"是一种常见的自我保护机制，说明你在不同状态下有不同的需求。';}
+
+  useEffect(()=>{
+    if(!chartRef.current)return;
+    if(chartInst.current)chartInst.current.destroy();
+    const labels=Object.values(SYSTEMS).map(s=>s.name);
+    const data=Object.keys(SYSTEMS).map(k=>sc.p1Pct[k]);
+    const colors=Object.values(SYSTEMS).map(s=>s.color);
+    chartInst.current=new Chart(chartRef.current,{
+      type:'bar',
+      data:{
+        labels,
+        datasets:[{
+          data,
+          backgroundColor:colors.map(c=>c+'30'),
+          borderColor:colors,
+          borderWidth:2,
+          borderRadius:6,
+          borderSkipped:false,
+        }]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:(c)=>`${c.parsed.y.toFixed(1)}%`}}},
+        scales:{
+          y:{beginAtZero:true,max:Math.max(...data)+10,ticks:{callback:v=>v+'%',font:{size:11},color:'#999'},grid:{color:'rgba(0,0,0,.05)'},border:{display:false}},
+          x:{ticks:{font:{size:13,weight:'500'},color:'#444'},grid:{display:false},border:{display:false}}
+        }
+      }
+    });
+  },[]);
+
+  useEffect(()=>{
+    const buildPrompt=()=>{
+      const lines=['以下是一位用户的"应对系统测评"结果：'];
+      lines.push('\n【第一部分：平时系统倾向（百分比）】');
+      Object.entries(sc.p1Pct).forEach(([k,v])=>lines.push(`${SYSTEMS[k].name}（${SYSTEMS[k].en}）：${v}%`));
+      lines.push('\n【第二部分：压力下启动系统（6题中各系统被选次数）】');
+      Object.entries(sc.p2).forEach(([k,v])=>lines.push(`${SYSTEMS[k].name}：${v}次`));
+      lines.push(`\n平时主导系统：${SYSTEMS[top1[0]].name}（${top1[1]}%）`);
+      lines.push(`平时副系统：${SYSTEMS[top2[0]].name}（${top2[1]}%）`);
+      lines.push(`压力下主启动：${SYSTEMS[p2Top[0]].name}（${p2Top[1]}次）`);
+      lines.push(`类型判定：${typeLabel}`);
+      lines.push('\n请用中文给出一段个性化的心理反馈（300-400字），包括：');
+      lines.push('1. 这个人的核心应对风格和主要优势');
+      lines.push('2. 平时和压力下有什么值得注意的模式');
+      lines.push('3. 一个具体、温暖、可落地的成长建议');
+      lines.push('语气温暖、专业，像一个真正理解你的朋友在说话。不要用标题或分点，写成流畅的2-3段话。');
+      return lines.join('\n');
+    };
+    (async()=>{
+      try{
+        const r=await fetch('https://api.anthropic.com/v1/messages',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            model:'claude-sonnet-4-20250514',
+            max_tokens:1000,
+            messages:[{role:'user',content:buildPrompt()}]
+          })
+        });
+        const d=await r.json();
+        setFeedback(d.content?.[0]?.text||'无法获取反馈，请稍后重试。');
+      }catch(e){
+        setFeedback('获取 AI 反馈时出现问题，请检查网络或 API 配置后重试。');
+      }finally{setLoading(false);}
+    })();
+  },[]);
+
+  return(
+    <div className="quiz-wrap" style={{paddingBottom:'3rem'}}>
+      <div style={{marginBottom:'1.5rem',borderBottom:'1px solid #f0eeea',paddingBottom:'1.5rem'}}>
+        <div style={{fontSize:12,color:'#aaa',marginBottom:'.3rem',letterSpacing:'.05em',textTransform:'uppercase',fontWeight:600}}>测评结果</div>
+        <h2 style={{fontSize:24,fontWeight:700,color:'#1a1a1a',marginBottom:'.4rem'}}>你的应对系统图谱</h2>
+        <p style={{fontSize:13,color:'#888'}}>基于 26 道题的作答分析</p>
+      </div>
+
+      {/* 主导系统 */}
+      <div className="result-card" style={{borderLeft:`4px solid ${SYSTEMS[top1[0]].color}`}}>
+        <div style={{fontSize:12,color:'#aaa',letterSpacing:'.05em',textTransform:'uppercase',fontWeight:600,marginBottom:'.75rem'}}>平时主导系统</div>
+        <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:'.5rem'}}>
+          <div style={{width:48,height:48,borderRadius:12,background:SYSTEMS[top1[0]].bg,display:'flex',alignItems:'center',justifyContent:'center'}}>
+            <span style={{fontSize:22}}>{['🔍','⚡','💛','🪞','🎮'][Object.keys(SYSTEMS).indexOf(top1[0])]}</span>
+          </div>
+          <div>
+            <div style={{fontSize:20,fontWeight:700,color:SYSTEMS[top1[0]].textColor}}>{SYSTEMS[top1[0]].name}</div>
+            <div style={{fontSize:12,color:'#999'}}>{SYSTEMS[top1[0]].desc}</div>
+          </div>
+          <div style={{marginLeft:'auto',fontSize:28,fontWeight:700,color:SYSTEMS[top1[0]].color}}>{top1[1]}%</div>
+        </div>
+      </div>
+
+      {/* 分布图 */}
+      <div className="result-card">
+        <div style={{fontSize:12,color:'#aaa',letterSpacing:'.05em',textTransform:'uppercase',fontWeight:600,marginBottom:'1rem'}}>五系统分布</div>
+        <div style={{position:'relative',height:220,marginBottom:'1.5rem'}}>
+          <canvas ref={chartRef}/>
+        </div>
+        {sorted.map(([k,v],i)=>(
+          <div key={k} className="system-bar">
+            <div className="bar-header">
+              <span className="bar-name" style={{color:SYSTEMS[k].color}}>
+                {i===0?'★ ':''}{SYSTEMS[k].name}
+                {i===0?<span style={{fontSize:11,color:'#aaa',fontWeight:400,marginLeft:6}}>主导</span>:''}
+                {i===1?<span style={{fontSize:11,color:'#aaa',fontWeight:400,marginLeft:6}}>副系统</span>:''}
+              </span>
+              <span className="bar-pct">{v}%</span>
+            </div>
+            <div className="bar-track">
+              <div style={{height:'100%',background:SYSTEMS[k].color,borderRadius:4,width:`${Math.min(v*2,100)}%`,transition:'width .8s ease'}}/>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 压力系统 */}
+      <div className="result-card">
+        <div style={{fontSize:12,color:'#aaa',letterSpacing:'.05em',textTransform:'uppercase',fontWeight:600,marginBottom:'1rem'}}>压力下启动系统</div>
+        {p2Sorted.map(([k,v])=>(
+          <div key={k} style={{display:'flex',alignItems:'center',gap:12,marginBottom:10}}>
+            <div style={{width:10,height:10,borderRadius:'50%',background:SYSTEMS[k].color,flexShrink:0}}/>
+            <span style={{fontSize:13,color:'#333',minWidth:80}}>{SYSTEMS[k].name}</span>
+            <div style={{display:'flex',gap:4,flex:1}}>
+              {Array.from({length:6}).map((_,i)=>(
+                <div key={i} style={{width:18,height:18,borderRadius:4,background:i<v?SYSTEMS[k].color+'44':'#f0eeea',border:`1px solid ${i<v?SYSTEMS[k].color:'#e0deda'}`}}/>
+              ))}
+            </div>
+            <span style={{fontSize:13,color:'#999',minWidth:30,textAlign:'right'}}>{v}/6</span>
+          </div>
+        ))}
+      </div>
+
+      {/* 类型判定 */}
+      <div className="result-card">
+        <div style={{fontSize:12,color:'#aaa',letterSpacing:'.05em',textTransform:'uppercase',fontWeight:600,marginBottom:'1rem'}}>类型判定</div>
+        <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:'1rem',flexWrap:'wrap'}}>
+          <span className="chip" style={{background:consistent?'#EAF3DE':'#EEEDFE',color:consistent?'#3B6D11':'#534AB7',fontSize:14,padding:'5px 16px'}}>{typeLabel}</span>
+          <span className="chip" style={{background:SYSTEMS[top1[0]].bg,color:SYSTEMS[top1[0]].textColor}}>平时：{SYSTEMS[top1[0]].name} {top1[1]}%</span>
+          <span className="chip" style={{background:SYSTEMS[p2Top[0]].bg,color:SYSTEMS[p2Top[0]].textColor}}>压力：{SYSTEMS[p2Top[0]].name} {p2Top[1]}次</span>
+        </div>
+        <p style={{fontSize:13.5,color:'#555',lineHeight:1.7}}>{typeDesc}</p>
+      </div>
+
+      {/* AI 反馈 */}
+      <div className="result-card">
+        <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:'1rem'}}>
+          <div style={{width:24,height:24,borderRadius:6,background:'#EEEDFE',display:'flex',alignItems:'center',justifyContent:'center',fontSize:14}}>✦</div>
+          <div style={{fontSize:12,color:'#aaa',letterSpacing:'.05em',textTransform:'uppercase',fontWeight:600}}>AI 个性化反馈</div>
+        </div>
+        {loading?(
+          <div style={{color:'#aaa',fontSize:14,padding:'1rem 0'}}>
+            正在为你生成专属反馈<span className="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+          </div>
+        ):(
+          <div className="ai-feedback">{feedback}</div>
+        )}
+      </div>
+
+      <div style={{textAlign:'center',marginTop:'2rem'}}>
+        <button className="btn-sec" onClick={onReset} style={{padding:'.85rem 2.5rem',fontSize:14}}>重新测评</button>
+      </div>
+    </div>
+  );
+}
+
+// ─── App ───────────────────────────────────────────────────
+function App(){
+  const [step,setStep]=useState(0);
+  const [p1Ans,setP1Ans]=useState({});
+  const [p2Ans,setP2Ans]=useState({});
+  const reset=()=>{setStep(0);setP1Ans({});setP2Ans({});};
+  if(step===0)return <Intro onStart={()=>setStep(1)}/>;
+  if(step===1)return <Part1 answers={p1Ans} setAnswers={setP1Ans} onNext={()=>setStep(2)} onBack={()=>setStep(0)}/>;
+  if(step===2)return <Part2 answers={p2Ans} setAnswers={setP2Ans} onSubmit={()=>setStep(3)} onBack={()=>setStep(1)}/>;
+  return <Results p1Ans={p1Ans} p2Ans={p2Ans} onReset={reset}/>;
+}
+
+ReactDOM.createRoot(document.getElementById('app-root')).render(React.createElement(App));
+</script>
+</body>
+</html>
