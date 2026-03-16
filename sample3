@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Z5S Measure</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;background:#f5f4f0;min-height:100vh;color:#1a1a1a}
+.page{display:none}.page.active{display:block}
+.wrap{max-width:660px;margin:0 auto;padding:2rem 1.25rem}
+.hero{background:linear-gradient(135deg,#EEEDFE,#E6F1FB);border-radius:16px;padding:2.25rem 2rem;text-align:center;margin-bottom:2rem}
+.hero .sub{font-size:12px;color:#7F77DD;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.6rem}
+.hero h1{font-size:28px;font-weight:700;color:#2a2060;margin-bottom:.5rem;letter-spacing:-.3px}
+.hero p{font-size:15px;color:#534AB7;line-height:1.6}
+.info-card{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.info-row{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#555;margin-bottom:.65rem;line-height:1.55}
+.info-row:last-child{margin-bottom:0}
+.info-dot{width:6px;height:6px;border-radius:50%;background:#7F77DD;flex-shrink:0;margin-top:6px}
+.prog-wrap{margin-bottom:1.75rem}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.prog-label{font-size:13px;font-weight:600;color:#555}
+.prog-count{font-size:13px;font-weight:700;color:#7F77DD}
+.prog-bar{height:5px;background:#e8e6e0;border-radius:3px}
+.prog-fill{height:100%;background:#7F77DD;border-radius:3px;transition:width .35s ease}
+.prog-hint{font-size:12px;color:#aaa;margin-top:.6rem}
+.qcard{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.35rem 1.5rem;margin-bottom:.85rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.qcard-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:1rem}
+.qnum{font-size:11px;font-weight:700;color:#bbb;min-width:22px;padding-top:3px;flex-shrink:0}
+.qtext{font-size:15px;line-height:1.7;color:#1a1a1a;font-weight:500}
+.opt-list{display:flex;flex-direction:column;gap:7px}
+.opt{width:100%;text-align:left;background:#f9f8f6;border:1.5px solid #e8e6e0;border-radius:10px;padding:.75rem 1rem;cursor:pointer;font-size:14px;line-height:1.55;color:#444;transition:all .15s;display:flex;align-items:flex-start;gap:10px}
+.opt:hover{border-color:#7F77DD;background:#EEEDFE;color:#3C3489}
+.opt.sel{border-color:#7F77DD;background:#EEEDFE;color:#3C3489;font-weight:500}
+.opt-letter{font-size:11px;font-weight:700;color:#bbb;min-width:16px;padding-top:2px;flex-shrink:0;transition:color .15s}
+.opt.sel .opt-letter,.opt:hover .opt-letter{color:#7F77DD}
+.btn-row{display:flex;gap:12px;margin-top:1.75rem;padding-bottom:2.5rem}
+.btnP{background:#534AB7;color:#fff;border:none;border-radius:10px;padding:.85rem 2rem;font-size:15px;font-weight:500;cursor:pointer;flex:1;transition:background .15s}
+.btnP:hover{background:#3C3489}
+.btnP:disabled{opacity:.35;cursor:not-allowed}
+.btnS{background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.8rem 1.5rem;font-size:14px;cursor:pointer}
+.btnS:hover{background:#f5f4f0}
+.btnFull{width:100%;font-size:16px;padding:1rem}
+.rcard{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.4rem 1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-label{font-size:11px;color:#aaa;letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-bottom:1rem}
+.primary-row{display:flex;align-items:center;gap:14px}
+.p-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.p-name{font-size:21px;font-weight:700}
+.p-desc{font-size:12.5px;color:#999;margin-top:3px;line-height:1.4}
+.p-score{font-size:32px;font-weight:700;margin-left:auto;flex-shrink:0}
+.bar-row{margin-bottom:.9rem}
+.bar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+.bar-track{height:8px;background:#f0eeea;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 1s ease}
+.interpret-box{background:#fafaf8;border:1px solid #eeebe5;border-radius:10px;padding:1.25rem;font-size:14.5px;line-height:1.85;color:#2a2a2a;white-space:pre-wrap}
+.sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1rem}
+.sys-item{border-radius:10px;padding:.9rem 1rem}
+@media(max-width:480px){.wrap{padding:1rem .85rem}.p-score{font-size:26px}.sys-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="p0" class="page active">
+<div class="wrap">
+  <div class="hero">
+    <div class="sub">Z5S Measure · Version 3</div>
+    <h1>人格系统测评</h1>
+    <p>了解你的主导人格系统——<br>你用哪种方式认识世界、做决定、与人连接</p>
+  </div>
+  <div class="info-card">
+    <div class="info-row"><div class="info-dot"></div>共 <strong>25 道题</strong>，每题选一个最像你的选项，约需 3–5 分钟</div>
+    <div class="info-row"><div class="info-dot"></div>选最自然、最真实的第一反应，不是"应该选什么"</div>
+    <div class="info-row"><div class="info-dot"></div>完成后揭晓你的主导系统与详细解读</div>
+  </div>
+  <button class="btnP btnFull" onclick="goTo(1)">开始测评</button>
+</div>
+</div>
+
+<div id="p1" class="page">
+<div class="wrap">
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span class="prog-label">Z5S Measure V3</span>
+      <span class="prog-count" id="qcount">0 / 25</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="qbar" style="width:0%"></div></div>
+    <div class="prog-hint">每题选一个最像你的选项</div>
+  </div>
+  <div id="questions"></div>
+  <div class="btn-row">
+    <button class="btnS" onclick="goTo(0)">← 返回</button>
+    <button class="btnP" id="qnext" disabled onclick="showResults()">查看结果 →</button>
+  </div>
+</div>
+</div>
+
+<div id="p2" class="page">
+<div class="wrap" id="results"></div>
+</div>
+
+<script>
+const SYS={
+  A:{name:'Interpretation',zh:'解释系统',color:'#639922',bg:'#EAF3DE',tc:'#3B6D11',icon:'🔍',desc:'通过理解和分析来认识世界，习惯追问"为什么"'},
+  B:{name:'Execution',zh:'执行系统',color:'#378ADD',bg:'#E6F1FB',tc:'#185FA5',icon:'⚡',desc:'通过行动和推进来应对世界，倾向先做再说'},
+  C:{name:'Emotion',zh:'情感系统',color:'#EF9F27',bg:'#FAEEDA',tc:'#854F0B',icon:'💛',desc:'通过感受和共情来连接世界，情绪是核心信息来源'},
+  D:{name:'Identity',zh:'认同系统',color:'#7F77DD',bg:'#EEEDFE',tc:'#534AB7',icon:'🪞',desc:'通过价值观和自我认知来导航世界，以"我是谁"为决策基础'},
+  E:{name:'Play',zh:'游戏系统',color:'#D85A30',bg:'#FAECE7',tc:'#993C1D',icon:'🎮',desc:'通过探索和创造来体验世界，好奇心和乐趣是驱动力'},
+};
+
+/*
+  V3 重写原则
+  ─────────────────────────────────────────────────────
+  每题 5 个选项统一测同一个层级变量：
+    A = 如何理解/解释事情（认知方式）
+    B = 如何推进/行动（行为倾向，非速度）
+    C = 如何感受/连接情绪（情感方式）
+    D = 如何对照自我/价值观（意义/原则）
+    E = 如何探索/创造（好奇/玩法）
+
+  删除所有"立刻/马上/直接"等速度词
+  B 的核心词：着手、推进、行动、做、推动
+  C 的核心词：感受、情绪、关系、共情
+  D 的核心词：意义、原则、价值观、是否符合我
+  E 的核心词：探索、新角度、好奇、玩法、可能性
+
+  题型分三层，同层题目选项语法结构保持一致：
+    Layer 1 行为层 Q1–10：当 X 发生时，我的第一反应是……
+    Layer 2 角色层 Q11–18：在 X 场景中，我通常……
+    Layer 3 身份层 Q19–25：我是……/我更像……
+*/
+
+const QS=[
+
+  // ── Layer 1：行为反应层 Q1–10 ─────────────────────────
+
+  // Q1 面对复杂问题
+  // 变量：认知策略。五选项都是"处理问题的方式"
+  {q:'面对一个复杂问题时，我的第一反应是：',opts:[
+    {s:'A',t:'搞清楚它为什么会发生'},
+    {s:'B',t:'找到能推进事情的行动点'},
+    {s:'C',t:'感受它带来的情绪，以及它对关系的影响'},
+    {s:'D',t:'判断它是否和我的价值观或原则相符'},
+    {s:'E',t:'好奇地探索不同的解读方式'},
+  ]},
+
+  // Q2 别人求助
+  // 变量：帮助方式。五选项都是"我会给对方什么"
+  {q:'当别人向我求助时，我通常会：',opts:[
+    {s:'A',t:'帮他分析问题的来源和逻辑'},
+    {s:'B',t:'帮他找到能推进的下一步'},
+    {s:'C',t:'先陪伴他，理解他的情绪'},
+    {s:'D',t:'帮他想清楚这件事对他真正意味着什么'},
+    {s:'E',t:'提供一个他可能没想到的新角度'},
+  ]},
+
+  // Q3 生活混乱
+  // 变量：应对策略。B改为"行动导向"而非"速度"
+  {q:'当生活变得混乱时，我会：',opts:[
+    {s:'A',t:'梳理事情的逻辑，找出根源'},
+    {s:'B',t:'着手做能推进事情的行动'},
+    {s:'C',t:'关注自己和身边人的情绪变化'},
+    {s:'D',t:'思考这对我来说意味着什么'},
+    {s:'E',t:'尝试用新的方式重新组织生活'},
+  ]},
+
+  // Q4 出现冲突
+  // 变量：冲突处理方式
+  {q:'当出现冲突时，我更倾向于：',opts:[
+    {s:'A',t:'找出冲突真正的来源'},
+    {s:'B',t:'推动事情向可以解决的方向走'},
+    {s:'C',t:'先感受双方的情绪状态'},
+    {s:'D',t:'确认自己的立场和原则'},
+    {s:'E',t:'提出一个双方都没考虑过的新方式'},
+  ]},
+
+  // Q5 社会感知（别人眼中的我）
+  // 变量：他人如何描述我的特质
+  {q:'别人通常觉得我：',opts:[
+    {s:'A',t:'善于分析和解读事情'},
+    {s:'B',t:'执行力强，会把事情推进'},
+    {s:'C',t:'有同理心，善于感受别人'},
+    {s:'D',t:'有原则，立场清晰'},
+    {s:'E',t:'有创造力，总有新想法'},
+  ]},
+
+  // Q6 事情不顺利
+  // 变量：挫折应对方式
+  {q:'当事情不顺利时，我最自然的反应是：',opts:[
+    {s:'A',t:'想弄清楚为什么会这样'},
+    {s:'B',t:'着手推进能改变现状的行动'},
+    {s:'C',t:'处理情绪，让自己或对方好受一些'},
+    {s:'D',t:'重新确认自己的方向和原则'},
+    {s:'E',t:'想有没有完全不同的可能性'},
+  ]},
+
+  // Q7 面对未知
+  // 变量：进入未知情境的方式
+  {q:'面对未知情况，我更可能：',opts:[
+    {s:'A',t:'先理解背后的规则和逻辑'},
+    {s:'B',t:'找到第一个能推动的行动点'},
+    {s:'C',t:'感受这个环境的氛围和人的状态'},
+    {s:'D',t:'思考它对我的意义和方向'},
+    {s:'E',t:'把它当作探索新事物的机会'},
+  ]},
+
+  // Q8 朋友讲故事
+  // 变量：信息处理的注意力焦点
+  {q:'当朋友讲一件事给我听时，我更关注：',opts:[
+    {s:'A',t:'事情的逻辑和来龙去脉'},
+    {s:'B',t:'最后的结果，以及能做什么'},
+    {s:'C',t:'他在这件事里的情绪变化'},
+    {s:'D',t:'他做了什么选择，以及背后的原因'},
+    {s:'E',t:'这件事里有没有什么有趣或意外的地方'},
+  ]},
+
+  // Q9 自由时间
+  // 变量：自主时间的使用偏好
+  {q:'如果有一段完全自由的时间，我更倾向：',opts:[
+    {s:'A',t:'深入思考一个我一直想搞清楚的问题'},
+    {s:'B',t:'完成几件一直想推进的事'},
+    {s:'C',t:'和重要的人好好待在一起'},
+    {s:'D',t:'静下来反思自己目前的状态和方向'},
+    {s:'E',t:'去尝试一个从没试过的新事物'},
+  ]},
+
+  // Q10 别人为什么找我
+  // 变量：我对他人的核心价值
+  {q:'别人找我帮忙，通常是因为：',opts:[
+    {s:'A',t:'我能帮他们把事情看清楚、说明白'},
+    {s:'B',t:'我能帮他们把事情推动起来'},
+    {s:'C',t:'我能真正理解他们的感受'},
+    {s:'D',t:'我能帮他们找到方向感'},
+    {s:'E',t:'我能带来他们没想到的新思路'},
+  ]},
+
+  // ── Layer 2：角色行为层 Q11–18 ─────────────────────────
+
+  // Q11 学习新事物
+  // 变量：学习策略
+  {q:'当我学习一个新事物时，我通常：',opts:[
+    {s:'A',t:'先理解底层的概念和逻辑'},
+    {s:'B',t:'先动手做，边做边摸索'},
+    {s:'C',t:'关注这个过程带给我的感受'},
+    {s:'D',t:'先想这对我有没有意义'},
+    {s:'E',t:'把它当游戏来探索，找到好玩的地方'},
+  ]},
+
+  // Q12 事情发生变化
+  // 变量：变化适应方式
+  {q:'当事情发生变化时，我通常会：',opts:[
+    {s:'A',t:'分析是什么原因导致了这个变化'},
+    {s:'B',t:'调整行动计划，继续推进'},
+    {s:'C',t:'感受这个变化对我和身边人的影响'},
+    {s:'D',t:'想这个变化是否影响了我的方向和原则'},
+    {s:'E',t:'看这里面有没有新的可能性'},
+  ]},
+
+  // Q13 角色认知（我更像）
+  // 变量：自我角色定位
+  {q:'在一个团队或关系里，我更像：',opts:[
+    {s:'A',t:'分析问题的人'},
+    {s:'B',t:'推动行动的人'},
+    {s:'C',t:'维系情绪和关系的人'},
+    {s:'D',t:'提醒方向和原则的人'},
+    {s:'E',t:'提供创意和新想法的人'},
+  ]},
+
+  // Q14 压力下的行为
+  // 变量：压力应对方式（不含速度词）
+  {q:'当压力变大时，我通常：',opts:[
+    {s:'A',t:'会想更多，努力搞清楚状况'},
+    {s:'B',t:'会着手做事，用行动对抗焦虑'},
+    {s:'C',t:'情绪会更明显，需要被理解和接住'},
+    {s:'D',t:'会更需要确认自己的立场和原则'},
+    {s:'E',t:'会主动找新出口，换一种状态'},
+  ]},
+
+  // Q15 在团队里
+  // 变量：团队角色功能
+  {q:'在团队里，我通常承担的角色是：',opts:[
+    {s:'A',t:'解读问题，提供分析'},
+    {s:'B',t:'推进执行，让事情动起来'},
+    {s:'C',t:'照顾团队的情绪和氛围'},
+    {s:'D',t:'提醒大家方向和价值观'},
+    {s:'E',t:'提供创意，打开新的可能'},
+  ]},
+
+  // Q16 独处时
+  // 变量：独处时的自然行为
+  {q:'当我独处时，我更可能：',opts:[
+    {s:'A',t:'梳理最近发生的事，找出规律'},
+    {s:'B',t:'规划和推进接下来要做的事'},
+    {s:'C',t:'感受和处理自己的情绪'},
+    {s:'D',t:'反思自己是谁、想成为什么样的人'},
+    {s:'E',t:'天马行空地想新点子'},
+  ]},
+
+  // Q17 别人不同意我时
+  // 变量：分歧处理方式
+  {q:'当别人不同意我时，我通常：',opts:[
+    {s:'A',t:'把我的逻辑和理由解释清楚'},
+    {s:'B',t:'找到让事情继续往前走的方法'},
+    {s:'C',t:'先感受这段关系是否还稳固'},
+    {s:'D',t:'坚守我认为对的原则'},
+    {s:'E',t:'提出一个双方都可以接受的新角度'},
+  ]},
+
+  // Q18 做决定时
+  // 变量：决策过程中的核心参照
+  {q:'面对重要选择时，我的参照是：',opts:[
+    {s:'A',t:'哪个选择在逻辑上最说得通'},
+    {s:'B',t:'哪个选择能让事情往前走'},
+    {s:'C',t:'哪个选择让我感觉更对'},
+    {s:'D',t:'哪个选择更符合我是谁'},
+    {s:'E',t:'哪个选择带来更多新的可能'},
+  ]},
+
+  // ── Layer 3：身份认同层 Q19–25 ─────────────────────────
+
+  // Q19 结束后的回顾方式
+  // 变量：事后加工方式
+  {q:'当一件事结束后，我更可能：',opts:[
+    {s:'A',t:'复盘整件事的逻辑和原因'},
+    {s:'B',t:'评估执行效果，想下次怎么做得更好'},
+    {s:'C',t:'回味过程中与人的情感连接'},
+    {s:'D',t:'思考这件事对我的意义'},
+    {s:'E',t:'想有没有更有趣的玩法可以下次试试'},
+  ]},
+
+  // Q20 成长的感觉
+  // 变量：对成长的定义
+  {q:'当我觉得自己在成长时，通常是因为：',opts:[
+    {s:'A',t:'我理解了更多之前不懂的事'},
+    {s:'B',t:'我能做到以前做不到的事'},
+    {s:'C',t:'我对自己和他人有了更深的感受'},
+    {s:'D',t:'我更清楚自己是谁、想要什么'},
+    {s:'E',t:'我体验了更多不同的东西'},
+  ]},
+
+  // Q21 自我描述
+  // 变量：核心自我认知
+  {q:'如果用一句话描述自己，我更像：',opts:[
+    {s:'A',t:'解释世界的人'},
+    {s:'B',t:'推动事情的人'},
+    {s:'C',t:'感受世界的人'},
+    {s:'D',t:'定义自我的人'},
+    {s:'E',t:'探索世界的人'},
+  ]},
+
+  // Q22 驱动力来源
+  // 变量：内在驱动的核心来源
+  {q:'我最有动力的时候，通常是：',opts:[
+    {s:'A',t:'想清楚了一件复杂的事'},
+    {s:'B',t:'看到事情有了进展'},
+    {s:'C',t:'感到和某人真正连接上了'},
+    {s:'D',t:'在做符合自己价值观的事'},
+    {s:'E',t:'遇到新奇有趣的事物'},
+  ]},
+
+  // Q23 最不舒适的状态
+  // 变量：对不适的定义（反向题，区分度高）
+  {q:'我最难受的状态，通常是：',opts:[
+    {s:'A',t:'有件事我还没想清楚'},
+    {s:'B',t:'事情停滞，没有进展'},
+    {s:'C',t:'感到与人断开连接，不被理解'},
+    {s:'D',t:'被迫做违背自己原则的事'},
+    {s:'E',t:'生活变得重复、毫无新意'},
+  ]},
+
+  // Q24 别人的标签
+  // 变量：他人对我的稳定评价
+  {q:'认识我的人，通常会用这个词描述我：',opts:[
+    {s:'A',t:'深思'},
+    {s:'B',t:'高效'},
+    {s:'C',t:'温暖'},
+    {s:'D',t:'坚定'},
+    {s:'E',t:'有趣'},
+  ]},
+
+  // Q25 最终身份认同
+  // 变量：核心身份认同（anchor item）
+  {q:'如果必须选一个最像自己的身份：',opts:[
+    {s:'A',t:'理解世界的人'},
+    {s:'B',t:'推动事情的人'},
+    {s:'C',t:'感受情绪的人'},
+    {s:'D',t:'定义自我的人'},
+    {s:'E',t:'探索生命的人'},
+  ]},
+
+];
+
+const DESCRIBE={
+  A:{
+    high:'你的主导系统是解释系统，且倾向非常明显。你对世界的默认操作是"先搞懂"——事情发生了，你需要理解它的来龙去脉和背后逻辑，才能真正消化和继续前进。这让你在分析复杂问题、理解他人行为、从经验中提炼洞见方面特别有优势。',
+    mid:'你的主导系统是解释系统。你习惯用理解来处理世界——遇到困惑的事，脑子会自然地开始分析：为什么会这样？背后是什么？这让你思考有深度，也很善于找到别人看不到的联系。',
+    low:'你的主导系统倾向解释系统，但不是特别突出。你有分析和理解的习惯，但也会灵活地用其他方式处理事情。',
+  },
+  B:{
+    high:'你的主导系统是执行系统，且倾向非常明显。你对世界的默认操作是"先推进"——面对问题或不确定，你的本能是找到能动的地方并开始行动。这让你在推进项目、做出决策、在混乱中创造节奏方面特别有优势。',
+    mid:'你的主导系统是执行系统。你天然地倾向行动——与其停在原地分析，你更愿意先找到能推进的地方，边做边调整。这让你高效，也让你成为团队里推动事情前进的力量。',
+    low:'你的主导系统倾向执行系统，但不是特别突出。你有行动力，但也会停下来思考或感受，不是纯粹的"先做再说"型。',
+  },
+  C:{
+    high:'你的主导系统是情感系统，且倾向非常明显。你对世界的默认操作是"先感受"——情绪是你理解自己和他人的主要信息来源，你对情感信号的敏感度极高，这让你在关系、共情和理解他人方面有深厚的天赋。',
+    mid:'你的主导系统是情感系统。你天然地通过感受来认识世界——你能快速捕捉到情绪变化，能感受到别人没说出来的部分，关系对你来说是重要的信息维度。',
+    low:'你的主导系统倾向情感系统，但不是特别突出。你有情绪敏感度，但不会完全被情绪主导——在感受和理性之间比较平衡。',
+  },
+  D:{
+    high:'你的主导系统是认同系统，且倾向非常明显。你对世界的默认操作是"先对照自我"——做决定、理解事件、与人互动，你的核心参照点是"这是不是我"、"这符不符合我的价值观"。这让你有极强的内在一致性和方向感。',
+    mid:'你的主导系统是认同系统。你天然地用价值观和自我认知来导航——"这件事符不符合我"对你来说是一个真实的判断标准，而不只是说说而已。',
+    low:'你的主导系统倾向认同系统，但不是特别突出。你有清晰的价值观，但也会灵活地根据情境调整，不是非常刚性的原则驱动型。',
+  },
+  E:{
+    high:'你的主导系统是游戏系统，且倾向非常明显。你对世界的默认操作是"探索和体验"——好奇心、乐趣感和创造力是你的驱动力，你在新奇事物里感到最有活力，也最擅长在僵局中找到新的玩法。',
+    mid:'你的主导系统是游戏系统。你天然地被新鲜、有趣的事物吸引，会通过创造和探索来恢复能量，也能在压力里找到轻松的缝隙——这是一种宝贵的弹性。',
+    low:'你的主导系统倾向游戏系统，但不是特别突出。你有好奇心和创造力，但也会认真对待严肃的事，不是纯粹的"什么都好玩"型。',
+  },
+};
+
+const SECONDARY_NOTE={
+  A:'副系统是解释系统，说明分析和理解是你重要的辅助能力——在主系统运作的同时，你也倾向从逻辑层面理解事情。',
+  B:'副系统是执行系统，说明行动驱动力是你重要的辅助能力——需要时你能切换到推进模式，让事情动起来。',
+  C:'副系统是情感系统，说明情绪感知和共情是你重要的辅助工具——理性或行动背后，情感信号一直在被处理。',
+  D:'副系统是认同系统，说明价值观和自我认同在你的决策中扮演重要角色——做选择时"这是不是我"是一个真实的考量。',
+  E:'副系统是游戏系统，说明弹性和创造力是你的重要辅助——在主系统遇到瓶颈时，探索和好奇心会帮你找到新出路。',
+};
+
+const ans={};
+
+function buildQuestions(){
+  const c=document.getElementById('questions');
+  const LL=['A','B','C','D','E'];
+  QS.forEach((q,i)=>{
+    c.innerHTML+=`
+    <div class="qcard">
+      <div class="qcard-top">
+        <div class="qnum">${i+1}</div>
+        <div class="qtext">${q.q}</div>
+      </div>
+      <div class="opt-list">
+        ${q.opts.map((o,j)=>`
+          <button class="opt" id="opt_${i}_${j}" onclick="setAns(${i},${j})">
+            <span class="opt-letter">${LL[j]}</span>
+            <span>${o.t}</span>
+          </button>`).join('')}
+      </div>
+    </div>`;
+  });
+}
+
+function setAns(qi,val){
+  QS[qi].opts.forEach((_,j)=>{
+    const b=document.getElementById(`opt_${qi}_${j}`);
+    if(b)b.classList.toggle('sel',j===val);
+  });
+  ans[qi]=val;
+  const done=Object.keys(ans).length;
+  document.getElementById('qcount').textContent=`${done} / 25`;
+  document.getElementById('qbar').style.width=`${done/25*100}%`;
+  const btn=document.getElementById('qnext');
+  btn.disabled=done<25;
+  btn.textContent=done<25?`还有 ${25-done} 题未选`:'查看结果 →';
+}
+
+function goTo(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showResults(){
+  const counts={A:0,B:0,C:0,D:0,E:0};
+  QS.forEach((q,i)=>{if(ans[i]!==undefined)counts[q.opts[ans[i]].s]++;});
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const [pk,pv]=sorted[0];
+  const [sk,sv]=sorted[1];
+
+  let domLevel,domLabel,domColor,domBg;
+  if(pv>=10){domLevel='high';domLabel='Strong Dominant';domColor='#3B6D11';domBg='#EAF3DE';}
+  else if(pv>=7){domLevel='mid';domLabel='Moderate Dominant';domColor='#185FA5';domBg='#E6F1FB';}
+  else{domLevel='low';domLabel='Mild Dominant';domColor='#854F0B';domBg='#FAEEDA';}
+
+  const interpret=DESCRIBE[pk][domLevel]+'\n\n'+SECONDARY_NOTE[sk];
+
+  document.getElementById('results').innerHTML=`
+    <div style="border-bottom:1px solid #f0eeea;padding-bottom:1.5rem;margin-bottom:1.5rem">
+      <div style="font-size:11px;color:#aaa;letter-spacing:.07em;text-transform:uppercase;font-weight:600;margin-bottom:.35rem">Z5S Measure · V3 结果</div>
+      <h2 style="font-size:24px;font-weight:700;margin-bottom:.4rem">你的人格系统图谱</h2>
+      <p style="font-size:13px;color:#888">基于 25 道题的作答分析</p>
+    </div>
+
+    <div class="rcard" style="border-left:4px solid ${SYS[pk].color}">
+      <div class="card-label">Primary System · 主导系统</div>
+      <div class="primary-row">
+        <div class="p-icon" style="background:${SYS[pk].bg}">${SYS[pk].icon}</div>
+        <div style="flex:1">
+          <div class="p-name" style="color:${SYS[pk].tc}">${SYS[pk].zh}</div>
+          <div class="p-desc">${SYS[pk].name} · ${SYS[pk].desc}</div>
+        </div>
+        <div class="p-score" style="color:${SYS[pk].color}">${pv}<span style="font-size:14px;font-weight:400;color:#aaa">/25</span></div>
+      </div>
+      <div style="margin-top:1rem">
+        <span style="display:inline-block;padding:5px 16px;border-radius:20px;font-size:13px;font-weight:700;background:${domBg};color:${domColor};margin-bottom:.6rem">${domLabel}</span>
+        <div style="font-size:13px;color:#888;line-height:1.6">Secondary: <strong style="color:${SYS[sk].tc}">${SYS[sk].zh}</strong> (${SYS[sk].name}) &nbsp;·&nbsp; ${sv}/25</div>
+      </div>
+    </div>
+
+    <div class="rcard">
+      <div class="card-label">五系统选择分布</div>
+      ${sorted.map(([k,v],i)=>`
+        <div class="bar-row">
+          <div class="bar-head">
+            <span style="font-size:13px;font-weight:600;color:${SYS[k].color}">
+              ${SYS[k].icon} ${SYS[k].zh}
+              ${i===0?'<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:6px">Primary</span>':''}
+              ${i===1?'<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:6px">Secondary</span>':''}
+            </span>
+            <span style="font-size:13px;color:#888;font-weight:500">${v} 次 &nbsp;(${Math.round(v/25*100)}%)</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:${Math.round(v/25*100)}%;background:${SYS[k].color}"></div>
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <div class="rcard">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:1rem">
+        <div style="width:24px;height:24px;border-radius:6px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">✦</div>
+        <div class="card-label" style="margin-bottom:0">系统解读</div>
+      </div>
+      <div class="interpret-box">${interpret}</div>
+    </div>
+
+    <div class="rcard">
+      <div class="card-label">五个系统是什么？</div>
+      <p style="font-size:13px;color:#888;margin-bottom:1rem;line-height:1.6">每个人都同时拥有这五种系统，只是主导的优先级不同。</p>
+      <div class="sys-grid">
+        ${Object.entries(SYS).map(([k,s])=>`
+          <div class="sys-item" style="background:${s.bg};${k===pk?'outline:2px solid '+s.color+';outline-offset:1px':''}">
+            <div style="font-size:13px;font-weight:700;color:${s.tc};margin-bottom:3px">${s.icon} ${s.zh}${k===pk?' ★':''}</div>
+            <div style="font-size:11px;color:${s.tc};opacity:.8;line-height:1.4">${s.desc}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem;padding-bottom:2.5rem">
+      <button style="background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.85rem 2.5rem;font-size:14px;cursor:pointer" onclick="resetAll()">重新测评</button>
+    </div>`;
+
+  goTo(2);
+}
+
+function resetAll(){
+  Object.keys(ans).forEach(k=>delete ans[k]);
+  QS.forEach((_,i)=>[0,1,2,3,4].forEach(j=>{
+    const b=document.getElementById(`opt_${i}_${j}`);if(b)b.classList.remove('sel');
+  }));
+  document.getElementById('qcount').textContent='0 / 25';
+  document.getElementById('qbar').style.width='0%';
+  document.getElementById('qnext').disabled=true;
+  document.getElementById('qnext').textContent='还有 25 题未选';
+  goTo(0);
+}
+
+buildQuestions();
+</script>
+</body>
+</html>
