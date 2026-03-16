@@ -59,7 +59,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .interp-body{font-size:14px;line-height:1.85}
 .interp-body p{margin-bottom:.6rem}
 .interp-body p:last-child{margin-bottom:0}
-.interp-section{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin:.9rem 0 .4rem;opacity:.7}
+.interp-section{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin:.9rem 0 .4rem}
 .interp-bullets{list-style:none;padding:0;margin:.4rem 0 .6rem}
 .interp-bullets li{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.65;margin-bottom:.3rem}
 .interp-note{font-size:13.5px;line-height:1.7;opacity:.85;border-top:1px solid rgba(0,0,0,.06);padding-top:.75rem;margin-top:.75rem}
@@ -68,8 +68,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .tags-wrap{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0}
 .tag-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:100px;font-size:13px;font-weight:600;line-height:1;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
 .tag-pill .tag-hash{font-weight:700;opacity:.6;font-size:12px}
-.figures-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:.75rem}
-.figure-card{display:flex;align-items:flex-start;gap:10px;background:#f9f8f6;border:1px solid #e8e6e0;border-radius:10px;padding:.8rem 1rem;flex:1;min-width:140px}
+.figures-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.75rem}
+.figure-card{display:flex;align-items:flex-start;gap:10px;background:#f9f8f6;border:1px solid #e8e6e0;border-radius:10px;padding:.8rem 1rem}
 .figure-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:1px}
 .figure-name{font-size:13px;font-weight:600;color:#333;line-height:1.3}
 .figure-role{font-size:11px;color:#999;margin-top:1px;line-height:1.3}
@@ -206,7 +206,9 @@ var INTERP={
       intro:'解释系统是你的主导系统。面对情境时，你的第一反应通常是尝试理解事情的原因、逻辑和结构。你倾向通过分析、观察模式和建立解释框架来获得稳定感，这使你在复杂或混乱情境中具有很强的理解深度。',
       sectionA:'这个系统的优势通常表现为：',
       bullets:['能迅速看见事情背后的逻辑与结构','在复杂问题中建立清晰的理解框架','帮助他人把混乱的信息整理成可理解的模式'],
-      note:'当解释系统长期主导时，理解有时可能成为行动之前的必要条件，因此在需要快速推进的情境中，主动调用执行系统可能会让事情更容易向前发展。',
+      sectionB:'这个系统的劣势通常表现为：',
+      weaknesses:['理解变成行动的前提，容易陷入"想通了才能动"的卡顿','在纯情绪性的困境中，分析有时无法真正解决问题','长时间在脑子里转，难以被外界看见或获得支持'],
+      suggestion:'练习给自己设一个"理解截止点"——想到够用就行，不需要全部搞清楚才能往下走。',
     },
     secondary:{
       intro:'解释系统在你的结构中是一个稳定的辅助系统。虽然它不一定是你面对情境时的第一反应，但在需要理解复杂情况或整理信息时，你能够较自然地调动分析和理解能力。',
@@ -229,7 +231,9 @@ var INTERP={
       intro:'执行系统是你的主导系统。面对困难或任务时，你的第一反应通常是寻找可以采取的下一步行动，而不是停留在理解或情绪之中。你更倾向通过行动推进来获得方向，这让你在复杂环境中能够快速建立节奏。',
       sectionA:'这个系统的优势通常表现为：',
       bullets:['能迅速把问题转化为具体步骤','在不确定情境中依然保持推进能力','容易建立行动节奏并持续推动事情发展'],
-      note:'当执行系统长期主导时，有时可能会跳过情绪处理或深层理解，因此在需要反思或关系敏感度的情境中，适当停顿会带来更全面的判断。',
+      sectionB:'这个系统的劣势通常表现为：',
+      weaknesses:['容易跳过情绪处理，把问题"做完"但没有真正处理','在需要深度理解的情境中，行动可能走错方向','长期高速推进容易忽略自己的疲惫和身体信号'],
+      suggestion:'在开始行动之前，给自己留 5 分钟问一句："我现在的方向是对的吗？"这不是浪费时间，而是让执行更有效。',
     },
     secondary:{
       intro:'执行系统在你的结构中是一个可以稳定调动的辅助资源。虽然它不一定在情境出现时立即启动，但当方向逐渐明确时，你通常能够切换到行动模式，把事情推进起来。',
@@ -252,7 +256,9 @@ var INTERP={
       intro:'情感系统是你的主导系统。面对情境时，你通常会首先感受到情绪和氛围的变化，这些情绪信息会成为你理解世界的重要依据。这种高度的情感敏感度使你对关系、氛围和他人感受具有很强的觉察能力。',
       sectionA:'这个系统的优势通常表现为：',
       bullets:['对自己和他人的情绪变化非常敏感','能快速捕捉到关系中的微妙信号','在人际互动中具有较高的共情能力'],
-      note:'当情感系统长期主导时，情绪信号有时可能过于强烈，因此在需要快速决策或推进任务时，结合解释系统或执行系统会让反应更加稳定。',
+      sectionB:'这个系统的劣势通常表现为：',
+      weaknesses:['情绪信号太强时容易影响判断，难以保持客观','他人的情绪会明显影响自己的状态，容易被带走','在需要快速推进的情境中，情绪处理可能成为拖慢节奏的因素'],
+      suggestion:'学会区分"我在感受情绪"和"情绪在控制我"——前者是资源，后者需要有意识地暂停和重新定位。',
     },
     secondary:{
       intro:'情感系统在你的结构中是一个重要的辅助感知来源。虽然情绪不一定是你面对情境时的第一信号，但你通常能够在过程中逐渐觉察情绪，并把这些感受纳入判断。',
@@ -275,7 +281,9 @@ var INTERP={
       intro:'认同系统是你的主导系统。面对情境时，你往往会从"这件事是否符合我是谁、我相信什么"来判断方向。你的行动和判断通常会受到价值观、原则和自我认知的深刻影响。',
       sectionA:'这个系统的优势通常表现为：',
       bullets:['拥有稳定而清晰的内在方向','在压力环境中不容易被外界带偏','行动通常与长期价值和原则保持一致'],
-      note:'当认同系统长期主导时，外界评价或冲突可能更容易触及自我感，因此把外部事件与自我价值区分开，有助于保持系统的灵活性。',
+      sectionB:'这个系统的劣势通常表现为：',
+      weaknesses:['外界的批评或否定容易触及自我价值感，恢复时间较长','在价值观与现实有冲突时，容易陷入内耗或僵局','有时过于坚守原则，在需要弹性的情境中难以调整'],
+      suggestion:'把"这件事不符合我的价值观"和"我这个人有问题"分开——前者是判断，后者才是自我攻击，两者不是同一件事。',
     },
     secondary:{
       intro:'认同系统在你的结构中提供稳定的价值参照。虽然它不一定在每个情境中立刻启动，但当事情涉及重要选择或长期方向时，你通常会把价值观和自我认知纳入考虑。',
@@ -298,7 +306,9 @@ var INTERP={
       intro:'游戏系统是你的主导系统。面对世界时，你更容易以好奇、探索和尝试不同可能性的方式来理解情境。你倾向把环境视为可以探索和重新组合的空间，这让你在不确定或僵住的情境中仍然能够保持弹性。',
       sectionA:'这个系统的优势通常表现为：',
       bullets:['容易发现新的角度和可能性','在压力中保持心理弹性','通过探索与尝试创造新的路径'],
-      note:'当游戏系统长期主导时，有时可能会在多个方向之间持续探索，因此在需要长期深耕某个目标时，调动执行系统能够帮助维持稳定投入。',
+      sectionB:'这个系统的劣势通常表现为：',
+      weaknesses:['容易在多个方向之间持续探索，难以在一件事上深耕','当事情变得沉重或重复，容易失去动力或回避','有时用"换个玩法"来绕开真正需要正面处理的问题'],
+      suggestion:'找到一件值得你深耕的事，然后练习在无聊和困难的阶段也留下来——深度和广度同样是一种探索。',
     },
     secondary:{
       intro:'游戏系统在你的结构中提供一定程度的心理弹性。虽然它不一定是你面对困难时的第一反应，但当情境需要新的角度或缓解压力时，你能够通过探索或换个方式来重新看待问题。',
@@ -405,7 +415,29 @@ function renderInterpBlock(k,role,score,isStar){
       +'<span>'+b+'</span>'
       +'</li>';
   }).join('');
-  var noteHtml=d.note?'<div class="interp-note" style="color:'+textColor+';border-color:rgba(0,0,0,.07)">'+d.note+'</div>':'';
+
+  // Weaknesses (primary only)
+  var weakHtml='';
+  if(d.weaknesses){
+    var wItems=d.weaknesses.map(function(b){
+      return '<li style="color:'+textColor+'">'
+        +'<span style="color:#c0392b;font-weight:700;flex-shrink:0">·</span>'
+        +'<span>'+b+'</span>'
+        +'</li>';
+    }).join('');
+    weakHtml='<div class="interp-section" style="color:'+s.tc+'">'+d.sectionB+'</div>'
+      +'<ul class="interp-bullets">'+wItems+'</ul>';
+  }
+
+  // Suggestion (primary only)
+  var suggHtml='';
+  if(d.suggestion){
+    suggHtml='<div style="margin-top:.75rem;padding:.85rem 1rem;border-radius:8px;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.07)">'
+      +'<div style="font-size:10px;font-weight:700;color:'+s.tc+';letter-spacing:.05em;text-transform:uppercase;margin-bottom:.35rem">建议</div>'
+      +'<div style="font-size:13.5px;line-height:1.7;color:'+textColor+'">'+d.suggestion+'</div>'
+      +'</div>';
+  }
+
   return '<div class="interp-block" style="background:'+bg+';border-color:'+borderColor+'">'
     +'<div class="interp-head">'
     +'<span style="font-size:17px">'+s.icon+'</span>'
@@ -417,7 +449,8 @@ function renderInterpBlock(k,role,score,isStar){
     +'<p>'+d.intro+'</p>'
     +'<div class="interp-section" style="color:'+s.tc+'">'+d.sectionA+'</div>'
     +'<ul class="interp-bullets">'+bulletsHtml+'</ul>'
-    +noteHtml
+    +weakHtml
+    +suggHtml
     +'</div></div>';
 }
 
