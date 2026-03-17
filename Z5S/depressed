@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Z5S · 低落状态系统变化</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;background:#f5f4f0;min-height:100vh;color:#1a1a1a}
+.page{display:none}.page.active{display:block}
+.wrap{max-width:660px;margin:0 auto;padding:2rem 1.25rem}
+.hero{background:linear-gradient(135deg,#e4eef8,#eeebfc);border-radius:16px;padding:2.25rem 2rem;text-align:center;margin-bottom:2rem}
+.hero .sub{font-size:12px;color:#144080;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.6rem}
+.hero h1{font-size:26px;font-weight:700;color:#0d2a50;margin-bottom:.5rem;letter-spacing:-.3px;line-height:1.35}
+.hero p{font-size:14.5px;color:#2060b0;line-height:1.65}
+.info-card{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.info-row{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#555;margin-bottom:.65rem;line-height:1.55}
+.info-row:last-child{margin-bottom:0}
+.info-dot{width:6px;height:6px;border-radius:50%;background:#2060b0;flex-shrink:0;margin-top:6px}
+.step-indicator{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
+.step-pip{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all .2s}
+.step-pip.done{background:#1D9E75;color:#fff}
+.step-pip.active{background:#2060b0;color:#fff}
+.step-pip.upcoming{background:#e8e6e0;color:#bbb}
+.step-line{flex:1;height:2px;background:#e8e6e0;border-radius:1px}
+.step-line.done{background:#1D9E75}
+.step-meta{margin-bottom:1.5rem}
+.step-title{font-size:18px;font-weight:700;color:#1a1a1a;margin-bottom:.25rem}
+.step-sub{font-size:13px;color:#888}
+.prog-wrap{margin-bottom:1.75rem}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.prog-label{font-size:13px;font-weight:600;color:#555}
+.prog-count{font-size:13px;font-weight:700;color:#2060b0}
+.prog-bar{height:5px;background:#e8e6e0;border-radius:3px}
+.prog-fill{height:100%;background:#2060b0;border-radius:3px;transition:width .35s ease}
+.prog-hint{font-size:12px;color:#aaa;margin-top:.6rem}
+.rcard{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.4rem 1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-label{font-size:11px;color:#aaa;letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-bottom:.85rem}
+.zscore-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #f5f4f0}
+.zscore-row:last-child{border-bottom:none}
+.zscore-icon{font-size:17px;width:24px;text-align:center;flex-shrink:0}
+.zscore-name{font-size:13px;font-weight:600;min-width:68px;flex-shrink:0}
+.zscore-slider{flex:1;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;outline:none;cursor:pointer;background:#e8e6e0}
+.zscore-num{font-size:15px;font-weight:700;min-width:24px;text-align:right;flex-shrink:0}
+.qcard{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.35rem 1.5rem;margin-bottom:.85rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.qcard-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:1.1rem}
+.qnum{font-size:11px;font-weight:700;color:#bbb;min-width:22px;padding-top:3px;flex-shrink:0}
+.qtext{font-size:15px;line-height:1.75;color:#1a1a1a;font-weight:500}
+.scale-row{display:flex;gap:7px}
+.sbt{flex:1;background:#f9f8f6;border:1.5px solid #e8e6e0;border-radius:10px;padding:.75rem .3rem;cursor:pointer;font-size:15px;font-weight:600;color:#ccc;transition:all .17s;text-align:center;font-family:inherit;line-height:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.sbt .sl{font-size:9px;color:#ccc;font-weight:500;line-height:1.2;text-align:center}
+.sbt:hover{border-color:#2060b0;background:#e4eef8;color:#144080}
+.sbt:hover .sl{color:#2060b0}
+.sbt.sel{color:#fff;font-weight:700}
+.sbt.sel .sl{color:rgba(255,255,255,.8)}
+.sbt.dim{border-color:#eee;background:#fafafa;color:#e0e0e0}
+.sbt.dim .sl{color:#e0e0e0}
+.scale-ends{display:flex;justify-content:space-between;font-size:10.5px;color:#ccc;padding:0 2px;margin-top:5px}
+.btn-row{display:flex;gap:12px;margin-top:1.75rem;padding-bottom:2.5rem}
+.btnP{background:#2060b0;color:#fff;border:none;border-radius:10px;padding:.85rem 2rem;font-size:15px;font-weight:500;cursor:pointer;flex:1;transition:background .15s;font-family:inherit}
+.btnP:hover{background:#144080}
+.btnP:disabled{opacity:.35;cursor:not-allowed}
+.btnS{background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.8rem 1.5rem;font-size:14px;cursor:pointer;font-family:inherit}
+.btnS:hover{background:#f5f4f0}
+.btnFull{width:100%;font-size:16px;padding:1rem}
+.bar-row{margin-bottom:.75rem}
+.bar-row:last-child{margin-bottom:0}
+.bar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+.bar-track{height:7px;background:#f0eeea;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;width:0%;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.sys-card{border-radius:12px;padding:1.25rem 1.35rem;margin-bottom:.85rem;border:1.5px solid transparent}
+.sys-card-head{display:flex;align-items:center;gap:12px;margin-bottom:.85rem}
+.sys-card-body{font-size:13.5px;line-height:1.9;color:#444}
+.sys-card-body p{margin-bottom:.55rem}
+.sys-card-body p:last-child{margin-bottom:0}
+.encourage{font-size:13px;line-height:1.8;padding:.85rem 1rem;border-radius:8px;margin-top:.85rem;font-style:italic}
+.tx-pill{display:inline-block;font-size:12px;font-weight:700;padding:4px 13px;border-radius:20px;margin-top:.6rem}
+@media(max-width:480px){
+  .wrap{padding:1rem .85rem}
+  .sbt{font-size:14px;padding:.65rem .2rem}
+  .sbt .sl{font-size:8px}
+  .scale-row{gap:5px}
+  .zscore-name{min-width:56px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE 0: Intro -->
+<div id="p0" class="page active">
+<div class="wrap">
+  <div class="hero">
+    <div class="sub">Z5S · 第二阶段测评</div>
+    <h1>低落时，你的系统<br>发生了什么？</h1>
+    <p>3 步，10 道题<br>了解你在低落状态下每个系统的真实变化</p>
+  </div>
+  <div class="info-card">
+    <div class="info-row"><div class="info-dot"></div>Step 1 &nbsp;·&nbsp; 输入你的 Z5S 基线分数</div>
+    <div class="info-row"><div class="info-dot"></div>Step 2 &nbsp;·&nbsp; 回忆最近一次明显低落，回答 10 道题</div>
+    <div class="info-row"><div class="info-dot"></div>Step 3 &nbsp;·&nbsp; 看到每个系统在低落时的完整图谱</div>
+    <div class="info-row"><div class="info-dot"></div>没有对错，选最像你当时状态的答案</div>
+  </div>
+  <button class="btnP btnFull" onclick="goTo(1)">开始</button>
+</div>
+</div>
+
+<!-- PAGE 1: Z5S -->
+<div id="p1" class="page">
+<div class="wrap">
+  <div class="step-indicator">
+    <div class="step-pip active">1</div>
+    <div class="step-line"></div>
+    <div class="step-pip upcoming">2</div>
+    <div class="step-line"></div>
+    <div class="step-pip upcoming">3</div>
+  </div>
+  <div class="step-meta">
+    <div class="step-title">Z5S 基线分数</div>
+    <div class="step-sub">Step 1 of 3 &nbsp;·&nbsp; 你平时（非低落状态）的各系统分数</div>
+  </div>
+  <div class="rcard">
+    <div class="card-label">从你的 Z5S 测评结果输入（0–10）</div>
+    <div id="sliders"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btnS" onclick="goTo(0)">← 返回</button>
+    <button class="btnP" onclick="goTo(2)">下一步 →</button>
+  </div>
+</div>
+</div>
+
+<!-- PAGE 2: Questions -->
+<div id="p2" class="page">
+<div class="wrap">
+  <div class="step-indicator">
+    <div class="step-pip done">✓</div>
+    <div class="step-line done"></div>
+    <div class="step-pip active">2</div>
+    <div class="step-line"></div>
+    <div class="step-pip upcoming">3</div>
+  </div>
+  <div class="step-meta">
+    <div class="step-title">低落状态变化</div>
+    <div class="step-sub">Step 2 of 3 &nbsp;·&nbsp; 回忆你最近一次明显低落时的状态</div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span class="prog-label">题目进度</span>
+      <span class="prog-count" id="qcount">0 / 10</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="qbar" style="width:0%"></div></div>
+    <div class="prog-hint">1 = 完全不像我 &nbsp;·&nbsp; 5 = 非常像我 &nbsp;·&nbsp; 选最接近你当时状态的</div>
+  </div>
+  <div id="questions"></div>
+  <div class="btn-row">
+    <button class="btnS" onclick="goTo(1)">← 返回</button>
+    <button class="btnP" id="qnext" disabled onclick="showResults()">查看结果 →</button>
+  </div>
+</div>
+</div>
+
+<!-- PAGE 3: Results -->
+<div id="p3" class="page">
+<div class="wrap" id="results"></div>
+</div>
+
+<script>
+var SYS={
+  A:{zh:'解释系统',color:'#3e7c22',bg:'#eef6e6',tc:'#2a5a14',icon:'🔍'},
+  B:{zh:'执行系统',color:'#2060b0',bg:'#e4eef8',tc:'#144080',icon:'⚡'},
+  C:{zh:'情感系统',color:'#c07010',bg:'#fdf0dc',tc:'#8a4e08',icon:'💛'},
+  D:{zh:'认同系统',color:'#7050c8',bg:'#eeebfc',tc:'#4a34a0',icon:'🪞'},
+  E:{zh:'游戏系统',color:'#c03820',bg:'#fce8e4',tc:'#902010',icon:'🎮'},
+};
+
+var QS=[
+  {sys:'A',type:'amp',text:'当我明显低落时，我会比平时更容易反复去想事情为什么会变成这样，脑子一直转，停不下来。'},
+  {sys:'A',type:'col',text:'当我明显低落时，我会突然什么都想不了，脑子变得空白，找不到任何原因或意义。'},
+  {sys:'B',type:'amp',text:'当我明显低落时，我会焦虑地强迫自己不停做事，停下来反而让我更难受。'},
+  {sys:'B',type:'col',text:'当我明显低落时，我完全动不了——就算知道做什么对自己有帮助，也无法真正启动。'},
+  {sys:'C',type:'amp',text:'当我明显低落时，情绪会变得非常强烈，容易被完全淹没，很难控制或过滤。'},
+  {sys:'C',type:'col',text:'当我明显低落时，我会变得情绪麻木，感受不到什么，像是整个人的感觉关掉了。'},
+  {sys:'D',type:'amp',text:'当我明显低落时，我会不断批判自己——觉得自己不够好、是失败的、不值得。'},
+  {sys:'D',type:'col',text:'当我明显低落时，我会失去对自己是谁的感觉，像一个空壳，找不到任何方向或立场。'},
+  {sys:'E',type:'amp',text:'当我明显低落时，我会不断切换活动、找新刺激来让自己好一点，但停下来马上又回到原状。'},
+  {sys:'E',type:'col',text:'当我明显低落时，原本让我感兴趣的事情完全失去吸引力，世界变得没有活力和颜色。'},
+];
+
+var SCALE=[
+  {v:1,l:'完全\n不像'},
+  {v:2,l:'有点\n像'},
+  {v:3,l:'有时\n是'},
+  {v:4,l:'比较\n像'},
+  {v:5,l:'非常\n像'},
+];
+
+var SYS_COLORS={
+  A:['#c8e0bc','#96c87a','#6aaf3c','#4a8c26','#2a5a14'],
+  B:['#bcd0f0','#84aae0','#4e82d0','#2862b8','#144080'],
+  C:['#f8ddb0','#f0bc70','#e09830','#c07010','#8a4e08'],
+  D:['#d8d0f4','#b4a8e8','#8e78d8','#6a52c4','#4a34a0'],
+  E:['#f4c4bc','#e89080','#d85840','#c03820','#902010'],
+};
+
+// Content per system × baseline level × state pattern
+// baseline: 'high'(≥6), 'mid'(3-5), 'low'(≤2)
+// pattern: 'amp', 'col', 'mixed', 'stable'
+var CONTENT={
+  A:{
+    high:{
+      amp:{body:'解释系统是你平时最主要的处理方式，而在低落状态下，它以反刍的形式被过度激活。你不是停不下来思考这件事，而是停不下来思考这件事出了什么问题。这种循环是真实的消耗，不是你"太脆弱"。',
+           encourage:'你的思考能力本来是你最大的资产。低落时它暂时走偏了，但这条路你比任何人都熟，你知道怎么找回来。',
+           tx:'行为激活（Behavioral Activation）'},
+      col:{body:'解释系统是你平时最依赖的路径，所以当它在低落时崩塌——脑子空白、找不到意义——对你的打击尤其重。这不是你变笨了，而是你最熟悉的出口暂时关闭了。',
+           encourage:'那个能把事情想透的你还在。低落时它只是暂时沉默，不是消失。你需要的不是更努力地想，而是先给它一点喘息的空间。',
+           tx:'意义建构练习 + 轻量认知介入'},
+      mixed:{body:'你的解释系统在低落时呈现出不稳定的状态——有时过度运转、反刍不停，有时又完全停摆、什么都想不了。这两种状态可能交替出现，让你很难找到规律。',
+             encourage:'这种不一致感本身就很消耗人。你不需要强行弄清楚"今天是哪种状态"，允许它有变化，是对自己真实的尊重。',
+             tx:'正念观察 + 灵活干预'},
+      stable:{body:'即使在低落状态下，你的解释系统相对保持稳定。这是你真实的资源——理解和分析的能力在困难时期没有完全崩溃，可以成为你恢复的支点。',
+              encourage:'在低落中还能保持思考的清醒，这不是理所当然的。这是你的力量，好好用它。',
+              tx:null},
+    },
+    mid:{
+      amp:{body:'解释系统不是你平时最主要的路径，但在低落时反而被异常激活——出现了反刍或过度分析的状态。这可能是在低落中试图"用想法控制局面"的一种应对反应。',
+           encourage:'想清楚是本能，但有时候行动比想清楚更能带你出来。你不需要先有答案才能迈出第一步。',
+           tx:'行为激活（Behavioral Activation）'},
+      col:{body:'解释系统在你平时不是最活跃的系统，低落时它进一步退场。找不到原因、理不清逻辑，这在低落状态下是很正常的现象，不代表事情真的无法理解。',
+           encourage:'现在找不到答案，不代表答案不存在。等你状态稍好一点，清晰感会回来的。',
+           tx:null},
+      mixed:{body:'解释系统在你平时处于中间位置，低落时出现了不稳定的变化——时而过度运转，时而停摆。',
+             encourage:'思维的起伏是低落状态的一部分，不是你的问题。',
+             tx:null},
+      stable:{body:'解释系统在低落时保持了稳定，和你平时的使用方式差不多。这个系统对你的影响在低落时没有显著放大或缩小。',
+              encourage:'有些东西在风浪里依然稳着——这很珍贵。',
+              tx:null},
+    },
+    low:{
+      amp:{body:'解释系统平时在你的结构里不活跃，但低落时反而出现了反刍或分析的倾向。这有时是焦虑性的应对——试图用"想"来抓住一点控制感。',
+           encourage:'当惯用的路径不通，我们会找新的出口。这种反应是人的本能，你在尝试照顾自己。',
+           tx:'行为激活（Behavioral Activation）'},
+      col:{body:'解释系统本来就不是你主要依赖的系统，低落时它也没有明显变化。这个系统对你的低落状态影响较小。',
+           encourage:'每个人的恢复路径都不一样，这个系统不是你的主战场，没关系。',
+           tx:null},
+      mixed:{body:'解释系统平时不活跃，低落时出现了一些轻微波动，但不是主要的失调来源。',
+             encourage:'关注那些对你影响更大的系统，把精力放在最值得的地方。',
+             tx:null},
+      stable:{body:'解释系统在你平时和低落时都保持低活跃状态，没有明显变化。这不是问题，只是说明你的处理方式主要在其他系统。',
+              encourage:'了解自己不依赖什么，和了解自己依赖什么一样重要。',
+              tx:null},
+    },
+  },
+  B:{
+    high:{
+      amp:{body:'执行系统是你平时最主要的驱动力，但在低落时它以焦虑性强迫行动的方式失调——停下来反而更难受，用"做事"来回避感受。这是执行系统在压力下的过度征用，不是努力，而是逃避的一种形式。',
+           encourage:'你一直很擅长推进事情。现在你需要的不是更努力地动，而是允许自己停下来一下。停下来不是放弃，是换一种更有效的方式照顾自己。',
+           tx:'正念（Mindfulness）+ 节奏调节'},
+      col:{body:'执行系统是你最重要的路径，所以当它在低落时完全断裂——动不了、启动不了——这种失落感会特别深。明知道该做什么却做不到，这不是懒惰，也不是意志力的问题，这是低落状态下神经系统真实的反应。',
+           encourage:'那个能推动自己、能把事情做完的你，没有消失。它只是暂时需要一个更低的门槛。从最小的一步开始，不是因为那一步多重要，而是因为启动本身就是胜利。',
+           tx:'行为激活微步骤（Graded Task Assignment）'},
+      mixed:{body:'你的执行系统在低落时呈现出矛盾状态：有时焦虑性地停不下来，有时又完全动不了。这两种状态可能交替，让你的节奏很难稳定下来。',
+             encourage:'你不需要保持一个固定的节奏。有能量时动一点，没能量时允许停，这两种状态都是真实的你。',
+             tx:'节奏调节 + 弹性计划'},
+      stable:{body:'即使在低落状态下，你的执行系统没有出现明显的失调。你的行动力在低落时相对保持——这是你真实的优势，很多人在低落时这个系统会最先崩塌。',
+              encourage:'在低落中还能动起来，这需要很大的力气。你比你以为的更有韧性。',
+              tx:null},
+    },
+    mid:{
+      amp:{body:'执行系统不是你平时最主要的系统，但低落时出现了焦虑性行动的倾向——用忙碌来回避当下的感受。',
+           encourage:'做事是一种应对，但有时候停下来感受才是真正的出口。两者你都可以。',
+           tx:'正念（Mindfulness）'},
+      col:{body:'执行系统在你平时处于中等水平，低落时进一步降低，行动启动变得困难。这是低落状态的常见反应。',
+           encourage:'不想动的时候，从一件极小的事开始。不是为了完成它，只是为了证明你还可以动。',
+           tx:'行为激活微步骤'},
+      mixed:{body:'执行系统在低落时波动明显，时而强迫行动，时而完全停摆。',
+             encourage:'高低起伏是真实的，不需要强迫自己保持一致。',
+             tx:null},
+      stable:{body:'执行系统在低落时保持稳定，没有出现明显的放大或崩塌，和你平时的水平相近。',
+              encourage:'稳定本身就是一种力量。',
+              tx:null},
+    },
+    low:{
+      amp:{body:'执行系统平时不是你的主要系统，低落时出现了一些强迫性行动的倾向，可能是试图用行动控制不安感。',
+           encourage:'注意这种"动起来才安全"的感觉，它提示你可能有更深的情绪需要被看见。',
+           tx:'正念（Mindfulness）'},
+      col:{body:'执行系统本来在你的结构里就不活跃，低落时它进一步退场。这对你的影响相对有限，因为它本来就不是你主要的恢复路径。',
+           encourage:'每个人的路不一样，执行不是你的主战场，没关系。',
+           tx:null},
+      mixed:{body:'执行系统平时低活跃，低落时有轻微波动。整体而言不是你主要的失调来源。',
+             encourage:'把注意力放在对你影响更大的系统上。',
+             tx:null},
+      stable:{body:'执行系统在低落时保持了和平时相近的低活跃状态，没有明显变化。',
+              encourage:'了解自己在哪里稳，是建立恢复路径的基础。',
+              tx:null},
+    },
+  },
+  C:{
+    high:{
+      amp:{body:'情感系统是你平时最主要的感知方式，在低落时它以过载的形式失调——情绪太强、太满，没有过滤，被直接淹没。这不是你太敏感，而是你的情感处理系统在超负荷状态下运作。',
+           encourage:'你感受到的这些，都是真实的。你不需要让自己"不那么多感"，你需要的是一个更好的容器来装下这些感受，而不是压制它们。',
+           tx:'正念（Mindfulness）+ DBT 情绪调节技能'},
+      col:{body:'情感系统是你平时最主要的感知来源，所以当它在低落时关闭——情绪麻木、感受不到任何东西——这种空洞感会特别难熬，甚至比痛苦更难受。麻木不是好转，而是系统的一种保护性关闭。',
+           encourage:'感受不到不代表没有感受，而是感受暂时找不到出口了。你不需要强迫自己有感觉，但可以轻轻地给它一个空间，等它准备好回来。',
+           tx:'情绪激活练习 + 表达性写作'},
+      mixed:{body:'情感系统在低落时出现了不稳定的状态——有时情绪过载被淹没，有时又陷入麻木感受不到任何东西。这两种状态的交替本身就是一种消耗。',
+             encourage:'被淹没和麻木之间的来回，是很艰难的体验。你能在这其中坚持着，已经很不容易了。',
+             tx:'DBT 情绪调节技能'},
+      stable:{body:'即使在低落状态下，情感系统没有出现明显的过载或麻木。你的情感处理能力在低落时保持了相对的稳定——这是你真实的心理弹性。',
+              encourage:'在低落中还能感受、还能处理情绪，这需要很大的能量。你比你以为的更有力量。',
+              tx:null},
+    },
+    mid:{
+      amp:{body:'情感系统在你平时处于中等活跃度，低落时出现了情绪过载的倾向，容易被情绪淹没。',
+           encourage:'情绪来了的时候，试试先给它命名——"这是焦虑"、"这是委屈"。命名之后，它通常会小一点。',
+           tx:'正念（Mindfulness）'},
+      col:{body:'情感系统在低落时出现了麻木或关闭的倾向。感受不到有时候比感受到更难受。',
+           encourage:'麻木也是一种感受，它说明你的系统在保护你。给它一点时间。',
+           tx:'表达性写作'},
+      mixed:{body:'情感系统在低落时波动，时而过载，时而麻木。',
+             encourage:'情绪的起伏不是你的错，而是低落状态的一部分。',
+             tx:null},
+      stable:{body:'情感系统在低落时保持相对稳定，没有出现明显的过载或麻木。',
+              encourage:'情感上的稳定是你度过这段时期的支撑之一。',
+              tx:null},
+    },
+    low:{
+      amp:{body:'情感系统平时不是你的主要路径，低落时却出现了情绪过载的状态，可能是某些深层的感受在低落中浮现了出来。',
+           encourage:'那些平时没机会出现的感受，现在有机会被看见了。这不一定是坏事。',
+           tx:'正念（Mindfulness）'},
+      col:{body:'情感系统本来就不是你主要依赖的系统，低落时它保持低活跃。这对你的影响相对较小。',
+           encourage:'你的恢复路径在其他地方，专注在那里。',
+           tx:null},
+      mixed:{body:'情感系统平时低活跃，低落时有轻微变化，但不是主要的失调来源。',
+             encourage:'把精力放在对你影响更大的系统上。',
+             tx:null},
+      stable:{body:'情感系统在你平时和低落时都保持低活跃，没有明显变化。',
+              encourage:'了解自己的处理路径，是自我认识的开始。',
+              tx:null},
+    },
+  },
+  D:{
+    high:{
+      amp:{body:'认同系统是你平时最重要的导航系统，在低落时它以过度自我批判的方式失调——"我不够好"、"我是失败的"这些声音变得很响。这不是事实，而是认同系统在压力下的一种扭曲反应。',
+           encourage:'那个批判你的声音，不是真实的你，而是低落时的你。真实的你有价值，有立场，有不可妥协的东西——那些在低落时依然存在，只是暂时被噪音盖住了。',
+           tx:'CBT 认知重构 + 自我慈悲（Self-Compassion）'},
+      col:{body:'认同系统是你最主要的自我导航方式，所以当它在低落时崩塌——失去"我是谁"的感觉、变成空壳——这是所有失调中最根本性的动摇。这不是你真的消失了，而是那个稳定感暂时断线了。',
+           encourage:'你还在，即使现在找不到自己。那个有立场、有价值、知道自己想要什么的你，只是暂时在低落的噪音里找不到方向。你不需要现在想清楚自己是谁，只需要往一个你在意的方向迈出一步。',
+           tx:'ACT 价值澄清（Values Clarification）'},
+      mixed:{body:'认同系统在低落时不稳定——有时自我批判非常强烈，有时又感到空洞和失去方向感。这两种状态都很消耗，而且可能让人感到很孤独。',
+             encourage:'在认同感最不稳定的时候，你还是来到了这里，试着了解自己发生了什么。这本身就是在找回自己。',
+             tx:'ACT + 自我慈悲'},
+      stable:{body:'即使在低落状态下，认同系统保持了相对稳定——你对自己是谁、自己在意什么，没有出现明显的动摇。这种内在稳定性是非常宝贵的资源。',
+              encourage:'知道自己是谁，在低落时是最稳的锚。你有这个锚，好好守护它。',
+              tx:null},
+    },
+    mid:{
+      amp:{body:'认同系统在你平时处于中等水平，低落时出现了自我批判倾向。"我不够好"的声音在低落时容易被放大。',
+           encourage:'那个批判的声音不是事实，是低落状态在说话。你比它说的好得多。',
+           tx:'CBT 认知重构'},
+      col:{body:'认同系统在低落时出现了一些方向感丧失或自我感减弱的状态。',
+           encourage:'迷失方向不代表没有方向，只是暂时看不到。往一件你在意的小事迈出一步，方向会慢慢清晰。',
+           tx:'ACT 价值澄清'},
+      mixed:{body:'认同系统在低落时波动，时而自我批判，时而失去方向感。',
+             encourage:'你值得被温柔对待，尤其是被你自己。',
+             tx:null},
+      stable:{body:'认同系统在低落时保持相对稳定，没有出现明显的动摇。',
+              encourage:'内在的稳定感是你的支撑，继续信任它。',
+              tx:null},
+    },
+    low:{
+      amp:{body:'认同系统平时不是你的主要系统，低落时却出现了自我批判的倾向。低落状态有时会触碰到平时不常出现的自我怀疑。',
+           encourage:'这些声音不常出现，是因为它们不是你的主旋律。不要让低落时的噪音成为你对自己的定义。',
+           tx:'自我慈悲练习'},
+      col:{body:'认同系统本来就不是你最主要的路径，低落时也没有出现明显变化。这个系统对你的低落状态影响较小。',
+           encourage:'你的自我感走的是另一条路，这没有问题。',
+           tx:null},
+      mixed:{body:'认同系统平时低活跃，低落时有轻微波动，不是主要的失调来源。',
+             encourage:'专注在对你影响更大的地方。',
+             tx:null},
+      stable:{body:'认同系统在低落时没有明显变化，保持低活跃状态。',
+              encourage:'了解自己在哪里稳定，是建立恢复路径的基础。',
+              tx:null},
+    },
+  },
+  E:{
+    high:{
+      amp:{body:'游戏系统是你平时最主要的驱动力，在低落时它以逃避性切换的方式失调——不断找新刺激、换活动，但这是在回避感受，而不是真正的恢复。停下来马上就回到低落，因为根本的东西没有被处理。',
+           encourage:'你寻找新鲜感的本能是真实的力量，在好的状态下它带你去很多地方。现在它暂时走偏了，这没关系。你需要的不是停止探索，而是找到一个值得停留的地方。',
+           tx:'ACT 接纳（Acceptance）+ 接地练习（Grounding）'},
+      col:{body:'游戏系统是你最重要的活力来源，所以当它在低落时完全熄灭——快感消失、世界失去颜色、什么都提不起劲——这种灰暗感会特别压人。这是快感缺失（anhedonia）的真实体验，不是你"变了一个人"。',
+           encourage:'那个对世界充满好奇、能从小事里找到乐趣的你，没有消失。它只是现在太累了，需要被照顾，而不是被催促。从一件极小的事开始——不用"感到快乐"，只需要参与。',
+           tx:'愉悦活动计划（Pleasant Activities Scheduling）'},
+      mixed:{body:'游戏系统在低落时不稳定——有时逃避性地不停切换，有时又完全失去兴趣和活力。这两种状态交替，让你很难知道"真正的我"现在在哪里。',
+             encourage:'两种状态都是真实的你的一部分，都需要被看见。你不需要在低落时保持"有活力的样子"。',
+             tx:'接地练习 + 温和行为激活'},
+      stable:{body:'即使在低落状态下，游戏系统保持了相对稳定——你还能找到一点兴趣或活力，切换状态的能力没有完全消失。这是很宝贵的恢复资源。',
+              encourage:'在低落中还能找到一点好玩的东西，这是你与生俱来的弹性。好好用它。',
+              tx:null},
+    },
+    mid:{
+      amp:{body:'游戏系统在低落时出现了逃避性切换的倾向，用不停找刺激来回避当下的感受。',
+           encourage:'切换状态有时候是真的在恢复，有时候是在逃避。你自己通常知道是哪种——相信那个感觉。',
+           tx:'接地练习（Grounding）'},
+      col:{body:'游戏系统在低落时出现了兴趣减退、活力下降的状态。',
+           encourage:'感受不到乐趣不代表乐趣不存在。从最小的事情开始，不用等到"想做了"再去做。',
+           tx:'愉悦活动计划'},
+      mixed:{body:'游戏系统在低落时波动，时而逃避切换，时而兴趣全无。',
+             encourage:'允许自己有变化，你不需要对自己的状态保持一致。',
+             tx:null},
+      stable:{body:'游戏系统在低落时保持相对稳定，没有出现明显的过度激活或熄灭。',
+              encourage:'保持一点轻盈感，是低落中非常难得的事。',
+              tx:null},
+    },
+    low:{
+      amp:{body:'游戏系统平时不是你的主要系统，低落时却出现了逃避性切换的倾向，可能是试图用新鲜感来缓解不安。',
+           encourage:'这是一种应对，只需要注意它有没有真的帮你恢复，还是只是推迟了感受。',
+           tx:'接地练习'},
+      col:{body:'游戏系统本来就不是你主要依赖的系统，低落时它保持低活跃，没有明显变化。',
+           encourage:'你的活力和恢复走的是另一条路，去那里找。',
+           tx:null},
+      mixed:{body:'游戏系统平时低活跃，低落时有轻微波动，不是主要的失调来源。',
+             encourage:'把精力放在对你影响更大的系统上。',
+             tx:null},
+      stable:{body:'游戏系统在平时和低落时都保持低活跃，没有明显变化。',
+              encourage:'了解自己的路径，是最重要的自我认识。',
+              tx:null},
+    },
+  },
+};
+
+var z5sScores={A:5,B:5,C:5,D:5,E:5};
+var ans={};
+
+function buildSliders(){
+  var c=document.getElementById('sliders');c.innerHTML='';
+  ['A','B','C','D','E'].forEach(function(k){
+    var s=SYS[k];
+    c.innerHTML+='<div class="zscore-row">'
+      +'<div class="zscore-icon">'+s.icon+'</div>'
+      +'<div class="zscore-name" style="color:'+s.tc+'">'+s.zh+'</div>'
+      +'<input type="range" class="zscore-slider" min="0" max="10" step="1" value="5" id="sl-'+k+'" style="accent-color:'+s.color+'" '
+      +'oninput="z5sScores[\''+k+'\']=+this.value;document.getElementById(\'sv-'+k+'\').textContent=this.value">'
+      +'<div class="zscore-num" id="sv-'+k+'" style="color:'+s.color+'">5</div>'
+      +'</div>';
+  });
+}
+
+function buildQuestions(){
+  var c=document.getElementById('questions');c.innerHTML='';
+  QS.forEach(function(q,i){
+    var s=SYS[q.sys];
+    var btns=SCALE.map(function(sc){
+      return '<button class="sbt" id="b_'+i+'_'+sc.v+'" onclick="setAns('+i+','+sc.v+',\''+q.sys+'\')">'
+        +sc.v+'<span class="sl">'+sc.l.replace('\n','<br>')+'</span></button>';
+    }).join('');
+    c.innerHTML+='<div class="qcard">'
+      +'<div class="qcard-top"><div class="qnum">'+(i+1)+'</div>'
+      +'<div class="qtext">'+q.text+'</div></div>'
+      +'<div class="scale-row">'+btns+'</div>'
+      +'<div class="scale-ends"><span>完全不像我</span><span>非常像我</span></div>'
+      +'</div>';
+  });
+}
+
+function setAns(qi,val,sys){
+  ans[qi]=val;
+  var colors=SYS_COLORS[sys];
+  SCALE.forEach(function(sc){
+    var el=document.getElementById('b_'+qi+'_'+sc.v);
+    if(sc.v===val){el.className='sbt sel';el.style.background=colors[sc.v-1];el.style.borderColor=colors[sc.v-1];}
+    else{el.className='sbt dim';el.style.background='';el.style.borderColor='';}
+  });
+  var done=Object.keys(ans).length;
+  document.getElementById('qcount').textContent=done+' / 10';
+  document.getElementById('qbar').style.width=(done/10*100)+'%';
+  var btn=document.getElementById('qnext');
+  btn.disabled=done<10;
+  btn.textContent=done<10?'还有 '+(10-done)+' 题未选':'查看结果 →';
+}
+
+function goTo(n){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('p'+n).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function getBaselineLevel(score){
+  if(score>=6) return 'high';
+  if(score>=3) return 'mid';
+  return 'low';
+}
+
+function getPattern(amp,col){
+  var highAmp=amp>=4, highCol=col>=4;
+  if(highAmp&&highCol) return 'mixed';
+  if(highAmp) return 'amp';
+  if(highCol) return 'col';
+  return 'stable';
+}
+
+function showResults(){
+  var cats=['A','B','C','D','E'];
+  var scores={};
+  cats.forEach(function(k){scores[k]={amp:0,col:0};});
+  QS.forEach(function(q,i){scores[q.sys][q.type]=ans[i]||0;});
+
+  // Find top disrupted system
+  var sorted=cats.slice().sort(function(a,b){
+    return Math.max(scores[b].amp,scores[b].col)-Math.max(scores[a].amp,scores[a].col);
+  });
+  var topSys=sorted[0];
+  var topS=SYS[topSys];
+  var topPattern=getPattern(scores[topSys].amp,scores[topSys].col);
+
+  // Score overview bars
+  var overviewHtml=sorted.map(function(k,rank){
+    var s=SYS[k];
+    var av=scores[k].amp,cv=scores[k].col;
+    var isTop=rank===0;
+    return '<div class="bar-row">'
+      +'<div class="bar-head">'
+      +'<span style="font-size:13px;font-weight:600;color:'+s.color+'">'+s.icon+' '+s.zh
+      +(isTop?'<span style="font-size:10px;background:'+s.bg+';color:'+s.tc+';padding:2px 8px;border-radius:4px;margin-left:6px;font-weight:700">最高失调</span>':'')
+      +'</span>'
+      +'<span style="font-size:12px;color:#888">过载 <strong style="color:#c06000">'+av+'</strong> &nbsp;停摆 <strong style="color:#5058c0">'+cv+'</strong></span>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'
+      +'<span style="font-size:10px;color:#c06000;min-width:28px;flex-shrink:0">过载</span>'
+      +'<div class="bar-track" style="flex:1"><div class="bar-fill" data-w="'+Math.round(av/5*100)+'" style="background:#d07020"></div></div>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:8px">'
+      +'<span style="font-size:10px;color:#5058c0;min-width:28px;flex-shrink:0">停摆</span>'
+      +'<div class="bar-track" style="flex:1"><div class="bar-fill" data-w="'+Math.round(cv/5*100)+'" style="background:#5058c0"></div></div>'
+      +'</div>'
+      +'</div>';
+  }).join('');
+
+  // Per-system detailed cards
+  var detailHtml=cats.map(function(k){
+    var s=SYS[k];
+    var bl=getBaselineLevel(z5sScores[k]);
+    var pt=getPattern(scores[k].amp,scores[k].col);
+    var ct=CONTENT[k][bl][pt];
+    var patternLabel={amp:'过度激活',col:'停摆崩塌',mixed:'失调切换',stable:'相对稳定'}[pt];
+    var patternColor={amp:'#c06000',col:'#5058c0',mixed:'#7050c8',stable:'#1D9E75'}[pt];
+    var patternBg={amp:'#fff4e0',col:'#eeeeff',mixed:'#eeebfc',stable:'#E1F5EE'}[pt];
+    var isTop=k===topSys;
+    return '<div class="sys-card" style="background:'+s.bg+';border-color:'+(isTop?s.color:'transparent')+'">'
+      +'<div class="sys-card-head">'
+      +'<span style="font-size:28px">'+s.icon+'</span>'
+      +'<div style="flex:1">'
+      +'<div style="font-size:15px;font-weight:700;color:'+s.tc+'">'+s.zh
+      +(isTop?'&nbsp;<span style="font-size:10px;background:'+s.color+';color:#fff;padding:2px 8px;border-radius:4px">主要失调</span>':'')
+      +'</div>'
+      +'<div style="display:flex;gap:7px;margin-top:5px;flex-wrap:wrap">'
+      +'<span style="font-size:11px;font-weight:600;padding:2px 9px;border-radius:4px;background:#fff;color:#888">基线 '+z5sScores[k]+'/10</span>'
+      +'<span style="font-size:11px;font-weight:600;padding:2px 9px;border-radius:4px;background:'+patternBg+';color:'+patternColor+'">'+patternLabel+'</span>'
+      +'</div>'
+      +'</div></div>'
+      +'<div class="sys-card-body"><p>'+ct.body+'</p>'
+      +(ct.tx?'<span class="tx-pill" style="background:'+s.color+';color:#fff">'+ct.tx+'</span>':'')
+      +'</div>'
+      +'<div class="encourage" style="background:rgba(255,255,255,.6);color:'+s.tc+'">"'+ct.encourage+'"</div>'
+      +'</div>';
+  }).join('');
+
+  var patternLabelTop={amp:'过度激活型',col:'停摆崩塌型',mixed:'失调切换型',stable:'相对稳定'}[topPattern];
+
+  document.getElementById('results').innerHTML=
+    '<div style="margin-bottom:1.5rem">'
+    +'<div class="step-indicator">'
+    +'<div class="step-pip done">✓</div><div class="step-line done"></div>'
+    +'<div class="step-pip done">✓</div><div class="step-line done"></div>'
+    +'<div class="step-pip active">3</div>'
+    +'</div>'
+    +'<div class="step-meta">'
+    +'<div class="step-title">你的系统失调图谱</div>'
+    +'<div class="step-sub">Step 3 of 3 &nbsp;·&nbsp; 基于你的 Z5S 基线 + 10 项低落状态变化</div>'
+    +'</div></div>'
+
+    // Overview
+    +'<div class="rcard"><div class="card-label">失调分布总览（过载 vs 停摆，各满分 5）</div>'+overviewHtml+'</div>'
+
+    // Per system
+    +'<div class="rcard"><div class="card-label" style="margin-bottom:1rem">五个系统的低落状态解读</div>'+detailHtml+'</div>'
+
+    +'<div style="text-align:center;margin-top:1.5rem;padding-bottom:2.5rem">'
+    +'<button onclick="resetAll()" style="background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.85rem 2.5rem;font-size:14px;cursor:pointer;font-family:inherit">重新测评</button>'
+    +'</div>';
+
+  goTo(3);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    document.querySelectorAll('[data-w]').forEach(function(el){el.style.width=el.getAttribute('data-w')+'%';});
+  });});
+}
+
+function resetAll(){
+  ans={};
+  buildQuestions();
+  document.getElementById('qcount').textContent='0 / 10';
+  document.getElementById('qbar').style.width='0%';
+  var btn=document.getElementById('qnext');
+  btn.disabled=true;btn.textContent='还有 10 题未选';
+  goTo(0);
+}
+
+buildSliders();
+buildQuestions();
+</script>
+</body>
+</html>
