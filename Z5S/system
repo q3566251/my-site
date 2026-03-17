@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Z5S Measure</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;background:#f5f4f0;min-height:100vh;color:#1a1a1a}
+.page{display:none}.page.active{display:block}
+.wrap{max-width:660px;margin:0 auto;padding:2rem 1.25rem}
+.hero{background:linear-gradient(135deg,#EEEDFE,#E6F1FB);border-radius:16px;padding:2.25rem 2rem;text-align:center;margin-bottom:2rem}
+.hero .sub{font-size:12px;color:#7F77DD;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.6rem}
+.hero h1{font-size:28px;font-weight:700;color:#2a2060;margin-bottom:.5rem;letter-spacing:-.3px}
+.hero p{font-size:15px;color:#534AB7;line-height:1.6}
+.info-card{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.info-row{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#555;margin-bottom:.65rem;line-height:1.55;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.info-row:last-child{margin-bottom:0}
+.info-dot{width:6px;height:6px;border-radius:50%;background:#7F77DD;flex-shrink:0;margin-top:6px}
+.prog-wrap{margin-bottom:1.75rem}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.prog-label{font-size:13px;font-weight:600;color:#555}
+.prog-count{font-size:13px;font-weight:700;color:#7F77DD}
+.prog-bar{height:5px;background:#e8e6e0;border-radius:3px}
+.prog-fill{height:100%;background:#7F77DD;border-radius:3px;transition:width .35s ease}
+.prog-hint{font-size:12px;color:#aaa;margin-top:.6rem}
+.qcard{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.35rem 1.5rem;margin-bottom:.85rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.qcard-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:1.1rem}
+.qnum{font-size:11px;font-weight:700;color:#bbb;min-width:22px;padding-top:3px;flex-shrink:0}
+.qtext{font-size:15px;line-height:1.7;color:#1a1a1a;font-weight:500}
+.choice-row{display:flex;gap:10px;align-items:stretch}
+.choice-btn{flex:1;background:#f9f8f6;border:1.5px solid #e8e6e0;border-radius:10px;padding:.85rem 1rem;cursor:pointer;font-size:14px;line-height:1.6;color:#444;transition:all .18s;text-align:center;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.choice-btn:hover{border-color:#7F77DD;background:#EEEDFE;color:#3C3089}
+.choice-btn.sel{border-color:#534AB7;background:#534AB7;color:#fff;font-weight:500}
+.choice-btn.dim{border-color:#eee;background:#fafafa;color:#ccc}
+.vs-mid{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:32px}
+.vs-label{font-size:10px;font-weight:700;color:#ccc;letter-spacing:.06em}
+.btn-row{display:flex;gap:12px;margin-top:1.75rem;padding-bottom:2.5rem}
+.btnP{background:#534AB7;color:#fff;border:none;border-radius:10px;padding:.85rem 2rem;font-size:15px;font-weight:500;cursor:pointer;flex:1;transition:background .15s;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.btnP:hover{background:#3C3489}
+.btnP:disabled{opacity:.35;cursor:not-allowed}
+.btnS{background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.8rem 1.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.btnS:hover{background:#f5f4f0}
+.btnFull{width:100%;font-size:16px;padding:1rem}
+.rcard{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.4rem 1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-label{font-size:11px;color:#aaa;letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-bottom:.35rem}
+.card-sub{font-size:12px;color:#bbb;margin-bottom:1rem}
+.primary-row{display:flex;align-items:center;gap:14px}
+.p-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;gap:2px}
+.p-name{font-size:21px;font-weight:700}
+.p-desc{font-size:12.5px;color:#999;margin-top:3px;line-height:1.4}
+.p-score{font-size:32px;font-weight:700;margin-left:auto;flex-shrink:0}
+.bar-row{margin-bottom:.9rem}
+.bar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+.bar-track{height:8px;background:#f0eeea;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;width:0%;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.interp-block{border-radius:10px;padding:1.15rem 1.25rem;margin-bottom:.75rem;border:1.5px solid transparent}
+.interp-head{display:flex;align-items:center;gap:8px;margin-bottom:.6rem}
+.interp-body{font-size:14px;line-height:1.85}
+.interp-body p{margin-bottom:.6rem}
+.interp-body p:last-child{margin-bottom:0}
+.interp-section{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin:.9rem 0 .4rem}
+.interp-bullets{list-style:none;padding:0;margin:.4rem 0 .6rem}
+.interp-bullets li{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.65;margin-bottom:.3rem}
+.interp-note{font-size:13.5px;line-height:1.7;opacity:.85;border-top:1px solid rgba(0,0,0,.06);padding-top:.75rem;margin-top:.75rem}
+.sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1rem}
+.sys-item{border-radius:10px;padding:.9rem 1rem}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0}
+.tag-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:100px;font-size:13px;font-weight:600;line-height:1;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.tag-pill .tag-hash{font-weight:700;opacity:.6;font-size:12px}
+.figures-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.75rem}
+.figure-card{display:flex;align-items:flex-start;gap:10px;background:#f9f8f6;border:1px solid #e8e6e0;border-radius:10px;padding:.8rem 1rem}
+.figure-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:1px}
+.figure-name{font-size:13px;font-weight:600;color:#333;line-height:1.3}
+.figure-role{font-size:11px;color:#999;margin-top:1px;line-height:1.3}
+.figure-why{font-size:11.5px;color:#666;margin-top:5px;line-height:1.55;border-top:1px solid #eee;padding-top:5px}
+@media(max-width:480px){
+  .wrap{padding:1rem .85rem}
+  .choice-btn{font-size:13px;padding:.75rem .7rem}
+  .p-score{font-size:26px}
+  .sys-grid{grid-template-columns:1fr}
+  .figure-card{min-width:calc(50% - 5px)}
+}
+</style>
+</head>
+<body>
+
+<div id="p0" class="page active">
+<div class="wrap">
+  <div class="hero">
+    <div class="sub">Z5S Measure · Version 2</div>
+    <h1>人格系统测评</h1>
+    <p>了解你的主导人格系统——<br>你用哪种方式认识世界、做决定、与人连接</p>
+  </div>
+  <div class="info-card">
+    <div class="info-row"><div class="info-dot"></div>共 <strong>25 道题</strong>，每题两个选项选一个，约需 3 分钟</div>
+    <div class="info-row"><div class="info-dot"></div>两个选项都不"错"，选更像你的那个</div>
+    <div class="info-row"><div class="info-dot"></div>完成后揭晓你的主导系统与详细解读</div>
+  </div>
+  <button class="btnP btnFull" onclick="goTo(1)">开始测评</button>
+</div>
+</div>
+
+<div id="p1" class="page">
+<div class="wrap">
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span class="prog-label">Z5S Measure V2</span>
+      <span class="prog-count" id="qcount">0 / 25</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="qbar" style="width:0%"></div></div>
+    <div class="prog-hint">两个选项都合理，选更像你的那个</div>
+  </div>
+  <div id="questions"></div>
+  <div class="btn-row">
+    <button class="btnS" onclick="goTo(0)">← 返回</button>
+    <button class="btnP" id="qnext" disabled onclick="showResults()">查看结果 →</button>
+  </div>
+</div>
+</div>
+
+<div id="p2" class="page">
+<div class="wrap" id="results"></div>
+</div>
+
+<script>
+var SYS={
+  A:{name:'Interpretation',zh:'解释系统',color:'#3e7c22',bg:'#eef6e6',tc:'#2a5a14',icon:'🔍',desc:'通过理解和分析来认识世界，习惯追问"为什么"'},
+  B:{name:'Execution',zh:'执行系统',color:'#2060b0',bg:'#e4eef8',tc:'#144080',icon:'⚡',desc:'通过行动和推进来应对世界，倾向先做再说'},
+  C:{name:'Emotion',zh:'情感系统',color:'#c07010',bg:'#fdf0dc',tc:'#8a4e08',icon:'💛',desc:'通过感受和共情来连接世界，情绪是核心信息来源'},
+  D:{name:'Identity',zh:'认同系统',color:'#7050c8',bg:'#eeebfc',tc:'#4a34a0',icon:'🪞',desc:'通过价值观和自我认知来导航世界，以"我是谁"为决策基础'},
+  E:{name:'Play',zh:'游戏系统',color:'#c03820',bg:'#fce8e4',tc:'#902010',icon:'🎮',desc:'通过探索和创造来体验世界，好奇心和乐趣是驱动力'},
+};
+
+var PROFILE={
+  A:{
+    tags:['深度思考者','逻辑控','为什么星人','模式识别者','复杂问题终结者','分析上瘾者'],
+    figures:[
+      {name:'弗洛伊德',role:'心理学家',emoji:'🧠',
+       why:'以解释无意识为终身事业，用分析框架理解人的内心世界，"为什么"是他所有工作的核心问题。'},
+      {name:'查理·芒格',role:'投资思想家',emoji:'💡',
+       why:'以跨学科心智模型著称，他的核心竞争力就是建立理解框架，而不是直觉或运气。'},
+      {name:'Malcolm Gladwell',role:'作家 / 思想家',emoji:'✍️',
+       why:'擅长把复杂的社会现象解释成人人能懂的逻辑故事，他的工作本质上就是"帮世界建立解释"。'},
+      {name:'苏格拉底',role:'哲学家',emoji:'🏛️',
+       why:'以不断追问"为什么"为核心方法，认为理解本身就是最重要的事，知识来自持续的分析和质问。'},
+    ],
+  },
+  B:{
+    tags:['行动派','说干就干','推进器','结果导向','破局者','执行力MAX'],
+    figures:[
+      {name:'埃隆·马斯克',role:'企业家',emoji:'🚀',
+       why:'以极快的决策和多线并行执行著称，面对不确定时他的默认状态是推进而不是等待。'},
+      {name:'科比·布莱恩特',role:'篮球运动员',emoji:'🏀',
+       why:'Mamba心态的核心是持续行动——每天凌晨四点训练，不是因为想通了，而是因为先动起来。'},
+      {name:'杰夫·贝佐斯',role:'亚马逊创始人',emoji:'📦',
+       why:'"Day 1"文化就是拒绝停滞、持续推进，亚马逊的核心竞争力是超强的执行体系。'},
+      {name:'拿破仑',role:'军事家 / 领袖',emoji:'⚔️',
+       why:'以快速决策和行动速度改写战争规则，他在混乱中的反应是立刻推进，而非等待更多信息。'},
+    ],
+  },
+  C:{
+    tags:['高感知','共情力MAX','氛围感知者','情绪雷达','关系型','温度担当'],
+    figures:[
+      {name:'奥普拉·温弗瑞',role:'主持人 / 媒体人',emoji:'🎙️',
+       why:'以深度共情为核心能力，她的访谈能触达别人触不到的情感层，情绪连接是她影响世界的方式。'},
+      {name:'戴安娜王妃',role:'英国王妃',emoji:'👑',
+       why:'以真实的情感回应打动了整个世界，她的力量从来不是权力，而是真诚的情感连接。'},
+      {name:'Brené Brown',role:'研究者 / 作家',emoji:'💬',
+       why:'用研究证明脆弱和共情是力量，她把情感系统本身变成了研究对象和核心方法论。'},
+      {name:'罗宾·威廉姆斯',role:'演员 / 喜剧人',emoji:'🎭',
+       why:'以极高的情感敏感度创作，他的幽默背后是对人类情感深度的感知，能瞬间捕捉到一个房间里的情绪。'},
+    ],
+  },
+  D:{
+    tags:['原则型','内核稳定','不妥协者','价值观驱动','自我定义者','方向感强'],
+    figures:[
+      {name:'纳尔逊·曼德拉',role:'南非前总统',emoji:'✊',
+       why:'27年狱中，他的自我认同从未动摇——原则是他最稳定的锚，任何外部压力都无法改变他是谁。'},
+      {name:'史蒂夫·乔布斯',role:'苹果联合创始人',emoji:'🍎',
+       why:'"这不是我们的风格"是他最重要的决策工具，身份感和美学原则指导了他所有的重大选择。'},
+      {name:'甘地',role:'独立运动领袖',emoji:'🕊️',
+       why:'以非暴力原则为绝对底线，他所有的行动都完全由身份认同和价值观驱动，从不妥协。'},
+      {name:'西蒙娜·波伏娃',role:'哲学家 / 作家',emoji:'📖',
+       why:'终身以"我选择成为谁"为核心命题，自我定义是她哲学和生活的基础，而不是被定义。'},
+    ],
+  },
+  E:{
+    tags:['探索家','创意满格','弹性十足','新鲜感猎手','灵感体质','玩转可能性'],
+    figures:[
+      {name:'毕加索',role:'艺术家',emoji:'🎨',
+       why:'终身不断发明新的绘画语言，当一种风格玩透了就立刻探索下一种，好奇心从未停止。'},
+      {name:'大卫·鲍伊',role:'音乐人',emoji:'🎸',
+       why:'每张专辑都是一次全新探索，他把自己的整个人生变成了一场持续的创意实验。'},
+      {name:'理查德·费曼',role:'物理学家',emoji:'🔬',
+       why:'以玩的精神做物理，好奇心是他最重要的研究工具——他说"如果你觉得科学很无聊，就是还没玩起来"。'},
+      {name:'Lady Gaga',role:'艺术家 / 音乐人',emoji:'🌟',
+       why:'把每次演出变成一次全新的艺术探索，弹性和不断重新发明自己的能力是她最核心的驱动力。'},
+    ],
+  },
+};
+
+var INTERP={
+  A:{
+    primary:{
+      intro:'解释系统是你的主导系统。面对情境时，你的第一反应通常是尝试理解事情的原因、逻辑和结构。你倾向通过分析、观察模式和建立解释框架来获得稳定感，这使你在复杂或混乱情境中具有很强的理解深度。',
+      sectionA:'这个系统的优势通常表现为：',
+      bullets:['能迅速看见事情背后的逻辑与结构','在复杂问题中建立清晰的理解框架','帮助他人把混乱的信息整理成可理解的模式'],
+      sectionB:'这个系统的劣势通常表现为：',
+      weaknesses:['理解变成行动的前提，容易陷入"想通了才能动"的卡顿','在纯情绪性的困境中，分析有时无法真正解决问题','长时间在脑子里转，难以被外界看见或获得支持'],
+      suggestion:'练习给自己设一个"理解截止点"——想到够用就行，不需要全部搞清楚才能往下走。',
+    },
+    secondary:{
+      intro:'解释系统在你的结构中是一个稳定的辅助系统。虽然它不一定是你面对情境时的第一反应，但在需要理解复杂情况或整理信息时，你能够较自然地调动分析和理解能力。',
+      sectionA:'当解释系统参与时，它通常会带来这些优势：',
+      bullets:['帮助你看清事情背后的逻辑和结构','在混乱情境中提供更清晰的理解框架','让你的判断更有深度，而不仅仅是即时反应'],
+    },
+    background:{
+      intro:'解释系统在你的结构中处于中间位置，不是你的主要应对方式，但在有需要时仍然可以被调动。',
+      sectionA:'这个系统偶尔会在以下情况中发挥作用：',
+      bullets:['需要向别人解释清楚一件复杂事情时','有足够时间去深入分析某个问题时','帮助他人整理思路时'],
+    },
+    low:{
+      intro:'解释系统在你的结构中激活度较低。你不是特别依赖"先搞懂"来应对情境，因此在很多时候，你可能不会自发地停下来分析原因、梳理逻辑或建立完整理解。这并不代表你没有理解能力，而是解释系统对你来说不是一个高频、稳定、自动可调用的资源。',
+      sectionA:'因此，你可能较难最大化这个系统的优点，例如：',
+      bullets:['不能很快把复杂事情拆清楚','不容易迅速看见行为背后的逻辑和模式','在混乱情境中，较难单靠理解感获得稳定感'],
+    },
+  },
+  B:{
+    primary:{
+      intro:'执行系统是你的主导系统。面对困难或任务时，你的第一反应通常是寻找可以采取的下一步行动，而不是停留在理解或情绪之中。你更倾向通过行动推进来获得方向，这让你在复杂环境中能够快速建立节奏。',
+      sectionA:'这个系统的优势通常表现为：',
+      bullets:['能迅速把问题转化为具体步骤','在不确定情境中依然保持推进能力','容易建立行动节奏并持续推动事情发展'],
+      sectionB:'这个系统的劣势通常表现为：',
+      weaknesses:['容易跳过情绪处理，把问题"做完"但没有真正处理','在需要深度理解的情境中，行动可能走错方向','长期高速推进容易忽略自己的疲惫和身体信号'],
+      suggestion:'在开始行动之前，给自己留 5 分钟问一句："我现在的方向是对的吗？"这不是浪费时间，而是让执行更有效。',
+    },
+    secondary:{
+      intro:'执行系统在你的结构中是一个可以稳定调动的辅助资源。虽然它不一定在情境出现时立即启动，但当方向逐渐明确时，你通常能够切换到行动模式，把事情推进起来。',
+      sectionA:'当执行系统参与时，它通常会带来这些优势：',
+      bullets:['把想法转化为实际步骤','在复杂情境中逐步建立行动节奏','避免长期停留在思考或感受阶段'],
+    },
+    background:{
+      intro:'执行系统在你的结构中处于中间位置，不是你的主要应对方式，但在明确需要推进时仍然可以被调动。',
+      sectionA:'这个系统偶尔会在以下情况中发挥作用：',
+      bullets:['任务方向已经很清楚、需要执行时','外部有截止期限、必须推进时','看到别人停滞不前、需要有人动起来时'],
+    },
+    low:{
+      intro:'执行系统在你的结构中激活度较低。面对问题时，你不一定会自然进入"下一步怎么做"的推进状态，也可能较难快速把内在想法转化成明确行动。这不代表你不能行动，而是执行系统不是你最容易稳定调动的应对资源。',
+      sectionA:'因此，你可能较难最大化这个系统的优点，例如：',
+      bullets:['不能很快把事情推进起来','在混乱中较难自然建立节奏和次序','明明知道一些方向，但不容易立刻转化成可执行步骤'],
+    },
+  },
+  C:{
+    primary:{
+      intro:'情感系统是你的主导系统。面对情境时，你通常会首先感受到情绪和氛围的变化，这些情绪信息会成为你理解世界的重要依据。这种高度的情感敏感度使你对关系、氛围和他人感受具有很强的觉察能力。',
+      sectionA:'这个系统的优势通常表现为：',
+      bullets:['对自己和他人的情绪变化非常敏感','能快速捕捉到关系中的微妙信号','在人际互动中具有较高的共情能力'],
+      sectionB:'这个系统的劣势通常表现为：',
+      weaknesses:['情绪信号太强时容易影响判断，难以保持客观','他人的情绪会明显影响自己的状态，容易被带走','在需要快速推进的情境中，情绪处理可能成为拖慢节奏的因素'],
+      suggestion:'学会区分"我在感受情绪"和"情绪在控制我"——前者是资源，后者需要有意识地暂停和重新定位。',
+    },
+    secondary:{
+      intro:'情感系统在你的结构中是一个重要的辅助感知来源。虽然情绪不一定是你面对情境时的第一信号，但你通常能够在过程中逐渐觉察情绪，并把这些感受纳入判断。',
+      sectionA:'当情感系统参与时，它通常会带来这些优势：',
+      bullets:['提供关于关系和氛围的重要信息','帮助你理解自己和他人的感受','让决策在理性之外保有人情温度'],
+    },
+    background:{
+      intro:'情感系统在你的结构中处于中间位置，情绪不是你最主要的信息来源，但在关系密切的情境中仍然会被激活。',
+      sectionA:'这个系统偶尔会在以下情况中发挥作用：',
+      bullets:['与亲近的人发生情感冲突时','需要安慰或支持他人时','感受到明显的群体氛围变化时'],
+    },
+    low:{
+      intro:'情感系统在你的结构中激活度较低。你不一定会第一时间注意到自己的情绪变化，也未必会自然把情绪当成主要信息来源。这不代表你没有情绪，而是情感系统对你来说不是一个最容易被觉察、被信任、被充分使用的系统。',
+      sectionA:'因此，你可能较难最大化这个系统的优点，例如：',
+      bullets:['不容易快速捕捉自己的真实情绪状态','对关系氛围和他人感受的敏锐度可能不够稳定','情绪本来可以提供的重要信号，可能较难及时被你利用'],
+    },
+  },
+  D:{
+    primary:{
+      intro:'认同系统是你的主导系统。面对情境时，你往往会从"这件事是否符合我是谁、我相信什么"来判断方向。你的行动和判断通常会受到价值观、原则和自我认知的深刻影响。',
+      sectionA:'这个系统的优势通常表现为：',
+      bullets:['拥有稳定而清晰的内在方向','在压力环境中不容易被外界带偏','行动通常与长期价值和原则保持一致'],
+      sectionB:'这个系统的劣势通常表现为：',
+      weaknesses:['外界的批评或否定容易触及自我价值感，恢复时间较长','在价值观与现实有冲突时，容易陷入内耗或僵局','有时过于坚守原则，在需要弹性的情境中难以调整'],
+      suggestion:'把"这件事不符合我的价值观"和"我这个人有问题"分开——前者是判断，后者才是自我攻击，两者不是同一件事。',
+    },
+    secondary:{
+      intro:'认同系统在你的结构中提供稳定的价值参照。虽然它不一定在每个情境中立刻启动，但当事情涉及重要选择或长期方向时，你通常会把价值观和自我认知纳入考虑。',
+      sectionA:'当认同系统参与时，它通常会带来这些优势：',
+      bullets:['让决策更符合长期方向','提供内在一致性和稳定感','在压力下帮助你判断什么真正重要'],
+    },
+    background:{
+      intro:'认同系统在你的结构中处于中间位置，价值观不是你每个决定的第一参照，但在重大选择或边界被触碰时仍然会被激活。',
+      sectionA:'这个系统偶尔会在以下情况中发挥作用：',
+      bullets:['面临重要的人生选择时','感觉被要求做一件"不对"的事时','需要向别人解释自己为什么这样做时'],
+    },
+    low:{
+      intro:'认同系统在你的结构中激活度较低。你通常不会特别依赖"这件事是否符合我是谁、我重视什么"来判断方向，也不一定会自然从身份、原则或价值一致性的角度来组织经验。这不代表你没有价值观，而是认同系统不是你最容易被持续调动的内在参照。',
+      sectionA:'因此，你可能较难最大化这个系统的优点，例如：',
+      bullets:['面对外界压力时，较难持续依靠内在原则稳定自己','不容易快速分辨什么真正符合自己、什么只是暂时应付','行动和选择有时缺少深层身份感带来的稳定方向'],
+    },
+  },
+  E:{
+    primary:{
+      intro:'游戏系统是你的主导系统。面对世界时，你更容易以好奇、探索和尝试不同可能性的方式来理解情境。你倾向把环境视为可以探索和重新组合的空间，这让你在不确定或僵住的情境中仍然能够保持弹性。',
+      sectionA:'这个系统的优势通常表现为：',
+      bullets:['容易发现新的角度和可能性','在压力中保持心理弹性','通过探索与尝试创造新的路径'],
+      sectionB:'这个系统的劣势通常表现为：',
+      weaknesses:['容易在多个方向之间持续探索，难以在一件事上深耕','当事情变得沉重或重复，容易失去动力或回避','有时用"换个玩法"来绕开真正需要正面处理的问题'],
+      suggestion:'找到一件值得你深耕的事，然后练习在无聊和困难的阶段也留下来——深度和广度同样是一种探索。',
+    },
+    secondary:{
+      intro:'游戏系统在你的结构中提供一定程度的心理弹性。虽然它不一定是你面对困难时的第一反应，但当情境需要新的角度或缓解压力时，你能够通过探索或换个方式来重新看待问题。',
+      sectionA:'当游戏系统参与时，它通常会带来这些优势：',
+      bullets:['提供新的视角和可能性','在压力中增加心理弹性','帮助打破单一思路的限制'],
+    },
+    background:{
+      intro:'游戏系统在你的结构中处于中间位置，好奇和探索不是你面对情境的第一方式，但在特定条件下仍然能被激活。',
+      sectionA:'这个系统偶尔会在以下情况中发挥作用：',
+      bullets:['旧方法明显走不通、需要新思路时','压力较大、需要找到出口换状态时','在放松或休闲的环境中自然探索时'],
+    },
+    low:{
+      intro:'游戏系统在你的结构中激活度较低。你不一定会自然地用好奇、弹性、探索或"换个玩法"的方式来面对困难，也较难自动把僵住的局面转化成可玩转的空间。这不代表你没有创造力，而是游戏系统不是你最容易稳定调用的恢复与创新资源。',
+      sectionA:'因此，你可能较难最大化这个系统的优点，例如：',
+      bullets:['在压力中较难自然保持轻盈感和心理弹性','容易把问题处理得过重、过直、过僵','不容易快速产生新角度、新玩法或新的可能性'],
+    },
+  },
+};
+
+var MAX=10;
+
+var QS=[
+  {q:'遇到一个让你困惑的问题时：',L:{s:'A',t:'我需要先搞清楚它是怎么来的'},R:{s:'B',t:'我直接动手，边做边弄明白'}},
+  {q:'事情结束后，让你更有满足感的是：',L:{s:'A',t:'终于搞清楚了整件事的来龙去脉'},R:{s:'B',t:'看到事情真的被推动完成了'}},
+  {q:'事情卡住的时候，你更可能：',L:{s:'B',t:'继续推，总会找到出路'},R:{s:'A',t:'退一步，先想清楚再走'}},
+  {q:'在关系里，你更在意：',L:{s:'C',t:'对方有没有感受到被理解'},R:{s:'D',t:'对方有没有尊重你的边界'}},
+  {q:'做决定时，你更常问自己：',L:{s:'D',t:'"这件事符合我的价值观吗"'},R:{s:'C',t:'"这件事让我感觉怎么样"'}},
+  {q:'在一段关系里，最让你受伤的是：',L:{s:'C',t:'感觉自己的情绪没被看见'},R:{s:'D',t:'感觉自己的原则被踩到了'}},
+  {q:'遇到一个新问题，你更想：',L:{s:'A',t:'把它的来龙去脉搞清楚'},R:{s:'E',t:'试试有没有全新的方式'}},
+  {q:'让你感到充实的，更可能是：',L:{s:'E',t:'探索一件之前完全不了解的事'},R:{s:'A',t:'终于把一件复杂的事想明白了'}},
+  {q:'你更倾向于：',L:{s:'A',t:'深入理解一件事'},R:{s:'E',t:'广泛尝试很多事'}},
+  {q:'朋友来找你倾诉，你更自然的反应是：',L:{s:'B',t:'帮他找到能马上采取的行动'},R:{s:'C',t:'先陪他待在那个情绪里'}},
+  {q:'当你察觉到气氛不对，你会：',L:{s:'C',t:'先感受一下发生了什么'},R:{s:'B',t:'主动去做点什么改变它'}},
+  {q:'你更喜欢的工作方式是：',L:{s:'B',t:'快速推进，有进展才有感觉'},R:{s:'C',t:'慢慢来，人的状态比进度重要'}},
+  {q:'面对一个没有明确规则的情况，你：',L:{s:'D',t:'先想清楚自己的原则和立场'},R:{s:'E',t:'把它当成可以自由探索的空间'}},
+  {q:'对你来说，更难接受的是：',L:{s:'E',t:'生活变得太固定、没有新鲜感'},R:{s:'D',t:'被迫做一件和自己价值观相悖的事'}},
+  {q:'你更像：',L:{s:'D',t:'知道自己是谁，沿着这条线走'},R:{s:'E',t:'保持开放，哪里有趣往哪走'}},
+  {q:'当别人说了一句让你不舒服的话，你更先注意到：',L:{s:'A',t:'这句话在逻辑上哪里有问题'},R:{s:'C',t:'这句话让你或对方产生了什么情绪'}},
+  {q:'让你真正觉得好受的，是：',L:{s:'C',t:'有人真的感受到了你的处境'},R:{s:'A',t:'终于想明白了为什么会这样'}},
+  {q:'当你完成一件事，你更满意的是：',L:{s:'B',t:'它被完成了，而且完成得很漂亮'},R:{s:'D',t:'整个过程里我没有妥协自己的原则'}},
+  {q:'你更难接受的是：',L:{s:'D',t:'为了效率做了一个违背自己的选择'},R:{s:'B',t:'因为想太多错过了行动的时机'}},
+  {q:'让你最有能量的，是：',L:{s:'C',t:'和重要的人有深度的情感连接'},R:{s:'E',t:'一头扎进一件完全陌生的事里'}},
+  {q:'压力很大的时候，你更需要：',L:{s:'E',t:'做点好玩的事，换换状态'},R:{s:'C',t:'跟一个信任的人好好说说话'}},
+  {q:'你更想弄清楚的是：',L:{s:'A',t:'这件事是怎么发生的'},R:{s:'D',t:'这件事对我意味着什么'}},
+  {q:'迷茫的时候，你更先想的是：',L:{s:'D',t:'"我是谁，我想成为什么样的人"'},R:{s:'A',t:'"到底发生了什么，事情的逻辑是什么"'}},
+  {q:'你更享受的是：',L:{s:'B',t:'把一件事从头到尾做完'},R:{s:'E',t:'在做的过程中不断发现新玩法'}},
+  {q:'你认为好的解决方案，通常来自：',L:{s:'E',t:'跳出框架，找到意想不到的角度'},R:{s:'B',t:'果断决策，然后扎实执行'}},
+];
+
+// 每次加载自动打乱题目顺序
+(function(){
+  for(var i=QS.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=QS[i];QS[i]=QS[j];QS[j]=tmp;
+  }
+})();
+
+var ans={};
+
+function buildQuestions(){
+  var c=document.getElementById('questions');
+  c.innerHTML='';
+  QS.forEach(function(q,i){
+    c.innerHTML+='<div class="qcard">'
+      +'<div class="qcard-top"><div class="qnum">'+(i+1)+'</div><div class="qtext">'+q.q+'</div></div>'
+      +'<div class="choice-row">'
+      +'<button class="choice-btn" id="opt_'+i+'_L" onclick="setAns('+i+',\'L\')">'+q.L.t+'</button>'
+      +'<div class="vs-mid"><span class="vs-label">VS</span></div>'
+      +'<button class="choice-btn" id="opt_'+i+'_R" onclick="setAns('+i+',\'R\')">'+q.R.t+'</button>'
+      +'</div></div>';
+  });
+}
+
+function setAns(qi,side){
+  ans[qi]=side;
+  var L=document.getElementById('opt_'+qi+'_L');
+  var R=document.getElementById('opt_'+qi+'_R');
+  if(side==='L'){L.className='choice-btn sel';R.className='choice-btn dim';}
+  else{R.className='choice-btn sel';L.className='choice-btn dim';}
+  var done=Object.keys(ans).length;
+  document.getElementById('qcount').textContent=done+' / 25';
+  document.getElementById('qbar').style.width=(done/25*100)+'%';
+  var btn=document.getElementById('qnext');
+  btn.disabled=done<25;
+  btn.textContent=done<25?'还有 '+(25-done)+' 题未选':'查看结果 →';
+}
+
+function goTo(n){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('p'+n).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderInterpBlock(k,role,score,isStar){
+  var s=SYS[k];
+  var d=INTERP[k][role];
+  var hi=(role==='primary');
+  var bg=hi?s.bg:'#fafaf8';
+  var borderColor=hi?(s.color+'55'):'#eeebe5';
+  var textColor=hi?s.tc:'#444';
+  var bulletsHtml=d.bullets.map(function(b){
+    return '<li style="color:'+textColor+'">'
+      +'<span style="color:'+s.color+';font-weight:700;flex-shrink:0">·</span>'
+      +'<span>'+b+'</span>'
+      +'</li>';
+  }).join('');
+
+  // Weaknesses (primary only)
+  var weakHtml='';
+  if(d.weaknesses){
+    var wItems=d.weaknesses.map(function(b){
+      return '<li style="color:'+textColor+'">'
+        +'<span style="color:#c0392b;font-weight:700;flex-shrink:0">·</span>'
+        +'<span>'+b+'</span>'
+        +'</li>';
+    }).join('');
+    weakHtml='<div class="interp-section" style="color:'+s.tc+'">'+d.sectionB+'</div>'
+      +'<ul class="interp-bullets">'+wItems+'</ul>';
+  }
+
+  // Suggestion (primary only)
+  var suggHtml='';
+  if(d.suggestion){
+    suggHtml='<div style="margin-top:.75rem;padding:.85rem 1rem;border-radius:8px;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.07)">'
+      +'<div style="font-size:10px;font-weight:700;color:'+s.tc+';letter-spacing:.05em;text-transform:uppercase;margin-bottom:.35rem">建议</div>'
+      +'<div style="font-size:13.5px;line-height:1.7;color:'+textColor+'">'+d.suggestion+'</div>'
+      +'</div>';
+  }
+
+  return '<div class="interp-block" style="background:'+bg+';border-color:'+borderColor+'">'
+    +'<div class="interp-head">'
+    +'<span style="font-size:17px">'+s.icon+'</span>'
+    +'<span style="font-size:13.5px;font-weight:700;color:'+s.tc+'">'+s.zh+'</span>'
+    +'<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;background:'+(hi?'rgba(255,255,255,.6)':'#eeebe5')+';color:'+s.tc+'">'
+    +score+'pt'+(isStar?' ★':'')+'</span>'
+    +'</div>'
+    +'<div class="interp-body" style="color:'+textColor+'">'
+    +'<p>'+d.intro+'</p>'
+    +'<div class="interp-section" style="color:'+s.tc+'">'+d.sectionA+'</div>'
+    +'<ul class="interp-bullets">'+bulletsHtml+'</ul>'
+    +weakHtml
+    +suggHtml
+    +'</div></div>';
+}
+
+function renderTagsAndFigures(pk,isDual,sk){
+  var keys=isDual?[pk,sk]:[pk];
+  var html='';
+  keys.forEach(function(k){
+    var p=PROFILE[k];
+    var s=SYS[k];
+    var tagsHtml=p.tags.map(function(t){
+      return '<span class="tag-pill" style="background:'+s.bg+';color:'+s.tc+'">'
+        +'<span class="tag-hash">#</span>'+t+'</span>';
+    }).join('');
+    var figuresHtml=p.figures.map(function(f){
+      return '<div class="figure-card">'
+        +'<div class="figure-avatar" style="background:'+s.bg+'">'+f.emoji+'</div>'
+        +'<div style="flex:1">'
+        +'<div class="figure-name">'+f.name+'</div>'
+        +'<div class="figure-role">'+f.role+'</div>'
+        +'<div class="figure-why">'+f.why+'</div>'
+        +'</div></div>';
+    }).join('');
+    html+='<div style="margin-bottom:'+(isDual?'1.75rem':'0')+'">'
+      +(isDual?'<div style="font-size:12px;font-weight:700;color:'+s.tc+';margin-bottom:.75rem;display:flex;align-items:center;gap:6px">'+s.icon+' '+s.zh+'</div>':'')
+      +'<div class="tags-wrap">'+tagsHtml+'</div>'
+      +'<div style="font-size:12px;color:#aaa;margin-bottom:.4rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase">与你相似的人</div>'
+      +'<div class="figures-row">'+figuresHtml+'</div>'
+      +'</div>';
+  });
+  return html;
+}
+
+function showResults(){
+  var scores={A:0,B:0,C:0,D:0,E:0};
+  QS.forEach(function(q,i){
+    if(ans[i]!==undefined) scores[q[ans[i]].s]++;
+  });
+
+  // Sort by score desc, then alphabetically for stable ties
+  var sorted=Object.keys(scores).sort(function(a,b){
+    return scores[b]-scores[a]||a.localeCompare(b);
+  });
+  var pk=sorted[0],sk=sorted[1];
+  var pv=scores[pk],sv=scores[sk];
+  // Dual if difference ≤ 1 (includes exact ties)
+  var isDual=(pv-sv)<=1;
+  var structLabel=isDual?SYS[pk].zh+' + '+SYS[sk].zh:SYS[pk].zh;
+
+  var barsHtml=sorted.map(function(k,i){
+    var v=scores[k];
+    var label='';
+    if(i===0) label='<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:5px">主导</span>';
+    else if(isDual&&i===1) label='<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:5px">主导</span>';
+    else if(!isDual&&i===1) label='<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:5px">副系统</span>';
+    return '<div class="bar-row">'
+      +'<div class="bar-head">'
+      +'<span style="font-size:13px;font-weight:600;color:'+SYS[k].color+'">'+SYS[k].icon+' '+SYS[k].zh+label+'</span>'
+      +'<span style="font-size:13px;color:#999;font-weight:500">'+v+'<span style="font-size:11px;color:#bbb"> / '+MAX+'</span></span>'
+      +'</div>'
+      +'<div class="bar-track"><div class="bar-fill" data-w="'+Math.round(v/MAX*100)+'" style="background:'+SYS[k].color+'"></div></div>'
+      +'</div>';
+  }).join('');
+
+  // Assign roles to all 5 systems
+  var interpHtml=sorted.map(function(k,i){
+    var role,isStar=false;
+    if(i===0){role='primary';isStar=true;}
+    else if(isDual&&i===1){role='primary';isStar=true;}
+    else if(scores[k]<=3){role='low';}
+    else if(i===1&&!isDual){role='secondary';}
+    else{role='background';}
+    return renderInterpBlock(k,role,scores[k],isStar);
+  }).join('');
+
+  var chipsHtml=isDual
+    ?'<div style="display:flex;gap:7px;flex-wrap:wrap">'
+      +'<span style="background:'+SYS[pk].bg+';color:'+SYS[pk].tc+';padding:4px 13px;border-radius:20px;font-size:12px;font-weight:600">'+SYS[pk].icon+' '+SYS[pk].zh+' '+pv+'pt</span>'
+      +'<span style="background:'+SYS[sk].bg+';color:'+SYS[sk].tc+';padding:4px 13px;border-radius:20px;font-size:12px;font-weight:600">'+SYS[sk].icon+' '+SYS[sk].zh+' '+sv+'pt</span>'
+      +'</div>'
+    :'<div style="font-size:13px;color:#888">Secondary: <strong style="color:'+SYS[sk].tc+'">'+SYS[sk].zh+'</strong> &nbsp;·&nbsp; '+sv+'pt</div>';
+
+  // Dual icon: two separate spans side by side
+  var iconHtml=isDual
+    ?'<span>'+SYS[pk].icon+'</span><span>'+SYS[sk].icon+'</span>'
+    :SYS[pk].icon;
+
+  var sysGridHtml=Object.entries(SYS).map(function(entry){
+    var k=entry[0],s=entry[1];
+    var hi=(k===sorted[0])||(isDual&&k===sorted[1]);
+    return '<div class="sys-item" style="background:'+s.bg+';'+(hi?'outline:2px solid '+s.color+';outline-offset:1px':'')+'">'
+      +'<div style="font-size:13px;font-weight:700;color:'+s.tc+';margin-bottom:3px">'+s.icon+' '+s.zh+(hi?' ★':'')+'</div>'
+      +'<div style="font-size:11px;color:'+s.tc+';opacity:.8;line-height:1.4">'+s.desc+'</div>'
+      +'</div>';
+  }).join('');
+
+  var tagsHtml=renderTagsAndFigures(pk,isDual,sk);
+
+  document.getElementById('results').innerHTML=
+    '<div style="border-bottom:1px solid #f0eeea;padding-bottom:1.5rem;margin-bottom:1.5rem">'
+    +'<div style="font-size:11px;color:#aaa;letter-spacing:.07em;text-transform:uppercase;font-weight:600;margin-bottom:.35rem">Z5S Measure · V2 结果</div>'
+    +'<h2 style="font-size:24px;font-weight:700;margin-bottom:.4rem">你的人格系统图谱</h2>'
+    +'<p style="font-size:13px;color:#888">基于 25 组对比选择</p>'
+    +'</div>'
+
+    +'<div class="rcard" style="border-left:4px solid '+SYS[pk].color+'">'
+    +'<div class="card-label">'+(isDual?'Dual System · 双系统':'Primary System · 主导系统')+'</div>'
+    +'<div class="primary-row">'
+    +'<div class="p-icon" style="background:'+SYS[pk].bg+'">'+iconHtml+'</div>'
+    +'<div style="flex:1">'
+    +'<div class="p-name" style="color:'+SYS[pk].tc+'">'+structLabel+'</div>'
+    +'<div class="p-desc">'+(isDual?SYS[pk].name+' + '+SYS[sk].name+' · 差距 '+(pv-sv)+' 分，双系统判定':SYS[pk].name+' · 领先 '+(pv-sv)+' 分')+'</div>'
+    +'</div>'
+    +'<div class="p-score" style="color:'+SYS[pk].color+'">'+pv+'<span style="font-size:13px;font-weight:400;color:#aaa">pt</span></div>'
+    +'</div>'
+    +'<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #f0eeea">'+chipsHtml+'</div>'
+    +'</div>'
+
+    +'<div class="rcard">'
+    +'<div class="card-label">五系统得分分布</div>'
+    +'<div class="card-sub">每个系统最多出现 10 次，得分越高代表该系统在你的应对结构中激活度越高</div>'
+    +barsHtml+'</div>'
+
+    +'<div class="rcard"><div class="card-label">系统解读</div>'+interpHtml+'</div>'
+
+    +'<div class="rcard"><div class="card-label">五个系统</div>'
+    +'<p style="font-size:13px;color:#999;margin-bottom:1rem;line-height:1.6">每个人都同时拥有这五种系统，只是主导的优先级不同。</p>'
+    +'<div class="sys-grid">'+sysGridHtml+'</div></div>'
+
+    +'<div class="rcard"><div class="card-label">你的标签 &amp; 相似的人</div>'+tagsHtml+'</div>'
+
+    +'<div style="text-align:center;margin-top:1.5rem;padding-bottom:2.5rem">'
+    +'<button onclick="resetAll()" style="background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.85rem 2.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,\'PingFang SC\',\'Hiragino Sans GB\',sans-serif">重新测评</button>'
+    +'</div>';
+
+  goTo(2);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    document.querySelectorAll('.bar-fill[data-w]').forEach(function(b){b.style.width=b.dataset.w+'%';});
+  });});
+}
+
+function resetAll(){
+  Object.keys(ans).forEach(function(k){delete ans[k];});
+  buildQuestions();
+  document.getElementById('qcount').textContent='0 / 25';
+  document.getElementById('qbar').style.width='0%';
+  document.getElementById('qnext').disabled=true;
+  document.getElementById('qnext').textContent='还有 25 题未选';
+  goTo(0);
+}
+
+buildQuestions();
+</script>
+</body>
+</html>
