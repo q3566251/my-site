@@ -168,208 +168,132 @@ var SYS={
   E:{zh:'游戏系统',name:'Play',color:'#c03820',bg:'#fce8e4',tc:'#902010',icon:'🎮'},
 };
 
-// Level colors
 var LV={
   reactive:{label:'反应层级',short:'反应',color:'#c03820',bg:'#fce8e4',tc:'#902010'},
   integrative:{label:'整合层级',short:'整合',color:'#c07010',bg:'#fdf0dc',tc:'#8a4e08'},
   transformational:{label:'转化层级',short:'转化',color:'#3e7c22',bg:'#eef6e6',tc:'#2a5a14'},
 };
 
-// 4 questions per system, 3 options each (r/i/t)
 var QS=[
-  // ── A 解释系统 ──────────────────────────────────────────
   {sys:'A',scenario:'解释系统',q:'有人说了一句你认为不对的话：',
    r:'你已经在反驳了，说完才发现对方脸色变了',
    i:'你憋住了，但脑子一直在转，还是很难放下',
    t:'你听完了，觉得没必要说，等了个更合适的时机再提'},
-
   {sys:'A',scenario:'解释系统',q:'一件事出了问题：',
    r:'你反复想了一整晚，也没真的想出什么，就是停不下来',
    i:'你发现自己一直在转，提醒了自己几次，最后睡前才勉强放下',
    t:'你问了自己：我现在理解的够用了吗？够用了，然后停下来'},
-
   {sys:'A',scenario:'解释系统',q:'和人起了误解，对方现在情绪很差：',
    r:'你还是把自己的逻辑说了一遍，对方更生气了',
    i:'你感觉现在说不合适，但还是说了一点',
    t:'你没有解释，只是先陪着，等情绪平了再谈'},
-
   {sys:'A',scenario:'解释系统',q:'你感到焦虑，但说不清楚为什么：',
    r:'越想越焦虑，脑子停不下来，反而更难受',
    i:'你知道再想也没用，但就是停不下来',
    t:'你问自己：现在分析能帮到我吗？然后放弃找原因，去做了别的事'},
-
-  // ── B 执行系统 ──────────────────────────────────────────
   {sys:'B',scenario:'执行系统',q:'事情乱成一团：',
    r:'你已经在动了，也不确定方向对不对，但不动更难受',
    i:'你忍住了没动，但坐在那里非常不舒服',
    t:'你先停了两分钟，想清楚了再动，这个停顿是你主动做的决定'},
-
   {sys:'B',scenario:'执行系统',q:'团队还在讨论，你已经知道怎么做了：',
    r:'你说"我们直接做吧"，有点不耐烦',
    i:'你忍着没说，但心里已经在催了',
    t:'你判断他们的讨论有价值，真的在听，不只是等'},
-
   {sys:'B',scenario:'执行系统',q:'压力很大，事情堆成山：',
    r:'你一头扎进去，做到精疲力竭，完全没注意到自己已经很累了',
    i:'你强迫自己停下来，但停下来之后坐在那里也不知道干嘛',
    t:'你停下来，告诉自己现在停下来是为了之后做得更好，然后真的去休息了'},
-
   {sys:'B',scenario:'执行系统',q:'一件事进展很慢：',
    r:'你已经在催了，甚至插手去做，事后才意识到对方其实没问题',
    i:'你感到焦躁，忍住没催，但那个焦虑一直在',
    t:'你先问自己：是真的需要推，还是我只是不舒服？然后再决定说不说'},
-
-  // ── C 情感系统 ──────────────────────────────────────────
   {sys:'C',scenario:'情感系统',q:'走进一个气氛很沉的房间：',
    r:'你的心情已经变了，自己也不知道什么时候开始的',
    i:'你感觉到气氛在拉你，开始有意识地提醒自己不要被带走',
    t:'你感受到了，但它停在"信息"的位置，你决定要不要让它影响你'},
-
   {sys:'C',scenario:'情感系统',q:'有人批评你：',
    r:'你的脸色已经变了，或者已经说了什么，后来才发现反应有点大',
    i:'你没有表现出来，但心里还是很难受，一直在想',
    t:'你感受到了，然后问自己：这个情绪在告诉我什么？用它来理解这件事'},
-
   {sys:'C',scenario:'情感系统',q:'朋友跟你说了一件很难受的事：',
    r:'你比他还难受，回家之后心情一直不好',
    i:'你陪着他，但你知道自己被影响了，需要一些时间复原',
    t:'你能真的感受到他的难受，同时你自己是稳的，两件事同时存在'},
-
   {sys:'C',scenario:'情感系统',q:'需要快速做一个决定，但你心里很不舒服：',
    r:'你按照感受做了，后来不确定自己决定对不对',
    i:'你试图先把情绪放一边，但它一直在干扰你',
    t:'你问自己：这个不舒服在提醒我什么？然后带着这个信息做决定'},
-
-  // ── D 认同系统 ──────────────────────────────────────────
   {sys:'D',scenario:'认同系统',q:'别人说你做的一件事不好：',
    r:'你觉得他在说你这个人有问题，防御或关掉',
    i:'你知道他只是在说那件事，但心里还是觉得被戳到了',
    t:'你听进去了他说的内容，而且能把它和你是谁这件事完全分开'},
-
   {sys:'D',scenario:'认同系统',q:'被要求做一件感觉"不像自己"的事：',
    r:'你立刻抗拒，不太能解释为什么，就是不对',
    i:'你感到不适，但停下来问了自己：这真的违背我的价值观，还是只是陌生？',
    t:'你能分清楚"这不是我的风格"和"这违背我的原则"，前者可以试，后者才是底线'},
-
   {sys:'D',scenario:'认同系统',q:'你在某件事上坚持了很久，现在有点怀疑：',
    r:'你开始觉得自己可能根本就是错的人，方向感全没了',
    i:'你感到动摇，但知道这不等于你整个人出了问题，慢慢稳下来',
    t:'你重新评估这件事，不管继续还是放弃，都不影响你知道自己是谁'},
-
   {sys:'D',scenario:'认同系统',q:'面对一件有点违背习惯但不算违背原则的事：',
    r:'你拒绝了，感觉不对，但说不清楚为什么',
    i:'你犹豫了很久，内耗了一番，才勉强做了',
    t:'你做了，因为你清楚这只是不习惯，不是不对，两件事你已经分得很清楚'},
-
-  // ── E 游戏系统 ──────────────────────────────────────────
   {sys:'E',scenario:'游戏系统',q:'一件重要的事开始变得重复：',
    r:'你已经开始找别的事做了，原来那件事就放在那里',
    i:'你发现自己在分心，把自己拉回来，但很费力',
    t:'你问自己：这里还有我没探索到的深度吗？然后决定留还是离开'},
-
   {sys:'E',scenario:'游戏系统',q:'事情很多很重，你想去做点轻松的：',
    r:'你去了，做完才发现什么都没解决，还多了一层愧疚',
    i:'你想去，但提醒自己这可能是逃避，困在要不要的纠结里',
    t:'你问自己：我现在需要真正切换状态，还是只是不想面对？然后做决定'},
-
   {sys:'E',scenario:'游戏系统',q:'一件你开始做的事卡住了很久，你有个新想法：',
    r:'你跳过去了，旧的那件事还在那里',
    i:'你注意到自己想跳，提醒自己先把这件事做完，靠意志力撑着',
    t:'你评估了：这件事值不值得继续，新的那个是不是真的更重要？然后有意识地决定'},
-
   {sys:'E',scenario:'游戏系统',q:'生活进入一段很稳定的时期：',
    r:'你开始觉得无聊，自动去找变化，有时候打破了本来运作好的事',
    i:'你感到躁动，知道自己在找新刺激，开始评估是否真的需要改变',
    t:'你在稳定里找到了往深处走的乐趣，不需要靠新鲜感才能有动力'},
 ];
 
-// Detailed interpretations per system per level
 var DETAIL={
   A:{
-    reactive:{
-      body:'你的解释系统目前在反应层级运行。当事情发生时，分析会自动启动——你通常在意识到之前就已经在解释、分析或寻找原因了。这不是坏事，解释系统的自动运行说明它是你处理世界的主要方式。',
-      note:'下一步：开始注意自己什么时候"已经在分析了"。不需要停止，只需要能看见它在发生。'
-    },
-    integrative:{
-      body:'你的解释系统处于整合层级。你能察觉到自己的分析模式在启动，也开始有能力在某些情况下调节它——虽然系统还是会跑，但你和它之间有了一点距离。',
-      note:'下一步：练习在察觉之后多问一步："现在分析这件事是有用的吗？"让觉察变成选择的入口。'
-    },
-    transformational:{
-      body:'你的解释系统处于转化层级。你能主动决定什么时候启动、什么时候停止分析，也能在解释系统不适用的情境中切换到其他方式。理解对你来说是工具，不是强迫症。',
-      note:'值得注意的是：在关系场景中，有时候放弃解释、直接感受反而更有效。你有这个能力。'
-    }
+    reactive:{body:'你的解释系统目前在反应层级运行。当事情发生时，分析会自动启动——你通常在意识到之前就已经在解释、分析或寻找原因了。这不是坏事，解释系统的自动运行说明它是你处理世界的主要方式。',note:'下一步：开始注意自己什么时候"已经在分析了"。不需要停止，只需要能看见它在发生。'},
+    integrative:{body:'你的解释系统处于整合层级。你能察觉到自己的分析模式在启动，也开始有能力在某些情况下调节它——虽然系统还是会跑，但你和它之间有了一点距离。',note:'下一步：练习在察觉之后多问一步："现在分析这件事是有用的吗？"让觉察变成选择的入口。'},
+    transformational:{body:'你的解释系统处于转化层级。你能主动决定什么时候启动、什么时候停止分析，也能在解释系统不适用的情境中切换到其他方式。理解对你来说是工具，不是强迫症。',note:'值得注意的是：在关系场景中，有时候放弃解释、直接感受反而更有效。你有这个能力。'}
   },
   B:{
-    reactive:{
-      body:'你的执行系统目前在反应层级运行。面对问题或压力时，行动会自动启动——推进是你的默认反应，有时候动起来之后才知道方向对不对。这让你有很强的行动力，但也可能在错误的方向上快速前进。',
-      note:'下一步：在开始行动之前，给自己一个很短的暂停——哪怕只是问一句"方向对吗"。'
-    },
-    integrative:{
-      body:'你的执行系统处于整合层级。你能察觉到自己的推进冲动，也能在一定程度上控制它——你不会每次都立刻行动，但压住执行冲动对你来说还是需要努力的。',
-      note:'下一步：区分"我需要行动"和"我需要感觉到在行动"——这两件事不总是一样的。'
-    },
-    transformational:{
-      body:'你的执行系统处于转化层级。你能主动决定什么时候推进、什么时候等待，也能在需要时关闭执行模式，切换到理解或感受。高效对你来说不等于一直在动。',
-      note:'值得注意的是：在亲密关系或创意场景中，主动降低执行驱动往往能带来意想不到的空间。'
-    }
+    reactive:{body:'你的执行系统目前在反应层级运行。面对问题或压力时，行动会自动启动——推进是你的默认反应，有时候动起来之后才知道方向对不对。这让你有很强的行动力，但也可能在错误的方向上快速前进。',note:'下一步：在开始行动之前，给自己一个很短的暂停——哪怕只是问一句"方向对吗"。'},
+    integrative:{body:'你的执行系统处于整合层级。你能察觉到自己的推进冲动，也能在一定程度上控制它——你不会每次都立刻行动，但压住执行冲动对你来说还是需要努力的。',note:'下一步：区分"我需要行动"和"我需要感觉到在行动"——这两件事不总是一样的。'},
+    transformational:{body:'你的执行系统处于转化层级。你能主动决定什么时候推进、什么时候等待，也能在需要时关闭执行模式，切换到理解或感受。高效对你来说不等于一直在动。',note:'值得注意的是：在亲密关系或创意场景中，主动降低执行驱动往往能带来意想不到的空间。'}
   },
   C:{
-    reactive:{
-      body:'你的情感系统目前在反应层级运行。情绪会自动响应环境和他人——你通常在意识到之前就已经被带动了。这让你有很高的情感感知力，但也意味着情绪有时候会在你还没准备好的情况下驱动你的反应。',
-      note:'下一步：开始注意"我什么时候已经被带进情绪了"。不需要阻止，只需要能看见它。'
-    },
-    integrative:{
-      body:'你的情感系统处于整合层级。你能感受到情绪，也能在大多数情况下不让它直接控制你的行为——你和情绪之间有了空间，虽然有时候它还是会溢出来。',
-      note:'下一步：练习把情绪当成信息来读："这个感受在告诉我什么？"让情绪成为你的资源，不只是需要管理的东西。'
-    },
-    transformational:{
-      body:'你的情感系统处于转化层级。你能深度感受情绪，同时保持对它的觉察和选择——情绪是你理解世界的重要工具，但不会自动控制你的行为。你可以选择在什么情境下让情绪引导你。',
-      note:'值得注意的是：在需要快速决策的高压场景中，有意识地区分"情绪信号"和"情绪干扰"，是让情感系统保持锋利的关键。'
-    }
+    reactive:{body:'你的情感系统目前在反应层级运行。情绪会自动响应环境和他人——你通常在意识到之前就已经被带动了。这让你有很高的情感感知力，但也意味着情绪有时候会在你还没准备好的情况下驱动你的反应。',note:'下一步：开始注意"我什么时候已经被带进情绪了"。不需要阻止，只需要能看见它。'},
+    integrative:{body:'你的情感系统处于整合层级。你能感受到情绪，也能在大多数情况下不让它直接控制你的行为——你和情绪之间有了空间，虽然有时候它还是会溢出来。',note:'下一步：练习把情绪当成信息来读："这个感受在告诉我什么？"让情绪成为你的资源，不只是需要管理的东西。'},
+    transformational:{body:'你的情感系统处于转化层级。你能深度感受情绪，同时保持对它的觉察和选择——情绪是你理解世界的重要工具，但不会自动控制你的行为。你可以选择在什么情境下让情绪引导你。',note:'值得注意的是：在需要快速决策的高压场景中，有意识地区分"情绪信号"和"情绪干扰"，是让情感系统保持锋利的关键。'}
   },
   D:{
-    reactive:{
-      body:'你的认同系统目前在反应层级运行。当价值观或自我认知受到挑战时，防御或收缩会自动触发——外部的否定容易直接等于"我这个人有问题"，这个连接在你能评估之前就发生了。',
-      note:'下一步：开始注意"这件事被否定"和"我这个人被否定"这两种感受有什么不同。'
-    },
-    integrative:{
-      body:'你的认同系统处于整合层级。你能区分事件评价和自我价值，也能在被触碰的时候给自己一点缓冲——虽然冲击还是会有，但你开始能在情绪里站稳了。',
-      note:'下一步：练习在被否定时多问自己一步："他在否定的是什么？这件事和我是谁有关吗？"'
-    },
-    transformational:{
-      body:'你的认同系统处于转化层级。你有稳定的内在参照，不容易被外部评价带偏——你知道原则是什么，也知道偏好和原则的区别。外部的变化不会动摇你知道自己是谁这件事。',
-      note:'值得注意的是：内在稳定不等于封闭——保持"我是谁可以更新"的弹性，是让认同系统真正有力量的关键。'
-    }
+    reactive:{body:'你的认同系统目前在反应层级运行。当价值观或自我认知受到挑战时，防御或收缩会自动触发——外部的否定容易直接等于"我这个人有问题"，这个连接在你能评估之前就发生了。',note:'下一步：开始注意"这件事被否定"和"我这个人被否定"这两种感受有什么不同。'},
+    integrative:{body:'你的认同系统处于整合层级。你能区分事件评价和自我价值，也能在被触碰的时候给自己一点缓冲——虽然冲击还是会有，但你开始能在情绪里站稳了。',note:'下一步：练习在被否定时多问自己一步："他在否定的是什么？这件事和我是谁有关吗？"'},
+    transformational:{body:'你的认同系统处于转化层级。你有稳定的内在参照，不容易被外部评价带偏——你知道原则是什么，也知道偏好和原则的区别。外部的变化不会动摇你知道自己是谁这件事。',note:'值得注意的是：内在稳定不等于封闭——保持"我是谁可以更新"的弹性，是让认同系统真正有力量的关键。'}
   },
   E:{
-    reactive:{
-      body:'你的游戏系统目前在反应层级运行。新鲜感和探索欲会自动触发——无聊或压力来了，切换状态或寻找刺激几乎是自动发生的，有时候是在帮你，有时候只是在逃跑，很难区分。',
-      note:'下一步：下次想切换状态的时候，先停一秒，问自己：我是真的需要切换，还是不想待在这里？'
-    },
-    integrative:{
-      body:'你的游戏系统处于整合层级。你能察觉到自己的探索冲动，也开始能区分"健康的切换"和"逃避"——虽然这个区分有时候还是会消耗你，但你已经在做了。',
-      note:'下一步：找一件值得深耕的事，在它变得无聊之后再留一会儿——深度也是一种探索。'
-    },
-    transformational:{
-      body:'你的游戏系统处于转化层级。你能主动调用和关闭探索模式，也不需要靠新鲜感维持动力——你可以在稳定中找到深度的乐趣，也可以在卡住的时候有意识地切换视角。',
-      note:'值得注意的是：转化层级的游戏系统最强大的地方是"能在任何情境里找到可玩的东西"——包括在沉重的、重复的、无聊的情境里。'
-    }
+    reactive:{body:'你的游戏系统目前在反应层级运行。新鲜感和探索欲会自动触发——无聊或压力来了，切换状态或寻找刺激几乎是自动发生的，有时候是在帮你，有时候只是在逃跑，很难区分。',note:'下一步：下次想切换状态的时候，先停一秒，问自己：我是真的需要切换，还是不想待在这里？'},
+    integrative:{body:'你的游戏系统处于整合层级。你能察觉到自己的探索冲动，也开始能区分"健康的切换"和"逃避"——虽然这个区分有时候还是会消耗你，但你已经在做了。',note:'下一步：找一件值得深耕的事，在它变得无聊之后再留一会儿——深度也是一种探索。'},
+    transformational:{body:'你的游戏系统处于转化层级。你能主动调用和关闭探索模式，也不需要靠新鲜感维持动力——你可以在稳定中找到深度的乐趣，也可以在卡住的时候有意识地切换视角。',note:'值得注意的是：转化层级的游戏系统最强大的地方是"能在任何情境里找到可玩的东西"——包括在沉重的、重复的、无聊的情境里。'}
   }
 };
 
 var ans={};
 
-// Shuffle questions
 (function(){
-  // Shuffle within each system group to preserve sys grouping, then shuffle groups
   var groups={A:[],B:[],C:[],D:[],E:[]};
   QS.forEach(function(q){groups[q.sys].push(q);});
-  // Shuffle each group
   Object.keys(groups).forEach(function(k){
     var g=groups[k];
     for(var i=g.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=g[i];g[i]=g[j];g[j]=t;}
   });
-  // Rebuild QS with shuffled groups order
   var keys=Object.keys(groups);
   for(var i=keys.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=keys[i];keys[i]=keys[j];keys[j]=t;}
   var newQS=[];
@@ -383,22 +307,18 @@ function buildQuestions(){
   c.innerHTML='';
   QS.forEach(function(q,i){
     var s=SYS[q.sys];
-    // randomize option order but track which is r/i/t
     var opts=[
       {level:'reactive',text:q.r},
       {level:'integrative',text:q.i},
       {level:'transformational',text:q.t}
     ];
-    // shuffle options
     for(var x=opts.length-1;x>0;x--){var y=Math.floor(Math.random()*(x+1));var tmp=opts[x];opts[x]=opts[y];opts[y]=tmp;}
-
     var optsHtml=opts.map(function(o,j){
       return '<button class="opt-btn" id="q'+i+'_'+j+'" onclick="setAns('+i+','+j+',\''+o.level+'\')">'
         +'<span class="opt-dot" style="background:#ddd;margin-top:7px"></span>'
         +'<span>'+o.text+'</span>'
         +'</button>';
     }).join('');
-
     c.innerHTML+='<div class="qcard" data-qi="'+i+'">'
       +'<div class="qscenario">'+s.icon+' '+s.zh+'</div>'
       +'<div class="qtext">'+q.q+'</div>'
@@ -407,24 +327,17 @@ function buildQuestions(){
   });
 }
 
-var optionMap={};// qi -> [{level,text}] for rendering
-
 function setAns(qi,optIdx,level){
-  // deselect all in this question
   for(var j=0;j<3;j++){
     var b=document.getElementById('q'+qi+'_'+j);
     if(b){b.className='opt-btn';b.querySelector('.opt-dot').style.background='#ddd';}
   }
   var sel=document.getElementById('q'+qi+'_'+optIdx);
-  if(sel){
-    sel.className='opt-btn sel';
-    sel.querySelector('.opt-dot').style.background='rgba(255,255,255,.5)';
-  }
+  if(sel){sel.className='opt-btn sel';sel.querySelector('.opt-dot').style.background='rgba(255,255,255,.5)';}
   ans[qi]=level;
   var done=Object.keys(ans).length;
   document.getElementById('qcount').textContent=done+' / 20';
   document.getElementById('qbar').style.width=(done/20*100)+'%';
-  // Update current system badge
   var curSys=QS[qi]?SYS[QS[qi].sys]:null;
   if(curSys) document.getElementById('cur-sys').textContent=curSys.icon+' '+curSys.zh;
   var btn=document.getElementById('qnext');
@@ -439,16 +352,10 @@ function goTo(n){
 }
 
 function showResults(){
-  // Tally scores per system per level
   var tally={};
-  ['A','B','C','D','E'].forEach(function(k){
-    tally[k]={reactive:0,integrative:0,transformational:0};
-  });
-  QS.forEach(function(q,i){
-    if(ans[i]) tally[q.sys][ans[i]]++;
-  });
+  ['A','B','C','D','E'].forEach(function(k){tally[k]={reactive:0,integrative:0,transformational:0};});
+  QS.forEach(function(q,i){if(ans[i]) tally[q.sys][ans[i]]++;});
 
-  // Determine level per system (highest count wins; tie -> lower level)
   function getLevel(k){
     var t=tally[k];
     if(t.transformational>t.integrative&&t.transformational>t.reactive) return 'transformational';
@@ -460,12 +367,8 @@ function showResults(){
   var levels={};
   ['A','B','C','D','E'].forEach(function(k){levels[k]=getLevel(k);});
 
-  // Overview bar: score as % of 4 questions
   var ovHtml=['A','B','C','D','E'].map(function(k){
-    var s=SYS[k];
-    var lv=LV[levels[k]];
-    var t=tally[k];
-    // bar width based on level: reactive=33, integrative=66, transformational=100
+    var s=SYS[k];var lv=LV[levels[k]];var t=tally[k];
     var bw={reactive:33,integrative:66,transformational:100}[levels[k]];
     return '<div class="ov-row" style="background:'+s.bg+'">'
       +'<div class="ov-icon">'+s.icon+'</div>'
@@ -478,13 +381,8 @@ function showResults(){
       +'</div>';
   }).join('');
 
-  // Detailed blocks
   var detHtml=['A','B','C','D','E'].map(function(k){
-    var s=SYS[k];
-    var lv=levels[k];
-    var lvDef=LV[lv];
-    var d=DETAIL[k][lv];
-    var t=tally[k];
+    var s=SYS[k];var lv=levels[k];var lvDef=LV[lv];var d=DETAIL[k][lv];var t=tally[k];
     return '<div class="detail-block" style="background:'+s.bg+';border-color:'+s.color+'44">'
       +'<div class="det-head">'
       +'<span style="font-size:18px">'+s.icon+'</span>'
@@ -503,12 +401,8 @@ function showResults(){
     +'<h2 style="font-size:24px;font-weight:700;margin-bottom:.4rem">你的系统层级图谱</h2>'
     +'<p style="font-size:13px;color:#888">五个系统各自的运行层级</p>'
     +'</div>'
-
-    +'<div class="rcard"><div class="card-label">层级总览</div>'
-    +'<div class="overview-grid">'+ovHtml+'</div></div>'
-
+    +'<div class="rcard"><div class="card-label">层级总览</div><div class="overview-grid">'+ovHtml+'</div></div>'
     +'<div class="rcard"><div class="card-label">详细解读</div>'+detHtml+'</div>'
-
     +'<div style="text-align:center;margin-top:1.5rem;padding-bottom:2.5rem">'
     +'<button onclick="resetAll()" style="background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.85rem 2.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,\'PingFang SC\',\'Hiragino Sans GB\',sans-serif">重新测评</button>'
     +'</div>';
