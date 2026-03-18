@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>底层主权系统测评</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;background:#f4f2f8;min-height:100vh;color:#1a1a1a}
+.page{display:none}.page.active{display:block}
+.wrap{max-width:660px;margin:0 auto;padding:2rem 1.25rem}
+
+/* Hero */
+.hero{background:linear-gradient(145deg,#ede8f8,#e4dff5,#ddd7f0);border-radius:20px;padding:2.5rem 2rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 25%,rgba(120,80,200,.08) 0%,transparent 60%),radial-gradient(ellipse at 75% 75%,rgba(80,40,160,.06) 0%,transparent 60%);pointer-events:none}
+.hero-badge{display:inline-block;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.1);border-radius:100px;padding:4px 14px;font-size:11px;font-weight:700;color:#5a3a9a;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.1rem}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:30px;font-weight:700;color:#1e1040;margin-bottom:.6rem;letter-spacing:.02em}
+.hero p{font-size:14.5px;color:#4a2e88;line-height:1.75;max-width:380px;margin:0 auto}
+.hero-icons{display:flex;justify-content:center;gap:10px;margin-bottom:1.25rem;margin-top:.25rem}
+.hero-icon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid rgba(0,0,0,.1);background:rgba(255,255,255,.45)}
+
+/* Info card */
+.info-card{background:#fff;border:1px solid #ddd8ee;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.info-row{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#555;margin-bottom:.65rem;line-height:1.6}
+.info-row:last-child{margin-bottom:0}
+.info-dot{width:6px;height:6px;border-radius:50%;background:#7850c8;flex-shrink:0;margin-top:6px}
+
+/* Progress */
+.prog-wrap{margin-bottom:1.75rem}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.prog-label{font-size:13px;font-weight:700;color:#555;font-family:'Noto Serif SC',serif}
+.prog-count{font-size:13px;font-weight:700;color:#7850c8}
+.prog-bar{height:5px;background:#ddd8ee;border-radius:3px}
+.prog-fill{height:100%;background:linear-gradient(90deg,#7850c8,#c060a0);border-radius:3px;transition:width .35s ease}
+.prog-hint{font-size:12px;color:#aaa;margin-top:.6rem}
+
+/* Questions */
+.qcard{background:#fff;border:1px solid #ddd8ee;border-radius:14px;padding:1.35rem 1.5rem;margin-bottom:.85rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.qcard-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:1.1rem}
+.qnum{font-size:11px;font-weight:700;color:#ccc;min-width:22px;padding-top:3px;flex-shrink:0}
+.qtext{font-size:15px;line-height:1.75;color:#1a1a1a;font-weight:500}
+.choice-row{display:flex;gap:10px;align-items:stretch}
+.choice-btn{flex:1;background:#f7f5fc;border:1.5px solid #ddd8ee;border-radius:10px;padding:.85rem 1rem;cursor:pointer;font-size:13.5px;line-height:1.6;color:#444;transition:all .18s;text-align:center;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.choice-btn:hover{border-color:#7850c8;background:#ede8f8;color:#3e1888}
+.choice-btn.sel{border-color:#7850c8;background:#7850c8;color:#fff;font-weight:500}
+.choice-btn.dim{border-color:#eee;background:#fafaf8;color:#ccc}
+.vs-mid{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:32px}
+.vs-label{font-size:10px;font-weight:700;color:#ccc;letter-spacing:.06em}
+
+/* Buttons */
+.btn-row{display:flex;gap:12px;margin-top:1.75rem;padding-bottom:2.5rem}
+.btnP{background:linear-gradient(135deg,#7850c8,#c060a0);color:#fff;border:none;border-radius:10px;padding:.85rem 2rem;font-size:15px;font-weight:500;cursor:pointer;flex:1;transition:filter .15s;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.btnP:hover{filter:brightness(1.1)}
+.btnP:disabled{opacity:.35;cursor:not-allowed;filter:none}
+.btnS{background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.8rem 1.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.btnS:hover{background:#f5f4f0}
+.btnFull{width:100%;font-size:16px;padding:1rem}
+
+/* Results */
+.rcard{background:#fff;border:1px solid #ddd8ee;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-label{font-size:11px;color:#aaa;letter-spacing:.07em;text-transform:uppercase;font-weight:700;margin-bottom:.35rem}
+.card-sub{font-size:12px;color:#bbb;margin-bottom:1rem}
+.primary-row{display:flex;align-items:center;gap:14px}
+.p-icon{width:58px;height:58px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;gap:2px}
+.p-name{font-size:21px;font-weight:700;font-family:'Noto Serif SC',serif}
+.p-desc{font-size:12.5px;color:#999;margin-top:3px;line-height:1.4}
+.p-score{font-size:32px;font-weight:700;margin-left:auto;flex-shrink:0;font-family:'Noto Serif SC',serif}
+
+/* Bars */
+.bar-row{margin-bottom:.9rem}
+.bar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+.bar-track{height:8px;background:#f0eef8;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;width:0%;transition:width 1s cubic-bezier(.4,0,.2,1)}
+
+/* Interpretation */
+.interp-block{border-radius:12px;padding:1.15rem 1.25rem;margin-bottom:.75rem;border:1.5px solid transparent}
+.interp-head{display:flex;align-items:center;gap:8px;margin-bottom:.6rem}
+.interp-body{font-size:14px;line-height:1.85}
+.interp-body p{margin-bottom:.6rem}
+.interp-body p:last-child{margin-bottom:0}
+.interp-section{font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin:.9rem 0 .4rem;opacity:.7}
+.interp-bullets{list-style:none;padding:0;margin:.4rem 0 .6rem}
+.interp-bullets li{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.65;margin-bottom:.3rem}
+
+/* Tags */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0}
+.tag-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:100px;font-size:13px;font-weight:600;line-height:1}
+.tag-pill .tag-hash{font-weight:700;opacity:.5;font-size:12px}
+
+/* Figures */
+.figures-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.75rem}
+.figure-card{display:flex;align-items:flex-start;gap:10px;background:#f9f8fd;border:1px solid #ddd8ee;border-radius:10px;padding:.8rem 1rem}
+.figure-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:1px}
+.figure-name{font-size:13px;font-weight:700;color:#222;line-height:1.3}
+.figure-role{font-size:11px;color:#aaa;margin-top:1px}
+.figure-why{font-size:11.5px;color:#666;margin-top:5px;line-height:1.55;border-top:1px solid #eee;padding-top:5px}
+
+/* System grid */
+.sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1rem}
+.sys-item{border-radius:10px;padding:.9rem 1rem}
+
+@media(max-width:480px){
+  .wrap{padding:1rem .85rem}
+  .choice-btn{font-size:13px;padding:.75rem .7rem}
+  .p-score{font-size:26px}
+  .sys-grid{grid-template-columns:1fr}
+  .figures-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="p0" class="page active">
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-icons">
+      <div class="hero-icon">🔍</div>
+      <div class="hero-icon">⚡</div>
+      <div class="hero-icon">💛</div>
+      <div class="hero-icon">🪞</div>
+      <div class="hero-icon">🎮</div>
+    </div>
+    <div class="hero-badge">底层主权测评 · V1</div>
+    <h1>你最后守护的是什么？</h1>
+    <p>在五个系统里，哪一个是你的最后防线——<br>被剥夺时你会感到最根本的崩溃，无论如何都要守住的那个。</p>
+  </div>
+  <div class="info-card">
+    <div class="info-row"><div class="info-dot"></div>共 <strong>25 道题</strong>，每题两选一，约需 3 分钟</div>
+    <div class="info-row"><div class="info-dot"></div>不问你喜欢什么——问哪个<strong>无法被牺牲</strong></div>
+    <div class="info-row"><div class="info-dot"></div>完成后揭示你的底层主权系统与详细解读</div>
+  </div>
+  <button class="btnP btnFull" onclick="goTo(1)">开始测评 →</button>
+</div>
+</div>
+
+<div id="p1" class="page">
+<div class="wrap">
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span class="prog-label">底层主权测评</span>
+      <span class="prog-count" id="qcount">0 / 25</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="qbar" style="width:0%"></div></div>
+    <div class="prog-hint">选被剥夺时你感到更深崩溃的那个，不一定是你"更喜欢"的</div>
+  </div>
+  <div id="questions"></div>
+  <div class="btn-row">
+    <button class="btnS" onclick="goTo(0)">← 返回</button>
+    <button class="btnP" id="qnext" disabled onclick="showResults()">查看结果 →</button>
+  </div>
+</div>
+</div>
+
+<div id="p2" class="page">
+<div class="wrap" id="results"></div>
+</div>
+
+<script>
+var SYS = {
+  A:{name:'Interpretation', zh:'解释系统', color:'#3e7c22', bg:'#eef6e6', tc:'#2a5a14', icon:'🔍',
+     desc:'最后防线：必须搞清楚。不理解是存在性威胁，混乱比痛苦更难承受'},
+  B:{name:'Execution',      zh:'执行系统', color:'#2060b0', bg:'#e4eef8', tc:'#144080', icon:'⚡',
+     desc:'最后防线：必须能动。被迫停下比失去方向更让你崩溃'},
+  C:{name:'Emotion',        zh:'情感系统', color:'#c07010', bg:'#fdf0dc', tc:'#8a4e08', icon:'💛',
+     desc:'最后防线：必须被感受到。情感断联是根本性丧失，孤立是最深的恐惧'},
+  D:{name:'Identity',       zh:'认同系统', color:'#7050c8', bg:'#eeebfc', tc:'#4a34a0', icon:'🪞',
+     desc:'最后防线：必须是我自己。失去价值观和身份感比失去一切都更难承受'},
+  E:{name:'Play',           zh:'游戏系统', color:'#c03820', bg:'#fce8e4', tc:'#902010', icon:'🎮',
+     desc:'最后防线：必须保有可能性。被彻底锁死是最深的囚禁'},
+};
+
+var PROFILE = {
+  A:{
+    tags:['必须搞清楚','混乱恐惧者','最后要理解','认知安全感','不懂比痛更难','真相守护者'],
+    figures:[
+      {name:'苏格拉底', role:'哲学家', emoji:'🏛️',
+       why:'宁死也不愿停止追问——他可以接受死亡，但无法接受被禁止思考和理解，理解权是他最后的防线。'},
+      {name:'弗洛伊德', role:'心理学家', emoji:'🧠',
+       why:'把一生献给"搞清楚无意识"——不理解人类的内心对他来说是存在性威胁，解释是他的主权所在。'},
+      {name:'汉娜·阿伦特', role:'政治哲学家', emoji:'✍️',
+       why:'面对极权和大屠杀，她坚持"必须理解这是如何发生的"——理解不是奢侈，是她最后守住的东西。'},
+      {name:'伽利略', role:'科学家', emoji:'🔭',
+       why:'在教会压力下坚持"地球仍在转"——可以认罪求饶，但无法接受承认自己对世界的理解是错的。'},
+    ],
+  },
+  B:{
+    tags:['必须能动','停下即崩溃','行动是命脉','被迫停滞恐惧','推进才存在','动是我的氧气'],
+    figures:[
+      {name:'温斯顿·丘吉尔', role:'英国首相', emoji:'🎖️',
+       why:'二战中，瘫痪和投降是他的最大恐惧。无论局势多糟，他守住的最后一样东西永远是"继续行动"的能力。'},
+      {name:'贝多芬', role:'作曲家', emoji:'🎼',
+       why:'失聪后仍然创作——不是为了被听见，而是因为停止行动和创作对他来说比失聪更难承受。'},
+      {name:'海明威', role:'作家', emoji:'📖',
+       why:'一生都在行动——猎捕、战地、探险。晚年失去写作能力后迅速崩溃，行动力是他最核心的存在支撑。'},
+      {name:'拿破仑', role:'军事家', emoji:'⚔️',
+       why:'被流放圣赫勒拿岛后迅速衰竭——不是因为失去权力，而是因为被彻底剥夺了行动的可能性。'},
+    ],
+  },
+  C:{
+    tags:['必须被感受到','情感断联恐惧','孤立是最深伤','情感是命脉','连接才能存在','温度守护者'],
+    figures:[
+      {name:'弗里达·卡罗', role:'画家', emoji:'🎨',
+       why:'即使在极度的身体痛苦中，她的作品始终是关于情感的诉说——被感受到的需要是她创作的最后燃料。'},
+      {name:'约翰·列侬', role:'音乐人', emoji:'🎵',
+       why:'失去情感连接对他来说是最深的崩溃——无论是失去亲密关系还是与世界的连接，情感孤立是他最大的威胁。'},
+      {name:'戴安娜王妃', role:'英国王妃', emoji:'👑',
+       why:'在极度孤立的王室生活中，她守住的最后东西是情感的真实——即使其他一切都被剥夺，情感不能假。'},
+      {name:'罗宾·威廉姆斯', role:'演员', emoji:'🎭',
+       why:'晚年最大的恐惧是情感连接的断裂——他的崩溃本质上是一种深度情感孤立的结果，而非外部失败。'},
+    ],
+  },
+  D:{
+    tags:['必须是我自己','不能背叛原则','价值观是底线','自我是最后阵地','不妥协者','身份守护者'],
+    figures:[
+      {name:'纳尔逊·曼德拉', role:'南非前总统', emoji:'✊',
+       why:'27年囚禁，他守住的最后一样东西是"我是谁"——可以失去自由、健康、家人，但不能失去自己。'},
+      {name:'甘地', role:'独立运动领袖', emoji:'🕊️',
+       why:'绝食、被捕、受苦——他可以接受一切代价，但绝对不肯放弃他的非暴力原则，那是他存在的核心。'},
+      {name:'西蒙娜·薇依', role:'哲学家 / 神学家', emoji:'📿',
+       why:'在最极端的物质困境中，她守住的是精神和道德上的一致性——失去价值观对她来说是真正意义上的死亡。'},
+      {name:'索尔仁尼琴', role:'作家', emoji:'✒️',
+       why:'在古拉格中，他守住的是"我知道真相，我不会假装不知道"——这个身份认同比任何外部压力都更坚固。'},
+    ],
+  },
+  E:{
+    tags:['必须保有可能性','被锁死恐惧','自由是最后底线','可能性守护者','囚禁是最深恐惧','弹性是命脉'],
+    figures:[
+      {name:'梭罗', role:'作家 / 哲学家', emoji:'🌲',
+       why:'去瓦尔登湖的根本原因是拒绝被固定——他最无法接受的是生命变得完全可预测、失去一切探索空间。'},
+      {name:'尼采', role:'哲学家', emoji:'⚡',
+       why:'最深的恐惧是"永恒回归的诅咒"——如果一切都被固定重复，那比死亡更难承受。可能性的开放是他的主权。'},
+      {name:'凯鲁亚克', role:'作家', emoji:'🚗',
+       why:'《在路上》的本质是"我无法接受轨道被固定"——流浪不是逃避，而是守住可能性这个最后的主权。'},
+      {name:'大卫·鲍伊', role:'音乐人', emoji:'🎸',
+       why:'不断变换身份和风格的根本原因，是无法接受被任何一个固定形态困住——可能性的开放是他的存在命脉。'},
+    ],
+  },
+};
+
+var INTERP = {
+  A:{
+    primary:{
+      intro:'解释系统是你的底层主权系统。在所有你可能失去的东西里，"无法理解"是让你感到最根本崩溃的状态。你可以暂时接受行动受阻、可以暂时接受情绪痛苦、可以暂时失去方向——但你无法真正接受长期身处混乱却不知道为什么。理解不只是你的认知习惯，它是你存在感的地基。',
+      sectionA:'当解释主权被守住时，它带来：',
+      bullets:['在极度混乱中仍能找到一个稳定的认知锚点','危机中的理解能力让你能更快从崩溃边缘撤回','帮助你和他人把混乱转化为可承受的现实'],
+      sectionB:'当解释主权被剥夺时，你可能经历：',
+      weaknesses:['对"不知道为什么"的高度不耐受，容易陷入焦虑旋涡','在情绪性的困境中，分析有时成为回避感受的方式','对混乱状态反应过激，耗费大量能量试图找到不存在的逻辑'],
+      suggestion:'允许自己有"暂时不理解"的窗口期——不是放弃理解，而是把它从"此刻的紧急任务"变成"最终会搞清楚的事"。',
+    },
+    secondary:{
+      intro:'解释系统在你的主权结构中排第二位。它不是你最无法失去的东西，但当它被严重威胁时，你仍然会感到明显的不稳定。',
+      sectionA:'解释系统作为副主权时，通常表现为：',
+      bullets:['理解受阻时会产生明显焦虑，但不会是最深的崩溃','危机中，你可能先保护主权系统，然后才回过头来追问理解','搞清楚事情对你来说重要，但不是最后的防线'],
+    },
+    background:{
+      intro:'解释系统在你的主权结构中不处于核心位置。不理解一件事会让你不舒服，但不会让你感到根本性的崩溃。',
+      sectionA:'在特定情况下它仍会被激活：',
+      bullets:['当混乱持续时间过长时','当不理解直接威胁到你更核心的主权系统时','当你有足够的安全感时，才会回过头来追问理解'],
+    },
+    low:{
+      intro:'解释系统在你的主权结构中激活度较低。不清楚为什么、处于理解的混乱中——这些不是让你感到最深崩溃的状态。',
+      sectionA:'因此在以下方面你可能感受不深：',
+      bullets:['对未解答的问题有较高的耐受性','在混乱中更倾向于先保护其他系统，而非优先寻求理解','长时间不搞清楚一件事，不会让你感到存在性威胁'],
+    },
+  },
+  B:{
+    primary:{
+      intro:'执行系统是你的底层主权系统。在所有可能的失去里，"被迫停下、什么都推不动"是让你感到最根本崩溃的状态。你可以接受不理解、可以接受痛苦、可以接受方向模糊——但你无法真正接受被完全剥夺行动的能力。能动，是你的存在感的最后地基。',
+      sectionA:'当执行主权被守住时，它带来：',
+      bullets:['即使在最黑暗的处境中，找到下一个可以做的事就能维持基本的稳定','危机时刻，行动能力是最可靠的自我恢复工具','帮助周围的人走出瘫痪，因为你率先动了起来'],
+      sectionB:'当执行主权被剥夺时，你可能经历：',
+      weaknesses:['对"无能为力"的情境反应极其剧烈，甚至超过对实际后果的反应','为了保有行动感，可能在方向不清时仍然强推，导致错误方向的大量消耗','有时候用行动来回避感受，把该处理的情绪"做完"而不是真的处理'],
+      suggestion:'区分"完全无法动"和"暂时需要等待"——后者不是真的剥夺执行主权，只是暂时的节奏调整。',
+    },
+    secondary:{
+      intro:'执行系统在你的主权结构中排第二位。被强迫停下是一种明显的威胁，但不是让你最深崩溃的那一个。',
+      sectionA:'执行系统作为副主权时，通常表现为：',
+      bullets:['长时间无法行动会积累明显的压迫感','在保护了主权系统之后，你会迅速想要开始推进','瘫痪状态会带来焦虑，但不会触及你最深的根基'],
+    },
+    background:{
+      intro:'执行系统在你的主权结构中不处于核心位置。被迫停下会让你不舒服，但通常不是你最深的恐惧。',
+      sectionA:'在特定情况下它仍会被激活：',
+      bullets:['当停滞状态持续太久时','当无法行动直接危及你更核心的系统时','当有明确的下一步可以迈出时，你会自然地想推进'],
+    },
+    low:{
+      intro:'执行系统在你的主权结构中激活度较低。被迫停下、什么都推不动——这些不是让你感到最深崩溃的状态。',
+      sectionA:'因此在以下方面你可能感受不深：',
+      bullets:['对暂时无法行动有较高的耐受性','不需要持续感受到推进感才能维持基本稳定','等待和静止不会让你感到存在性威胁'],
+    },
+  },
+  C:{
+    primary:{
+      intro:'情感系统是你的底层主权系统。在所有可能的失去里，"情感断联、没有人感受到我"是让你感到最根本崩溃的状态。你可以暂时接受不理解、可以接受停滞、可以接受不清楚自己是谁——但你无法真正接受长期的情感孤立。情感连接，是你的存在感的最后地基。',
+      sectionA:'当情感主权被守住时，它带来：',
+      bullets:['即使外部一切都很混乱，只要有真实的情感连接就能维持基本稳定','对关系中微妙变化的高度敏感让你能及时察觉并修复断裂','是周围人在情感危机中最可靠的锚点之一'],
+      sectionB:'当情感主权被剥夺时，你可能经历：',
+      weaknesses:['对情感孤立的反应可能非常剧烈，有时超过实际情况的严重程度','对"被感受到"的深度渴望，可能导致在关系中过度付出来维持连接','他人情绪的波动会深刻影响自己的状态，难以保持稳定'],
+      suggestion:'区分"我现在没被感受到"和"情感连接永久断裂"——前者是暂时的，不等于主权被根本性剥夺。',
+    },
+    secondary:{
+      intro:'情感系统在你的主权结构中排第二位。情感断联会带来明显的痛苦，但不是让你最深崩溃的那一个。',
+      sectionA:'情感系统作为副主权时，通常表现为：',
+      bullets:['关系出现裂痕时你会迅速感受到，并有强烈的修复冲动','在保护了主权系统之后，情感连接是你下一个要守住的东西','长期的情感孤立会积累，但不会触发最深的崩溃'],
+    },
+    background:{
+      intro:'情感系统在你的主权结构中不处于核心位置。情感孤立会让你难受，但通常不是你最深的恐惧。',
+      sectionA:'在特定情况下它仍会被激活：',
+      bullets:['当重要关系出现危机时','当情感孤立状态持续太久时','当你有足够安全感，情感连接自然成为你下一个关注的层面'],
+    },
+    low:{
+      intro:'情感系统在你的主权结构中激活度较低。被感受到、情感连接不断裂——这些不是让你感到最深崩溃的状态。',
+      sectionA:'因此在以下方面你可能感受不深：',
+      bullets:['对情感孤立有较高的耐受性','不需要持续感受到情感连接才能维持基本稳定','独处和情感上的独立不会让你感到存在性威胁'],
+    },
+  },
+  D:{
+    primary:{
+      intro:'认同系统是你的底层主权系统。在所有可能的失去里，"失去自己——不再知道自己是谁、背叛了最核心的原则"是让你感到最根本崩溃的状态。你可以暂时接受不理解、可以接受行动受阻、可以接受情绪的痛苦——但你无法真正接受在最重要的原则上妥协，让自己变成一个不认识的人。是自己，是你的最后地基。',
+      sectionA:'当认同主权被守住时，它带来：',
+      bullets:['在巨大外部压力下仍然保有稳定的内在核心','即使在极端处境中，清楚"我不会在这件事上妥协"本身就带来一种稳定感','为周围的人提供价值观上的锚点'],
+      sectionB:'当认同主权被剥夺时，你可能经历：',
+      weaknesses:['对"被迫背叛自己"的情境反应极其强烈，恢复时间很长','有时为了守住原则，在需要弹性的情境中僵住，无法推进','外界对自我认同的攻击和否定，会触发比普通批评深得多的反应'],
+      suggestion:'区分"这件事不符合我的原则"和"这件事意味着我失去了自己"——前者是判断，后者才是真的主权威胁。',
+    },
+    secondary:{
+      intro:'认同系统在你的主权结构中排第二位。在重要原则上妥协会带来深度不适，但不是让你最深崩溃的那一个。',
+      sectionA:'认同系统作为副主权时，通常表现为：',
+      bullets:['被要求做违背价值观的事时，你会明显感到阻力','在保护了主权系统之后，身份一致性是你下一个要守住的东西','原则被踩到会带来痛苦，但通常不会触发最深的崩溃'],
+    },
+    background:{
+      intro:'认同系统在你的主权结构中不处于核心位置。背叛原则会让你不舒服，但通常不是你最深的恐惧。',
+      sectionA:'在特定情况下它仍会被激活：',
+      bullets:['面临涉及核心价值观的重大决定时','感觉被要求成为一个完全不同的人时','需要重新定义自己的人生阶段'],
+    },
+    low:{
+      intro:'认同系统在你的主权结构中激活度较低。失去价值观的清晰感或在原则上妥协——这些不是让你感到最深崩溃的状态。',
+      sectionA:'因此在以下方面你可能感受不深：',
+      bullets:['对原则的灵活性相对较高，不会把每一次妥协都感受为根本性威胁','身份认同的模糊不会立刻引发存在性焦虑','在外界压力下，维持自我认同不是你最优先保护的东西'],
+    },
+  },
+  E:{
+    primary:{
+      intro:'游戏系统是你的底层主权系统。在所有可能的失去里，"被完全锁死——没有任何探索、变化或新的可能性"是让你感到最根本崩溃的状态。你可以暂时接受不理解、可以接受停滞、可以接受情感的痛苦——但你无法真正接受被彻底困在一个封死的轨道里，没有任何出口。可能性的开放，是你的存在感的最后地基。',
+      sectionA:'当游戏主权被守住时，它带来：',
+      bullets:['即使在最糟糕的处境中，找到一个新角度或一个小小的探索空间就能维持基本稳定','对新事物和变化的高度开放性让你在动荡中比别人更有弹性','能够帮助周围的人在僵局中看到还没被注意到的可能性'],
+      sectionB:'当游戏主权被剥夺时，你可能经历：',
+      weaknesses:['对"被彻底锁死"的感知可能比实际情况更强烈，有时没那么封闭却感觉封闭','为了维持可能性的感觉，可能在需要深耕的时候过早转移方向','用"还有别的可能"来回避真正需要正面处理的困境'],
+      suggestion:'区分"这件事真的把我锁死了"和"这件事让我感到不自由"——后者很多时候还有你没看到的出口。',
+    },
+    secondary:{
+      intro:'游戏系统在你的主权结构中排第二位。被完全锁死会带来强烈的压迫感，但不是让你最深崩溃的那一个。',
+      sectionA:'游戏系统作为副主权时，通常表现为：',
+      bullets:['长期被固定在同一轨道时会积累明显的压抑感','在保护了主权系统之后，找到探索空间是你下一个要守住的东西','封闭感会带来焦虑，但不会触及你最深的根基'],
+    },
+    background:{
+      intro:'游戏系统在你的主权结构中不处于核心位置。被固定、缺乏探索空间会让你不舒服，但通常不是你最深的恐惧。',
+      sectionA:'在特定情况下它仍会被激活：',
+      bullets:['当规则和结构变得极度僵化时','当需要在已知框架中长期重复时','当你有安全感，好奇心和探索欲会自然涌现'],
+    },
+    low:{
+      intro:'游戏系统在你的主权结构中激活度较低。被锁在固定轨道、失去探索的空间——这些不是让你感到最深崩溃的状态。',
+      sectionA:'因此在以下方面你可能感受不深：',
+      bullets:['对稳定和重复有较高的耐受性，不会感到存在性威胁','在清晰的框架和规则中能够安稳运作','不需要持续感受到新的可能性才能维持基本稳定'],
+    },
+  },
+};
+
+var MAX = 10;
+
+var QS = [
+  // A vs B (2)
+  {q:'以下哪种状态会让你感到更根本的崩溃？',
+   L:{s:'A',t:'完全不知道发生了什么，处于混乱中无法理解眼前的处境'},
+   R:{s:'B',t:'明明知道该怎么走，却被完全剥夺了行动的能力，被迫瘫在原地'}},
+  {q:'如果只能守住一个，你会选择保住：',
+   L:{s:'B',t:'还能采取行动的能力，哪怕方向未必完全清晰'},
+   R:{s:'A',t:'能够理解清楚眼前发生的事，哪怕暂时无法行动'}},
+
+  // A vs C (3)
+  {q:'哪种失去会让你感到更深的动摇？',
+   L:{s:'A',t:'再也无法理解发生在自己身上的事情'},
+   R:{s:'C',t:'感受能力彻底关闭，与所有人情感断联'}},
+  {q:'你更无法接受的牺牲，是：',
+   L:{s:'C',t:'为了弄清楚一件事的真相，必须切断所有情感连接'},
+   R:{s:'A',t:'为了维持关系的完整，必须停止追问，接受永远不知道'}},
+  {q:'在极度压力下，你最先会去保护的是：',
+   L:{s:'A',t:'让自己重新看懂眼前的处境'},
+   R:{s:'C',t:'让自己不在情感上完全崩塌或孤立'}},
+
+  // A vs D (2)
+  {q:'哪种丧失更接近"失去根基"？',
+   L:{s:'A',t:'不再能理解发生在自己身上的事'},
+   R:{s:'D',t:'不再清楚自己是谁、自己最重要的东西是什么'}},
+  {q:'你更无法接受做到的事：',
+   L:{s:'D',t:'为了得到一个答案，完全违背了自己最核心的原则'},
+   R:{s:'A',t:'为了守住原则，永远接受不知道真相、不理解'}},
+
+  // A vs E (3)
+  {q:'哪个被永久剥夺会让你感到更窒息？',
+   L:{s:'A',t:'对已经发生的事永远无法理解和解释'},
+   R:{s:'E',t:'对未来失去所有探索和尝试新事物的可能'}},
+  {q:'当你被彻底压垮时，你最想找回的是：',
+   L:{s:'E',t:'某种可以探索、可以重新发现的空间'},
+   R:{s:'A',t:'重新看清楚眼前到底发生了什么'}},
+  {q:'你会更努力守住的，是：',
+   L:{s:'A',t:'弄清楚事情的能力，即使探索受限'},
+   R:{s:'E',t:'保有可能性的空间，即使很多事还不清楚'}},
+
+  // B vs C (2)
+  {q:'哪种处境让你感到更深的无力？',
+   L:{s:'B',t:'有能力、有方向，却被强迫瘫在原地，什么都推不动'},
+   R:{s:'C',t:'被很多人围绕，但没有任何人真正感受到你的存在'}},
+  {q:'如果只能守住一个，你会选择守住：',
+   L:{s:'C',t:'至少还有真实的情感连接不断裂'},
+   R:{s:'B',t:'至少还保有采取行动的能力'}},
+
+  // B vs D (3)
+  {q:'以下哪个代价对你更无法承受？',
+   L:{s:'B',t:'为了坚守原则，你从此什么都做不了，被迫停在原地'},
+   R:{s:'D',t:'为了让事情能推进，必须在最重要的原则上妥协'}},
+  {q:'当一切崩塌时，你最先想保住的是：',
+   L:{s:'D',t:'自己的核心立场，不被压力摧毁'},
+   R:{s:'B',t:'自己还能做点什么，不被完全瘫痪'}},
+  {q:'你更难接受的人生结局：',
+   L:{s:'B',t:'知道方向、坚守原则，但从未真正推动过任何事'},
+   R:{s:'D',t:'做成了很多事，但全程都在背叛自己最重要的原则'}},
+
+  // B vs E (3)
+  {q:'哪种限制对你来说更像一种囚禁？',
+   L:{s:'B',t:'有很多方向，但完全无法行动，被迫静止'},
+   R:{s:'E',t:'可以行动，但轨道完全固定，不允许任何探索或变化'}},
+  {q:'你更无法长期忍受的状态：',
+   L:{s:'E',t:'生命变得彻底可预测，所有新的可能性都消失了'},
+   R:{s:'B',t:'心里一直有下一步，但始终无法真正迈出去'}},
+  {q:'在长期的高压和消耗后，你最需要找回的是：',
+   L:{s:'B',t:'重新能推动事情，感受到自己还在起作用'},
+   R:{s:'E',t:'重新找到某种弹性和可能性，感受到还有别的出路'}},
+
+  // C vs D (3)
+  {q:'哪种失去更接近"失去自己"？',
+   L:{s:'C',t:'感受能力关闭，与所有人的情感全部断联'},
+   R:{s:'D',t:'不再知道自己最重要的原则和价值观是什么'}},
+  {q:'你更无法接受做到的事：',
+   L:{s:'D',t:'为了维持一段情感连接，完全放弃了自己的原则'},
+   R:{s:'C',t:'为了坚守原则，必须彻底切断一段深度的情感连接'}},
+  {q:'在极端处境里，你最先会守护：',
+   L:{s:'C',t:'不让自己在情感上完全关闭和断开'},
+   R:{s:'D',t:'不让自己在价值观上完全瓦解和妥协'}},
+
+  // C vs E (2)
+  {q:'以下哪种孤立对你更难承受？',
+   L:{s:'C',t:'所有情感连接都断了，只剩一个人的安全壳'},
+   R:{s:'E',t:'被锁进一条固定轨道，完全没有探索或创造的空间'}},
+  {q:'哪种丧失会让你感到更根本的枯萎？',
+   L:{s:'E',t:'好奇心和探索欲被彻底压制，一切变得固定和重复'},
+   R:{s:'C',t:'情感感受能力消失，感受不到自己与他人之间的温度'}},
+
+  // D vs E (2)
+  {q:'你更无法接受的最终状态：',
+   L:{s:'D',t:'活了一生，但渐渐失去了对"我是谁"的清晰感'},
+   R:{s:'E',t:'活了一生，始终困在同一个框架里，从没真正探索过'}},
+  {q:'哪个被长期剥夺会让你感到更深的枯竭？',
+   L:{s:'D',t:'坚守自己的原则和身份感的能力'},
+   R:{s:'E',t:'探索新事物、保持开放可能性的能力'}},
+];
+
+// Shuffle
+(function(){
+  for(var i=QS.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=QS[i];QS[i]=QS[j];QS[j]=tmp;
+  }
+})();
+
+var ans = {};
+
+function buildQuestions(){
+  var c = document.getElementById('questions');
+  c.innerHTML = '';
+  QS.forEach(function(q,i){
+    c.innerHTML += '<div class="qcard">'
+      +'<div class="qcard-top"><div class="qnum">'+(i+1)+'</div><div class="qtext">'+q.q+'</div></div>'
+      +'<div class="choice-row">'
+      +'<button class="choice-btn" id="opt_'+i+'_L" onclick="setAns('+i+',\'L\')">'+q.L.t+'</button>'
+      +'<div class="vs-mid"><span class="vs-label">VS</span></div>'
+      +'<button class="choice-btn" id="opt_'+i+'_R" onclick="setAns('+i+',\'R\')">'+q.R.t+'</button>'
+      +'</div></div>';
+  });
+}
+
+function setAns(qi,side){
+  ans[qi]=side;
+  var L=document.getElementById('opt_'+qi+'_L');
+  var R=document.getElementById('opt_'+qi+'_R');
+  if(side==='L'){L.className='choice-btn sel';R.className='choice-btn dim';}
+  else{R.className='choice-btn sel';L.className='choice-btn dim';}
+  var done=Object.keys(ans).length;
+  document.getElementById('qcount').textContent=done+' / 25';
+  document.getElementById('qbar').style.width=(done/25*100)+'%';
+  var btn=document.getElementById('qnext');
+  btn.disabled=done<25;
+  btn.textContent=done<25?'还有 '+(25-done)+' 题未选':'查看结果 →';
+}
+
+function goTo(n){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('p'+n).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderInterpBlock(k,role,score,isStar){
+  var s=SYS[k];
+  var d=INTERP[k][role];
+  var hi=(role==='primary');
+  var bg=hi?s.bg:'#fafaf8';
+  var borderColor=hi?(s.color+'55'):'#eeebe5';
+  var textColor=hi?s.tc:'#444';
+
+  var bulletsHtml=d.bullets.map(function(b){
+    return '<li style="color:'+textColor+'">'
+      +'<span style="color:'+s.color+';font-weight:700;flex-shrink:0">·</span>'
+      +'<span>'+b+'</span></li>';
+  }).join('');
+
+  var weakHtml='';
+  if(d.weaknesses){
+    var wItems=d.weaknesses.map(function(b){
+      return '<li style="color:'+textColor+'">'
+        +'<span style="color:#c0392b;font-weight:700;flex-shrink:0">·</span>'
+        +'<span>'+b+'</span></li>';
+    }).join('');
+    weakHtml='<div class="interp-section" style="color:'+s.tc+'">'+d.sectionB+'</div>'
+      +'<ul class="interp-bullets">'+wItems+'</ul>';
+  }
+
+  var suggHtml='';
+  if(d.suggestion){
+    suggHtml='<div style="margin-top:.75rem;padding:.85rem 1rem;border-radius:8px;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.07)">'
+      +'<div style="font-size:10px;font-weight:700;color:'+s.tc+';letter-spacing:.05em;text-transform:uppercase;margin-bottom:.35rem">建议</div>'
+      +'<div style="font-size:13.5px;line-height:1.7;color:'+textColor+'">'+d.suggestion+'</div>'
+      +'</div>';
+  }
+
+  return '<div class="interp-block" style="background:'+bg+';border-color:'+borderColor+'">'
+    +'<div class="interp-head">'
+    +'<span style="font-size:17px">'+s.icon+'</span>'
+    +'<span style="font-size:13.5px;font-weight:700;color:'+s.tc+'">'+s.zh+'</span>'
+    +'<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;background:'+(hi?'rgba(255,255,255,.6)':'#eeebe5')+';color:'+s.tc+'">'
+    +score+'pt'+(isStar?' ★':'')+'</span>'
+    +'</div>'
+    +'<div class="interp-body" style="color:'+textColor+'">'
+    +'<p>'+d.intro+'</p>'
+    +'<div class="interp-section" style="color:'+s.tc+'">'+d.sectionA+'</div>'
+    +'<ul class="interp-bullets">'+bulletsHtml+'</ul>'
+    +weakHtml+suggHtml
+    +'</div></div>';
+}
+
+function renderTagsAndFigures(pk,isDual,sk){
+  var keys=isDual?[pk,sk]:[pk];
+  var html='';
+  keys.forEach(function(k){
+    var p=PROFILE[k];
+    var s=SYS[k];
+    var tagsHtml=p.tags.map(function(t){
+      return '<span class="tag-pill" style="background:'+s.bg+';color:'+s.tc+'">'
+        +'<span class="tag-hash">#</span>'+t+'</span>';
+    }).join('');
+    var figuresHtml=p.figures.map(function(f){
+      return '<div class="figure-card">'
+        +'<div class="figure-avatar" style="background:'+s.bg+'">'+f.emoji+'</div>'
+        +'<div style="flex:1">'
+        +'<div class="figure-name">'+f.name+'</div>'
+        +'<div class="figure-role">'+f.role+'</div>'
+        +'<div class="figure-why">'+f.why+'</div>'
+        +'</div></div>';
+    }).join('');
+    html+='<div style="margin-bottom:'+(isDual?'1.75rem':'0')+'">'
+      +(isDual?'<div style="font-size:12px;font-weight:700;color:'+s.tc+';margin-bottom:.75rem;display:flex;align-items:center;gap:6px">'+s.icon+' '+s.zh+'</div>':'')
+      +'<div class="tags-wrap">'+tagsHtml+'</div>'
+      +'<div style="font-size:12px;color:#aaa;margin-bottom:.4rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase">拥有相似主权的人</div>'
+      +'<div class="figures-row">'+figuresHtml+'</div>'
+      +'</div>';
+  });
+  return html;
+}
+
+function showResults(){
+  var scores={A:0,B:0,C:0,D:0,E:0};
+  QS.forEach(function(q,i){
+    if(ans[i]!==undefined) scores[q[ans[i]].s]++;
+  });
+
+  var sorted=Object.keys(scores).sort(function(a,b){
+    return scores[b]-scores[a]||a.localeCompare(b);
+  });
+  var pk=sorted[0],sk=sorted[1];
+  var pv=scores[pk],sv=scores[sk];
+  var isDual=(pv-sv)<=1;
+  var structLabel=isDual?SYS[pk].zh+' + '+SYS[sk].zh:SYS[pk].zh;
+
+  var barsHtml=sorted.map(function(k,i){
+    var v=scores[k];
+    var label='';
+    if(i===0) label='<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:5px">主权</span>';
+    else if(isDual&&i===1) label='<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:5px">主权</span>';
+    else if(!isDual&&i===1) label='<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:5px">次主权</span>';
+    return '<div class="bar-row">'
+      +'<div class="bar-head">'
+      +'<span style="font-size:13px;font-weight:600;color:'+SYS[k].color+'">'+SYS[k].icon+' '+SYS[k].zh+label+'</span>'
+      +'<span style="font-size:13px;color:#999;font-weight:500">'+v+'<span style="font-size:11px;color:#bbb"> / '+MAX+'</span></span>'
+      +'</div>'
+      +'<div class="bar-track"><div class="bar-fill" data-w="'+Math.round(v/MAX*100)+'" style="background:'+SYS[k].color+'"></div></div>'
+      +'</div>';
+  }).join('');
+
+  var interpHtml=sorted.map(function(k,i){
+    var role,isStar=false;
+    if(i===0){role='primary';isStar=true;}
+    else if(isDual&&i===1){role='primary';isStar=true;}
+    else if(scores[k]<=3){role='low';}
+    else if(i===1&&!isDual){role='secondary';}
+    else{role='background';}
+    return renderInterpBlock(k,role,scores[k],isStar);
+  }).join('');
+
+  var chipsHtml=isDual
+    ?'<div style="display:flex;gap:7px;flex-wrap:wrap">'
+      +'<span style="background:'+SYS[pk].bg+';color:'+SYS[pk].tc+';padding:4px 13px;border-radius:20px;font-size:12px;font-weight:600">'+SYS[pk].icon+' '+SYS[pk].zh+' '+pv+'pt</span>'
+      +'<span style="background:'+SYS[sk].bg+';color:'+SYS[sk].tc+';padding:4px 13px;border-radius:20px;font-size:12px;font-weight:600">'+SYS[sk].icon+' '+SYS[sk].zh+' '+sv+'pt</span>'
+      +'</div>'
+    :'<div style="font-size:13px;color:#888">次主权: <strong style="color:'+SYS[sk].tc+'">'+SYS[sk].zh+'</strong> &nbsp;·&nbsp; '+sv+'pt</div>';
+
+  var iconHtml=isDual
+    ?'<span>'+SYS[pk].icon+'</span><span>'+SYS[sk].icon+'</span>'
+    :SYS[pk].icon;
+
+  var sysGridHtml=Object.entries(SYS).map(function(entry){
+    var k=entry[0],s=entry[1];
+    var hi=(k===sorted[0])||(isDual&&k===sorted[1]);
+    return '<div class="sys-item" style="background:'+s.bg+';'+(hi?'outline:2px solid '+s.color+';outline-offset:1px':'')+'">'
+      +'<div style="font-size:13px;font-weight:700;color:'+s.tc+';margin-bottom:3px">'+s.icon+' '+s.zh+(hi?' ★':'')+'</div>'
+      +'<div style="font-size:11px;color:'+s.tc+';opacity:.8;line-height:1.4">'+s.desc+'</div>'
+      +'</div>';
+  }).join('');
+
+  var tagsHtml=renderTagsAndFigures(pk,isDual,sk);
+
+  document.getElementById('results').innerHTML=
+    '<div style="border-bottom:1px solid #e8e4f4;padding-bottom:1.5rem;margin-bottom:1.5rem">'
+    +'<div style="font-size:11px;color:#aaa;letter-spacing:.07em;text-transform:uppercase;font-weight:700;margin-bottom:.35rem">底层主权测评 · 结果</div>'
+    +'<h2 style="font-size:24px;font-weight:700;margin-bottom:.4rem;font-family:\'Noto Serif SC\',serif">你的主权系统图谱</h2>'
+    +'<p style="font-size:13px;color:#888">基于 25 组剥夺场景的对比选择</p>'
+    +'</div>'
+
+    +'<div class="rcard" style="border-left:4px solid '+SYS[pk].color+';background:linear-gradient(135deg,#ede8f8,#f5f0ff)">'
+    +'<div class="card-label" style="color:#7050a8">'+(isDual?'Dual Sovereign · 双主权':'Core Sovereign · 底层主权')+'</div>'
+    +'<div class="primary-row">'
+    +'<div class="p-icon" style="background:rgba(255,255,255,.7)">'+iconHtml+'</div>'
+    +'<div style="flex:1">'
+    +'<div class="p-name" style="color:#1e1040">'+structLabel+'</div>'
+    +'<div class="p-desc" style="color:#6a4a90">'+(isDual?SYS[pk].name+' + '+SYS[sk].name+' · 差距 '+(pv-sv)+' 分，双主权判定':SYS[pk].name+' · 领先 '+(pv-sv)+' 分')+'</div>'
+    +'</div>'
+    +'<div class="p-score" style="color:'+SYS[pk].color+'">'+pv+'<span style="font-size:13px;font-weight:400;color:#bbb">pt</span></div>'
+    +'</div>'
+    +'<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,.07)">'+chipsHtml+'</div>'
+    +'</div>'
+
+    +'<div class="rcard">'
+    +'<div class="card-label">五系统主权强度分布</div>'
+    +'<div class="card-sub">得分越高，代表该系统被剥夺时你感到的崩溃越根本——越是你的最后防线</div>'
+    +barsHtml+'</div>'
+
+    +'<div class="rcard"><div class="card-label">主权解读</div>'+interpHtml+'</div>'
+
+    +'<div class="rcard"><div class="card-label">五个主权系统</div>'
+    +'<p style="font-size:13px;color:#999;margin-bottom:1rem;line-height:1.6">每个人的底层主权不同。了解自己守护的最后一样东西，能帮你在危机中更快识别什么是真的不可谈判，什么只是暂时的不舒服。</p>'
+    +'<div class="sys-grid">'+sysGridHtml+'</div></div>'
+
+    +'<div class="rcard"><div class="card-label">你的标签 &amp; 拥有相似主权的人</div>'+tagsHtml+'</div>'
+
+    +'<div style="text-align:center;margin-top:1.5rem;padding-bottom:2.5rem">'
+    +'<button onclick="resetAll()" style="background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.85rem 2.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,\'PingFang SC\',\'Hiragino Sans GB\',sans-serif">重新测评</button>'
+    +'</div>';
+
+  goTo(2);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    document.querySelectorAll('.bar-fill[data-w]').forEach(function(b){b.style.width=b.dataset.w+'%';});
+  });});
+}
+
+function resetAll(){
+  Object.keys(ans).forEach(function(k){delete ans[k];});
+  buildQuestions();
+  document.getElementById('qcount').textContent='0 / 25';
+  document.getElementById('qbar').style.width='0%';
+  document.getElementById('qnext').disabled=true;
+  document.getElementById('qnext').textContent='还有 25 题未选';
+  goTo(0);
+}
+
+buildQuestions();
+</script>
+</body>
+</html>
