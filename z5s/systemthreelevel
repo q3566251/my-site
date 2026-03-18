@@ -11,12 +11,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .wrap{max-width:660px;margin:0 auto;padding:2rem 1.25rem}
 
 /* INTRO */
-.hero{background:linear-gradient(135deg,#0f1520,#1a2540);border-radius:16px;padding:2.5rem 2rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(127,119,221,.35),transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(32,96,176,.2),transparent 50%)}
+.hero{background:linear-gradient(135deg,#faf7f2,#f0e9dc);border:1px solid #e8e0d4;border-radius:16px;padding:2.5rem 2rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(127,119,221,.1),transparent 60%)}
 .hero-inner{position:relative;z-index:1}
-.hero .sub{font-size:12px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
-.hero h1{font-size:27px;font-weight:700;color:#fff;margin-bottom:.6rem;letter-spacing:-.3px;line-height:1.2}
-.hero p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.65}
+.hero .sub{font-size:12px;color:rgba(0,0,0,.35);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem}
+.hero h1{font-size:27px;font-weight:700;color:#1a1a1a;margin-bottom:.6rem;letter-spacing:-.3px;line-height:1.2}
+.hero p{font-size:14px;color:rgba(0,0,0,.45);line-height:1.65}
 
 .info-card{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .info-row{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#555;margin-bottom:.65rem;line-height:1.55}
@@ -31,16 +31,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 .level-pill .lv-desc{font-size:10.5px;opacity:.75;line-height:1.4;margin-top:2px}
 
 /* QUESTION PAGE */
-.prog-hero{background:linear-gradient(150deg,#0f1520,#1a2540);border-radius:14px;padding:1.5rem 1.75rem;margin-bottom:1.75rem;position:relative;overflow:hidden}
-.prog-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 30%,rgba(127,119,221,.3),transparent 55%)}
+.prog-hero{background:linear-gradient(135deg,#faf7f2,#f0e9dc);border:1px solid #e8e0d4;border-radius:14px;padding:1.5rem 1.75rem;margin-bottom:1.75rem;position:relative;overflow:hidden}
+.prog-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 30%,rgba(127,119,221,.08),transparent 55%)}
 .prog-inner{position:relative;z-index:1}
-.prog-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.07em;text-transform:uppercase;margin-bottom:1rem}
+.prog-badge{display:inline-flex;align-items:center;background:rgba(83,74,183,.08);border:1px solid rgba(83,74,183,.18);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:600;color:#534AB7;letter-spacing:.07em;text-transform:uppercase;margin-bottom:1rem}
 .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
-.prog-label{font-size:13px;font-weight:600;color:rgba(255,255,255,.45)}
-.prog-count{font-size:13px;font-weight:700;color:rgba(255,255,255,.9)}
-.prog-bar{height:4px;background:rgba(255,255,255,.15);border-radius:2px}
-.prog-fill{height:100%;background:rgba(255,255,255,.65);border-radius:2px;transition:width .35s ease}
-.sys-badge{display:inline-flex;align-items:center;gap:6px;margin-top:.85rem;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);font-size:12px;color:rgba(255,255,255,.6);font-weight:500}
+.prog-label{font-size:13px;font-weight:600;color:rgba(0,0,0,.4)}
+.prog-count{font-size:13px;font-weight:700;color:#1a1a1a}
+.prog-bar{height:4px;background:rgba(0,0,0,.1);border-radius:2px}
+.prog-fill{height:100%;background:#534AB7;border-radius:2px;transition:width .35s ease}
+.sys-badge{display:none}
 
 /* question card */
 .qcard{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:1.4rem 1.5rem;margin-bottom:.85rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
@@ -320,7 +320,7 @@ function buildQuestions(){
         +'</button>';
     }).join('');
     c.innerHTML+='<div class="qcard" data-qi="'+i+'">'
-      +'<div class="qscenario">'+s.icon+' '+s.zh+'</div>'
+      +'<div class="qscenario">问题 '+(i+1)+' / 20</div>'
       +'<div class="qtext">'+q.q+'</div>'
       +'<div class="opts-list">'+optsHtml+'</div>'
       +'</div>';
