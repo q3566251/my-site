@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>核动力测评</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;background:#f7f5f0;min-height:100vh;color:#1a1a1a}
+.page{display:none}.page.active{display:block}
+.wrap{max-width:660px;margin:0 auto;padding:2rem 1.25rem}
+
+/* Hero */
+.hero{background:linear-gradient(145deg,#f5f0e8,#ede4d4,#e8dfd0);border-radius:20px;padding:2.5rem 2rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(184,120,24,.07) 0%,transparent 60%),radial-gradient(ellipse at 75% 80%,rgba(42,122,80,.05) 0%,transparent 60%);pointer-events:none}
+.hero-badge{display:inline-block;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.1);border-radius:100px;padding:4px 14px;font-size:11px;font-weight:700;color:#7a5c2e;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.1rem}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:30px;font-weight:700;color:#2a1f0e;margin-bottom:.6rem;letter-spacing:.02em}
+.hero p{font-size:14.5px;color:#6b5030;line-height:1.75;max-width:380px;margin:0 auto}
+.hero-icons{display:flex;justify-content:center;gap:10px;margin-bottom:1.25rem;margin-top:.25rem}
+.hero-icon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid rgba(0,0,0,.1);background:rgba(255,255,255,.45)}
+
+/* Info card */
+.info-card{background:#fff;border:1px solid #e8e5de;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.info-row{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#555;margin-bottom:.65rem;line-height:1.6}
+.info-row:last-child{margin-bottom:0}
+.info-dot{width:6px;height:6px;border-radius:50%;background:#b87818;flex-shrink:0;margin-top:6px}
+
+/* Progress */
+.prog-wrap{margin-bottom:1.75rem}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.prog-label{font-size:13px;font-weight:700;color:#555;font-family:'Noto Serif SC',serif}
+.prog-count{font-size:13px;font-weight:700;color:#2a7a50}
+.prog-bar{height:5px;background:#e8e5de;border-radius:3px}
+.prog-fill{height:100%;background:linear-gradient(90deg,#b87818,#2a7a50);border-radius:3px;transition:width .35s ease}
+.prog-hint{font-size:12px;color:#aaa;margin-top:.6rem}
+
+/* Questions */
+.qcard{background:#fff;border:1px solid #e8e5de;border-radius:14px;padding:1.35rem 1.5rem;margin-bottom:.85rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.qcard-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:1.1rem}
+.qnum{font-size:11px;font-weight:700;color:#ccc;min-width:22px;padding-top:3px;flex-shrink:0}
+.qtext{font-size:15px;line-height:1.75;color:#1a1a1a;font-weight:500}
+.choice-row{display:flex;gap:10px;align-items:stretch}
+.choice-btn{flex:1;background:#f9f8f5;border:1.5px solid #e8e5de;border-radius:10px;padding:.85rem 1rem;cursor:pointer;font-size:13.5px;line-height:1.6;color:#444;transition:all .18s;text-align:center;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.choice-btn:hover{border-color:#b87818;background:#fdf3e0;color:#7a4e08}
+.choice-btn.sel{border-color:#b87818;background:#b87818;color:#fff;font-weight:500}
+.choice-btn.dim{border-color:#eee;background:#fafaf8;color:#ccc}
+.vs-mid{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:32px}
+.vs-label{font-size:10px;font-weight:700;color:#ccc;letter-spacing:.06em}
+
+/* Buttons */
+.btn-row{display:flex;gap:12px;margin-top:1.75rem;padding-bottom:2.5rem}
+.btnP{background:linear-gradient(135deg,#c08820,#2a7a50);color:#fff;border:none;border-radius:10px;padding:.85rem 2rem;font-size:15px;font-weight:500;cursor:pointer;flex:1;transition:filter .15s;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.btnP:hover{filter:brightness(1.1)}
+.btnP:disabled{opacity:.35;cursor:not-allowed;filter:none}
+.btnS{background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.8rem 1.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.btnS:hover{background:#f5f4f0}
+.btnFull{width:100%;font-size:16px;padding:1rem}
+
+/* Results */
+.rcard{background:#fff;border:1px solid #e8e5de;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-label{font-size:11px;color:#aaa;letter-spacing:.07em;text-transform:uppercase;font-weight:700;margin-bottom:.35rem}
+.card-sub{font-size:12px;color:#bbb;margin-bottom:1rem}
+.primary-row{display:flex;align-items:center;gap:14px}
+.p-icon{width:58px;height:58px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;gap:2px}
+.p-name{font-size:21px;font-weight:700;font-family:'Noto Serif SC',serif}
+.p-desc{font-size:12.5px;color:#999;margin-top:3px;line-height:1.4}
+.p-score{font-size:32px;font-weight:700;margin-left:auto;flex-shrink:0;font-family:'Noto Serif SC',serif}
+
+/* Bars */
+.bar-row{margin-bottom:.9rem}
+.bar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+.bar-track{height:8px;background:#f0eeea;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;width:0%;transition:width 1s cubic-bezier(.4,0,.2,1)}
+
+/* Interpretation */
+.interp-block{border-radius:12px;padding:1.15rem 1.25rem;margin-bottom:.75rem;border:1.5px solid transparent}
+.interp-head{display:flex;align-items:center;gap:8px;margin-bottom:.6rem}
+.interp-body{font-size:14px;line-height:1.85}
+.interp-body p{margin-bottom:.6rem}
+.interp-body p:last-child{margin-bottom:0}
+.interp-section{font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin:.9rem 0 .4rem;opacity:.7}
+.interp-bullets{list-style:none;padding:0;margin:.4rem 0 .6rem}
+.interp-bullets li{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.65;margin-bottom:.3rem}
+
+/* Tags */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0}
+.tag-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:100px;font-size:13px;font-weight:600;line-height:1}
+.tag-pill .tag-hash{font-weight:700;opacity:.5;font-size:12px}
+
+/* Figures */
+.figures-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.75rem}
+.figure-card{display:flex;align-items:flex-start;gap:10px;background:#f9f8f5;border:1px solid #e8e5de;border-radius:10px;padding:.8rem 1rem}
+.figure-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:1px}
+.figure-name{font-size:13px;font-weight:700;color:#222;line-height:1.3}
+.figure-role{font-size:11px;color:#aaa;margin-top:1px}
+.figure-why{font-size:11.5px;color:#666;margin-top:5px;line-height:1.55;border-top:1px solid #eee;padding-top:5px}
+
+/* System grid */
+.sys-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1rem}
+.sys-item{border-radius:10px;padding:.9rem 1rem}
+
+@media(max-width:480px){
+  .wrap{padding:1rem .85rem}
+  .choice-btn{font-size:13px;padding:.75rem .7rem}
+  .p-score{font-size:26px}
+  .sys-grid{grid-template-columns:1fr}
+  .figures-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- Page 0: Landing -->
+<div id="p0" class="page active">
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-icons">
+      <div class="hero-icon">🏆</div>
+      <div class="hero-icon">❤️</div>
+      <div class="hero-icon">✦</div>
+      <div class="hero-icon">🧭</div>
+      <div class="hero-icon">⬆</div>
+    </div>
+    <div class="hero-badge">核动力测评 · V1</div>
+    <h1>你的能量从哪里来？</h1>
+    <p>每个人的底层驱动力不同——有人靠成就充电，有人靠连接，有人靠意义。<br>测评你的核心动力结构。</p>
+  </div>
+  <div class="info-card">
+    <div class="info-row"><div class="info-dot"></div>共 <strong>25 道题</strong>，每题两选一，约需 3 分钟</div>
+    <div class="info-row"><div class="info-dot"></div>两个选项都合理，选你感觉更真实的那个</div>
+    <div class="info-row"><div class="info-dot"></div>完成后揭示你的核心驱动与详细解读</div>
+  </div>
+  <button class="btnP btnFull" onclick="goTo(1)">开始测评 →</button>
+</div>
+</div>
+
+<!-- Page 1: Questions -->
+<div id="p1" class="page">
+<div class="wrap">
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span class="prog-label">核动力测评</span>
+      <span class="prog-count" id="qcount">0 / 25</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="qbar" style="width:0%"></div></div>
+    <div class="prog-hint">选你感觉更真实的那个，不一定是你认为"对"的</div>
+  </div>
+  <div id="questions"></div>
+  <div class="btn-row">
+    <button class="btnS" onclick="goTo(0)">← 返回</button>
+    <button class="btnP" id="qnext" disabled onclick="showResults()">查看结果 →</button>
+  </div>
+</div>
+</div>
+
+<!-- Page 2: Results -->
+<div id="p2" class="page">
+<div class="wrap" id="results"></div>
+</div>
+
+<script>
+var SYS = {
+  A: {name:'Achievement', zh:'成就驱动', color:'#b87818', bg:'#fdf3e0', tc:'#7a4e08', icon:'🏆',
+      desc:'通过超越、赢和被认可来获取能量，结果和卓越是你的核心燃料'},
+  B: {name:'Connection',  zh:'连接驱动', color:'#c02870', bg:'#fce8f2', tc:'#880f4e', icon:'❤️',
+      desc:'通过归属、被需要和深度关系来获取能量，爱与连接是你的核心燃料'},
+  C: {name:'Meaning',     zh:'意义驱动', color:'#2a7a50', bg:'#e4f5ec', tc:'#1a5535', icon:'✦',
+      desc:'通过贡献、价值和影响来获取能量，做有意义的事是你的核心燃料'},
+  D: {name:'Autonomy',    zh:'自主驱动', color:'#2060c0', bg:'#e0eaf8', tc:'#143880', icon:'🧭',
+      desc:'通过掌控自己的路和不被限制来获取能量，自由是你的核心燃料'},
+  E: {name:'Growth',      zh:'成长驱动', color:'#6030b0', bg:'#eeebfa', tc:'#3e1888', icon:'⬆',
+      desc:'通过学习、进化和突破来获取能量，持续变强是你的核心燃料'},
+};
+
+var PROFILE = {
+  A: {
+    tags:['竞争者','结果控','第一名体质','高标准主义者','荣誉感强','胜负欲MAX'],
+    figures:[
+      {name:'迈克尔·乔丹', role:'篮球运动员', emoji:'🏀',
+       why:'胜负欲是他最核心的燃料。他承认职业生涯建立在"对失败的愤怒"上——每次被质疑都变成了动力。'},
+      {name:'贝多芬', role:'作曲家', emoji:'🎼',
+       why:'在失聪后仍然创作出最伟大的作品，被一种"超越一切限制"的成就欲驱动，无法接受任何形式的平庸。'},
+      {name:'塞雷娜·威廉姆斯', role:'网球运动员', emoji:'🎾',
+       why:'以绝对的竞争意志著称，把每一场比赛视为证明自己的战场，不允许自己退而求其次。'},
+      {name:'史蒂夫·乔布斯', role:'苹果联合创始人', emoji:'💻',
+       why:'核心动力是做出"在宇宙中留下印记"的作品——他对卓越的偏执让他无法接受"够好"。'},
+    ],
+  },
+  B: {
+    tags:['关系型','归属感强','被需要星人','深度连接者','情感锚点','共同体驱动'],
+    figures:[
+      {name:'特蕾莎修女', role:'人道主义者', emoji:'🕊️',
+       why:'一生完全由"被需要"驱动——不在乎成就或认可，只在乎与最脆弱的生命之间的真实连接。'},
+      {name:'约翰·列侬', role:'音乐人', emoji:'🎵',
+       why:'最重要的作品都关于连接、归属和爱——无论是对伴侣、孩子还是整个人类，连接是他创作的核心。'},
+      {name:'米歇尔·奥巴马', role:'前美国第一夫人', emoji:'✨',
+       why:'以真实的、充满温度的连接能力著称，与人之间建立的关系不是工具，而是她存在的核心来源。'},
+      {name:'弗雷德·罗杰斯', role:'儿童节目主持人', emoji:'🌟',
+       why:'整个事业建立在一件事上：让每个孩子感受到"你被需要，你很重要"——连接是他给出的最大礼物。'},
+    ],
+  },
+  C: {
+    tags:['使命感强','价值驱动','贡献型','世界改变者','意义猎手','影响力追求者'],
+    figures:[
+      {name:'马丁·路德·金', role:'民权运动领袖', emoji:'✊',
+       why:'整个生命由一个意义支撑：种族平等。在极大危险下持续行动，因为他相信这件事值得为之活着。'},
+      {name:'马拉拉·优素福扎伊', role:'教育活动家', emoji:'📚',
+       why:'在死亡威胁下仍然坚持的动力，是她对"每个女孩都应该得到教育"这一意义的绝对确信。'},
+      {name:'尼古拉·特斯拉', role:'发明家', emoji:'⚡',
+       why:'几乎毫不在意商业成就和个人财富，驱动他的是一个更大的意义：用科学改变人类的未来。'},
+      {name:'南丁格尔', role:'护理先驱', emoji:'🏥',
+       why:'在没有任何外部认可的情况下改革医疗护理体系，驱动她的是对"减少不必要苦难"这件事本身的确信。'},
+    ],
+  },
+  D: {
+    tags:['独立型','不被框住','自由灵魂','边界清晰者','自我掌控','不妥协派'],
+    figures:[
+      {name:'梭罗', role:'作家 / 哲学家', emoji:'🌲',
+       why:'去瓦尔登湖是为了彻底活在自己的条件下，无法忍受任何外部系统对他时间和生活方式的控制。'},
+      {name:'弗里达·卡罗', role:'画家', emoji:'🎨',
+       why:'在严重残障和痛苦中，坚持以自己的方式表达——不为市场，不为认可，完全掌控自己的艺术语言。'},
+      {name:'村上春树', role:'作家', emoji:'✍️',
+       why:'以绝对规律的个人节奏写作，拒绝大多数社交和文化活动——生活方式完全由自己的意志设计。'},
+      {name:'西蒙娜·波伏娃', role:'哲学家', emoji:'📖',
+       why:'终身以"我选择成为谁"为核心命题——她拒绝被任何角色、制度或他人的期待所定义。'},
+    ],
+  },
+  E: {
+    tags:['进化型','学习机器','边界突破者','好奇心驱动','自我超越者','终身成长者'],
+    figures:[
+      {name:'达芬奇', role:'艺术家 / 科学家', emoji:'🧬',
+       why:'在艺术、解剖、工程、天文等几乎所有领域不断学习——突破边界本身就是他存在的意义。'},
+      {name:'理查德·费曼', role:'物理学家', emoji:'🔬',
+       why:'把学习新东西当成人生最大乐趣，他说"发现自己不懂一件事，是最兴奋的时刻"。'},
+      {name:'查理·芒格', role:'投资思想家', emoji:'📖',
+       why:'90多岁仍然坚持每天读书，把获取知识本身视为人生最大的乐趣，成长是他的终身燃料。'},
+      {name:'埃隆·马斯克', role:'企业家', emoji:'🚀',
+       why:'在火箭、电动车、神经科技之间不断突破的背后，是对能力边界的持续挑战——他无法在已知领域安居。'},
+    ],
+  },
+};
+
+var INTERP = {
+  A: {
+    primary:{
+      intro:'成就驱动是你最深层的能量来源。你更容易被超越驱动——超越昨天的自己、设定的标准，或者在重要的事上做到顶尖。对你来说，看见真实的进步、站在领先位置或得到认可，是让你愿意持续投入的核心燃料。',
+      sectionA:'成就驱动高的人通常具有这些优势：',
+      bullets:['强烈的竞争心和持续精进的内在意愿','在困难中不放弃，因为"做到"本身就是奖励','能为自己设定高标准，并愿意真正为之付出'],
+      sectionB:'这个动力也有需要留意的地方：',
+      weaknesses:['对自己和他人的要求可能过高，容易陷入"不够好"的内耗','成绩不理想时，自我价值感可能随之动摇','过于关注输赢，有时会错过连接和意义带来的深度满足'],
+      suggestion:'试着定期问自己："这件事值得去赢吗？"——把竞争力用在真正重要的目标上，而不是每一个可以比较的维度。',
+    },
+    secondary:{
+      intro:'成就驱动在你的动力结构中是一个可以被激活的辅助来源。在竞争性强或有明确目标的情境中，超越和认可会成为你额外的燃料，让你发挥得更好。',
+      sectionA:'成就驱动被激活时，它通常会带来：',
+      bullets:['更强的执行意愿和胜负心','面对挑战时的坚持力和韧性','追求高标准的内在驱动'],
+    },
+    background:{
+      intro:'成就驱动在你的结构中处于中间位置，它偶尔会在竞争或目标明确的情境中出现，但不是你持续的主要动力来源。',
+      sectionA:'它可能在以下情况中发挥作用：',
+      bullets:['遇到明显的挑战或比较情境时','有清晰的进步指标可以追踪时','获得外部认可和赞赏的时刻'],
+    },
+    low:{
+      intro:'成就驱动在你的结构中激活度较低。超越他人、获得认可、做到最好——这些不是你最深层的驱动来源。这不代表你没有追求，而是竞争和卓越对你来说不是核心燃料。',
+      sectionA:'因此，你可能较难从以下场景中持续获取能量：',
+      bullets:['纯粹的竞争性环境和排名文化','以"最好""第一"为核心激励的目标设定','通过外部成绩和认可来维持自我价值感'],
+    },
+  },
+  B: {
+    primary:{
+      intro:'连接驱动是你最深层的能量来源。你最核心的燃料是关系——真正被需要的感觉、深度的归属感，或者知道某些人对你无可替代、你对他们也一样。对你来说，如果无法感受到真实的连接，再多的成就和意义都填不满那个位置。',
+      sectionA:'连接驱动高的人通常具有这些优势：',
+      bullets:['在深度关系中能给出极高的投入和情感支持','对人的感受和需求非常敏锐，容易建立信任','能创建真正有深度的、让人感到安全的连接'],
+      sectionB:'这个动力也有需要留意的地方：',
+      weaknesses:['"被需要"的渴望有时会让边界模糊，容易过度付出','在关系中察觉到疏远或冷漠时，容易感到深度不安','有时会为了维持连接而放弃自己真正想要的事'],
+      suggestion:'区分"我想要这段连接"和"我害怕失去这段连接"——前者是力量，后者容易让你在关系里慢慢失去自己。',
+    },
+    secondary:{
+      intro:'连接驱动在你的动力结构中是一个重要的辅助来源。在涉及人和关系的情境中，归属感和被需要会给你额外的能量，让事情变得更有意义。',
+      sectionA:'连接驱动被激活时，它通常会带来：',
+      bullets:['更深的情感投入和对人的关怀','在团队或伙伴关系中的高参与度','关系中的信任感和安全感成为行动动力'],
+    },
+    background:{
+      intro:'连接驱动在你的结构中处于中间位置，深度归属感不是你每天的核心驱动，但在重要关系受到威胁时，它会被强烈激活。',
+      sectionA:'它可能在以下情况中发挥作用：',
+      bullets:['当重要关系出现危机时','感受到真正的团队归属感和凝聚力时','帮助他人度过艰难时刻时'],
+    },
+    low:{
+      intro:'连接驱动在你的结构中激活度较低。归属感、被需要、深度关系——这些不是驱动你最深的能量来源。这不代表你不重视关系，而是连接不是你最核心的动力燃料。',
+      sectionA:'因此，你可能较难从以下方式中持续获取能量：',
+      bullets:['通过维系大量亲密关系来感受人生意义','把"被需要"作为推动自己前进的主要动力','在关系和集体中寻找持久的充电感'],
+    },
+  },
+  C: {
+    primary:{
+      intro:'意义驱动是你最深层的能量来源。你最核心的燃料是贡献——知道自己做的事真正影响了什么、帮助了谁、让世界稍微有所不同。对你来说，如果无法感知到这件事的价值和意义，再多的成就感或认可都填不满那个空缺。',
+      sectionA:'意义驱动高的人通常具有这些优势：',
+      bullets:['在相信有价值的事上能持续投入极高的能量','不容易被表面的奖励或认可收买，方向感清晰','做事时有一种天然的使命感，能带动周围的人'],
+      sectionB:'这个动力也有需要留意的地方：',
+      weaknesses:['对"有没有意义"的要求可能让你对很多事失去兴趣，执行力受影响','在意义感模糊或迷失时，容易陷入虚无感和停滞','有时会用"找不到意义"作为拖延的理由，迟迟不开始'],
+      suggestion:'意义不必在开始之前就完全清晰——有时候是在做的过程中逐渐显现的。允许自己先动起来，再慢慢找到那条线。',
+    },
+    secondary:{
+      intro:'意义驱动在你的动力结构中是一个重要参照。当你做的事情能够清晰连接到某个更大的价值时，你的投入度会显著提升。',
+      sectionA:'意义驱动被激活时，它通常会带来：',
+      bullets:['更深的持续投入和韧性','更清晰的方向感和取舍标准','在困难时帮助你回到"为什么"，找到坚持的理由'],
+    },
+    background:{
+      intro:'意义驱动在你的结构中处于中间位置，它不是你日常的主要驱动，但在面对重大选择或感到迷失时会被强烈激活。',
+      sectionA:'它可能在以下情况中发挥作用：',
+      bullets:['面临人生重大转折和选择时','长期感到虚耗、迷失方向时','遇到让你觉得"值得"的事业或项目时'],
+    },
+    low:{
+      intro:'意义驱动在你的结构中激活度较低。追问"这有什么意义"不是你的首要驱动模式。这不代表你的人生缺少方向，而是贡献和影响力不是你最核心的能量来源。',
+      sectionA:'因此，你可能较难从以下方式中持续获取能量：',
+      bullets:['需要清晰感知"贡献和影响"才能行动','在使命感驱动的文化中持续充电','通过"改变世界"叙事来维持长期动力'],
+    },
+  },
+  D: {
+    primary:{
+      intro:'自主驱动是你最深层的能量来源。你最核心的燃料是掌控——掌控自己的路、时间和方式。当你能自己做决定、不被框架限制时，你能释放最大的能量；反之，被强制纳入别人设定的轨道会让你的动力迅速流失。',
+      sectionA:'自主驱动高的人通常具有这些优势：',
+      bullets:['拥有很强的独立判断力，不容易被外界带偏','能够在没有外部监督的情况下持续自驱','对自己的边界和需求非常清晰，不容易妥协'],
+      sectionB:'这个动力也有需要留意的地方：',
+      weaknesses:['对限制和约束高度敏感，有时会因为小的边界侵犯而过度反应','在需要深度依赖他人或受制于集体的环境中，难以持久','过于强调自主，有时会错过协作和相互依赖带来的可能性'],
+      suggestion:'区分"这是我真正不接受的限制"和"这只是让我不舒服的边界"——不是所有约束都值得为之消耗能量。',
+    },
+    secondary:{
+      intro:'自主驱动在你的动力结构中是一个重要的底层需求。当你有足够的选择权和掌控感时，你在其他驱动上的表现也会更好；而当自主感被严重压缩时，其他动力也会随之下降。',
+      sectionA:'自主驱动被激活时，它通常会带来：',
+      bullets:['更强的内驱力和责任感','在开放框架中释放更高的创造力','清晰的边界意识帮助你做出真正符合自己的选择'],
+    },
+    background:{
+      intro:'自主驱动在你的结构中处于中间位置，自由和掌控不是你最主要的驱动，但当选择权被明显剥夺时，你仍然会感受到阻力。',
+      sectionA:'它可能在以下情况中发挥作用：',
+      bullets:['被强制执行一个明显不合理的决定时','在某个重要维度上希望保有独立性时','需要维护自己的核心边界时'],
+    },
+    low:{
+      intro:'自主驱动在你的结构中激活度较低。掌控自己的路、不被框架限制——这些不是驱动你最深的力量。这不代表你没有主见，而是自由和自主不是你的核心能量来源。',
+      sectionA:'因此，你在以下方面可能不那么敏感：',
+      bullets:['对规则和结构的接受度较高，不会把它们体验为威胁','在明确框架内能够稳定运作，甚至感到安全','对"自己做主"的渴望没有那么强烈和紧迫'],
+    },
+  },
+  E: {
+    primary:{
+      intro:'成长驱动是你最深层的能量来源。你最核心的燃料是进化——学到了什么、突破了什么边界、成为了一个比昨天更强的自己。对你来说，停止成长几乎等同于停止呼吸，持续变化和突破是你存在的核心动力。',
+      sectionA:'成长驱动高的人通常具有这些优势：',
+      bullets:['强烈的学习意愿和快速吸收新知识的能力','不容易满足于现状，持续推动自己前进','面对挑战时能把它重新定义为成长的机会'],
+      sectionB:'这个动力也有需要留意的地方：',
+      weaknesses:['对"停止成长"极度敏感，在平台期容易产生强烈的焦虑','过于追求成长，有时会忽略"当下已经很好了"','可能因为总想进入下一个阶段，而无法在一件事上深耕'],
+      suggestion:'成长不只是"不断向前"——有时候在同一件事上深耕、允许自己消化，也是一种很重要的成长方式。',
+    },
+    secondary:{
+      intro:'成长驱动在你的动力结构中是一个可靠的辅助来源。当事情包含学习曲线或能明显感受到能力提升时，你的投入度和兴奋感会明显增加。',
+      sectionA:'成长驱动被激活时，它通常会带来：',
+      bullets:['对新领域和新挑战的更高开放度','在学习过程中的高参与感和兴奋感','把困难重新定义为变强机会的倾向'],
+    },
+    background:{
+      intro:'成长驱动在你的结构中处于中间位置，它不是你日常的主要驱动，但在能力明显被扩展时会给你带来额外的满足感。',
+      sectionA:'它可能在以下情况中发挥作用：',
+      bullets:['进入完全陌生的领域或挑战时','感受到能力边界被推进的时刻','和比自己更强的人一起工作时'],
+    },
+    low:{
+      intro:'成长驱动在你的结构中激活度较低。持续学习、不断突破边界——这些不是驱动你最深的燃料。这不代表你没有能力成长，而是"变得更好"不是你最核心的能量来源。',
+      sectionA:'因此，你可能较难从以下方式中持续获取能量：',
+      bullets:['以学习和进步曲线为主要激励的高强度成长环境','不断突破舒适区的挑战文化','把"我变强了多少"作为衡量价值的核心标准'],
+    },
+  },
+};
+
+var MAX = 10;
+
+var QS = [
+  // A vs B (3)
+  {q:'什么更能让你长期持续投入一件事？',
+   L:{s:'A',t:'看到自己越来越好，越来越接近"最好"'},
+   R:{s:'B',t:'感受到自己被真正需要，在关系中占据重要位置'}},
+  {q:'做完一件很难的事，你最先想到的是：',
+   L:{s:'A',t:'我做到了——这是我努力的证明'},
+   R:{s:'B',t:'我想把这件事分享给某个对我重要的人'}},
+  {q:'什么更让你快速失去热情？',
+   L:{s:'B',t:'感觉自己在别人的生命里可有可无'},
+   R:{s:'A',t:'再努力也看不到任何进步或结果'}},
+  // A vs E (3)
+  {q:'你更想在生命里做到的是：',
+   L:{s:'A',t:'在某件重要的事上达到顶尖水准'},
+   R:{s:'E',t:'持续突破边界，尝试更多未知的可能性'}},
+  {q:'让你真正有成就感的，是：',
+   L:{s:'A',t:'和别人比，我在领先的位置'},
+   R:{s:'E',t:'和过去的自己比，我变得更强了'}},
+  {q:'什么更容易让你感到焦虑？',
+   L:{s:'E',t:'感觉自己停止了成长，能力在原地踏步'},
+   R:{s:'A',t:'努力付出，却没有被认可或排名落后'}},
+  // B vs C (3)
+  {q:'你更渴望在生活里持续感受到的是：',
+   L:{s:'B',t:'有人真正在乎我、需要我的存在'},
+   R:{s:'C',t:'我做的事在真正地改变什么'}},
+  {q:'最让你觉得"这一切值得"的，是：',
+   L:{s:'C',t:'知道自己的存在对世界有真实的意义'},
+   R:{s:'B',t:'拥有几段深度的、真实的关系'}},
+  {q:'当你帮助了别人，最让你满足的是：',
+   L:{s:'B',t:'你和对方的连接因此更深了'},
+   R:{s:'C',t:'对方的生活因为你真实地变好了'}},
+  // C vs D (3)
+  {q:'你更难以接受的是：',
+   L:{s:'D',t:'被迫按别人定的规则走，完全没有选择权'},
+   R:{s:'C',t:'做了很多事，却感觉都没有真正的意义'}},
+  {q:'考虑要不要做一件事，你更先问自己：',
+   L:{s:'C',t:'这件事能带来真正的价值和影响吗'},
+   R:{s:'D',t:'这件事是我自己选择的，还是被迫接受的'}},
+  {q:'让你感到最压抑的状态是：',
+   L:{s:'D',t:'感觉人生的轨迹不受自己掌控'},
+   R:{s:'C',t:'感觉自己在做没有任何意义的重复劳动'}},
+  // D vs E (3)
+  {q:'你理想中的生活方式更接近：',
+   L:{s:'D',t:'自己说了算，不被外界框架约束'},
+   R:{s:'E',t:'持续学新东西，不断进化自己'}},
+  {q:'什么更让你感到窒息？',
+   L:{s:'D',t:'必须沿着别人设定的轨迹走，不能偏离'},
+   R:{s:'E',t:'生活停止了变化，一切变得可以预测'}},
+  {q:'你更像哪种状态下的自己？',
+   L:{s:'E',t:'进入全新领域，充满好奇，快速学习'},
+   R:{s:'D',t:'完全按照自己的意愿决定下一步怎么走'}},
+  // A vs C (2)
+  {q:'你更需要感受到的是：',
+   L:{s:'A',t:'我比别人做得更好，处于领先位置'},
+   R:{s:'C',t:'我做的事情是真正有价值的'}},
+  {q:'让你愿意全力投入一件事的原因，更可能是：',
+   L:{s:'C',t:'这件事很重要，能带来真实的影响'},
+   R:{s:'A',t:'这是一个证明自己能力的机会'}},
+  // A vs D (2)
+  {q:'你更在意的是：',
+   L:{s:'A',t:'在重要的事上取得出色的成绩'},
+   R:{s:'D',t:'用自己选择的方式来做事'}},
+  {q:'当别人干涉你的决定，你更不舒服的是：',
+   L:{s:'D',t:'我的自主权被侵犯了'},
+   R:{s:'A',t:'这会影响我的发挥和最终结果'}},
+  // B vs D (2)
+  {q:'在关系里，你更难接受的是：',
+   L:{s:'B',t:'对方并不真正需要自己的存在'},
+   R:{s:'D',t:'在这段关系里你失去了太多自我'}},
+  {q:'你更需要的是：',
+   L:{s:'D',t:'掌控自己的路，不依赖他人的认可'},
+   R:{s:'B',t:'在某些重要的人那里感到深度归属'}},
+  // B vs E (2)
+  {q:'什么更难让你长期坚持？',
+   L:{s:'E',t:'一直独自学习钻研，缺少真正的人情连接'},
+   R:{s:'B',t:'大量时间维系关系，却感觉自己停止成长了'}},
+  {q:'让你最有活力的状态，更像：',
+   L:{s:'B',t:'在一个深度连接的团队里，互相需要'},
+   R:{s:'E',t:'进入全新领域，感受能力在快速扩展'}},
+  // C vs E (2)
+  {q:'走到人生尽头，你更害怕发现：',
+   L:{s:'C',t:'自己没有真正帮助或影响过任何人'},
+   R:{s:'E',t:'自己的一生都在重复，从没有真正突破'}},
+  {q:'在困难中让你坚持下去的，更可能是：',
+   L:{s:'C',t:'知道这件事真的值得，它有意义'},
+   R:{s:'E',t:'感受到自己在这个过程中变得更强了'}},
+];
+
+// Shuffle questions each load
+(function(){
+  for(var i=QS.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=QS[i];QS[i]=QS[j];QS[j]=tmp;
+  }
+})();
+
+var ans = {};
+
+function buildQuestions(){
+  var c = document.getElementById('questions');
+  c.innerHTML = '';
+  QS.forEach(function(q, i){
+    c.innerHTML += '<div class="qcard">'
+      + '<div class="qcard-top"><div class="qnum">' + (i+1) + '</div><div class="qtext">' + q.q + '</div></div>'
+      + '<div class="choice-row">'
+      + '<button class="choice-btn" id="opt_'+i+'_L" onclick="setAns('+i+',\'L\')">'+q.L.t+'</button>'
+      + '<div class="vs-mid"><span class="vs-label">VS</span></div>'
+      + '<button class="choice-btn" id="opt_'+i+'_R" onclick="setAns('+i+',\'R\')">'+q.R.t+'</button>'
+      + '</div></div>';
+  });
+}
+
+function setAns(qi, side){
+  ans[qi] = side;
+  var L = document.getElementById('opt_'+qi+'_L');
+  var R = document.getElementById('opt_'+qi+'_R');
+  if(side==='L'){L.className='choice-btn sel';R.className='choice-btn dim';}
+  else{R.className='choice-btn sel';L.className='choice-btn dim';}
+  var done = Object.keys(ans).length;
+  document.getElementById('qcount').textContent = done + ' / 25';
+  document.getElementById('qbar').style.width = (done/25*100) + '%';
+  var btn = document.getElementById('qnext');
+  btn.disabled = done < 25;
+  btn.textContent = done < 25 ? '还有 '+(25-done)+' 题未选' : '查看结果 →';
+}
+
+function goTo(n){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('p'+n).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderInterpBlock(k, role, score, isStar){
+  var s = SYS[k];
+  var d = INTERP[k][role];
+  var hi = (role === 'primary');
+  var bg = hi ? s.bg : '#fafaf8';
+  var borderColor = hi ? (s.color+'55') : '#eeebe5';
+  var textColor = hi ? s.tc : '#444';
+
+  var bulletsHtml = d.bullets.map(function(b){
+    return '<li style="color:'+textColor+'">'
+      +'<span style="color:'+s.color+';font-weight:700;flex-shrink:0">·</span>'
+      +'<span>'+b+'</span></li>';
+  }).join('');
+
+  var weakHtml = '';
+  if(d.weaknesses){
+    var wItems = d.weaknesses.map(function(b){
+      return '<li style="color:'+textColor+'">'
+        +'<span style="color:#c0392b;font-weight:700;flex-shrink:0">·</span>'
+        +'<span>'+b+'</span></li>';
+    }).join('');
+    weakHtml = '<div class="interp-section" style="color:'+s.tc+'">'+d.sectionB+'</div>'
+      +'<ul class="interp-bullets">'+wItems+'</ul>';
+  }
+
+  var suggHtml = '';
+  if(d.suggestion){
+    suggHtml = '<div style="margin-top:.75rem;padding:.85rem 1rem;border-radius:8px;background:rgba(255,255,255,.55);border:1px solid rgba(0,0,0,.07)">'
+      +'<div style="font-size:10px;font-weight:700;color:'+s.tc+';letter-spacing:.05em;text-transform:uppercase;margin-bottom:.35rem">建议</div>'
+      +'<div style="font-size:13.5px;line-height:1.7;color:'+textColor+'">'+d.suggestion+'</div>'
+      +'</div>';
+  }
+
+  return '<div class="interp-block" style="background:'+bg+';border-color:'+borderColor+'">'
+    +'<div class="interp-head">'
+    +'<span style="font-size:17px">'+s.icon+'</span>'
+    +'<span style="font-size:13.5px;font-weight:700;color:'+s.tc+'">'+s.zh+'</span>'
+    +'<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px;background:'+(hi?'rgba(255,255,255,.6)':'#eeebe5')+';color:'+s.tc+'">'
+    +score+'pt'+(isStar?' ★':'')+'</span>'
+    +'</div>'
+    +'<div class="interp-body" style="color:'+textColor+'">'
+    +'<p>'+d.intro+'</p>'
+    +'<div class="interp-section" style="color:'+s.tc+'">'+d.sectionA+'</div>'
+    +'<ul class="interp-bullets">'+bulletsHtml+'</ul>'
+    +weakHtml
+    +suggHtml
+    +'</div></div>';
+}
+
+function renderTagsAndFigures(pk, isDual, sk){
+  var keys = isDual ? [pk, sk] : [pk];
+  var html = '';
+  keys.forEach(function(k){
+    var p = PROFILE[k];
+    var s = SYS[k];
+    var tagsHtml = p.tags.map(function(t){
+      return '<span class="tag-pill" style="background:'+s.bg+';color:'+s.tc+'">'
+        +'<span class="tag-hash">#</span>'+t+'</span>';
+    }).join('');
+    var figuresHtml = p.figures.map(function(f){
+      return '<div class="figure-card">'
+        +'<div class="figure-avatar" style="background:'+s.bg+'">'+f.emoji+'</div>'
+        +'<div style="flex:1">'
+        +'<div class="figure-name">'+f.name+'</div>'
+        +'<div class="figure-role">'+f.role+'</div>'
+        +'<div class="figure-why">'+f.why+'</div>'
+        +'</div></div>';
+    }).join('');
+    html += '<div style="margin-bottom:'+(isDual?'1.75rem':'0')+'">'
+      +(isDual?'<div style="font-size:12px;font-weight:700;color:'+s.tc+';margin-bottom:.75rem;display:flex;align-items:center;gap:6px">'+s.icon+' '+s.zh+'</div>':'')
+      +'<div class="tags-wrap">'+tagsHtml+'</div>'
+      +'<div style="font-size:12px;color:#aaa;margin-bottom:.4rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase">与你相似的人</div>'
+      +'<div class="figures-row">'+figuresHtml+'</div>'
+      +'</div>';
+  });
+  return html;
+}
+
+function showResults(){
+  var scores = {A:0, B:0, C:0, D:0, E:0};
+  QS.forEach(function(q, i){
+    if(ans[i] !== undefined) scores[q[ans[i]].s]++;
+  });
+
+  var sorted = Object.keys(scores).sort(function(a,b){
+    return scores[b]-scores[a] || a.localeCompare(b);
+  });
+  var pk = sorted[0], sk = sorted[1];
+  var pv = scores[pk], sv = scores[sk];
+  var isDual = (pv - sv) <= 1;
+  var structLabel = isDual ? SYS[pk].zh + ' + ' + SYS[sk].zh : SYS[pk].zh;
+
+  var barsHtml = sorted.map(function(k,i){
+    var v = scores[k];
+    var label = '';
+    if(i===0) label = '<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:5px">主导</span>';
+    else if(isDual&&i===1) label = '<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:5px">主导</span>';
+    else if(!isDual&&i===1) label = '<span style="font-size:11px;color:#bbb;font-weight:400;margin-left:5px">辅助</span>';
+    return '<div class="bar-row">'
+      +'<div class="bar-head">'
+      +'<span style="font-size:13px;font-weight:600;color:'+SYS[k].color+'">'+SYS[k].icon+' '+SYS[k].zh+label+'</span>'
+      +'<span style="font-size:13px;color:#999;font-weight:500">'+v+'<span style="font-size:11px;color:#bbb"> / '+MAX+'</span></span>'
+      +'</div>'
+      +'<div class="bar-track"><div class="bar-fill" data-w="'+Math.round(v/MAX*100)+'" style="background:'+SYS[k].color+'"></div></div>'
+      +'</div>';
+  }).join('');
+
+  var interpHtml = sorted.map(function(k,i){
+    var role, isStar = false;
+    if(i===0){role='primary';isStar=true;}
+    else if(isDual&&i===1){role='primary';isStar=true;}
+    else if(scores[k]<=3){role='low';}
+    else if(i===1&&!isDual){role='secondary';}
+    else{role='background';}
+    return renderInterpBlock(k, role, scores[k], isStar);
+  }).join('');
+
+  var chipsHtml = isDual
+    ? '<div style="display:flex;gap:7px;flex-wrap:wrap">'
+      +'<span style="background:'+SYS[pk].bg+';color:'+SYS[pk].tc+';padding:4px 13px;border-radius:20px;font-size:12px;font-weight:600">'+SYS[pk].icon+' '+SYS[pk].zh+' '+pv+'pt</span>'
+      +'<span style="background:'+SYS[sk].bg+';color:'+SYS[sk].tc+';padding:4px 13px;border-radius:20px;font-size:12px;font-weight:600">'+SYS[sk].icon+' '+SYS[sk].zh+' '+sv+'pt</span>'
+      +'</div>'
+    : '<div style="font-size:13px;color:#888">辅助动力: <strong style="color:'+SYS[sk].tc+'">'+SYS[sk].zh+'</strong> &nbsp;·&nbsp; '+sv+'pt</div>';
+
+  var iconHtml = isDual
+    ? '<span>'+SYS[pk].icon+'</span><span>'+SYS[sk].icon+'</span>'
+    : SYS[pk].icon;
+
+  var sysGridHtml = Object.entries(SYS).map(function(entry){
+    var k=entry[0], s=entry[1];
+    var hi = (k===sorted[0])||(isDual&&k===sorted[1]);
+    return '<div class="sys-item" style="background:'+s.bg+';'+(hi?'outline:2px solid '+s.color+';outline-offset:1px':'')+'">'
+      +'<div style="font-size:13px;font-weight:700;color:'+s.tc+';margin-bottom:3px">'+s.icon+' '+s.zh+(hi?' ★':'')+'</div>'
+      +'<div style="font-size:11px;color:'+s.tc+';opacity:.8;line-height:1.4">'+s.desc+'</div>'
+      +'</div>';
+  }).join('');
+
+  var tagsHtml = renderTagsAndFigures(pk, isDual, sk);
+
+  document.getElementById('results').innerHTML =
+    '<div style="border-bottom:1px solid #f0eeea;padding-bottom:1.5rem;margin-bottom:1.5rem">'
+    +'<div style="font-size:11px;color:#aaa;letter-spacing:.07em;text-transform:uppercase;font-weight:700;margin-bottom:.35rem">核动力测评 · 结果</div>'
+    +'<h2 style="font-size:24px;font-weight:700;margin-bottom:.4rem;font-family:\'Noto Serif SC\',serif">你的核动力图谱</h2>'
+    +'<p style="font-size:13px;color:#888">基于 25 组对比选择</p>'
+    +'</div>'
+
+    +'<div class="rcard" style="border-left:4px solid '+SYS[pk].color+';background:linear-gradient(135deg,#fdf3e0,#e8f5ee)">'
+    +'<div class="card-label" style="color:#a07840">'+(isDual?'Dual Drive · 双核动力':'Primary Drive · 核心动力')+'</div>'
+    +'<div class="primary-row">'
+    +'<div class="p-icon" style="background:rgba(255,255,255,.7)">'+iconHtml+'</div>'
+    +'<div style="flex:1">'
+    +'<div class="p-name" style="color:#2a1f0e">'+structLabel+'</div>'
+    +'<div class="p-desc" style="color:#8a6a30">'+(isDual?SYS[pk].name+' + '+SYS[sk].name+' · 差距 '+(pv-sv)+' 分，双核判定':SYS[pk].name+' · 领先 '+(pv-sv)+' 分')+'</div>'
+    +'</div>'
+    +'<div class="p-score" style="color:'+SYS[pk].color+'">'+pv+'<span style="font-size:13px;font-weight:400;color:#bbb">pt</span></div>'
+    +'</div>'
+    +'<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,.07)">'+chipsHtml+'</div>'
+    +'</div>'
+
+    +'<div class="rcard">'
+    +'<div class="card-label">五大动力得分</div>'
+    +'<div class="card-sub">每个维度最多 10 分，得分越高代表该动力在你的能量结构中激活度越高</div>'
+    +barsHtml+'</div>'
+
+    +'<div class="rcard"><div class="card-label">动力解读</div>'+interpHtml+'</div>'
+
+    +'<div class="rcard"><div class="card-label">五大核动力</div>'
+    +'<p style="font-size:13px;color:#999;margin-bottom:1rem;line-height:1.6">每个人都同时拥有这五种动力来源，只是主导的强度不同。了解你的动力结构，能帮助你更有意识地选择环境、目标和关系。</p>'
+    +'<div class="sys-grid">'+sysGridHtml+'</div></div>'
+
+    +'<div class="rcard"><div class="card-label">你的标签 &amp; 相似的人</div>'+tagsHtml+'</div>'
+
+    +'<div style="text-align:center;margin-top:1.5rem;padding-bottom:2.5rem">'
+    +'<button onclick="resetAll()" style="background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.85rem 2.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,\'PingFang SC\',\'Hiragino Sans GB\',sans-serif">重新测评</button>'
+    +'</div>';
+
+  goTo(2);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    document.querySelectorAll('.bar-fill[data-w]').forEach(function(b){b.style.width=b.dataset.w+'%';});
+  });});
+}
+
+function resetAll(){
+  Object.keys(ans).forEach(function(k){delete ans[k];});
+  buildQuestions();
+  document.getElementById('qcount').textContent = '0 / 25';
+  document.getElementById('qbar').style.width = '0%';
+  document.getElementById('qnext').disabled = true;
+  document.getElementById('qnext').textContent = '还有 25 题未选';
+  goTo(0);
+}
+
+buildQuestions();
+</script>
+</body>
+</html>
