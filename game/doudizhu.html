@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>斗地主</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#f0f4ff;font-family:'Nunito',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+.topbar{width:100%;display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:#fff;box-shadow:0 1px 0 #eee;flex-shrink:0;z-index:10}
+.topbar a{color:#667eea;text-decoration:none;font-size:.85rem;font-weight:700}
+.topbar h1{font-size:.98rem;font-weight:900;color:#1a1a2e}
+.ri{font-size:.7rem;color:#aaa;font-weight:600}
+#wait{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:20px;text-align:center;padding:40px}
+.wcard{background:#fff;border-radius:24px;padding:24px 32px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.wcard h3{font-size:1.1rem;font-weight:900;color:#1a1a2e;margin-bottom:6px}
+.wcard p{font-size:.85rem;color:#aaa;font-weight:600}
+.loader{display:flex;gap:6px}
+.da{width:10px;height:10px;border-radius:50%;background:#667eea;animation:bo .8s infinite}
+.da:nth-child(2){animation-delay:.15s}.da:nth-child(3){animation-delay:.3s}
+@keyframes bo{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
+
+/* Table */
+#table{display:none;width:100%;flex:1;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#1a6b3a 0%,#0d4020 100%)}
+
+/* Players */
+.pa{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px}
+#pt{top:8px;left:50%;transform:translateX(-50%)}
+#pl{left:6px;top:50%;transform:translateY(-50%)}
+#pm{bottom:0;left:0;right:0;align-items:center;padding:5px 0 8px}
+
+.ptag{background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,.25);border-radius:20px;padding:4px 12px;font-size:.72rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.ptag.ll{border-color:#ffd93d;background:rgba(255,217,61,.25);color:#ffd93d}
+.ptag.act{box-shadow:0 0 0 3px rgba(255,217,61,.7)}
+.ll-b{background:#ffd93d;color:#1a0e00;font-size:.58rem;font-weight:900;padding:1px 5px;border-radius:8px}
+.diff-b{font-size:.58rem;background:rgba(255,255,255,.25);padding:1px 5px;border-radius:8px}
+
+/* Card backs */
+.backs{display:flex}
+.cb{width:16px;height:26px;background:linear-gradient(135deg,#3a7bd5,#1a4a9a);border:1px solid #5a9be5;border-radius:3px;margin-right:-5px;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+
+/* Played */
+.played{min-height:40px;display:flex;align-items:center;justify-content:center;gap:1px}
+
+/* Bottom cards */
+#ctr{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:2}
+.blabel{font-size:.6rem;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:3px}
+.bcards{display:flex;gap:2px;justify-content:center}
+
+/* Bid */
+#bidp{position:absolute;bottom:116px;left:50%;transform:translateX(-50%);display:none;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-radius:20px;
+  padding:14px 18px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:20;min-width:250px;text-align:center}
+#bidp h4{font-size:.85rem;font-weight:900;color:#1a1a2e;margin-bottom:3px}
+#bidp .sub{font-size:.72rem;color:#aaa;font-weight:600;margin-bottom:10px}
+.brow{display:flex;gap:6px;justify-content:center}
+.bb{padding:8px 12px;border:2px solid #eee;border-radius:10px;background:#fff;font-family:inherit;font-size:.82rem;font-weight:800;cursor:pointer;transition:all .2s;color:#555}
+.bb:hover{border-color:#667eea;color:#667eea}
+.bb.go{background:linear-gradient(135deg,#ffd93d,#ff9f43);border-color:transparent;color:#fff;box-shadow:0 3px 10px rgba(255,159,67,.4)}
+
+/* Play panel */
+#playp{display:none;position:absolute;bottom:104px;left:0;right:0;z-index:20;flex-direction:row;gap:10px;align-items:center;justify-content:center}
+.pb{padding:10px 24px;border:none;border-radius:12px;font-family:inherit;font-size:.88rem;cursor:pointer;font-weight:800;transition:all .2s}
+.pb.play{background:linear-gradient(135deg,#ffd93d,#ff9f43);color:#fff;box-shadow:0 4px 12px rgba(255,159,67,.45)}
+.pb.play:hover{transform:translateY(-2px)}
+.pb.pass{background:rgba(255,255,255,.2);color:rgba(255,255,255,.85);backdrop-filter:blur(6px)}
+.pb.pass:disabled{opacity:.35;cursor:not-allowed}
+
+/* My cards */
+#mycards{display:flex;justify-content:center;align-items:flex-end;min-height:76px;padding:0 6px;overflow-x:auto}
+.card{width:37px;height:56px;background:#fff;border:1.5px solid #ddd;border-radius:7px;display:flex;flex-direction:column;justify-content:space-between;padding:2px 3px;cursor:pointer;font-size:.58rem;font-weight:800;transition:transform .15s;margin-right:-11px;flex-shrink:0;position:relative;box-shadow:0 2px 5px rgba(0,0,0,.14)}
+.card:last-child{margin-right:0}
+.card.on{transform:translateY(-13px)}
+.card .top,.card .bot{line-height:1}.card .bot{transform:rotate(180deg);align-self:flex-end}
+.card .suit{font-size:.88rem;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.card.rc .top,.card.rc .bot,.card.rc .suit{color:#e53935}
+.card.bc .top,.card.bc .bot,.card.bc .suit{color:#111}
+.card.jk{background:linear-gradient(135deg,#fff9e6,#ffe082)}
+.card.jk .top{color:#e53935;font-size:.52rem;line-height:1.3}
+
+/* Mini */
+.mc{width:22px;height:33px;background:#fff;border:1px solid #ddd;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.56rem;font-weight:800;margin-right:-3px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.mc.rc{color:#e53935}.mc.bc{color:#111}.mc.jk{background:linear-gradient(135deg,#fff9e6,#ffe082);color:#e53935}
+
+/* Messages */
+#msgs{position:absolute;top:48px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;z-index:10;pointer-events:none}
+.mb{background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-radius:20px;padding:4px 13px;font-size:.75rem;font-weight:700;color:#1a1a2e;box-shadow:0 2px 8px rgba(0,0,0,.1);animation:fu 2.5s forwards;white-space:nowrap}
+@keyframes fu{0%{opacity:0;transform:translateY(6px)}15%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0}}
+
+/* Turn bar */
+#tbar{position:absolute;top:6px;right:8px;background:rgba(255,255,255,.2);backdrop-filter:blur(6px);border-radius:10px;padding:5px 10px;font-size:.7rem;font-weight:800;color:#fff;display:none}
+
+/* Result */
+#result{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(12px);align-items:center;justify-content:center;z-index:100}
+#result.show{display:flex}
+.rb{background:#fff;border-radius:28px;padding:28px 36px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.25);max-width:340px;width:92vw}
+.rb .emo{font-size:3.2rem;margin-bottom:8px}.rb h2{font-size:1.5rem;font-weight:900;color:#1a1a2e;margin-bottom:5px}
+.rb p{color:#aaa;font-weight:600;margin-bottom:12px;font-size:.85rem}
+.hands{display:flex;flex-direction:column;gap:7px;margin:10px 0;text-align:left}
+.hg{background:#f8f9ff;border-radius:11px;padding:9px 13px}
+.hg h5{font-size:.7rem;font-weight:800;color:#667eea;margin-bottom:3px}
+.hg .cl{font-size:.68rem;color:#555;line-height:1.8;font-weight:600}
+.btn{padding:12px 24px;border:none;border-radius:13px;font-size:.95rem;font-family:inherit;cursor:pointer;font-weight:800;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;width:100%}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">← 大厅</a><h1>斗地主 🃏</h1>
+  <span class="ri" id="ri"></span>
+</div>
+<div id="wait">
+  <div class="wcard"><h3>等待玩家…</h3><p>对方从大厅加入后自动开始</p></div>
+  <div class="loader"><div class="da"></div><div class="da"></div><div class="da"></div></div>
+</div>
+<div id="table">
+  <div id="tbar"></div>
+  <div id="msgs"></div>
+  <div class="pa" id="pt">
+    <div class="ptag" id="tagt"></div>
+    <div class="backs" id="bt"></div>
+    <div class="played" id="ppt"></div>
+  </div>
+  <div class="pa" id="pl">
+    <div class="ptag" id="tagl"></div>
+    <div class="backs" id="bl"></div>
+    <div class="played" id="ppl"></div>
+  </div>
+  <div id="ctr">
+    <div class="blabel">底牌</div>
+    <div class="bcards" id="botc"></div>
+  </div>
+  <div class="pa" id="pm">
+    <div class="played" id="ppm"></div>
+    <div class="ptag" id="tagm"></div>
+    <div id="mycards"></div>
+  </div>
+  <div id="bidp">
+    <h4>叫地主？</h4>
+    <div class="sub" id="binfo">当前最高：不叫</div>
+    <div class="brow">
+      <button class="bb" onclick="doBid(0)">不叫</button>
+      <button class="bb" onclick="doBid(1)">1分</button>
+      <button class="bb" onclick="doBid(2)">2分</button>
+      <button class="bb go" onclick="doBid(3)">抢地主！</button>
+    </div>
+  </div>
+  <div id="playp">
+    <button class="pb pass" id="passbtn" onclick="doPass()">不出</button>
+    <button class="pb play" onclick="doPlay()">出牌 ▶</button>
+  </div>
+</div>
+<div id="result">
+  <div class="rb">
+    <div class="emo" id="re"></div><h2 id="rt"></h2><p id="rs"></p>
+    <div class="hands" id="rhands"></div>
+    <button class="btn" onclick="location.href='index.html'">返回大厅</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const app=initializeApp({apiKey:"AIzaSyA6bEgCKXGrDA1c1lcsUT_JyK4cUXorTL0",authDomain:"chess-361a6.firebaseapp.com",databaseURL:"https://chess-361a6-default-rtdb.firebaseio.com",projectId:"chess-361a6",storageBucket:"chess-361a6.firebasestorage.app",messagingSenderId:"508387564049",appId:"1:508387564049:web:673daab5203d2bbb46afb0"});
+const db=getDatabase(app);
+const Q=new URLSearchParams(location.search);
+const roomId=Q.get('room')||'',seat=+Q.get('seat');
+const myName=decodeURIComponent(Q.get('name')||'玩家'+(seat+1));
+document.getElementById('ri').textContent=myName;
+
+const SUITS={S:'♠',H:'♥',D:'♦',C:'♣'};
+const VL={3:'3',4:'4',5:'5',6:'6',7:'7',8:'8',9:'9',10:'10',11:'J',12:'Q',13:'K',14:'A',15:'2',16:'小王',17:'大王'};
+function mkDeck(){const d=[];for(const s of['S','H','D','C'])for(let v=3;v<=15;v++)d.push({s,v});d.push({s:'J1',v:16},{s:'J2',v:17});return d;}
+function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=~~(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+function cLabel(c){return c.s==='J1'?'小王':c.s==='J2'?'大王':VL[c.v]+(SUITS[c.s]||'');}
+function cCls(c){if(c.s==='J1'||c.s==='J2')return'jk';return(c.s==='H'||c.s==='D')?'rc':'bc';}
+
+// Card type detection
+function getCT(cards){
+  if(!cards?.length)return null;
+  const n=cards.length,vs=cards.map(c=>c.v).sort((a,b)=>a-b);
+  const cnt={};vs.forEach(v=>cnt[v]=(cnt[v]||0)+1);
+  const uv=Object.keys(cnt).map(Number).sort((a,b)=>a-b),cts=[...Object.values(cnt)].sort((a,b)=>b-a);
+  if(n===1)return{t:'1',v:vs[0]};
+  if(n===2&&vs[0]===16&&vs[1]===17)return{t:'rkt',v:17};
+  if(n===2&&cts[0]===2)return{t:'2',v:uv[0]};
+  if(n===3&&cts[0]===3)return{t:'3',v:uv[0]};
+  if(n===4&&cts[0]===4)return{t:'bomb',v:uv[0]};
+  if(n===4&&cts[0]===3)return{t:'31',v:uv.find(v=>cnt[v]===3)};
+  if(n===5&&cts[0]===3&&cts[1]===2)return{t:'32',v:uv.find(v=>cnt[v]===3)};
+  if(n>=5&&cts[0]===1&&vs[vs.length-1]<=14){let ok=true;for(let i=1;i<vs.length;i++)if(vs[i]!==vs[i-1]+1){ok=false;break;}if(ok)return{t:'seq',v:vs[vs.length-1],n};}
+  if(n>=6&&n%2===0&&cts.every(c=>c===2)&&uv[uv.length-1]<=14){let ok=true;for(let i=1;i<uv.length;i++)if(uv[i]!==uv[i-1]+1){ok=false;break;}if(ok&&uv.length>=3)return{t:'2seq',v:uv[uv.length-1],n:uv.length};}
+  const tv=uv.filter(v=>cnt[v]===3);
+  if(tv.length>=2&&tv[tv.length-1]<=14){let ok=true;for(let i=1;i<tv.length;i++)if(tv[i]!==tv[i-1]+1){ok=false;break;}if(ok){const ex=n-tv.length*3;if(ex===0)return{t:'plane',v:tv[tv.length-1],n:tv.length};if(ex===tv.length)return{t:'plane1',v:tv[tv.length-1],n:tv.length};}}
+  return null;
+}
+function canBeat(p,l){
+  if(!l)return true;if(p.t==='rkt')return true;if(l.t==='rkt')return false;
+  if(p.t==='bomb'&&l.t!=='bomb')return true;if(l.t==='bomb'&&p.t!=='bomb')return false;
+  if(p.t!==l.t)return false;
+  if(['seq','2seq','plane','plane1'].includes(p.t)&&p.n!==l.n)return false;
+  return p.v>l.v;
+}
+
+// AI
+function botBid(hand,maxBid,diff){
+  const cnt={};hand.forEach(c=>cnt[c.v]=(cnt[c.v]||0)+1);
+  const sc=Object.values(cnt).filter(c=>c>=4).length*3+(cnt[15]||0)+(hand.some(c=>c.v===17)?2:0);
+  if(diff==='easy'){return maxBid<1&&sc>=3?1:0;}
+  if(diff==='mid'){if(sc>=5&&maxBid<3)return 3;if(sc>=2&&maxBid<2)return 2;if(sc>=1&&maxBid<1)return 1;return 0;}
+  if(sc>=4&&maxBid<3)return 3;if(sc>=2&&maxBid<2)return 2;if(maxBid<1)return 1;return 0;
+}
+function botPlay(hand,last,isLL,diff){
+  const cnt={};hand.forEach(c=>cnt[c.v]=(cnt[c.v]||[]).concat(c));
+  if(!last){
+    if(diff==='easy')return[hand.sort((a,b)=>a.v-b.v)[0]];
+    if(diff==='hard'&&isLL){
+      const tr=Object.values(cnt).filter(g=>g.length>=3&&g[0].v<14);
+      if(tr.length)return tr.sort((a,b)=>a[0].v-b[0].v)[0].slice(0,3);
+    }
+    const pa=Object.values(cnt).filter(g=>g.length>=2&&g[0].v<14);
+    if(diff!=='easy'&&pa.length)return pa.sort((a,b)=>a[0].v-b[0].v)[0].slice(0,2);
+    return[hand.sort((a,b)=>a.v-b.v)[0]];
+  }
+  if(diff==='easy'&&Math.random()<.6)return null;
+  if(last.t==='1'){const b=hand.filter(c=>c.v>last.v).sort((a,b)=>a.v-b.v);if(b.length)return[b[0]];}
+  if(last.t==='2'){const p=Object.values(cnt).filter(g=>g.length>=2&&g[0].v>last.v).sort((a,b)=>a[0].v-b[0].v);if(p.length)return p[0].slice(0,2);}
+  if(last.t==='3'){const p=Object.values(cnt).filter(g=>g.length>=3&&g[0].v>last.v).sort((a,b)=>a[0].v-b[0].v);if(p.length)return p[0].slice(0,3);}
+  const bombs=Object.values(cnt).filter(g=>g.length>=4&&(last.t!=='bomb'||g[0].v>last.v));
+  if(bombs.length&&(diff==='hard'||bombs.length>1))return bombs.sort((a,b)=>a[0].v-b[0].v)[0].slice(0,4);
+  const j=hand.filter(c=>c.v>=16);if(j.length===2&&last.t!=='rkt'&&diff==='hard')return j;
+  return null;
+}
+
+// State
+let myHand=[],players={},landlord=-1,diff='easy',started=false,gameOverShown=false;
+let lastState=null; // full local mirror of gRef
+
+const roomRef=ref(db,`rooms/${roomId}`);
+const gRef=ref(db,`rooms/${roomId}/ddz`);
+
+// UI
+function mMini(cards,el){
+  el.innerHTML='';if(!cards?.length)return;
+  cards.forEach(c=>{const d=document.createElement('div');d.className=`mc ${cCls(c)}`;d.textContent=c.s==='J1'?'小':c.s==='J2'?'大':VL[c.v];el.appendChild(d);});
+}
+function mBacks(n,el){el.innerHTML='';const m=Math.min(n,10);for(let i=0;i<m;i++){const d=document.createElement('div');d.className='cb';el.appendChild(d);}}
+function renderHand(){
+  const el=document.getElementById('mycards');el.innerHTML='';
+  [...myHand].sort((a,b)=>a.v-b.v).forEach(c=>{
+    const d=document.createElement('div');d.className=`card ${cCls(c)}${c._s?' on':''}`;
+    if(c.s==='J1'||c.s==='J2'){d.innerHTML=`<div class="top">${c.v===16?'小王':'大王'}</div>`;}
+    else{const su=SUITS[c.s],nu=VL[c.v];d.innerHTML=`<div class="top">${nu}<br>${su}</div><div class="suit">${su}</div><div class="bot">${nu}<br>${su}</div>`;}
+    d.onclick=()=>{c._s=!c._s;renderHand();};
+    el.appendChild(d);
+  });
+}
+function addMsg(t){const a=document.getElementById('msgs');const b=document.createElement('div');b.className='mb';b.textContent=t;a.appendChild(b);setTimeout(()=>b.remove(),2500);}
+function sp(s){return['me','left','top'][((+s-seat)+3)%3];}
+function tagEl(s){return document.getElementById({me:'tagm',left:'tagl',top:'tagt'}[sp(s)]);}
+function backsEl(s){return document.getElementById({me:null,left:'bl',top:'bt'}[sp(s)]);}
+function playEl(s){return document.getElementById({me:'ppm',left:'ppl',top:'ppt'}[sp(s)]);}
+
+function updTags(act=-1){
+  [0,1,2].forEach(s=>{
+    const p=players[s];if(!p)return;
+    const el=tagEl(s);if(!el)return;
+    const isLL=s===landlord,isAct=s===act;
+    el.className='ptag'+(isLL?' ll':'')+(isAct?' act':'');
+    el.innerHTML=`<span>${p.name}${p.bot?'🤖':''}</span>${isLL?'<span class="ll-b">地主</span>':''}${p.bot?`<span class="diff-b">${{easy:'简',mid:'中',hard:'难'}[diff]}</span>`:''}`;
+  });
+}
+
+// Room watch
+onValue(roomRef,snap=>{
+  const r=snap.val();if(!r)return;
+  diff=r.diff||'easy';
+  const hc=r.humanCount||2;
+  if(r.p0)players[0]={...r.p0,bot:false};
+  if(r.p1)players[1]={...r.p1,bot:false};
+  const humanCount=Object.keys(players).length;
+  if(humanCount>=hc&&!started){
+    started=true;
+    document.getElementById('wait').style.display='none';
+    document.getElementById('table').style.display='block';
+    if(seat===0)initGame(hc);
+  }
+});
+
+function initGame(hc){
+  for(let i=hc;i<3;i++)players[i]={name:`AI ${i+1}`,bot:true,seat:i};
+  const deck=shuffle(mkDeck());
+  const h=[deck.slice(0,17),deck.slice(17,34),deck.slice(34,51)];
+  const bot=deck.slice(51);
+  set(gRef,{h:JSON.stringify(h),bot:JSON.stringify(bot),
+    phase:'bid',bi:0,mb:0,ms:-1,
+    t:-1,ll:-1,lp:null,ls:-1,pc:0,
+    played:JSON.stringify([[],[],[]])});
+}
+
+// ── Main game watcher ──
+onValue(gRef,snap=>{
+  if(!snap.exists()||!started||gameOverShown)return;
+  const s=snap.val();if(!s.h)return;
+  lastState=s;
+  const hands=JSON.parse(s.h),bottom=JSON.parse(s.bot),played=JSON.parse(s.played||'[[],[],[]]');
+  landlord=s.ll;
+
+  // My hand
+  const hj=JSON.stringify(hands[seat]);
+  if(hj!==JSON.stringify(myHand.map(({_s,...c})=>c))){myHand=hands[seat].map(c=>({...c,_s:false}));renderHand();}
+
+  // Backs
+  for(let i=0;i<3;i++)if(i!==seat){const be=backsEl(i);if(be)mBacks(hands[i].length,be);}
+  // Played
+  for(let i=0;i<3;i++)mMini(played[i],playEl(i));
+
+  // Bottom cards
+  if(s.ll>=0){
+    const bc=document.getElementById('botc');bc.innerHTML='';
+    bottom.forEach(c=>{const d=document.createElement('div');d.className=`mc ${cCls(c)}`;d.textContent=c.s==='J1'?'小':c.s==='J2'?'大':VL[c.v];bc.appendChild(d);});
+  }
+
+  if(s.phase==='bid'){
+    updTags(s.bi);
+    document.getElementById('bidp').style.display=s.bi===seat?'block':'none';
+    document.getElementById('playp').style.display='none';
+    document.getElementById('binfo').textContent=`当前最高：${s.mb===0?'不叫':s.mb+'分'}`;
+    document.getElementById('tbar').style.display='block';
+    document.getElementById('tbar').textContent=s.bi===seat?'💡 叫地主':`等待 ${players[s.bi]?.name||'?'}…`;
+    // Bot bid — trigger only if bot's turn and we are the "host" (seat 0) or unique responsible seat
+    if(players[s.bi]?.bot&&seat===0){
+      const bi=s.bi,snapshot=JSON.stringify(s);
+      setTimeout(async()=>{
+        const gs=await get(gRef);const gv=gs.val();
+        if(!gv||gv.phase!=='bid'||gv.bi!==bi)return;
+        const bh=JSON.parse(gv.h),bb=JSON.parse(gv.bot);
+        const bid=botBid(bh[bi],gv.mb,diff);
+        processBid(bi,bid,gv,bh,bb);
+      },1000+~~(Math.random()*600));
+    }
+  }
+
+  if(s.phase==='play'){
+    updTags(s.t);
+    const isMe=s.t===seat;
+    document.getElementById('bidp').style.display='none';
+    document.getElementById('playp').style.display=isMe?'flex':'none';
+    if(isMe){const canP=s.lp&&s.ls!==seat;document.getElementById('passbtn').disabled=!canP;}
+    document.getElementById('tbar').style.display='block';
+    document.getElementById('tbar').textContent=isMe?'💡 你的回合':`等待 ${players[s.t]?.name||'?'}…`;
+    // Bot play — only seat 0 drives bots
+    if(players[s.t]?.bot&&seat===0){
+      const bt=s.t,ts=JSON.stringify(s);
+      setTimeout(async()=>{
+        const gs=await get(gRef);const gv=gs.val();
+        if(!gv||gv.phase!=='play'||gv.t!==bt)return;
+        const bh=JSON.parse(gv.h);
+        const canP2=gv.lp&&gv.ls!==bt;
+        const cards=botPlay(bh[bt],gv.lp,bt===gv.ll,diff);
+        if(cards)processPlay(bt,cards,gv,bh);
+        else if(canP2)processPass(bt,gv,bh);
+        else processPlay(bt,[bh[bt].sort((a,b)=>a.v-b.v)[0]],gv,bh);
+      },1000+~~(Math.random()*600));
+    }
+  }
+
+  if(s.phase==='over'&&!gameOverShown)handleOver(s,hands);
+});
+
+function processBid(bi,bid,s,hands,bottom){
+  addMsg(`${players[bi]?.name||'?'}：${bid===0?'不叫':bid+'分'}`);
+  const nm=bid>s.mb?bid:s.mb,ns=bid>s.mb?bi:s.ms,ni=s.bi+1;
+  if(bid===3||ni>=3){
+    if(ns===-1){addMsg('无人叫地主，重新发牌');setTimeout(()=>{if(seat===0)initGame(Object.values(players).filter(p=>!p.bot).length);},2000);return;}
+    const nh=[...hands];nh[ns]=[...nh[ns],...bottom];
+    addMsg(`地主：${players[ns]?.name||'?'} 🎊`);
+    update(gRef,{h:JSON.stringify(nh),ll:ns,phase:'play',t:ns,mb:nm,ms:ns});
+  }else{update(gRef,{bi:ni,mb:nm,ms:ns});}
+}
+
+function processPlay(ps,cards,s,hands){
+  const ct=getCT(cards);if(!ct)return;
+  if(s.lp&&!canBeat(ct,s.lp))return;
+  const h=[...hands[ps]];
+  cards.forEach(c=>{const i=h.findIndex(x=>x.s===c.s&&x.v===c.v);if(i>=0)h.splice(i,1);});
+  const nh=[...hands];nh[ps]=h;
+  const np=JSON.parse(s.played||'[[],[],[]]');np[ps]=cards;
+  addMsg(`${players[ps]?.name||'?'} 出 ${cards.length} 张`);
+  if(!h.length){const isLL=ps===s.ll;update(gRef,{h:JSON.stringify(nh),played:JSON.stringify(np),phase:'over',winner:ps,wn:players[ps]?.name||'?',side:isLL?'地主':'农民'});return;}
+  update(gRef,{h:JSON.stringify(nh),played:JSON.stringify(np),lp:ct,ls:ps,pc:0,t:(ps+1)%3});
+}
+
+function processPass(ps,s,hands){
+  addMsg(`${players[ps]?.name||'?'} 不出`);
+  const np=JSON.parse(s.played||'[[],[],[]]');np[ps]=[];
+  const nc=(s.pc||0)+1;
+  if(nc>=2)update(gRef,{played:JSON.stringify(np),lp:null,pc:0,t:s.ls});
+  else update(gRef,{played:JSON.stringify(np),pc:nc,t:(ps+1)%3});
+}
+
+function handleOver(s,hands){
+  gameOverShown=true;
+  const win=s.winner===seat;
+  document.getElementById('re').textContent=win?'🎉':'😅';
+  document.getElementById('rt').textContent=win?'你赢了！':'你输了';
+  document.getElementById('rs').textContent=`${s.wn||'?'} 获胜（${s.side}）`;
+  const rh=document.getElementById('rhands');rh.innerHTML='';
+  hands.forEach((h,i)=>{
+    const g=document.createElement('div');g.className='hg';
+    g.innerHTML=`<h5>${players[i]?.name||'?'}${i===s.ll?' 👑':''}</h5><div class="cl">${h.map(c=>cLabel(c)).join('  ')}</div>`;
+    rh.appendChild(g);
+  });
+  document.getElementById('result').classList.add('show');
+}
+
+// Player actions
+window.doBid=async bid=>{
+  document.getElementById('bidp').style.display='none';
+  if(!lastState||lastState.phase!=='bid'||lastState.bi!==seat)return;
+  const hands=JSON.parse(lastState.h),bot=JSON.parse(lastState.bot);
+  processBid(seat,bid,lastState,hands,bot);
+};
+window.doPlay=async()=>{
+  const sel=myHand.filter(c=>c._s);if(!sel.length)return;
+  if(!lastState||lastState.phase!=='play'||lastState.t!==seat)return;
+  const hands=JSON.parse(lastState.h);
+  processPlay(seat,sel.map(({_s,...c})=>c),lastState,hands);
+  myHand.forEach(c=>c._s=false);renderHand();
+};
+window.doPass=async()=>{
+  if(!lastState||lastState.phase!=='play'||lastState.t!==seat||!lastState.lp||lastState.ls===seat)return;
+  const hands=JSON.parse(lastState.h);
+  processPass(seat,lastState,hands);
+};
+</script>
+</body>
+</html>
