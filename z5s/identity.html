@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>认同系统 | Z5S 系统故事</title>
+  <meta name="description" content="认同系统——人格里的主权层、立场层、价值锚点层。" />
+  <meta name="theme-color" content="#ffffff" />
+  <style>
+    :root{
+      --bg:#ffffff; --text:#0b0c0f; --muted:#5b5f6a; --line:#e9eaee; --card:#f6f7f9;
+      --shadow:0 10px 30px rgba(0,0,0,.06); --radius:18px; --radius2:14px; --max:1080px;
+      --accent:#6030b0; --accent2:#7040c8;
+      --page-bg:#ffffff; --section-bg:#ffffff; --soft-bg:#f6f7f9;
+    }
+    *{box-sizing:border-box}
+    html{zoom:0.9}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC","Hiragino Sans GB",Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text); background:var(--page-bg); line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      transition:background-color .28s ease;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line);}
+    .navin{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:18px;}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.2px;white-space:nowrap;}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),#af52de);box-shadow:0 0 0 4px rgba(96,48,176,.10);}
+    .navlinks{display:flex;gap:22px;align-items:center;flex:1 1 auto;justify-content:flex-end;}
+    .navlinks > a{color:var(--muted);font-size:14px;transition:color .16s;}
+    .navlinks > a:hover{color:var(--text);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--text);font-size:14px;font-weight:600;transition:transform .08s ease,box-shadow .2s ease,border-color .2s ease;}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(0,0,0,.06);}
+    .btn.primary{background:linear-gradient(180deg,var(--accent2),var(--accent));color:#fff;border-color:transparent;box-shadow:0 12px 24px rgba(96,48,176,.22);}
+    .btn.primary:hover{box-shadow:0 16px 30px rgba(96,48,176,.30);}
+
+    /* HERO */
+    .hero{padding:64px 0 44px;background:var(--section-bg);}
+    .heroGrid{display:grid;gap:22px;grid-template-columns:1.25fr .75fr;align-items:stretch;}
+    .hLabel{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .hLabel::before{content:'';display:inline-block;width:20px;height:2px;background:var(--accent);border-radius:2px;}
+    .hTitle{font-size:46px;line-height:1.06;letter-spacing:-1.2px;margin:0 0 16px;}
+    .hSub{margin:0 0 22px;color:var(--muted);font-size:18px;max-width:60ch;line-height:1.65;}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+    .chip{padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:#2b2f38;font-size:13px;}
+    .chip.accent{background:rgba(96,48,176,.08);border-color:rgba(96,48,176,.20);color:var(--accent);}
+
+    /* HERO CARD */
+    .heroCard{border:1px solid var(--line);background:linear-gradient(160deg,#faf8ff,#f3eeff);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:260px;}
+    .heroCard .eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+    .heroCard h3{margin:0 0 10px;letter-spacing:-.35px;font-size:18px;}
+    .heroCard p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+    .quote{font-size:15px;font-style:italic;line-height:1.7;color:#3d2060;border-left:3px solid var(--accent);padding-left:14px;margin:16px 0 0;}
+
+    /* SECTIONS */
+    section{padding:52px 0;border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    h2{margin:0 0 10px;font-size:30px;letter-spacing:-.7px;}
+    .lead{margin:0 0 24px;color:var(--muted);max-width:74ch;font-size:16px;line-height:1.7;}
+    .grid3{display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr));}
+    .grid2{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr));}
+    .card{border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:20px;box-shadow:0 8px 20px rgba(0,0,0,.04);}
+    .card.soft{background:var(--soft-bg);}
+    .card.purple{background:linear-gradient(135deg,rgba(96,48,176,.07),rgba(175,82,222,.05));border-color:rgba(96,48,176,.15);}
+    .card h3{margin:0 0 8px;letter-spacing:-.35px;font-size:16px;}
+    .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+    .card ul{margin:10px 0 0;padding:0 0 0 18px;color:var(--muted);font-size:14px;}
+    .card li{margin:6px 0;}
+    .card .num{font-size:26px;font-weight:800;color:var(--accent);opacity:.25;margin-bottom:6px;line-height:1;}
+
+    /* STORY BLOCK */
+    .storyBlock{display:grid;gap:22px;grid-template-columns:1fr 1fr;align-items:start;}
+    .storyText{font-size:15px;color:var(--muted);line-height:1.8;}
+    .storyText p{margin:0 0 14px;}
+    .storyText p:last-child{margin:0;}
+    .storyText b{color:var(--text);}
+    .storyCard{border:1px solid rgba(96,48,176,.18);background:rgba(96,48,176,.04);border-radius:var(--radius);padding:20px;}
+    .storyCard h4{margin:0 0 12px;letter-spacing:-.3px;color:var(--accent);}
+    .storyCard ul{margin:0;padding:0 0 0 16px;color:#3d2060;font-size:14px;line-height:1.7;}
+    .storyCard li{margin:5px 0;}
+
+    /* BADGE ROW */
+    .badgeRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+    .badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:#2b2f38;}
+    .dot2{width:8px;height:8px;border-radius:999px;background:#6030b0;}
+    .dot3{width:8px;height:8px;border-radius:999px;background:#af52de;}
+    .dot4{width:8px;height:8px;border-radius:999px;background:#34c759;}
+    .dot5{width:8px;height:8px;border-radius:999px;background:#ff375f;}
+
+    /* COMPARISON TABLE */
+    .compareGrid{display:grid;gap:14px;grid-template-columns:1fr 1fr 1fr;}
+    .compareCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:16px;}
+    .compareCard .tag{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+    .compareCard h4{margin:0 0 6px;font-size:15px;letter-spacing:-.3px;}
+    .compareCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;}
+
+    /* QUOTE PULL */
+    .pullQuote{border:1px solid rgba(96,48,176,.20);background:linear-gradient(135deg,rgba(96,48,176,.06),rgba(175,82,222,.04));border-radius:var(--radius);padding:28px 32px;text-align:center;}
+    .pullQuote p{margin:0;font-size:20px;line-height:1.6;letter-spacing:-.3px;color:#2a1050;font-style:italic;}
+    .pullQuote small{display:block;margin-top:12px;font-size:13px;color:var(--muted);font-style:normal;}
+
+    /* GROWTH STEPS */
+    .stepList{display:grid;gap:10px;}
+    .step{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:var(--radius2);border:1px solid var(--line);background:#fff;}
+    .stepNum{width:32px;height:32px;border-radius:999px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:0 0 auto;}
+    .stepText b{display:block;margin-bottom:4px;font-size:15px;letter-spacing:-.2px;}
+    .stepText span{color:var(--muted);font-size:14px;}
+
+    /* SUBHEAD inside accordion */
+    .acc-subhead{font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+    .triggerGrid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);}
+    .triggerCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:14px;}
+    .triggerCard .tNum{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em;margin-bottom:5px;}
+    .triggerCard h4{margin:0 0 5px;font-size:14px;letter-spacing:-.2px;}
+    .triggerCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;}
+    .levelGrid{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);}
+    .levelCard{border-radius:var(--radius);padding:20px;border:1px solid var(--line);}
+    .levelCard .lTag{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+    .levelCard h3{margin:0 0 8px;font-size:16px;letter-spacing:-.3px;}
+    .levelCard p{margin:0 0 10px;font-size:14px;line-height:1.65;}
+    .levelCard ul{margin:0;padding:0 0 0 16px;font-size:13px;line-height:1.7;}
+    @media(max-width:780px){.triggerGrid{grid-template-columns:1fr}.levelGrid{grid-template-columns:1fr}}
+
+    /* THEME SWATCH */
+    .themePanel{margin-top:0;border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:16px;padding:14px;backdrop-filter:blur(12px);}
+    .themePanel h4{margin:0 0 6px;font-size:14px;}
+    .themePanel p{margin:0 0 10px;color:var(--muted);font-size:13px;}
+    .swatchRow{display:flex;gap:10px;}
+    .swatch{width:30px;height:30px;border-radius:999px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:transform .08s,box-shadow .18s;}
+    .swatch:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.10);}
+    .swatch.active{box-shadow:0 0 0 3px rgba(96,48,176,.25);border-color:rgba(96,48,176,.5);}
+
+    /* FOOTER */
+    footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px;background:var(--section-bg);}
+    .footGrid{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .fine{font-size:12px;color:#7b808c;margin-top:8px;}
+
+    /* ACCORDION */
+    .accordion{border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    .accordionHeader{cursor:pointer;padding:32px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;user-select:none;list-style:none;}
+    .accordionHeader::-webkit-details-marker{display:none;}
+    .accordionTitle{font-size:24px;font-weight:700;letter-spacing:-.6px;margin:0;}
+    .accordionMeta{display:flex;align-items:center;gap:12px;}
+    .accordionLead{font-size:14px;color:var(--muted);}
+    .accordionCaret{width:32px;height:32px;border-radius:999px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto;transition:transform .28s ease,background .2s ease;}
+    details[open] .accordionCaret{transform:rotate(180deg);background:rgba(96,48,176,.10);border-color:rgba(96,48,176,.25);}
+    .accordionBody{padding-bottom:44px;}
+    .accordionBody .lead{margin-top:0;}
+
+    @keyframes rainbow{to{background-position:300% center}}
+    @media(max-width:920px){.heroGrid{grid-template-columns:1fr}.hTitle{font-size:38px}.storyBlock{grid-template-columns:1fr}}
+    @media(max-width:780px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.compareGrid{grid-template-columns:1fr}.hTitle{font-size:32px}}
+  </style>
+</head>
+<body>
+
+<header class="nav" role="banner">
+  <div class="wrap">
+    <div class="navin">
+      <a class="brand" href="https://bestwellnesstherapy.com">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Z5S 系统故事</span>
+      </a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#definition">定义</a>
+        <a href="#tasks">核心任务</a>
+        <a href="#language">典型语言</a>
+        <a href="#misread">常见误解</a>
+        <a href="#growth">成长方向</a>
+      </nav>
+      <a class="btn primary" href="https://bestwellnesstherapy.com">← 返回首页</a>
+    </div>
+  </div>
+</header>
+
+<main role="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="认同系统介绍">
+    <div class="wrap">
+      <div class="heroGrid">
+        <div>
+          <div class="hLabel">Z5S · 五个系统之一</div>
+          <h1 class="hTitle">🧭 认同系统</h1>
+          <p class="hSub">
+            它不回答「我能做什么」，而是回答<b>「我愿意成为什么样的人」</b>。
+          </p>
+          <div class="chips">
+            <span class="chip accent">内在自我认定</span>
+            <span class="chip">价值排序</span>
+            <span class="chip">边界建立</span>
+            <span class="chip">方向持续性</span>
+            <span class="chip">抵抗同化</span>
+          </div>
+        </div>
+        <aside class="heroCard" aria-label="核心摘要">
+          <div>
+            <div class="eyebrow">一句话定位</div>
+            <h3>认同系统，是一个人维持「自我一致性」的系统。</h3>
+            <p>它高的人：更有立场，更有边界，更能长期坚持——但也更容易受羞耻和原则冲突折磨。</p>
+            <p class="quote">真正成熟的认同系统，不是死硬，而是：既能守住自己，又不会被自己困死。</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 定义 -->
+  <section id="definition" aria-label="定义">
+    <div class="wrap">
+      <h2>什么是认同系统？</h2>
+      <p class="lead">它不是「喜欢什么」，也不是「自信不自信」。它负责回答四个更根本的问题。</p>
+      <div class="grid2" style="margin-bottom:22px;">
+        <div class="card purple">
+          <div class="num">01</div>
+          <h3>我是谁</h3>
+          <p>明确自己是什么样的人，以及不愿意变成什么样的人。没有这个，人会活得很漂。</p>
+        </div>
+        <div class="card purple">
+          <div class="num">02</div>
+          <h3>我不是什么</h3>
+          <p>边界的另一面。能清楚说出「我不是那种人」，往往比知道自己是谁更难。</p>
+        </div>
+        <div class="card purple">
+          <div class="num">03</div>
+          <h3>什么对我不能被牺牲</h3>
+          <p>底线功能。它决定了一个人在压力最大时，最后会守住什么。</p>
+        </div>
+        <div class="card purple">
+          <div class="num">04</div>
+          <h3>我希望成为怎样的人</h3>
+          <p>指向未来的部分——不是现实描述，而是方向性的自我承诺。</p>
+        </div>
+      </div>
+      <div class="pullQuote">
+        <p>认同系统是人格里的<b>主权层</b>。<br/>它不处理效率，也不处理情绪，<br/>它处理的是：「这件事是不是我」。</p>
+        <small>Z5S 框架</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心任务 -->
+  <section id="tasks" aria-label="核心任务">
+    <div class="wrap">
+      <h2><span style="background:linear-gradient(90deg,#6030b0,#af52de,#007aff,#6030b0);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:rainbow 3s linear infinite;">五个核心任务</span></h2>
+      <p class="lead">认同系统不是单一功能，它同时在做五件非常不同的事。</p>
+      <div class="grid3">
+        <div class="card">
+          <h3>🪞 定义自我</h3>
+          <p>让一个人知道自己是什么样的人，以及自己不愿意变成什么样的人。</p>
+        </div>
+        <div class="card">
+          <h3>⚖️ 形成价值排序</h3>
+          <p>世界很多问题是排序题，不是对错题。钱 vs 尊严？自由 vs 稳定？关系 vs 原则？认同系统负责这种排序。</p>
+        </div>
+        <div class="card">
+          <h3>🚧 建立边界</h3>
+          <p>什么可以接受，什么不能接受，什么行为会让自己觉得「背叛了自己」——这是人格里的底线功能。</p>
+        </div>
+        <div class="card">
+          <h3>🧭 提供方向持续性</h3>
+          <p>解释系统理解，执行系统推进，情绪系统感受。但让一个人<b>长期守住同一方向</b>的，往往是认同系统。</p>
+        </div>
+        <div class="card">
+          <h3>🛡️ 抵抗外界同化</h3>
+          <p>认同系统强的人，不容易被环境完全带走。内心有一个声音：「别人都这样，不代表我一定要这样。」</p>
+        </div>
+        <div class="card soft">
+          <h3>核心追求</h3>
+          <p>认同系统真正追求的，不是效率，也不是快乐，而是<b>一致性</b>——我的行为要和我的价值一致。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 高低对比 ACCORDION -->
+  <details class="accordion" aria-label="高低认同系统的样子">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">1. 认同系统高 vs 低，是什么样子</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">不是谁好谁坏，是两种不同的人格运作方式。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="acc-subhead">认同系统高的人</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="storyCard" style="border-color:rgba(96,48,176,.25);background:rgba(96,48,176,.05);">
+            <h4>优势</h4>
+            <ul>
+              <li>更有立场，原则感清晰</li>
+              <li>面对群体压力，更能保留自己的立场</li>
+              <li>一旦决定某条路，能长期守住</li>
+              <li>内部标准高，对自己要求严</li>
+              <li>不容易被环境完全带走</li>
+            </ul>
+          </div>
+          <div class="storyCard" style="border-color:rgba(255,59,48,.20);background:rgba(255,59,48,.03);">
+            <h4 style="color:#c0392b;">过高时的风险</h4>
+            <ul style="color:#7a3030;">
+              <li>道德化过强——什么都上升到原则问题</li>
+              <li>过度自我绑定——一次失败等于「整个人不行」</li>
+              <li>羞耻感重，偏离理想自我就很难受</li>
+              <li>不够灵活，把别人建议当挑战人格</li>
+              <li>容易极端化：忠诚/背叛、对/错、高贵/低劣</li>
+            </ul>
+          </div>
+        </div>
+        <div class="badgeRow" style="margin-bottom:28px;">
+          <span class="badge"><span class="dot2"></span> 更有边界</span>
+          <span class="badge"><span class="dot3"></span> 更不随波逐流</span>
+          <span class="badge"><span class="dot4"></span> 方向更稳定</span>
+          <span class="badge"><span class="dot5"></span> 对羞辱更敏感</span>
+        </div>
+
+        <div class="acc-subhead">认同系统低的人</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="storyCard" style="border-color:rgba(0,0,0,.10);background:#fafafa;">
+            <h4 style="color:var(--muted);">挑战</h4>
+            <ul style="color:var(--muted);">
+              <li><b style="color:var(--text);">方向容易漂</b> — 今天想这个，明天想那个，很难持续</li>
+              <li><b style="color:var(--text);">边界感弱</b> — 不好意思拒绝，容易被关系带着走</li>
+              <li><b style="color:var(--text);">决策反复</b> — 没有清晰价值排序，很多选择都「也可以」</li>
+              <li><b style="color:var(--text);">容易空心感</b> — 好像什么都能做，但不知道真正想要什么</li>
+              <li><b style="color:var(--text);">容易被环境定义</b> — 外界怎么说，就怎么调整自己</li>
+            </ul>
+          </div>
+          <div class="storyCard" style="border-color:rgba(52,199,89,.20);background:rgba(52,199,89,.03);">
+            <h4 style="color:#1a6e32;">优势</h4>
+            <ul style="color:#2a5535;">
+              <li>灵活度高，适应环境快</li>
+              <li>不容易钻牛角尖</li>
+              <li>不容易陷入道德僵化</li>
+              <li>更容易融入不同群体</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card soft">
+          <h3>不是「低就坏，高就好」</h3>
+          <p>过低会没有锚点，容易漂；过高会没有弹性，容易僵化。两端都有代价，<b>成熟的认同系统是在守住自己的同时，还能保持弹性。</b></p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 典型语言 ACCORDION -->
+  <details class="accordion" id="language" aria-label="典型语言">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">2. 认同系统高的人，说什么</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">这些不是单纯情绪，而是身份与价值的陈述。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="grid2">
+          <div class="card">
+            <h3>💬 他们经常说</h3>
+            <ul>
+              <li>「这不是钱的问题，是原则问题。」</li>
+              <li>「我不能接受自己变成这样。」</li>
+              <li>「这件事不符合我是谁。」</li>
+              <li>「我宁愿慢一点，也不想失去底线。」</li>
+              <li>「我不是那种人。」</li>
+              <li>「我希望自己活得像个人。」</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>💭 他们内心常有的信念</h3>
+            <ul>
+              <li>我必须活得像我自己</li>
+              <li>我不能没有底线</li>
+              <li>我不能让别人决定我是谁</li>
+              <li>我不能做出让我看不起自己的事</li>
+              <li>我不可以背叛我的信念</li>
+              <li>我需要被尊重</li>
+              <li>我需要活得有位置</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card soft" style="margin-top:14px">
+          <h3>认同系统最怕什么？</h3>
+          <p>不是失败，而是：<b>背叛自己、失去原则、变成自己讨厌的人、被羞辱到无法维持自我形象、活得没有尊严。</b><br/>所以认同系统高的人很多时候不是不能妥协，而是会先问：「这个妥协会不会让我无法认同自己？」</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 常见误解 ACCORDION -->
+  <details class="accordion" id="misread" aria-label="常见误解">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">3. 三个常见误解</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">认同系统经常被混淆成别的东西。它们看起来像，但核心完全不同。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="compareGrid">
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>自尊 ≠ 认同</h4>
+            <p><b>自尊</b>：我觉得自己好不好、我值不值得。<br/><br/><b>认同系统</b>：我是谁、我守护什么、我不能失去什么。<br/><br/>一个人可以自尊低但认同强（很自责，但原则感很强），也可以自尊高但认同弱（看起来很自信，但随环境飘）。</p>
+          </div>
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>面子 ≠ 认同</h4>
+            <p><b>面子</b>：偏外部评价——别人怎么看我。<br/><br/><b>认同</b>：偏内部一致性——我怎么看我自己。<br/><br/>有人很爱面子，但认同系统不一定高。因为他只是怕丢人，不一定真的有价值立场。</p>
+          </div>
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>道德感 ≠ 认同</h4>
+            <p>认同系统与道德有关，但不等于道德。它守的是<b>自我形象、身份价值、所属立场</b>。<br/><br/>可以表现为道德，也可以表现为荣誉感、尊严感、文化身份、专业身份、理念归属。</p>
+          </div>
+        </div>
+        <div class="card soft" style="margin-top:14px">
+          <h3>还有这些不等于认同</h3>
+          <div class="badgeRow" style="margin-top:10px">
+            <span class="badge">高面子 ≠ 高认同</span>
+            <span class="badge">高自尊 ≠ 高认同</span>
+            <span class="badge">固执 ≠ 高认同</span>
+            <span class="badge">有标签 ≠ 有认同</span>
+          </div>
+          <p style="margin-top:12px;">「我是INTJ / 我是治疗师 / 我是好人」——有标签不等于真的有稳定认同系统。</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 误伤方式 ACCORDION -->
+  <details class="accordion" aria-label="认同系统的常见误伤">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">4. 认同系统最常见的五种误伤</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">这些是认同系统在自我攻击时走的弯路。认出来，是改变的开始。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="stepList">
+          <div class="step">
+            <div class="stepNum">1</div>
+            <div class="stepText"><b>把分歧当否定</b><span>别人不同意，不等于否定你这个人。但认同系统脆弱时，会自动这样解读。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">2</div>
+            <div class="stepText"><b>把失败当人格失败</b><span>一次做错，不等于「我很差」。事件是事件，人格是人格。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">3</div>
+            <div class="stepText"><b>把妥协等于背叛</b><span>其实有些妥协只是策略，不是失去自我。灵活不等于软弱。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">4</div>
+            <div class="stepText"><b>把价值僵化</b><span>把自己困在单一身份里，无法发展——「我就是这样的人」变成了牢笼。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">5</div>
+            <div class="stepText"><b>过度需要证明自己</b><span>总想通过成就来确认「我有价值」，把自我价值外包给了结果。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 成长方向 ACCORDION -->
+  <details class="accordion" id="growth" aria-label="成长方向">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">5. 认同系统的成长方向</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">从「防御身份」走向「稳定身份」。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="grid2">
+          <div class="stepList">
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>被评价定义自己</b><span>别人说什么，我就觉得自己是什么。</span></div>
+            </div>
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>处处证明</b><span>用成就、表现、标签来填满「我是谁」。</span></div>
+            </div>
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>僵化底线</b><span>「我就是这样，不能变」——原则变成了牢笼。</span></div>
+            </div>
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>怕崩塌</b><span>一旦形象被质疑，整个人就垮了。</span></div>
+            </div>
+          </div>
+          <div class="stepList">
+            <div class="step" style="border-color:rgba(96,48,176,.20);background:rgba(96,48,176,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>自己定义自己</b><span>我知道我是谁，不需要每次被确认。</span></div>
+            </div>
+            <div class="step" style="border-color:rgba(96,48,176,.20);background:rgba(96,48,176,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>安稳地活出</b><span>不需要每次都「展示」，而是自然地成为。</span></div>
+            </div>
+            <div class="step" style="border-color:rgba(96,48,176,.20);background:rgba(96,48,176,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>清晰而弹性的边界</b><span>知道底线在哪，但不把每次妥协都当背叛。</span></div>
+            </div>
+            <div class="step" style="border-color:rgba(96,48,176,.20);background:rgba(96,48,176,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>能容纳自己的复杂性</b><span>「我知道我为何这样选择」——比「我是对的」更有力量。</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="pullQuote" style="margin-top:22px;">
+          <p>「你不需要每天都知道自己是谁。<br/>你只需要知道，哪些东西是你不愿意失去的。」</p>
+          <small>认同系统的最终形态</small>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 6: 压力下的表现 + 触发点 -->
+  <details class="accordion" id="pressure" aria-label="压力下的表现">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">6. 压力下的表现与触发点</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">认同系统被触发时，不是普通难过——它伤到的是存在位置。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <div class="acc-subhead">压力下的反应</div>
+        <div class="card soft" style="margin-bottom:22px;">
+          <p>认同系统被触发时，常见反应不是普通难过，而是：<b>被冒犯感、羞耻感、自我受损感、尊严受威胁感。</b></p>
+          <p style="margin-top:10px;color:var(--muted);">「你怎么能这样对我」「我怎么会变成这样」——它的痛点往往比情绪系统更深，因为它伤到的是<b>存在位置</b>。</p>
+        </div>
+
+        <div class="acc-subhead">八大触发来源</div>
+        <div class="triggerGrid">
+          <div class="triggerCard">
+            <div class="tNum">01</div>
+            <h4>被否定价值</h4>
+            <p>「你没原则」「你不够好」「你不值得被尊重」</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">02</div>
+            <h4>被羞辱</h4>
+            <p>当众贬低、被轻看、被侮辱身份</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">03</div>
+            <h4>被迫违背自己</h4>
+            <p>做不愿意做的事、说违心的话、站在不认同的一边</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">04</div>
+            <h4>角色崩塌</h4>
+            <p>好人形象崩了、专业者形象崩了、强者形象崩了</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">05</div>
+            <h4>价值冲突</h4>
+            <p>赚钱 vs 良知、忠诚 vs 自保、爱别人 vs 守住自己</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">06</div>
+            <h4>被比较后贬值</h4>
+            <p>「你不如别人」「你没出息」「你没有价值」</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">07</div>
+            <h4>背叛</h4>
+            <p>被关系背叛，会连到：「那我在这段关系里的位置到底是什么？」</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">08</div>
+            <h4>自我失望</h4>
+            <p>很多认同系统高的人，最大的伤害不是别人给的，而是：「我怎么会做出这种事。」</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 7: 三个层级 -->
+  <details class="accordion" id="levels" aria-label="三个层级">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">7. 认同系统的三个层级</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">Z5S 框架里最重要的部分——你在哪个层级运作？</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="levelGrid" style="margin-bottom:22px;">
+          <div class="levelCard" style="background:#fff8f8;border-color:rgba(255,59,48,.20);">
+            <div class="lTag" style="color:#c0392b;">层级一</div>
+            <h3>反应层级</h3>
+            <p style="color:#7a3030;">用认同来<b>防御</b>——认同是脆弱自我在自保，而不是成熟价值。</p>
+            <ul style="color:#7a3030;">
+              <li>很容易被冒犯</li>
+              <li>容易上升到原则问题</li>
+              <li>经常说「这不是尊重我」</li>
+              <li>对否定特别敏感</li>
+              <li>边界是硬的，但不稳定</li>
+            </ul>
+          </div>
+          <div class="levelCard" style="background:#f6f4ff;border-color:rgba(96,48,176,.22);">
+            <div class="lTag" style="color:var(--accent);">层级二</div>
+            <h3>整合层级</h3>
+            <p style="color:#3d2060;">有清晰立场，也有弹性——认同系统开始稳定运作。</p>
+            <ul style="color:#3d2060;">
+              <li>知道自己重视什么</li>
+              <li>知道什么能妥协，什么不能</li>
+              <li>不需要处处证明自己</li>
+              <li>可以不同意别人，但不必消灭别人</li>
+              <li>自我和价值较一致</li>
+            </ul>
+          </div>
+          <div class="levelCard" style="background:#f0fff4;border-color:rgba(52,199,89,.25);">
+            <div class="lTag" style="color:#1a6e32;">层级三</div>
+            <h3>转化层级</h3>
+            <p style="color:#1a5535;">把自我立场变成可传递的价值结构——不只是守住自己。</p>
+            <ul style="color:#1a5535;">
+              <li>还能创造信念、文化、伦理框架</li>
+              <li>能成为别人价值整合的容器</li>
+              <li>发展成思想型领袖、价值型创作者、文化建构者、信念型治疗者</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="acc-subhead">不同分数的感觉参考</div>
+        <div class="grid2">
+          <div class="card">
+            <h3>0–2 分感</h3>
+            <p style="color:var(--muted);">没啥特别坚持 · 什么都能理解 · 什么都能适应 · 容易迷失</p>
+          </div>
+          <div class="card">
+            <h3>3–6 分感</h3>
+            <p style="color:var(--muted);">有一些价值偏好 · 但不一定很稳定 · 大事才会动用认同</p>
+          </div>
+          <div class="card">
+            <h3>7–8 分感</h3>
+            <p style="color:var(--muted);">原则、立场、方向都比较明确 · 会守护自己 · 有较强边界</p>
+          </div>
+          <div class="card">
+            <h3>9–10 分感</h3>
+            <p style="color:var(--muted);">自我一致性要求极高 · 非常看重是否活得「像自己」 · 容易很强，也容易很痛</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 8: 适合路径 + 临床解读 -->
+  <details class="accordion" id="application" aria-label="应用与临床">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">8. 适合的路径与临床解读</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">认同系统如何影响方向选择，以及临床上意味着什么。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <div class="acc-subhead">适合的路径方向</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="card">
+            <h3>认同系统高 → 更适合</h3>
+            <ul>
+              <li>价值驱动型职业</li>
+              <li>理念型创业</li>
+              <li>文化表达</li>
+              <li>倡导与领导</li>
+              <li>心理治疗中的价值整合取向</li>
+              <li>教育、伦理、社群建立</li>
+            </ul>
+            <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们需要：做的事情最好能和「我是谁」连起来。如果完全断开，就容易空耗。</p>
+          </div>
+          <div class="card">
+            <h3>认同系统低 → 更适合</h3>
+            <ul>
+              <li>弹性强的环境</li>
+              <li>可探索、可切换的路径</li>
+              <li>较少需要高度价值捆绑的工作</li>
+            </ul>
+            <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们常需要先解决：方向感、自我定义、边界问题——否则容易一直漂。</p>
+          </div>
+        </div>
+
+        <div class="acc-subhead">临床解读</div>
+        <div class="grid3">
+          <div class="card" style="border-color:rgba(0,122,255,.18);background:rgba(0,122,255,.03);">
+            <h3 style="color:#0a5299;">偏低时</h3>
+            <ul style="color:#1a3a6a;">
+              <li>自我感薄弱</li>
+              <li>容易受关系影响</li>
+              <li>边界弱</li>
+              <li>不知道自己要什么</li>
+              <li>容易出现认同扩散</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(255,59,48,.18);background:rgba(255,59,48,.03);">
+            <h3 style="color:#c0392b;">偏高且脆弱时</h3>
+            <ul style="color:#7a3030;">
+              <li>羞耻感重</li>
+              <li>完美主义</li>
+              <li>很怕失败</li>
+              <li>对否定过度敏感</li>
+              <li>容易陷入自责和人格性崩塌感</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(52,199,89,.20);background:rgba(52,199,89,.03);">
+            <h3 style="color:#1a6e32;">成熟时</h3>
+            <ul style="color:#1a5535;">
+              <li>自我稳定</li>
+              <li>边界清楚</li>
+              <li>能坚持，也能调整</li>
+              <li>不容易被情境吞没</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- 环境选色 -->
+  <section aria-label="环境选色">
+    <div class="wrap">
+      <div class="themePanel">
+        <h4>选择一个让你感到舒适的背景色。</h4>
+        <p>在这个空间里，你有权选择让自己感到安全的颜色。</p>
+        <div class="swatchRow">
+          <button class="swatch active" type="button" data-theme="default" aria-label="默认白" style="background:#ffffff"></button>
+          <button class="swatch" type="button" data-theme="warm" aria-label="暖米" style="background:#f7f1e8"></button>
+          <button class="swatch" type="button" data-theme="sage" aria-label="鼠尾草绿" style="background:#edf4ee"></button>
+          <button class="swatch" type="button" data-theme="mist" aria-label="薄雾蓝" style="background:#eef4f8"></button>
+          <button class="swatch" type="button" data-theme="lavender" aria-label="薰衣草" style="background:#f0eeff"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="footGrid">
+      <div>
+        <b>Z5S 系统故事</b><br/>
+        <span>认同系统 · 五个系统之一</span>
+        <div class="fine">本页内容为 Z5S 框架教育性介绍，不构成心理诊断或临床建议。</div>
+      </div>
+      <div>
+        <div>
+          <a href="#definition">定义</a> ·
+          <a href="#tasks">核心任务</a> ·
+          <a href="#language">典型语言</a> ·
+          <a href="#misread">常见误解</a> ·
+          <a href="#growth">成长方向</a>
+        </div>
+        <div class="fine">© <span id="y"></span> Best Wellness Therapy</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+  const themes = {
+    default:   { pageBg:"#ffffff", sectionBg:"#ffffff", softBg:"#f6f7f9", cardBg:"#ffffff" },
+    warm:      { pageBg:"#f7f1e8", sectionBg:"#fbf7f1", softBg:"#f2e7d9", cardBg:"#fdf9f4" },
+    sage:      { pageBg:"#edf4ee", sectionBg:"#f4f8f4", softBg:"#e3eee5", cardBg:"#f4f8f4" },
+    mist:      { pageBg:"#eef4f8", sectionBg:"#f6f9fb", softBg:"#e3edf4", cardBg:"#f6f9fb" },
+    lavender:  { pageBg:"#f0eeff", sectionBg:"#f6f4ff", softBg:"#e8e4fb", cardBg:"#f8f6ff" }
+  };
+  const root = document.documentElement;
+  const swatches = document.querySelectorAll(".swatch");
+  function applyTheme(name) {
+    const t = themes[name] || themes.default;
+    root.style.setProperty("--page-bg", t.pageBg);
+    root.style.setProperty("--section-bg", t.sectionBg);
+    root.style.setProperty("--soft-bg", t.softBg);
+    document.querySelectorAll(".card:not(.soft),.step,details").forEach(el => {
+      el.style.backgroundColor = t.cardBg;
+    });
+    swatches.forEach(b => b.classList.toggle("active", b.dataset.theme === name));
+    try { localStorage.setItem("z5s-theme", name); } catch(e) {}
+  }
+  swatches.forEach(b => b.addEventListener("click", () => applyTheme(b.dataset.theme)));
+  try { applyTheme(localStorage.getItem("z5s-theme") || "default"); } catch(e) { applyTheme("default"); }
+</script>
+</body>
+</html>
