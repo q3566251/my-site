@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>动力对齐测评</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;background:#f4f2f8;min-height:100vh;color:#1a1a1a}
+.page{display:none}.page.active{display:block}
+.wrap{max-width:660px;margin:0 auto;padding:2rem 1.25rem}
+
+.hero{background:linear-gradient(145deg,#ede8f8,#e4dff5,#ddd7f0);border-radius:20px;padding:2.5rem 2rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 25%,rgba(120,80,200,.08) 0%,transparent 60%),radial-gradient(ellipse at 75% 75%,rgba(80,40,160,.06) 0%,transparent 60%);pointer-events:none}
+.hero-badge{display:inline-block;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.1);border-radius:100px;padding:4px 14px;font-size:11px;font-weight:700;color:#5a3a9a;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.1rem}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:#1e1040;margin-bottom:.6rem;letter-spacing:.02em}
+.hero p{font-size:14.5px;color:#4a2e88;line-height:1.75;max-width:380px;margin:0 auto}
+
+.info-card{background:#fff;border:1px solid #ddd8ee;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.info-row{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#555;margin-bottom:.65rem;line-height:1.6}
+.info-row:last-child{margin-bottom:0}
+.info-dot{width:6px;height:6px;border-radius:50%;background:#7850c8;flex-shrink:0;margin-top:6px}
+
+/* Sovereign input */
+.sys-select-wrap{margin-bottom:1.5rem}
+.sys-select-label{font-size:13px;font-weight:700;color:#555;margin-bottom:.75rem;font-family:'Noto Serif SC',serif}
+.sys-select-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sys-btn{background:#f7f5fc;border:1.5px solid #ddd8ee;border-radius:10px;padding:.7rem .4rem;cursor:pointer;font-size:12px;color:#666;transition:all .18s;text-align:center;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.sys-btn:hover{border-color:#7850c8;background:#ede8f8;color:#3e1888}
+.sys-btn.sel{border-color:#7850c8;background:#7850c8;color:#fff;font-weight:600}
+.sys-btn .sys-icon{font-size:18px;display:block;margin-bottom:3px}
+.sys-btn .sys-name{font-size:11px;line-height:1.3}
+
+/* Progress */
+.prog-wrap{margin-bottom:1.75rem}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.prog-label{font-size:13px;font-weight:700;color:#555;font-family:'Noto Serif SC',serif}
+.prog-count{font-size:13px;font-weight:700;color:#7850c8}
+.prog-bar{height:5px;background:#ddd8ee;border-radius:3px}
+.prog-fill{height:100%;background:linear-gradient(90deg,#7850c8,#c060a0);border-radius:3px;transition:width .35s ease}
+.prog-hint{font-size:12px;color:#aaa;margin-top:.6rem}
+
+.qcard{background:#fff;border:1px solid #ddd8ee;border-radius:14px;padding:1.35rem 1.5rem;margin-bottom:.85rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.qcard-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:1.1rem}
+.qnum{font-size:11px;font-weight:700;color:#ccc;min-width:22px;padding-top:3px;flex-shrink:0}
+.qtext{font-size:15px;line-height:1.75;color:#1a1a1a;font-weight:500}
+.choice-row{display:flex;gap:10px;align-items:stretch}
+.choice-btn{flex:1;background:#f7f5fc;border:1.5px solid #ddd8ee;border-radius:10px;padding:.85rem 1rem;cursor:pointer;font-size:13.5px;line-height:1.6;color:#444;transition:all .18s;text-align:center;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.choice-btn:hover{border-color:#7850c8;background:#ede8f8;color:#3e1888}
+.choice-btn.sel{border-color:#7850c8;background:#7850c8;color:#fff;font-weight:500}
+.choice-btn.dim{border-color:#eee;background:#fafaf8;color:#ccc}
+.vs-mid{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:32px}
+.vs-label{font-size:10px;font-weight:700;color:#ccc;letter-spacing:.06em}
+
+.btn-row{display:flex;gap:12px;margin-top:1.75rem;padding-bottom:2.5rem}
+.btnP{background:linear-gradient(135deg,#7850c8,#c060a0);color:#fff;border:none;border-radius:10px;padding:.85rem 2rem;font-size:15px;font-weight:500;cursor:pointer;flex:1;transition:filter .15s;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.btnP:hover{filter:brightness(1.1)}
+.btnP:disabled{opacity:.35;cursor:not-allowed;filter:none}
+.btnS{background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.8rem 1.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+.btnS:hover{background:#f5f4f0}
+.btnFull{width:100%;font-size:16px;padding:1rem}
+
+/* Results */
+.rcard{background:#fff;border:1px solid #ddd8ee;border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-label{font-size:11px;color:#aaa;letter-spacing:.07em;text-transform:uppercase;font-weight:700;margin-bottom:.35rem}
+
+/* Score ring */
+.score-ring-wrap{display:flex;flex-direction:column;align-items:center;padding:1.5rem 0 1rem}
+.score-ring{position:relative;width:140px;height:140px}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-ring-num .num{font-size:36px;font-weight:700;font-family:'Noto Serif SC',serif;color:#1e1040}
+.score-ring-num .pct{font-size:13px;color:#aaa;margin-top:-4px}
+.score-level{font-size:18px;font-weight:700;font-family:'Noto Serif SC',serif;margin-top:.75rem;color:#1e1040}
+.score-sub{font-size:13.5px;color:#888;margin-top:.35rem;text-align:center;line-height:1.6;max-width:320px}
+
+/* Breakdown bars */
+.bk-row{margin-bottom:.85rem}
+.bk-head{display:flex;justify-content:space-between;margin-bottom:.3rem}
+.bk-label{font-size:13px;font-weight:600;color:#555}
+.bk-val{font-size:13px;color:#999}
+.bk-track{height:7px;background:#f0eef8;border-radius:4px;overflow:hidden}
+.bk-fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+
+/* Interpretation */
+.interp-block{border-radius:12px;padding:1.15rem 1.25rem;margin-bottom:.75rem;border:1.5px solid transparent}
+.interp-body{font-size:14px;line-height:1.85;color:#444}
+.interp-body p{margin-bottom:.6rem}
+.interp-body p:last-child{margin-bottom:0}
+.bullet-list{list-style:none;padding:0;margin:.5rem 0}
+.bullet-list li{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.65;margin-bottom:.3rem;color:#444}
+
+@media(max-width:480px){
+  .wrap{padding:1rem .85rem}
+  .sys-select-grid{grid-template-columns:repeat(5,1fr);gap:5px}
+  .sys-btn{padding:.6rem .3rem}
+  .choice-btn{font-size:13px;padding:.75rem .7rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Page 0: Intro -->
+<div id="p0" class="page active">
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-badge">动力对齐测评 · V1</div>
+    <h1>你在为谁而动？</h1>
+    <p>你的动力方向已由主权系统决定。<br>这个测评只问一件事——<br>你现在有多少行动，真的在为它服务？</p>
+  </div>
+  <div class="info-card">
+    <div class="info-row"><div class="info-dot"></div>需要你的<strong>主权系统测评结果</strong>，请先完成主权测评</div>
+    <div class="info-row"><div class="info-dot"></div>共 <strong>10 道题</strong>，每题两选一，约需 2 分钟</div>
+    <div class="info-row"><div class="info-dot"></div>完成后显示你的<strong>动力对齐分数</strong>与解读</div>
+  </div>
+
+  <div class="sys-select-wrap">
+    <div class="sys-select-label">先选择你的主权系统</div>
+    <div class="sys-select-grid" id="sysGrid"></div>
+  </div>
+
+  <button class="btnP btnFull" id="startBtn" disabled onclick="goTo(1)">开始测评 →</button>
+</div>
+</div>
+
+<!-- Page 1: Questions -->
+<div id="p1" class="page">
+<div class="wrap">
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span class="prog-label">动力对齐测评</span>
+      <span class="prog-count" id="qcount">0 / 10</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="qbar" style="width:0%"></div></div>
+    <div class="prog-hint">选更接近你真实状态的，不是你"应该"有的状态</div>
+  </div>
+  <div id="questions"></div>
+  <div class="btn-row">
+    <button class="btnS" onclick="goTo(0)">← 返回</button>
+    <button class="btnP" id="qnext" disabled onclick="showResults()">查看结果 →</button>
+  </div>
+</div>
+</div>
+
+<!-- Page 2: Results -->
+<div id="p2" class="page">
+<div class="wrap" id="results"></div>
+</div>
+
+<script>
+var SYS = {
+  A:{name:'解释系统',icon:'🔍',color:'#3e7c22',bg:'#eef6e6',tc:'#2a5a14',
+     drive:'搞清楚、理解世界',
+     aligned:'你最近的投入是真的在追问和理解，而不是在表演或证明',
+     misaligned:'你在用"分析"来回应别人的期待，而不是真的想搞清楚'},
+  B:{name:'执行系统',icon:'⚡',color:'#2060b0',bg:'#e4eef8',tc:'#144080',
+     drive:'推进、行动、让事情发生',
+     aligned:'你在做的事情是你真的想推动的，不是被迫在跑',
+     misaligned:'你在行动，但那股力量来自焦虑或义务，不是真正的驱动'},
+  C:{name:'情感系统',icon:'💛',color:'#c07010',bg:'#fdf0dc',tc:'#8a4e08',
+     drive:'真实的情感连接',
+     aligned:'你现在的关系和投入是真的想要，不是为了填补空洞',
+     misaligned:'你在维持连接，但动力是怕孤立，不是真的想在一起'},
+  D:{name:'认同系统',icon:'🪞',color:'#7050c8',bg:'#eeebfc',tc:'#4a34a0',
+     drive:'做自己、守住原则',
+     aligned:'你的选择在真实地反映你是谁，不是在演给别人看',
+     misaligned:'你在坚守某些东西，但那更多是恐惧失去自我，不是清醒的选择'},
+  E:{name:'游戏系统',icon:'🎮',color:'#c03820',bg:'#fce8e4',tc:'#902010',
+     drive:'探索可能性、保持弹性',
+     aligned:'你的行动是真的在打开新的可能，不是在逃避固定的责任',
+     misaligned:'你在"探索"，但那股动力更多来自逃避而不是好奇'},
+};
+
+var QS = [
+  {q:'你最近投入最多精力的事，是怎么来的？',
+   L:{aligned:true,  t:'我主动选择了它，即使没有人知道我在做，我也会做'},
+   R:{aligned:false, t:'感觉不得不做，或者因为有人期待我去做才做的'}},
+
+  {q:'当你完成一件重要的事，你的第一反应通常是？',
+   L:{aligned:true,  t:'一种真实的满足，感觉做了自己真正想做的'},
+   R:{aligned:false, t:'解脱——终于完成了，而不是真的高兴'}},
+
+  {q:'你现在的方向，是在靠近你真正在乎的东西，还是在逃避什么？',
+   L:{aligned:true,  t:'是在靠近——我知道我想要什么，在朝那里走'},
+   R:{aligned:false, t:'更多是在逃避某种恐惧或不想面对的事'}},
+
+  {q:'如果明天没有任何人知道你做了什么，你还会做同样的选择吗？',
+   L:{aligned:true,  t:'会，这件事对我来说本身就有意义'},
+   R:{aligned:false, t:'可能不会，少了外部的眼光我可能不会这么做'}},
+
+  {q:'你最近的行动给你带来的是什么？',
+   L:{aligned:true,  t:'能量——做完之后我感觉更有力气，更清醒'},
+   R:{aligned:false, t:'消耗——做完之后我感觉更空洞或更疲惫'}},
+
+  {q:'你知道你现在为什么在做这件事吗？',
+   L:{aligned:true,  t:'清楚——我能说清楚这件事和我真正在乎的东西有什么关系'},
+   R:{aligned:false, t:'模糊——我在做，但说不清楚这件事真正的原因是什么'}},
+
+  {q:'你现在生活里的选择，有多少是"自己真正想要"的？',
+   L:{aligned:true,  t:'大部分——我感觉自己的生活基本上是我选择的结果'},
+   R:{aligned:false, t:'小部分——大多数选择感觉是被推着走，或者是"应该"做的'}},
+
+  {q:'当你拒绝一件事，通常是因为什么？',
+   L:{aligned:true,  t:'因为它不符合我真正在乎的东西，这个"不"来自清醒'},
+   R:{aligned:false, t:'因为太累了、太害怕了，或者不好意思说不'}},
+
+  {q:'你最近的状态，哪个更接近真实？',
+   L:{aligned:true,  t:'我感觉自己在主动构建什么，方向是我自己定的'},
+   R:{aligned:false, t:'我感觉自己在应对和反应，被外部推着走'}},
+
+  {q:'如果可以重来，你会做同样的选择吗？',
+   L:{aligned:true,  t:'大部分会——那些选择是真实的我做出来的'},
+   R:{aligned:false, t:'很多不会——我当时更多是在迁就别人或逃避什么'}},
+];
+
+var selectedSys = null;
+var ans = {};
+
+// Build sys grid
+(function(){
+  var g = document.getElementById('sysGrid');
+  Object.keys(SYS).forEach(function(k){
+    var s = SYS[k];
+    var btn = document.createElement('button');
+    btn.className = 'sys-btn';
+    btn.id = 'sys_'+k;
+    btn.innerHTML = '<span class="sys-icon">'+s.icon+'</span><span class="sys-name">'+s.name+'</span>';
+    btn.onclick = function(){
+      selectedSys = k;
+      document.querySelectorAll('.sys-btn').forEach(function(b){b.classList.remove('sel');});
+      btn.classList.add('sel');
+      document.getElementById('startBtn').disabled = false;
+    };
+    g.appendChild(btn);
+  });
+})();
+
+function buildQuestions(){
+  var c = document.getElementById('questions');
+  c.innerHTML = '';
+  QS.forEach(function(q,i){
+    c.innerHTML += '<div class="qcard">'
+      +'<div class="qcard-top"><div class="qnum">'+(i+1)+'</div><div class="qtext">'+q.q+'</div></div>'
+      +'<div class="choice-row">'
+      +'<button class="choice-btn" id="opt_'+i+'_L" onclick="setAns('+i+',\'L\')">'+q.L.t+'</button>'
+      +'<div class="vs-mid"><span class="vs-label">VS</span></div>'
+      +'<button class="choice-btn" id="opt_'+i+'_R" onclick="setAns('+i+',\'R\')">'+q.R.t+'</button>'
+      +'</div></div>';
+  });
+}
+
+function setAns(qi, side){
+  ans[qi] = side;
+  var L = document.getElementById('opt_'+qi+'_L');
+  var R = document.getElementById('opt_'+qi+'_R');
+  if(side==='L'){L.className='choice-btn sel';R.className='choice-btn dim';}
+  else{R.className='choice-btn sel';L.className='choice-btn dim';}
+  var done = Object.keys(ans).length;
+  document.getElementById('qcount').textContent = done+' / 10';
+  document.getElementById('qbar').style.width = (done/10*100)+'%';
+  var btn = document.getElementById('qnext');
+  btn.disabled = done < 10;
+  btn.textContent = done < 10 ? '还有 '+(10-done)+' 题未选' : '查看结果 →';
+}
+
+function goTo(n){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('p'+n).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showResults(){
+  var aligned = 0;
+  QS.forEach(function(q,i){
+    if(ans[i] !== undefined){
+      if((ans[i]==='L' && q.L.aligned)||(ans[i]==='R' && q.R.aligned)) aligned++;
+    }
+  });
+
+  var score = aligned * 10;
+  var s = SYS[selectedSys];
+
+  var level, levelColor, levelBg, intro, bullets, suggestion;
+
+  if(score >= 80){
+    level = '高度对齐';
+    levelColor = '#2a7a3a';
+    levelBg = '#eef8f0';
+    intro = '你现在的行动，大部分真的在为你的主权服务。你清楚自己在乎什么，并且在朝那里走。这种状态下，动力不需要被催动——它本来就在那里。';
+    bullets = [
+      '你的投入来自内部，而不是外部压力',
+      '即使没有人看见，你也会做同样的选择',
+      '行动之后你感到能量，而不是空洞'
+    ];
+    suggestion = '保持这种清醒——不是让它固化，而是继续确认你走的路仍然是你真正想走的。';
+  } else if(score >= 60){
+    level = '基本对齐';
+    levelColor = '#6a7a20';
+    levelBg = '#f6f8e8';
+    intro = '你的大部分行动是真实的，但有一部分已经开始被外部力量主导。你能感受到主权的存在，但它有时候被遮住了。';
+    bullets = [
+      '大方向是对的，但有些具体选择是在迁就别人',
+      '你能区分"真正想要"和"应该要"，但还没完全按前者行动',
+      '有时候用行动来填补焦虑，而不是真的推进'
+    ];
+    suggestion = '找出那些让你感到消耗而不是能量的事——那里可能就是对齐出了问题的地方。';
+  } else if(score >= 40){
+    level = '部分脱节';
+    levelColor = '#a06020';
+    levelBg = '#fdf4e4';
+    intro = '你的主权系统和你现在的行动已经开始分离。你在动，但那股动力更多来自外部——别人的期待、恐惧、义务，而不是你真正在乎的东西。';
+    bullets = [
+      '很多事情是"不得不做"，而不是"真的想做"',
+      '完成之后更多是解脱感，而不是满足感',
+      '方向模糊，或者知道方向但不是真的在朝那里走'
+    ];
+    suggestion = '问自己：如果没有任何人知道，我还会做同样的选择吗？从这个问题开始找回对齐。';
+  } else {
+    level = '严重脱节';
+    levelColor = '#902020';
+    levelBg = '#fce8e8';
+    intro = '你现在的行动，大部分已经不是为你的主权在服务了。你在为恐惧、别人的期待、或者惯性而动。这不是说你做的事情没有价值，而是它消耗了你，却没有真正滋养你最在乎的东西。';
+    bullets = [
+      '你知道自己在乎什么，但你做的事情和那个"什么"距离很远',
+      '很多选择来自逃避，而不是靠近',
+      '你可能已经很久没有做一件"完全为自己"的事了'
+    ];
+    suggestion = '不需要立刻改变所有事。先找一件小事，做一个真正来自主权的选择——哪怕只是一件事。';
+  }
+
+  // circumference of ring
+  var r = 54;
+  var circ = 2 * Math.PI * r;
+  var fill = circ * (score / 100);
+
+  var bulletsHtml = bullets.map(function(b){
+    return '<li><span style="color:'+levelColor+';font-weight:700;flex-shrink:0">·</span><span>'+b+'</span></li>';
+  }).join('');
+
+  var decodedHtml =
+    '<div style="border-bottom:1px solid #e8e4f4;padding-bottom:1.5rem;margin-bottom:1.5rem">'
+    +'<div style="font-size:11px;color:#aaa;letter-spacing:.07em;text-transform:uppercase;font-weight:700;margin-bottom:.35rem">动力对齐测评 · 结果</div>'
+    +'<h2 style="font-size:24px;font-weight:700;margin-bottom:.4rem;font-family:\'Noto Serif SC\',serif">你的动力对齐图谱</h2>'
+    +'<p style="font-size:13px;color:#888">主权系统：'+s.icon+' '+s.name+' &nbsp;·&nbsp; 动力方向：'+s.drive+'</p>'
+    +'</div>'
+
+    // Score card
+    +'<div class="rcard" style="border-left:4px solid '+levelColor+';background:'+levelBg+'">'
+    +'<div class="card-label" style="color:'+levelColor+'">对齐分数</div>'
+    +'<div class="score-ring-wrap">'
+    +'<div class="score-ring">'
+    +'<svg width="140" height="140" viewBox="0 0 140 140">'
+    +'<circle cx="70" cy="70" r="'+r+'" fill="none" stroke="#e8e4f4" stroke-width="10"/>'
+    +'<circle cx="70" cy="70" r="'+r+'" fill="none" stroke="'+levelColor+'" stroke-width="10" stroke-dasharray="'+fill+' '+circ+'" stroke-linecap="round" id="scoreArc"/>'
+    +'</svg>'
+    +'<div class="score-ring-num"><div class="num" style="color:'+levelColor+'">'+score+'</div><div class="pct">/ 100</div></div>'
+    +'</div>'
+    +'<div class="score-level" style="color:'+levelColor+'">'+level+'</div>'
+    +'<div class="score-sub">'+intro+'</div>'
+    +'</div></div>'
+
+    // Breakdown
+    +'<div class="rcard">'
+    +'<div class="card-label">具体表现</div>'
+    +'<div style="margin:1rem 0">'
+    +'<div class="bk-row"><div class="bk-head"><span class="bk-label" style="color:'+levelColor+'">内驱行动</span><span class="bk-val">'+aligned+' / 10</span></div><div class="bk-track"><div class="bk-fill" data-w="'+score+'" style="background:'+levelColor+'"></div></div></div>'
+    +'<div class="bk-row"><div class="bk-head"><span class="bk-label" style="color:#aaa">外驱行动</span><span class="bk-val">'+(10-aligned)+' / 10</span></div><div class="bk-track"><div class="bk-fill" data-w="'+((10-aligned)*10)+'" style="background:#ddd"></div></div></div>'
+    +'</div></div>'
+
+    // Interpretation
+    +'<div class="rcard">'
+    +'<div class="card-label">解读</div>'
+    +'<div class="interp-block" style="background:'+levelBg+';border-color:'+levelColor+'44;margin-top:.75rem">'
+    +'<ul class="bullet-list">'+bulletsHtml+'</ul>'
+    +'<div style="margin-top:.85rem;padding:.85rem 1rem;border-radius:8px;background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.07)">'
+    +'<div style="font-size:10px;font-weight:700;color:'+levelColor+';letter-spacing:.05em;text-transform:uppercase;margin-bottom:.35rem">建议</div>'
+    +'<div style="font-size:13.5px;line-height:1.7;color:#444">'+suggestion+'</div>'
+    +'</div></div></div>'
+
+    // System reminder
+    +'<div class="rcard">'
+    +'<div class="card-label">关于你的主权动力</div>'
+    +'<div style="background:'+s.bg+';border-radius:10px;padding:1rem 1.1rem;margin-top:.75rem">'
+    +'<div style="font-size:13px;font-weight:700;color:'+s.tc+';margin-bottom:.5rem">'+s.icon+' '+s.name+'</div>'
+    +'<div style="font-size:13px;color:'+s.tc+';line-height:1.65;margin-bottom:.5rem">对齐时：'+s.aligned+'</div>'
+    +'<div style="font-size:13px;color:'+s.tc+';line-height:1.65">脱节时：'+s.misaligned+'</div>'
+    +'</div></div>'
+
+    // Formula preview
+    +'<div class="rcard" style="background:linear-gradient(135deg,#ede8f8,#f5f0ff);border-color:#c8b8f0">'
+    +'<div class="card-label" style="color:#7050a8">行为公式预览</div>'
+    +'<div style="text-align:center;padding:1rem 0">'
+    +'<div style="font-size:13px;color:#888;margin-bottom:.75rem">行为结果 = 主权系统 × 动力 × 执行系统</div>'
+    +'<div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap">'
+    +'<span style="background:'+s.bg+';color:'+s.tc+';padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600">'+s.icon+' '+s.name+'</span>'
+    +'<span style="color:#bbb;font-size:16px">×</span>'
+    +'<span style="background:'+levelBg+';color:'+levelColor+';padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600">动力 '+score+'%</span>'
+    +'<span style="color:#bbb;font-size:16px">×</span>'
+    +'<span style="background:#f0eef8;color:#7050a8;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600">执行系统 待测</span>'
+    +'</div></div></div>'
+
+    +'<div style="text-align:center;margin-top:1.5rem;padding-bottom:2.5rem">'
+    +'<button onclick="resetAll()" style="background:#fff;color:#666;border:1px solid #ddd;border-radius:10px;padding:.85rem 2.5rem;font-size:14px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,\'PingFang SC\',\'Hiragino Sans GB\',sans-serif">重新测评</button>'
+    +'</div>';
+
+  document.getElementById('results').innerHTML = decodedHtml;
+  goTo(2);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){
+    document.querySelectorAll('.bk-fill[data-w]').forEach(function(b){b.style.width=b.dataset.w+'%';});
+  });});
+}
+
+function resetAll(){
+  selectedSys = null;
+  Object.keys(ans).forEach(function(k){delete ans[k];});
+  document.querySelectorAll('.sys-btn').forEach(function(b){b.classList.remove('sel');});
+  document.getElementById('startBtn').disabled = true;
+  buildQuestions();
+  document.getElementById('qcount').textContent = '0 / 10';
+  document.getElementById('qbar').style.width = '0%';
+  document.getElementById('qnext').disabled = true;
+  document.getElementById('qnext').textContent = '还有 10 题未选';
+  goTo(0);
+}
+
+buildQuestions();
+</script>
+</body>
+</html>
