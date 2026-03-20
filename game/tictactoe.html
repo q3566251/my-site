@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>井字棋</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07070f;--bg2:#11111e;--bg3:#1a1a2c;--gold:#c9a84c;--gold2:#f0d080;--red:#c0392b;--blue:#4a90d9;--text:#e8e0d0;--dim:#706860;--border:#252535}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Serif SC',serif;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.topbar{width:100%;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:var(--bg2);border-bottom:1px solid var(--border)}
+.topbar a{color:var(--dim);text-decoration:none;font-size:.88rem}.topbar a:hover{color:var(--gold)}
+.topbar h1{font-size:1.1rem;color:var(--gold);letter-spacing:.2em}
+.ri{font-size:.78rem;color:var(--dim)}
+#wait{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:24px;padding:40px}
+.wbox{background:var(--bg2);border:2px solid var(--gold);border-radius:16px;padding:24px 40px;text-align:center}
+.wbox .code{font-size:3rem;font-weight:900;letter-spacing:.4em;color:var(--gold)}
+.wbox p{color:var(--dim);font-size:.85rem;margin-top:8px}
+.spin{animation:spin 1.2s linear infinite;display:inline-block}@keyframes spin{to{transform:rotate(360deg)}}
+#game{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:30px 20px;gap:28px}
+.status{font-size:1.1rem;letter-spacing:.1em;color:var(--text);text-align:center;min-height:32px}
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cell{width:clamp(90px,22vw,110px);height:clamp(90px,22vw,110px);background:var(--bg2);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:3rem;cursor:pointer;transition:all .2s;user-select:none}
+.cell:hover:not(.taken){background:var(--bg3);border-color:var(--dim)}
+.cell.x{color:var(--red);font-size:3.5rem}.cell.o{color:var(--blue);font-size:3.5rem}
+.cell.win-cell{background:rgba(201,168,76,.12);border-color:var(--gold)}.cell.taken{cursor:default}
+#result{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;z-index:50}
+#result.show{display:flex}
+.rb{background:var(--bg2);border:1px solid var(--border);border-radius:22px;padding:48px 52px;text-align:center;box-shadow:0 40px 80px rgba(0,0,0,.6)}
+.rb h2{font-size:2rem;color:var(--gold);margin-bottom:16px}.rb p{color:var(--dim);margin-bottom:28px}
+.btn{padding:13px 36px;border:none;border-radius:10px;font-size:1rem;font-family:inherit;cursor:pointer;font-weight:700;transition:all .2s}
+.btn-g{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0e00}
+.btn-g:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">← 返回大厅</a><h1>井字棋</h1>
+  <span class="ri" id="ri"></span>
+</div>
+<div id="wait">
+  <div class="wbox"><div class="code" id="wcode">…</div><p>分享此码给朋友</p></div>
+  <div style="color:var(--dim);font-size:.9rem"><span class="spin">⟳</span> 等待对方加入…</div>
+</div>
+<div id="game">
+  <div class="status" id="status"></div>
+  <div class="board" id="board"></div>
+</div>
+<div id="result">
+  <div class="rb"><h2 id="rt"></h2><p id="rs"></p>
+    <button class="btn btn-g" onclick="location.href='index.html'">返回大厅</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA6bEgCKXGrDA1c1lcsUT_JyK4cUXorTL0",
+  authDomain: "chess-361a6.firebaseapp.com",
+  databaseURL: "https://chess-361a6-default-rtdb.firebaseio.com",
+  projectId: "chess-361a6",
+  storageBucket: "chess-361a6.firebasestorage.app",
+  messagingSenderId: "508387564049",
+  appId: "1:508387564049:web:673daab5203d2bbb46afb0"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const P=new URLSearchParams(location.search);
+const roomId=P.get('room')||'';
+const seat=parseInt(P.get('seat')||0);
+const myName=decodeURIComponent(P.get('name')||'玩家'+(seat+1));
+document.getElementById('ri').textContent='房间：'+roomId;
+document.getElementById('wcode').textContent=roomId;
+
+const SYM=['✕','○'];
+const MY=SYM[seat],OP=SYM[1-seat];
+let gameOver=false;
+let gameStarted=false;
+
+const gameRef=ref(db,`rooms/${roomId}/ttt`);
+const playersRef=ref(db,`rooms/${roomId}/players`);
+
+// Watch for opponent joining
+onValue(playersRef,snap=>{
+  const players=snap.val()||{};
+  const count=Object.keys(players).length;
+  if(count>=2 && !gameStarted){
+    gameStarted=true;
+    document.getElementById('wait').style.display='none';
+    document.getElementById('game').style.display='flex';
+    // Init board state if seat 0
+    if(seat===0){
+      set(gameRef,{board:Array(9).fill(null),turn:0});
+    }
+  }
+});
+
+// Watch game state
+onValue(gameRef,snap=>{
+  if(!snap.exists()) return;
+  const s=snap.val();
+  if(!s.board) return;
+  renderBoard(s.board, s.turn===seat);
+  const w=checkWin(s.board);
+  if(w){
+    highlightWin(w.cells);
+    if(s.board[w.cells[0]]===MY) showResult('🎉 你赢了！','恭喜胜出！');
+    else showResult('💀 你输了','下次再来');
+    return;
+  }
+  if(s.board.every(v=>v)){showResult('平局','双方势均力敌');return;}
+  if(s.turn===seat) setStatus(`<span style="color:${MY==='✕'?'#c0392b':'#4a90d9'}">${MY}</span> 该你了`);
+  else setStatus(`等待对方落子…`);
+});
+
+function renderBoard(board, canClick){
+  const el=document.getElementById('board');
+  el.innerHTML='';
+  board.forEach((v,i)=>{
+    const c=document.createElement('div');
+    c.className='cell'+(v?(' taken '+(v==='✕'?'x':'o')):'');
+    c.textContent=v||'';
+    if(!v&&canClick&&!gameOver) c.onclick=()=>doMove(i,board);
+    el.appendChild(c);
+  });
+}
+
+function doMove(i,board){
+  if(gameOver) return;
+  const nb=[...board];
+  nb[i]=MY;
+  update(gameRef,{board:nb,turn:1-seat});
+}
+
+function checkWin(b){
+  const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(const line of lines) if(b[line[0]]&&b[line[0]]===b[line[1]]&&b[line[0]]===b[line[2]]) return {cells:line};
+  return null;
+}
+
+function highlightWin(cells){
+  const els=document.querySelectorAll('.cell');
+  cells.forEach(i=>els[i]?.classList.add('win-cell'));
+  gameOver=true;
+}
+
+function setStatus(s){document.getElementById('status').innerHTML=s;}
+function showResult(t,s){
+  gameOver=true;
+  document.getElementById('rt').textContent=t;
+  document.getElementById('rs').textContent=s;
+  document.getElementById('result').classList.add('show');
+}
+</script>
+</body>
+</html>

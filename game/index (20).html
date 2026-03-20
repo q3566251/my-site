@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>对战游戏厅</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07070f;--bg2:#11111e;--bg3:#1a1a2c;--gold:#c9a84c;--gold2:#f0d080;--red:#c0392b;--text:#e8e0d0;--dim:#706860;--border:#252535}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Serif SC',serif;min-height:100vh;
+  background-image:radial-gradient(ellipse at 15% 15%,rgba(192,57,43,.06) 0,transparent 55%),
+  radial-gradient(ellipse at 85% 85%,rgba(201,168,76,.06) 0,transparent 55%)}
+header{text-align:center;padding:64px 24px 48px}
+header h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;letter-spacing:.15em;
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header p{color:var(--dim);margin-top:10px;letter-spacing:.3em;font-size:.9rem}
+.sep{width:80px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:20px auto 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px;max-width:1060px;margin:0 auto;padding:0 24px 80px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:36px 20px 28px;
+  text-align:center;cursor:pointer;transition:all .35s cubic-bezier(.23,1,.32,1);position:relative;overflow:hidden}
+.card:hover{transform:translateY(-8px);border-color:var(--gold);box-shadow:0 24px 48px rgba(0,0,0,.5),0 0 24px rgba(201,168,76,.12)}
+.card .ico{font-size:3.8rem;margin-bottom:18px;display:block}
+.card h3{font-size:1.15rem;font-weight:700;color:var(--gold);letter-spacing:.05em}
+.card p{font-size:.8rem;color:var(--dim);margin-top:8px;line-height:1.6}
+.card .badge{position:absolute;top:14px;right:14px;background:var(--red);color:#fff;font-size:.65rem;padding:3px 8px;border-radius:20px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:100}
+.overlay.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:22px;padding:40px;width:min(480px,92vw);position:relative;box-shadow:0 40px 80px rgba(0,0,0,.6)}
+.modal-x{position:absolute;top:18px;right:22px;background:none;border:none;color:var(--dim);font-size:1.3rem;cursor:pointer;padding:4px 8px;border-radius:6px}
+.modal-x:hover{color:var(--text)}
+.modal h2{font-size:1.5rem;color:var(--gold);text-align:center;margin-bottom:28px;letter-spacing:.1em}
+.tabs{display:flex;background:var(--bg);border-radius:12px;padding:4px;margin-bottom:26px}
+.tab{flex:1;padding:11px;text-align:center;cursor:pointer;border-radius:9px;font-size:.9rem;transition:all .2s;color:var(--dim);font-family:inherit;background:none;border:none}
+.tab.active{background:var(--bg3);color:var(--gold)}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.mode{border:2px solid var(--border);border-radius:14px;padding:18px 12px;text-align:center;cursor:pointer;transition:all .2s}
+.mode:hover,.mode.on{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.mode .mi{font-size:1.8rem;margin-bottom:8px}
+.mode h4{font-size:.88rem;color:var(--gold)}
+.mode p{font-size:.73rem;color:var(--dim);margin-top:5px;line-height:1.5}
+.lbl{display:block;color:var(--dim);font-size:.8rem;margin-bottom:8px;letter-spacing:.1em}
+input[type=text]{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:13px 16px;color:var(--text);font-size:1rem;font-family:inherit;outline:none;transition:border-color .2s}
+input[type=text]:focus{border-color:var(--gold)}
+.code-input{letter-spacing:.3em;text-align:center;font-size:1.4rem;text-transform:uppercase;font-weight:700}
+.fg{margin-bottom:18px}
+.btn{width:100%;padding:14px;border:none;border-radius:11px;font-size:1rem;font-family:inherit;cursor:pointer;transition:all .2s;font-weight:700;letter-spacing:.05em}
+.btn-g{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0e00}
+.btn-g:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-o:hover{border-color:var(--gold);color:var(--gold)}
+.spacer{height:12px}
+.codebox{background:var(--bg);border:2px solid var(--gold);border-radius:14px;padding:24px;text-align:center;margin:6px 0 22px}
+.codebox .code{font-size:3rem;font-weight:900;letter-spacing:.4em;color:var(--gold);display:block}
+.codebox small{font-size:.8rem;color:var(--dim);margin-top:8px;display:block}
+.step{display:none}.step.on{display:block}
+.err{color:#e07070;font-size:.82rem;text-align:center;margin-top:10px;min-height:20px}
+footer{text-align:center;color:var(--dim);font-size:.78rem;padding:0 0 40px;letter-spacing:.1em}
+</style>
+</head>
+<body>
+<header>
+  <h1>对战游戏厅</h1>
+  <p>两人同台 · 棋逢对手</p>
+  <div class="sep"></div>
+</header>
+<div class="grid">
+  <div class="card" onclick="open_('tictactoe')"><span class="ico">❌</span><h3>井字棋</h3><p>三子连线即胜<br>最快分出胜负</p></div>
+  <div class="card" onclick="open_('gomoku')"><span class="ico">⚫</span><h3>五子棋</h3><p>五子连珠取胜<br>攻防瞬息万变</p></div>
+  <div class="card" onclick="open_('chess')"><span class="ico">♟</span><h3>国际象棋</h3><p>将死对方国王<br>运筹帷幄之中</p></div>
+  <div class="card" onclick="open_('checkers')"><span class="ico">🔴</span><h3>跳棋</h3><p>跳吃对方棋子<br>全歼方为胜利</p></div>
+  <div class="card" onclick="open_('doudizhu')"><span class="ico">🃏</span><h3>斗地主</h3><p>可配置机器人<br>先出完牌者胜</p><span class="badge">AI</span></div>
+</div>
+<footer>Firebase 实时联机 · 两台设备同时开网页即可对战</footer>
+
+<div class="overlay" id="ov" onclick="bgClose(event)">
+<div class="modal">
+  <button class="modal-x" onclick="close_()">✕</button>
+  <h2 id="mtitle"></h2>
+  <div class="step on" id="stepA">
+    <div id="ddz-modes" style="display:none">
+      <label class="lbl">选择游戏模式</label>
+      <div class="modes">
+        <div class="mode on" id="m2h" onclick="setMode('2h')"><div class="mi">👥🤖</div><h4>2人 + 机器人</h4><p>邀请朋友加上AI</p></div>
+        <div class="mode" id="m1h" onclick="setMode('1h')"><div class="mi">👤🤖🤖</div><h4>1人 + 2机器人</h4><p>单独挑战两个AI</p></div>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="tab('create',this)">创建房间</button>
+      <button class="tab" onclick="tab('join',this)">加入房间</button>
+    </div>
+    <div id="pc">
+      <div class="fg"><label class="lbl">你的昵称（选填）</label>
+        <input type="text" id="cname" placeholder="玩家1" maxlength="10"></div>
+      <button class="btn btn-g" onclick="doCreate()">创 建 房 间</button>
+    </div>
+    <div id="pj" style="display:none">
+      <div class="fg"><label class="lbl">房 间 码</label>
+        <input type="text" id="jcode" class="code-input" placeholder="XXXXXX" maxlength="6"></div>
+      <div class="fg"><label class="lbl">你的昵称（选填）</label>
+        <input type="text" id="jname" placeholder="玩家2" maxlength="10"></div>
+      <button class="btn btn-g" onclick="doJoin()">加 入 房 间</button>
+      <div class="err" id="jerr"></div>
+    </div>
+  </div>
+  <div class="step" id="stepB">
+    <div class="codebox"><span class="code" id="dcode"></span><small>将此码分享给朋友</small></div>
+    <div id="wait-hint" style="text-align:center;color:var(--dim);font-size:.88rem;margin-bottom:22px"></div>
+    <button class="btn btn-g" onclick="goGame()">进 入 游 戏 室</button>
+    <div class="spacer"></div>
+    <button class="btn btn-o" onclick="copyCode()">复制房间码</button>
+  </div>
+</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA6bEgCKXGrDA1c1lcsUT_JyK4cUXorTL0",
+  authDomain: "chess-361a6.firebaseapp.com",
+  databaseURL: "https://chess-361a6-default-rtdb.firebaseio.com",
+  projectId: "chess-361a6",
+  storageBucket: "chess-361a6.firebasestorage.app",
+  messagingSenderId: "508387564049",
+  appId: "1:508387564049:web:673daab5203d2bbb46afb0"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const PAGES={tictactoe:'tictactoe.html',gomoku:'gomoku.html',chess:'chess.html',checkers:'checkers.html',doudizhu:'doudizhu.html'};
+const NAMES={tictactoe:'井字棋',gomoku:'五子棋',chess:'国际象棋',checkers:'跳棋',doudizhu:'斗地主'};
+let CG='',MODE='2h',ROOM='',CNAME='玩家1',SEAT=0;
+
+function genId(){return Math.random().toString(36).slice(2,8).toUpperCase();}
+
+window.open_=g=>{
+  CG=g;MODE='2h';
+  document.getElementById('mtitle').textContent=NAMES[g];
+  document.getElementById('ddz-modes').style.display=g==='doudizhu'?'block':'none';
+  showStep('stepA');document.getElementById('ov').classList.add('show');
+};
+window.close_=()=>document.getElementById('ov').classList.remove('show');
+window.bgClose=e=>{if(e.target.id==='ov')window.close_();};
+function showStep(id){document.querySelectorAll('.step').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');}
+window.tab=(t,el)=>{
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));el.classList.add('active');
+  document.getElementById('pc').style.display=t==='create'?'block':'none';
+  document.getElementById('pj').style.display=t==='join'?'block':'none';
+};
+window.setMode=m=>{MODE=m;document.getElementById('m2h').classList.toggle('on',m==='2h');document.getElementById('m1h').classList.toggle('on',m==='1h');};
+
+window.doCreate=async()=>{
+  CNAME=document.getElementById('cname').value.trim()||'玩家1';
+  ROOM=genId(); SEAT=0;
+  const hc=CG==='doudizhu'&&MODE==='1h'?1:2;
+  await set(ref(db,`rooms/${ROOM}`),{game:CG,humanCount:hc,state:'waiting',
+    players:{0:{name:CNAME,seat:0}},created:Date.now()});
+  document.getElementById('dcode').textContent=ROOM;
+  document.getElementById('wait-hint').textContent=hc===1?'点击下方直接进入，和机器人对战！':'等待朋友用房间码加入…';
+  showStep('stepB');
+};
+
+window.doJoin=async()=>{
+  const code=document.getElementById('jcode').value.trim().toUpperCase();
+  const name=document.getElementById('jname').value.trim()||'玩家2';
+  document.getElementById('jerr').textContent='';
+  if(!code){document.getElementById('jerr').textContent='请输入房间码';return;}
+  const snap=await get(ref(db,`rooms/${code}`));
+  if(!snap.exists()){document.getElementById('jerr').textContent='房间不存在';return;}
+  const r=snap.val();
+  const humanCount=Object.keys(r.players||{}).length;
+  if(humanCount>=r.humanCount){document.getElementById('jerr').textContent='房间已满';return;}
+  ROOM=code;SEAT=1;CNAME=name;CG=r.game;
+  await update(ref(db,`rooms/${ROOM}/players`),{1:{name:CNAME,seat:1}});
+  goGame();
+};
+
+window.goGame=()=>{
+  window.location.href=`${PAGES[CG]}?room=${ROOM}&seat=${SEAT}&name=${encodeURIComponent(CNAME)}`;
+};
+window.copyCode=()=>navigator.clipboard.writeText(ROOM).then(()=>alert('已复制：'+ROOM));
+</script>
+</body>
+</html>

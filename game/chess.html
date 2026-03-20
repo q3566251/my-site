@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国际象棋</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07070f;--bg2:#11111e;--gold:#c9a84c;--gold2:#f0d080;--text:#e8e0d0;--dim:#706860;--border:#252535}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Serif SC',serif;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.topbar{width:100%;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:var(--bg2);border-bottom:1px solid var(--border)}
+.topbar a{color:var(--dim);text-decoration:none;font-size:.88rem}.topbar a:hover{color:var(--gold)}
+.topbar h1{font-size:1.1rem;color:var(--gold);letter-spacing:.2em}
+.ri{font-size:.78rem;color:var(--dim)}
+#wait{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:24px;padding:40px}
+.wbox{background:var(--bg2);border:2px solid var(--gold);border-radius:16px;padding:24px 40px;text-align:center}
+.wbox .code{font-size:3rem;font-weight:900;letter-spacing:.4em;color:var(--gold)}
+.wbox p{color:var(--dim);font-size:.85rem;margin-top:8px}
+.spin{animation:spin 1.2s linear infinite;display:inline-block}@keyframes spin{to{transform:rotate(360deg)}}
+#game{display:none;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px;gap:14px}
+.status{font-size:1rem;text-align:center;min-height:28px}
+.board{display:grid;grid-template-columns:repeat(8,1fr);border:2px solid var(--border);border-radius:6px;overflow:hidden}
+.sq{display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;user-select:none}
+.sq.light{background:#c8a96e}.sq.dark{background:#6b4226}
+.sq.selected{background:#e6c95a!important}
+.sq.valid-move::after{content:'';position:absolute;width:36%;height:36%;background:rgba(0,200,0,.4);border-radius:50%}
+.sq.valid-capture{background:rgba(200,50,50,.5)!important}
+.piece{font-size:clamp(1.6rem,4.5vw,2.2rem);line-height:1;pointer-events:none;text-shadow:1px 1px 2px rgba(0,0,0,.5)}
+.hint{font-size:.75rem;color:var(--dim);text-align:center}
+#result{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;z-index:50}
+#result.show{display:flex}
+.rb{background:var(--bg2);border:1px solid var(--border);border-radius:22px;padding:48px 52px;text-align:center}
+.rb h2{font-size:2rem;color:var(--gold);margin-bottom:16px}.rb p{color:var(--dim);margin-bottom:28px}
+.btn{padding:13px 36px;border:none;border-radius:10px;font-size:1rem;font-family:inherit;cursor:pointer;font-weight:700;transition:all .2s}
+.btn-g{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0e00}
+.btn-g:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="index.html">← 返回大厅</a><h1>国际象棋</h1>
+  <span class="ri" id="ri"></span>
+</div>
+<div id="wait">
+  <div class="wbox"><div class="code" id="wcode">…</div><p>分享此码给朋友</p></div>
+  <div style="color:var(--dim);font-size:.9rem"><span class="spin">⟳</span> 等待对方加入…</div>
+</div>
+<div id="game">
+  <div class="status" id="status"></div>
+  <div class="board" id="board"></div>
+  <div class="hint" id="hint"></div>
+</div>
+<div id="result">
+  <div class="rb"><h2 id="rt"></h2><p id="rs"></p>
+    <button class="btn btn-g" onclick="location.href='index.html'">返回大厅</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA6bEgCKXGrDA1c1lcsUT_JyK4cUXorTL0",
+  authDomain: "chess-361a6.firebaseapp.com",
+  databaseURL: "https://chess-361a6-default-rtdb.firebaseio.com",
+  projectId: "chess-361a6",
+  storageBucket: "chess-361a6.firebasestorage.app",
+  messagingSenderId: "508387564049",
+  appId: "1:508387564049:web:673daab5203d2bbb46afb0"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const P=new URLSearchParams(location.search);
+const roomId=P.get('room')||'';
+const seat=parseInt(P.get('seat')||0);
+const myName=decodeURIComponent(P.get('name')||'玩家'+(seat+1));
+document.getElementById('ri').textContent='房间：'+roomId;
+document.getElementById('wcode').textContent=roomId;
+
+const myColor=seat===0?'w':'b';
+const SQ=Math.min(56,Math.floor((Math.min(window.innerWidth,window.innerHeight)-120)/8));
+const SYMS={wK:'♔',wQ:'♕',wR:'♖',wB:'♗',wN:'♘',wP:'♙',bK:'♚',bQ:'♛',bR:'♜',bB:'♝',bN:'♞',bP:'♟'};
+
+let sel=null,validMoves=[],gameOver=false,gameStarted=false;
+
+const gameRef=ref(db,`rooms/${roomId}/chess`);
+const playersRef=ref(db,`rooms/${roomId}/players`);
+
+function initBoardState(){
+  const B=Array.from({length:8},()=>Array(8).fill(null));
+  const back=['R','N','B','Q','K','B','N','R'];
+  back.forEach((t,c)=>{B[0][c]={t,c:'b'};B[7][c]={t,c:'w'};});
+  for(let c=0;c<8;c++){B[1][c]={t:'P',c:'b'};B[6][c]={t:'P',c:'w'};}
+  return B;
+}
+
+onValue(playersRef,snap=>{
+  const count=Object.keys(snap.val()||{}).length;
+  if(count>=2&&!gameStarted){
+    gameStarted=true;
+    document.getElementById('wait').style.display='none';
+    document.getElementById('game').style.display='flex';
+    if(seat===0) set(gameRef,{board:JSON.stringify(initBoardState()),turn:0});
+    document.getElementById('hint').textContent=`你执${myColor==='w'?'白':'黑'}棋 · 吃掉对方国王获胜`;
+  }
+});
+
+onValue(gameRef,snap=>{
+  if(!snap.exists()) return;
+  const s=snap.val();
+  if(!s.board) return;
+  const board=JSON.parse(s.board);
+  render(board,s.turn===seat);
+  if(s.turn===seat) setStatus('轮到你了');
+  else setStatus('等待对方落子…');
+});
+
+function getMoves(B,r,c){
+  const p=B[r][c];if(!p) return [];
+  const moves=[];
+  function add(nr,nc){if(nr<0||nr>=8||nc<0||nc>=8)return;const t=B[nr][nc];if(t&&t.c===p.c)return;moves.push({r:nr,c:nc});}
+  function slide(dr,dc){let nr=r+dr,nc=c+dc;while(nr>=0&&nr<8&&nc>=0&&nc<8){if(B[nr][nc]){if(B[nr][nc].c!==p.c)moves.push({r:nr,c:nc});break;}moves.push({r:nr,c:nc});nr+=dr;nc+=dc;}}
+  if(p.t==='P'){const d=p.c==='w'?-1:1,s=p.c==='w'?6:1;if(!B[r+d]?.[c])add(r+d,c);if(r===s&&!B[r+d]?.[c]&&!B[r+2*d]?.[c])add(r+2*d,c);if(B[r+d]?.[c-1]?.c!==p.c&&B[r+d]?.[c-1])add(r+d,c-1);if(B[r+d]?.[c+1]?.c!==p.c&&B[r+d]?.[c+1])add(r+d,c+1);}
+  else if(p.t==='R'){[[0,1],[0,-1],[1,0],[-1,0]].forEach(([a,b])=>slide(a,b));}
+  else if(p.t==='B'){[[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([a,b])=>slide(a,b));}
+  else if(p.t==='Q'){[[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([a,b])=>slide(a,b));}
+  else if(p.t==='K'){[[0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([a,b])=>add(r+a,c+b));}
+  else if(p.t==='N'){[[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]].forEach(([a,b])=>add(r+a,c+b));}
+  return moves;
+}
+
+function render(board,canClick){
+  const el=document.getElementById('board');
+  el.style.gridTemplateColumns=`repeat(8,${SQ}px)`;
+  el.innerHTML='';
+  const rows=seat===1?[...Array(8).keys()].reverse():[...Array(8).keys()];
+  const cols=seat===1?[...Array(8).keys()].reverse():[...Array(8).keys()];
+  for(const r of rows) for(const c of cols){
+    const sq=document.createElement('div');
+    sq.className=`sq ${(r+c)%2===0?'light':'dark'}`;
+    sq.style.width=sq.style.height=SQ+'px';
+    const p=board[r][c];
+    if(p) sq.innerHTML=`<span class="piece">${SYMS[p.c+p.t]}</span>`;
+    if(sel&&sel.r===r&&sel.c===c) sq.classList.add('selected');
+    const vm=validMoves.find(m=>m.r===r&&m.c===c);
+    if(vm){if(board[r][c])sq.classList.add('valid-capture');else sq.classList.add('valid-move');}
+    if(canClick&&!gameOver) sq.addEventListener('click',()=>onClick(r,c,board));
+    el.appendChild(sq);
+  }
+}
+
+async function onClick(r,c,board){
+  const vm=sel&&validMoves.find(m=>m.r===r&&m.c===c);
+  if(vm){await doMove(sel,{r,c},board);return;}
+  const p=board[r][c];
+  if(p&&p.c===myColor){sel={r,c};validMoves=getMoves(board,r,c);render(board,true);}
+  else{sel=null;validMoves=[];render(board,true);}
+}
+
+async function doMove(from,to,board){
+  const p=board[from.r][from.c];
+  const cap=board[to.r][to.c];
+  board[to.r][to.c]=p;board[from.r][from.c]=null;
+  if(p.t==='P'&&(to.r===0||to.r===7)) board[to.r][to.c]={t:'Q',c:p.c};
+  sel=null;validMoves=[];
+  if(cap&&cap.t==='K'){
+    gameOver=true;
+    await update(gameRef,{board:JSON.stringify(board),turn:1-seat,winner:seat});
+    showResult('🎉 你赢了！','捕获了对方国王');return;
+  }
+  update(gameRef,{board:JSON.stringify(board),turn:1-seat});
+}
+
+// Also watch for winner set by opponent
+onValue(ref(db,`rooms/${roomId}/chess/winner`),snap=>{
+  if(snap.exists()&&snap.val()===1-seat&&!gameOver){
+    gameOver=true;showResult('💀 你输了','你的国王被捕获');
+  }
+});
+
+function setStatus(s){document.getElementById('status').textContent=s;}
+function showResult(t,s){gameOver=true;document.getElementById('rt').textContent=t;document.getElementById('rs').textContent=s;document.getElementById('result').classList.add('show');}
+</script>
+</body>
+</html>
