@@ -44,6 +44,23 @@ html,body{
   -webkit-user-select:none;user-select:none;
 }
 .tb:hover{background:linear-gradient(180deg,#6a9a5d,#4d7a42);}
+/* Zoom slider */
+#zoom-wrap{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+#zoom-wrap label{color:rgba(255,255,255,.7);font-size:11px;white-space:nowrap;}
+#zoom-slider{
+  -webkit-appearance:none;appearance:none;
+  width:80px;height:4px;border-radius:2px;
+  background:rgba(255,255,255,.25);outline:none;cursor:pointer;
+}
+#zoom-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:14px;height:14px;border-radius:50%;
+  background:#c8a000;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.5);
+}
+#zoom-slider::-moz-range-thumb{
+  width:14px;height:14px;border-radius:50%;border:none;
+  background:#c8a000;cursor:pointer;
+}
+#zoom-val{color:#ffdd80;font-size:11px;min-width:28px;text-align:center;}
 .tb:active,.tb.on{background:linear-gradient(180deg,#3d6a32,#2a4d20);transform:scale(.95);}
 #stats{color:#e8f0e8;font-size:12px;margin-left:auto;display:flex;gap:8px;align-items:center;flex-shrink:0;}
 #tv{color:#ffff80;font-weight:bold;}
@@ -86,6 +103,7 @@ html,body{
   min-width:0;
   display:flex;
   align-items:flex-start;
+  justify-content:center;
   overflow:hidden;
   height:100%;
 }
@@ -240,6 +258,11 @@ html,body{
   <button class="tb on" data-d="1">1色</button>
   <button class="tb" data-d="2">2色</button>
   <button class="tb" data-d="4">4色</button>
+  <div id="zoom-wrap">
+    <label>缩放</label>
+    <input type="range" id="zoom-slider" min="50" max="150" value="100" step="5">
+    <span id="zoom-val">100%</span>
+  </div>
   <div id="stats">
     <span>⏱<span id="tv">0:00</span></span>
     <span>分<span id="sv">500</span></span>
@@ -395,9 +418,9 @@ function calcSizes(){
   const H = window.innerHeight - barH - 12;
 
   const GAP = Math.max(2, Math.floor(W * 0.005));
-  // 10 tab cols + 1 sidebar col + 10 gaps — fill all available width
-  const cwRaw = Math.floor((W - GAP*10) / 11);
-  const CW = Math.max(28, cwRaw); // no upper cap: always fill the screen
+  // 10 tab cols + 1 sidebar col + 10 gaps — fill all available width, scaled by zoom
+  const cwBase = Math.floor((W - GAP*10) / 11);
+  const CW = Math.max(28, Math.round(cwBase * zoomFactor));
   const CH = Math.round(CW * 1.38);
 
   // Base overlap for 6-card reference column
@@ -409,6 +432,7 @@ function calcSizes(){
 
   return {W, H, GAP, CW, CH, OV, RK, SS, CC, barH};
 }
+let zoomFactor = 1.0; // user-controlled zoom
 let SZ=calcSizes();
 
 /* ============================================================
@@ -907,6 +931,15 @@ document.addEventListener('keydown',e=>{
 window.addEventListener('resize',()=>{
   _backCache={};SZ=calcSizes();render();
   if(fwC.style.display!=='none'){fwC.width=window.innerWidth;fwC.height=window.innerHeight;}
+});
+
+// Zoom slider
+$('zoom-slider').addEventListener('input', function(){
+  zoomFactor = this.value / 100;
+  $('zoom-val').textContent = this.value + '%';
+  _backCache={};
+  SZ=calcSizes();
+  render();
 });
 
 buildBackPicker();
