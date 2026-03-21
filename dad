@@ -832,11 +832,11 @@ $('tab').addEventListener('click',e=>{
   }
 });
 
-$('stockp').addEventListener('click',()=>{resumeAC();dealStock();});
+$('stockp').addEventListener('click',()=>{if(drag)return;resumeAC();dealStock();});
 $('btn-new').addEventListener('click',()=>$('ng-dlg').style.display='flex');
-$('btn-auto').addEventListener('click',()=>{resumeAC();autoComplete();});
-$('fab-undo').addEventListener('click',()=>{resumeAC();undo();});
-$('fab-hint').addEventListener('click',()=>{resumeAC();showHint();});
+$('btn-auto').addEventListener('click',()=>{if(drag)return;resumeAC();autoComplete();});
+$('fab-undo').addEventListener('click',()=>{if(drag)return;resumeAC();undo();});
+$('fab-hint').addEventListener('click',()=>{if(drag)return;resumeAC();showHint();});
 document.querySelectorAll('[data-d]').forEach(b=>b.addEventListener('click',function(){G.diff=+this.dataset.d;newGame();}));
 
 /* ============================================================
@@ -846,19 +846,74 @@ document.querySelectorAll('[data-d]').forEach(b=>b.addEventListener('click',func
 /* ============================================================
    DRAG  — completely rewritten for reliable mobile touch
 ============================================================ */
-let drag=null;           // active drag state
-let lastTouchEnd=0;      // prevent ghost click after touchend
+/* ============================================================
+   DRAG — iOS Safari compatible
+   Key rules:
+   1. NEVER call render()/renderTab() while a touch is active
+      (rebuilding DOM kills the touch tracking on iOS)
+   2. Manually dim source cards via direct style, not re-render
+   3. Use e.touches (not changedTouches) for move tracking
+   4. touchmove on document with passive:false to allow preventDefault
+   5. Use requestAnimationFrame for ghost movement
+============================================================ */
+let drag=null;
+let lastTouchEnd=0;
+let ghostRAF=null;
+let pendingX=0, pendingY=0;
 
 function buildGhost(ci,idx){
   const {CW,CH,OV,RK,SS,CC}=SZ;
   const cards=G.cols[ci].slice(idx);
-  const g=$('ghost');g.innerHTML='';
-  g.style.cssText=`display:block;width:${CW}px;height:${CH+(cards.length-1)*OV}px;position:fixed;z-index:9999;pointer-events:none`;
+  const g=$('ghost');
+  g.innerHTML='';
+  g.style.cssText=[
+    'display:block',
+    `width:${CW}px`,
+    `height:${CH+(cards.length-1)*OV}px`,
+    'position:fixed',
+    'z-index:9999',
+    'pointer-events:none',
+    'will-change:transform',
+    'opacity:0.92',
+    'filter:drop-shadow(2px 6px 12px rgba(0,0,0,.6))'
+  ].join(';');
   cards.forEach((card,i)=>{
     const w=document.createElement('div');
     w.style.cssText=`position:absolute;top:${i*OV}px;width:${CW}px`;
     w.appendChild(mkFace(card,ci,idx+i,'',null,CW,CH,RK,SS,CC));
     g.appendChild(w);
+  });
+}
+
+// Dim source card elements directly — no DOM rebuild
+function dimSourceCards(ci,idx){
+  const wrappers=document.querySelectorAll(`#tab .col[data-ci="${ci}"] .coli > div`);
+  wrappers.forEach((w,i)=>{
+    if(i>=idx){
+      const card=w.querySelector('.cf,.cb');
+      if(card) card.style.opacity='0.25';
+    }
+  });
+}
+function undimAll(){
+  document.querySelectorAll('#tab .cf,.cb').forEach(c=>c.style.opacity='');
+}
+
+function placeGhost(x,y){
+  if(!drag)return;
+  const g=$('ghost');
+  // Use transform for smooth 60fps on iOS
+  g.style.left='0px';
+  g.style.top='0px';
+  g.style.transform=`translate(${x-drag.ox}px,${y-drag.oy}px)`;
+}
+
+function scheduleGhostMove(x,y){
+  pendingX=x; pendingY=y;
+  if(ghostRAF)return;
+  ghostRAF=requestAnimationFrame(()=>{
+    ghostRAF=null;
+    placeGhost(pendingX,pendingY);
   });
 }
 
@@ -868,90 +923,91 @@ function startDrag(ci,idx,x,y,touchId){
   G.sel=null;
   const {CW,CH}=SZ;
   buildGhost(ci,idx);
-  drag={ci,idx,ox:CW/2,oy:Math.min(30,CH*.25),id:touchId};
+  drag={ci,idx,ox:CW/2,oy:Math.min(32,CH*.28),id:touchId};
   G.drag={ci,idx};
-  moveDrag(x,y);
-  // render without clearing ghost
-  renderTab(SZ.CW,SZ.CH,SZ.OV,SZ.GAP,SZ.RK,SZ.SS,SZ.CC);
+  placeGhost(x,y);
+  // DO NOT call render() here — it destroys DOM and breaks iOS touch
+  // Instead, dim source cards directly
+  dimSourceCards(ci,idx);
   return true;
 }
 
-function moveDrag(x,y){
-  if(!drag)return;
-  const g=$('ghost');
-  g.style.left=(x-drag.ox)+'px';
-  g.style.top=(y-drag.oy)+'px';
-}
-
 function stopDrag(x,y){
+  if(ghostRAF){ cancelAnimationFrame(ghostRAF); ghostRAF=null; }
   const g=$('ghost');
-  g.style.display='none';  // hide first so elementFromPoint finds the card below
+  g.style.display='none';
+  undimAll();
   if(!drag)return;
   const{ci:fc,idx:fi}=drag;
-  drag=null;G.drag=null;
-  // find the column under the drop point
+  drag=null; G.drag=null;
+  // Find column under finger
   const el=document.elementFromPoint(x,y);
-  const co=el?.closest('.col');
-  const tc=co!=null && co.dataset.ci!=null ? +co.dataset.ci : NaN;
+  const co=el && el.closest('.col');
+  const tc=(co && co.dataset.ci!=null) ? +co.dataset.ci : NaN;
   if(!isNaN(tc) && canPlace(fc,fi,tc)){ doMove(fc,fi,tc); afterMove(); }
   else render();
 }
 
-// Block Safari long-press context menu everywhere in game
-document.addEventListener('contextmenu', e => e.preventDefault());
+// Block Safari long-press context menu
+document.addEventListener('contextmenu', e=>e.preventDefault());
 
 // ---- Mouse ----
 $('tab').addEventListener('mousedown',e=>{
   if(e.button!==0)return;
-  const ce=e.target.closest('.cf');if(!ce)return;
+  const ce=e.target.closest('.cf'); if(!ce)return;
   e.preventDefault();
   startDrag(+ce.dataset.ci,+ce.dataset.idx,e.clientX,e.clientY,-1);
 },{passive:false});
-
 document.addEventListener('mousemove',e=>{
-  if(drag&&drag.id===-1)moveDrag(e.clientX,e.clientY);
+  if(drag&&drag.id===-1) scheduleGhostMove(e.clientX,e.clientY);
 });
 document.addEventListener('mouseup',e=>{
-  if(drag&&drag.id===-1)stopDrag(e.clientX,e.clientY);
+  if(drag&&drag.id===-1) stopDrag(e.clientX,e.clientY);
 });
 
-// ---- Touch ----
+// ---- Touch (iOS Safari safe) ----
 $('tab').addEventListener('touchstart',e=>{
-  e.preventDefault(); // stops scroll AND Safari long-press menu
-  e.stopPropagation();
+  e.preventDefault();   // MUST be first — prevents long-press menu + scroll
   if(drag)return;
   const t=e.changedTouches[0];
+  // Walk up from target to find the face-up card
   const ce=t.target.closest('.cf');
   if(!ce)return;
   startDrag(+ce.dataset.ci,+ce.dataset.idx,t.clientX,t.clientY,t.identifier);
-},{passive:false,capture:false});
+},{passive:false});
 
+// touchmove on document — must be passive:false to call preventDefault
 document.addEventListener('touchmove',e=>{
   if(!drag||drag.id===-1)return;
-  for(const t of e.changedTouches){
-    if(t.identifier===drag.id){
-      e.preventDefault();
-      moveDrag(t.clientX,t.clientY);
-      break;
-    }
+  // Use e.touches to find our finger (more reliable on iOS than changedTouches)
+  let found=null;
+  for(let i=0;i<e.touches.length;i++){
+    if(e.touches[i].identifier===drag.id){ found=e.touches[i]; break; }
   }
+  if(!found)return;
+  e.preventDefault();
+  scheduleGhostMove(found.clientX,found.clientY);
 },{passive:false});
 
 document.addEventListener('touchend',e=>{
   if(!drag||drag.id===-1)return;
-  for(const t of e.changedTouches){
+  for(let i=0;i<e.changedTouches.length;i++){
+    const t=e.changedTouches[i];
     if(t.identifier===drag.id){
       lastTouchEnd=Date.now();
       stopDrag(t.clientX,t.clientY);
-      break;
+      return;
     }
   }
 },{passive:true});
 
 document.addEventListener('touchcancel',e=>{
   if(!drag||drag.id===-1)return;
+  if(ghostRAF){ cancelAnimationFrame(ghostRAF); ghostRAF=null; }
   $('ghost').style.display='none';
-  drag=null;G.drag=null;render();
+  undimAll();
+  drag=null; G.drag=null;
+  render();
 },{passive:true});
 
 /* ============================================================
