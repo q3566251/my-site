@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta charset="UTF-8">
 <title>末日防线 · Doomsday Defense</title>
 <style>
@@ -14,6 +15,76 @@
   --r:12px;--rs:8px;
 }
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;overflow:hidden;height:100vh;display:flex;flex-direction:column;}
+
+/* ── MOBILE BOTTOM DRAWER ── */
+@media(max-width:768px){
+  #diff-screen{padding:20px 12px;}
+  .game-logo h1{font-size:32px}
+  .diff-cards{flex-wrap:wrap;justify-content:center;gap:10px;}
+  .diff-card{width:calc(50% - 8px);padding:16px 12px;}
+  .dc-icon{font-size:28px;margin-bottom:8px}.dc-name{font-size:15px}.dc-info{font-size:10px}
+
+  #hud{padding:0 10px;height:44px;overflow:hidden;}
+  .hstat{padding:0 8px;gap:4px;}
+  .hstat-icon{font-size:13px}.hstat-v{font-size:14px}.hstat-l{display:none}
+  #hud-r{gap:5px;}
+  .hbtn{padding:5px 10px;font-size:11px;}
+  #music-sel{font-size:10px;padding:4px 6px;max-width:80px;}
+
+  #main{flex-direction:column;}
+  #canvas-wrap{flex:1;min-height:0;}
+
+  /* Panel becomes bottom drawer */
+  #panel{
+    position:fixed;bottom:0;left:0;right:0;
+    width:100%;height:auto;max-height:72vh;
+    border-left:none;border-top:1px solid var(--border);
+    border-radius:20px 20px 0 0;
+    transform:translateY(calc(100% - 54px));
+    transition:transform .3s cubic-bezier(.32,.72,0,1);
+    z-index:50;box-shadow:0 -4px 24px rgba(0,0,0,.13);
+    overflow:hidden;display:flex;flex-direction:column;
+  }
+  #panel.open{transform:translateY(0);}
+  #panel-handle{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 16px;cursor:pointer;flex-shrink:0;
+    background:var(--surface);border-radius:20px 20px 0 0;
+    touch-action:none;user-select:none;
+  }
+  #panel-handle-bar{width:36px;height:4px;border-radius:2px;background:var(--text3);margin:0 auto 6px;}
+  #panel-handle-txt{font-size:12px;font-weight:700;color:var(--text2);}
+  #panel-scroll{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;}
+
+  /* Bigger touch targets */
+  .tcard{padding:10px 12px;margin-bottom:6px;}
+  .tc-ic{font-size:22px;width:30px}
+  .tc-nm{font-size:13px}.tc-co{font-size:12px}
+  #upg-tower-btn{padding:12px;font-size:14px;margin-top:10px;}
+  .sell-btn{padding:12px;font-size:14px;}
+
+  /* Mobile merge button */
+  #mobile-merge-btn{display:block;}
+  #mobile-desel-btn{display:block;}
+
+  /* Upgrade overlay mobile */
+  .upg-cards{flex-direction:column;gap:10px;width:100%;padding:0 16px;}
+  .upg-card{width:100%;padding:14px 16px;display:flex;align-items:center;gap:12px;text-align:left;}
+  .ui-ic{font-size:24px;margin-bottom:0;flex-shrink:0}
+  .ui-nm{font-size:13px;margin-bottom:2px}.ui-ds{font-size:10px}.ui-ef{font-size:11px;margin-top:3px}
+  .upg-title{font-size:22px}.upg-sub{font-size:11px}
+
+  /* Infinite choice mobile */
+  .ic-btns{flex-wrap:wrap;justify-content:center;}
+  .ic-btn{padding:12px 20px;font-size:14px;}
+
+  /* Result panel mobile */
+  #result-panel{padding:24px 28px;margin:16px;}
+  .rt{font-size:38px}
+}
+/* Mobile merge/desel buttons hidden on desktop */
+#mobile-merge-btn{display:none;}
+#mobile-desel-btn{display:none;}
 #diff-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:36px;z-index:1000;}
 .game-logo h1{font-size:46px;font-weight:800;letter-spacing:-2px;text-align:center;}
 .game-logo p{font-size:13px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-top:4px;text-align:center;}
@@ -172,6 +243,13 @@ canvas{display:block;}
     </div>
   </div>
   <div id="panel">
+    <div id="panel-handle" onclick="togglePanel()">
+      <div style="flex:1">
+        <div id="panel-handle-bar"></div>
+        <div id="panel-handle-txt">🏗️ 操作面板 · 点击展开</div>
+      </div>
+    </div>
+    <div id="panel-scroll">
     <div class="psec" id="sel-info">
       <div class="ptitle">Selected Tower</div>
       <div class="sel-nm" id="sel-nm">—</div>
@@ -181,8 +259,10 @@ canvas{display:block;}
       <div class="sel-row"><span class="sel-lbl">Kills</span><span class="sel-val" id="sel-kl">—</span></div>
       <div class="sel-row"><span class="sel-lbl">Upgrade</span><span class="sel-val" id="sel-ulv">—</span></div>
       <button id="upg-tower-btn" onclick="upgradeTower()">升级 (50💰) → Lv2</button>
-      <div id="merge-hint">⚡ Click another tower to merge</div>
+      <button id="mobile-merge-btn" onclick="startMergeMode()" style="width:100%;margin-top:6px;padding:12px;border-radius:8px;border:none;background:rgba(255,214,10,.15);color:#a07800;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">⚡ 选择合成目标</button>
+      <div id="merge-hint">⚡ 点击另一个同类塔合成</div>
       <button class="sell-btn" onclick="sellSel()">Sell (×0.6)</button>
+      <button id="mobile-desel-btn" onclick="deselAll()" style="width:100%;margin-top:6px;padding:10px;border-radius:8px;border:none;background:rgba(0,0,0,.06);color:var(--text2);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;">✕ 取消选择</button>
     </div>
     <div class="psec">
       <div class="ptitle">Deploy Towers</div>
@@ -197,7 +277,7 @@ canvas{display:block;}
       <div class="guide-txt">
         Panel → place tower<br>
         Tower → select / upgrade / merge<br>
-        Right-click → deselect<br>
+        Right-click / ✕ → deselect<br>
         ★+★ same type = Merge<br>
         🔮 Hidden: Laser+Electric<br>
         ⚡❄ Hidden: Ice+Electric
@@ -206,6 +286,7 @@ canvas{display:block;}
     <div class="psec" style="background:rgba(255,214,10,.07);">
       <div style="font-size:10px;color:#a07800;line-height:1.8;">⚠️ 注意：两个1★合成2★后攻击力可能反而变低，合成前先对比伤害数值再决定！</div>
     </div>
+    </div><!-- panel-scroll -->
   </div>
 </div>
 
@@ -1036,7 +1117,7 @@ function buildTList(){
     d.onclick=()=>selType(k);el.appendChild(d);
   }
 }
-function selType(k){G.selK=G.selK===k?null:k;G.selT=null;G.mergeA=null;document.getElementById('sel-info').style.display='none';document.getElementById('merge-hint').style.display='none';buildTList();}
+function selType(k){G.selK=G.selK===k?null:k;G.selT=null;G.mergeA=null;document.getElementById('sel-info').style.display='none';document.getElementById('merge-hint').style.display='none';buildTList();if(G.selK&&isMobile()) togglePanel(false);}
 function selTower(t){
   if(G.mergeA&&G.mergeA!==t){
     const ak=TD[G.mergeA.k].cat,bk=TD[t.k].cat;
@@ -1045,7 +1126,7 @@ function selTower(t){
     else flt(t.c*CELL+CELL/2,t.r*CELL+CELL/2-20,'无法合成','#ff3b30',14);
     G.mergeA=null;G.selT=null;
     document.getElementById('sel-info').style.display='none';document.getElementById('merge-hint').style.display='none';
-  } else {G.selT=t;G.mergeA=t;showTInfo(t);document.getElementById('merge-hint').style.display='block';}
+  } else {G.selT=t;G.mergeA=t;showTInfo(t);document.getElementById('merge-hint').style.display='block';document.getElementById('merge-hint').textContent=isMobile()?'⚡ 点击「选择合成目标」按钮':'⚡ 点击另一个同类塔合成';maybeOpenPanel();}
   buildTList();
 }
 function doMerge(a,b,res){
@@ -1205,6 +1286,32 @@ function togglePause(){
   if(_paused) stopMusic();
   else if(sel&&sel.value!=='off') startMusicLoop(sel.value);
 }
+
+// ── MOBILE PANEL ─────────────────────────────────────────────────
+const isMobile=()=>window.innerWidth<=768;
+let _panelOpen=false;
+function togglePanel(forceOpen){
+  _panelOpen = forceOpen!==undefined ? forceOpen : !_panelOpen;
+  const p=document.getElementById('panel');
+  p.classList.toggle('open',_panelOpen);
+  const txt=document.getElementById('panel-handle-txt');
+  if(txt) txt.textContent=_panelOpen?'🏗️ 操作面板 · 点击收起':'🏗️ 操作面板 · 点击展开';
+}
+function startMergeMode(){
+  if(!G.selT) return;
+  G.mergeA=G.selT;
+  document.getElementById('merge-hint').style.display='block';
+  document.getElementById('merge-hint').textContent='⚡ 现在点击地图上另一个同类塔合成';
+  if(isMobile()) togglePanel(false); // close panel so user can see map
+}
+function deselAll(){
+  G.selK=null;G.selT=null;G.mergeA=null;
+  document.getElementById('sel-info').style.display='none';
+  document.getElementById('merge-hint').style.display='none';
+  buildTList();
+}
+// Auto-open panel when tower selected on mobile
+function maybeOpenPanel(){if(isMobile()) togglePanel(true);}
 
 function toggleSpd(){G.spd=G.spd===1?2:G.spd===2?3:1;document.getElementById('spd-btn').textContent=`${G.spd}× Speed`;}
 function updateUI(){
