@@ -12,8 +12,10 @@ html,body{
   font-family:Arial,sans-serif;
   touch-action:none;
   -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  user-select:none;
   background:#2a6b22;
-  /* safe area for notch phones */
   padding-left:env(safe-area-inset-left);
   padding-right:env(safe-area-inset-right);
 }
@@ -70,6 +72,7 @@ html,body{
 /* ===== GAME WRAPPER ===== */
 #game{
   position:fixed;
+  -webkit-touch-callout:none;
   top:44px;
   left:max(6px, env(safe-area-inset-left));
   right:6px;
@@ -106,6 +109,7 @@ html,body{
   justify-content:center;
   overflow:hidden;
   height:100%;
+  touch-action:none;
 }
 .col{position:relative;flex-shrink:0;height:100%;}
 .coli{position:relative;}
@@ -132,6 +136,7 @@ html,body{
   box-shadow:1px 2px 4px rgba(0,0,0,.3);
   cursor:pointer;
   -webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none;
 }
 .cf:hover{box-shadow:1px 2px 8px rgba(0,0,0,.5);}
 .cf.sel{background:#f0ffff!important;box-shadow:0 0 0 3px #00e5ff,0 0 12px rgba(0,229,255,.6)!important;}
@@ -753,14 +758,16 @@ function renderTab(CW,CH,OV,GAP,RK,SS,CC){
       else if(isHintDst){ep.style.setProperty('--hc',hc);ep.style.borderColor=hc;ep.style.boxShadow=`0 0 14px ${hc}88`;ep.style.animation='hborder .6s ease-in-out infinite alternate';}
       ep.dataset.ci=c;inn.appendChild(ep);
     }else{
-      // Equal height: compute per-column overlap from reference
-      // Compute overlap: equal-height reference, but ensure rank is always visible
-      // Minimum visible strip = RK + 6px so rank number never hidden
-      const minVis = RK + 6;
-      // Available height for the whole column stack
-      const availColH = Math.min(SZ.H - 10, REF_H);
-      const rawOv = col.length <= 1 ? 0 : Math.floor((availColH - CH) / (col.length - 1));
-      const colOv = Math.max(minVis, rawOv);
+      // Overlap rules:
+      // 1. Never let totalH exceed available column space (SZ.H - 16)
+      // 2. Always show at least RK+4 px of each card (rank visible)
+      // 3. Try to keep all columns same visual height (REF_H)
+      const maxH   = SZ.H - 16;             // hard cap — never overflows screen
+      const minVis = Math.max(RK + 4, 16);  // always show rank number
+      const refOv  = col.length <= 1 ? 0 : Math.floor((REF_H - CH) / (col.length - 1));
+      const maxOv  = col.length <= 1 ? 0 : Math.floor((maxH  - CH) / (col.length - 1));
+      // clamp: at least minVis, at most maxOv so nothing overflows
+      const colOv  = col.length <= 1 ? 0 : Math.min(maxOv, Math.max(minVis, refOv));
       const totalH = CH + (col.length-1)*colOv;
       inn.style.cssText=`width:${CW}px;height:${totalH}px;position:relative`;
 
@@ -795,21 +802,34 @@ function renderTab(CW,CH,OV,GAP,RK,SS,CC){
    CLICK
 ============================================================ */
 $('tab').addEventListener('click',e=>{
-  if(G.drag)return;resumeAC();
-  const ce=e.target.closest('.cf'),ee=e.target.closest('[data-ci].coli ~ *,[data-ci]'),co=e.target.closest('.col');
-  const tcEl=e.target.closest('[data-ci]');
-  const tc=tcEl?+tcEl.dataset.ci:NaN;
+  if(G.drag)return;
+  if(Date.now()-lastTouchEnd<350)return;
+  resumeAC();
+  // Find what was clicked: a face-up card or a column target
+  const ce = e.target.closest('.cf');       // face-up card
+  const co = e.target.closest('.col');      // any column area
+  const tc = co ? +co.dataset.ci : NaN;
+
   if(G.sel){
     const{ci:fc,idx:fi}=G.sel;
-    if(!isNaN(tc)&&canPlace(fc,fi,tc)){G.sel=null;doMove(fc,fi,tc);afterMove();return;}
-    if(ce){
-      const c2=+ce.dataset.ci,i2=+ce.dataset.idx;
-      if(c2===fc&&i2===fi){G.sel=null;render();return;}
-      if(canLift(c2,i2)){G.sel={ci:c2,idx:i2};render();return;}
+    // Drop onto column (empty slot or top of stack)
+    if(!isNaN(tc) && canPlace(fc,fi,tc)){
+      G.sel=null; doMove(fc,fi,tc); afterMove(); return;
     }
-    G.sel=null;render();return;
+    // Click on a face-up card
+    if(ce){
+      const c2=+ce.dataset.ci, i2=+ce.dataset.idx;
+      if(c2===fc && i2===fi){ G.sel=null; render(); return; } // deselect
+      if(canLift(c2,i2)){ G.sel={ci:c2,idx:i2}; render(); return; } // re-select
+    }
+    // Clicked empty space — deselect
+    G.sel=null; render(); return;
   }
-  if(ce){const ci=+ce.dataset.ci,idx=+ce.dataset.idx;if(canLift(ci,idx)){G.sel={ci,idx};render();}}
+  // No selection: select clicked card
+  if(ce){
+    const ci=+ce.dataset.ci, idx=+ce.dataset.idx;
+    if(canLift(ci,idx)){ G.sel={ci,idx}; render(); }
+  }
 });
 
 $('stockp').addEventListener('click',()=>{resumeAC();dealStock();});
@@ -822,80 +842,117 @@ document.querySelectorAll('[data-d]').forEach(b=>b.addEventListener('click',func
 /* ============================================================
    DRAG — fixed for mobile: use capture phase, track by identifier
 ============================================================ */
-let drag=null; // {ci,idx,ox,oy,id}
 
-function begDrag(ci,idx,x,y,id){
-  if(!canLift(ci,idx))return false;
-  resumeAC();G.sel=null;
+/* ============================================================
+   DRAG  — completely rewritten for reliable mobile touch
+============================================================ */
+let drag=null;           // active drag state
+let lastTouchEnd=0;      // prevent ghost click after touchend
+
+function buildGhost(ci,idx){
   const {CW,CH,OV,RK,SS,CC}=SZ;
   const cards=G.cols[ci].slice(idx);
   const g=$('ghost');g.innerHTML='';
-  g.style.cssText=`display:block;width:${CW}px;height:${CH+(cards.length-1)*OV}px`;
+  g.style.cssText=`display:block;width:${CW}px;height:${CH+(cards.length-1)*OV}px;position:fixed;z-index:9999;pointer-events:none`;
   cards.forEach((card,i)=>{
-    const w=document.createElement('div');w.style.cssText=`position:absolute;top:${i*OV}px;width:${CW}px`;
-    w.appendChild(mkFace(card,ci,idx+i,'',null,CW,CH,RK,SS,CC));g.appendChild(w);
+    const w=document.createElement('div');
+    w.style.cssText=`position:absolute;top:${i*OV}px;width:${CW}px`;
+    w.appendChild(mkFace(card,ci,idx+i,'',null,CW,CH,RK,SS,CC));
+    g.appendChild(w);
   });
-  drag={ci,idx,ox:CW/2,oy:28,id};
+}
+
+function startDrag(ci,idx,x,y,touchId){
+  if(!canLift(ci,idx))return false;
+  resumeAC();
+  G.sel=null;
+  const {CW,CH}=SZ;
+  buildGhost(ci,idx);
+  drag={ci,idx,ox:CW/2,oy:Math.min(30,CH*.25),id:touchId};
   G.drag={ci,idx};
-  mvDrag(x,y);render();
+  moveDrag(x,y);
+  // render without clearing ghost
+  renderTab(SZ.CW,SZ.CH,SZ.OV,SZ.GAP,SZ.RK,SZ.SS,SZ.CC);
   return true;
 }
-function mvDrag(x,y){
+
+function moveDrag(x,y){
+  if(!drag)return;
   const g=$('ghost');
   g.style.left=(x-drag.ox)+'px';
   g.style.top=(y-drag.oy)+'px';
 }
-function endDrag(x,y){
-  $('ghost').style.display='none';
+
+function stopDrag(x,y){
+  const g=$('ghost');
+  g.style.display='none';  // hide first so elementFromPoint finds the card below
   if(!drag)return;
-  const{ci:fc,idx:fi}=drag;drag=null;G.drag=null;
-  // find drop target
+  const{ci:fc,idx:fi}=drag;
+  drag=null;G.drag=null;
+  // find the column under the drop point
   const el=document.elementFromPoint(x,y);
   const co=el?.closest('.col');
-  const tc=co?+co.dataset.ci:NaN;
-  if(!isNaN(tc)&&canPlace(fc,fi,tc)){doMove(fc,fi,tc);afterMove();}
+  const tc=co!=null && co.dataset.ci!=null ? +co.dataset.ci : NaN;
+  if(!isNaN(tc) && canPlace(fc,fi,tc)){ doMove(fc,fi,tc); afterMove(); }
   else render();
 }
 
-// Mouse
+// Block Safari long-press context menu everywhere in game
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+// ---- Mouse ----
 $('tab').addEventListener('mousedown',e=>{
+  if(e.button!==0)return;
   const ce=e.target.closest('.cf');if(!ce)return;
   e.preventDefault();
-  begDrag(+ce.dataset.ci,+ce.dataset.idx,e.clientX,e.clientY,-1);
+  startDrag(+ce.dataset.ci,+ce.dataset.idx,e.clientX,e.clientY,-1);
 },{passive:false});
-document.addEventListener('mousemove',e=>{if(drag)mvDrag(e.clientX,e.clientY);});
-document.addEventListener('mouseup',e=>{if(drag)endDrag(e.clientX,e.clientY);});
 
-// Touch — use passive:false so we can preventDefault on move only
+document.addEventListener('mousemove',e=>{
+  if(drag&&drag.id===-1)moveDrag(e.clientX,e.clientY);
+});
+document.addEventListener('mouseup',e=>{
+  if(drag&&drag.id===-1)stopDrag(e.clientX,e.clientY);
+});
+
+// ---- Touch ----
 $('tab').addEventListener('touchstart',e=>{
+  e.preventDefault(); // stops scroll AND Safari long-press menu
+  e.stopPropagation();
   if(drag)return;
   const t=e.changedTouches[0];
-  const ce=document.elementFromPoint(t.clientX,t.clientY)?.closest('.cf');
+  const ce=t.target.closest('.cf');
   if(!ce)return;
-  const started=begDrag(+ce.dataset.ci,+ce.dataset.idx,t.clientX,t.clientY,t.identifier);
-  if(started)e.preventDefault();
-},{passive:false});
+  startDrag(+ce.dataset.ci,+ce.dataset.idx,t.clientX,t.clientY,t.identifier);
+},{passive:false,capture:false});
 
 document.addEventListener('touchmove',e=>{
-  if(!drag)return;
+  if(!drag||drag.id===-1)return;
   for(const t of e.changedTouches){
-    if(t.identifier===drag.id||drag.id===-1){
+    if(t.identifier===drag.id){
       e.preventDefault();
-      mvDrag(t.clientX,t.clientY);
+      moveDrag(t.clientX,t.clientY);
       break;
     }
   }
 },{passive:false});
 
 document.addEventListener('touchend',e=>{
-  if(!drag)return;
+  if(!drag||drag.id===-1)return;
   for(const t of e.changedTouches){
-    if(t.identifier===drag.id||drag.id===-1){
-      endDrag(t.clientX,t.clientY);break;
+    if(t.identifier===drag.id){
+      lastTouchEnd=Date.now();
+      stopDrag(t.clientX,t.clientY);
+      break;
     }
   }
-});
-document.addEventListener('touchcancel',()=>{if(drag){$('ghost').style.display='none';drag=null;G.drag=null;render();}});
+},{passive:true});
+
+document.addEventListener('touchcancel',e=>{
+  if(!drag||drag.id===-1)return;
+  $('ghost').style.display='none';
+  drag=null;G.drag=null;render();
+},{passive:true});
 
 /* ============================================================
    BACK PICKER
