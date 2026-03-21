@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>蜘蛛纸牌</title>
+<!-- PWA: run fullscreen when added to iPhone home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="蜘蛛纸牌">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2a6b22">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{
@@ -18,6 +24,32 @@ html,body{
   background:#2a6b22;
   padding-left:env(safe-area-inset-left);
   padding-right:env(safe-area-inset-right);
+}
+
+/* ===== FULLSCREEN BANNER ===== */
+#fs-banner{
+  position:fixed;bottom:0;left:0;right:0;
+  background:linear-gradient(135deg,#1a4a10ee,#0d2a08ee);
+  border-top:1px solid #c8a000;
+  padding:10px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;z-index:2000;
+  animation:slideUp .4s ease;
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+#fs-banner p{color:#e8f0e8;font-size:13px;line-height:1.4;flex:1;}
+#fs-banner p b{color:#ffdd60;}
+#fs-banner .fs-btns{display:flex;gap:8px;flex-shrink:0;}
+#fs-banner .fs-btn{
+  background:linear-gradient(180deg,#5a8a4d,#3d6a32);
+  border:1px solid #1a3a10;color:#fff;
+  padding:6px 14px;border-radius:5px;
+  cursor:pointer;font-size:12px;font-weight:bold;
+  white-space:nowrap;
+}
+#fs-banner .fs-close{
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.2);
 }
 
 /* ===== TOOLBAR ===== */
@@ -301,6 +333,14 @@ html,body{
   <h2>🎉 恭喜胜利！</h2>
   <p id="win-msg"></p>
   <button class="tb" onclick="hide('win-banner')">关闭</button>
+</div>
+
+<!-- Fullscreen suggestion banner -->
+<div id="fs-banner" style="display:none">
+  <p>📱 <b>全屏游戏体验：</b><br>点击 Safari 分享按钮 → "添加到主屏幕"，即可全屏无广告畅玩！</p>
+  <div class="fs-btns">
+    <button class="fs-btn fs-close" onclick="dismissBanner()">✕ 关闭</button>
+  </div>
 </div>
 
 <canvas id="fw-canvas"></canvas>
@@ -1057,6 +1097,39 @@ $('zoom-slider').addEventListener('input', function(){
 
 buildBackPicker();
 newGame();
+
+/* ============================================================
+   FULLSCREEN / PWA BANNER
+============================================================ */
+(function(){
+  // Check if already running as PWA (added to home screen)
+  const isStandalone = window.navigator.standalone === true
+    || window.matchMedia('(display-mode: standalone)').matches;
+
+  if(isStandalone){
+    // Running fullscreen — no banner needed, game fills screen perfectly
+    return;
+  }
+
+  // Show banner on iOS Safari after 3 seconds (only once per session)
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isSafari = /safari/i.test(navigator.userAgent) && !/chrome|chromium|crios|fxios/i.test(navigator.userAgent);
+  const dismissed = sessionStorage.getItem('fs-banner-dismissed');
+
+  if(isIOS && isSafari && !dismissed){
+    setTimeout(()=>{
+      $('fs-banner').style.display='flex';
+      // Shrink game area so banner doesn't cover cards
+      $('game').style.bottom = '70px';
+    }, 3000);
+  }
+})();
+
+function dismissBanner(){
+  $('fs-banner').style.display='none';
+  $('game').style.bottom = 'max(6px, env(safe-area-inset-bottom))';
+  sessionStorage.setItem('fs-banner-dismissed','1');
+}
 </script>
 </body>
 </html>
