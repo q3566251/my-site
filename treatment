@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心理辅导技术全手册</title>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --surface2: #f5f5f7;
+    --border: #d2d2d7;
+    --border-light: #e8e8ed;
+    --accent1: #0071e3;
+    --accent2: #34aadc;
+    --accent3: #ff6b6b;
+    --accent4: #30d158;
+    --accent5: #ff9f0a;
+    --text: #1d1d1f;
+    --text-muted: #6e6e73;
+    --text-dim: #aeaeb2;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HEADER */
+  header {
+    padding: 52px 0 36px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-light);
+  }
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .header-tag {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent1);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  h1 {
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  h1 span { color: var(--accent1); }
+  .header-sub {
+    margin-top: 10px;
+    color: var(--text-muted);
+    font-size: 15px;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  /* NAV TABS */
+  nav {
+    display: flex;
+    gap: 4px;
+    padding: 14px 0;
+    background: rgba(245,245,247,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-light);
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 6px 14px;
+    border-radius: 980px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+    -webkit-font-smoothing: antialiased;
+  }
+  .tab:hover { color: var(--text); background: rgba(0,0,0,0.05); }
+  .tab.active {
+    background: var(--accent1);
+    color: #fff;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 40px 80px;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* SECTION HEADER */
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
+    line-height: 1.6;
+  }
+
+  /* CARD GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .grid-wide { display: grid; grid-template-columns: 1fr; gap: 14px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px;
+    transition: box-shadow 0.2s ease;
+  }
+  .card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 980px;
+    font-weight: 600;
+  }
+  .label-cbt { background: rgba(52,170,220,0.12); color: #0077b5; }
+  .label-dbt { background: rgba(255,107,107,0.12); color: #d63031; }
+  .label-behav { background: rgba(48,209,88,0.12); color: #00a65a; }
+  .label-exist { background: rgba(255,159,10,0.12); color: #c87000; }
+  .label-family { background: rgba(0,113,227,0.10); color: var(--accent1); }
+  .label-inter { background: rgba(175,82,222,0.12); color: #7b2d8b; }
+  .label-social { background: rgba(48,209,88,0.10); color: #00875a; }
+  .label-life { background: rgba(255,149,0,0.12); color: #b05c00; }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .card-en {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    font-weight: 400;
+    font-style: italic;
+  }
+  .card-body {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* TECHNIQUE ROW */
+  .tech-row {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: 190px 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+    transition: box-shadow 0.15s ease;
+  }
+  .tech-row:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  @media (max-width: 700px) {
+    .tech-row { grid-template-columns: 1fr; }
+    .nav-inner { padding: 0 20px; }
+    main { padding: 24px 20px 60px; }
+    .header-inner { padding: 0 20px; }
+  }
+  .tech-name {
+    font-size: 13.5px;
+    color: var(--accent1);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .tech-what { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; }
+  .tech-how { font-size: 12.5px; color: var(--text); line-height: 1.6; }
+
+  /* STAGE TIMELINE */
+  .timeline {
+    display: flex;
+    gap: 0;
+    margin: 20px 0;
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+  }
+  .stage {
+    flex: 1;
+    min-width: 130px;
+    padding: 16px 14px;
+    background: var(--surface);
+    border-right: 1px solid var(--border-light);
+  }
+  .stage:last-child { border-right: none; }
+  .stage-num {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-bottom: 5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .stage-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent1);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .stage-desc { font-size: 11.5px; color: var(--text-muted); line-height: 1.65; }
+
+  /* DEFENSE TABLE */
+  .def-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+  .def-card {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    border-left: 3px solid rgba(255,107,107,0.5);
+  }
+  .def-name {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 14px;
+    margin-bottom: 3px;
+    letter-spacing: -0.01em;
+  }
+  .def-en { font-size: 11px; color: var(--text-dim); margin-bottom: 7px; font-style: italic; }
+  .def-ex { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; }
+
+  /* SCENARIO BLOCK */
+  .scenario {
+    background: rgba(52,170,220,0.06);
+    border-left: 3px solid var(--accent2);
+    padding: 14px 18px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin: 12px 0;
+    font-size: 13.5px;
+  }
+  .scenario-label {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--accent2);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* STEP LIST */
+  .steps { list-style: none; counter-reset: step; }
+  .steps li {
+    counter-increment: step;
+    padding: 10px 0 10px 36px;
+    position: relative;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    font-size: 11px;
+    color: var(--accent1);
+    top: 12px;
+    font-weight: 600;
+  }
+
+  /* TAG */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border-light);
+    border-radius: 980px;
+    color: var(--text-muted);
+    margin: 2px;
+    font-weight: 500;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: rgba(0,113,227,0.05);
+    border: 1px solid rgba(0,113,227,0.18);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .highlight-title {
+    font-size: 10px;
+    color: var(--accent1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+    font-weight: 600;
+  }
+  .highlight p { font-size: 13.5px; color: var(--text-muted); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin: 20px 0 10px;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border-light);
+    margin: 24px 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-tag">Psychology · Techniques · Reference</div>
+    <h1>心理辅导 <span>技术全手册</span></h1>
+    <p class="header-sub">面向现实生活的心理技术索引 — 从认知重构到家庭疗法，从防御机制到当下觉察</p>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <button class="tab active" onclick="show('cbt',this)">01 CBT</button>
+    <button class="tab" onclick="show('dbt',this)">02 DBT</button>
+    <button class="tab" onclick="show('emdr',this)">03 EMDR</button>
+    <button class="tab" onclick="show('psychodyn',this)">04 Psychodynamic</button>
+    <button class="tab" onclick="show('social',this)">05 社交修复</button>
+    <button class="tab" onclick="show('family',this)">06 家庭治疗</button>
+    <button class="tab" onclick="show('herennow',this)">07 当下觉察</button>
+    <button class="tab" onclick="show('vuln',this)">08 脆弱的力量</button>
+    <button class="tab" onclick="show('behavioral',this)">09 行为技术</button>
+    <button class="tab" onclick="show('thought',this)">10 思维过程</button>
+    <button class="tab" onclick="show('stages',this)">11 跨理论阶段</button>
+    <button class="tab" onclick="show('defense',this)">12 防御机制</button>
+    <button class="tab" onclick="show('alltech',this)">13 全技术索引</button>
+    <button class="tab" onclick="show('dsm5',this)">14 DSM-5 × TX</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ====== 01 CBT ====== -->
+<div id="cbt" class="section active">
+  <div class="section-title">CBT 认知行为治疗</div>
+  <div class="section-desc">Aaron Beck 认知模型 — 核心：识别扭曲思维 → 挑战 → 重构。适合：MDD、GAD、饮食障碍、物质滥用</div>
+
+  <div class="highlight">
+    <div class="highlight-title">为什么选 CBT？When to use CBT</div>
+    <p><b>CBT 的核心假设：</b>情绪和行为问题，来源于<b>扭曲的思维模式</b>，而不是事件本身。改变思维 → 改变情绪 → 改变行为。<br><br>
+    <b>选 CBT 的信号：</b>来访者有明显的负面自动思维、灾难化、全有全无思维；症状集中在焦虑/抑郁/进食/物质；有能力做认知反思；希望有结构性、目标导向的治疗。<br><br>
+    <b>不适合 CBT 的情况：</b>严重创伤（先做 EMDR/DBT 稳定化）、人格障碍根深蒂固图式（需 Schema Therapy）、情绪调节极度困难（先 DBT）、BPD 情绪风暴期。</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-cbt">核心技术</div>
+      <div class="card-title">思维记录表</div>
+      <div class="card-en">Thought Record / Dysfunctional Thought Journal</div>
+      <div class="card-body">
+        <b>做法：</b>5栏：情境 → 自动思维 → 情绪(0-100%) → 认知扭曲类型 → 替代思维<br><br>
+        <b>现实场景：</b>被老板批评后，写下"他觉得我没用"→ 识别为 <span class="tag">读心术</span><span class="tag">全有全无</span> → 替代："他指出了这个项目的问题，不代表我整个人"
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-cbt">核心技术</div>
+      <div class="card-title">去灾难化</div>
+      <div class="card-en">Decatastrophizing</div>
+      <div class="card-body">
+        问自己三个问题：<br>
+        1. <b>最坏会怎样？</b>（能承受吗？）<br>
+        2. <b>最好会怎样？</b><br>
+        3. <b>最可能是什么？</b><br><br>
+        <b>场景：</b>"这次演讲搞砸了，我的职业生涯完了" → 去灾难化："最坏是这次项目受影响，但不是职业终结"
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-cbt">认知扭曲清单</div>
+      <div class="card-title">14种常见认知扭曲</div>
+      <div class="card-en">Cognitive Distortions</div>
+      <div class="card-body">
+        <span class="tag">全有全无 All-or-Nothing</span>
+        <span class="tag">过度概括 Overgeneralization</span>
+        <span class="tag">心理过滤 Mental Filter</span>
+        <span class="tag">否定正面 Disqualify Positive</span>
+        <span class="tag">读心术 Mind Reading</span>
+        <span class="tag">算命 Fortune Telling</span>
+        <span class="tag">灾难化 Catastrophizing</span>
+        <span class="tag">情绪化推理 Emotional Reasoning</span>
+        <span class="tag">应该陈述 Should Statements</span>
+        <span class="tag">贴标签 Labeling</span>
+        <span class="tag">个人化 Personalization</span>
+        <span class="tag">放大缩小 Magnification</span>
+        <span class="tag">跳结论 Jumping to Conclusions</span>
+        <span class="tag">双重标准 Double Standard</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-cbt">REBT</div>
+      <div class="card-title">ABCDE 模型</div>
+      <div class="card-en">Ellis Rational Emotive Behavior Therapy</div>
+      <div class="card-body">
+        <b>A</b> — Activating Event 触发事件<br>
+        <b>B</b> — Belief 非理性信念（"我必须被所有人喜欢"）<br>
+        <b>C</b> — Consequence 情绪/行为结果<br>
+        <b>D</b> — Dispute 挑战非理性信念<br>
+        <b>E</b> — Effect 建立新的有效信念<br><br>
+        <b>关键词：</b><span class="tag">Musterbation</span> — "必须""应该"的执念
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-cbt">行为实验</div>
+      <div class="card-title">行为实验</div>
+      <div class="card-en">Behavioral Experiment</div>
+      <div class="card-body">
+        把想法当假设去验证，而非事实。<br><br>
+        <b>步骤：</b>写下预测（"如果我说了，他们一定会笑我"）→ 设计小实验 → 执行 → 观察真实结果 → 更新信念<br><br>
+        <b>场景：</b>社交焦虑者预测"我一开口大家都会尴尬" → 在低风险场合尝试 → 发现大部分人反应正常
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-cbt">Schema</div>
+      <div class="card-title">图式识别</div>
+      <div class="card-en">Early Maladaptive Schema</div>
+      <div class="card-body">
+        小时候形成的核心信念：<br>
+        <span class="tag">被遗弃图式</span><span class="tag">不值得被爱</span><span class="tag">我是有缺陷的</span><br><br>
+        <b>自问：</b>"这个感受是现在的，还是从小就有的？"<br>
+        "我现在的反应，是在回应眼前的人，还是在回应过去？"
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 02 社交修复 ====== -->
+<div id="social" class="section">
+  <div class="section-title">社交修复技术</div>
+  <div class="section-desc">承认错误、赞美技术、如何在外人面前优雅地处理失误，保全关系与自尊</div>
+
+  <div class="highlight">
+    <div class="highlight-title">你的场景：承认错误 + 美化 + 赞美对方</div>
+    <p>核心结构：<b>承认错误（具体化）→ 赞美对方（真诚具体）→ 承上启下（转移焦点到对方）→ 自我确认（不崩溃）</b></p>
+  </div>
+
+  <div class="grid-wide">
+    <div class="card">
+      <div class="card-label label-social">错误修复公式</div>
+      <div class="card-title">社交失误修复三步法</div>
+      <div class="card-en">Repair Attempt + Positive Regard + Redirect</div>
+      <div class="card-body">
+        <div class="scenario">
+          <div class="scenario-label">你的具体场景 — 没认出照片里的人</div>
+          "啊，真的吗！我一直觉得照片根本没拍出你的感觉——你现在站在这里比照片上气场强太多了。照片真的委屈你了。"
+        </div>
+        <ul class="steps">
+          <li><b>承认失误（模糊化）：</b>不说"我没认出你"，而说"照片限制了我对你的印象"——把错误的原因外化到第三方（照片）</li>
+          <li><b>真诚赞美（具体化）：</b>夸一个对方能感受到的特质，"气场"比"漂亮"更有力，因为它强调存在感</li>
+          <li><b>转移焦点到对方：</b>"你真的比照片上有感觉太多了"——让对方成为主角，失误变成衬托</li>
+          <li><b>内心确认（自我对话）：</b>事后告诉自己："我做了一个优雅的处理，而不是只有失误"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-social">Person-Centered</div>
+      <div class="card-title">无条件积极关注 + 反映技术</div>
+      <div class="card-en">Unconditional Positive Regard + Reflection (Rogers)</div>
+      <div class="card-body">
+        在社交中建立连接的基础技术：<br><br>
+        <b>反映（Reflection）：</b>重复对方说的感受，而不是内容<br>
+        对方："最近好累" → <b>错误：</b>"那你要好好休息" → <b>正确：</b>"听起来你承受了很多，是什么让你这么累？"<br><br>
+        <b>无条件接纳：</b>在对方说出你不认同的事时，先接纳情绪，再处理内容<br>
+        <span class="tag">OARS技术</span>
+        Open Questions 开放式提问 /
+        Affirmations 肯定 /
+        Reflections 反映 /
+        Summarizations 总结
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-social">MI 动机访谈</div>
+      <div class="card-title">Reframing 重构</div>
+      <div class="card-en">Reframing / Affirmation</div>
+      <div class="card-body">
+        把一个负面陈述重新框架为积极视角：<br><br>
+        对方："我就是太敏感了" → 你："你的敏感说明你感受力很强，这其实是一种深度的能力"<br><br>
+        <b>自我重构：</b>当你犯错时，不说"我真蠢"，说"我在这个点上有盲区，这很正常，我下次会注意"<br><br>
+        <span class="tag">Self-Efficacy 自我效能</span><span class="tag">Autonomy 自主性</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-social">DBT 人际效能</div>
+      <div class="card-title">DEAR MAN 沟通技术</div>
+      <div class="card-en">DBT Interpersonal Effectiveness</div>
+      <div class="card-body">
+        <b>D</b>escribe 描述事实（不评判）<br>
+        <b>E</b>xpress 表达感受（用"我感到…"）<br>
+        <b>A</b>ssert 明确请求<br>
+        <b>R</b>einforce 说明对对方的好处<br>
+        <b>M</b>indful 保持专注目标<br>
+        <b>A</b>ppear confident 表现自信<br>
+        <b>N</b>egotiate 协商<br><br>
+        <b>场景：</b>想让对方道歉但不想激化冲突 → 用DEAR MAN结构化表达
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 03 家庭治疗 ====== -->
+<div id="family" class="section">
+  <div class="section-title">家庭治疗技术</div>
+  <div class="section-desc">Structural, Functional, Satir, Experiential — 小技术在家庭关系中的实际应用</div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-family">Minuchin</div>
+      <div class="card-title">结构家庭疗法</div>
+      <div class="card-en">Structural Family Therapy</div>
+      <div class="card-body">
+        核心概念：<span class="tag">界限 Boundaries</span><span class="tag">层级 Hierarchy</span><span class="tag">子系统 Subsystems</span><br><br>
+        <b>Joining（加入）：</b>治疗师先进入家庭系统，而不是站在外面评判<br>
+        <b>Boundary Making：</b>帮助恢复清晰的角色界限<br>
+        <b>Unbalancing：</b>打破原有僵化的权力结构<br><br>
+        <b>生活应用：</b>发现自己和父母"像朋友"而不是父子/母女 → 有意识地重建角色清晰度
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-family">Virginia Satir</div>
+      <div class="card-title">家庭雕塑 + 沟通姿态</div>
+      <div class="card-en">Family Sculpting + Communication Stances</div>
+      <div class="card-body">
+        5种沟通姿态：<br>
+        <span class="tag">讨好者 Placater</span> 压抑自己满足别人<br>
+        <span class="tag">指责者 Blamer</span> 把责任推给他人<br>
+        <span class="tag">理智者 Computer</span> 超理性，切断情感<br>
+        <span class="tag">打岔者 Distracter</span> 回避问题<br>
+        <span class="tag">一致者 Congruent</span> 言行情感一致 ✓<br><br>
+        <b>自问：</b>我现在是哪种姿态？我想成为一致者吗？
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-family">FFT</div>
+      <div class="card-title">功能家庭疗法</div>
+      <div class="card-en">Functional Family Therapy</div>
+      <div class="card-body">
+        关注家庭行为的功能（为什么要这样做）而非道德判断<br><br>
+        <b>Engagement → Behavior Change → Generalization</b><br><br>
+        <b>生活应用：</b>青少年的"叛逆"可能是在寻求自主感或被看见。问"这个行为在满足什么需求？" 而不是"他为什么这样做来气我？"
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-family">Whitaker</div>
+      <div class="card-title">体验式家庭疗法</div>
+      <div class="card-en">Experiential Family Therapy</div>
+      <div class="card-body">
+        核心：激发真实情绪的表达，而不是让情绪继续压抑<br>
+        技术：<span class="tag">对抗 Confrontation</span><span class="tag">自发性 Spontaneity</span><br><br>
+        <b>生活应用：</b>家庭中有人从不表达愤怒 → 制造一个安全的情绪场景让其说出真实感受，而不是继续绕开
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-family">EFT</div>
+      <div class="card-title">依恋为本疗法</div>
+      <div class="card-en">Emotionally Focused Therapy</div>
+      <div class="card-body">
+        核心：伴侣/家庭冲突背后，往往是<b>依恋需求没有被满足</b><br><br>
+        追逐方：焦虑地追求联结 → 内心是"你爱我吗？"<br>
+        撤离方：关闭情感 → 内心是"我达不到你的期望"<br><br>
+        <b>技术：</b>把攻击性语言翻译为依恋语言。"你从不关心我"→ "我很害怕我们之间的距离"
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-family">Adlerian</div>
+      <div class="card-title">家庭星座 + 出生顺序</div>
+      <div class="card-en">Family Constellation + Birth Order</div>
+      <div class="card-body">
+        出生顺序影响人格模式：<br>
+        <span class="tag">老大</span> 责任感强、害怕失去权威<br>
+        <span class="tag">中间</span> 夹心饼、善妥协、有时感觉不被看见<br>
+        <span class="tag">老小</span> 被宠、有魅力、可能缺少责任感<br>
+        <span class="tag">独生</span> 像成人、可能社交适应慢<br><br>
+        <b>自问：</b>我在家里的位置，如何塑造了我现在对关系的期待？
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 04 Here and Now ====== -->
+<div id="herennow" class="section">
+  <div class="section-title">当下觉察：Here and Now</div>
+  <div class="section-desc">先看见，先承认，再慢慢解决。Gestalt + DBT Mindfulness + ACT 的觉察技术</div>
+
+  <div class="highlight">
+    <div class="highlight-title">核心哲学</div>
+    <p>觉察本身就是改变的开始。你不需要立刻解决它，你只需要先<b>看见它、命名它、承认它存在</b>。</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-exist">Gestalt</div>
+      <div class="card-title">觉察轮</div>
+      <div class="card-en">Awareness Cycle (Gestalt)</div>
+      <div class="card-body">
+        感知（感官输入）→ 觉察（命名感受）→ 能量动员（身体反应）→ 行动（表达/处理）→ 接触（完成）→ 退出（休息）<br><br>
+        <b>最常被卡住的地方：</b>感知 → 觉察之间（"我有感觉，但不知道是什么"）<br><br>
+        <b>练习：</b>此刻，我身体的哪里有感觉？是紧绷、沉重、还是空洞？给它取一个名字。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-exist">Gestalt</div>
+      <div class="card-title">空椅子技术</div>
+      <div class="card-en">Empty Chair</div>
+      <div class="card-body">
+        把一把椅子放在你对面，想象那个人/那部分自己坐在那里，对他说出从未说过的话。<br><br>
+        <b>适用：</b>与父母的未完成事务、对自己内心批评者的对话、与已逝之人的告别<br><br>
+        <b>核心：</b>不是为了解决，是为了<b>表达和看见</b>。把停留在内心的东西说出来，让它流动。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-dbt">DBT 正念</div>
+      <div class="card-title">TIPP 急性情绪调节</div>
+      <div class="card-en">DBT TIPP Skill</div>
+      <div class="card-body">
+        当情绪强烈到无法思考时，先用身体介入：<br><br>
+        <b>T</b>emperature — 用冷水洗脸/手腕（激活潜水反射，降心率）<br>
+        <b>I</b>ntense Exercise — <b>短时高强度 1–5 分钟</b>（跳跃/深蹲/冲刺），目的是快速降低 arousal，不是健身训练<br>
+        <b>P</b>aced Breathing — 呼气比吸气长（4秒吸，6秒呼）<br>
+        <b>P</b>rogressive Relaxation — 从脚到头逐组肌肉放松
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-exist">ACT</div>
+      <div class="card-title">认知解融</div>
+      <div class="card-en">Cognitive Defusion</div>
+      <div class="card-body">
+        把想法当成想法，而不是事实。<br><br>
+        <b>普通模式：</b>"我是个失败者" → 当成真实的自我评价<br>
+        <b>解融模式：</b>"我注意到我的大脑正在产生'我是个失败者'这个想法"<br><br>
+        <b>技术：</b>给想法加前缀 — "我有一个想法是…" / 用荒谬的声音重复那个想法（Barney声音）/ 给想法命名："啊，又是那个'我不够好'的故事"
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-exist">Gestalt</div>
+      <div class="card-title">将情绪定位于身体</div>
+      <div class="card-en">Locating Emotions in the Body</div>
+      <div class="card-body">
+        不问"你怎么了"，而问"这个感受在你身体的哪里？"<br><br>
+        胸口紧 → 压抑的愤怒或悲伤<br>
+        胃部收紧 → 恐惧/焦虑<br>
+        喉咙哽住 → 没说出口的话<br>
+        肩膀沉重 → 责任感的负荷<br><br>
+        <b>练习：</b>情绪来时，闭眼，扫描身体，找到感受的"住所"，把注意力放在那里30秒。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-dbt">DBT 正念</div>
+      <div class="card-title">STOP 技术</div>
+      <div class="card-en">DBT STOP Skill</div>
+      <div class="card-body">
+        在冲动行为前插入一个暂停：<br><br>
+        <b>S</b>top — 停下来，不要立刻行动<br>
+        <b>T</b>ake a step back — 从情境中退一步（物理上或心理上）<br>
+        <b>O</b>bserve — 观察正在发生什么：内心、外部、对方<br>
+        <b>P</b>roceed mindfully — 带着觉察再行动<br><br>
+        <b>场景：</b>要发火、要发信息、要做冲动决定时
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 05 脆弱的力量 ====== -->
+<div id="vuln" class="section">
+  <div class="section-title">脆弱的力量</div>
+  <div class="section-desc">Show Vulnerability to Build Trust — 在关系中暴露自己的软弱，反而建立更深的联结</div>
+
+  <div class="highlight">
+    <div class="highlight-title">为什么脆弱可以建立信任？</div>
+    <p>Brené Brown 研究：<b>脆弱（Vulnerability）是真实联结的基础</b>。完美的外表制造距离，真实的软弱制造联结。在治疗关系中，治疗师适度自我披露（Self-Disclosure）可以打破权力距离，让来访者感到被接纳。</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-inter">Person-Centered</div>
+      <div class="card-title">治疗师自我披露</div>
+      <div class="card-en">Therapist Self-Disclosure (Rogers — Congruence)</div>
+      <div class="card-body">
+        Rogers的一致性（Congruence）：治疗师不装作没有感受，而是<b>真实地在场</b>。<br><br>
+        <b>适度披露原则：</b><br>
+        ✓ 披露当下的感受（"听到这个我也感到一种沉重"）<br>
+        ✓ 披露类似经历（简短，焦点回到来访者）<br>
+        ✗ 不披露个人问题（会转移焦点）<br><br>
+        <b>生活应用：</b>"我当时也不知道怎么处理这种事，所以我理解那种无助感"
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-inter">EFT</div>
+      <div class="card-title">依恋语言的脆弱</div>
+      <div class="card-en">Vulnerability in Attachment Language</div>
+      <div class="card-body">
+        愤怒和攻击通常是脆弱的保护壳。<br><br>
+        <b>翻译练习：</b><br>
+        "你根本不关心我" → "我很害怕我不重要"<br>
+        "你总是这样" → "我需要感觉到你在这里"<br>
+        "随便你" → "我太受伤了，不知道怎么开口"<br><br>
+        <b>场景：</b>在亲密关系中，先说内心那层，而不是攻击。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-inter">DBT</div>
+      <div class="card-title">GIVE — 关系维护技能</div>
+      <div class="card-en">DBT GIVE Skill</div>
+      <div class="card-body">
+        在表达脆弱时保护关系：<br><br>
+        <b>G</b>entle — 温和，不攻击、不威胁<br>
+        <b>I</b>nterested — 对对方保持真诚的兴趣<br>
+        <b>V</b>alidate — 认可对方的感受和视角<br>
+        <b>E</b>asy Manner — 保持轻松的态度，不过度紧绷<br><br>
+        脆弱不等于崩溃，GIVE帮助你在展示柔软时仍然有结构。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-inter">Narrative</div>
+      <div class="card-title">重写脆弱的故事</div>
+      <div class="card-en">Narrative Therapy — Re-authoring</div>
+      <div class="card-body">
+        你关于"软弱"的故事可能是被别人写进去的。<br><br>
+        <b>外化：</b>"那个'不能软弱'的声音是谁的声音？" 是父母的？是文化的？<br><br>
+        <b>重写：</b>找到一个反例——什么时候你的脆弱反而带来了好的结果？用那个故事来重写你关于脆弱的叙事。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 06 Behavioral ====== -->
+<div id="behavioral" class="section">
+  <div class="section-title">行为技术</div>
+  <div class="section-desc">Classical Conditioning · Operant Conditioning · HRT · Exposure — 行为改变的实用技术</div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-behav">Classical</div>
+      <div class="card-title">系统脱敏</div>
+      <div class="card-en">Systematic Desensitization</div>
+      <div class="card-body">
+        针对恐惧/焦虑的暴露层级：<br><br>
+        1. 建立焦虑层级（0-100分）<br>
+        2. 学习放松技术（腹式呼吸/肌肉放松）<br>
+        3. 从最低焦虑开始，暴露 + 放松，直到该层级焦虑降至<30<br>
+        4. 逐步上升层级<br><br>
+        <b>场景：</b>社交恐惧 → 从想象社交场景 → 视频 → 小群体 → 大型社交
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-behav">Operant</div>
+      <div class="card-title">强化与惩罚表</div>
+      <div class="card-en">Reinforcement & Punishment Matrix</div>
+      <div class="card-body">
+        <b>正强化 (＋R)：</b>加入好的 → 增加行为（给奖励）<br>
+        <b>负强化 (−R)：</b>移除坏的 → 增加行为（止痛药让你多吃止痛药）<br>
+        <b>正惩罚 (＋P)：</b>加入坏的 → 减少行为（被骂）<br>
+        <b>负惩罚 (−P)：</b>移除好的 → 减少行为（没收手机）<br><br>
+        <b>自我管理：</b>完成任务后给自己正强化（不是糖，是你真正享受的事）
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-behav">HRT</div>
+      <div class="card-title">习惯逆转训练</div>
+      <div class="card-en">Habit Reversal Training</div>
+      <div class="card-body">
+        针对无意识的身体习惯：<span class="tag">咬指甲</span><span class="tag">抠皮肤</span><span class="tag">拔头发</span><br><br>
+        步骤：<br>
+        1. <b>Awareness Training</b> — 记录习惯何时发生，什么触发<br>
+        2. <b>Competing Response</b> — 设计一个与习惯不相容的动作（咬指甲时 → 握拳30秒）<br>
+        3. <b>Motivation</b> — 列出习惯带来的问题，增强改变动机<br>
+        4. <b>Social Support</b> — 告诉信任的人，让其友善提醒
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-behav">Behavioral Activation</div>
+      <div class="card-title">行为激活</div>
+      <div class="card-en">Behavioral Activation (for Depression)</div>
+      <div class="card-body">
+        抑郁的回避循环：不想做 → 不做 → 感觉更糟 → 更不想做<br><br>
+        <b>打破方法：</b>行动先于感受（不等感觉好了再行动）<br><br>
+        <b>步骤：</b><br>
+        1. 列出你曾经享受的活动<br>
+        2. 按难度从低排序<br>
+        3. 每天安排1-2个，执行，记录情绪变化<br>
+        4. 不评判结果，只观察规律
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-behav">DBT</div>
+      <div class="card-title">对立行动</div>
+      <div class="card-en">Opposite Action (DBT)</div>
+      <div class="card-body">
+        当情绪驱动的冲动行为不符合你长远利益时，做反方向的事：<br><br>
+        焦虑想逃避 → 靠近<br>
+        羞耻想躲藏 → 抬头挺胸出现<br>
+        愤怒想攻击 → 温和地后退<br>
+        抑郁想孤立 → 联系一个人<br><br>
+        <b>关键：</b>要全情投入地做，不是敷衍，否则无效
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-behav">Solution-Focused</div>
+      <div class="card-title">SFT 三大技术</div>
+      <div class="card-en">Miracle Question + Exceptions + Scaling</div>
+      <div class="card-body">
+        <b>奇迹问题：</b>"如果明天早上醒来，问题消失了，你怎么知道？你会做什么不一样的事？"<br><br>
+        <b>例外问题：</b>"有没有哪次，问题没有发生？那次你做了什么不同的事？"（挖掘内在资源）<br><br>
+        <b>评分法：</b>"1-10，你现在在哪里？要到N+1，需要做什么？"
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 07 Thought Process ====== -->
+<div id="thought" class="section">
+  <div class="section-title">思维过程技术</div>
+  <div class="section-desc">如何观察、识别和调整自己的思维模式</div>
+
+  <div class="grid-wide">
+    <div class="card">
+      <div class="card-label label-cbt">思维层级</div>
+      <div class="card-title">CBT 三层思维结构</div>
+      <div class="card-en">Automatic Thoughts → Intermediate Beliefs → Core Beliefs</div>
+      <div class="card-body">
+        <div class="two-col">
+          <div>
+            <b>自动思维（表层）</b><br>
+            即时闪过的想法，通常是负面的，快速且不被注意<br>
+            "他没回我信息，一定是讨厌我了"<br><br>
+            <b>中间信念（规则层）</b><br>
+            "如果我不让别人满意，我就会被抛弃"<br>
+            通常是条件性规则：If…Then…
+          </div>
+          <div>
+            <b>核心信念（最深层）</b><br>
+            关于自己、他人、世界的绝对化信念<br>
+            "我是不值得被爱的"<br>
+            "这个世界是危险的"<br>
+            "别人都是不可信的"<br><br>
+            <b>工作方向：</b>从自动思维入手，追溯到核心信念
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-cbt">Socratic</div>
+      <div class="card-title">苏格拉底式提问</div>
+      <div class="card-en">Socratic Questioning</div>
+      <div class="card-body">
+        不直接告诉对方（或自己）答案，而是通过问题引导思考：<br><br>
+        <ul class="steps">
+          <li>这个想法的证据是什么？反证是什么？</li>
+          <li>还有其他可能的解释吗？</li>
+          <li>如果这件事发生在朋友身上，你会怎么告诉他？</li>
+          <li>假设这是真的，最坏的后果是什么？你能承受吗？</li>
+          <li>这个想法对我有帮助吗？</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-exist">ACT</div>
+      <div class="card-title">价值观澄清</div>
+      <div class="card-en">Values Clarification (ACT)</div>
+      <div class="card-body">
+        区分目标（Goal，终点）和价值观（Value，方向）：<br><br>
+        目标："减肥10斤" → 价值观："照顾好我的身体"<br>
+        目标："找到伴侣" → 价值观："建立真实的联结"<br><br>
+        <b>练习：</b>想象你90岁回顾一生，你希望在哪些方面说"我活出了我想要的"？那就是你的价值观。<br><br>
+        然后问：我今天的行为，是否在靠近那个方向？
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-inter">Psychodynamic</div>
+      <div class="card-title">识别移情</div>
+      <div class="card-en">Transference Awareness</div>
+      <div class="card-body">
+        移情（Transference）：把对过去重要人物的感受，转移到现在的人身上。<br><br>
+        <b>自我识别信号：</b><br>
+        • 对某人的反应强度远超出事件本身<br>
+        • 感觉"这个人让我想起…"<br>
+        • 同样的关系模式反复出现<br><br>
+        <b>问自己：</b>"我对这个人/这件事的强烈感受，是在回应他们，还是在回应某个更早的伤？"
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-exist">Narrative</div>
+      <div class="card-title">问题外化</div>
+      <div class="card-en">Externalization (Narrative Therapy)</div>
+      <div class="card-body">
+        把问题从"我是有问题的人"变成"问题是一个独立存在的东西"<br><br>
+        不说"我很焦虑"，说"焦虑来拜访我了"<br>
+        不说"我是个愤怒的人"，说"愤怒的声音最近很响"<br><br>
+        <b>然后问：</b>"这个问题在什么时候影响力更大？什么时候你能不被它控制？"<br><br>
+        找到例外，就找到了你的内在力量。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 08 Stages ====== -->
+<div id="stages" class="section">
+  <div class="section-title">跨理论改变阶段</div>
+  <div class="section-desc">Transtheoretical Model (Prochaska & DiClemente) — 改变不是一步发生的，它有阶段</div>
+
+  <div class="timeline">
+    <div class="stage">
+      <div class="stage-num">01</div>
+      <div class="stage-name">前沉思期</div>
+      <div class="stage-desc">Pre-contemplation<br><br>不认为自己有问题，或放弃改变希望。<br><br>策略：不对抗，植入觉察种子</div>
+    </div>
+    <div class="stage">
+      <div class="stage-num">02</div>
+      <div class="stage-name">沉思期</div>
+      <div class="stage-desc">Contemplation<br><br>意识到问题，但两价矛盾（ambivalence）。<br><br>策略：探索矛盾，MI动机访谈</div>
+    </div>
+    <div class="stage">
+      <div class="stage-num">03</div>
+      <div class="stage-name">准备期</div>
+      <div class="stage-desc">Preparation<br><br>决定改变，制定初步计划。<br><br>策略：具体化行动计划，小步骤</div>
+    </div>
+    <div class="stage">
+      <div class="stage-num">04</div>
+      <div class="stage-name">行动期</div>
+      <div class="stage-desc">Action<br><br>主动改变行为（通常6个月内）。<br><br>策略：强化，解决障碍</div>
+    </div>
+    <div class="stage">
+      <div class="stage-num">05</div>
+      <div class="stage-name">维持期</div>
+      <div class="stage-desc">Maintenance<br><br>维持改变，预防复发。<br><br>策略：建立支持系统，处理高风险情境</div>
+    </div>
+    <div class="stage">
+      <div class="stage-num">↩</div>
+      <div class="stage-name">复发</div>
+      <div class="stage-desc">Relapse<br><br>不是失败，是过程的一部分。<br><br>策略：不羞耻化，分析触发因素</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-inter">MI 动机访谈</div>
+      <div class="card-title">处理矛盾心理</div>
+      <div class="card-en">Working with Ambivalence</div>
+      <div class="card-body">
+        <b>决策天平：</b><br>
+        改变的好处 vs 改变的代价<br>
+        不变的好处 vs 不变的代价<br><br>
+        <b>关键：</b>不要帮对方决定。用开放性问题引出对方自己的"改变言语"（Change Talk）<br><br>
+        <b>OARS：</b>Open questions / Affirmations / Reflections / Summarizations
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-behav">Strength-Based</div>
+      <div class="card-title">韧性资源盘点</div>
+      <div class="card-en">Resilience Mapping</div>
+      <div class="card-body">
+        不聚焦在问题上，而是聚焦在<b>你已有的力量</b>上。<br><br>
+        <b>问题：</b><br>
+        • 你上次克服困难是什么时候？你怎么做到的？<br>
+        • 在这么难的情况下，你还保住了什么？<br>
+        • 谁是你的支持？<br>
+        • 你有哪些资源还没用上？<br><br>
+        <b>注意：</b>不是否认问题，而是<b>先看见能力，再处理困难</b>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 09 Defense ====== -->
+<div id="defense" class="section">
+  <div class="section-title">防御机制</div>
+  <div class="section-desc">Defense Mechanisms (Psychodynamic / Psychoanalytic) — 自我保护的无意识策略，了解它才能不被它控制</div>
+
+  <div class="highlight">
+    <div class="highlight-title">防御机制的本质</div>
+    <p>防御不是"坏事"，是心理的自我保护。问题是它有时变成了阻碍成长的墙。<b>觉察它，而不是攻击它。</b></p>
+  </div>
+
+  <div class="def-grid">
+    <div class="def-card">
+      <div class="def-name">压抑</div>
+      <div class="def-en">Repression</div>
+      <div class="def-ex">把痛苦记忆或冲动推出意识层面。"我根本不记得那件事了。"</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">否认</div>
+      <div class="def-en">Denial</div>
+      <div class="def-ex">拒绝承认现实。"我没有喝酒问题，我只是喜欢偶尔放松。"</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">投射</div>
+      <div class="def-en">Projection</div>
+      <div class="def-ex">把自己的感受归到别人身上。内心在生气，却说"他肯定在生我的气"。</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">合理化</div>
+      <div class="def-en">Rationalization</div>
+      <div class="def-ex">为无法接受的行为找理由。"我对他那么凶是因为他让我烦透了。"</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">反向形成</div>
+      <div class="def-en">Reaction Formation</div>
+      <div class="def-ex">把不可接受的冲动转化为反面行为。内心厌恶某人，却表现得过度热情。</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">退行</div>
+      <div class="def-en">Regression</div>
+      <div class="def-ex">在压力下退回更早期的行为。成人在崩溃时变得像孩子一样依赖或发脾气。</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">升华</div>
+      <div class="def-en">Sublimation</div>
+      <div class="def-ex">把不可接受的冲动转化为有社会价值的行为。将攻击性转化为运动竞技。✓ 成熟防御</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">置换</div>
+      <div class="def-en">Displacement</div>
+      <div class="def-ex">把情绪转移到安全对象上。被老板骂了，回家对猫发火。</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">分裂</div>
+      <div class="def-en">Splitting (BPD常见)</div>
+      <div class="def-ex">把人或事极端化为全好/全坏。"你是我见过最好的人" → 第二天 → "你根本不在乎我"。</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">理智化</div>
+      <div class="def-en">Intellectualization</div>
+      <div class="def-ex">用理性和分析来避免接触情感。被分手后只分析原因，不感受悲伤。</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">幽默</div>
+      <div class="def-en">Humor</div>
+      <div class="def-ex">用幽默来处理痛苦。✓ 成熟防御，但有时是回避深层感受的方式。</div>
+    </div>
+    <div class="def-card">
+      <div class="def-name">解离</div>
+      <div class="def-en">Dissociation</div>
+      <div class="def-ex">从痛苦情境中心理上"脱离"。在创伤时感觉不像是自己在经历，像在看电影。</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>如何在日常中识别防御</h3>
+  <div class="scenario">
+    <div class="scenario-label">自我检查步骤</div>
+    当你有强烈情绪反应时，问：<br>
+    1. 这个反应有多大？和事件本身匹配吗？（不匹配→可能有防御）<br>
+    2. 我是否在用理性来回避感受？（理智化）<br>
+    3. 我是否把某种感受归到别人身上？（投射）<br>
+    4. 我是否在用忙碌/幽默/酒精来不去感受某件事？（回避型防御）
+  </div>
+</div>
+
+<!-- ====== 10 全索引 ====== -->
+<div id="alltech" class="section">
+  <div class="section-title">全技术索引</div>
+  <div class="section-desc">所有治疗流派、核心技术、适用场景速查表</div>
+
+  <div class="tech-row" style="background:var(--surface2); font-weight:500; font-size:11px; color:var(--text-muted);">
+    <div>治疗方法</div><div>核心技术 / 关键词</div><div>适用场景</div>
+  </div>
+
+  <div class="tech-row">
+    <div><div class="tech-name">CBT (Beck)</div><span class="tag">认知行为</span></div>
+    <div class="tech-what">思维记录、去灾难化、行为实验、认知重构、苏格拉底提问</div>
+    <div class="tech-how">GAD、MDD、社交焦虑、饮食障碍、日常负面思维</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">REBT (Ellis)</div><span class="tag">理性情绪</span></div>
+    <div class="tech-what">ABCDE模型、挑战"应该"/"必须"、Musterbation</div>
+    <div class="tech-how">完美主义、强烈羞耻感、非理性信念</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">DBT (Linehan)</div><span class="tag">辩证行为</span></div>
+    <div class="tech-what">TIPP, STOP, DEAR MAN, GIVE, FAST, 对立行动, 正念</div>
+    <div class="tech-how">BPD、情绪调节困难、自伤冲动、人际冲突</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">Schema Therapy</div><span class="tag">图式疗法</span></div>
+    <div class="tech-what">识别早期不良图式、模式工作、再养育</div>
+    <div class="tech-how">长期人格问题、复杂创伤、被遗弃图式</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">ACT</div><span class="tag">接受承诺</span></div>
+    <div class="tech-what">认知解融、自我作为情境、价值观澄清、承诺行动</div>
+    <div class="tech-how">慢性焦虑、价值观迷失、接受困难</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">Gestalt</div><span class="tag">格式塔</span></div>
+    <div class="tech-what">空椅子、觉察轮、身体定位情绪、重复夸大、Here and Now</div>
+    <div class="tech-how">未完成事务、人际冲突、身体-情绪断连</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">Psychodynamic</div><span class="tag">心理动力</span></div>
+    <div class="tech-what">识别防御机制、移情/反移情、无意识冲突</div>
+    <div class="tech-how">反复的关系模式、人格障碍、功能提升</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">Person-Centered</div><span class="tag">以人为中心</span></div>
+    <div class="tech-what">无条件积极关注、反映、一致性、OARS</div>
+    <div class="tech-how">自尊受损、被否定感、关系建立基础</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">MI</div><span class="tag">动机访谈</span></div>
+    <div class="tech-what">OARS、探索矛盾、Change Talk、Reframing</div>
+    <div class="tech-how">物质滥用、改变抗拒、行为改变准备</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">SFT 焦点解决</div><span class="tag">解决导向</span></div>
+    <div class="tech-what">奇迹问题、例外问题、评分法</div>
+    <div class="tech-how">短期目标、发现内在资源、希望建立</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">Narrative</div><span class="tag">叙事疗法</span></div>
+    <div class="tech-what">外化、解构、重写故事</div>
+    <div class="tech-how">"我是失败者"等身份融合、创伤叙事</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">EFT</div><span class="tag">情绪聚焦</span></div>
+    <div class="tech-what">依恋语言翻译、追逐-撤离循环、情感联结</div>
+    <div class="tech-how">伴侣冲突、依恋创伤、关系修复</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">Adlerian</div><span class="tag">阿德勒</span></div>
+    <div class="tech-what">早期回忆、出生顺序、生活风格、社会兴趣</div>
+    <div class="tech-how">自卑感、归属感缺失、生活目的探索</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">Existential</div><span class="tag">存在主义</span></div>
+    <div class="tech-what">探索意义、自由意志、死亡焦虑、责任</div>
+    <div class="tech-how">意义感丧失、中年危机、存在焦虑</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">Reality Therapy</div><span class="tag">现实疗法</span></div>
+    <div class="tech-what">WDEP (Want/Doing/Evaluation/Plan)、自我评估</div>
+    <div class="tech-how">责任回避、愤怒/指责模式、BPD</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">Structural FT</div><span class="tag">结构家庭</span></div>
+    <div class="tech-what">Joining、Boundary Making、Unbalancing</div>
+    <div class="tech-how">家庭界限混乱、父母权威丧失</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">Virginia Satir</div><span class="tag">萨提尔</span></div>
+    <div class="tech-what">5种沟通姿态、家庭雕塑</div>
+    <div class="tech-how">家庭沟通模式、离婚家庭、角色识别</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">EMDR</div><span class="tag">眼动脱敏</span></div>
+    <div class="tech-what">双侧刺激、创伤记忆再处理</div>
+    <div class="tech-how">PTSD、单一创伤</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">HRT</div><span class="tag">习惯逆转</span></div>
+    <div class="tech-what">觉察训练、竞争反应、动机强化</div>
+    <div class="tech-how">咬指甲、抠皮肤、拔毛癖、抽动</div>
+  </div>
+  <div class="tech-row">
+    <div><div class="tech-name">IPSRT</div><span class="tag">社交节律</span></div>
+    <div class="tech-what">稳定睡眠/饮食/社交节律</div>
+    <div class="tech-how">双相情感障碍</div>
+  </div>
+</div>
+
+
+<!-- ====== DBT ====== -->
+<div id="dbt" class="section">
+  <div class="section-title">DBT 辩证行为治疗</div>
+  <div class="section-desc">Marsha Linehan 创立 — 核心：接受 + 改变的辩证平衡。四大技能模块：正念、情绪调节、痛苦耐受、人际效能</div>
+
+  <div class="highlight">
+    <div class="highlight-title">为什么选 DBT？When to use DBT</div>
+    <p><b>DBT 的核心假设：</b>问题行为（自伤、爆发、物质滥用）是来访者在<b>情绪极度痛苦时找到的唯一应对方式</b>。DBT 不批判，而是给更有效的替代技能。<br><br>
+    <b>选 DBT 的信号：</b>情绪调节困难、冲动行为（自伤/暴食/物质）、人际关系极端化、BPD诊断、有自杀意念但在安全范围、物质使用障碍、PTSD（DBT-PE）、ADHD情绪冲动型、暴食障碍。BPD是最强适配，但不是唯一适应症。<br><br>
+    <b>DBT vs CBT — 侧重点不同，不是对立（约60%重叠）：</b><br>
+    CBT = <b>认知重建（Thought Restructuring）</b>：识别扭曲思维 → 检验证据 → 替代思维。CBT 并不否认情绪，它同样承认情绪，只是主要通过改变认知来影响情绪。<br>
+    DBT = <b>情绪验证（Validation）+ 行为技能训练</b>：先完全接受情绪的存在和合理性，同时教授具体的应对技能。两者差异是侧重点：CBT 侧重改变思维内容；DBT 侧重先验证再给工具。</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-dbt">模块一</div>
+      <div class="card-title">正念 Mindfulness</div>
+      <div class="card-en">Core Mindfulness Skills</div>
+      <div class="card-body">
+        DBT 的正念不是冥想放松，而是<b>觉察当下不评判</b>。<br><br>
+        <b>What Skills：</b>Observe（只观察）/ Describe（只描述，不解读）/ Participate（全情投入）<br><br>
+        <b>How Skills：</b>Non-judgmentally（不评判）/ One-mindfully（专注一件事）/ Effectively（做有效的，不是正确的）<br><br>
+        <b>练习：</b>情绪来时，不说"我很愤怒"，说"我注意到愤怒的感觉，它现在在我胸口"
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-dbt">模块二</div>
+      <div class="card-title">情绪调节 Emotion Regulation</div>
+      <div class="card-en">Emotion Regulation Skills</div>
+      <div class="card-body">
+        <b>PLEASE 技能</b>（减少情绪脆弱性）：<br>
+        PhysicaL illness 治疗身体疾病 / Eating 规律饮食 / Avoid substances 避免物质 / Sleep 规律睡眠 / Exercise 运动<br><br>
+        <b>ABC PLEASE：</b>Accumulate positives（积累正向体验）/ Build mastery（做有掌控感的事）/ Cope ahead（预演应对）<br><br>
+        <b>Check the Facts（属于本模块）：</b><br>
+        逻辑链：检验事实 → 情绪是否与事实相符？<br>
+        ✔ 相符 → 接受情绪，不需要调节<br>
+        ✗ 不符（情绪是基于误读）→ 使用 <b>Opposite Action</b><br>
+        目的不是判断情绪"对不对"，而是决定<b>下一步用哪个技能</b>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-dbt">模块三</div>
+      <div class="card-title">痛苦耐受 Distress Tolerance</div>
+      <div class="card-en">Distress Tolerance Skills</div>
+      <div class="card-body">
+        危机时用的急救技能，目标是<b>度过危机，不让情况变更糟</b>：<br><br>
+        <b>TIPP：</b>Temperature 冷水 / Intense Exercise / Paced Breathing（4吸6呼）/ Progressive Relaxation<br><br>
+        <b>ACCEPTS：</b>Activities / Contributing / Comparisons / Emotions / Pushing away / Thoughts / Sensations（分散注意力7法）<br><br>
+        <b>Radical Acceptance（彻底接受）：</b><br>
+        接受现实的存在，不再与它对抗——因为<b>对抗无法改变的事实只会增加痛苦</b>。<br><br>
+        ⚠️ 最关键的区分：<br>
+        <b>接受 ≠ 认同（Agree）</b> — 你不需要觉得它是对的<br>
+        <b>接受 ≠ 喜欢（Like）</b> — 你可以完全不喜欢它<br>
+        <b>接受 ≠ 放弃改变</b> — 接受是改变的起点，不是终点<br>
+        <b>接受 = 停止对抗"它已经发生"这个事实本身</b>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-dbt">模块四</div>
+      <div class="card-title">人际效能 Interpersonal Effectiveness</div>
+      <div class="card-en">Interpersonal Effectiveness Skills</div>
+      <div class="card-body">
+        <b>DEAR MAN</b>（达成目标）：Describe / Express / Assert / Reinforce / Mindful / Appear confident / Negotiate<br><br>
+        <b>GIVE</b>（维护关系）：Gentle / Interested / Validate / Easy manner<br><br>
+        <b>FAST</b>（维护自尊）：Fair 公平 / Apologies少道歉 / Stick to values / Truthful<br><br>
+        三组技能对应三个目标：我要达成目的 / 我要维护关系 / 我要保持自尊 — <b>先决定今天最重要的是哪个</b>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-dbt">急救技术</div>
+      <div class="card-title">STOP + TIP</div>
+      <div class="card-en">Crisis Survival</div>
+      <div class="card-body">
+        <b>STOP：</b>Stop → Take a step back → Observe → Proceed mindfully<br><br>
+        <b>TIP（情绪最强时）：</b><br>
+        Temperature — 把脸浸入冷水10-30秒（激活潜水反射，直接降心率）<br>
+        Intense exercise — <b>短时高强度 1–5 分钟</b>（跳跃/深蹲/冲刺），目的是快速降低 arousal，不是健身训练<br>
+        Paced breathing — 吸4秒、屏2秒、呼6秒，重复5次<br><br>
+        <b>适用：</b>感觉要爆发、要做冲动决定、情绪达到8/10以上时
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-dbt">核心哲学</div>
+      <div class="card-title">对立行动 Opposite Action</div>
+      <div class="card-en">Opposite Action to Emotion</div>
+      <div class="card-body">
+        当情绪驱动的行为<b>不符合长远利益</b>时，做完全相反的事：<br><br>
+        <span class="tag">恐惧→逃避</span> → 靠近，重复面对<br>
+        <span class="tag">羞耻→躲藏</span> → 抬头，让自己被看见<br>
+        <span class="tag">愤怒→攻击</span> → 温和，退后一步<br>
+        <span class="tag">抑郁→孤立</span> → 联系一个人，做任何活动<br>
+        <span class="tag">焦虑→检查</span> → 停止反复确认<br><br>
+        <b>关键：</b>要全情投入地做，不是敷衍——否则无效
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== EMDR ====== -->
+<div id="emdr" class="section">
+  <div class="section-title">EMDR 眼动脱敏与再处理</div>
+  <div class="section-desc">Francine Shapiro 创立 — 核心：通过双侧刺激（眼动/轻拍/音调）帮助大脑重新处理被"卡住"的创伤记忆</div>
+
+  <div class="highlight">
+    <div class="highlight-title">为什么选 EMDR？When to use EMDR</div>
+    <p><b>EMDR 的核心假设：</b>创伤之所以持续影响人，是因为记忆在被高度应激时<b>没有被正常处理和存储</b>，它以原始的情绪、感觉、画面的形式被"冻结"。EMDR 通过双侧刺激激活大脑的自然处理机制，让创伤记忆被重新整合。<br><br>
+    <b>选 EMDR 的信号：</b>单一创伤事件（事故、性侵、战争）、PTSD、创伤相关闪回/噩梦/回避、已有足够的稳定性可以进入创伤处理阶段。<br><br>
+    <b>EMDR vs Talk Therapy：</b>谈话疗法通过认知理解改变；EMDR 绕过认知层面，<b>直接在神经层面重新处理记忆</b>，不需要来访者详细讲述创伤内容。</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-exist">EMDR 8阶段</div>
+      <div class="card-title">治疗结构</div>
+      <div class="card-en">8-Phase Protocol</div>
+      <div class="card-body">
+        <b>Phase 1</b> 历史收集 — 了解创伤史，选定目标记忆<br>
+        <b>Phase 2</b> 准备 — 建立安全感，教授稳定化技能（Safe Place）<br>
+        <b>Phase 3</b> 评估 — 识别目标画面、负性认知（NC）、正性认知（PC）、情绪、身体感觉、SUD评分<br>
+        <b>Phase 4</b> 脱敏 — 双侧刺激 + 自由联想，直到SUD降至0-1<br>
+        <b>Phase 5</b> 植入 — 强化正性认知，VOC评分达7<br>
+        <b>Phase 6</b> 身体扫描 — 检查残余身体感觉<br>
+        <b>Phase 7</b> 结束 — 稳定化，回到安全状态<br>
+        <b>Phase 8</b> 重新评估 — 下次会谈检查效果
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-exist">核心概念</div>
+      <div class="card-title">NC / PC / SUD / VOC</div>
+      <div class="card-en">Key Assessment Measures</div>
+      <div class="card-body">
+        <b>NC (Negative Cognition)：</b>与创伤相关的负性自我信念<br>
+        常见例子："我是有缺陷的" / "我不安全" / "我无能为力" / "我是坏的"<br><br>
+        <b>PC (Positive Cognition)：</b>希望相信的正性信念<br>
+        "我现在是安全的" / "我可以应对" / "我是有价值的"<br><br>
+        <b>SUD：</b>主观痛苦程度 0-10（Subjective Units of Disturbance）<br>
+        <b>VOC：</b>正性认知的真实感 1-7（Validity of Cognition）
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-exist">双侧刺激</div>
+      <div class="card-title">BLS — Bilateral Stimulation</div>
+      <div class="card-en">Bilateral Stimulation Methods</div>
+      <div class="card-body">
+        大脑在眼动/双侧刺激时，会激活类似 REM 睡眠的状态，有助于记忆整合。<br><br>
+        <b>三种形式：</b><br>
+        眼动 — 跟随治疗师手指左右移动（最经典）<br>
+        轻拍 — 交替轻拍双手膝盖或肩膀<br>
+        音调 — 耳机中交替左右耳的音调<br><br>
+        <b>蝴蝶拥抱（自我使用）：</b>双臂交叉放胸前，交替轻拍自己的肩膀，配合深呼吸，可用于日常稳定化
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-exist">稳定化技术</div>
+      <div class="card-title">Safe Place / Container</div>
+      <div class="card-en">Stabilization Before Processing</div>
+      <div class="card-body">
+        <b>Safe Place（安全地带）：</b>在想象中建立一个完全安全、平静的地方，详细感知它的颜色/气味/温度/声音，用词语锚定它（如"海边"），再用BLS强化这个感觉。危机时可以随时"回到"这里。<br><br>
+        <b>Container（容器）：</b>把现在无法处理的痛苦记忆，想象放进一个容器（保险箱/石头）锁起来，告诉自己"等我准备好了再打开"。这不是回避，而是有意识地调节处理节奏。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== PSYCHODYNAMIC ====== -->
+<div id="psychodyn" class="section">
+  <div class="section-title">Psychodynamic 心理动力学疗法</div>
+  <div class="section-desc">源自精神分析，更现代、更短程 — 核心：无意识冲突、防御机制、关系模式、移情/反移情</div>
+
+  <div class="highlight">
+    <div class="highlight-title">为什么选 Psychodynamic？When to use it</div>
+    <p><b>核心假设：</b>当前的痛苦和问题关系，根植于<b>过去未被解决的冲突和早期关系模式</b>。通过探索无意识，让这些模式进入意识，才能真正改变。<br><br>
+    <b>选 Psychodynamic 的信号：</b>反复出现的关系模式（总选同类型伴侣）、人格障碍（尤其 ASPD、BPD）、复杂创伤、来访者有内省能力、短期内希望提高 functioning level、对自我理解有强烈渴望。<br><br>
+    <b>Psychodynamic vs Psychoanalytic：</b>精神分析（Freud）是经典的、长程的、专注童年性驱力；心理动力学更现代、可以短程（16-24次）、聚焦当前关系中的无意识模式，不一定要躺在沙发上。</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-inter">核心概念</div>
+      <div class="card-title">移情 Transference</div>
+      <div class="card-en">Transference</div>
+      <div class="card-body">
+        来访者把对<b>过去重要他人</b>（父母/前任）的感受、期待、恐惧，<b>转移</b>到治疗师身上。<br><br>
+        <b>正移情：</b>对治疗师过度理想化、依恋、爱慕<br>
+        <b>负移情：</b>对治疗师愤怒、不信任、批评<br><br>
+        <b>治疗师的工作：</b>不被移情卷入，而是把它当作<b>来访者早期关系模式的活生生展示</b>，加以命名和探索<br><br>
+        <b>生活中识别移情：</b>"我对这个人的反应强度，和他做的事情完全不成比例——是不是在回应某个更早的伤？"
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-inter">核心概念</div>
+      <div class="card-title">反移情 Countertransference</div>
+      <div class="card-en">Countertransference</div>
+      <div class="card-body">
+        治疗师对来访者产生的情绪反应——既是干扰，也是<b>重要信息</b>。<br><br>
+        <b>旧观点：</b>反移情是需要清除的污染<br>
+        <b>现代观点：</b>反移情是<b>来访者无意识内容的投射接收器</b>——治疗师感受到的，可能正是来访者身边所有人都感受到的<br><br>
+        <b>例子：</b>治疗师在某个来访者面前总感到无能为力 → 这可能反映了来访者如何让周围人也感到无能为力（投射性认同）
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-inter">核心技术</div>
+      <div class="card-title">诠释 Interpretation</div>
+      <div class="card-en">Interpretation</div>
+      <div class="card-body">
+        把来访者说的表面内容，连接到<b>无意识的深层含义</b>。<br><br>
+        <b>四层诠释：</b><br>
+        澄清 Clarification — "你刚才说的是指…？"<br>
+        面质 Confrontation — "我注意到你说着说着就换话题了"<br>
+        诠释 Interpretation — "我在想，你对我的愤怒，是不是有点像你和父亲的关系？"<br>
+        修通 Working through — 反复从不同角度处理同一主题<br><br>
+        <b>原则：</b>诠释要在来访者"准备好听"的时候给，不是越早越好
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-inter">核心概念</div>
+      <div class="card-title">无意识与重复强迫</div>
+      <div class="card-en">Unconscious + Repetition Compulsion</div>
+      <div class="card-body">
+        <b>重复强迫（Repetition Compulsion）：</b>人无意识地重复童年创伤或未解决冲突——不是因为喜欢，而是为了<b>找到不同的结局</b>，或因为这是唯一熟悉的关系模式。<br><br>
+        "为什么我总是选到不可靠的伴侣？" → 可能在重复早期被忽视/不安全的依附关系<br><br>
+        <b>治疗目标：</b>让无意识内容进入意识 → "只要你能说出它，它就不再控制你"（Freud）
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-inter">短程PDT</div>
+      <div class="card-title">STDP 核心冲突关系主题</div>
+      <div class="card-en">Core Conflictual Relationship Theme (CCRT)</div>
+      <div class="card-body">
+        Luborsky 的短程动力学工具：找出来访者所有关系中的<b>共同模式</b>：<br><br>
+        <b>W</b>ish — 我在关系中最深的渴望是什么？（"我希望被认可"）<br>
+        <b>RO</b> — 他人的回应是什么？（"他们总是忽视我"）<br>
+        <b>RS</b> — 我对此的反应是什么？（"我变得愤怒/封闭/顺从"）<br><br>
+        找到 CCRT = 找到治疗的核心工作
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label label-inter">Jungian</div>
+      <div class="card-title">荣格分析心理学</div>
+      <div class="card-en">Jungian / Analytical Psychology</div>
+      <div class="card-body">
+        <b>阴影（Shadow）：</b>被压抑的、不被自我接受的部分——不是"坏"，是"未整合"。整合阴影 = 心理成长<br><br>
+        <b>原型（Archetypes）：</b>英雄 / 智者 / 影子 / 阿尼玛/阿尼姆斯 — 集体无意识中人类共享的心理模式<br><br>
+        <b>个体化（Individuation）：</b>成为完整的自己，整合光明与阴影<br><br>
+        <b>梦的工作：</b>梦是通往集体无意识的窗口，象征比内容更重要。"大海" → 无意识本身；"追赶" → 未整合的冲突
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== DSM-5 × TX ====== -->
+<div id="dsm5" class="section">
+  <div class="section-title">DSM-5 诊断 × 最佳治疗匹配</div>
+  <div class="section-desc">按诊断快速查看：第一选择疗法 / 辅助 / 禁忌或注意事项</div>
+
+  <div style="overflow-x:auto; margin-bottom: 16px;">
+  <table style="width:100%;border-collapse:collapse;font-size:13px;">
+    <thead>
+      <tr style="background:var(--surface);border-bottom:2px solid var(--border);">
+        <th style="text-align:left;padding:12px 14px;color:var(--text);font-weight:600;min-width:180px;">DSM-5 诊断</th>
+        <th style="text-align:left;padding:12px 14px;color:var(--accent1);font-weight:600;min-width:200px;">第一选择 / First-Line</th>
+        <th style="text-align:left;padding:12px 14px;color:var(--text-muted);font-weight:600;min-width:200px;">辅助 / 补充</th>
+        <th style="text-align:left;padding:12px 14px;color:var(--accent3);font-weight:600;min-width:180px;">注意 / 不适用</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- ANXIETY -->
+      <tr style="background:rgba(52,170,220,0.04);"><td colspan="4" style="padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent2);">焦虑相关 Anxiety Disorders</td></tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">GAD 广泛性焦虑</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span> 思维记录、去灾难化</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">ACT接受策略、正念、放松训练</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">暴露前先稳定，避免过早冲击</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Panic Disorder 惊恐障碍</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span> + 内感暴露 Interoceptive Exposure</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">呼吸重训、MBSR、放松</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">回避型 CBT 无效，必须做暴露</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Social Anxiety 社交焦虑</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span> + 暴露（等级）</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">ACT、社交技能训练</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">不要只做认知，必须配暴露</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Specific Phobia 特定恐惧</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(48,209,88,0.10);color:#00875a;">暴露疗法</span> Systematic Desensitization / 洪水法</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">虚拟现实暴露（VRE）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">单纯谈话无效，必须做行为暴露</td>
+      </tr>
+      <!-- MOOD -->
+      <tr style="background:rgba(255,107,107,0.04);"><td colspan="4" style="padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent3);">心境障碍 Mood Disorders</td></tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">MDD 重性抑郁</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span> + 行为激活 Behavioral Activation</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">Psychodynamic（慢性/复杂）、ACT、IPT人际疗法</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">严重抑郁先考虑药物联合</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Bipolar I/II 双相障碍</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(255,159,10,0.12);color:#c87000;">IPSRT</span> 社交节律疗法 + 药物</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">CBT（维持期）、家庭聚焦疗法 FFT</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">躁狂发作期不做深度心理治疗</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Dysthymia 持续性抑郁</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span> + Psychodynamic（探索长期模式）</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">Schema Therapy（若有早期图式）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">需长期治疗，短程效果有限</td>
+      </tr>
+      <!-- TRAUMA -->
+      <tr style="background:rgba(255,159,10,0.04);"><td colspan="4" style="padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent5);">创伤相关 Trauma &amp; Stressor</td></tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">PTSD</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(255,159,10,0.12);color:#c87000;">EMDR</span> <span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">TF-CBT</span> CPT认知加工疗法</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">Prolonged Exposure（PE）、Somatic</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">必须先做稳定化，再进创伤处理</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Complex PTSD / C-PTSD</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(255,159,10,0.12);color:#c87000;">Phase-Oriented</span> 安全→处理→整合</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">DBT（稳定化期）、Schema Therapy、EMDR（处理期）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">跳过安全阶段直接做创伤处理 = 再创伤</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">DID 解离性身份障碍</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(255,159,10,0.12);color:#c87000;">Phase-Oriented</span> + Analytical Therapy</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">部分语言疗法（IFS）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">禁止快速整合、禁止在不稳定时做暴露</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Acute Stress / Adjustment</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span> 心理急救 + 支持性治疗</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">SFT（找资源）、Person-Centered</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">不要过早做深度创伤处理</td>
+      </tr>
+      <!-- OCD -->
+      <tr style="background:rgba(48,209,88,0.04);"><td colspan="4" style="padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#00875a;">OCD 谱系</td></tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">OCD 强迫症</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(48,209,88,0.10);color:#00875a;">ERP</span> 暴露反应预防（Exposure + Response Prevention）</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">ACT（接受强迫想法）、CBT认知部分</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">只做认知不做暴露 = 无效</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Trichotillomania / Excoriation</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(48,209,88,0.10);color:#00875a;">HRT</span> 习惯逆转训练</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">ACT、DBT（情绪触发部分）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">与OCD治疗不同，不用ERP</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Body Dysmorphic Disorder</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span> + ERP（镜子/检查暴露）</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">ACT（接受身体）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">验证外貌焦虑会强化症状</td>
+      </tr>
+      <!-- PERSONALITY -->
+      <tr style="background:rgba(175,82,222,0.04);"><td colspan="4" style="padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#7b2d8b;">人格障碍 Personality Disorders</td></tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">BPD 边缘性人格</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(255,107,107,0.12);color:#d63031;">DBT</span> 首选，情绪调节+技能训练</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">Schema Therapy（长期图式）、MBT心智化</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">单纯CBT对BPD不够；避免过度分析情绪</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">NPD 自恋型人格</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(175,82,222,0.10);color:#7b2d8b;">Psychodynamic</span> 探索脆弱自我</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">Schema Therapy（缺陷图式）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">直接挑战防御会加剧阻抗</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">ASPD 反社会人格</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(175,82,222,0.10);color:#7b2d8b;">Psychodynamic</span> + Reality Therapy（责任/后果）</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">CBT（冲动控制）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">预后差，共情缺陷难以通过谈话改变</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Avoidant PD 回避型人格</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span> + 社交暴露</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">Schema Therapy（缺陷/羞耻图式）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">过于支持性会强化回避</td>
+      </tr>
+      <!-- EATING -->
+      <tr style="background:rgba(255,149,0,0.04);"><td colspan="4" style="padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#b05c00;">饮食障碍 Eating Disorders</td></tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Anorexia Nervosa（青少年）</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(200,169,126,0.15);color:#0071e3;">FBT Maudsley</span> 家庭为本，父母控制喂养</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">CBT-E（增强版CBT）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">BMI过低时，心理治疗效果受限，需医疗先介入</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Bulimia Nervosa</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT-E</span> 认知行为疗法强化版</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">DBT（情绪触发暴食）、IPT</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">单纯支持性治疗复发率高</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">BED 暴食障碍</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span> + DBT（情绪调节）</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">IPT、正念饮食</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">减重导向治疗会强化羞耻感</td>
+      </tr>
+      <!-- SUBSTANCE -->
+      <tr style="background:rgba(52,170,220,0.04);"><td colspan="4" style="padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent2);">物质相关 Substance Use</td></tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Substance Use Disorder</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(52,170,220,0.12);color:#0077b5;">MI</span> 动机访谈 + CBT（应对触发）</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">MET、12步团体（AA/NA）、DBT（情绪触发）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">对质/说教会加剧阻抗；在沉思期前不做CBT</td>
+      </tr>
+      <!-- NEURODEVELOP -->
+      <tr style="background:rgba(48,209,88,0.04);"><td colspan="4" style="padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#00875a;">神经发育 Neurodevelopmental</td></tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">ASD 自闭症谱系</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(48,209,88,0.10);color:#00875a;">ABA</span> 应用行为分析</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">社交技能训练、ACT（父母）、支持性治疗</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">强迫说话/强迫眼神接触会造成伤害</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">ADHD</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span>（成人）行为管理（儿童）</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">正念（MBCT）、结构化行为训练</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">单纯谈话无行为结构效果有限</td>
+      </tr>
+      <!-- SOMATIC -->
+      <tr style="background:rgba(255,107,107,0.04);"><td colspan="4" style="padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent3);">躯体/其他 Somatic &amp; Other</td></tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Somatic Symptom Disorder</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT</span> + 正念身体扫描</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">ACT、Psychodynamic（躯体化防御）</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">否认症状的真实性会破坏治疗联盟</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Grief / Bereavement</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(52,170,220,0.12);color:#0077b5;">Person-Centered</span> + 哀伤处理</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">Narrative（重写关系故事）、支持团体</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">过快推进"接受"会强化来访者压抑悲伤</td>
+      </tr>
+      <tr>
+        <td style="padding:11px 14px;font-weight:500;color:var(--text);">Insomnia 失眠</td>
+        <td style="padding:11px 14px;color:var(--text-muted);"><span class="tag" style="background:rgba(0,113,227,0.08);color:#0071e3;">CBT-I</span> 失眠认知行为疗法（睡眠限制、刺激控制）</td>
+        <td style="padding:11px 14px;color:var(--text-muted);">正念、放松训练</td>
+        <td style="padding:11px 14px;color:var(--accent3);font-size:12px;">安眠药长期使用不是首选</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="highlight">
+    <div class="highlight-title">快速记忆口诀</div>
+    <p>
+      <b>焦虑</b> → CBT + 暴露 &nbsp;|&nbsp;
+      <b>抑郁</b> → CBT + 行为激活 &nbsp;|&nbsp;
+      <b>双相</b> → IPSRT + 药 &nbsp;|&nbsp;
+      <b>PTSD</b> → EMDR / TF-CBT &nbsp;|&nbsp;
+      <b>BPD</b> → DBT 首选 &nbsp;|&nbsp;
+      <b>OCD</b> → ERP（不是普通CBT）&nbsp;|&nbsp;
+      <b>ASD</b> → ABA &nbsp;|&nbsp;
+      <b>物质</b> → MI + CBT &nbsp;|&nbsp;
+      <b>厌食青少年</b> → FBT Maudsley &nbsp;|&nbsp;
+      <b>人格障碍</b> → Schema / Psychodynamic / DBT（视类型）
+    </p>
+  </div>
+</div>
+
+</main>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
