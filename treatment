@@ -138,9 +138,7 @@
   .section-desc {
     color: var(--text-muted);
     font-size: 14px;
-    margin-bottom: 28px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 10px;
     line-height: 1.6;
   }
 
@@ -371,6 +369,33 @@
     background: var(--border-light);
     margin: 24px 0;
   }
+
+  /* TECHNIQUE STRIP */
+  .tech-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: -12px 0 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .t {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 4px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: 980px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .t.blue  { background: rgba(0,113,227,0.07);  border-color: rgba(0,113,227,0.2);  color: #0060c0; }
+  .t.red   { background: rgba(255,107,107,0.08); border-color: rgba(255,107,107,0.25); color: #c0303a; }
+  .t.green { background: rgba(48,209,88,0.08);  border-color: rgba(48,209,88,0.25);  color: #1a8c3e; }
+  .t.amber { background: rgba(255,159,10,0.08); border-color: rgba(255,159,10,0.28); color: #a06000; }
+  .t.purple{ background: rgba(175,82,222,0.08); border-color: rgba(175,82,222,0.22); color: #6b2090; }
+  .t.teal  { background: rgba(52,170,220,0.08); border-color: rgba(52,170,220,0.25); color: #0070a0; }
 </style>
 </head>
 <body>
@@ -398,6 +423,7 @@
     <button class="tab" onclick="show('stages',this)">11 跨理论阶段</button>
     <button class="tab" onclick="show('defense',this)">12 防御机制</button>
     <button class="tab" onclick="show('alltech',this)">13 全技术索引</button>
+    <button class="tab" onclick="show('schema',this)">15 Schema Therapy</button>
     <button class="tab" onclick="show('dsm5',this)">14 DSM-5 × TX</button>
   </div>
 </nav>
@@ -408,6 +434,19 @@
 <div id="cbt" class="section active">
   <div class="section-title">CBT 认知行为治疗</div>
   <div class="section-desc">Aaron Beck 认知模型 — 核心：识别扭曲思维 → 挑战 → 重构。适合：MDD、GAD、饮食障碍、物质滥用</div>
+  <div class="tech-strip">
+    <span class="t blue">Thought Record 思维记录表</span>
+    <span class="t blue">Cognitive Restructuring 认知重构</span>
+    <span class="t blue">Decatastrophizing 去灾难化</span>
+    <span class="t blue">Behavioral Experiment 行为实验</span>
+    <span class="t blue">Socratic Questioning 苏格拉底提问</span>
+    <span class="t blue">Cognitive Distortions 认知扭曲识别</span>
+    <span class="t blue">ABCDE Model (REBT)</span>
+    <span class="t blue">Irrational Beliefs 非理性信念</span>
+    <span class="t blue">Musterbation "必须"执念</span>
+    <span class="t blue">Activity Scheduling 活动安排</span>
+    <span class="t blue">Exposure + Response 暴露反应</span>
+  </div>
 
   <div class="highlight">
     <div class="highlight-title">为什么选 CBT？When to use CBT</div>
@@ -505,6 +544,18 @@
 <div id="social" class="section">
   <div class="section-title">社交修复技术</div>
   <div class="section-desc">承认错误、赞美技术、如何在外人面前优雅地处理失误，保全关系与自尊</div>
+  <div class="tech-strip">
+    <span class="t teal">Repair Attempt 修复尝试</span>
+    <span class="t teal">Positive Regard 积极关注</span>
+    <span class="t teal">Reframing 重新框架</span>
+    <span class="t teal">Redirect 转移焦点</span>
+    <span class="t teal">OARS (MI)</span>
+    <span class="t teal">Reflection 反映</span>
+    <span class="t teal">Affirmation 肯定</span>
+    <span class="t teal">DEAR MAN (DBT)</span>
+    <span class="t teal">Externalization of Error 错误外化</span>
+    <span class="t teal">Congruence 一致性 (Rogers)</span>
+  </div>
 
   <div class="highlight">
     <div class="highlight-title">你的场景：承认错误 + 美化 + 赞美对方</div>
@@ -581,6 +632,21 @@
 <div id="family" class="section">
   <div class="section-title">家庭治疗技术</div>
   <div class="section-desc">Structural, Functional, Satir, Experiential — 小技术在家庭关系中的实际应用</div>
+  <div class="tech-strip">
+    <span class="t green">Joining 加入 (Minuchin)</span>
+    <span class="t green">Boundary Making 界限设立</span>
+    <span class="t green">Unbalancing 打破僵化</span>
+    <span class="t green">Subsystems 子系统</span>
+    <span class="t green">Family Sculpting 家庭雕塑 (Satir)</span>
+    <span class="t green">Communication Stances 沟通姿态</span>
+    <span class="t green">Placater / Blamer / Computer / Distracter</span>
+    <span class="t green">Congruent Communication 一致性沟通</span>
+    <span class="t green">Attachment Language 依恋语言 (EFT)</span>
+    <span class="t green">Pursue-Withdraw Cycle 追逐-撤离循环</span>
+    <span class="t green">Birth Order 出生顺序 (Adlerian)</span>
+    <span class="t green">Family Constellation 家庭星座</span>
+    <span class="t green">FBT Maudsley 家庭为本 (厌食)</span>
+  </div>
 
   <div class="grid">
     <div class="card">
@@ -665,6 +731,18 @@
 <div id="herennow" class="section">
   <div class="section-title">当下觉察：Here and Now</div>
   <div class="section-desc">先看见，先承认，再慢慢解决。Gestalt + DBT Mindfulness + ACT 的觉察技术</div>
+  <div class="tech-strip">
+    <span class="t amber">Awareness Cycle 觉察轮 (Gestalt)</span>
+    <span class="t amber">Empty Chair 空椅子技术</span>
+    <span class="t amber">Locating Emotions in Body 身体定位情绪</span>
+    <span class="t amber">TIPP (DBT)</span>
+    <span class="t amber">STOP (DBT)</span>
+    <span class="t amber">Cognitive Defusion 认知解融 (ACT)</span>
+    <span class="t amber">Observe / Describe / Participate (DBT)</span>
+    <span class="t amber">Non-judgmentally 不评判</span>
+    <span class="t amber">Here and Now 此时此地</span>
+    <span class="t amber">Projection 投射觉察</span>
+  </div>
 
   <div class="highlight">
     <div class="highlight-title">核心哲学</div>
@@ -753,6 +831,16 @@
 <div id="vuln" class="section">
   <div class="section-title">脆弱的力量</div>
   <div class="section-desc">Show Vulnerability to Build Trust — 在关系中暴露自己的软弱，反而建立更深的联结</div>
+  <div class="tech-strip">
+    <span class="t teal">Vulnerability 脆弱暴露 (Brené Brown)</span>
+    <span class="t teal">Self-Disclosure 自我披露 (Rogers)</span>
+    <span class="t teal">Congruence 一致性</span>
+    <span class="t teal">Attachment Language 依恋语言翻译</span>
+    <span class="t teal">GIVE (DBT)</span>
+    <span class="t teal">Unconditional Positive Regard 无条件积极关注</span>
+    <span class="t teal">Re-authoring 重写故事 (Narrative)</span>
+    <span class="t teal">Externalization 外化（"那个声音"）</span>
+  </div>
 
   <div class="highlight">
     <div class="highlight-title">为什么脆弱可以建立信任？</div>
@@ -819,6 +907,21 @@
 <div id="behavioral" class="section">
   <div class="section-title">行为技术</div>
   <div class="section-desc">Classical Conditioning · Operant Conditioning · HRT · Exposure — 行为改变的实用技术</div>
+  <div class="tech-strip">
+    <span class="t green">Systematic Desensitization 系统脱敏</span>
+    <span class="t green">Exposure Hierarchy 暴露层级</span>
+    <span class="t green">Positive Reinforcement 正强化</span>
+    <span class="t green">Negative Reinforcement 负强化</span>
+    <span class="t green">Punishment 惩罚</span>
+    <span class="t green">Habit Reversal Training (HRT)</span>
+    <span class="t green">Competing Response 竞争反应</span>
+    <span class="t green">Behavioral Activation 行为激活</span>
+    <span class="t green">Opposite Action 对立行动 (DBT)</span>
+    <span class="t green">Miracle Question 奇迹问题 (SFT)</span>
+    <span class="t green">Exception Questions 例外问题</span>
+    <span class="t green">Scaling Questions 评分法</span>
+    <span class="t green">ABA Applied Behavior Analysis</span>
+  </div>
 
   <div class="grid">
     <div class="card">
@@ -908,6 +1011,18 @@
 <div id="thought" class="section">
   <div class="section-title">思维过程技术</div>
   <div class="section-desc">如何观察、识别和调整自己的思维模式</div>
+  <div class="tech-strip">
+    <span class="t blue">Automatic Thoughts 自动思维</span>
+    <span class="t blue">Intermediate Beliefs 中间信念</span>
+    <span class="t blue">Core Beliefs 核心信念</span>
+    <span class="t blue">Socratic Questioning 苏格拉底提问</span>
+    <span class="t blue">Values Clarification 价值观澄清 (ACT)</span>
+    <span class="t blue">Transference Awareness 移情识别</span>
+    <span class="t blue">Externalization 外化 (Narrative)</span>
+    <span class="t blue">Cognitive Defusion 认知解融 (ACT)</span>
+    <span class="t blue">Deconstruction 解构</span>
+    <span class="t blue">Re-authoring 重写叙事</span>
+  </div>
 
   <div class="grid-wide">
     <div class="card">
@@ -998,6 +1113,19 @@
 <div id="stages" class="section">
   <div class="section-title">跨理论改变阶段</div>
   <div class="section-desc">Transtheoretical Model (Prochaska & DiClemente) — 改变不是一步发生的，它有阶段</div>
+  <div class="tech-strip">
+    <span class="t teal">Pre-contemplation 前沉思期</span>
+    <span class="t teal">Contemplation 沉思期</span>
+    <span class="t teal">Preparation 准备期</span>
+    <span class="t teal">Action 行动期</span>
+    <span class="t teal">Maintenance 维持期</span>
+    <span class="t teal">Relapse 复发（非失败）</span>
+    <span class="t teal">Ambivalence 矛盾心理</span>
+    <span class="t teal">Change Talk 改变言语 (MI)</span>
+    <span class="t teal">Decisional Balance 决策天平</span>
+    <span class="t teal">Resilience Mapping 韧性资源盘点</span>
+    <span class="t teal">OARS (MI)</span>
+  </div>
 
   <div class="timeline">
     <div class="stage">
@@ -1067,6 +1195,21 @@
 <div id="defense" class="section">
   <div class="section-title">防御机制</div>
   <div class="section-desc">Defense Mechanisms (Psychodynamic / Psychoanalytic) — 自我保护的无意识策略，了解它才能不被它控制</div>
+  <div class="tech-strip">
+    <span class="t purple">Repression 压抑</span>
+    <span class="t purple">Denial 否认</span>
+    <span class="t purple">Projection 投射</span>
+    <span class="t purple">Rationalization 合理化</span>
+    <span class="t purple">Reaction Formation 反向形成</span>
+    <span class="t purple">Regression 退行</span>
+    <span class="t purple">Sublimation 升华 ✓</span>
+    <span class="t purple">Displacement 置换</span>
+    <span class="t purple">Splitting 分裂 (BPD)</span>
+    <span class="t purple">Intellectualization 理智化</span>
+    <span class="t purple">Humor 幽默 ✓</span>
+    <span class="t purple">Dissociation 解离</span>
+    <span class="t purple">Projective Identification 投射性认同</span>
+  </div>
 
   <div class="highlight">
     <div class="highlight-title">防御机制的本质</div>
@@ -1152,6 +1295,9 @@
 <div id="alltech" class="section">
   <div class="section-title">全技术索引</div>
   <div class="section-desc">所有治疗流派、核心技术、适用场景速查表</div>
+  <div class="tech-strip">
+    <span class="t blue">CBT</span><span class="t red">DBT</span><span class="t amber">EMDR</span><span class="t purple">Psychodynamic</span><span class="t green">Behavioral</span><span class="t teal">Person-Centered</span><span class="t teal">MI</span><span class="t green">SFT</span><span class="t amber">Schema</span><span class="t amber">ACT</span><span class="t purple">Gestalt</span><span class="t green">EFT</span><span class="t purple">Narrative</span><span class="t green">Structural FT</span><span class="t amber">IPSRT</span><span class="t green">ABA</span><span class="t green">HRT</span>
+  </div>
 
   <div class="tech-row" style="background:var(--surface2); font-weight:500; font-size:11px; color:var(--text-muted);">
     <div>治疗方法</div><div>核心技术 / 关键词</div><div>适用场景</div>
@@ -1264,6 +1410,23 @@
 <div id="dbt" class="section">
   <div class="section-title">DBT 辩证行为治疗</div>
   <div class="section-desc">Marsha Linehan 创立 — 核心：接受 + 改变的辩证平衡。四大技能模块：正念、情绪调节、痛苦耐受、人际效能</div>
+  <div class="tech-strip">
+    <span class="t red">Validation 情绪验证</span>
+    <span class="t red">Mindfulness 正念</span>
+    <span class="t red">TIPP</span>
+    <span class="t red">STOP</span>
+    <span class="t red">DEAR MAN</span>
+    <span class="t red">GIVE</span>
+    <span class="t red">FAST</span>
+    <span class="t red">Opposite Action 对立行动</span>
+    <span class="t red">Radical Acceptance 彻底接受</span>
+    <span class="t red">Check the Facts</span>
+    <span class="t red">ACCEPTS</span>
+    <span class="t red">PLEASE</span>
+    <span class="t red">ABC PLEASE</span>
+    <span class="t red">Cope Ahead</span>
+    <span class="t red">Dialectics 辩证法</span>
+  </div>
 
   <div class="highlight">
     <div class="highlight-title">为什么选 DBT？When to use DBT</div>
@@ -1368,6 +1531,20 @@
 <div id="emdr" class="section">
   <div class="section-title">EMDR 眼动脱敏与再处理</div>
   <div class="section-desc">Francine Shapiro 创立 — 核心：通过双侧刺激（眼动/轻拍/音调）帮助大脑重新处理被"卡住"的创伤记忆</div>
+  <div class="tech-strip">
+    <span class="t amber">Bilateral Stimulation (BLS) 双侧刺激</span>
+    <span class="t amber">8-Phase Protocol 八阶段协议</span>
+    <span class="t amber">Negative Cognition (NC)</span>
+    <span class="t amber">Positive Cognition (PC)</span>
+    <span class="t amber">SUD 主观痛苦评分</span>
+    <span class="t amber">VOC 正性认知真实感</span>
+    <span class="t amber">Safe Place 安全地带</span>
+    <span class="t amber">Container 容器技术</span>
+    <span class="t amber">Butterfly Hug 蝴蝶拥抱</span>
+    <span class="t amber">Desensitization 脱敏</span>
+    <span class="t amber">Reprocessing 再处理</span>
+    <span class="t amber">Memory Consolidation 记忆整合</span>
+  </div>
 
   <div class="highlight">
     <div class="highlight-title">为什么选 EMDR？When to use EMDR</div>
@@ -1437,6 +1614,22 @@
 <div id="psychodyn" class="section">
   <div class="section-title">Psychodynamic 心理动力学疗法</div>
   <div class="section-desc">源自精神分析，更现代、更短程 — 核心：无意识冲突、防御机制、关系模式、移情/反移情</div>
+  <div class="tech-strip">
+    <span class="t purple">Transference 移情</span>
+    <span class="t purple">Countertransference 反移情</span>
+    <span class="t purple">Defense Mechanisms 防御机制</span>
+    <span class="t purple">Interpretation 诠释</span>
+    <span class="t purple">Free Association 自由联想</span>
+    <span class="t purple">Dream Analysis 梦的分析</span>
+    <span class="t purple">Repetition Compulsion 重复强迫</span>
+    <span class="t purple">CCRT 核心冲突关系主题</span>
+    <span class="t purple">Unconscious 无意识</span>
+    <span class="t purple">Working Through 修通</span>
+    <span class="t purple">Clarification 澄清</span>
+    <span class="t purple">Confrontation 面质</span>
+    <span class="t purple">Shadow / Individuation (Jung)</span>
+    <span class="t purple">Archetypes 原型 (Jung)</span>
+  </div>
 
   <div class="highlight">
     <div class="highlight-title">为什么选 Psychodynamic？When to use it</div>
@@ -1524,10 +1717,275 @@
   </div>
 </div>
 
+<!-- ====== SCHEMA THERAPY ====== -->
+<div id="schema" class="section">
+  <div class="section-title">Schema Therapy 图式疗法</div>
+  <div class="section-desc">Jeffrey Young 创立 — 核心：识别童年形成的早期不良图式 → 觉察当前的图式模式 → 通过再养育和体验性技术改变深层人格结构</div>
+  <div class="tech-strip">
+    <span class="t amber">Early Maladaptive Schema (EMS) 早期不良图式</span>
+    <span class="t amber">Schema Modes 图式模式</span>
+    <span class="t amber">Limited Reparenting 有限再养育</span>
+    <span class="t amber">Imagery Rescripting 意象改写</span>
+    <span class="t amber">Chairwork 椅子工作</span>
+    <span class="t amber">Empathic Confrontation 共情性对质</span>
+    <span class="t amber">Schema Avoidance 图式回避</span>
+    <span class="t amber">Schema Surrender 图式顺从</span>
+    <span class="t amber">Schema Overcompensation 图式过补偿</span>
+    <span class="t amber">Healthy Adult Mode 健康成人模式</span>
+    <span class="t amber">Vulnerable Child Mode 脆弱儿童模式</span>
+  </div>
+
+  <div class="highlight">
+    <div class="highlight-title">为什么选 Schema Therapy？When to use it</div>
+    <p><b>核心假设：</b>早期不良图式（EMS）是在童年<b>核心情感需求未被满足</b>时形成的根深蒂固的信念与感受模式。它们像一个"滤镜"，让人在成年后仍然用童年的眼光解读关系和自我。<br><br>
+    <b>选 Schema Therapy 的信号：</b>人格障碍（BPD/NPD/AVPD）、复杂创伤、长期低自尊、反复的破坏性关系模式、CBT 多次尝试效果有限、来访者能谈论想法但感受层面毫无改变。<br><br>
+    <b>Schema vs CBT：</b>CBT 改变表层自动思维；Schema Therapy 直接工作于<b>最深层的核心信念和童年情感记忆</b>，更长程，更体验性，更适合根深蒂固的人格层面问题。</p>
+  </div>
+
+  <h3 style="margin-top:28px;">五大图式领域 × 18种早期不良图式</h3>
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">童年核心需求 → 未被满足 → 形成图式</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;margin-bottom:28px;">
+
+    <div class="card" style="border-left:3px solid #ff6b6b;">
+      <div class="card-label label-dbt">领域一</div>
+      <div class="card-title">断连与拒绝</div>
+      <div class="card-en">Disconnection & Rejection — 核心需求：安全感、稳定、被爱</div>
+      <div class="card-body">
+        <b>1. 被遗弃/不稳定 Abandonment</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">感觉重要的人会离开。关系中极度焦虑、黏人或先发制人地离开。</span><br><br>
+        <b>2. 不信任/虐待 Mistrust/Abuse</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">预期别人会欺骗、利用或伤害自己。难以信任任何人。</span><br><br>
+        <b>3. 情感剥夺 Emotional Deprivation</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">感觉自己的情感需求永远不会被满足。表面独立，内心孤独。</span><br><br>
+        <b>4. 缺陷/羞耻 Defectiveness/Shame</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">深信自己是有缺陷的、不值得被爱的。害怕被人真正了解。</span><br><br>
+        <b>5. 社会孤立 Social Isolation</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">感觉自己与他人格格不入，无法真正融入任何群体。</span>
+      </div>
+    </div>
+
+    <div class="card" style="border-left:3px solid #ff9f0a;">
+      <div class="card-label label-exist">领域二</div>
+      <div class="card-title">自主性与表现受损</div>
+      <div class="card-en">Impaired Autonomy & Performance — 核心需求：独立、胜任感</div>
+      <div class="card-body">
+        <b>6. 依赖/无能 Dependence/Incompetence</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">感觉自己无法独立应对日常生活，总需要他人帮助。</span><br><br>
+        <b>7. 易受伤害 Vulnerability to Harm</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">过度担心灾难随时会发生（疾病、事故、经济崩溃）。</span><br><br>
+        <b>8. 纠缠/未发展自我 Enmeshment</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">与重要他人（通常是父母）过度融合，缺乏独立身份感。</span><br><br>
+        <b>9. 失败 Failure</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">相信自己在成就领域注定失败，不如他人。</span>
+      </div>
+    </div>
+
+    <div class="card" style="border-left:3px solid #30d158;">
+      <div class="card-label label-behav">领域三</div>
+      <div class="card-title">界限受损</div>
+      <div class="card-en">Impaired Limits — 核心需求：现实的界限与自我控制</div>
+      <div class="card-body">
+        <b>10. 权利感/自大 Entitlement/Grandiosity</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">觉得自己特别，规则不适用于自己，要求特殊待遇。（NPD常见）</span><br><br>
+        <b>11. 自控/自律不足 Insufficient Self-Control</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">难以忍受挫折，冲动，不能坚持目标或约束情绪。</span>
+      </div>
+    </div>
+
+    <div class="card" style="border-left:3px solid #34aadc;">
+      <div class="card-label label-social">领域四</div>
+      <div class="card-title">他人导向</div>
+      <div class="card-en">Other-Directedness — 核心需求：被允许有自己的需求</div>
+      <div class="card-body">
+        <b>12. 顺从 Subjugation</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">压抑自己的需求/情绪以迎合他人，害怕被惩罚或被抛弃。</span><br><br>
+        <b>13. 自我牺牲 Self-Sacrifice</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">过度关注他人需求，忽视自己，内心积累愤怒和空洞。</span><br><br>
+        <b>14. 寻求认可/赞赏 Approval-Seeking</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">自我价值依赖于外部评价，极度在意他人看法。</span>
+      </div>
+    </div>
+
+    <div class="card" style="border-left:3px solid #af52de;">
+      <div class="card-label label-inter">领域五</div>
+      <div class="card-title">过度警觉与抑制</div>
+      <div class="card-en">Overvigilance & Inhibition — 核心需求：自发性与玩乐</div>
+      <div class="card-body">
+        <b>15. 负面/悲观 Negativity/Pessimism</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">持续聚焦在生活的负面，忽视积极面，总等待事情变糟。</span><br><br>
+        <b>16. 情绪压抑 Emotional Inhibition</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">压抑情绪、冲动和自发性，害怕失控或被评判。</span><br><br>
+        <b>17. 苛刻标准/高度批评 Unrelenting Standards</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">对自己有极高要求，永远不够好，完美主义，严苛自我批评。</span><br><br>
+        <b>18. 惩罚性 Punitiveness</b><br>
+        <span style="color:var(--text-dim);font-size:12px;">相信犯错的人（包括自己）应该受到严厉惩罚，缺乏同情与宽容。</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+  <h3>图式的三种应对方式</h3>
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">图式被触发时，人会用以下三种方式来"处理"它——但每种都会强化图式，而不是解决它</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-dbt">应对方式一</div>
+      <div class="card-title">图式顺从 Schema Surrender</div>
+      <div class="card-en">"接受"图式是真的，按它行事</div>
+      <div class="card-body">
+        被遗弃图式 → 主动黏人、过度依赖，结果真的让对方窒息离开<br>
+        缺陷图式 → 不尝试任何新事物，因为"我本来就会失败"<br><br>
+        <b>识别信号：</b>"我就是这样的人""我一直都这样""这是真的"
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label label-exist">应对方式二</div>
+      <div class="card-title">图式回避 Schema Avoidance</div>
+      <div class="card-en">回避一切可能触发图式的情境</div>
+      <div class="card-body">
+        被遗弃图式 → 根本不建立亲密关系，这样就不会被抛弃<br>
+        缺陷图式 → 回避所有需要展示自己的场合<br><br>
+        <b>识别信号：</b>情感麻木、上瘾行为、过度工作、回避亲密
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label label-inter">应对方式三</div>
+      <div class="card-title">图式过补偿 Schema Overcompensation</div>
+      <div class="card-en">做图式的反面，表现得"好像不是这样"</div>
+      <div class="card-body">
+        缺陷图式 → 表现得极度自大、完美（NPD 机制）<br>
+        顺从图式 → 变得极度控制、攻击性强<br><br>
+        <b>识别信号：</b>防御性极强、无法接受批评、行为与内心感受明显矛盾
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Schema Modes 图式模式</h3>
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">模式（Mode）= 图式被激活时，人当下"切换"到的心理状态。BPD 来访者会在模式间快速切换。</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-dbt">儿童模式</div>
+      <div class="card-title">脆弱儿童 Vulnerable Child</div>
+      <div class="card-en">+ 愤怒儿童 / 冲动儿童</div>
+      <div class="card-body">
+        <b>脆弱儿童：</b>感到孤独、恐惧、被抛弃、羞耻，像一个受伤的小孩<br>
+        <b>愤怒儿童：</b>需求没被满足时的愤怒爆发，不考虑后果<br>
+        <b>冲动/未规范儿童：</b>追求即时满足，拒绝延迟<br><br>
+        治疗师工作：<b>回应脆弱儿童，而不是对抗它</b>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label label-exist">父母模式</div>
+      <div class="card-title">惩罚性父母 Punitive Parent</div>
+      <div class="card-en">+ 苛刻父母 Demanding Parent</div>
+      <div class="card-body">
+        <b>惩罚性父母：</b>内化的批评声音，攻击自己"你不够好""你活该"<br>
+        <b>苛刻父母：</b>永远要做得更好、更快、更完美，不允许休息<br><br>
+        治疗师工作：<b>帮来访者识别并挑战这个声音，而不是认同它</b>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label label-inter">应对模式</div>
+      <div class="card-title">分离保护者 Detached Protector</div>
+      <div class="card-en">+ 顺从投降者 / 自我提升者</div>
+      <div class="card-body">
+        <b>分离保护者：</b>情感切断，表现麻木或理性，来回避痛苦（最常见的回避模式）<br>
+        <b>顺从投降者：</b>被动服从他人，不表达自己<br>
+        <b>自我提升者/霸凌者：</b>用愤怒、控制或自大来过补偿<br><br>
+        识别信号：来访者突然"断线"，或话题一转就变得表浅
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label label-behav">目标模式</div>
+      <div class="card-title">健康成人 Healthy Adult</div>
+      <div class="card-en">治疗的终点</div>
+      <div class="card-body">
+        能够照顾脆弱儿童的需求 / 能够设限愤怒儿童和冲动儿童 / 能够挑战并弱化惩罚性父母 / 能够允许自己快乐、联结、灵活<br><br>
+        <b>治疗师的工作 = 先成为来访者的"健康成人"的外部模型（Limited Reparenting），直到来访者内化这个声音</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>核心技术</h3>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label label-exist">体验性技术</div>
+      <div class="card-title">意象改写 Imagery Rescripting</div>
+      <div class="card-en">最强效的 Schema Therapy 技术之一</div>
+      <div class="card-body">
+        闭眼回到童年痛苦记忆的画面 → 治疗师（或想象中的健康成人自我）"进入"那个场景 → 保护那个孩子、满足那个孩子的需求、对施害者/忽视者表达愤怒<br><br>
+        <b>不是要改写历史，而是在情感层面给那个孩子一个"不同的体验"——被保护、被看见、被需要</b>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label label-exist">体验性技术</div>
+      <div class="card-title">椅子工作 Chairwork</div>
+      <div class="card-en">让不同的图式模式"对话"</div>
+      <div class="card-body">
+        不同的椅子代表不同的模式：脆弱儿童 / 惩罚性父母 / 健康成人<br><br>
+        来访者在椅子间移动，从不同模式的视角发言，让内心冲突外显<br><br>
+        <b>最终目标：</b>健康成人的椅子能够真正"说话"，而不是被惩罚性父母的声音淹没
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label label-inter">治疗关系技术</div>
+      <div class="card-title">有限再养育 Limited Reparenting</div>
+      <div class="card-en">Schema Therapy 独有的治疗关系框架</div>
+      <div class="card-body">
+        治疗师在专业界限内，提供来访者童年未曾拥有的：<br>
+        温暖与稳定的联结 / 对脆弱儿童的共情与回应 / 对不当行为的温和但清晰的界限设立 / 指导和支持自主成长<br><br>
+        <b>"有限"= 在专业界限内；不是真正成为父母，而是提供矫正性情感体验（Corrective Emotional Experience）</b>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label label-inter">认知技术</div>
+      <div class="card-title">共情性对质 Empathic Confrontation</div>
+      <div class="card-en">Schema Therapy 的核心治疗态度</div>
+      <div class="card-body">
+        同时做两件看似矛盾的事：<br>
+        <b>共情（Empathy）：</b>完全理解图式为什么会形成，它在当时是有意义的保护<br>
+        <b>对质（Confrontation）：</b>清晰地指出这个模式现在如何在伤害来访者，不帮助来访者为模式找借口<br><br>
+        区别于单纯支持性治疗（只共情，不推动改变）
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight" style="margin-top:20px;">
+    <div class="highlight-title">自我应用：如何识别自己的图式被触发</div>
+    <p>
+      1. 情绪反应强度远超事件本身 → 图式被激活的信号<br>
+      2. 问："这个感受让我想起什么时候？小时候？" → 追溯图式根源<br>
+      3. 问："我现在是在顺从图式、回避图式、还是过补偿？"<br>
+      4. 健康成人的问题："这个孩子现在需要什么？我能给他/她吗？"<br>
+      5. 对自己说："这是图式在说话，不是现实。"
+    </p>
+  </div>
+</div>
+
 <!-- ====== DSM-5 × TX ====== -->
 <div id="dsm5" class="section">
   <div class="section-title">DSM-5 诊断 × 最佳治疗匹配</div>
   <div class="section-desc">按诊断快速查看：第一选择疗法 / 辅助 / 禁忌或注意事项</div>
+  <div class="tech-strip">
+    <span class="t blue">GAD → CBT</span>
+    <span class="t blue">MDD → CBT + Behavioral Activation</span>
+    <span class="t red">BPD → DBT</span>
+    <span class="t amber">PTSD → EMDR / TF-CBT</span>
+    <span class="t green">OCD → ERP</span>
+    <span class="t amber">Bipolar → IPSRT + 药</span>
+    <span class="t green">ASD → ABA</span>
+    <span class="t teal">Substance → MI + CBT</span>
+    <span class="t green">Anorexia (adolescent) → FBT Maudsley</span>
+    <span class="t purple">Complex PTSD → Phase-Oriented</span>
+    <span class="t purple">ASPD → Psychodynamic</span>
+    <span class="t amber">Schema / Personality → Schema Therapy</span>
+  </div>
 
   <div style="overflow-x:auto; margin-bottom: 16px;">
   <table style="width:100%;border-collapse:collapse;font-size:13px;">
