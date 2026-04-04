@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>情感系统 | Z5S 系统故事</title>
+  <meta name="description" content="情感系统——人格里的感知层、信号层、能量接收器。" />
+  <meta name="theme-color" content="#ffffff" />
+  <style>
+    :root{
+      --bg:#ffffff; --text:#0b0c0f; --muted:#5b5f6a; --line:#e9eaee; --card:#f6f7f9;
+      --shadow:0 10px 30px rgba(0,0,0,.06); --radius:18px; --radius2:14px; --max:1080px;
+      --accent:#c0384a; --accent2:#d94455;
+      --page-bg:#ffffff; --section-bg:#ffffff; --soft-bg:#f6f7f9;
+    }
+    *{box-sizing:border-box}
+    html{zoom:0.9}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC","Hiragino Sans GB",Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text); background:var(--page-bg); line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      transition:background-color .28s ease;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line);}
+    .navin{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:18px;}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.2px;white-space:nowrap;}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),#f7a8b0);box-shadow:0 0 0 4px rgba(192,56,74,.10);}
+    .navlinks{display:flex;gap:22px;align-items:center;flex:1 1 auto;justify-content:flex-end;}
+    .navlinks > a{color:var(--muted);font-size:14px;transition:color .16s;}
+    .navlinks > a:hover{color:var(--text);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--text);font-size:14px;font-weight:600;transition:transform .08s ease,box-shadow .2s ease,border-color .2s ease;}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(0,0,0,.06);}
+    .btn.primary{background:linear-gradient(180deg,var(--accent2),var(--accent));color:#fff;border-color:transparent;box-shadow:0 12px 24px rgba(192,56,74,.22);}
+    .btn.primary:hover{box-shadow:0 16px 30px rgba(192,56,74,.30);}
+
+    /* HERO */
+    .hero{padding:64px 0 44px;background:var(--section-bg);}
+    .heroGrid{display:grid;gap:22px;grid-template-columns:1.25fr .75fr;align-items:stretch;}
+    .hLabel{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .hLabel::before{content:'';display:inline-block;width:20px;height:2px;background:var(--accent);border-radius:2px;}
+    .hTitle{font-size:46px;line-height:1.06;letter-spacing:-1.2px;margin:0 0 16px;}
+    .hSub{margin:0 0 22px;color:var(--muted);font-size:18px;max-width:60ch;line-height:1.65;}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+    .chip{padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:#2b2f38;font-size:13px;}
+    .chip.accent{background:rgba(192,56,74,.08);border-color:rgba(192,56,74,.20);color:var(--accent);}
+
+    /* HERO CARD */
+    .heroCard{border:1px solid var(--line);background:linear-gradient(160deg,#fff8f8,#fdeef0);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:260px;}
+    .heroCard .eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+    .heroCard h3{margin:0 0 10px;letter-spacing:-.35px;font-size:18px;}
+    .heroCard p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+    .quote{font-size:15px;font-style:italic;line-height:1.7;color:#6b1020;border-left:3px solid var(--accent);padding-left:14px;margin:16px 0 0;}
+
+    /* SECTIONS */
+    section{padding:52px 0;border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    h2{margin:0 0 10px;font-size:30px;letter-spacing:-.7px;}
+    .lead{margin:0 0 24px;color:var(--muted);max-width:74ch;font-size:16px;line-height:1.7;}
+    .grid3{display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr));}
+    .grid2{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr));}
+    .card{border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:20px;box-shadow:0 8px 20px rgba(0,0,0,.04);}
+    .card.soft{background:var(--soft-bg);}
+    .card.red{background:linear-gradient(135deg,rgba(192,56,74,.07),rgba(247,168,176,.05));border-color:rgba(192,56,74,.15);}
+    .card h3{margin:0 0 8px;letter-spacing:-.35px;font-size:16px;}
+    .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+    .card ul{margin:10px 0 0;padding:0 0 0 18px;color:var(--muted);font-size:14px;}
+    .card li{margin:6px 0;}
+    .card .num{font-size:26px;font-weight:800;color:var(--accent);opacity:.25;margin-bottom:6px;line-height:1;}
+
+    /* STORY BLOCK */
+    .storyBlock{display:grid;gap:22px;grid-template-columns:1fr 1fr;align-items:start;}
+    .storyText{font-size:15px;color:var(--muted);line-height:1.8;}
+    .storyText p{margin:0 0 14px;}
+    .storyText p:last-child{margin:0;}
+    .storyText b{color:var(--text);}
+    .storyCard{border:1px solid rgba(192,56,74,.18);background:rgba(192,56,74,.04);border-radius:var(--radius);padding:20px;}
+    .storyCard h4{margin:0 0 12px;letter-spacing:-.3px;color:var(--accent);}
+    .storyCard ul{margin:0;padding:0 0 0 16px;color:#6b1020;font-size:14px;line-height:1.7;}
+    .storyCard li{margin:5px 0;}
+
+    /* BADGE ROW */
+    .badgeRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+    .badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:#2b2f38;}
+    .dot2{width:8px;height:8px;border-radius:999px;background:#c0384a;}
+    .dot3{width:8px;height:8px;border-radius:999px;background:#f7a8b0;}
+    .dot4{width:8px;height:8px;border-radius:999px;background:#34c759;}
+    .dot5{width:8px;height:8px;border-radius:999px;background:#ff9500;}
+
+    /* COMPARISON TABLE */
+    .compareGrid{display:grid;gap:14px;grid-template-columns:1fr 1fr 1fr;}
+    .compareCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:16px;}
+    .compareCard .tag{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+    .compareCard h4{margin:0 0 6px;font-size:15px;letter-spacing:-.3px;}
+    .compareCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;}
+
+    /* QUOTE PULL */
+    .pullQuote{border:1px solid rgba(192,56,74,.20);background:linear-gradient(135deg,rgba(192,56,74,.06),rgba(247,168,176,.04));border-radius:var(--radius);padding:28px 32px;text-align:center;}
+    .pullQuote p{margin:0;font-size:20px;line-height:1.6;letter-spacing:-.3px;color:#5a0812;font-style:italic;}
+    .pullQuote small{display:block;margin-top:12px;font-size:13px;color:var(--muted);font-style:normal;}
+
+    /* GROWTH STEPS */
+    .stepList{display:grid;gap:10px;}
+    .step{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:var(--radius2);border:1px solid var(--line);background:#fff;}
+    .stepNum{width:32px;height:32px;border-radius:999px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:0 0 auto;}
+    .stepText b{display:block;margin-bottom:4px;font-size:15px;letter-spacing:-.2px;}
+    .stepText span{color:var(--muted);font-size:14px;}
+
+    /* SUBHEAD inside accordion */
+    .acc-subhead{font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+    .triggerGrid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);}
+    .triggerCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:14px;}
+    .triggerCard .tNum{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em;margin-bottom:5px;}
+    .triggerCard h4{margin:0 0 5px;font-size:14px;letter-spacing:-.2px;}
+    .triggerCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;}
+    .levelGrid{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);}
+    .levelCard{border-radius:var(--radius);padding:20px;border:1px solid var(--line);}
+    .levelCard .lTag{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+    .levelCard h3{margin:0 0 8px;font-size:16px;letter-spacing:-.3px;}
+    .levelCard p{margin:0 0 10px;font-size:14px;line-height:1.65;}
+    .levelCard ul{margin:0;padding:0 0 0 16px;font-size:13px;line-height:1.7;}
+    @media(max-width:780px){.triggerGrid{grid-template-columns:1fr}.levelGrid{grid-template-columns:1fr}}
+
+    /* THEME SWATCH */
+    .themePanel{margin-top:0;border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:16px;padding:14px;backdrop-filter:blur(12px);}
+    .themePanel h4{margin:0 0 6px;font-size:14px;}
+    .themePanel p{margin:0 0 10px;color:var(--muted);font-size:13px;}
+    .swatchRow{display:flex;gap:10px;}
+    .swatch{width:30px;height:30px;border-radius:999px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:transform .08s,box-shadow .18s;}
+    .swatch:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.10);}
+    .swatch.active{box-shadow:0 0 0 3px rgba(192,56,74,.25);border-color:rgba(192,56,74,.5);}
+
+    /* FOOTER */
+    footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px;background:var(--section-bg);}
+    .footGrid{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .fine{font-size:12px;color:#7b808c;margin-top:8px;}
+
+    /* ACCORDION */
+    .accordion{border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    .accordionHeader{cursor:pointer;padding:32px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;user-select:none;list-style:none;}
+    .accordionHeader::-webkit-details-marker{display:none;}
+    .accordionTitle{font-size:24px;font-weight:700;letter-spacing:-.6px;margin:0;}
+    .accordionMeta{display:flex;align-items:center;gap:12px;}
+    .accordionLead{font-size:14px;color:var(--muted);}
+    .accordionCaret{width:32px;height:32px;border-radius:999px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto;transition:transform .28s ease,background .2s ease;}
+    details[open] .accordionCaret{transform:rotate(180deg);background:rgba(192,56,74,.10);border-color:rgba(192,56,74,.25);}
+    .accordionBody{padding-bottom:44px;}
+    .accordionBody .lead{margin-top:0;}
+
+    @keyframes rainbow{to{background-position:300% center}}
+    @media(max-width:920px){.heroGrid{grid-template-columns:1fr}.hTitle{font-size:38px}.storyBlock{grid-template-columns:1fr}}
+    @media(max-width:780px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.compareGrid{grid-template-columns:1fr}.hTitle{font-size:32px}}
+  </style>
+</head>
+<body>
+
+<header class="nav" role="banner">
+  <div class="wrap">
+    <div class="navin">
+      <a class="brand" href="https://bestwellnesstherapy.com">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Z5S 系统故事</span>
+      </a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#definition">定义</a>
+        <a href="#tasks">核心任务</a>
+        <a href="#language">典型语言</a>
+        <a href="#misread">常见误解</a>
+        <a href="#growth">成长方向</a>
+      </nav>
+      <a class="btn primary" href="https://bestwellnesstherapy.com">← 返回首页</a>
+    </div>
+  </div>
+</header>
+
+<main role="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="情感系统介绍">
+    <div class="wrap">
+      <div class="heroGrid">
+        <div>
+          <div class="hLabel">Z5S · 五个系统之一</div>
+          <h1 class="hTitle">❤️ 情感系统</h1>
+          <p class="hSub">
+            它不回答「我应该怎么做」，而是回答<b>「我现在正在感受什么，这感受意味着什么」</b>。
+          </p>
+          <div class="chips">
+            <span class="chip accent">情绪感知</span>
+            <span class="chip">内在信号接收</span>
+            <span class="chip">关系连接</span>
+            <span class="chip">情绪调节</span>
+            <span class="chip">共情能力</span>
+          </div>
+        </div>
+        <aside class="heroCard" aria-label="核心摘要">
+          <div>
+            <div class="eyebrow">一句话定位</div>
+            <h3>情感系统，是一个人接收与处理内在信号的系统。</h3>
+            <p>它高的人：更敏锐，更有温度，更能感知自己和他人——但也更容易被情绪淹没，更难从强烈感受中抽身。</p>
+            <p class="quote">真正成熟的情感系统，不是压制感受，而是：让情绪流动，而不是让情绪决定一切。</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 定义 -->
+  <section id="definition" aria-label="定义">
+    <div class="wrap">
+      <h2>什么是情感系统？</h2>
+      <p class="lead">它不是「脾气大不大」，也不是「感性不感性」。它负责回答四个更根本的问题。</p>
+      <div class="grid2" style="margin-bottom:22px;">
+        <div class="card red">
+          <div class="num">01</div>
+          <h3>我现在感受到什么</h3>
+          <p>能准确捕捉当下的内在状态。很多人活了半辈子，都说不清自己「现在感觉如何」——情感系统负责这个感知入口。</p>
+        </div>
+        <div class="card red">
+          <div class="num">02</div>
+          <h3>这种感受在告诉我什么</h3>
+          <p>情绪不是噪音，是信号。愤怒指向边界被侵犯，悲伤指向失去，焦虑指向威胁。情感系统的核心是读懂这些信号。</p>
+        </div>
+        <div class="card red">
+          <div class="num">03</div>
+          <h3>我和别人之间有什么流动</h3>
+          <p>关系里的温度、距离、接近与退缩——情感系统感知的不只是自己，也包括人与人之间的情感流动。</p>
+        </div>
+        <div class="card red">
+          <div class="num">04</div>
+          <h3>我能不能让自己平复下来</h3>
+          <p>调节功能。不是压制，而是：在强烈情绪里，还能有一部分自己保持在场、不被完全淹没。</p>
+        </div>
+      </div>
+      <div class="pullQuote">
+        <p>情感系统是人格里的<b>感知层</b>。<br/>它不处理逻辑，也不处理身份，<br/>它处理的是：「这一刻，我活着的感受是什么。」</p>
+        <small>Z5S 框架</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心任务 -->
+  <section id="tasks" aria-label="核心任务">
+    <div class="wrap">
+      <h2><span style="background:linear-gradient(90deg,#c0384a,#f7a8b0,#ff6b6b,#c0384a);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:rainbow 3s linear infinite;">五个核心任务</span></h2>
+      <p class="lead">情感系统不是单一功能，它同时在做五件非常不同的事。</p>
+      <div class="grid3">
+        <div class="card">
+          <h3>📡 感知情绪信号</h3>
+          <p>接收身体和内心发出的情感信息——包括微弱的、模糊的、甚至自己都说不清楚的那些。</p>
+        </div>
+        <div class="card">
+          <h3>🔍 解读情绪含义</h3>
+          <p>把情绪翻译成信息：这种难受是什么难受？这个不舒服在指向什么需求？情感系统是解码器。</p>
+        </div>
+        <div class="card">
+          <h3>🌊 调节情绪强度</h3>
+          <p>当情绪来了，能不能容纳它而不被淹没？能不能在高强度感受里，还有一部分自己在场？</p>
+        </div>
+        <div class="card">
+          <h3>🤝 支持关系连接</h3>
+          <p>情感系统让一个人能<b>真正感受到别人</b>，不只是理解别人——这是共情、温度、关系深度的基础。</p>
+        </div>
+        <div class="card">
+          <h3>⚡ 提供行动动力</h3>
+          <p>很多人以为情绪是障碍，其实情感系统的激活正是行动的燃料——爱、愤怒、渴望都在驱动选择。</p>
+        </div>
+        <div class="card soft">
+          <h3>核心追求</h3>
+          <p>情感系统真正追求的，不是快乐，也不是平静，而是<b>流动</b>——情绪能来，也能走，不卡住，不压死。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 高低对比 ACCORDION -->
+  <details class="accordion" aria-label="高低情感系统的样子">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">1. 情感系统高 vs 低，是什么样子</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">不是谁好谁坏，是两种不同的人格运作方式。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="acc-subhead">情感系统高的人</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="storyCard" style="border-color:rgba(192,56,74,.25);background:rgba(192,56,74,.05);">
+            <h4>优势</h4>
+            <ul>
+              <li>情感敏锐，感知细腻</li>
+              <li>共情能力强，容易感受到别人的状态</li>
+              <li>关系里更有温度，更让人感到被看见</li>
+              <li>对自己的内在状态有丰富感知</li>
+              <li>艺术感、审美感、创意往往更强</li>
+            </ul>
+          </div>
+          <div class="storyCard" style="border-color:rgba(255,59,48,.20);background:rgba(255,59,48,.03);">
+            <h4 style="color:#c0392b;">过高时的风险</h4>
+            <ul style="color:#7a3030;">
+              <li>容易被情绪淹没，失去理性判断</li>
+              <li>情绪波动大，难以稳定</li>
+              <li>对他人感受过度负责，容易内耗</li>
+              <li>边界感模糊，容易「接收」他人的情绪</li>
+              <li>难以从强烈感受中抽身，回复慢</li>
+            </ul>
+          </div>
+        </div>
+        <div class="badgeRow" style="margin-bottom:28px;">
+          <span class="badge"><span class="dot2"></span> 更有温度</span>
+          <span class="badge"><span class="dot3"></span> 共情更强</span>
+          <span class="badge"><span class="dot4"></span> 感受更丰富</span>
+          <span class="badge"><span class="dot5"></span> 容易情绪化</span>
+        </div>
+
+        <div class="acc-subhead">情感系统低的人</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="storyCard" style="border-color:rgba(0,0,0,.10);background:#fafafa;">
+            <h4 style="color:var(--muted);">挑战</h4>
+            <ul style="color:var(--muted);">
+              <li><b style="color:var(--text);">情感感知弱</b> — 不太知道自己「现在什么感受」</li>
+              <li><b style="color:var(--text);">关系容易疏离</b> — 不是不在意，而是感知不到温度的流动</li>
+              <li><b style="color:var(--text);">共情困难</b> — 理智上明白别人难受，但感受不到</li>
+              <li><b style="color:var(--text);">情绪积压</b> — 感受不到，不等于没有；容易突然崩</li>
+              <li><b style="color:var(--text);">身体症状替代</b> — 情绪经常以躯体症状的方式出现</li>
+            </ul>
+          </div>
+          <div class="storyCard" style="border-color:rgba(52,199,89,.20);background:rgba(52,199,89,.03);">
+            <h4 style="color:#1a6e32;">优势</h4>
+            <ul style="color:#2a5535;">
+              <li>在高压下更稳定，不容易被情绪带走</li>
+              <li>决策时较少受情绪干扰</li>
+              <li>不容易受他人情绪感染</li>
+              <li>执行力强，能长期推进</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card soft">
+          <h3>不是「低就坏，高就好」</h3>
+          <p>过低会让人失去感受自己和连接他人的能力；过高会让人被情绪控制，失去稳定性。两端都有代价，<b>成熟的情感系统是：能充分感受，又不会被感受困住。</b></p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 典型语言 ACCORDION -->
+  <details class="accordion" id="language" aria-label="典型语言">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">2. 情感系统高的人，说什么</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">这些不是软弱，而是内在生命力的真实表达。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="grid2">
+          <div class="card">
+            <h3>💬 他们经常说</h3>
+            <ul>
+              <li>「我说不出来，就是感觉不对。」</li>
+              <li>「这件事让我很难受，虽然我知道没必要。」</li>
+              <li>「我好像感受到他在回避我。」</li>
+              <li>「我需要时间消化一下这个感受。」</li>
+              <li>「我不知道为什么，但我就是很崩。」</li>
+              <li>「我很在意别人是不是真的还好。」</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>💭 他们内心常有的感受</h3>
+            <ul>
+              <li>我需要被真正看见，不只是被理解</li>
+              <li>我承受着很多说不出口的东西</li>
+              <li>关系里的一点变化我都能感觉到</li>
+              <li>我有时候不知道这些感受是哪来的</li>
+              <li>我想要连接，但有时候连接太多也很累</li>
+              <li>我怕自己太情绪化，但压下去更难受</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card soft" style="margin-top:14px">
+          <h3>情感系统最怕什么？</h3>
+          <p>不是悲伤，而是：<b>感受被否定、情绪被忽略、在关系里感到不被看见、情感无处安放、必须永远「没事」。</b><br/>所以情感系统高的人很多时候不是脆弱，而是会先问：「我现在感受到的这些，能不能被接住？」</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 常见误解 ACCORDION -->
+  <details class="accordion" id="misread" aria-label="常见误解">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">3. 三个常见误解</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">情感系统经常被混淆成别的东西。它们看起来像，但核心完全不同。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="compareGrid">
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>情绪化 ≠ 情感系统高</h4>
+            <p><b>情绪化</b>：情绪反应强烈、频繁失控、调节差。<br/><br/><b>情感系统高</b>：感知敏锐、感受丰富，但不一定失控——成熟的情感系统高者往往能深刻感受，同时保持在场。</p>
+          </div>
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>共情 ≠ 讨好</h4>
+            <p><b>讨好</b>：为了避免冲突或获得认可，压抑自己去满足他人。<br/><br/><b>共情</b>：真正感受到另一个人的内在状态——不一定要行动，更不一定要牺牲自己。</p>
+          </div>
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>压抑 ≠ 情感系统低</h4>
+            <p>情感系统其实很高，但从小被训练出「不能有情绪」——这是高情感系统加压抑机制，不是真的低。<br/><br/>测出来看似低分，实际是感知被封锁了。</p>
+          </div>
+        </div>
+        <div class="card soft" style="margin-top:14px">
+          <h3>还有这些不等于情感系统</h3>
+          <div class="badgeRow" style="margin-top:10px">
+            <span class="badge">哭泣多 ≠ 情感系统高</span>
+            <span class="badge">不哭 ≠ 情感系统低</span>
+            <span class="badge">冷静 ≠ 低情感</span>
+            <span class="badge">多愁善感 ≠ 情感系统</span>
+          </div>
+          <p style="margin-top:12px;">「我是感性的人 / 我很理性所以没感情」——这些标签并不等同于情感系统的真实运作。</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 误伤方式 ACCORDION -->
+  <details class="accordion" aria-label="情感系统的常见误伤">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">4. 情感系统最常见的五种误伤</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">这些是情感系统在自我攻击或失调时走的弯路。认出来，是改变的开始。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="stepList">
+          <div class="step">
+            <div class="stepNum">1</div>
+            <div class="stepText"><b>把感受当事实</b><span>「我感到被抛弃了」不等于「我真的被抛弃了」。情感系统的信号需要核实，不是直接执行。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">2</div>
+            <div class="stepText"><b>压抑情绪当「成熟」</b><span>以为不表达就是稳定。但压抑只是推迟——情绪会以其他方式出现，身体、关系、行为都会替你说话。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">3</div>
+            <div class="stepText"><b>用情绪控制他人</b><span>用眼泪、愤怒、沉默来让别人改变——这不是表达，而是把情绪变成了武器。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">4</div>
+            <div class="stepText"><b>情绪身份化</b><span>「我就是容易焦虑的人」——把情感模式变成固定身份，就很难改变。情绪是状态，不是本质。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">5</div>
+            <div class="stepText"><b>过度承接他人情绪</b><span>总觉得「我需要帮他解决情绪问题」——把别人的感受变成自己的责任，是情感系统最常见的边界错误。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 成长方向 ACCORDION -->
+  <details class="accordion" id="growth" aria-label="成长方向">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">5. 情感系统的成长方向</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">从「被情绪带走」走向「与情绪同行」。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="grid2">
+          <div class="stepList">
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>情绪来了就跟着走</b><span>感受是什么，行动就是什么——没有中间地带。</span></div>
+            </div>
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>把感受压住才叫稳定</b><span>以为不哭、不说、不表达就是成熟。</span></div>
+            </div>
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>把他人情绪揽上身</b><span>「他难受，是我的问题」——无边界的吸收。</span></div>
+            </div>
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>要么麻木，要么崩溃</b><span>没有中间层，只有两个极端。</span></div>
+            </div>
+          </div>
+          <div class="stepList">
+            <div class="step" style="border-color:rgba(192,56,74,.20);background:rgba(192,56,74,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>感受到，但不一定行动</b><span>我知道我在感受什么，我选择如何回应。</span></div>
+            </div>
+            <div class="step" style="border-color:rgba(192,56,74,.20);background:rgba(192,56,74,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>情绪可以表达，也可以容纳</b><span>不一定要说出来，但它可以有地方存在。</span></div>
+            </div>
+            <div class="step" style="border-color:rgba(192,56,74,.20);background:rgba(192,56,74,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>陪伴，但不融合</b><span>我可以感受你的感受，但我还是我自己。</span></div>
+            </div>
+            <div class="step" style="border-color:rgba(192,56,74,.20);background:rgba(192,56,74,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>情绪流动，不卡死</b><span>来了，可以待一会儿，然后继续往前走。</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="pullQuote" style="margin-top:22px;">
+          <p>「你不需要消灭你的感受。<br/>你只需要学会：不让它们替你做决定。」</p>
+          <small>情感系统的最终形态</small>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 6: 压力下的表现 + 触发点 -->
+  <details class="accordion" id="pressure" aria-label="压力下的表现">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">6. 压力下的表现与触发点</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">情感系统被触发时，不是「想太多」——它感知到了真实存在的东西。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <div class="acc-subhead">压力下的反应</div>
+        <div class="card soft" style="margin-bottom:22px;">
+          <p>情感系统被触发时，常见反应不是愤怒，而是：<b>情绪涌来、无法集中、感到孤立、强烈的想被接住的需求。</b></p>
+          <p style="margin-top:10px;color:var(--muted);">「我说不出来为什么，就是很难受」「我好像感觉到什么变了」——它的感知往往比认知系统更早、更准，但也更难解释清楚，因为它处理的是<b>感受的真相</b>，而不是逻辑的真相。</p>
+        </div>
+
+        <div class="acc-subhead">八大触发来源</div>
+        <div class="triggerGrid">
+          <div class="triggerCard">
+            <div class="tNum">01</div>
+            <h4>被忽视或不被看见</h4>
+            <p>「你说什么我听不懂」「你太敏感了」「你想太多了」</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">02</div>
+            <h4>关系温度突变</h4>
+            <p>昨天还好好的，今天突然变冷淡——这种落差情感系统会立刻捕捉到</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">03</div>
+            <h4>情感需求被否定</h4>
+            <p>「你不该有这种感觉」「有什么好难过的」「振作起来」</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">04</div>
+            <h4>被孤立或排除在外</h4>
+            <p>感觉自己被关系边缘化、不被邀请、不属于这里</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">05</div>
+            <h4>过度承接他人痛苦</h4>
+            <p>长时间陪伴高痛苦的人，情感系统会开始「溢出」——这不是失控，是超载</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">06</div>
+            <h4>内在感受找不到出口</h4>
+            <p>有很多感受但无法表达，无人接住，久了会变成躯体症状或情绪崩塌</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">07</div>
+            <h4>被迫「假装没事」</h4>
+            <p>场合要求表现正常，但内在正在经历很多——这种分裂本身就是巨大消耗</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">08</div>
+            <h4>失去有意义的连接</h4>
+            <p>不一定是失恋或死亡——有时候只是一段关系「变味了」，情感系统就开始哀悼</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 7: 三个层级 -->
+  <details class="accordion" id="levels" aria-label="三个层级">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">7. 情感系统的三个层级</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">Z5S 框架里最重要的部分——你在哪个层级运作？</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="levelGrid" style="margin-bottom:22px;">
+          <div class="levelCard" style="background:#fff8f8;border-color:rgba(255,59,48,.20);">
+            <div class="lTag" style="color:#c0392b;">层级一</div>
+            <h3>反应层级</h3>
+            <p style="color:#7a3030;">情感系统主要在<b>被动反应</b>——情绪来了就跟走，没有缓冲地带。</p>
+            <ul style="color:#7a3030;">
+              <li>情绪来了就直接行动或崩溃</li>
+              <li>很难说清楚「我现在什么感受」</li>
+              <li>容易用行为代替感受（上瘾、回避、暴食）</li>
+              <li>关系里容易情绪化冲突</li>
+              <li>调节能力弱，恢复慢</li>
+            </ul>
+          </div>
+          <div class="levelCard" style="background:#fff4f4;border-color:rgba(192,56,74,.22);">
+            <div class="lTag" style="color:var(--accent);">层级二</div>
+            <h3>整合层级</h3>
+            <p style="color:#6b1020;">能感知情绪，也能在一定程度上调节——情感系统开始有弹性。</p>
+            <ul style="color:#6b1020;">
+              <li>能说出「我现在感到……」</li>
+              <li>知道自己的情绪触发点</li>
+              <li>能在情绪里待着，不立刻逃或爆发</li>
+              <li>可以感受他人，又不完全融合</li>
+              <li>情绪流动而不是积压</li>
+            </ul>
+          </div>
+          <div class="levelCard" style="background:#f0fff4;border-color:rgba(52,199,89,.25);">
+            <div class="lTag" style="color:#1a6e32;">层级三</div>
+            <h3>转化层级</h3>
+            <p style="color:#1a5535;">把情感经验转化为意义、创造与连接——不只是调节自己。</p>
+            <ul style="color:#1a5535;">
+              <li>用情感经验创作、治愈、引导他人</li>
+              <li>能成为他人感受的容器，同时不被淹没</li>
+              <li>发展成情感型治疗者、创意表达者、深度陪伴者</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="acc-subhead">不同分数的感觉参考</div>
+        <div class="grid2">
+          <div class="card">
+            <h3>0–2 分感</h3>
+            <p style="color:var(--muted);">感觉不到太多 · 关系里常被说「你不够在乎」 · 情绪来了也不知道那是什么</p>
+          </div>
+          <div class="card">
+            <h3>3–6 分感</h3>
+            <p style="color:var(--muted);">有感受，但不深 · 压力大了才明显 · 关系需求不算强烈</p>
+          </div>
+          <div class="card">
+            <h3>7–8 分感</h3>
+            <p style="color:var(--muted);">感受丰富 · 对关系温度很敏感 · 情绪经常在，但大多数时候还能处理</p>
+          </div>
+          <div class="card">
+            <h3>9–10 分感</h3>
+            <p style="color:var(--muted);">活得非常有感觉 · 关系是核心 · 情绪很强 · 需要很多接纳和出口 · 是天赋，也是负担</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 8: 适合路径 + 临床解读 -->
+  <details class="accordion" id="application" aria-label="应用与临床">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">8. 适合的路径与临床解读</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">情感系统如何影响方向选择，以及临床上意味着什么。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <div class="acc-subhead">适合的路径方向</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="card">
+            <h3>情感系统高 → 更适合</h3>
+            <ul>
+              <li>心理治疗、辅导、社工</li>
+              <li>艺术创作、文学、音乐</li>
+              <li>人文教育、关怀性工作</li>
+              <li>深度关系型工作（非高频transactional）</li>
+              <li>社群建立、情感支持型角色</li>
+            </ul>
+            <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们需要：工作里有真实的情感连接，否则容易感到空洞。同时需要情感边界，避免职业耗竭。</p>
+          </div>
+          <div class="card">
+            <h3>情感系统低 → 更适合</h3>
+            <ul>
+              <li>高强度分析、技术型工作</li>
+              <li>需要情绪稳定性的决策角色</li>
+              <li>不需要高度情感卷入的执行工作</li>
+            </ul>
+            <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们常需要先探索：我其实感受到什么？我在关系里真正需要什么？这些问题不回答，会一直觉得某个地方空着。</p>
+          </div>
+        </div>
+
+        <div class="acc-subhead">临床解读</div>
+        <div class="grid3">
+          <div class="card" style="border-color:rgba(0,122,255,.18);background:rgba(0,122,255,.03);">
+            <h3 style="color:#0a5299;">偏低时</h3>
+            <ul style="color:#1a3a6a;">
+              <li>情感隔离</li>
+              <li>述情障碍（说不出感受）</li>
+              <li>关系疏离感</li>
+              <li>躯体化症状</li>
+              <li>压抑多于表达</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(255,59,48,.18);background:rgba(255,59,48,.03);">
+            <h3 style="color:#c0392b;">偏高且调节弱时</h3>
+            <ul style="color:#7a3030;">
+              <li>情绪调节困难</li>
+              <li>边界模糊</li>
+              <li>情感依附强烈</li>
+              <li>容易被他人情绪感染</li>
+              <li>情绪性决策，事后后悔</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(52,199,89,.20);background:rgba(52,199,89,.03);">
+            <h3 style="color:#1a6e32;">成熟时</h3>
+            <ul style="color:#1a5535;">
+              <li>能感受，也能调节</li>
+              <li>情感边界清晰</li>
+              <li>能深度共情但不融合</li>
+              <li>情绪成为信息，而不是命令</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- 环境选色 -->
+  <section aria-label="环境选色">
+    <div class="wrap">
+      <div class="themePanel">
+        <h4>选择一个让你感到舒适的背景色。</h4>
+        <p>在这个空间里，你有权选择让自己感到安全的颜色。</p>
+        <div class="swatchRow">
+          <button class="swatch active" type="button" data-theme="default" aria-label="默认白" style="background:#ffffff"></button>
+          <button class="swatch" type="button" data-theme="warm" aria-label="暖米" style="background:#f7f1e8"></button>
+          <button class="swatch" type="button" data-theme="rose" aria-label="浅玫瑰" style="background:#fdf0f2"></button>
+          <button class="swatch" type="button" data-theme="mist" aria-label="薄雾蓝" style="background:#eef4f8"></button>
+          <button class="swatch" type="button" data-theme="sage" aria-label="鼠尾草绿" style="background:#edf4ee"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="footGrid">
+      <div>
+        <b>Z5S 系统故事</b><br/>
+        <span>情感系统 · 五个系统之一</span>
+        <div class="fine">本页内容为 Z5S 框架教育性介绍，不构成心理诊断或临床建议。</div>
+      </div>
+      <div>
+        <div>
+          <a href="#definition">定义</a> ·
+          <a href="#tasks">核心任务</a> ·
+          <a href="#language">典型语言</a> ·
+          <a href="#misread">常见误解</a> ·
+          <a href="#growth">成长方向</a>
+        </div>
+        <div class="fine">© <span id="y"></span> Best Wellness Therapy</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+  const themes = {
+    default: { pageBg:"#ffffff", sectionBg:"#ffffff", softBg:"#f6f7f9", cardBg:"#ffffff" },
+    warm:    { pageBg:"#f7f1e8", sectionBg:"#fbf7f1", softBg:"#f2e7d9", cardBg:"#fdf9f4" },
+    rose:    { pageBg:"#fdf0f2", sectionBg:"#fff5f6", softBg:"#fce0e4", cardBg:"#fff8f9" },
+    mist:    { pageBg:"#eef4f8", sectionBg:"#f6f9fb", softBg:"#e3edf4", cardBg:"#f6f9fb" },
+    sage:    { pageBg:"#edf4ee", sectionBg:"#f4f8f4", softBg:"#e3eee5", cardBg:"#f4f8f4" }
+  };
+  const root = document.documentElement;
+  const swatches = document.querySelectorAll(".swatch");
+  function applyTheme(name) {
+    const t = themes[name] || themes.default;
+    root.style.setProperty("--page-bg", t.pageBg);
+    root.style.setProperty("--section-bg", t.sectionBg);
+    root.style.setProperty("--soft-bg", t.softBg);
+    document.querySelectorAll(".card:not(.soft),.step,details").forEach(el => {
+      el.style.backgroundColor = t.cardBg;
+    });
+    swatches.forEach(b => b.classList.toggle("active", b.dataset.theme === name));
+    try { localStorage.setItem("z5s-emotion-theme", name); } catch(e) {}
+  }
+  swatches.forEach(b => b.addEventListener("click", () => applyTheme(b.dataset.theme)));
+  try { applyTheme(localStorage.getItem("z5s-emotion-theme") || "default"); } catch(e) { applyTheme("default"); }
+</script>
+</body>
+</html>
