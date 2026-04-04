@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>玩乐系统 | Z5S 系统故事</title>
+  <meta name="description" content="玩乐系统——人格里的活力层、投入层、自发快乐层。" />
+  <meta name="theme-color" content="#fffbf4" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
+
+    :root{
+      --bg:#fffbf4; --text:#1a1208; --muted:#6e6455; --line:#e8dfd0; --card:#fdf8ee;
+      --shadow:0 10px 30px rgba(0,0,0,.07); --radius:18px; --radius2:14px; --max:1080px;
+      --accent:#d4620a; --accent2:#e87820; --accent3:#f5a623;
+      --page-bg:#fffbf4; --section-bg:#fffbf4; --soft-bg:#fdf3e3;
+      --fun-pink:#e84393; --fun-teal:#0abfa3; --fun-blue:#2563eb;
+    }
+    *{box-sizing:border-box}
+    html{zoom:0.9}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Noto Serif SC', ui-serif, Georgia, "PingFang SC", serif;
+      color:var(--text); background:var(--page-bg); line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      transition:background-color .28s ease;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,251,244,.88);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line);}
+    .navin{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:18px;}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.2px;white-space:nowrap;}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent3));box-shadow:0 0 0 4px rgba(212,98,10,.12);}
+    .navlinks{display:flex;gap:22px;align-items:center;flex:1 1 auto;justify-content:flex-end;}
+    .navlinks > a{color:var(--muted);font-size:14px;transition:color .16s;font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC",sans-serif;}
+    .navlinks > a:hover{color:var(--text);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--text);font-size:14px;font-weight:600;transition:transform .08s ease,box-shadow .2s ease,border-color .2s ease;font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC",sans-serif;}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(0,0,0,.06);}
+    .btn.primary{background:linear-gradient(180deg,var(--accent2),var(--accent));color:#fff;border-color:transparent;box-shadow:0 12px 24px rgba(212,98,10,.22);}
+    .btn.primary:hover{box-shadow:0 16px 30px rgba(212,98,10,.30);}
+
+    /* HERO */
+    .hero{padding:64px 0 44px;background:var(--section-bg);overflow:hidden;position:relative;}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 40%, rgba(245,166,35,.13) 0%, transparent 70%);pointer-events:none;}
+    .heroGrid{display:grid;gap:22px;grid-template-columns:1.25fr .75fr;align-items:stretch;}
+    .hLabel{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .hLabel::before{content:'';display:inline-block;width:20px;height:2px;background:var(--accent);border-radius:2px;}
+    .hTitle{font-size:52px;line-height:1.04;letter-spacing:-1.5px;margin:0 0 16px;font-weight:900;}
+    .hSub{margin:0 0 22px;color:var(--muted);font-size:18px;max-width:60ch;line-height:1.65;}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+    .chip{padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:#3a2a1a;font-size:13px;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .chip.accent{background:rgba(212,98,10,.09);border-color:rgba(212,98,10,.22);color:var(--accent);}
+
+    /* HERO CARD */
+    .heroCard{border:1px solid var(--line);background:linear-gradient(160deg,#fff8ec,#ffefd6);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:260px;position:relative;overflow:hidden;}
+    .heroCard::after{content:'🎲';position:absolute;right:-10px;bottom:-10px;font-size:90px;opacity:.08;line-height:1;}
+    .heroCard .eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .heroCard h3{margin:0 0 10px;letter-spacing:-.35px;font-size:18px;}
+    .heroCard p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .quote{font-size:15px;font-style:italic;line-height:1.7;color:#7a3a08;border-left:3px solid var(--accent);padding-left:14px;margin:16px 0 0;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+
+    /* SECTIONS */
+    section{padding:52px 0;border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    h2{margin:0 0 10px;font-size:30px;letter-spacing:-.7px;font-weight:800;}
+    .lead{margin:0 0 24px;color:var(--muted);max-width:74ch;font-size:16px;line-height:1.7;font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC",sans-serif;}
+    .grid3{display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr));}
+    .grid2{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr));}
+    .card{border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:20px;box-shadow:0 8px 20px rgba(0,0,0,.04);}
+    .card.soft{background:var(--soft-bg);}
+    .card.orange{background:linear-gradient(135deg,rgba(212,98,10,.08),rgba(245,166,35,.05));border-color:rgba(212,98,10,.18);}
+    .card h3{margin:0 0 8px;letter-spacing:-.35px;font-size:16px;}
+    .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC",sans-serif;}
+    .card ul{margin:10px 0 0;padding:0 0 0 18px;color:var(--muted);font-size:14px;font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC",sans-serif;}
+    .card li{margin:6px 0;}
+    .card .num{font-size:26px;font-weight:800;color:var(--accent);opacity:.22;margin-bottom:6px;line-height:1;}
+
+    /* BADGE ROW */
+    .badgeRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+    .badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:#3a2a1a;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .dot2{width:8px;height:8px;border-radius:999px;background:#d4620a;}
+    .dot3{width:8px;height:8px;border-radius:999px;background:#f5a623;}
+    .dot4{width:8px;height:8px;border-radius:999px;background:#0abfa3;}
+    .dot5{width:8px;height:8px;border-radius:999px;background:#e84393;}
+
+    /* COMPARISON TABLE */
+    .compareGrid{display:grid;gap:14px;grid-template-columns:1fr 1fr 1fr;}
+    .compareCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:16px;}
+    .compareCard .tag{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .compareCard h4{margin:0 0 6px;font-size:15px;letter-spacing:-.3px;}
+    .compareCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+
+    /* QUOTE PULL */
+    .pullQuote{border:1px solid rgba(212,98,10,.22);background:linear-gradient(135deg,rgba(212,98,10,.07),rgba(245,166,35,.04));border-radius:var(--radius);padding:28px 32px;text-align:center;}
+    .pullQuote p{margin:0;font-size:20px;line-height:1.6;letter-spacing:-.3px;color:#6a2c00;font-style:italic;}
+    .pullQuote small{display:block;margin-top:12px;font-size:13px;color:var(--muted);font-style:normal;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+
+    /* GROWTH STEPS */
+    .stepList{display:grid;gap:10px;}
+    .step{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:var(--radius2);border:1px solid var(--line);background:#fff;}
+    .stepNum{width:32px;height:32px;border-radius:999px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:0 0 auto;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .stepText b{display:block;margin-bottom:4px;font-size:15px;letter-spacing:-.2px;}
+    .stepText span{color:var(--muted);font-size:14px;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+
+    /* ACCORDION sub */
+    .acc-subhead{font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .triggerGrid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);}
+    .triggerCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:14px;}
+    .triggerCard .tNum{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em;margin-bottom:5px;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .triggerCard h4{margin:0 0 5px;font-size:14px;letter-spacing:-.2px;}
+    .triggerCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .levelGrid{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);}
+    .levelCard{border-radius:var(--radius);padding:20px;border:1px solid var(--line);}
+    .levelCard .lTag{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .levelCard h3{margin:0 0 8px;font-size:16px;letter-spacing:-.3px;}
+    .levelCard p{margin:0 0 10px;font-size:14px;line-height:1.65;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .levelCard ul{margin:0;padding:0 0 0 16px;font-size:13px;line-height:1.7;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    @media(max-width:780px){.triggerGrid{grid-template-columns:1fr}.levelGrid{grid-template-columns:1fr}}
+
+    /* STORY BLOCK */
+    .storyCard{border:1px solid rgba(212,98,10,.18);background:rgba(212,98,10,.04);border-radius:var(--radius);padding:20px;}
+    .storyCard h4{margin:0 0 12px;letter-spacing:-.3px;color:var(--accent);}
+    .storyCard ul{margin:0;padding:0 0 0 16px;color:#7a3a08;font-size:14px;line-height:1.7;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .storyCard li{margin:5px 0;}
+
+    /* THEME SWATCH */
+    .themePanel{margin-top:0;border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:16px;padding:14px;backdrop-filter:blur(12px);}
+    .themePanel h4{margin:0 0 6px;font-size:14px;}
+    .themePanel p{margin:0 0 10px;color:var(--muted);font-size:13px;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .swatchRow{display:flex;gap:10px;}
+    .swatch{width:30px;height:30px;border-radius:999px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:transform .08s,box-shadow .18s;}
+    .swatch:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.10);}
+    .swatch.active{box-shadow:0 0 0 3px rgba(212,98,10,.25);border-color:rgba(212,98,10,.5);}
+
+    /* FOOTER */
+    footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px;background:var(--section-bg);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .footGrid{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .fine{font-size:12px;color:#9a8a7a;margin-top:8px;}
+
+    /* ACCORDION */
+    .accordion{border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    .accordionHeader{cursor:pointer;padding:32px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;user-select:none;list-style:none;}
+    .accordionHeader::-webkit-details-marker{display:none;}
+    .accordionTitle{font-size:24px;font-weight:700;letter-spacing:-.6px;margin:0;}
+    .accordionMeta{display:flex;align-items:center;gap:12px;}
+    .accordionLead{font-size:14px;color:var(--muted);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .accordionCaret{width:32px;height:32px;border-radius:999px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto;transition:transform .28s ease,background .2s ease;}
+    details[open] .accordionCaret{transform:rotate(180deg);background:rgba(212,98,10,.10);border-color:rgba(212,98,10,.25);}
+    .accordionBody{padding-bottom:44px;}
+    .accordionBody .lead{margin-top:0;}
+
+    @keyframes rainbow{to{background-position:300% center}}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .emoji-bounce{display:inline-block;animation:bounce 2s ease-in-out infinite;}
+    @media(max-width:920px){.heroGrid{grid-template-columns:1fr}.hTitle{font-size:38px}}
+    @media(max-width:780px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.compareGrid{grid-template-columns:1fr}.hTitle{font-size:32px}}
+  </style>
+</head>
+<body>
+
+<header class="nav" role="banner">
+  <div class="wrap">
+    <div class="navin">
+      <a class="brand" href="https://bestwellnesstherapy.com">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Z5S 系统故事</span>
+      </a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#definition">定义</a>
+        <a href="#tasks">核心任务</a>
+        <a href="#language">典型语言</a>
+        <a href="#misread">常见误解</a>
+        <a href="#growth">成长方向</a>
+      </nav>
+      <a class="btn primary" href="https://bestwellnesstherapy.com">← 返回首页</a>
+    </div>
+  </div>
+</header>
+
+<main role="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="玩乐系统介绍">
+    <div class="wrap">
+      <div class="heroGrid">
+        <div>
+          <div class="hLabel">Z5S · 五个系统之一</div>
+          <h1 class="hTitle"><span class="emoji-bounce">🎠</span> 玩乐系统</h1>
+          <p class="hSub">
+            它不问「这有什么用」，它只问<b>「这让我活着吗？」</b>
+          </p>
+          <div class="chips">
+            <span class="chip accent">自发性投入</span>
+            <span class="chip">即时临在感</span>
+            <span class="chip">无目的的愉悦</span>
+            <span class="chip">创意流动</span>
+            <span class="chip">轻盈与解放</span>
+          </div>
+        </div>
+        <aside class="heroCard" aria-label="核心摘要">
+          <div>
+            <div class="eyebrow">一句话定位</div>
+            <h3>玩乐系统，是一个人产生<b>自发活力、投入感与流动快乐</b>的系统。</h3>
+            <p>它高的人：更能玩起来，更有创意弹性，更容易找到生命的轻盈——但也可能逃避责任，难以在无聊中坚持。</p>
+            <p class="quote">成熟的玩乐系统，不是幼稚，而是：能随时找到一个出口，让生命重新有了呼吸。</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 定义 -->
+  <section id="definition" aria-label="定义">
+    <div class="wrap">
+      <h2>什么是玩乐系统？</h2>
+      <p class="lead">它不是「喜欢什么」，也不是「放松一下」。它负责回答四个关于生命活力的根本问题。</p>
+      <div class="grid2" style="margin-bottom:22px;">
+        <div class="card orange">
+          <div class="num">01</div>
+          <h3>我能自发投入什么</h3>
+          <p>不需要外部要求、不需要奖励驱动，就能自然沉浸其中——那就是玩乐系统的领域。</p>
+        </div>
+        <div class="card orange">
+          <div class="num">02</div>
+          <h3>什么让我感到活着</h3>
+          <p>不是「完成了很多」，而是「做这件事的时候，我忘记了时间」——玩乐系统守护的就是这种状态。</p>
+        </div>
+        <div class="card orange">
+          <div class="num">03</div>
+          <h3>我怎么对待无目的</h3>
+          <p>玩乐的核心是允许自己做「没有直接用处」的事。做不到这一点，玩乐系统就很难真正运作。</p>
+        </div>
+        <div class="card orange">
+          <div class="num">04</div>
+          <h3>我能给自己多少轻盈</h3>
+          <p>不只是快乐，是一种解脱感——从「必须」里短暂脱离，让自我重新充电。</p>
+        </div>
+      </div>
+      <div class="pullQuote">
+        <p>玩乐系统是人格里的<b>活力层</b>。<br/>它不产生成就，也不管理情绪，<br/>它管理的是：「我还有没有一点生命气息。」</p>
+        <small>Z5S 框架</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心任务 -->
+  <section id="tasks" aria-label="核心任务">
+    <div class="wrap">
+      <h2><span style="background:linear-gradient(90deg,#d4620a,#f5a623,#0abfa3,#e84393,#d4620a);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:rainbow 3s linear infinite;">五个核心任务</span></h2>
+      <p class="lead">玩乐系统不是单一功能，它同时在做五件对生命质量极其重要的事。</p>
+      <div class="grid3">
+        <div class="card">
+          <h3>⚡ 产生自发活力</h3>
+          <p>当一个人「想玩」，是玩乐系统在驱动。它不需要被推，不需要理由——能量从内部自然涌出。</p>
+        </div>
+        <div class="card">
+          <h3>🌊 进入心流状态</h3>
+          <p>专注但不费力、投入但不紧绷——玩乐系统是通往心流的主要入口之一。</p>
+        </div>
+        <div class="card">
+          <h3>🎨 释放创意弹性</h3>
+          <p>很多创造力不来自「努力思考」，而来自放松后的自由联想。玩乐系统是创意的温床。</p>
+        </div>
+        <div class="card">
+          <h3>🔄 提供心理恢复</h3>
+          <p>玩乐是一种真正的休息——不是睡觉，不是发呆，而是让大脑换一种模式运转，完成深层恢复。</p>
+        </div>
+        <div class="card">
+          <h3>🤝 建立关系连接</h3>
+          <p>「一起玩」是最原始的连接方式。玩乐系统强的人，往往更容易在互动中创造轻盈、亲密的氛围。</p>
+        </div>
+        <div class="card soft">
+          <h3>核心追求</h3>
+          <p>玩乐系统真正追求的，不是成果，也不是休息，而是<b>临在感</b>——完全在当下，没有别处。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 高低对比 ACCORDION -->
+  <details class="accordion" aria-label="高低玩乐系统的样子">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">1. 玩乐系统高 vs 低，是什么样子</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">不是谁好谁坏，是两种不同的生命流动方式。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="acc-subhead">玩乐系统高的人</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="storyCard" style="border-color:rgba(212,98,10,.25);background:rgba(245,166,35,.05);">
+            <h4>优势</h4>
+            <ul>
+              <li>更容易进入投入状态，找到心流</li>
+              <li>富有创意弹性，想法不容易枯竭</li>
+              <li>更能享受当下，不总是活在「将来」</li>
+              <li>在关系里制造轻盈，让人觉得有趣</li>
+              <li>压力后恢复快，知道怎么让自己重新活起来</li>
+            </ul>
+          </div>
+          <div class="storyCard" style="border-color:rgba(255,59,48,.20);background:rgba(255,59,48,.03);">
+            <h4 style="color:#c0392b;">过高时的风险</h4>
+            <ul style="color:#7a3030;">
+              <li>难以在无聊、重复、延迟满足的事上坚持</li>
+              <li>逃避责任——把玩乐当成回避压力的工具</li>
+              <li>在严肃场合显得不够认真</li>
+              <li>容易分心，计划难以落地</li>
+              <li>用玩乐麻痹情绪，而不是真正处理它</li>
+            </ul>
+          </div>
+        </div>
+        <div class="badgeRow" style="margin-bottom:28px;">
+          <span class="badge"><span class="dot2"></span> 更有活力感</span>
+          <span class="badge"><span class="dot3"></span> 更有创意</span>
+          <span class="badge"><span class="dot4"></span> 恢复力强</span>
+          <span class="badge"><span class="dot5"></span> 可能逃避性</span>
+        </div>
+
+        <div class="acc-subhead">玩乐系统低的人</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="storyCard" style="border-color:rgba(0,0,0,.10);background:#fafaf8;">
+            <h4 style="color:var(--muted);">挑战</h4>
+            <ul style="color:var(--muted);">
+              <li><b style="color:var(--text);">生命感枯燥</b> — 一切都是任务，没有什么是自发想做的</li>
+              <li><b style="color:var(--text);">难以放松</b> — 即使休息，内心也一直在计算「有没有在浪费时间」</li>
+              <li><b style="color:var(--text);">创意枯竭</b> — 没有输入，没有流动，脑子越来越干</li>
+              <li><b style="color:var(--text);">关系变沉</b> — 和别人在一起，总觉得要「有目的」才值得</li>
+              <li><b style="color:var(--text);">身体紧绷</b> — 玩乐系统低的人，往往身体也更容易积累慢性压力</li>
+            </ul>
+          </div>
+          <div class="storyCard" style="border-color:rgba(10,191,163,.20);background:rgba(10,191,163,.03);">
+            <h4 style="color:#076e5e;">相对优势</h4>
+            <ul style="color:#0a4a40;">
+              <li>执行力和持续性往往更强</li>
+              <li>在需要严肃专注的场合表现好</li>
+              <li>不容易因为好玩而偏离目标</li>
+              <li>更能忍受重复性工作</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card soft">
+          <h3>不是「低就坏，高就好」</h3>
+          <p>过低会让生命变成一串没有颜色的任务；过高会让人飘起来，失去落地。两端都有代价，<b>成熟的玩乐系统是：能认真，也能玩，知道什么时候切换。</b></p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 典型语言 ACCORDION -->
+  <details class="accordion" id="language" aria-label="典型语言">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">2. 玩乐系统高的人，说什么</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">这些不是撒娇，而是活力系统真实的声音。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="grid2">
+          <div class="card">
+            <h3>💬 他们经常说</h3>
+            <ul>
+              <li>「先做起来再说，边做边看嘛。」</li>
+              <li>「好玩才是重点啊。」</li>
+              <li>「不行就换一个，反正又不是只有这条路。」</li>
+              <li>「放松！认真你就输了。」</li>
+              <li>「我只是想玩玩，没想那么多。」</li>
+              <li>「这个有意思，我想试试。」</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>💭 他们内心常有的信念</h3>
+            <ul>
+              <li>生活不能只有任务</li>
+              <li>快乐不需要理由</li>
+              <li>投入比结果更重要</li>
+              <li>严肃太久会死的</li>
+              <li>真正的好事都是玩出来的</li>
+              <li>轻盈是一种能力</li>
+              <li>失去好奇心才是真正的失败</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card soft" style="margin-top:14px">
+          <h3>玩乐系统最怕什么？</h3>
+          <p>不是输，而是：<b>永远无聊、永远要认真、失去投入感、变得麻木、生命失去颜色。</b><br/>所以玩乐系统高的人很多时候不是不能认真，而是会先问：「这件事让我有一点点想投入吗？如果完全没有，我很难撑。」</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 常见误解 ACCORDION -->
+  <details class="accordion" id="misread" aria-label="常见误解">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">3. 三个常见误解</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">玩乐系统经常被误解成幼稚、懒惰或不负责任。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="compareGrid">
+          <div class="compareCard">
+            <div class="tag" style="color:#d4620a">⚠️ 常见混淆</div>
+            <h4>放松 ≠ 玩乐</h4>
+            <p><b>放松</b>：降低激活、减少负荷，比如睡觉、发呆、什么都不做。<br/><br/><b>玩乐系统</b>：是一种<em>主动的临在</em>——你在做，但不是因为必须，而是因为想。<br/><br/>一个人可以在放松后更疲惫，但玩乐之后往往会感觉更有生命力。</p>
+          </div>
+          <div class="compareCard">
+            <div class="tag" style="color:#d4620a">⚠️ 常见混淆</div>
+            <h4>好奇心 ≠ 玩乐</h4>
+            <p><b>好奇心</b>：偏向认知驱动——想弄明白某件事。<br/><br/><b>玩乐</b>：偏向体验驱动——不一定要搞懂，但就是想在里面玩一玩。<br/><br/>好奇心强的人未必玩乐系统高；玩乐强的人不一定有深度好奇，他可能只是想「玩」而已。</p>
+          </div>
+          <div class="compareCard">
+            <div class="tag" style="color:#d4620a">⚠️ 常见混淆</div>
+            <h4>幽默感 ≠ 玩乐</h4>
+            <p>玩乐系统与幽默有关，但不等于幽默。它是更宽的东西——<b>对生命本身的游戏姿态</b>。<br/><br/>可以表现为幽默，也可以表现为喜欢探索、享受即兴、热爱尝试新事物、和陌生事物碰撞的乐趣。</p>
+          </div>
+        </div>
+        <div class="card soft" style="margin-top:14px">
+          <h3>还有这些不等于玩乐</h3>
+          <div class="badgeRow" style="margin-top:10px">
+            <span class="badge">爱玩手机 ≠ 高玩乐</span>
+            <span class="badge">外向 ≠ 高玩乐</span>
+            <span class="badge">不认真 ≠ 高玩乐</span>
+            <span class="badge">喜欢娱乐 ≠ 有玩乐</span>
+          </div>
+          <p style="margin-top:12px;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;">很多人刷手机、看剧，其实是麻木，不是玩乐。真正的玩乐有一个标志：事后你感觉更有能量，而不是更空洞。</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 误伤方式 ACCORDION -->
+  <details class="accordion" aria-label="玩乐系统的常见误伤">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">4. 当玩乐系统开始帮倒忙</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">这些是玩乐系统被压制或扭曲时走的弯路。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="stepList">
+          <div class="step">
+            <div class="stepNum">1</div>
+            <div class="stepText"><b>把玩乐当罪恶感</b><span>「我在玩，但我应该在工作。」这种念头长期下来，会让人彻底失去玩乐的能力。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">2</div>
+            <div class="stepText"><b>把娱乐当玩乐</b><span>被动刷手机、看剧、消费内容，是消耗，不是玩乐。真正的玩乐需要主动投入的成分。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">3</div>
+            <div class="stepText"><b>把玩乐功利化</b><span>「我要玩，因为这样效率更高。」好心，但玩乐一旦变成手段，它的能量会大大衰减。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">4</div>
+            <div class="stepText"><b>用玩乐逃避</b><span>玩乐是解脱，不是逃跑。用它来持续回避真实问题，会让玩乐变成一种瘾，而不是活力。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">5</div>
+            <div class="stepText"><b>只剩能玩，失去深度</b><span>当玩乐系统过度主导，一个人会开始回避一切有重量的东西——关系、责任、情绪。轻飘飘，但空心。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+
+
+  <!-- 压力下的表现 -->
+  <details class="accordion" id="pressure" aria-label="压力下的表现">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">6. 压力下的表现与触发点</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">玩乐系统被压制时，不是只是「觉得无聊」——它影响的是整个生命感。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <div class="acc-subhead">压力下的反应</div>
+        <div class="card soft" style="margin-bottom:22px;">
+          <p>玩乐系统被长期压制时，常见反应不只是无聊，而是：<b>麻木感、生命无色感、强迫性刷手机、对一切失去兴趣、身体越来越沉。</b></p>
+          <p style="margin-top:10px;color:var(--muted);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;">「我也不知道我想要什么」「什么都没意思」——这往往不是抑郁症状，而是玩乐系统在告诉你：它已经太久没有被允许运作了。</p>
+        </div>
+
+        <div class="acc-subhead">八大触发来源</div>
+        <div class="triggerGrid">
+          <div class="triggerCard">
+            <div class="tNum">01</div>
+            <h4>强制严肃化</h4>
+            <p>被要求「别那么幼稚」「认真一点」「这不是玩的时候」</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">02</div>
+            <h4>长期无新鲜感</h4>
+            <p>生活完全可预期，每天重复，没有任何意外或探索空间</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">03</div>
+            <h4>自发性被否定</h4>
+            <p>「你怎么就想着玩」「先把正事做完」——内化这些声音后，玩乐系统开始自我压制</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">04</div>
+            <h4>失去玩伴</h4>
+            <p>能一起玩、一起笑、一起胡闹的人变少了，玩乐开始变成独角戏</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">05</div>
+            <h4>创意被否定</h4>
+            <p>「这个想法太奇怪」「不实际」「不要浪费时间在这上面」</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">06</div>
+            <h4>进入高度功利环境</h4>
+            <p>一切都要有用、有意义、有产出——玩乐系统彻底没有生存空间</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">07</div>
+            <h4>过度疲劳</h4>
+            <p>当身体和心理都极度透支，玩乐系统是最先关闭的系统之一</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">08</div>
+            <h4>规则感过重</h4>
+            <p>做什么都有「正确方式」，失败了就很严重——游戏性彻底消失</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- 三个层级 -->
+  <details class="accordion" id="levels" aria-label="三个层级">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">7. 玩乐系统的三个层级</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">Z5S 框架里的层级模型——你在哪个层级运作？</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="levelGrid" style="margin-bottom:22px;">
+          <div class="levelCard" style="background:#fff8f8;border-color:rgba(255,59,48,.20);">
+            <div class="lTag" style="color:#c0392b;">层级一</div>
+            <h3>反应层级</h3>
+            <p style="color:#7a3030;">用玩乐来<b>逃跑</b>——是压力下的本能出口，不是真正的活力。</p>
+            <ul style="color:#7a3030;">
+              <li>一压力就想玩，一焦虑就刷手机</li>
+              <li>不能忍受认真的事</li>
+              <li>用好玩回避不舒服的感受</li>
+              <li>玩完不觉得充电，还是空的</li>
+              <li>对别人的「认真」感到威胁</li>
+            </ul>
+          </div>
+          <div class="levelCard" style="background:#fffbf0;border-color:rgba(212,98,10,.22);">
+            <div class="lTag" style="color:var(--accent);">层级二</div>
+            <h3>整合层级</h3>
+            <p style="color:#7a3a08;">既能认真，也能玩——玩乐系统和执行系统开始配合。</p>
+            <ul style="color:#7a3a08;">
+              <li>知道什么时候该玩，什么时候该专注</li>
+              <li>玩后能真正充电，状态更好</li>
+              <li>能在工作里找到一点游戏性</li>
+              <li>不需要「许可」才能玩</li>
+              <li>玩乐带来创意，不只是逃跑</li>
+            </ul>
+          </div>
+          <div class="levelCard" style="background:#f0fff8;border-color:rgba(10,191,163,.25);">
+            <div class="lTag" style="color:#076e5e;">层级三</div>
+            <h3>转化层级</h3>
+            <p style="color:#0a4a40;">把玩乐的姿态注入一切——生命本身成为一场游戏。</p>
+            <ul style="color:#0a4a40;">
+              <li>在压力下也能找到轻盈的出口</li>
+              <li>能带动别人一起「玩起来」</li>
+              <li>创作、教学、治疗都带着游戏性</li>
+              <li>能用玩乐重新定义困难</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- 适合路径 + 临床 -->
+  <details class="accordion" id="application" aria-label="应用与临床">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">8. 适合的路径与临床解读</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">玩乐系统如何影响方向选择，以及临床上意味着什么。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <div class="acc-subhead">适合的路径方向</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="card">
+            <h3>玩乐系统高 → 更适合</h3>
+            <ul>
+              <li>创意型职业（设计、游戏、艺术）</li>
+              <li>即兴性强的工作（教育、表演、培训）</li>
+              <li>探索型研究或创业</li>
+              <li>游戏化治疗与体验设计</li>
+              <li>需要创意活力的团队角色</li>
+              <li>文化内容创作、节目策划</li>
+            </ul>
+            <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们需要：工作里有足够的探索空间和即兴成分。如果完全僵化，很快就会枯萎。</p>
+          </div>
+          <div class="card">
+            <h3>玩乐系统低 → 更需要</h3>
+            <ul>
+              <li>主动创造一些「无用」的活动时间</li>
+              <li>降低对玩乐的罪恶感</li>
+              <li>找到自己的「玩乐语言」</li>
+            </ul>
+            <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们常需要先解决：允许自己不生产、不产出——否则玩乐系统一直是关闭的。</p>
+          </div>
+        </div>
+
+        <div class="acc-subhead">临床解读</div>
+        <div class="grid3">
+          <div class="card" style="border-color:rgba(212,98,10,.18);background:rgba(212,98,10,.03);">
+            <h3 style="color:#7a3a08;">偏低时</h3>
+            <ul style="color:#7a3a08;">
+              <li>快感缺失</li>
+              <li>生活意义感降低</li>
+              <li>慢性疲劳</li>
+              <li>关系变得功能化</li>
+              <li>内在小孩长期被压制</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(255,59,48,.18);background:rgba(255,59,48,.03);">
+            <h3 style="color:#c0392b;">偏高且逃跑式</h3>
+            <ul style="color:#7a3030;">
+              <li>回避焦虑</li>
+              <li>成瘾性行为风险</li>
+              <li>难以面对现实压力</li>
+              <li>关系浅、不稳定</li>
+              <li>核心问题长期悬而未决</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(10,191,163,.20);background:rgba(10,191,163,.03);">
+            <h3 style="color:#076e5e;">成熟时</h3>
+            <ul style="color:#0a4a40;">
+              <li>心理弹性好</li>
+              <li>压力下仍有活力感</li>
+              <li>创意资源丰富</li>
+              <li>关系有温度和轻盈感</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- 成长方向 独立 SECTION -->
+  <section id="growth" aria-label="成长方向">
+    <div class="wrap">
+      <h2>成长方向</h2>
+      <p class="lead">从「需要玩才能活」走向「随时能把任何事变成玩」。</p>
+      <div class="grid2">
+        <div class="stepList">
+          <div class="step">
+            <div class="stepNum" style="background:#e8dfd0;color:#6e6455;">旧</div>
+            <div class="stepText"><b>玩乐需要「许可」</b><span>只有完成任务才能玩，玩的时候还有罪恶感。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum" style="background:#e8dfd0;color:#6e6455;">旧</div>
+            <div class="stepText"><b>只有特定事情能玩</b><span>只有游戏、旅行、才算「真的玩」，其他都是任务。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum" style="background:#e8dfd0;color:#6e6455;">旧</div>
+            <div class="stepText"><b>玩乐是逃跑</b><span>累了才玩，玩完继续撑，没有真正恢复。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum" style="background:#e8dfd0;color:#6e6455;">旧</div>
+            <div class="stepText"><b>害怕不够认真</b><span>「玩心太重」是别人批评我的话，我已经内化了。</span></div>
+          </div>
+        </div>
+        <div class="stepList">
+          <div class="step" style="border-color:rgba(212,98,10,.20);background:rgba(245,166,35,.04);">
+            <div class="stepNum">新</div>
+            <div class="stepText"><b>玩乐是权利，不是奖励</b><span>我不需要先「挣到」才能玩。</span></div>
+          </div>
+          <div class="step" style="border-color:rgba(212,98,10,.20);background:rgba(245,166,35,.04);">
+            <div class="stepNum">新</div>
+            <div class="stepText"><b>把玩的姿态带入任何事</b><span>工作、谈话、学习——都可以有一点游戏性。</span></div>
+          </div>
+          <div class="step" style="border-color:rgba(212,98,10,.20);background:rgba(245,166,35,.04);">
+            <div class="stepNum">新</div>
+            <div class="stepText"><b>玩乐是修复，不是逃跑</b><span>在玩乐里真正充能，而不只是暂时麻痹。</span></div>
+          </div>
+          <div class="step" style="border-color:rgba(212,98,10,.20);background:rgba(245,166,35,.04);">
+            <div class="stepNum">新</div>
+            <div class="stepText"><b>认真与玩乐可以共存</b><span>真正好的工作，往往带着一点玩——那不是不认真，那是爱。</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="pullQuote" style="margin-top:22px;">
+        <p>「你不需要等到一切都准备好才能玩。<br/>你只需要找到那件让你忘记时间的事——<br/>然后允许自己，一直在里面。」</p>
+        <small>玩乐系统的最终形态</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- 环境选色 -->
+  <section aria-label="环境选色">
+    <div class="wrap">
+      <div class="themePanel">
+        <h4>选择一个让你感到舒适的背景色。</h4>
+        <p>在这个空间里，你有权选择让自己感到安全的颜色。</p>
+        <div class="swatchRow">
+          <button class="swatch active" type="button" data-theme="default" aria-label="暖白" style="background:#fffbf4"></button>
+          <button class="swatch" type="button" data-theme="warm" aria-label="暖米" style="background:#f7f1e8"></button>
+          <button class="swatch" type="button" data-theme="sage" aria-label="鼠尾草绿" style="background:#edf4ee"></button>
+          <button class="swatch" type="button" data-theme="mist" aria-label="薄雾蓝" style="background:#eef4f8"></button>
+          <button class="swatch" type="button" data-theme="lavender" aria-label="薰衣草" style="background:#f0eeff"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="footGrid">
+      <div>
+        <b>Z5S 系统故事</b><br/>
+        <span>玩乐系统 · 五个系统之一</span>
+        <div class="fine">本页内容为 Z5S 框架教育性介绍，不构成心理诊断或临床建议。</div>
+      </div>
+      <div>
+        <div>
+          <a href="#definition">定义</a> ·
+          <a href="#tasks">核心任务</a> ·
+          <a href="#language">典型语言</a> ·
+          <a href="#misread">常见误解</a> ·
+          <a href="#growth">成长方向</a>
+        </div>
+        <div class="fine">© <span id="y"></span> Best Wellness Therapy</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+  const themes = {
+    default:   { pageBg:"#fffbf4", sectionBg:"#fffbf4", softBg:"#fdf3e3", cardBg:"#fefcf7" },
+    warm:      { pageBg:"#f7f1e8", sectionBg:"#fbf7f1", softBg:"#f2e7d9", cardBg:"#fdf9f4" },
+    sage:      { pageBg:"#edf4ee", sectionBg:"#f4f8f4", softBg:"#e3eee5", cardBg:"#f4f8f4" },
+    mist:      { pageBg:"#eef4f8", sectionBg:"#f6f9fb", softBg:"#e3edf4", cardBg:"#f6f9fb" },
+    lavender:  { pageBg:"#f0eeff", sectionBg:"#f6f4ff", softBg:"#e8e4fb", cardBg:"#f8f6ff" }
+  };
+  const root = document.documentElement;
+  const swatches = document.querySelectorAll(".swatch");
+  function applyTheme(name) {
+    const t = themes[name] || themes.default;
+    root.style.setProperty("--page-bg", t.pageBg);
+    root.style.setProperty("--section-bg", t.sectionBg);
+    root.style.setProperty("--soft-bg", t.softBg);
+    document.querySelectorAll(".card:not(.soft),.step,details").forEach(el => {
+      el.style.backgroundColor = t.cardBg;
+    });
+    swatches.forEach(b => b.classList.toggle("active", b.dataset.theme === name));
+    try { localStorage.setItem("z5s-play-theme", name); } catch(e) {}
+  }
+  swatches.forEach(b => b.addEventListener("click", () => applyTheme(b.dataset.theme)));
+  try { applyTheme(localStorage.getItem("z5s-play-theme") || "default"); } catch(e) { applyTheme("default"); }
+</script>
+</body>
+</html>
