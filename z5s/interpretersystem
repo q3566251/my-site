@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>解释系统 | Z5S 系统故事</title>
+  <meta name="description" content="解释系统——人格里的意义制造机、叙事层、因果框架。" />
+  <meta name="theme-color" content="#ffffff" />
+  <style>
+    :root{
+      --bg:#ffffff; --text:#0b0c0f; --muted:#5b5f6a; --line:#e9eaee; --card:#f6f7f9;
+      --shadow:0 10px 30px rgba(0,0,0,.06); --radius:18px; --radius2:14px; --max:1080px;
+      --accent:#0b5ea8; --accent2:#1872c4;
+      --page-bg:#ffffff; --section-bg:#ffffff; --soft-bg:#f4f7fb;
+    }
+    *{box-sizing:border-box}
+    html{zoom:0.9}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC","Hiragino Sans GB",Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text); background:var(--page-bg); line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      transition:background-color .28s ease;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line);}
+    .navin{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:18px;}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.2px;white-space:nowrap;}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),#38b6ff);box-shadow:0 0 0 4px rgba(11,94,168,.10);}
+    .navlinks{display:flex;gap:22px;align-items:center;flex:1 1 auto;justify-content:flex-end;}
+    .navlinks > a{color:var(--muted);font-size:14px;transition:color .16s;}
+    .navlinks > a:hover{color:var(--text);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--text);font-size:14px;font-weight:600;transition:transform .08s ease,box-shadow .2s ease,border-color .2s ease;}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(0,0,0,.06);}
+    .btn.primary{background:linear-gradient(180deg,var(--accent2),var(--accent));color:#fff;border-color:transparent;box-shadow:0 12px 24px rgba(11,94,168,.22);}
+    .btn.primary:hover{box-shadow:0 16px 30px rgba(11,94,168,.30);}
+
+    /* HERO */
+    .hero{padding:64px 0 44px;background:var(--section-bg);}
+    .heroGrid{display:grid;gap:22px;grid-template-columns:1.25fr .75fr;align-items:stretch;}
+    .hLabel{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .hLabel::before{content:'';display:inline-block;width:20px;height:2px;background:var(--accent);border-radius:2px;}
+    .hTitle{font-size:46px;line-height:1.06;letter-spacing:-1.2px;margin:0 0 16px;}
+    .hSub{margin:0 0 22px;color:var(--muted);font-size:18px;max-width:60ch;line-height:1.65;}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+    .chip{padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:#2b2f38;font-size:13px;}
+    .chip.accent{background:rgba(11,94,168,.08);border-color:rgba(11,94,168,.20);color:var(--accent);}
+
+    /* HERO CARD */
+    .heroCard{border:1px solid var(--line);background:linear-gradient(160deg,#f4f9ff,#e8f2ff);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:260px;}
+    .heroCard .eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+    .heroCard h3{margin:0 0 10px;letter-spacing:-.35px;font-size:18px;}
+    .heroCard p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+    .quote{font-size:15px;font-style:italic;line-height:1.7;color:#0a3566;border-left:3px solid var(--accent);padding-left:14px;margin:16px 0 0;}
+
+    /* SECTIONS */
+    section{padding:52px 0;border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    h2{margin:0 0 10px;font-size:30px;letter-spacing:-.7px;}
+    .lead{margin:0 0 24px;color:var(--muted);max-width:74ch;font-size:16px;line-height:1.7;}
+    .grid3{display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr));}
+    .grid2{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr));}
+    .card{border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:20px;box-shadow:0 8px 20px rgba(0,0,0,.04);}
+    .card.soft{background:var(--soft-bg);}
+    .card.blue{background:linear-gradient(135deg,rgba(11,94,168,.07),rgba(56,182,255,.05));border-color:rgba(11,94,168,.15);}
+    .card h3{margin:0 0 8px;letter-spacing:-.35px;font-size:16px;}
+    .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+    .card ul{margin:10px 0 0;padding:0 0 0 18px;color:var(--muted);font-size:14px;}
+    .card li{margin:6px 0;}
+    .card .num{font-size:26px;font-weight:800;color:var(--accent);opacity:.25;margin-bottom:6px;line-height:1;}
+
+    /* STORY BLOCK */
+    .storyCard{border:1px solid rgba(11,94,168,.18);background:rgba(11,94,168,.04);border-radius:var(--radius);padding:20px;}
+    .storyCard h4{margin:0 0 12px;letter-spacing:-.3px;color:var(--accent);}
+    .storyCard ul{margin:0;padding:0 0 0 16px;color:#0a3566;font-size:14px;line-height:1.7;}
+    .storyCard li{margin:5px 0;}
+
+    /* BADGE ROW */
+    .badgeRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+    .badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:#2b2f38;}
+    .dot2{width:8px;height:8px;border-radius:999px;background:#0b5ea8;}
+    .dot3{width:8px;height:8px;border-radius:999px;background:#38b6ff;}
+    .dot4{width:8px;height:8px;border-radius:999px;background:#34c759;}
+    .dot5{width:8px;height:8px;border-radius:999px;background:#ff375f;}
+
+    /* COMPARISON TABLE */
+    .compareGrid{display:grid;gap:14px;grid-template-columns:1fr 1fr 1fr;}
+    .compareCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:16px;}
+    .compareCard .tag{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+    .compareCard h4{margin:0 0 6px;font-size:15px;letter-spacing:-.3px;}
+    .compareCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;}
+
+    /* QUOTE PULL */
+    .pullQuote{border:1px solid rgba(11,94,168,.20);background:linear-gradient(135deg,rgba(11,94,168,.06),rgba(56,182,255,.04));border-radius:var(--radius);padding:28px 32px;text-align:center;}
+    .pullQuote p{margin:0;font-size:20px;line-height:1.6;letter-spacing:-.3px;color:#0a2a50;font-style:italic;}
+    .pullQuote small{display:block;margin-top:12px;font-size:13px;color:var(--muted);font-style:normal;}
+
+    /* GROWTH STEPS */
+    .stepList{display:grid;gap:10px;}
+    .step{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:var(--radius2);border:1px solid var(--line);background:#fff;}
+    .stepNum{width:32px;height:32px;border-radius:999px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:0 0 auto;}
+    .stepText b{display:block;margin-bottom:4px;font-size:15px;letter-spacing:-.2px;}
+    .stepText span{color:var(--muted);font-size:14px;}
+
+    /* SUBHEAD inside accordion */
+    .acc-subhead{font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+    .triggerGrid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);}
+    .triggerCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:14px;}
+    .triggerCard .tNum{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em;margin-bottom:5px;}
+    .triggerCard h4{margin:0 0 5px;font-size:14px;letter-spacing:-.2px;}
+    .triggerCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;}
+    .levelGrid{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);}
+    .levelCard{border-radius:var(--radius);padding:20px;border:1px solid var(--line);}
+    .levelCard .lTag{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+    .levelCard h3{margin:0 0 8px;font-size:16px;letter-spacing:-.3px;}
+    .levelCard p{margin:0 0 10px;font-size:14px;line-height:1.65;}
+    .levelCard ul{margin:0;padding:0 0 0 16px;font-size:13px;line-height:1.7;}
+    @media(max-width:780px){.triggerGrid{grid-template-columns:1fr}.levelGrid{grid-template-columns:1fr}}
+
+    /* THEME SWATCH */
+    .themePanel{margin-top:0;border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:16px;padding:14px;backdrop-filter:blur(12px);}
+    .themePanel h4{margin:0 0 6px;font-size:14px;}
+    .themePanel p{margin:0 0 10px;color:var(--muted);font-size:13px;}
+    .swatchRow{display:flex;gap:10px;}
+    .swatch{width:30px;height:30px;border-radius:999px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:transform .08s,box-shadow .18s;}
+    .swatch:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.10);}
+    .swatch.active{box-shadow:0 0 0 3px rgba(11,94,168,.25);border-color:rgba(11,94,168,.5);}
+
+    /* FOOTER */
+    footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px;background:var(--section-bg);}
+    .footGrid{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .fine{font-size:12px;color:#7b808c;margin-top:8px;}
+
+    /* ACCORDION */
+    .accordion{border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    .accordionHeader{cursor:pointer;padding:32px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;user-select:none;list-style:none;}
+    .accordionHeader::-webkit-details-marker{display:none;}
+    .accordionTitle{font-size:24px;font-weight:700;letter-spacing:-.6px;margin:0;}
+    .accordionMeta{display:flex;align-items:center;gap:12px;}
+    .accordionLead{font-size:14px;color:var(--muted);}
+    .accordionCaret{width:32px;height:32px;border-radius:999px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto;transition:transform .28s ease,background .2s ease;}
+    details[open] .accordionCaret{transform:rotate(180deg);background:rgba(11,94,168,.10);border-color:rgba(11,94,168,.25);}
+    .accordionBody{padding-bottom:44px;}
+    .accordionBody .lead{margin-top:0;}
+
+    @keyframes rainbow{to{background-position:300% center}}
+    @media(max-width:920px){.heroGrid{grid-template-columns:1fr}.hTitle{font-size:38px}}
+    @media(max-width:780px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.compareGrid{grid-template-columns:1fr}.hTitle{font-size:32px}}
+  </style>
+</head>
+<body>
+
+<header class="nav" role="banner">
+  <div class="wrap">
+    <div class="navin">
+      <a class="brand" href="https://bestwellnesstherapy.com">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Z5S 系统故事</span>
+      </a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#definition">定义</a>
+        <a href="#tasks">核心任务</a>
+        <a href="#language">典型语言</a>
+        <a href="#misread">常见误解</a>
+        <a href="#growth">成长方向</a>
+      </nav>
+      <a class="btn primary" href="https://bestwellnesstherapy.com">← 返回首页</a>
+    </div>
+  </div>
+</header>
+
+<main role="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="解释系统介绍">
+    <div class="wrap">
+      <div class="heroGrid">
+        <div>
+          <div class="hLabel">Z5S · 五个系统之一</div>
+          <h1 class="hTitle">🔍 解释系统</h1>
+          <p class="hSub">
+            它不回答「发生了什么」，而是回答<b>「这件事对我意味着什么」</b>。
+          </p>
+          <div class="chips">
+            <span class="chip accent">意义建构</span>
+            <span class="chip">因果解读</span>
+            <span class="chip">叙事框架</span>
+            <span class="chip">归因方式</span>
+            <span class="chip">内部逻辑</span>
+          </div>
+        </div>
+        <aside class="heroCard" aria-label="核心摘要">
+          <div>
+            <div class="eyebrow">一句话定位</div>
+            <h3>解释系统，是一个人把「发生的事」转化为「我理解的世界」的系统。</h3>
+            <p>它强的人：思维清晰、善于分析，能找到规律——但也更容易陷入过度解读和自我强加的叙事。</p>
+            <p class="quote">成熟的解释系统，不是「解释得更多」，而是：知道什么时候停止解释，让现实本身说话。</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 定义 -->
+  <section id="definition" aria-label="定义">
+    <div class="wrap">
+      <h2>什么是解释系统？</h2>
+      <p class="lead">它不是「智力高不高」，也不是「想法多不多」。它负责回答四个更根本的问题。</p>
+      <div class="grid2" style="margin-bottom:22px;">
+        <div class="card blue">
+          <div class="num">01</div>
+          <h3>这件事为什么发生</h3>
+          <p>比如朋友突然冷淡——你的解释系统会自动开始找原因：「是我说错了什么？他最近压力大？还是我想太多？」没有这个，人面对混乱就只能干坐着。</p>
+        </div>
+        <div class="card blue">
+          <div class="num">02</div>
+          <h3>这件事对我意味着什么</h3>
+          <p>同样是被老板批评，有人解读成「他在帮我成长」，有人解读成「我要被炒了」。同一件事，进了不同的解释系统，出来的感受完全不一样。</p>
+        </div>
+        <div class="card blue">
+          <div class="num">03</div>
+          <h3>这符不符合我对世界的理解</h3>
+          <p>当新信息和你原有的认知冲突，解释系统会先「检验」：这能放进去吗？比如你一直觉得某个人是好人，突然听说他做了坏事——你会先怀疑消息来源，而不是直接更新判断。</p>
+        </div>
+        <div class="card blue">
+          <div class="num">04</div>
+          <h3>下一步该怎么做</h3>
+          <p>解释系统不只是「想明白」，它的输出是行动依据。「我知道为什么了，所以我下一步应该……」——这条线是解释系统给执行系统的指令。</p>
+        </div>
+      </div>
+      <div class="pullQuote">
+        <p>解释系统是人格里的<b>意义制造机</b>。<br/>它不处理行动，也不处理情绪，<br/>它处理的是：「这件事在我的世界里是什么」。</p>
+        <small>Z5S 框架</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心任务 -->
+  <section id="tasks" aria-label="核心任务">
+    <div class="wrap">
+      <h2><span style="background:linear-gradient(90deg,#0b5ea8,#38b6ff,#00c7be,#0b5ea8);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:rainbow 3s linear infinite;">五个核心任务</span></h2>
+      <p class="lead">解释系统不是单一功能，它同时在做五件非常不同的事。</p>
+      <div class="grid3">
+        <div class="card">
+          <h3>🔎 建立因果框架</h3>
+          <p>「为什么会这样」是解释系统最本能的问题。哪怕答案是错的，有一个解释也比没有强——因为「说不通」会让人持续焦虑。</p>
+        </div>
+        <div class="card">
+          <h3>🗂️ 整合信息</h3>
+          <p>把一堆零散的信号整理成「我对这件事的理解」。就像拼图，单块看是碎片，解释系统负责把它们拼成一个画面。</p>
+        </div>
+        <div class="card">
+          <h3>📖 生成叙事</h3>
+          <p>「我是个从小缺爱的人，所以才会……」——这就是叙事。人不只是经历事情，还需要把经历串成一个有开头和逻辑的故事，才能真正消化它。</p>
+        </div>
+        <div class="card">
+          <h3>⚠️ 预测与风险判断</h3>
+          <p>「上次我信任这个人，结果被背刺了，所以这次……」——解释系统在用过去的解读来预测未来。这是它的自我保护功能。</p>
+        </div>
+        <div class="card">
+          <h3>🧩 归因</h3>
+          <p>事情出错了，是我的问题、对方的问题、还是情况本身的问题？这个归因方向极大影响一个人之后的反应——自责、愤怒、还是接受。</p>
+        </div>
+        <div class="card soft">
+          <h3>核心追求</h3>
+          <p>解释系统不在乎对不对，它在乎<b>说不说得通</b>。只要逻辑自洽、能解释现象，它就会接受——哪怕那个解释其实是错的。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 高低对比 ACCORDION -->
+  <details class="accordion" aria-label="高低解释系统的样子">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">1. 解释系统高 vs 低，是什么样子</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">不是谁好谁坏，是两种不同的人格运作方式。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="acc-subhead">解释系统高的人</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="storyCard" style="border-color:rgba(11,94,168,.25);background:rgba(11,94,168,.05);">
+            <h4>优势</h4>
+            <ul>
+              <li>遇到复杂情况，能很快找到「大概发生了什么」</li>
+              <li>不容易被突发事件完全击垮——因为能迅速构建一套解释，有了解释就有了方向</li>
+              <li>很擅长理解别人为什么那样做，哪怕对方自己都说不清楚</li>
+              <li>做决定时有清晰的逻辑依据，不只是跟着感觉走</li>
+              <li>能把自己的经历整理成有意义的叙事，不容易长期卡在「我不知道发生了什么」里</li>
+            </ul>
+          </div>
+          <div class="storyCard" style="border-color:rgba(255,59,48,.20);background:rgba(255,59,48,.03);">
+            <h4 style="color:#c0392b;">过高时的风险</h4>
+            <ul style="color:#7a3030;">
+              <li>把偶然事件也解读成有意义的——「他今天没回我消息，一定是……」其实对方只是手机没电</li>
+              <li>解释一旦形成就很难更新——新信息来了，先找办法把它塞进原有框架，而不是修改框架</li>
+              <li>用分析代替感受——明明很难过，但大脑先开始分析「为什么我会难过」，情绪反而被绕过去了</li>
+              <li>想清楚了以为就做了——在脑子里把事情解决了一遍，结果什么行动都没有</li>
+              <li>「为什么」问题变成死循环——越想越深，越深越焦虑，出不来</li>
+            </ul>
+          </div>
+        </div>
+        <div class="badgeRow" style="margin-bottom:28px;">
+          <span class="badge"><span class="dot2"></span> 更能找到规律</span>
+          <span class="badge"><span class="dot3"></span> 叙事整合能力强</span>
+          <span class="badge"><span class="dot4"></span> 抗混乱能力强</span>
+          <span class="badge"><span class="dot5"></span> 容易过度思考</span>
+        </div>
+
+        <div class="acc-subhead">解释系统低的人</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="storyCard" style="border-color:rgba(0,0,0,.10);background:#fafafa;">
+            <h4 style="color:var(--muted);">挑战</h4>
+            <ul style="color:var(--muted);">
+              <li><b style="color:var(--text);">很难整合经历</b> — 事情发生了，但就是说不清楚「到底怎么了」，时间过了也没真正消化</li>
+              <li><b style="color:var(--text);">情绪来了没有容器</b> — 难受但不知道为什么难受，没有解释的情绪很难处理</li>
+              <li><b style="color:var(--text);">归因乱</b> — 不清楚是自己做错了，还是对方的问题，还是时机不对，结果哪边都说服不了自己</li>
+              <li><b style="color:var(--text);">生命感觉是碎的</b> — 经历了很多，但串不成一个「我的故事」，只是一段一段孤立的事</li>
+              <li><b style="color:var(--text);">决策依赖感觉</b> — 因为没有清晰的逻辑框架，很多时候只能靠当下的感觉决定，事后又不确定</li>
+            </ul>
+          </div>
+          <div class="storyCard" style="border-color:rgba(52,199,89,.20);background:rgba(52,199,89,.03);">
+            <h4 style="color:#1a6e32;">优势</h4>
+            <ul style="color:#2a5535;">
+              <li>不会被解释系统困住——事情过了就过了，不会一直在脑子里转</li>
+              <li>更能接受「有些事就是说不通」，不需要强行给出答案</li>
+              <li>不容易被自己的叙事绑架——灵活，对新情况的适应反而更快</li>
+              <li>行动力强——不用想清楚才能动，直接做了再说</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card soft">
+          <h3>不是「低就坏，高就好」</h3>
+          <p>过低会无法整合经历，容易困惑与混乱；过高会困在解释里，用理解代替行动。两端都有代价，<b>成熟的解释系统是在建立清晰框架的同时，还能保持开放与更新。</b></p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 典型语言 ACCORDION -->
+  <details class="accordion" id="language" aria-label="典型语言">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">2. 解释系统高的人，说什么</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">这些不是普通陈述，而是在建构意义与因果的语言。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="grid2">
+          <div class="card">
+            <h3>💬 他们经常说</h3>
+            <ul>
+              <li>「我需要搞清楚这件事为什么会发生。」</li>
+              <li>「这背后一定有什么原因，我还没找到。」</li>
+              <li>「等等，这逻辑不对，说不通。」</li>
+              <li>「我没办法继续，我得先想明白。」</li>
+              <li>「你觉得他为什么会这样做？」</li>
+              <li>「这件事对我来说意味着什么？」</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>💭 他们内心常有的信念</h3>
+            <ul>
+              <li>没有答案比有错误答案更难受</li>
+              <li>事情都是有原因的，只要找到了就能解决</li>
+              <li>「就这样」不是答案，是放弃</li>
+              <li>理解之后才能真正放下</li>
+              <li>混乱是暂时的，规律一定存在</li>
+              <li>我需要一个完整的框架，才能安心</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card soft" style="margin-top:14px">
+          <h3>解释系统最怕什么？</h3>
+          <p>不是犯错，而是：<b>说不通、找不到原因、逻辑断掉、两种说法都有道理、被告知「别想了就是这样」。</b><br/><br/>这类人不是不愿意接受现实——他们只是需要先问一句：「这能解释吗？」如果解释不了，就很难真正放下。</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 常见误解 ACCORDION -->
+  <details class="accordion" id="misread" aria-label="常见误解">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">3. 三个常见误解</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">解释系统经常被混淆成别的东西。它们看起来像，但核心完全不同。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="compareGrid">
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>智力 ≠ 解释系统</h4>
+            <p><b>智力</b>：处理信息的速度与容量。<br/><br/><b>解释系统</b>：用什么框架来理解信息、赋予什么意义。<br/><br/>有人智力很高，逻辑很严密，但解释框架本身是扭曲的——比如一个高智商的人，用极精密的推理来证明「所有人都在针对我」。聪明只是工具，框架决定工具指向哪里。</p>
+          </div>
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>分析能力 ≠ 解释系统</h4>
+            <p><b>分析能力</b>：能把问题拆开看。<br/><br/><b>解释系统</b>：拆完之后，往什么方向解读、得出什么结论。<br/><br/>两个同样善于分析的人，面对同一段关系破裂：一个会分析出「我们在哪里出了问题」，另一个会分析出「他从一开始就是这种人」。工具一样，框架不同，结论完全不同。</p>
+          </div>
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>想得多 ≠ 解释系统强</h4>
+            <p>反复想同一件事，不是解释系统在运作，是解释系统<b>卡住了</b>。<br/><br/>比如失恋后一直想「他为什么离开我」，转了三个月还是同样的问题——这不是在整合，这是在卡死。解释系统强的标志是：想完了，能往前走，不是想完了还在原地。</p>
+          </div>
+        </div>
+        <div class="card soft" style="margin-top:14px">
+          <h3>还有这些不等于解释系统强</h3>
+          <div class="badgeRow" style="margin-top:10px">
+            <span class="badge">话多 ≠ 解释清晰</span>
+            <span class="badge">有理论 ≠ 有整合</span>
+            <span class="badge">读书多 ≠ 解释成熟</span>
+            <span class="badge">爱分析 ≠ 解释健康</span>
+          </div>
+          <p style="margin-top:12px;">「我学过很多心理学」——有概念不等于能用它来真正整合自己的经历。很多人拥有一整套框架，却在自己的事上完全用不上。</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 误伤方式 ACCORDION -->
+  <details class="accordion" aria-label="解释系统的常见误伤">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">4. 解释系统最常见的五种误伤</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">这些是解释系统在自我攻击时走的弯路。认出来，是改变的开始。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="stepList">
+          <div class="step">
+            <div class="stepNum">1</div>
+            <div class="stepText"><b>把随机当针对</b><span>同事开会时没看你一眼，解释系统立刻开始运转：「他是不是对我有意见？」其实他只是在看PPT。解释系统需要意义，所以把随机的事都读成了信号。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">2</div>
+            <div class="stepText"><b>把解释当行动</b><span>「我已经完全想清楚了，我知道问题在哪」——然后什么都没做。在脑子里把问题解决了一遍，感觉已经有所行动，实际上还停在原地。解释是理解，不是改变。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">3</div>
+            <div class="stepText"><b>把自己的解读当事实</b><span>「根据他的行为，他一定是……」然后基于这个结论做决定、产生情绪、甚至对抗——但其实那只是你的解释，不是事实。框架生成的答案，不等于真相。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">4</div>
+            <div class="stepText"><b>归因走极端</b><span>要么「都是我的问题，我不好」，要么「都是他的问题，跟我没关系」。平衡的归因需要同时看到自己、对方、情境三个维度——但在情绪激动时，解释系统很容易只盯住一个。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">5</div>
+            <div class="stepText"><b>叙事封闭</b><span>「我就是这种人，我从小就这样，我改不了。」这个故事讲久了，新可能性进不来——不是因为真的没有可能，而是叙事系统把门关上了。同样的经历，可以有完全不同的叙事方式。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 成长方向 ACCORDION -->
+  <details class="accordion" id="growth" aria-label="成长方向">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">5. 解释系统的成长方向</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">从「防御性解释」走向「开放性整合」。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="grid2">
+          <div class="stepList">
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>解释是为了自保</b><span>「搞清楚谁的错」——不是真的想理解，是要确认自己没问题，或者锁定责任方。解释服务于防御，不服务于理解。</span></div>
+            </div>
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>框架是不能动的</b><span>新消息来了，先想办法让它符合原有框架。「他这样做，是因为……（还是老故事）」。框架被当成真理，而不是工具。</span></div>
+            </div>
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>思考代替感受</b><span>「我很难过，让我来分析一下为什么」——情绪还没落地，分析就开始了。结果是懂了，但没有真正经历过那个感受。</span></div>
+            </div>
+            <div class="step">
+              <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+              <div class="stepText"><b>故事只有一个版本</b><span>「我的经历就是这样，这是事实。」不允许重新解读，也不想用新眼光回看过去。</span></div>
+            </div>
+          </div>
+          <div class="stepList">
+            <div class="step" style="border-color:rgba(11,94,168,.20);background:rgba(11,94,168,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>解释是为了看清楚</b><span>不是找谁的错，是真的想搞明白发生了什么——包括自己在里面起了什么作用。</span></div>
+            </div>
+            <div class="step" style="border-color:rgba(11,94,168,.20);background:rgba(11,94,168,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>框架可以升级</b><span>「这件事让我重新想了想……」——遇到说不通的新信息，不再硬塞，而是问：我的理解哪里需要更新？</span></div>
+            </div>
+            <div class="step" style="border-color:rgba(11,94,168,.20);background:rgba(11,94,168,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>感受和理解都留着</b><span>能让自己先难过一会儿，再去分析。不用分析来挡住感受，但也不被感受淹没。</span></div>
+            </div>
+            <div class="step" style="border-color:rgba(11,94,168,.20);background:rgba(11,94,168,.03);">
+              <div class="stepNum">新</div>
+              <div class="stepText"><b>故事可以重讲</b><span>「如果换个角度看这段经历……」——同一件事，可以用完全不同的叙事来理解，哪个更有力量就用哪个。</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 6: 压力下的表现 + 触发点 -->
+  <details class="accordion" id="pressure" aria-label="压力下的表现">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">6. 压力下的表现与触发点</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">解释系统被触发时，不是普通困惑——它威胁到的是认知的稳定性。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <div class="acc-subhead">压力下的反应</div>
+        <div class="card soft" style="margin-bottom:22px;">
+          <p>解释系统被触发时，不是普通焦虑，而是一种特定的不安：<b>「这件事说不通，我必须搞清楚，否则我没办法继续。」</b></p>
+          <p style="margin-top:10px;color:var(--muted);">它会推着你一遍又一遍地想同一件事——不是享受思考，而是<b>停不下来</b>。因为解释系统检测到了「认知漏洞」，而它的驱动是：漏洞不补好，不安全。</p>
+        </div>
+
+        <div class="acc-subhead">八大触发来源</div>
+        <div class="triggerGrid">
+          <div class="triggerCard">
+            <div class="tNum">01</div>
+            <h4>信息矛盾</h4>
+            <p>A说是这样，B说不是，两种说法都有道理——解释系统会卡在这里，反复处理，出不来</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">02</div>
+            <h4>看不懂对方的行为</h4>
+            <p>「他昨天还好好的，今天突然这样，到底为什么」——行为没有可以套用的逻辑，就很难平静</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">03</div>
+            <h4>被误解</h4>
+            <p>「我说的明明不是那个意思」——自己的逻辑没有被接收，而且对方还基于误解做出了反应，这双重地说不通</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">04</div>
+            <h4>核心假设被推翻</h4>
+            <p>「原来我一直理解错了」——比如发现一段重要关系里的真相和你以为的完全不同，支撑了很多其他解释的地基塌了</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">05</div>
+            <h4>不确定性太高</h4>
+            <p>不知道结果会怎样，也不知道为什么会这样——无法建立任何预测，解释系统无从着力，只能空转</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">06</div>
+            <h4>被要求「别想了」</h4>
+            <p>「你想太多了」「反正就是这样，没有为什么」——解释的需要被否定，这本身就是一种伤害</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">07</div>
+            <h4>失去意义感</h4>
+            <p>「我做这些到底有什么用」——当整个叙事崩了，不只是某件事说不通，而是整件事的意义消失了</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">08</div>
+            <h4>对自己的判断失去信心</h4>
+            <p>「我一直以为我看得很准，但如果我的解读一直是错的呢」——这是解释系统高的人最深的恐惧之一</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 7: 三个层级 -->
+  <details class="accordion" id="levels" aria-label="三个层级">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">7. 解释系统的三个层级</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">Z5S 框架里最重要的部分——你在哪个层级运作？</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="levelGrid" style="margin-bottom:22px;">
+          <div class="levelCard" style="background:#fff8f8;border-color:rgba(255,59,48,.20);">
+            <div class="lTag" style="color:#c0392b;">层级一</div>
+            <h3>防御层级</h3>
+            <p style="color:#7a3030;">解释的目的是<b>自我保护</b>——不是真的想理解，而是要找到「谁的问题」来保护自己不受伤。</p>
+            <ul style="color:#7a3030;">
+              <li>解释是为了证明自己没有错</li>
+              <li>新信息和自己想法不符就会激烈反应</li>
+              <li>容易过度分析、反刍不停</li>
+              <li>「我需要搞清楚」——但始终停留在同一个问题里</li>
+              <li>框架很难被挑战，也很难被更新</li>
+            </ul>
+          </div>
+          <div class="levelCard" style="background:#f4f9ff;border-color:rgba(11,94,168,.22);">
+            <div class="lTag" style="color:var(--accent);">层级二</div>
+            <h3>整合层级</h3>
+            <p style="color:#0a3566;">能用解释来真正看清楚——分析完了可以放下，框架可以更新，不怕被质疑。</p>
+            <ul style="color:#0a3566;">
+              <li>能深入分析，也能在合适时候停下来</li>
+              <li>遇到和自己想法不同的信息，会先好奇，不会先防御</li>
+              <li>归因更平衡——能同时看自己、对方、情境</li>
+              <li>理解和感受可以并行，不用一个来压制另一个</li>
+              <li>可以重新讲一个故事，不是只有一个版本</li>
+            </ul>
+          </div>
+          <div class="levelCard" style="background:#f0fff4;border-color:rgba(52,199,89,.25);">
+            <div class="lTag" style="color:#1a6e32;">层级三</div>
+            <h3>转化层级</h3>
+            <p style="color:#1a5535;">把个人整合出来的理解，变成可以帮助他人的框架。</p>
+            <ul style="color:#1a5535;">
+              <li>能帮别人看清楚自己的故事里发生了什么</li>
+              <li>能创造新的理解框架，不只是套用已有的</li>
+              <li>发展成治疗师、作家、思想者、教育者</li>
+              <li>用叙事帮别人重构经历，找到新的意义</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 8: 适合路径 + 临床解读 -->
+  <details class="accordion" id="application" aria-label="应用与临床">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">8. 适合的路径与临床解读</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">解释系统如何影响方向选择，以及临床上意味着什么。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <div class="acc-subhead">适合的路径方向</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="card">
+            <h3>解释系统高 → 更适合</h3>
+            <ul>
+              <li>研究、分析、理论建构类工作</li>
+              <li>心理咨询与治疗（尤其是整合取向）</li>
+              <li>写作、哲学、思想类创作</li>
+              <li>教育、培训、知识传递</li>
+              <li>战略规划与深度咨询</li>
+              <li>任何需要「理解人为什么这样做」的领域</li>
+            </ul>
+            <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们需要：工作最好能给他们足够的「理解空间」。如果被迫只执行、不理解，容易消耗极大。</p>
+          </div>
+          <div class="card">
+            <h3>解释系统低 → 更适合</h3>
+            <ul>
+              <li>高度行动导向的环境</li>
+              <li>不需要深度分析的执行类工作</li>
+              <li>需要快速响应、不纠结的岗位</li>
+            </ul>
+            <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们常需要先建立：基本的归因框架和叙事能力——否则容易在混乱中迷失方向。</p>
+          </div>
+        </div>
+
+        <div class="acc-subhead">临床解读</div>
+        <div class="grid3">
+          <div class="card" style="border-color:rgba(0,122,255,.18);background:rgba(0,122,255,.03);">
+            <h3 style="color:#0a5299;">偏低时</h3>
+            <ul style="color:#1a3a6a;">
+              <li>难以整合创伤经历</li>
+              <li>叙事碎片化</li>
+              <li>无法理解自己的行为模式</li>
+              <li>容易出现意义危机</li>
+              <li>归因混乱</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(255,59,48,.18);background:rgba(255,59,48,.03);">
+            <h3 style="color:#c0392b;">偏高且脆弱时</h3>
+            <ul style="color:#7a3030;">
+              <li>强迫性反刍</li>
+              <li>思维无法停止</li>
+              <li>用分析回避情感</li>
+              <li>认知僵化</li>
+              <li>容易陷入「为什么」的死循环</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(52,199,89,.20);background:rgba(52,199,89,.03);">
+            <h3 style="color:#1a6e32;">成熟时</h3>
+            <ul style="color:#1a5535;">
+              <li>叙事流动，能重构故事</li>
+              <li>归因平衡</li>
+              <li>框架开放，能吸收新信息</li>
+              <li>理解与体验并行</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- PULL QUOTE -->
+  <section aria-label="结语" style="padding:44px 0;">
+    <div class="wrap">
+      <div class="pullQuote">
+        <p>「你不需要把每件事都搞清楚。<br/>你只需要知道，什么样的理解在帮助你，<br/>什么样的解释在困住你。」</p>
+        <small>解释系统的最终形态</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- 环境选色 -->
+  <section aria-label="环境选色">
+    <div class="wrap">
+      <div class="themePanel">
+        <h4>选择一个让你感到舒适的背景色。</h4>
+        <p>在这个空间里，你有权选择让自己感到安全的颜色。</p>
+        <div class="swatchRow">
+          <button class="swatch active" type="button" data-theme="default" aria-label="默认白" style="background:#ffffff"></button>
+          <button class="swatch" type="button" data-theme="warm" aria-label="暖米" style="background:#f7f1e8"></button>
+          <button class="swatch" type="button" data-theme="sage" aria-label="鼠尾草绿" style="background:#edf4ee"></button>
+          <button class="swatch" type="button" data-theme="mist" aria-label="薄雾蓝" style="background:#eef4f8"></button>
+          <button class="swatch" type="button" data-theme="lavender" aria-label="薰衣草" style="background:#f0eeff"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="footGrid">
+      <div>
+        <b>Z5S 系统故事</b><br/>
+        <span>解释系统 · 五个系统之一</span>
+        <div class="fine">本页内容为 Z5S 框架教育性介绍，不构成心理诊断或临床建议。</div>
+      </div>
+      <div>
+        <div>
+          <a href="#definition">定义</a> ·
+          <a href="#tasks">核心任务</a> ·
+          <a href="#language">典型语言</a> ·
+          <a href="#misread">常见误解</a> ·
+          <a href="#growth">成长方向</a>
+        </div>
+        <div class="fine">© <span id="y"></span> Best Wellness Therapy</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+  const themes = {
+    default:   { pageBg:"#ffffff", sectionBg:"#ffffff", softBg:"#f4f7fb", cardBg:"#ffffff" },
+    warm:      { pageBg:"#f7f1e8", sectionBg:"#fbf7f1", softBg:"#f2e7d9", cardBg:"#fdf9f4" },
+    sage:      { pageBg:"#edf4ee", sectionBg:"#f4f8f4", softBg:"#e3eee5", cardBg:"#f4f8f4" },
+    mist:      { pageBg:"#eef4f8", sectionBg:"#f6f9fb", softBg:"#e3edf4", cardBg:"#f6f9fb" },
+    lavender:  { pageBg:"#f0eeff", sectionBg:"#f6f4ff", softBg:"#e8e4fb", cardBg:"#f8f6ff" }
+  };
+  const root = document.documentElement;
+  const swatches = document.querySelectorAll(".swatch");
+  function applyTheme(name) {
+    const t = themes[name] || themes.default;
+    root.style.setProperty("--page-bg", t.pageBg);
+    root.style.setProperty("--section-bg", t.sectionBg);
+    root.style.setProperty("--soft-bg", t.softBg);
+    document.querySelectorAll(".card:not(.soft),.step,details").forEach(el => {
+      el.style.backgroundColor = t.cardBg;
+    });
+    swatches.forEach(b => b.classList.toggle("active", b.dataset.theme === name));
+    try { localStorage.setItem("z5s-theme", name); } catch(e) {}
+  }
+  swatches.forEach(b => b.addEventListener("click", () => applyTheme(b.dataset.theme)));
+  try { applyTheme(localStorage.getItem("z5s-theme") || "default"); } catch(e) { applyTheme("default"); }
+</script>
+</body>
+</html>
