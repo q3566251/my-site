@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>执行系统 | Z5S 系统故事</title>
+  <meta name="description" content="执行系统——人格里的行动层、启动层、完成力。" />
+  <meta name="theme-color" content="#ffffff" />
+  <style>
+    :root{
+      --bg:#ffffff; --text:#0b0c0f; --muted:#5b5f6a; --line:#e9eaee; --card:#f6f7f9;
+      --shadow:0 10px 30px rgba(0,0,0,.06); --radius:18px; --radius2:14px; --max:1080px;
+      --accent:#0a6640; --accent2:#158a56;
+      --page-bg:#ffffff; --section-bg:#ffffff; --soft-bg:#f6f7f9;
+    }
+    *{box-sizing:border-box}
+    html{zoom:0.9}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC","Hiragino Sans GB",Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text); background:var(--page-bg); line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      transition:background-color .28s ease;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line);}
+    .navin{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:18px;}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.2px;white-space:nowrap;}
+    .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),#34c759);box-shadow:0 0 0 4px rgba(10,102,64,.10);}
+    .navlinks{display:flex;gap:22px;align-items:center;flex:1 1 auto;justify-content:flex-end;}
+    .navlinks > a{color:var(--muted);font-size:14px;transition:color .16s;}
+    .navlinks > a:hover{color:var(--text);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--text);font-size:14px;font-weight:600;transition:transform .08s ease,box-shadow .2s ease,border-color .2s ease;}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(0,0,0,.06);}
+    .btn.primary{background:linear-gradient(180deg,var(--accent2),var(--accent));color:#fff;border-color:transparent;box-shadow:0 12px 24px rgba(10,102,64,.22);}
+    .btn.primary:hover{box-shadow:0 16px 30px rgba(10,102,64,.30);}
+
+    /* HERO */
+    .hero{padding:64px 0 44px;background:var(--section-bg);}
+    .heroGrid{display:grid;gap:22px;grid-template-columns:1.25fr .75fr;align-items:stretch;}
+    .hLabel{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .hLabel::before{content:'';display:inline-block;width:20px;height:2px;background:var(--accent);border-radius:2px;}
+    .hTitle{font-size:46px;line-height:1.06;letter-spacing:-1.2px;margin:0 0 16px;}
+    .hSub{margin:0 0 22px;color:var(--muted);font-size:18px;max-width:60ch;line-height:1.65;}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+    .chip{padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:#2b2f38;font-size:13px;}
+    .chip.accent{background:rgba(10,102,64,.08);border-color:rgba(10,102,64,.20);color:var(--accent);}
+
+    /* HERO CARD */
+    .heroCard{border:1px solid var(--line);background:linear-gradient(160deg,#f4fff8,#e8f9ef);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:260px;}
+    .heroCard .eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+    .heroCard h3{margin:0 0 10px;letter-spacing:-.35px;font-size:18px;}
+    .heroCard p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+    .quote{font-size:15px;font-style:italic;line-height:1.7;color:#0d3d26;border-left:3px solid var(--accent);padding-left:14px;margin:16px 0 0;}
+
+    /* SECTIONS */
+    section{padding:52px 0;border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    h2{margin:0 0 10px;font-size:30px;letter-spacing:-.7px;}
+    .lead{margin:0 0 24px;color:var(--muted);max-width:74ch;font-size:16px;line-height:1.7;}
+    .grid3{display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr));}
+    .grid2{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr));}
+    .card{border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:20px;box-shadow:0 8px 20px rgba(0,0,0,.04);}
+    .card.soft{background:var(--soft-bg);}
+    .card.green{background:linear-gradient(135deg,rgba(10,102,64,.07),rgba(52,199,89,.05));border-color:rgba(10,102,64,.15);}
+    .card h3{margin:0 0 8px;letter-spacing:-.35px;font-size:16px;}
+    .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
+    .card ul{margin:10px 0 0;padding:0 0 0 18px;color:var(--muted);font-size:14px;}
+    .card li{margin:6px 0;}
+    .card .num{font-size:26px;font-weight:800;color:var(--accent);opacity:.25;margin-bottom:6px;line-height:1;}
+
+    /* STORY BLOCK */
+    .storyBlock{display:grid;gap:22px;grid-template-columns:1fr 1fr;align-items:start;}
+    .storyText{font-size:15px;color:var(--muted);line-height:1.8;}
+    .storyText p{margin:0 0 14px;}
+    .storyText p:last-child{margin:0;}
+    .storyText b{color:var(--text);}
+    .storyCard{border:1px solid rgba(10,102,64,.18);background:rgba(10,102,64,.04);border-radius:var(--radius);padding:20px;}
+    .storyCard h4{margin:0 0 12px;letter-spacing:-.3px;color:var(--accent);}
+    .storyCard ul{margin:0;padding:0 0 0 16px;color:#0d3d26;font-size:14px;line-height:1.7;}
+    .storyCard li{margin:5px 0;}
+
+    /* BADGE ROW */
+    .badgeRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+    .badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:#2b2f38;}
+    .dot2{width:8px;height:8px;border-radius:999px;background:#0a6640;}
+    .dot3{width:8px;height:8px;border-radius:999px;background:#34c759;}
+    .dot4{width:8px;height:8px;border-radius:999px;background:#007aff;}
+    .dot5{width:8px;height:8px;border-radius:999px;background:#ff9f0a;}
+
+    /* COMPARISON TABLE */
+    .compareGrid{display:grid;gap:14px;grid-template-columns:1fr 1fr 1fr;}
+    .compareCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:16px;}
+    .compareCard .tag{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+    .compareCard h4{margin:0 0 6px;font-size:15px;letter-spacing:-.3px;}
+    .compareCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;}
+
+    /* QUOTE PULL */
+    .pullQuote{border:1px solid rgba(10,102,64,.20);background:linear-gradient(135deg,rgba(10,102,64,.06),rgba(52,199,89,.04));border-radius:var(--radius);padding:28px 32px;text-align:center;}
+    .pullQuote p{margin:0;font-size:20px;line-height:1.6;letter-spacing:-.3px;color:#0d3d26;font-style:italic;}
+    .pullQuote small{display:block;margin-top:12px;font-size:13px;color:var(--muted);font-style:normal;}
+
+    /* GROWTH STEPS */
+    .stepList{display:grid;gap:10px;}
+    .step{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:var(--radius2);border:1px solid var(--line);background:#fff;}
+    .stepNum{width:32px;height:32px;border-radius:999px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:0 0 auto;}
+    .stepText b{display:block;margin-bottom:4px;font-size:15px;letter-spacing:-.2px;}
+    .stepText span{color:var(--muted);font-size:14px;}
+
+    /* SUBHEAD inside accordion */
+    .acc-subhead{font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+    .triggerGrid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);}
+    .triggerCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:14px;}
+    .triggerCard .tNum{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.06em;margin-bottom:5px;}
+    .triggerCard h4{margin:0 0 5px;font-size:14px;letter-spacing:-.2px;}
+    .triggerCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;}
+    .levelGrid{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);}
+    .levelCard{border-radius:var(--radius);padding:20px;border:1px solid var(--line);}
+    .levelCard .lTag{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+    .levelCard h3{margin:0 0 8px;font-size:16px;letter-spacing:-.3px;}
+    .levelCard p{margin:0 0 10px;font-size:14px;line-height:1.65;}
+    .levelCard ul{margin:0;padding:0 0 0 16px;font-size:13px;line-height:1.7;}
+    @media(max-width:780px){.triggerGrid{grid-template-columns:1fr}.levelGrid{grid-template-columns:1fr}}
+
+    /* THEME SWATCH */
+    .themePanel{margin-top:0;border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:16px;padding:14px;backdrop-filter:blur(12px);}
+    .themePanel h4{margin:0 0 6px;font-size:14px;}
+    .themePanel p{margin:0 0 10px;color:var(--muted);font-size:13px;}
+    .swatchRow{display:flex;gap:10px;}
+    .swatch{width:30px;height:30px;border-radius:999px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:transform .08s,box-shadow .18s;}
+    .swatch:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.10);}
+    .swatch.active{box-shadow:0 0 0 3px rgba(10,102,64,.25);border-color:rgba(10,102,64,.5);}
+
+    /* FOOTER */
+    footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px;background:var(--section-bg);}
+    .footGrid{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+    .fine{font-size:12px;color:#7b808c;margin-top:8px;}
+
+    /* ACCORDION */
+    .accordion{border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
+    .accordionHeader{cursor:pointer;padding:32px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;user-select:none;list-style:none;}
+    .accordionHeader::-webkit-details-marker{display:none;}
+    .accordionTitle{font-size:24px;font-weight:700;letter-spacing:-.6px;margin:0;}
+    .accordionMeta{display:flex;align-items:center;gap:12px;}
+    .accordionLead{font-size:14px;color:var(--muted);}
+    .accordionCaret{width:32px;height:32px;border-radius:999px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto;transition:transform .28s ease,background .2s ease;}
+    details[open] .accordionCaret{transform:rotate(180deg);background:rgba(10,102,64,.10);border-color:rgba(10,102,64,.25);}
+    .accordionBody{padding-bottom:44px;}
+    .accordionBody .lead{margin-top:0;}
+
+    @keyframes rainbow{to{background-position:300% center}}
+    @media(max-width:920px){.heroGrid{grid-template-columns:1fr}.hTitle{font-size:38px}.storyBlock{grid-template-columns:1fr}}
+    @media(max-width:780px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.compareGrid{grid-template-columns:1fr}.hTitle{font-size:32px}}
+  </style>
+</head>
+<body>
+
+<header class="nav" role="banner">
+  <div class="wrap">
+    <div class="navin">
+      <a class="brand" href="https://bestwellnesstherapy.com">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Z5S 系统故事</span>
+      </a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#definition">定义</a>
+        <a href="#tasks">核心任务</a>
+        <a href="#language">典型语言</a>
+        <a href="#misread">常见误解</a>
+        <a href="#growth">成长方向</a>
+      </nav>
+      <a class="btn primary" href="https://bestwellnesstherapy.com">← 返回首页</a>
+    </div>
+  </div>
+</header>
+
+<main role="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="执行系统介绍">
+    <div class="wrap">
+      <div class="heroGrid">
+        <div>
+          <div class="hLabel">Z5S · 五个系统之一</div>
+          <h1 class="hTitle">⚙️ 执行系统</h1>
+          <p class="hSub">
+            它不回答「我想要什么」，而是回答<b>「我能不能真的动起来」</b>。
+          </p>
+          <div class="chips">
+            <span class="chip accent">启动力</span>
+            <span class="chip">持续性</span>
+            <span class="chip">完成力</span>
+            <span class="chip">自我调节</span>
+            <span class="chip">抗拖延</span>
+          </div>
+        </div>
+        <aside class="heroCard" aria-label="核心摘要">
+          <div>
+            <div class="eyebrow">一句话定位</div>
+            <h3>执行系统，是一个人把意图转化为行动的系统。</h3>
+            <p>它高的人：启动快，完成率高，能持续推进——但也更容易因过度自我驱动而耗尽，或因完美主义而卡死。</p>
+            <p class="quote">真正成熟的执行系统，不是一直在跑，而是：能动起来，也能停下来，还知道为什么而跑。</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 定义 -->
+  <section id="definition" aria-label="定义">
+    <div class="wrap">
+      <h2>什么是执行系统？</h2>
+      <p class="lead">它不是「努力不努力」，也不是「懒不懒」。它负责回答四个更根本的问题。</p>
+      <div class="grid2" style="margin-bottom:22px;">
+        <div class="card green">
+          <div class="num">01</div>
+          <h3>我能不能启动</h3>
+          <p>面对一件事，能不能在合适的时间真的开始。很多人知道要做，但一直"等一个合适的时机"。</p>
+        </div>
+        <div class="card green">
+          <div class="num">02</div>
+          <h3>我能不能坚持</h3>
+          <p>启动之后，能不能在没有外部压力的情况下继续推进。持续性是执行系统最核心的能力。</p>
+        </div>
+        <div class="card green">
+          <div class="num">03</div>
+          <h3>我能不能完成</h3>
+          <p>善始善终的能力。很多人启动力强，但完成率低——这也是执行系统的问题，不是动力问题。</p>
+        </div>
+        <div class="card green">
+          <div class="num">04</div>
+          <h3>我能不能调节自己</h3>
+          <p>在疲惫、失焦、情绪干扰时，能不能重新调整回轨道，而不是彻底崩掉或消失。</p>
+        </div>
+      </div>
+      <div class="pullQuote">
+        <p>执行系统是人格里的<b>行动层</b>。<br/>它不处理方向，也不处理情绪，<br/>它处理的是：「这件事，我能不能真的做到」。</p>
+        <small>Z5S 框架</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心任务 -->
+  <section id="tasks" aria-label="核心任务">
+    <div class="wrap">
+      <h2><span style="background:linear-gradient(90deg,#0a6640,#34c759,#007aff,#0a6640);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:rainbow 3s linear infinite;">五个核心任务</span></h2>
+      <p class="lead">执行系统不是单一功能，它同时在做五件非常不同的事。</p>
+      <div class="grid3">
+        <div class="card">
+          <h3>🚀 启动行动</h3>
+          <p>把「想做」变成「在做」。启动力是执行系统的第一道关，也是最容易被拖延卡住的地方。</p>
+        </div>
+        <div class="card">
+          <h3>🔄 维持推进</h3>
+          <p>在没有外部压力、没有即时反馈时，仍然能保持行动节奏。这是执行系统区别于爆发力的地方。</p>
+        </div>
+        <div class="card">
+          <h3>🏁 达到完成</h3>
+          <p>不只是开始，而是真的把事情做完。完成力涉及收尾能力、对「够好」的容忍度，以及放手时机。</p>
+        </div>
+        <div class="card">
+          <h3>🎛️ 自我调节</h3>
+          <p>在干扰来临时，能识别偏移、重新聚焦，而不是一旦打断就全面崩溃或永久放弃。</p>
+        </div>
+        <div class="card">
+          <h3>⚡ 管理能量</h3>
+          <p>知道什么时候用力，什么时候休息，什么时候慢下来保存资源——而不只是一直硬撑。</p>
+        </div>
+        <div class="card soft">
+          <h3>核心追求</h3>
+          <p>执行系统真正追求的，不是速度，也不是努力，而是<b>完成率</b>——意图和结果之间的距离要小。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 高低对比 ACCORDION -->
+  <details class="accordion" aria-label="高低执行系统的样子">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">1. 执行系统高 vs 低，是什么样子</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">不是谁好谁坏，是两种不同的人格运作方式。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="acc-subhead">执行系统高的人</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="storyCard" style="border-color:rgba(10,102,64,.25);background:rgba(10,102,64,.05);">
+            <h4>优势</h4>
+            <ul>
+              <li>说到做到，承诺兑现率高</li>
+              <li>能在低动力状态下仍然推进</li>
+              <li>不容易被拖延长期绑住</li>
+              <li>有完成感，不容易半途而废</li>
+              <li>能在压力下维持输出</li>
+            </ul>
+          </div>
+          <div class="storyCard" style="border-color:rgba(255,59,48,.20);background:rgba(255,59,48,.03);">
+            <h4 style="color:#c0392b;">过高时的风险</h4>
+            <ul style="color:#7a3030;">
+              <li>停不下来——即使身体已经发出信号</li>
+              <li>用行动回避感受——做着做着不知道为什么</li>
+              <li>完美主义卡死——不够好就不想交出去</li>
+              <li>容易过载，然后突然崩掉一段时间</li>
+              <li>把「效率」当成自我价值的来源</li>
+            </ul>
+          </div>
+        </div>
+        <div class="badgeRow" style="margin-bottom:28px;">
+          <span class="badge"><span class="dot2"></span> 完成率高</span>
+          <span class="badge"><span class="dot3"></span> 启动快</span>
+          <span class="badge"><span class="dot4"></span> 能持续</span>
+          <span class="badge"><span class="dot5"></span> 容易耗竭</span>
+        </div>
+
+        <div class="acc-subhead">执行系统低的人</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="storyCard" style="border-color:rgba(0,0,0,.10);background:#fafafa;">
+            <h4 style="color:var(--muted);">挑战</h4>
+            <ul style="color:var(--muted);">
+              <li><b style="color:var(--text);">启动困难</b> — 明明想做，但就是无法开始，等状态等到最后没时间</li>
+              <li><b style="color:var(--text);">推进断续</b> — 很难维持没有即时反馈的行动，容易中断</li>
+              <li><b style="color:var(--text);">完成率低</b> — 许多事情开始了但没有结束，积压大量未完成项</li>
+              <li><b style="color:var(--text);">自责循环</b> — 因为没做而自责，自责又让启动更难</li>
+              <li><b style="color:var(--text);">能量管理混乱</b> — 不清楚自己什么时候能用力，什么时候已经透支</li>
+            </ul>
+          </div>
+          <div class="storyCard" style="border-color:rgba(52,199,89,.20);background:rgba(52,199,89,.03);">
+            <h4 style="color:#1a6e32;">可能的优势</h4>
+            <ul style="color:#2a5535;">
+              <li>对强迫感和过载有天然防御</li>
+              <li>不容易把自我价值绑在产出上</li>
+              <li>更容易在意义感不足时停下来</li>
+              <li>有时能进入深度思考状态</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card soft">
+          <h3>不是「低就坏，高就好」</h3>
+          <p>执行系统过低会累积大量意图未完成，带来持续的挫败感；过高则容易与自我脱节，把自己变成一台机器。<b>成熟的执行系统是：能真正动起来，也知道为了什么而动。</b></p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 典型语言 ACCORDION -->
+  <details class="accordion" id="language" aria-label="典型语言">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">2. 执行系统高的人，说什么</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">这些不是单纯的勤奋，而是行动逻辑的陈述。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="grid2">
+          <div class="card">
+            <h3>💬 他们经常说</h3>
+            <ul>
+              <li>「先做了再说，不行再调。」</li>
+              <li>「我不喜欢让事情悬在那里。」</li>
+              <li>「不管状态怎么样，先动起来。」</li>
+              <li>「做完这件事，我才能放松。」</li>
+              <li>「计划再好，不执行等于零。」</li>
+              <li>「我不需要准备好，我需要开始。」</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>💭 他们内心常有的信念</h3>
+            <ul>
+              <li>我必须做出结果才算数</li>
+              <li>我不能让自己拖太久</li>
+              <li>说到就要做到</li>
+              <li>没完成的事情会一直压着我</li>
+              <li>我需要感觉到自己在推进</li>
+              <li>停下来让我焦虑</li>
+              <li>效率是我的底气</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card soft" style="margin-top:14px">
+          <h3>执行系统最怕什么？</h3>
+          <p>不是失败，而是：<b>停滞、失控、做不完、永远在准备、永远没有推进感、被自己的拖延困住。</b><br/>所以执行系统高的人很多时候不是在享受过程，而是在追求：「这件事总算结束了」的那一刻。</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 常见误解 ACCORDION -->
+  <details class="accordion" id="misread" aria-label="常见误解">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">3. 三个常见误解</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">执行系统经常被混淆成别的东西。它们看起来像，但核心完全不同。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="compareGrid">
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>动力 ≠ 执行</h4>
+            <p><b>动力</b>：想不想做、有没有激情、兴奋不兴奋。<br/><br/><b>执行系统</b>：能不能在没有动力时仍然推进。<br/><br/>一个人可以动力高但执行弱（很有热情，但经常烂尾），也可以动力低但执行强（不太想做，但还是做完了）。</p>
+          </div>
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>忙碌 ≠ 执行</h4>
+            <p><b>忙碌</b>：一直在动，时间排满。<br/><br/><b>执行系统</b>：有意图，有推进，有完成。<br/><br/>有人很忙，但执行系统不一定高。因为他可能只是在做不重要的事，真正重要的一直在拖。</p>
+          </div>
+          <div class="compareCard">
+            <div class="tag" style="color:#ff9f0a">⚠️ 常见混淆</div>
+            <h4>自律 ≠ 执行</h4>
+            <p>执行系统与自律有关，但不等于自律。它关注的是<b>意图到行动的转化效率</b>。<br/><br/>可以表现为自律，也可以表现为系统设计、环境塑造、流程化——不一定靠意志力。</p>
+          </div>
+        </div>
+        <div class="card soft" style="margin-top:14px">
+          <h3>还有这些不等于执行</h3>
+          <div class="badgeRow" style="margin-top:10px">
+            <span class="badge">忙碌 ≠ 高执行</span>
+            <span class="badge">高动力 ≠ 高执行</span>
+            <span class="badge">有计划 ≠ 有执行</span>
+            <span class="badge">努力 ≠ 高执行</span>
+          </div>
+          <p style="margin-top:12px;">「我很努力 / 我计划了很多 / 我一直在想」——有这些不等于真的有在推进。</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- 误伤方式 ACCORDION -->
+  <details class="accordion" aria-label="当执行系统开始帮倒忙">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">4. 当执行系统开始帮倒忙</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">这些是执行系统在自我消耗时走的弯路。认出来，是改变的开始。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="stepList">
+          <div class="step">
+            <div class="stepNum">1</div>
+            <div class="stepText"><b>完美主义卡死</b><span>不够好就不开始，或者不够好就不交出去。「再等一下」变成了永远不启动。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">2</div>
+            <div class="stepText"><b>把产出等于自我价值</b><span>今天做了多少等于自己有多少价值。一旦低产出，就觉得整个人没有意义。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">3</div>
+            <div class="stepText"><b>用行动回避感受</b><span>一直做事是为了不去感受焦虑、空虚或恐惧——停下来比做事更可怕。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">4</div>
+            <div class="stepText"><b>过载后的全面崩溃</b><span>一直硬撑，然后突然什么都做不了——执行系统没有弹性，只有两种状态：全力以赴或完全停摆。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum">5</div>
+            <div class="stepText"><b>自责循环强化拖延</b><span>没做 → 自责 → 更难开始 → 更拖延 → 更自责。每一次自责都让下一次启动更重。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+
+
+  <!-- ACCORDION 6: 压力下的表现 + 触发点 -->
+  <details class="accordion" id="pressure" aria-label="压力下的表现">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">6. 压力下的表现与触发点</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">执行系统被触发时，不只是焦虑——它感受到的是失控感和自我失效感。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <div class="acc-subhead">压力下的反应</div>
+        <div class="card soft" style="margin-bottom:22px;">
+          <p>执行系统被触发时，常见反应不是普通难过，而是：<b>失控感、停滞感、自我失效感、对未完成的强迫性焦虑。</b></p>
+          <p style="margin-top:10px;color:var(--muted);">「我怎么还没做」「我怎么又停了」——它的痛点往往是对<b>自己无法推进</b>的恐惧，而不只是对外界压力的反应。</p>
+        </div>
+
+        <div class="acc-subhead">八大触发来源</div>
+        <div class="triggerGrid">
+          <div class="triggerCard">
+            <div class="tNum">01</div>
+            <h4>任务积压</h4>
+            <p>待办清单越来越长，完成率越来越低，开始感到压顶</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">02</div>
+            <h4>被打断无法复原</h4>
+            <p>进入状态后被打断，无法重新进入，焦虑上升</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">03</div>
+            <h4>看到别人的进度</h4>
+            <p>感觉别人在推进而自己原地不动，触发比较和自我否定</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">04</div>
+            <h4>被问「做了多少」</h4>
+            <p>没有可交代的进展，感到羞耻和无能感</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">05</div>
+            <h4>任务模糊不清</h4>
+            <p>不知道从哪里开始，也不知道做到什么算完成，启动卡死</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">06</div>
+            <h4>能量耗尽但事未完</h4>
+            <p>身体和精神已经透支，但还有一堆没做，产生内疚和无力感</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">07</div>
+            <h4>高标准失败</h4>
+            <p>做出来的结果不符合自己的预期，觉得交不出去，陷入卡死状态</p>
+          </div>
+          <div class="triggerCard">
+            <div class="tNum">08</div>
+            <h4>失去节律</h4>
+            <p>连续几天无法推进，感觉状态完全失控，开始怀疑自己是否还能恢复</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 7: 三个层级 -->
+  <details class="accordion" id="levels" aria-label="三个层级">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">7. 执行系统的三个层级</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">Z5S 框架里的关键区分——你在哪个层级运作？</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <div class="levelGrid" style="margin-bottom:22px;">
+          <div class="levelCard" style="background:#fff8f8;border-color:rgba(255,59,48,.20);">
+            <div class="lTag" style="color:#c0392b;">层级一</div>
+            <h3>应激层级</h3>
+            <p style="color:#7a3030;">用执行来<b>逃避</b>——只有压力够大才能动，靠恐惧驱动。</p>
+            <ul style="color:#7a3030;">
+              <li>截止前才开始</li>
+              <li>行动动力来自焦虑或后果</li>
+              <li>没有外部压力就停滞</li>
+              <li>完成后立刻空掉</li>
+              <li>靠爆发，不靠持续</li>
+            </ul>
+          </div>
+          <div class="levelCard" style="background:#f4fff8;border-color:rgba(10,102,64,.22);">
+            <div class="lTag" style="color:var(--accent);">层级二</div>
+            <h3>自主层级</h3>
+            <p style="color:#0d3d26;">有内部驱动，能自我调节——执行系统开始稳定运作。</p>
+            <ul style="color:#0d3d26;">
+              <li>知道什么时候该启动</li>
+              <li>能在低动力时仍然推进</li>
+              <li>有完成感，有节律感</li>
+              <li>能识别过载并调整</li>
+              <li>不需要每次都靠压力</li>
+            </ul>
+          </div>
+          <div class="levelCard" style="background:#f0fff4;border-color:rgba(52,199,89,.25);">
+            <div class="lTag" style="color:#1a6e32;">层级三</div>
+            <h3>整合层级</h3>
+            <p style="color:#1a5535;">把执行与意义整合——行动来自价值，而不是焦虑。</p>
+            <ul style="color:#1a5535;">
+              <li>知道为什么而推进</li>
+              <li>能设计系统、流程、环境来支持执行</li>
+              <li>发展成高效创作者、建构者、深度贡献者</li>
+              <li>能带动他人的执行力</li>
+            </ul>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </details>
+
+  <!-- ACCORDION 8: 适合路径 + 临床解读 -->
+  <details class="accordion" id="application" aria-label="应用与临床">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">8. 适合的路径与临床解读</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">执行系统如何影响方向选择，以及临床上意味着什么。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <div class="acc-subhead">适合的路径方向</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="card">
+            <h3>执行系统高 → 更适合</h3>
+            <ul>
+              <li>有明确交付标准的工作</li>
+              <li>项目制、成果导向型职业</li>
+              <li>创业和独立工作</li>
+              <li>需要持续产出的创作领域</li>
+              <li>运营、管理、执行型角色</li>
+              <li>需要长期坚持的技能发展路径</li>
+            </ul>
+            <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们需要：清晰的目标和完成标准——否则容易在模糊里空转。</p>
+          </div>
+          <div class="card">
+            <h3>执行系统低 → 更适合</h3>
+            <ul>
+              <li>有外部结构支撑的环境</li>
+              <li>有即时反馈的工作模式</li>
+              <li>团队合作而非独立推进</li>
+            </ul>
+            <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们常需要先解决：环境设计、自我调节、启动系统——否则即使有方向也无法落地。</p>
+          </div>
+        </div>
+
+        <div class="acc-subhead">临床解读</div>
+        <div class="grid3">
+          <div class="card" style="border-color:rgba(0,122,255,.18);background:rgba(0,122,255,.03);">
+            <h3 style="color:#0a5299;">偏低时</h3>
+            <ul style="color:#1a3a6a;">
+              <li>意图与行动长期脱节</li>
+              <li>慢性拖延和自责</li>
+              <li>低效能感</li>
+              <li>可能伴随 ADHD 特质</li>
+              <li>容易出现抑郁性停滞</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(255,59,48,.18);background:rgba(255,59,48,.03);">
+            <h3 style="color:#c0392b;">偏高且脆弱时</h3>
+            <ul style="color:#7a3030;">
+              <li>慢性过载</li>
+              <li>完美主义卡死</li>
+              <li>无法休息</li>
+              <li>把效率当作自我价值</li>
+              <li>耗竭周期反复出现</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(52,199,89,.20);background:rgba(52,199,89,.03);">
+            <h3 style="color:#1a6e32;">成熟时</h3>
+            <ul style="color:#1a5535;">
+              <li>启动有弹性</li>
+              <li>能持续，也能停</li>
+              <li>完成感不依赖完美</li>
+              <li>行动与意义连接</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- 成长方向 独立 SECTION -->
+  <section id="growth" aria-label="成长方向" style="border-top:1px solid var(--line);">
+    <div class="wrap">
+      <h2>执行系统的成长方向</h2>
+      <p class="lead">从「强迫自己动」走向「自然地推进」。</p>
+      <div class="grid2">
+        <div class="stepList">
+          <div class="step">
+            <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+            <div class="stepText"><b>靠压力启动</b><span>只有截止日快到了、别人在看、后果严重，才能动起来。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+            <div class="stepText"><b>用力撑着</b><span>靠意志力硬推，直到耗尽，然后崩掉休息很长一段时间。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+            <div class="stepText"><b>完成才算价值</b><span>「没做完等于什么都没有」——过程不算，只认结果。</span></div>
+          </div>
+          <div class="step">
+            <div class="stepNum" style="background:#e9eaee;color:#5b5f6a;">旧</div>
+            <div class="stepText"><b>怕停下来</b><span>停下来就焦虑，觉得自己在浪费时间或落后于人。</span></div>
+          </div>
+        </div>
+        <div class="stepList">
+          <div class="step" style="border-color:rgba(10,102,64,.20);background:rgba(10,102,64,.03);">
+            <div class="stepNum">新</div>
+            <div class="stepText"><b>从意义启动</b><span>知道这件事和自己的方向有关，推进来自内部，不是来自恐惧。</span></div>
+          </div>
+          <div class="step" style="border-color:rgba(10,102,64,.20);background:rgba(10,102,64,.03);">
+            <div class="stepNum">新</div>
+            <div class="stepText"><b>节律推进</b><span>有节奏地工作和休息，把执行系统当作可持续的引擎，而不是一次性爆破。</span></div>
+          </div>
+          <div class="step" style="border-color:rgba(10,102,64,.20);background:rgba(10,102,64,.03);">
+            <div class="stepNum">新</div>
+            <div class="stepText"><b>允许「够好」</b><span>知道什么时候完成比完美更重要，能放手，能交出去。</span></div>
+          </div>
+          <div class="step" style="border-color:rgba(10,102,64,.20);background:rgba(10,102,64,.03);">
+            <div class="stepNum">新</div>
+            <div class="stepText"><b>停下来也是执行</b><span>「我需要恢复」是执行系统做的决策，不是失败——有时候休息是最重要的行动。</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="pullQuote" style="margin-top:22px;">
+        <p>「你不需要每天都满功率运转。<br/>你只需要知道，今天什么最值得推进。」</p>
+        <small>执行系统的最终形态</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- 环境选色 -->
+  <section aria-label="环境选色">
+    <div class="wrap">
+      <div class="themePanel">
+        <h4>选择一个让你感到舒适的背景色。</h4>
+        <p>在这个空间里，你有权选择让自己感到安全的颜色。</p>
+        <div class="swatchRow">
+          <button class="swatch active" type="button" data-theme="default" aria-label="默认白" style="background:#ffffff"></button>
+          <button class="swatch" type="button" data-theme="warm" aria-label="暖米" style="background:#f7f1e8"></button>
+          <button class="swatch" type="button" data-theme="sage" aria-label="鼠尾草绿" style="background:#edf4ee"></button>
+          <button class="swatch" type="button" data-theme="mist" aria-label="薄雾蓝" style="background:#eef4f8"></button>
+          <button class="swatch" type="button" data-theme="lavender" aria-label="薰衣草" style="background:#f0eeff"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="footGrid">
+      <div>
+        <b>Z5S 系统故事</b><br/>
+        <span>执行系统 · 五个系统之一</span>
+        <div class="fine">本页内容为 Z5S 框架教育性介绍，不构成心理诊断或临床建议。</div>
+      </div>
+      <div>
+        <div>
+          <a href="#definition">定义</a> ·
+          <a href="#tasks">核心任务</a> ·
+          <a href="#language">典型语言</a> ·
+          <a href="#misread">常见误解</a> ·
+          <a href="#growth">成长方向</a>
+        </div>
+        <div class="fine">© <span id="y"></span> Best Wellness Therapy</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+  const themes = {
+    default:   { pageBg:"#ffffff", sectionBg:"#ffffff", softBg:"#f6f7f9", cardBg:"#ffffff" },
+    warm:      { pageBg:"#f7f1e8", sectionBg:"#fbf7f1", softBg:"#f2e7d9", cardBg:"#fdf9f4" },
+    sage:      { pageBg:"#edf4ee", sectionBg:"#f4f8f4", softBg:"#e3eee5", cardBg:"#f4f8f4" },
+    mist:      { pageBg:"#eef4f8", sectionBg:"#f6f9fb", softBg:"#e3edf4", cardBg:"#f6f9fb" },
+    lavender:  { pageBg:"#f0eeff", sectionBg:"#f6f4ff", softBg:"#e8e4fb", cardBg:"#f8f6ff" }
+  };
+  const root = document.documentElement;
+  const swatches = document.querySelectorAll(".swatch");
+  function applyTheme(name) {
+    const t = themes[name] || themes.default;
+    root.style.setProperty("--page-bg", t.pageBg);
+    root.style.setProperty("--section-bg", t.sectionBg);
+    root.style.setProperty("--soft-bg", t.softBg);
+    document.querySelectorAll(".card:not(.soft),.step,details").forEach(el => {
+      el.style.backgroundColor = t.cardBg;
+    });
+    swatches.forEach(b => b.classList.toggle("active", b.dataset.theme === name));
+    try { localStorage.setItem("z5s-theme", name); } catch(e) {}
+  }
+  swatches.forEach(b => b.addEventListener("click", () => applyTheme(b.dataset.theme)));
+  try { applyTheme(localStorage.getItem("z5s-theme") || "default"); } catch(e) { applyTheme("default"); }
+</script>
+</body>
+</html>
