@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Z5S 五系统方向性假设 — 实证证据</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAF8F5;
+  --bg-card: #FFFFFF;
+  --bg-dark: #1A1714;
+  --text: #2C2824;
+  --text-secondary: #6B6560;
+  --text-light: #9A9590;
+  --accent-explanation: #2D6A4F;
+  --accent-execution: #1B4965;
+  --accent-emotion: #9B2226;
+  --accent-identity: #7B2D8B;
+  --accent-play: #E76F51;
+  --border: #E8E4DF;
+  --gold: #B8860B;
+  --star: #DAA520;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══ HERO ═══ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px 24px;
+  background: linear-gradient(175deg, #1A1714 0%, #2C2520 40%, #3D3530 100%);
+  color: #FAF8F5;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 50%, rgba(43,106,79,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 30%, rgba(155,34,38,0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(123,45,139,0.05) 0%, transparent 50%);
+  animation: drift 20s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-2%, 1%); }
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+.hero-label {
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+  font-weight: 500;
+}
+
+.hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 28px;
+  letter-spacing: -0.5px;
+}
+
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--gold), #D4A843);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: rgba(250,248,245,0.7);
+  max-width: 600px;
+  margin: 0 auto 48px;
+  line-height: 1.9;
+  font-weight: 300;
+}
+
+.hero-thesis {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 28px 36px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  line-height: 2;
+  color: rgba(250,248,245,0.9);
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* ═══ SECTIONS ═══ */
+.section {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.section-label {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.section h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.section-intro {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 48px;
+  max-width: 700px;
+  line-height: 1.9;
+}
+
+/* ═══ SYSTEM CARDS ═══ */
+.system-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+  transition: box-shadow 0.3s ease;
+}
+
+.system-card:hover {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+}
+
+.system-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.system-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.system-title-block { flex: 1; min-width: 200px; }
+
+.system-title-block h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.system-title-block .therapies {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.star-rating .stars {
+  color: var(--star);
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.star-rating .rating-label {
+  font-size: 13px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.system-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  line-height: 1.9;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ═══ EVIDENCE ITEMS ═══ */
+.evidence-list { display: flex; flex-direction: column; gap: 20px; }
+
+.evidence-item {
+  padding: 20px 24px;
+  background: #FAFAF8;
+  border-radius: 10px;
+  border-left: 3px solid var(--border);
+}
+
+.evidence-item.explanation { border-left-color: var(--accent-explanation); }
+.evidence-item.execution { border-left-color: var(--accent-execution); }
+.evidence-item.emotion { border-left-color: var(--accent-emotion); }
+.evidence-item.identity { border-left-color: var(--accent-identity); }
+.evidence-item.play { border-left-color: var(--accent-play); }
+
+.evidence-type {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.evidence-finding {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 8px;
+}
+
+.evidence-finding strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.evidence-source {
+  font-size: 13px;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+.evidence-source a {
+  color: var(--text-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ═══ MAPPING TABLE ═══ */
+.mapping-section {
+  background: var(--bg-dark);
+  color: #FAF8F5;
+  padding: 80px 24px;
+}
+
+.mapping-section .section {
+  padding: 0;
+}
+
+.mapping-section h2 {
+  color: #FAF8F5;
+}
+
+.mapping-section .section-intro {
+  color: rgba(250,248,245,0.6);
+}
+
+.mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 40px;
+  font-size: 14px;
+}
+
+.mapping-table th {
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(250,248,245,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-weight: 500;
+}
+
+.mapping-table td {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  vertical-align: top;
+}
+
+.mapping-table tr:hover td {
+  background: rgba(255,255,255,0.03);
+}
+
+.therapy-name {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.therapy-en {
+  font-size: 12px;
+  color: rgba(250,248,245,0.4);
+}
+
+.system-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 2px 4px 2px 0;
+}
+
+.tag-explanation { background: rgba(45,106,79,0.2); color: #6FCF97; }
+.tag-execution { background: rgba(27,73,101,0.2); color: #6CB4DA; }
+.tag-emotion { background: rgba(155,34,38,0.2); color: #E88B8E; }
+.tag-identity { background: rgba(123,45,139,0.2); color: #C98DD8; }
+.tag-play { background: rgba(231,111,81,0.2); color: #F0A891; }
+
+.stars-cell { color: var(--star); font-size: 16px; letter-spacing: 2px; }
+
+/* ═══ RELAPSE ═══ */
+.relapse-card {
+  background: linear-gradient(135deg, #FFF8F0, #FFF5F5);
+  border: 1px solid #F0E0D0;
+  border-radius: 16px;
+  padding: 40px;
+  margin-top: 32px;
+}
+
+.relapse-card h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: var(--accent-emotion);
+}
+
+/* ═══ LIMITATIONS ═══ */
+.limitations {
+  background: #F5F3F0;
+  border-radius: 16px;
+  padding: 40px;
+  margin-top: 48px;
+}
+
+.limitations h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.limitation-item {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.limitation-item:last-child { border-bottom: none; }
+
+.limitation-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ═══ NEXT STEPS ═══ */
+.next-steps {
+  background: linear-gradient(135deg, #1A1714, #2C2520);
+  color: #FAF8F5;
+  padding: 80px 24px;
+}
+
+.next-steps .section { padding: 0; }
+.next-steps h2 { color: #FAF8F5; }
+
+.step-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.step-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 32px;
+}
+
+.step-number {
+  font-family: 'Source Serif 4', serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.step-card h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.step-card p {
+  font-size: 14px;
+  color: rgba(250,248,245,0.6);
+  line-height: 1.8;
+}
+
+/* ═══ FOOTER ═══ */
+footer {
+  text-align: center;
+  padding: 48px 24px;
+  font-size: 13px;
+  color: var(--text-light);
+  border-top: 1px solid var(--border);
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  .system-card { padding: 28px 20px; }
+  .mapping-table { font-size: 13px; }
+  .mapping-table td, .mapping-table th { padding: 14px 12px; }
+  .system-header { gap: 12px; }
+  .hero-thesis { padding: 20px 24px; font-size: 15px; }
+}
+
+@media (max-width: 480px) {
+  .mapping-table { display: block; overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-label">Z5S Framework · Empirical Argument</div>
+    <h1>一个临床问题<br><em>为什么同样的治疗，有人好了，有人没好？</em></h1>
+    <p class="hero-sub">
+      60年的心理治疗研究证明了一件事：治疗有效。<br>
+      但同一个研究也反复揭示另一件事：<strong>不是对每个人都有效。</strong><br>
+      Z5S 认为答案藏在一个被忽视的变量里。
+    </p>
+    <div class="hero-thesis">
+      <strong>论证主线：</strong>现有研究已经证明，不同治疗方法在改变不同的心理过程时，效果是不一样的——CBT 可测量地改变认知内容，BA 可测量地改变行动-奖赏参数，EFT 可测量地改变情绪加工深度，CFT/IFS 可测量地改变自我关系。这些过程并不相同。Z5S 的命题是：如果我们把这些过程组织成一张系统地图，临床师就能在治疗之前识别"这个人卡在哪个系统"，从而选择更精准的入口。以下是支撑这一论证的全部证据链。
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SYSTEM 1: EXPLANATION ═══════════ -->
+<div class="section">
+  <div class="section-label">Argument · Step 1</div>
+  <h2>论证第一步：不同治疗确实在改变不同的东西</h2>
+  <p class="section-intro">
+    如果所有治疗都在改变同一个过程，Z5S 就没有意义。但研究反复显示：CBT 改变的是认知内容，BA 改变的是行动参数，EFT 改变的是情绪体验深度，CFT 改变的是自我关系。它们不是同一件事。以下按五个可测量的过程簇展开，每个簇对应 Z5S 的一个系统假设。
+  </p>
+
+  <!-- EXPLANATION SYSTEM -->
+  <div class="system-card">
+    <div class="system-header">
+      <div class="system-icon" style="background: var(--accent-explanation);">解</div>
+      <div class="system-title-block">
+        <h3>解释系统 Explanation System</h3>
+        <div class="therapies">临床现象：「我知道不该这么想，但我控制不住」——当痛苦的根源是解释方式</div>
+      </div>
+      <div class="star-rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-label">5/5 强</span>
+      </div>
+    </div>
+    <div class="system-desc">
+      CBT 从来不是纯认知治疗。Beck 的原始模型就是认知重构（改变解释）+ 行为实验与行为强化（改变行动）。这意味着 CBT 同时击中两个系统：它帮你重新理解发生了什么（解释系统），然后通过行为作业把新的理解变成行动（执行系统）。这是 CBT 的强项——双系统同步推进。但这也是它的边界：当来访者的核心痛苦不在"理解错了"或"动不起来"，而在"情绪没有被接触"或"自我关系崩塌"时，CBT 可能只修了表层。
+    </div>
+    <div class="evidence-list">
+      <div class="evidence-item explanation">
+        <div class="evidence-type">整体基线：CBT 作为治疗到底有多有效？</div>
+        <div class="evidence-finding">
+          在讨论 CBT 击中了什么之前，需要确认 CBT 整体是有效的。2019-2023年间 <strong>62个独立样本 RCT</strong> 的最新系统综述显示，CBT 的治疗后效应量为 <strong>中到大（Hedges' g: 0.51–0.81）</strong>。经典 CBT（g=0.52）与当代第三波 CBT（g=0.60）无显著差异。这确认了一个基本事实：CBT 是有效的治疗。Z5S 不是在否认 CBT 有效——而是在解释它为什么对有些人特别有效、对有些人不够。
+        </div>
+        <div class="evidence-source">
+          O'Toole et al., 2025, J Affective Disorders — <a href="https://www.sciencedirect.com/science/article/pii/S0165032725012339" target="_blank">ScienceDirect</a>
+        </div>
+      </div>
+      <div class="evidence-item explanation">
+        <div class="evidence-type">核心问题：CBT 真的在改变认知吗？</div>
+        <div class="evidence-finding">
+          如果 CBT 击中的是解释系统，那么接受 CBT 的人应该在"功能失调思维"这个变量上产生可测量的变化。事实正是如此。一项涵盖 <strong>26项RCT、2002名参与者</strong> 的元分析显示，CBT 相比对照组在功能失调思维上产生了 <strong>中等效应量（g ≈ 0.50）</strong>，且认知变化与抑郁改善强相关。这意味着：CBT 确实在系统性地改变人们解释自身经历的方式——这正是解释系统的核心功能。
+        </div>
+        <div class="evidence-source">Cuijpers et al., 2015, Clin Psychol Rev — <a href="https://pubmed.ncbi.nlm.nih.gov/26319193/" target="_blank">PubMed 26319193</a></div>
+      </div>
+      <div class="evidence-item explanation">
+        <div class="evidence-type">更精确的问题：是会谈中的认知重构在起作用吗？</div>
+        <div class="evidence-finding">
+          上面证明了 CBT 前后认知会变。但这还不够——我们需要知道是不是会谈中"认知重构"这个具体技术在驱动变化。Ezawa 和 Hollon 的会谈内过程元分析（<strong>4项研究，N=353</strong>）发现，治疗师在会谈中实施认知重构的程度与治疗结果的关联为 <strong>r = .35（等效 d = 0.85）</strong>。这是一个中到大的关联——说明当治疗师更多地帮来访者重新检视和修正想法时，来访者改善得更多。认知重构是目前最直接测量"解释系统被激活"的过程指标。
+        </div>
+        <div class="evidence-source">
+          Ezawa &amp; Hollon, 2023, Psychotherapy — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10440210/" target="_blank">PMC10440210</a>
+        </div>
+      </div>
+      <div class="evidence-item explanation">
+        <div class="evidence-type">关键质疑：认知变化能解释 CBT 的全部效果吗？</div>
+        <div class="evidence-finding">
+          如果 CBT 的效果完全来自改变认知，那么认知变化应该能中介 CBT 的大部分疗效。但 CoBalT 试验的二次分析（<strong>N=469</strong>）发现，6个月时功能失调态度和元认知觉知的变化只中介了12个月时 CBT 总效果的<strong>一小部分</strong>（作者评价中介效应"有限"）。<strong>这对 Z5S 至关重要</strong>——它说明认知变化是真实的、可测量的，但不是 CBT 起效的唯一机制。未被认知变量解释的那部分疗效，可能涉及执行系统（行为改变）或其他未被测量的过程。
+        </div>
+        <div class="evidence-source">CoBalT trial 中介分析（Wiles et al.）— <a href="https://www.ncbi.nlm.nih.gov/books/NBK261974/" target="_blank">NCBI Bookshelf</a></div>
+      </div>
+      <div class="evidence-item explanation">
+        <div class="evidence-type">成分拆解：认知重构和行为激活打的是同一个东西吗？</div>
+        <div class="evidence-finding">
+          Z5S 认为 CBT 同时击中解释系统和执行系统。如果这是对的，那么把 CBT 拆成认知重构（CR）和行为激活（BA）两个成分分别测试，两者应该都有效。一项涵盖 <strong>45项RCT、3,382名参与者</strong> 的网络元分析发现：CR单独 vs 对照 <strong>SMD=0.57</strong>，BA单独 vs 对照 <strong>SMD=0.52</strong>，完整CBT vs 对照 <strong>SMD=0.44</strong>。三者疗效<strong>无显著差异</strong>。<strong>注意：</strong>这证明了两个成分各自独立有效，但"等效"本身不能证明"机制分离"——它也可以被共同因素解释。真正证明机制分离的是下面 Norbury 的成分实验。
+        </div>
+        <div class="evidence-source">
+          Ciharova et al., 2021, J Consult Clin Psychol — <a href="https://pubmed.ncbi.nlm.nih.gov/34264703/" target="_blank">PubMed 34264703</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXECUTION SYSTEM -->
+  <div class="system-card">
+    <div class="system-header">
+      <div class="system-icon" style="background: var(--accent-execution);">执</div>
+      <div class="system-title-block">
+        <h3>执行系统 Execution System</h3>
+        <div class="therapies">临床现象：「我什么都不想做，连起床都觉得没意义」——当痛苦的根源是行动瘫痪</div>
+      </div>
+      <div class="star-rating">
+        <span class="stars">★★★★½</span>
+        <span class="rating-label">4.5/5 强（中介证据待加强）</span>
+      </div>
+    </div>
+    <div class="system-desc">
+      BA 之所以对抑郁有效，是因为它直接击中了执行系统——"我能不能动起来"。当一个人的核心卡点是行动瘫痪、与环境正向强化物断连时，BA 效果非常强。但如果来访者已经很能"动"，只是内心空洞或情绪被压，BA 可能让人更忙却更空。
+    </div>
+    <div class="evidence-list">
+      <div class="evidence-item execution">
+        <div class="evidence-type">基线确认：BA 作为独立治疗有多有效？</div>
+        <div class="evidence-finding">
+          BA 的核心理论是：抑郁的维持机制是与环境正向强化物的断连。如果重新接触强化物，抑郁就会改善。这个理论预测得到了强力支持：<strong>26项RCT、1524名参与者</strong> 的元分析显示 BA 优于对照条件，效应量 <strong>SMD = −0.74</strong>。更早的元分析中，活动安排（activity scheduling）这个核心技术的效应量高达 <strong>d = 0.87</strong>（16项研究，N=780）——这是一个大效应。BA 不需要改变想法就能改善抑郁，这本身就说明：行动通道和认知通道是可分离的。
+        </div>
+        <div class="evidence-source">
+          Ekers et al., 2014, PLOS ONE — <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0100100" target="_blank">PLOS ONE</a>; Cuijpers et al., 2007 — <a href="https://pubmed.ncbi.nlm.nih.gov/17184887/" target="_blank">PubMed 17184887</a>
+        </div>
+      </div>
+      <div class="evidence-item execution">
+        <div class="evidence-type">临床适用性：什么人对 BA 反应最好？</div>
+        <div class="evidence-finding">
+          最新的个体 BA 元分析（<strong>22项RCT，N=819</strong>）显示效应量 <strong>Hedges' g = 0.85</strong>（95%CI: 0.57–1.1）。值得注意的是，BA 对更严重的抑郁效果尤其好。<strong>这对 Z5S 有意义</strong>——重度抑郁患者往往卡在"动不起来"，而 BA 直接解决的就是行动瘫痪。当一个人的核心问题是执行系统失灵时，BA 比任何谈话治疗都更直接。
+        </div>
+        <div class="evidence-source">
+          Cuijpers et al., 2023 — <a href="https://www.tandfonline.com/doi/full/10.1080/10503307.2023.2197630" target="_blank">Psychotherapy Research</a>
+        </div>
+      </div>
+      <div class="evidence-item execution">
+        <div class="evidence-type">最关键的证据：BA 和认知重构打的是不同机制吗？</div>
+        <div class="evidence-finding">
+          这是整个论证中最重要的一条。如果 Z5S 的"解释系统"和"执行系统"是两个可分离的东西，那么一个来自 BA 的干预和一个来自认知重构的干预应该改变不同的心理参数。Norbury 等人的交叉实验（<strong>N=197</strong>）正是这样做的：源自 BA 的<strong>目标设定干预选择性降低了努力敏感性</strong>（effort sensitivity），而认知重构成分<strong>不改变此参数</strong>。反过来，认知重构改变的是归因风格，而目标设定不改变归因。<strong>这是成分级别的双重分离</strong>——是"两个系统可分离"最强的因果证据。
+        </div>
+        <div class="evidence-source">
+          Norbury et al., 2024, Science Advances — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10971416/" target="_blank">PMC10971416</a>
+        </div>
+      </div>
+      <div class="evidence-item execution">
+        <div class="evidence-type">诚实质疑："激活"作为中介被证实了吗？</div>
+        <div class="evidence-finding">
+          BA 有效，但"激活"是不是它起效的原因？一项系统综述检查了 <strong>14项前瞻性研究</strong>，多数使用 BADS（行为激活量表）或 EROS（环境奖赏量表）作为中介指标。结果是混合的：部分研究支持"激活→症状"路径的中介，但<strong>跨研究复制不完全一致</strong>。作者将激活作为中介的证据评为"弱到中等"。这提醒我们：BA 确实改变了行为参与，但行为参与是否就是它治愈抑郁的因果机制，还没有被完全锁定。
+        </div>
+        <div class="evidence-source">
+          Janssen et al., 2021 — <a href="https://karger.com/pps/article/90/2/85/283255/How-Does-Behavioural-Activation-Work-A-Systematic" target="_blank">Psychotherapy &amp; Psychosomatics</a>
+        </div>
+      </div>
+      <div class="evidence-item execution">
+        <div class="evidence-type">神经层面：BA 改变了大脑的什么？</div>
+        <div class="evidence-finding">
+          如果执行系统是一个真实的心理过程，它应该有可观测的神经基础。BA 治疗后的神经影像研究发现：与奖赏期望相关的<strong>尾状核</strong>、与行动选择相关的<strong>壳核</strong>、以及奖赏反馈相关的<strong>内侧眶额皮层（mOFC）和背外侧前额叶皮层（DLPFC）</strong>均显示活动变化。这些区域构成了奖赏加工和行动决策回路——正是 Z5S 所说的"执行系统"在神经层面的对应物。
+        </div>
+        <div class="evidence-source">
+          综述 — <a href="https://www.thejcn.com/DOIx.php?id=10.3988/jcn.2024.0148" target="_blank">J Clin Neurol, 2024</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMOTION SYSTEM -->
+  <div class="system-card">
+    <div class="system-header">
+      <div class="system-icon" style="background: var(--accent-emotion);">情</div>
+      <div class="system-title-block">
+        <h3>情绪系统 Emotion System</h3>
+        <div class="therapies">临床现象：「我都想明白了，但就是放不下」——当痛苦的根源是未被加工的情绪</div>
+      </div>
+      <div class="star-rating">
+        <span class="stars">★★★★☆</span>
+        <span class="rating-label">4/5 中强</span>
+      </div>
+    </div>
+    <div class="system-desc">
+      EFT 之所以对某些来访者特别有效，是因为它击中了情绪系统——被压抑的悲伤、未被接触的愤怒、被防御阻断的羞耻。当一个人"什么都想明白了但就是放不下"时，问题往往不在解释系统，而是情绪从未被真正体验和转化。EFT 绕过认知，直接进入这个层面。
+    </div>
+    <div class="evidence-list">
+      <div class="evidence-item emotion">
+        <div class="evidence-type">核心问题：专门针对情绪的治疗，效果能和 CBT 一样好吗？</div>
+        <div class="evidence-finding">
+          如果情绪系统是一个独立的治疗入口，那么一种专门针对情绪加工的治疗应该能产生与 CBT 相当的效果——即使它完全不做认知重构。最新的头对头RCT（<strong>N=111，CBT n=50，EFT n=52</strong>）在挪威常规心理健康服务中进行，结果是：两种治疗从基线到12个月随访均显著改善抑郁症状（<strong>d = 0.56</strong>），疗效<strong>无显著差异</strong>。这意味着：不改变想法，只处理情绪，也能达到相同程度的抑郁改善。认知通道不是唯一的路。
+        </div>
+        <div class="evidence-source">
+          Aardal et al., 2025 — <a href="https://www.tandfonline.com/doi/full/10.1080/10503307.2025.2560935" target="_blank">Psychotherapy Research</a>
+        </div>
+      </div>
+      <div class="evidence-item emotion">
+        <div class="evidence-type">过程证据：情绪加工深度能区分好结果和差结果吗？</div>
+        <div class="evidence-finding">
+          如果情绪系统是真实的，那么"情绪被加工的深度"应该能预测治疗结果。Watson 和 Bedard 的过程研究（<strong>N=40</strong>）使用体验量表（Experiencing Scale）——一种量化来访者在会谈中接触和加工情绪深度的工具——发现情绪加工在治疗过程中逐步增加，且按好结果/差结果分层后<strong>显著不同</strong>。好结果的来访者在体验量表上得分更高。<strong>这直接说明：</strong>情绪是否被真正接触和加工，是区分治疗成功与失败的关键变量之一。
+        </div>
+        <div class="evidence-source">
+          Watson &amp; Bedard — 见 <a href="https://pubmed.ncbi.nlm.nih.gov/16881773/" target="_blank">PubMed 16881773</a>
+        </div>
+      </div>
+      <div class="evidence-item emotion">
+        <div class="evidence-type">因果方向：情绪加工是原因还是结果？</div>
+        <div class="evidence-finding">
+          一个常见的反驳是：也许情绪改善只是症状改善的附带现象，而不是原因。纵向过程研究检验了这个问题，发现了<strong>互惠关系</strong>：更高的情绪加工预测下一次会谈更低的症状强度，同时症状也预测后续的情绪加工。这意味着情绪加工不是被动跟随症状变化——它和症状变化之间存在动态的双向驱动。对 Z5S 而言，这支持了情绪系统作为一个独立可干预过程的定位。
+        </div>
+        <div class="evidence-source">
+          Pos et al. — EFT 过程研究传统
+        </div>
+      </div>
+      <div class="evidence-item emotion">
+        <div class="evidence-type">复发预防：EFT 的长期效果如何？</div>
+        <div class="evidence-finding">
+          治疗有效还不够——如果复发率很高，说明治疗可能只修了表层。EFT 的创始人 Greenberg 在三项 RCT 的综述中报告：EFT 治疗抑郁高度有效，比来访者中心治疗更有效地减少人际问题，且<strong>预防复发效果好（77%非复发率）</strong>。<strong>重要说明：</strong>此数据来自 EFT 创始人对自己研究组试验的总结，尚未被独立研究组复制。不应将此77%与其他治疗的复发率做跨研究比较。其价值在于：它提示当情绪系统被直接触及时，改善可能更持久——但这需要独立验证。
+        </div>
+        <div class="evidence-source">
+          Greenberg, 2010, Focus — <a href="https://psychiatryonline.org/doi/full/10.1176/foc.8.1.foc32" target="_blank">APA PsychiatryOnline</a>
+        </div>
+      </div>
+      <div class="evidence-item emotion">
+        <div class="evidence-type">外部效度：EFT 在真实世界有效吗，还是只在实验室？</div>
+        <div class="evidence-finding">
+          RCT 是在严格控制条件下做的——来访者被筛选，治疗师被监督。真实世界的效果可能不同。一项2025年的实践研究网络研究（<strong>N=70</strong>）在瑞士-德国私人诊所中评估了 EFT 的效果，治疗师遵循度经 PCEPS 评估，结果显示 EFT 产生了<strong>小到中等效应量</strong>（CORE-OM, BDI-II, WSAS）。这证明 EFT 在非实验室环境中也能工作——情绪系统入口不是理论上的可能性，而是临床实践中的现实选项。
+        </div>
+        <div class="evidence-source">
+          Kramer et al., 2025, Psychotherapy Research — <a href="https://www.tandfonline.com/doi/full/10.1080/10503307.2025.2454455" target="_blank">Psychotherapy Research</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IDENTITY SYSTEM -->
+  <div class="system-card">
+    <div class="system-header">
+      <div class="system-icon" style="background: var(--accent-identity);">认</div>
+      <div class="system-title-block">
+        <h3>认同系统 Identity System</h3>
+        <div class="therapies">临床现象：「我知道不是我的错，但我就是觉得自己不够好」——当痛苦的根源是自我关系</div>
+      </div>
+      <div class="star-rating">
+        <span class="stars">★★★☆☆</span>
+        <span class="rating-label">3/5 中等</span>
+      </div>
+    </div>
+    <div class="system-desc">
+      认同系统处理的不是"想法对不对"，而是"我如何对待自己"。两种治疗方法在这个系统上有最直接的实证联系：<strong>IFS（Internal Family Systems，内在家庭系统治疗）</strong>通过与内在保护性部分建立关系来改变自我组织；<strong>CFT（Compassion-Focused Therapy，慈悲聚焦治疗）</strong>由Paul Gilbert开发，专门针对高度自我批评和深层羞耻的来访者，通过激活安抚系统来改变自我与自我的关系。<strong>为什么将它们归为同一系统？</strong>IFS和CFT的理论来源不同（IFS来自系统治疗，CFT来自进化心理学），但它们测量和改变的变量高度重叠：自我慈悲、自我效能感、自我批评、羞耻。这种测量层面的汇聚提示它们可能在操作同一个更高阶的心理过程——Z5S将其命名为认同系统。这个归类是理论假设，需要因子分析确认。
+    </div>
+    <div class="evidence-list">
+      <div class="evidence-item identity">
+        <div class="evidence-type">IFS 能改变自我关系变量吗？第一个 RCT 证据</div>
+        <div class="evidence-finding">
+          如果认同系统是真实的，那么一种专门处理"内在部分关系"的治疗应该能可测量地改变自我慈悲和自我效能感。Shadick 等人在类风湿关节炎患者中进行的 RCT（<strong>N=79，IFS n=39，对照 n=40</strong>）正是这样做的——IFS 干预后测量了<strong>自我慈悲和关节炎自我效能感</strong>作为次要结果。<strong>这是 IFS 在随机对照试验中直接测量"认同类"变量的最早证据之一</strong>，虽然主要疾病是关节炎而非心理障碍，但它证明了 IFS 确实在改变自我与自我的关系。
+        </div>
+        <div class="evidence-source">
+          Shadick et al., 2013 — <a href="https://cdn2.psychologytoday.com/assets/2023-08/jrheum.121465.full_.pdf" target="_blank">J Rheumatology</a>
+        </div>
+      </div>
+      <div class="evidence-item identity">
+        <div class="evidence-type">IFS 能治疗 PTSD 吗？RCT 初步结果</div>
+        <div class="evidence-finding">
+          PTSD 涉及创伤后的自我组织崩塌——来访者常常觉得"我不再是以前的自己了"。IFS 的 PARTS 项目在一项 RCT 中（<strong>N=60</strong>）测试了在线团体 IFS 治疗 PTSD 的效果。PARTS 和主动对照组都减少了 CAPS-5 PTSD 分数。虽然摘要<strong>未报告显著组间差异</strong>，但 PARTS 的<strong>会谈出席率和满意度更高</strong>——说明来访者对这种方法有更强的参与意愿。证据仍在建立中，但方向是正确的。
+        </div>
+        <div class="evidence-source">
+          2021 — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8510721/" target="_blank">PMC8510721</a>
+        </div>
+      </div>
+      <div class="evidence-item identity">
+        <div class="evidence-type">IFS 的机制到底是什么？第一个系统性测量</div>
+        <div class="evidence-finding">
+          光说"IFS 有效"还不够，我们需要知道它在改变什么。一项先导研究（<strong>N=10</strong>）在 PTSD+物质使用人群中明确测量了三个机制靶点：<strong>情绪调节能力（DERS）、解中心化能力（EQ-D）、非二元觉知（NADA）</strong>，加上 PCL-5 追踪 PTSD 症状。样本虽小，但<strong>这是 IFS 第一次系统性地把"我认为它在改变什么"变成可测量变量</strong>。情绪调节和解中心化——这正是认同系统从"被部分控制"到"能观察和选择"的转变。
+        </div>
+        <div class="evidence-source">
+          PARTS-SUD pilot — <a href="https://pubmed.ncbi.nlm.nih.gov/41609644/" target="_blank">PubMed</a>
+        </div>
+      </div>
+      <div class="evidence-item identity">
+        <div class="evidence-type">CFT 的核心证据：它真的能改变自我批评和羞耻吗？</div>
+        <div class="evidence-finding">
+          CFT（Compassion-Focused Therapy，慈悲聚焦治疗）由 Paul Gilbert 开发，专门针对高度自我批评和深层羞耻的人群。一项涵盖 <strong>15项RCT/试点研究</strong> 的系统综述和元分析显示：CFT 改善了<strong>自我慈悲（效应量 0.19–0.90）、降低自我批评（0.15–0.72）、提升自我安抚能力（0.43–0.81）</strong>。元分析在自我慈悲和自我安抚上显著优于对照组。<strong>这些变量不是症状——它们是自我与自我关系的直接测量</strong>，正是 Z5S 所说的认同系统的核心指标。
+        </div>
+        <div class="evidence-source">
+          2023 — <a href="https://www.sciencedirect.com/science/article/pii/S0165032723000228" target="_blank">J Affective Disorders</a>
+        </div>
+      </div>
+      <div class="evidence-item identity">
+        <div class="evidence-type">复制检验：另一项元分析确认了 CFT 对自我批评的效果吗？</div>
+        <div class="evidence-finding">
+          科学需要复制。另一项独立的元分析（<strong>7项对照试验，N=640 + 7项观察研究，N=207</strong>）确认了 CFT <strong>显著降低自我批评水平并提升自我安抚能力</strong>。效应量因量表子维度（"不足自我"vs"憎恨自我"）和研究设计而异，但方向一致。两项独立元分析得出相同结论——这不是偶然。
+        </div>
+        <div class="evidence-source">
+          2023 — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10087030/" target="_blank">PMC10087030</a>
+        </div>
+      </div>
+      <div class="evidence-item identity">
+        <div class="evidence-type">最新证据：CFT 对羞耻的效果有多大？</div>
+        <div class="evidence-finding">
+          2025年最新的系统综述（<strong>21项研究，N=450</strong>）进一步拆解了 CFT 的效果：自我慈悲改善一致（<strong>g = 0.23–4.14</strong>），自我批评减少一致（<strong>g = 0.29–1.56</strong>），外在羞耻减少显著（<strong>g = 0.54–1.22</strong>）。但内在羞耻和人际慈悲流（给予他人慈悲、接受他人慈悲）的证据有限且不一致。<strong>这对 Z5S 的含义：</strong>认同系统的"自我对自我"维度有强支持，但"自我对他人"维度的改变机制还不清楚。
+        </div>
+        <div class="evidence-source">
+          2025 — <a href="https://www.mdpi.com/2076-328X/15/8/1031" target="_blank">Behavioral Sciences</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAY SYSTEM -->
+  <div class="system-card">
+    <div class="system-header">
+      <div class="system-icon" style="background: var(--accent-play);">游</div>
+      <div class="system-title-block">
+        <h3>游戏系统 Play System</h3>
+        <div class="therapies">临床现象：「我说不出来，也想不通，整个人像是被冻住了」——当语言和认知通道都堵了</div>
+      </div>
+      <div class="star-rating">
+        <span class="stars">★★☆☆☆</span>
+        <span class="rating-label">2-3/5 弱到中</span>
+      </div>
+    </div>
+    <div class="system-desc">
+      游戏系统是五个系统中证据最薄弱的一环，这需要诚实承认。表达性艺术和沙盘治疗对某些来访者有效，初步指向一个可能涉及生命力、创造力、象征性行动能力的过程簇。当语言和认知通道都被堵塞时，来访者已经说不出也想不通，而非语言的象征性表达（画、沙盘、戏剧）可能提供了绕过认知的替代通道。但"游戏系统"作为一个独立构念的证据基础仍然薄弱——机制测量不标准化，效果的异质性极高。
+    </div>
+    <div class="evidence-list">
+      <div class="evidence-item play">
+        <div class="evidence-type">创意艺术治疗能减轻 PTSD 吗？</div>
+        <div class="evidence-finding">
+          游戏系统的核心假设是：当语言和认知通道都堵了，象征性行动（画、演、玩）可以绕过认知，直接完成情绪加工。如果这是对的，那么创意艺术治疗应该能在 PTSD——一种典型的"说不出来"的障碍——中产生效果。一项涵盖 <strong>7项对照比较研究、约665名参与者</strong> 的元分析显示：创意艺术治疗确实减少了 PTSD 症状，合并效应量<strong>非常大</strong>。但异质性极高（<strong>I²≈98%</strong>），戏剧治疗效应最强。<strong>这意味着：</strong>效果是存在的，但不同模式差异巨大——"游戏系统"可能不是一个均质的过程，内部可能有不同的子通道。
+        </div>
+        <div class="evidence-source">
+          见 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6461540/" target="_blank">PMC6461540</a> — 创意艺术治疗 PTSD 元分析
+        </div>
+      </div>
+      <div class="evidence-item play">
+        <div class="evidence-type">艺术治疗改善的是症状，还是"积极体验"？</div>
+        <div class="evidence-finding">
+          这个问题对 Z5S 至关重要。如果游戏系统的功能是恢复生命力和象征性表达能力，那么艺术治疗改善的不应该只是"少了多少症状"，还应该包括"多了多少积极体验"。一项涵盖 <strong>21项RCT、868名参与者</strong> 的系统综述发现：艺术治疗不仅减少了不良结果，还在<strong>积极结果（享受感/放松感）</strong>方面优于对照组。作者明确讨论了"游戏/快乐"和"象征性表达"作为可能机制。<strong>这是目前文献中最接近"游戏系统"操作化定义的证据</strong>——但作者也承认机制测量需要更标准化。
+        </div>
+        <div class="evidence-source">
+          Maddox et al. — 见 Flinders University repository
+        </div>
+      </div>
+      <div class="evidence-item play">
+        <div class="evidence-type">结构化艺术活动能同时减少焦虑和增加幸福感吗？</div>
+        <div class="evidence-finding">
+          一项 RCT（<strong>N=72，36 vs 36</strong>）测试了结构化艺术活动方案的效果，结果是双向的：<strong>焦虑减少，心理幸福感增加</strong>。幸福感（psychological well-being）是"游戏/生命力"输出的合理操作化代理指标——虽然不是唯一的。<strong>对 Z5S 的含义：</strong>游戏系统入口的价值可能不只是"减少痛苦"，而是同时"恢复积极体验"——这是纯认知治疗通常不直接测量的维度。
+        </div>
+        <div class="evidence-source">
+          见 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11502332/" target="_blank">PMC11502332</a> — 艺术活动 RCT
+        </div>
+      </div>
+      <div class="evidence-item play">
+        <div class="evidence-type">边界案例：BA 提升幸福感——这属于执行系统还是游戏系统？</div>
+        <div class="evidence-finding">
+          BA 主要击中执行系统，但它也被发现能提升幸福感。一项涵盖 <strong>20项RCT、1353名参与者</strong> 的元分析显示，BA 对正向情感、生活满意度、自尊的效应量为 <strong>Hedges' g = 0.52</strong>，与正向心理学干预效果相当。<strong>诚实说明：</strong>这条证据有循环风险——用一个执行系统治疗的副产出来论证游戏系统的存在。更合理的解释可能是：当人开始行动并接触到正向强化物时，执行系统的恢复会连带产生积极体验。这提示系统之间可能有级联效应，但不能作为游戏系统独立存在的直接证据。
+        </div>
+        <div class="evidence-source">
+          Mazzucchelli et al. — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2882847/" target="_blank">PMC2882847</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MAPPING TABLE ═══════════ -->
+<div class="mapping-section">
+  <div class="section">
+    <div class="section-label" style="color: rgba(250,248,245,0.4);">Argument · Step 2</div>
+    <h2>论证第二步：这些过程可以被组织成一张地图吗？</h2>
+    <p class="section-intro">
+      Step 1 证明了不同治疗在改变不同的东西。但这还不够——我们需要知道这些不同的东西之间有没有结构。Z5S 提出：它们可以被组织为五个可区分的过程簇。<strong>必须说清楚：这个"五个"是理论假设，不是因子分析的结果。</strong>为什么是五个而不是三个或七个？目前的答案是：这是基于现有过程研究的最佳组织方式——五个簇之间测量的变量不同、对应的治疗技术不同、改变的心理参数不同。但这个结构是否能被因子分析确认，是 Step 4 要解决的问题。以下映射是当前最合理的组织假设，注意证据强度的差异。
+    </p>
+    <table class="mapping-table">
+      <thead>
+        <tr>
+          <th style="width:22%">治疗方法</th>
+          <th style="width:28%">它实际在改变什么</th>
+          <th style="width:22%">击中的系统</th>
+          <th style="width:12%">证据</th>
+          <th style="width:16%">关键数据</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="therapy-name">CBT</div>
+            <div class="therapy-en">Cognitive Behavioral Therapy · 认知行为治疗</div>
+          </td>
+          <td>认知重构、功能失调态度、元认知觉知、行为激活</td>
+          <td>
+            <span class="system-tag tag-explanation">解释</span>
+            <span class="system-tag tag-execution">执行</span>
+          </td>
+          <td class="stars-cell">★★★★★</td>
+          <td style="font-size:13px; color:rgba(250,248,245,0.6)">g≈0.50认知变化; r=.35认知重构-结果关联</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="therapy-name">BA</div>
+            <div class="therapy-en">Behavioral Activation · 行为激活</div>
+          </td>
+          <td>活动参与、环境强化、回避减少、努力-回报决策</td>
+          <td>
+            <span class="system-tag tag-execution">执行</span>
+          </td>
+          <td class="stars-cell">★★★★★</td>
+          <td style="font-size:13px; color:rgba(250,248,245,0.6)">d=0.87活动安排; 成分实验显示选择性机制; 中介证据弱到中等</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="therapy-name">EFT</div>
+            <div class="therapy-en">Emotion-Focused Therapy · 情绪聚焦治疗</div>
+          </td>
+          <td>情绪体验深度、情绪唤醒、情绪加工与转化</td>
+          <td>
+            <span class="system-tag tag-emotion">情绪</span>
+          </td>
+          <td class="stars-cell">★★★★☆</td>
+          <td style="font-size:13px; color:rgba(250,248,245,0.6)">3项独立RCT; 77%非复发率; 体验量表过程传统</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="therapy-name">IFS</div>
+            <div class="therapy-en">Internal Family Systems · 内在家庭系统</div>
+          </td>
+          <td>自我慈悲、自我效能感、解中心化、情绪调节</td>
+          <td>
+            <span class="system-tag tag-identity">认同</span>
+            <span class="system-tag tag-emotion">情绪</span>
+          </td>
+          <td class="stars-cell">★★★☆☆</td>
+          <td style="font-size:13px; color:rgba(250,248,245,0.6)">1项RCT测量自我慈悲; PTSD RCT存在; 先导机制研究</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="therapy-name">CFT</div>
+            <div class="therapy-en">Compassion-Focused Therapy · 慈悲聚焦治疗</div>
+          </td>
+          <td>自我批评、羞耻、自我安抚、自我慈悲</td>
+          <td>
+            <span class="system-tag tag-identity">认同</span>
+          </td>
+          <td class="stars-cell">★★★☆☆</td>
+          <td style="font-size:13px; color:rgba(250,248,245,0.6)">自我慈悲 0.19–0.90; 自我批评 0.15–0.72</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="therapy-name">表达性治疗</div>
+            <div class="therapy-en">艺术/沙盘/戏剧</div>
+          </td>
+          <td>象征性表达、享受/放松、非语言情感释放</td>
+          <td>
+            <span class="system-tag tag-play">游戏</span>
+            <span class="system-tag tag-emotion">情绪</span>
+          </td>
+          <td class="stars-cell">★★☆☆☆</td>
+          <td style="font-size:13px; color:rgba(250,248,245,0.6)">21项RCT N=868; 积极结果改善; 机制多为理论推导</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ RELAPSE ═══════════ -->
+<div class="section">
+  <div class="section-label">Argument · Step 3</div>
+  <h2>论证第三步：如果入口选错了，会发生什么？</h2>
+  <p class="section-intro">
+    如果前两步成立——不同治疗打不同过程，这些过程可被组织为系统——那么一个直接的推论是：当治疗击中了来访者的非核心系统时，症状可能暂时改善，但核心过程未被触及，复发风险仍在。CBT 后的复发数据为这一推论提供了间接但重要的支持。
+  </p>
+
+  <div class="relapse-card">
+    <h3>关键数据：CBT 后三分之一患者复发，预测因子不是认知</h3>
+    <div class="evidence-list">
+      <div class="evidence-item emotion">
+        <div class="evidence-type">系统综述/元分析 · 复发率</div>
+        <div class="evidence-finding">
+          CBT后平均 <strong>33.4% 的患者经历复发/复发</strong>。最稳定的预测因子：残余抑郁症状（r=0.34）和既往发作次数（r=0.19）。认知反应性<strong>不是</strong>显著预测因子（r=0.18, p=.08）。
+        </div>
+        <div class="evidence-source">
+          Wojnarowski et al., 2019 — <a href="https://pubmed.ncbi.nlm.nih.gov/30894231/" target="_blank">PubMed 30894231</a>
+        </div>
+      </div>
+      <div class="evidence-item emotion">
+        <div class="evidence-type">元分析 · 28项RCT</div>
+        <div class="evidence-finding">
+          N=3938。CBT组复发率<strong>31.6%</strong> vs 对照组<strong>41.3%</strong>。CBT显著降低复发风险（RR=0.73）。在≤12个月（RR=0.61）和>12个月（RR=0.74）均有效。
+        </div>
+        <div class="evidence-source">
+          Chen et al., 2022, J Affective Disorders — <a href="https://pubmed.ncbi.nlm.nih.gov/36162683/" target="_blank">PubMed 36162683</a>
+        </div>
+      </div>
+      <div class="evidence-item identity">
+        <div class="evidence-type">Z5S 假设 · 待验证</div>
+        <div class="evidence-finding">
+          <strong>Z5S 提出的可检验预测：</strong>如果残余症状主要涉及情绪加工受阻或自我组织/身份冲突（而非认知扭曲），那么这些残余过程可能构成复发的核心风险。系统错配的治疗，symptom reduction 会先于 relapse。<em>——此命题目前为理论推论，尚待直接验证。</em>
+        </div>
+        <div class="evidence-source">Z5S 框架假设</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIMITATIONS → PROGRESS MAP -->
+  <div class="limitations">
+    <h3>这个论证目前走到了哪一步，还差什么</h3>
+
+    <div class="limitation-item">
+      <div class="limitation-label">已证明 · 方向性映射成立 — 这是地基，不是局限</div>
+      不同治疗确实优先改变不同的可测量过程，这一点有多线证据支撑：<br><br>
+      <strong>CBT 击中解释+执行：</strong>Cuijpers et al.（2015）的26项RCT元分析显示CBT将功能失调思维改善 g≈0.50（N=2002）；Ezawa &amp; Hollon（2023）的会谈内认知重构与结果关联 r=.35（N=353）；Norbury et al.（2024, Science Advances）的成分实验中目标设定选择性降低努力敏感性而认知重构不改变此参数（N=197）——证明两个成分打的是不同机制。<br><br>
+      <strong>EFT 击中情绪：</strong>三项RCT证明EFT治疗抑郁有效（Greenberg报告77%非复发率，但来自同一研究组，需独立复制）；过程研究中体验量表得分按好/差结果组显著分层（N=40）；纵向研究发现情绪加工与症状变化存在互惠预测关系。<br><br>
+      <strong>CFT（Compassion-Focused Therapy，慈悲聚焦治疗）击中认同：</strong>15项RCT/试点研究的系统综述显示CFT改善自我慈悲（效应量0.19–0.90）、降低自我批评（0.15–0.72）、提升自我安抚（0.43–0.81）。另一项元分析（7项对照试验，N=640）确认CFT显著降低自我批评并提升安抚能力。这些变量——自我慈悲、自我批评、羞耻——都是自我与自我关系的直接测量，即Z5S所说的认同系统。<br><br>
+      <strong>为什么这很重要：</strong>如果所有治疗都在改变同一个过程，Z5S就没有存在意义。但数据反复显示：认知重构改变的是解释内容，行为激活改变的是行动-奖赏参数，情绪聚焦改变的是体验深度，慈悲聚焦改变的是自我关系。它们不是同一件事。这就是Z5S地图的实证地基。
+    </div>
+
+    <div class="limitation-item">
+      <div class="limitation-label">未证明 · 五系统本体结构 — 需要量表+因子分析</div>
+      上面证明了"不同治疗打不同过程"，但还没有证明"这些过程恰好形成五个可分离的系统"。Z5S的五系统标签——解释、执行、情绪、认同、游戏——目前是理论整合，不是已被因子分析确认的分类学。<br><br>
+      <strong>具体缺什么：</strong>需要开发一套Z5S多维度量表，在大样本临床人群中做探索性因子分析（EFA）和验证性因子分析（CFA），看数据是否支持五因子结构。如果数据支持四因子或六因子，Z5S应该相应修订——框架服从数据，不是数据服从框架。<br><br>
+      <strong>为什么这很重要：</strong>没有这一步，Z5S只能说"不同过程存在"，不能说"这些过程按五个系统组织"。前者已成立，后者是待验证假设。
+    </div>
+
+    <div class="limitation-item">
+      <div class="limitation-label">待验证 · 系统错配导致复发 — Z5S最有杀伤力的预测</div>
+      Z5S的核心临床预测是：当治疗击中了来访者的非核心系统时，症状可能暂时改善，但核心过程未被触及，复发风险仍在。<br><br>
+      <strong>间接支持：</strong>CBT后33.4%的患者复发（k=5, N=369的元分析）。最稳定的复发预测因子是残余抑郁症状（r=0.34）和既往发作次数（r=0.19）——而认知反应性不是显著预测因子（r=0.18, p=.08）。这意味着：CBT改善了认知，但复发并不是由认知决定的。那是由什么决定的？Z5S认为答案是：未被触及的其他系统过程。<br><br>
+      <strong>直接检验方法：</strong>需要一个纵向RCT，在治疗前用Z5S评估来访者的主导系统，然后比较"匹配治疗"（击中主导系统）vs"非匹配治疗"（击中非主导系统）的复发率差异。如果匹配组复发率显著更低，这个预测就被验证了。<br><br>
+      <strong>为什么这很重要：</strong>这不只是学术问题。如果系统错配真的解释了一部分复发，那每一个被错配的来访者都在承受本可以避免的痛苦。
+    </div>
+
+    <div class="limitation-item">
+      <div class="limitation-label">诚实声明 · 证据量不均</div>
+      CBT/BA有60年研究积累（5⭐），EFT有成长中但扎实的RCT基础（4⭐），IFS有少量RCT和先导研究（3⭐），CFT（慈悲聚焦治疗）有15项RCT/试点但多为小样本（3⭐），表达性治疗机制测量最不标准化（2-3⭐）。证据强度差异部分反映研究量差异，而非治疗有效性差异。本页所有效应量均来自已发表的同行评审文献。
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ NEXT STEPS ═══════════ -->
+<div class="next-steps">
+  <div class="section">
+    <div class="section-label" style="color: rgba(250,248,245,0.4);">Argument · Step 4</div>
+    <h2>论证第四步：怎么从假设变成验证</h2>
+    <div class="step-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h4>开发 Z5S 测量工具</h4>
+        <p>为五个系统建立多方法测量——认知内容+归因任务、行为激活+努力-成本任务、体验/情绪加工编码、自我慈悲/自我概念/羞耻、生命力/积极情感+象征性参与。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h4>因子分析与网络分析</h4>
+        <p>在大型临床样本中检验：这些过程是否实证性地形成五个可分离因子。如果不支持五因子方案，相应修订结构。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h4>个体化纵向设计</h4>
+        <p>EMA + 逐次会谈过程追踪，检验"系统对张力"假设：主导振荡是否预测症状循环，靶向该系统对是否更高效。</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <h4>Z5S 匹配 RCT</h4>
+        <p>决定性检验：Z5S指导的治疗匹配 vs 常规临床选择，预注册调节/中介变量和时间分辨的过程测量。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <p>Z5S Framework · Empirical Argument for the Directional Hypothesis</p>
+  <p style="margin-top:8px;">论证结构：Step 1 不同治疗改变不同过程 → Step 2 过程可被组织为系统地图 → Step 3 系统错配可解释复发 → Step 4 验证路径</p>
+  <p style="margin-top:8px;">所有研究引用均来自 PubMed / PubMed Central / 同行评审期刊。</p>
+  <p style="margin-top:8px;">© 2026 Zebin Ye · Z5S Framework</p>
+</footer>
+
+</body>
+</html>
