@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Z5S — 主权系统</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* English display: Times New Roman stack */
+  .tnr { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+</style>
+<style>
+
+/* ═══════════════════════════════════════
+   Z5S — 主权系统
+   Aesthetic: Editorial × Academic
+   Font: Outfit (display/UI) + Noto Serif SC (body CN)
+   Layout: Left TOC (collapsible) + single content column
+   White background, strong typographic hierarchy
+═══════════════════════════════════════ */
+
+:root {
+  --bg: #ffffff;
+  --bg2: #f7f7f7;
+  --bg3: #f0f0f0;
+  --ink: #111111;
+  --ink2: #333333;
+  --ink3: #555555;
+  --ink4: #888888;
+  --ink5: #bbbbbb;
+  --rule: #e8e8ea;
+  --rule2: #d0d2d8;
+  --blue: #1a56db;
+
+  /* System accent colors */
+  --cA: #1a7a3a; --cA2: #e8f6ed;
+  --cB: #1855c0; --cB2: #e8eeff;
+  --cC: #a03c00; --cC2: #fff3e8;
+  --cD: #6228c0; --cD2: #f3eeff;
+  --cE: #b8001a; --cE2: #fff0f1;
+
+  --toc-open: 210px;
+  --toc-shut: 40px;
+  --nav-h: 54px;
+}
+
+/* ── BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; font-size: 18px; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Serif SC', 'Times New Roman', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Headings in Outfit */
+h1, h2, h3, h4, h5,
+.outfit { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+
+a { color: inherit; text-decoration: none; }
+strong { font-weight: 600; }
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 400;
+  height: var(--nav-h);
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-row {
+  max-width: 1300px; margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  display: flex; align-items: center; gap: 12px;
+}
+.nav-logo {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--ink); display: flex; align-items: center; gap: 8px;
+  flex-shrink: 0;
+}
+.nav-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: linear-gradient(135deg, #1a56db, #34c759);
+  flex-shrink: 0;
+}
+.nav-pills {
+  display: flex; gap: 2px; margin-left: auto;
+}
+.nav-pills a {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px; font-weight: 400;
+  color: var(--ink3);
+  padding: 5px 11px; border-radius: 6px;
+  transition: background .12s, color .12s;
+}
+.nav-pills a:hover { background: var(--bg2); color: var(--ink); }
+
+/* ── TOC (fixed left) ── */
+.toc-panel {
+  position: fixed;
+  top: var(--nav-h); left: 0; bottom: 0;
+  width: var(--toc-open);
+  background: var(--bg);
+  border-right: 1px solid var(--rule);
+  z-index: 300;
+  display: flex; flex-direction: column;
+  transition: width .22s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
+}
+.toc-panel.shut { width: var(--toc-shut); }
+
+/* toggle button */
+.toc-btn {
+  flex-shrink: 0;
+  width: 100%; height: 42px;
+  display: flex; align-items: center;
+  border: none; border-bottom: 1px solid var(--rule);
+  background: var(--bg2); cursor: pointer;
+  padding: 0 12px;
+  transition: background .12s;
+}
+.toc-btn:hover { background: var(--bg3); }
+.toc-btn-icon {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px; color: var(--ink4);
+  transition: transform .22s cubic-bezier(.4,0,.2,1);
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap; overflow: hidden;
+}
+.toc-panel.shut .toc-btn-icon { transform: rotate(180deg); }
+.toc-btn-label {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px; font-weight: 600;
+  color: var(--ink3); letter-spacing: .04em;
+  opacity: 1; transition: opacity .15s;
+}
+.toc-panel.shut .toc-btn-label { opacity: 0; }
+
+/* toc links */
+.toc-body {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: 14px 0 60px;
+  opacity: 1; transition: opacity .15s;
+}
+.toc-panel.shut .toc-body { opacity: 0; pointer-events: none; }
+
+.toc-section-title {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink5); padding: 0 16px 6px;
+  display: block; margin-top: 14px;
+}
+.toc-section-title:first-child { margin-top: 0; }
+
+.toc-link {
+  display: flex; align-items: center;
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12.5px; font-weight: 400;
+  color: var(--ink3);
+  padding: 5px 16px;
+  border-left: 2px solid transparent;
+  transition: color .12s, border-color .12s, background .12s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.toc-link:hover { color: var(--ink); background: var(--bg2); }
+.toc-link.on { color: var(--blue); border-left-color: var(--blue); font-weight: 500; }
+.toc-sep { height: 1px; background: var(--rule); margin: 8px 16px; }
+
+/* ── CONTENT SHELL ── */
+/* TOC is position:fixed — it does NOT affect document flow at all.
+   Content is always centered on the full viewport width. Period. */
+.shell {
+  min-height: 100vh;
+}
+
+.content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 48px 140px;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 72px 0 56px;
+  border-bottom: 2px solid #2a3a5c;
+  margin-bottom: 64px;
+}
+
+.hero-eyebrow {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-eyebrow::after {
+  content: ''; flex: 1; max-width: 60px;
+  height: 1px; background: var(--ink3);
+}
+
+.hero-title {
+  font-family: 'Times New Roman', Times, 'Noto Serif SC', serif;
+  font-size: 56px; font-weight: 800;
+  line-height: 1.05; letter-spacing: -1.5px;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.hero-title-en {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 24px; font-weight: 300;
+  letter-spacing: -.2px;
+  color: var(--ink4);
+  margin-bottom: 28px;
+}
+.hero-desc {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px; font-weight: 300;
+  color: var(--ink2); line-height: 1.9;
+  max-width: 560px;
+  border-left: 3px solid var(--ink);
+  padding-left: 18px;
+}
+
+/* ── MANIFESTO ── */
+.manifesto {
+  background: #fafaf8;
+  border: 1px solid #e0e0da;
+  border-left: 3px solid #b0a898;
+  padding: 36px 40px;
+  margin-bottom: 64px;
+}
+.manifesto-label {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: #999990; margin-bottom: 18px;
+}
+.manifesto p {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px; font-weight: 300;
+  line-height: 2.0; color: #333330;
+  margin-bottom: 14px;
+}
+.manifesto p:last-child { margin-bottom: 0; }
+.manifesto strong { color: #111110; font-weight: 600; }
+.manifesto .en-quote {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 14px; font-weight: 300; font-style: italic;
+  color: #888880;
+  padding-top: 16px; margin-top: 16px;
+  border-top: 1px solid #e0e0da;
+}
+
+/* ── STATUS ── */
+.status {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 64px;
+}
+.status-led {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #34c759; flex-shrink: 0; margin-top: 7px;
+}
+.status p {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px; font-weight: 400;
+  color: var(--ink3); line-height: 1.7;
+}
+.status p strong { color: var(--ink2); font-weight: 600; }
+
+/* ── SECTION MECHANICS ── */
+.block { margin-bottom: 88px; scroll-margin-top: 74px; }
+
+.block-label {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink4);
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 32px;
+}
+.block-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--rule);
+}
+
+/* ── OVERVIEW STRIP ── */
+.sys-strip {
+  display: grid; grid-template-columns: repeat(5,1fr);
+  border: 1px solid var(--rule2);
+  margin-bottom: 28px;
+}
+.sys-cell {
+  padding: 18px 12px 16px;
+  text-align: center;
+  border-right: 1px solid var(--rule);
+  text-decoration: none;
+  transition: background .12s;
+}
+.sys-cell:last-child { border-right: none; }
+.sys-cell:hover { background: var(--bg2); }
+.sys-cell-code {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 20px; font-weight: 700;
+  display: block; margin-bottom: 5px;
+}
+.sys-cell-zh {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px; font-weight: 400;
+  color: var(--ink); display: block; margin-bottom: 2px;
+}
+.sys-cell-en {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; color: var(--ink4); display: block; font-style: italic;
+}
+.sys-cell-hint {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10.5px; color: var(--ink4); margin-top: 7px; line-height: 1.5;
+}
+
+/* ── AXIOM ── */
+.axiom {
+  border-left: 3px solid var(--ink3);
+  padding: 14px 20px; margin: 24px 0;
+}
+.axiom p {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14.5px; font-weight: 300;
+  color: var(--ink2); line-height: 1.9;
+}
+.axiom p strong { color: var(--ink); font-weight: 600; }
+.axiom cite {
+  display: block;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 11px; color: var(--ink4);
+  margin-top: 7px; font-style: normal; letter-spacing: .04em;
+}
+
+/* ── SYSTEM HEADING ── */
+.sys-head {
+  margin-bottom: 32px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--rule);
+}
+.sys-head-row {
+  display: flex; align-items: baseline; gap: 12px;
+  flex-wrap: wrap; margin-bottom: 4px;
+}
+.sys-code {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 28px; font-weight: 600;
+  letter-spacing: 0;
+}
+.sys-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px; font-weight: 500; color: var(--ink);
+}
+.sys-name-en {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 14px; font-weight: 300; font-style: italic;
+  color: var(--ink3);
+}
+.sys-drive {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px; font-weight: 400; font-style: italic;
+  color: var(--ink4); margin-left: auto;
+}
+
+/* ── TWO COLUMN ── */
+.two-up {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 40px; margin-bottom: 36px;
+}
+.col-hed {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink4); margin-bottom: 14px;
+}
+.col-body {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14.5px; font-weight: 300;
+  color: var(--ink2); line-height: 1.95;
+}
+.col-body p + p { margin-top: 10px; }
+.col-body strong { color: var(--ink); font-weight: 500; }
+
+/* Timeline */
+.tl { margin-top: 2px; }
+.tl-row { display: grid; grid-template-columns: 44px 1fr; gap: 10px; margin-bottom: 10px; }
+.tl-yr {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10.5px; font-weight: 700;
+  color: var(--ink4); padding-top: 2px;
+}
+.tl-txt {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px; font-weight: 300;
+  color: var(--ink3); line-height: 1.75;
+}
+.tl-txt strong { color: var(--ink2); font-weight: 500; }
+
+/* ── SUB HEAD ── */
+.sub-head {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink3); margin: 28px 0 12px;
+}
+
+/* ── LEVELS (3 col) ── */
+.level-row {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  border: 1px solid var(--rule);
+  margin-bottom: 24px;
+}
+.lv {
+  padding: 20px 18px;
+  border-right: 1px solid var(--rule);
+}
+.lv:last-child { border-right: none; }
+
+.lv-badge {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 2px 8px; display: inline-block;
+  margin-bottom: 10px; border-radius: 2px;
+}
+.r { background: #ffe0e3; color: #8a0012; }
+.i { background: #dde8ff; color: #0a2d9c; }
+.t { background: #d4f0dc; color: #0a4f22; }
+
+.lv h5 {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px; font-weight: 600;
+  color: var(--ink); margin-bottom: 8px;
+}
+.lv p {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12.5px; font-weight: 300;
+  color: var(--ink3); line-height: 1.8;
+}
+.lv-q {
+  display: block; margin-top: 10px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 12px; font-style: italic; font-weight: 300;
+  color: var(--ink4);
+}
+
+/* ── ACTIVATION (3 col) ── */
+.act-row {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  border: 1px solid var(--rule);
+  margin-bottom: 24px;
+}
+.ac {
+  padding: 18px 16px;
+  border-right: 1px solid var(--rule);
+}
+.ac:last-child { border-right: none; }
+.ac-head {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 8px;
+}
+.ac p {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 13px; font-weight: 300;
+  color: var(--ink3); line-height: 1.8;
+}
+.ac ul { list-style: none; margin-top: 8px; }
+.ac ul li {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12.5px; font-weight: 300;
+  color: var(--ink3); line-height: 1.7;
+  padding-left: 13px; position: relative;
+}
+.ac ul li::before { content: '·'; position: absolute; left: 0; color: var(--ink5); }
+.ac-note {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11px; font-style: italic;
+  color: var(--ink4); margin-top: 8px;
+}
+
+/* ── PROFILE ── */
+.profile {
+  border-left: 3px solid var(--rule2);
+  padding: 16px 20px; margin-bottom: 20px;
+}
+.profile-hed {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink4); margin-bottom: 10px;
+}
+.profile ul { list-style: none; }
+.profile ul li {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px; font-weight: 300;
+  color: var(--ink2); line-height: 1.9;
+  padding-left: 16px; position: relative;
+}
+.profile ul li::before { content: '—'; position: absolute; left: 0; color: var(--ink5); }
+
+/* ── CONFLICT PAIRS ── */
+.cf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; }
+.cf {
+  background: var(--bg2); border: 1px solid var(--rule);
+  padding: 14px 16px;
+}
+.cf-title {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--ink); margin-bottom: 6px;
+}
+.cf p {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12.5px; font-weight: 300;
+  color: var(--ink3); line-height: 1.75;
+}
+.cf p strong { color: var(--ink2); font-weight: 500; }
+
+/* ── HIGHLIGHT KEYWORDS ── */
+.hl { background: #fff3b0; color: #5c3d00; padding: 1px 5px; font-weight: 600; }
+.hl-b { background: #ddeaff; color: #0a2d9c; padding: 1px 5px; font-weight: 600; }
+.hl-g { background: #d4f0dc; color: #0a4a20; padding: 1px 5px; font-weight: 600; }
+.hl-r { background: #ffe0e3; color: #7a0012; padding: 1px 5px; font-weight: 600; }
+.hl-p { background: #eddeff; color: #3a0a80; padding: 1px 5px; font-weight: 600; }
+
+/* ── TABLE ── */
+.tbl-wrap { overflow-x: auto; margin-bottom: 14px; }
+table { width: 100%; border-collapse: collapse; min-width: 600px; font-size: 13px; }
+table th {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  text-align: left; padding: 9px 10px;
+  background: var(--bg2); color: var(--ink3);
+  border-bottom: 1px solid var(--rule2);
+}
+table td {
+  padding: 9px 10px; border-bottom: 1px solid var(--rule);
+  font-family: 'Noto Serif SC', serif; font-weight: 300;
+  color: var(--ink3); line-height: 1.6; vertical-align: top;
+}
+table tr:last-child td { border-bottom: none; }
+table tr:hover td { background: var(--bg2); }
+.td-sit { font-weight: 500; color: var(--ink); white-space: nowrap; font-size: 13.5px; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+.td-sys { font-weight: 600; }
+
+/* ── PAIR GRID ── */
+.pair-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+.pair { border: 1px solid var(--rule); padding: 14px 16px; }
+.pair-title { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.pair p { font-family: 'Noto Serif SC', serif; font-size: 12.5px; font-weight: 300; color: var(--ink3); line-height: 1.75; }
+.pair p strong { color: var(--ink2); font-weight: 500; }
+
+/* ── BENEFITS ── */
+.ben-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+.ben { background: var(--bg2); border: 1px solid var(--rule); padding: 14px 16px; }
+.ben-title { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+.ben p { font-family: 'Noto Serif SC', serif; font-size: 13px; font-weight: 300; color: var(--ink3); line-height: 1.7; }
+
+/* ── CASE ── */
+.case { border: 1px solid var(--rule); margin-bottom: 20px; }
+.case-head {
+  background: var(--bg2); border-bottom: 1px solid var(--rule);
+  padding: 12px 18px;
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px; font-weight: 600; color: var(--ink);
+}
+.case-body { padding: 18px 20px; }
+.case-p {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px; font-weight: 300; color: var(--ink2);
+  line-height: 1.9; margin-bottom: 12px;
+}
+.case-p:last-child { margin-bottom: 0; }
+.case-p strong { color: var(--ink); font-weight: 600; }
+
+.scan-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin: 14px 0; }
+.sc {
+  padding: 9px 8px; border: 1px solid var(--rule); font-size: 11px; line-height: 1.5;
+}
+.sc-name { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 12px; margin-bottom: 3px; }
+.sc-state { font-family: 'Noto Serif SC', serif; font-weight: 300; color: var(--ink3); font-size: 11px; }
+
+.blockquote {
+  background: var(--bg2); border-left: 3px solid var(--rule2);
+  padding: 14px 18px; margin: 12px 0;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 14px; font-style: italic; font-weight: 300;
+  color: var(--ink2); line-height: 1.85;
+}
+
+/* ── Q BLOCKS ── */
+.q-block { border: 1px solid var(--rule); margin-bottom: 8px; }
+.q-head {
+  background: var(--bg2); border-bottom: 1px solid var(--rule);
+  padding: 9px 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink3);
+}
+.q-pip { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.q-list { list-style: none; }
+.q-list li {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px; font-weight: 300; color: var(--ink2);
+  padding: 9px 14px; border-bottom: 1px solid var(--rule); line-height: 1.7;
+}
+.q-list li:last-child { border-bottom: none; }
+.q-list li::before {
+  content: attr(data-n) '.  ';
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11px; font-weight: 700; color: var(--ink5);
+}
+
+/* ── PREDICTIONS ── */
+.pred {
+  display: grid; grid-template-columns: 30px 1fr;
+  gap: 16px; padding: 20px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.pred:first-child { border-top: 1px solid var(--rule); }
+.pred-n {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 18px; font-weight: 700; color: var(--ink4);
+}
+.pred h5 {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 15px; font-weight: 600; color: var(--ink);
+  margin-bottom: 7px;
+}
+.pred-body {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px; font-weight: 300; color: var(--ink2); line-height: 1.85;
+}
+.pred-neg {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px; font-style: italic; font-weight: 300;
+  color: var(--ink4); margin-top: 8px;
+  padding-left: 12px; border-left: 2px solid var(--rule);
+}
+
+/* ── QA ── */
+.qa-list { display: flex; flex-direction: column; gap: 6px; }
+.qa { border: 1px solid var(--rule); }
+.qa-q {
+  background: var(--bg2); border-bottom: 1px solid var(--rule);
+  padding: 12px 16px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px; font-weight: 500; color: var(--ink);
+}
+.qa-a {
+  padding: 14px 16px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px; font-weight: 300; color: var(--ink2); line-height: 1.9;
+}
+.qa-a strong { color: var(--ink); font-weight: 600; }
+
+/* ── PROSE ── */
+.prose {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px; font-weight: 300;
+  color: var(--ink2); line-height: 1.9; margin-bottom: 20px;
+}
+.prose strong { color: var(--ink); font-weight: 600; }
+.fine {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px; font-style: italic; color: var(--ink4); margin-top: 10px;
+}
+
+/* ── FOOTER ── */
+.footer-bar {
+  border-top: 1px solid var(--rule);
+  padding: 24px 0;
+}
+.footer-bar-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+}
+.footer-sig { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: var(--ink4); }
+.footer-nav { display: flex; gap: 20px; }
+.footer-nav a { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: var(--ink4); transition: color .12s; }
+.footer-nav a:hover { color: var(--blue); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .toc-panel { display: none; }
+  .content { padding: 0 20px 80px; }
+  .footer-bar-inner { padding: 0 20px; }
+  .hero-title { font-size: 36px; }
+  .two-up { grid-template-columns: 1fr; gap: 24px; }
+  .sys-strip { grid-template-columns: repeat(3,1fr); }
+  .level-row, .act-row, .cf-grid, .pair-grid, .ben-grid { grid-template-columns: 1fr; }
+  .scan-row { grid-template-columns: repeat(3,1fr); }
+}
+
+/* ── STEP ITEMS (clinical case breakdown) ── */
+.step-item {
+  background: #f8f9fc;
+  border-left: 3px solid #5a7ab8;
+  padding: 14px 18px;
+  margin: 10px 0;
+  border-radius: 0 6px 6px 0;
+}
+.step-num {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2a4a80;
+  display: block;
+  margin-bottom: 6px;
+  letter-spacing: .02em;
+}
+.evidence-note {
+  display: block;
+  margin-top: 10px;
+  font-family: 'Noto Serif SC', 'Times New Roman', serif;
+  font-size: 12.5px;
+  color: #666;
+  line-height: 1.75;
+  padding: 8px 12px;
+  background: #eef2f8;
+  border-radius: 4px;
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-row">
+    <div class="nav-logo">
+      <span class="nav-dot"></span>
+      Z5S · Zebin Five-System
+    </div>
+    <div class="nav-pills">
+      <a href="#IS">解释系统</a>
+      <a href="#ES">执行系统</a>
+      <a href="#EM">情感系统</a>
+      <a href="#ID">认同系统</a>
+      <a href="#PS">游戏系统</a>
+      <a href="#scenario">情境矩阵</a>
+      <a href="#resonance">系统协同</a>
+      <a href="#clinical">临床意义</a>
+    </div>
+  </div>
+</nav>
+
+<!-- TOC -->
+<div class="toc-panel" id="tocPanel">
+  <button class="toc-btn" id="tocBtn">
+    <div class="toc-btn-icon">
+      ◀
+      <span class="toc-btn-label">收起目录</span>
+    </div>
+  </button>
+  <div class="toc-body">
+    <span class="toc-section-title">概览</span>
+    <a class="toc-link" href="#overview">五系统总览</a>
+    <div class="toc-sep"></div>
+    <span class="toc-section-title">五个系统</span>
+    <a class="toc-link" href="#IS">解释系统</a>
+    <a class="toc-link" href="#ES">执行系统</a>
+    <a class="toc-link" href="#EM">情感系统</a>
+    <a class="toc-link" href="#ID">认同系统</a>
+    <a class="toc-link" href="#PS">游戏系统</a>
+    <div class="toc-sep"></div>
+    <span class="toc-section-title">分析</span>
+    <a class="toc-link" href="#scenario">情境反应矩阵</a>
+    <a class="toc-link" href="#resonance">系统协同</a>
+    <a class="toc-link" href="#clinical">临床意义</a>
+    <div class="toc-sep"></div>
+    <span class="toc-section-title">研究</span>
+    <a class="toc-link" href="#measurement">测量工具</a>
+    <a class="toc-link" href="#predictions">可证伪预测</a>
+    <a class="toc-link" href="#positioning">传播定位</a>
+  </div>
+</div>
+
+<!-- SHELL -->
+<div class="shell" id="shell">
+<div class="content">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-eyebrow">Z5S Framework &nbsp;·&nbsp; Zebin Ye &nbsp;·&nbsp; 2025</div>
+    <h1 class="hero-title">五个主权系统</h1>
+    <p class="hero-title-en">The Five Sovereign Systems</p>
+    <p class="hero-desc">Z5S 不测量你"是什么样的人"，而是解读你此刻以什么系统在运作世界。每个系统都是一种独立的存在逻辑——有自己的起源、语言、优势与盲点。没有哪个系统更高级，差异是<span class="hl-b">结构</span>，不是优劣。</p>
+  </header>
+
+  <!-- MANIFESTO -->
+  <div class="manifesto">
+    <div class="manifesto-label">系统宣言 · Manifesto</div>
+    <p>我想做的这个系统，<strong>是希望每个人都能用自己的视角去创造和更新自己的系统</strong>——不是那种别人怎么说我们就怎么做的模式，而是基于我们本身的性格和体验来出发。</p>
+    <p>我们可以承认差异化的存在，因为每个人的生命体验本来就非常不一样。<strong>Z5S 的目的，从来不是告诉你"你应该成为谁"，而是提供一张更精准的"心理操作地图"。</strong></p>
+    <p class="en-quote">"Systems that truly orient themselves toward good always awaken a shared desire for growth."</p>
+  </div>
+
+  <!-- STATUS -->
+  <div class="status">
+    <span class="status-led"></span>
+    <p><strong>当前页面</strong>：主权系统——定义 · 发育起源 · 操作层级 · 激活度 · 情境矩阵 · 系统协同 · 临床意义 · 测量 · 证明。&ensp;下一步：操作系统独立页 → Sample 证明模块。</p>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="block" id="overview">
+    <div class="block-label">五系统总览</div>
+    <div class="sys-strip">
+      <a class="sys-cell" href="#IS"><span class="sys-cell-code" style="color:var(--cA)">解释</span><span class="sys-cell-zh">解释系统</span><span class="sys-cell-en">Interpretation</span><div class="sys-cell-hint">构建意义 · 追问因果</div></a>
+      <a class="sys-cell" href="#ES"><span class="sys-cell-code" style="color:var(--cB)">执行</span><span class="sys-cell-zh">执行系统</span><span class="sys-cell-en">Execution</span><div class="sys-cell-hint">推进局面 · 恢复控制</div></a>
+      <a class="sys-cell" href="#EM"><span class="sys-cell-code" style="color:var(--cC)">情感</span><span class="sys-cell-zh">情感系统</span><span class="sys-cell-en">Emotion</span><div class="sys-cell-hint">感受先行 · 情绪是信号</div></a>
+      <a class="sys-cell" href="#ID"><span class="sys-cell-code" style="color:var(--cD)">认同</span><span class="sys-cell-zh">认同系统</span><span class="sys-cell-en">Identity</span><div class="sys-cell-hint">我是谁 · 自我一致性</div></a>
+      <a class="sys-cell" href="#PS"><span class="sys-cell-code" style="color:var(--cE)">游戏</span><span class="sys-cell-zh">游戏系统</span><span class="sys-cell-en">Play</span><div class="sys-cell-hint">不被困住 · 弹性探索</div></a>
+    </div>
+    <div class="axiom">
+      <p>「Z5S 描述的是心理系统的 <span class="hl-b">启动优先级差异</span>，而不是人格特质的有无。<span class="hl">Low activation</span> 不代表系统不存在，而是该系统的可调用性较低，个体较难充分获得该系统原本能够提供的优势。」</p>
+      <cite>— Z5S 核心公理</cite>
+    </div>
+  </div>
+
+  <!-- ════ IS ════ -->
+  <div class="block" id="IS">
+    <div class="block-label">解释系统 · Interpretation System</div>
+    <div class="sys-head">
+      <div class="sys-head-row">
+        <span class="sys-code" style="color:var(--cA)">解释系统</span>
+        <span class="sys-name-en">Interpretation System</span>
+        <span class="sys-drive">核心驱力：弄明白</span>
+      </div>
+    </div>
+    <div class="two-up">
+      <div>
+        <div class="col-hed">系统定义</div>
+        <div class="col-body">
+          <p>解释系统是<strong>构建意义</strong>的核心机制。它将内外部经验组织成叙事、找出因果关系、维持认知连贯性。面对混乱，第一冲动是"搞清楚为什么"。</p>
+          <p>当它主导时，<span class="hl-g">理解本身就是安全感的来源</span>。一个未被解释的事件，会像悬挂的石头压着整个心理系统。这个系统会本能地分析他人行为动机——这既是深刻共情的基础，也是有时让对方感到"被分析而非被陪伴"的来源。</p>
+        </div>
+      </div>
+      <div>
+        <div class="col-hed">发育起源</div>
+        <div class="col-body">
+          <div class="tl">
+            <div class="tl-row"><span class="tl-yr">0–3岁</span><span class="tl-txt"><strong>孤岛自我</strong>：情绪回应缺席时，"理解"成为安全感的代偿机制。</span></div>
+            <div class="tl-row"><span class="tl-yr">3–6岁</span><span class="tl-txt"><strong>语言优化</strong>："说理"比"撒娇"更能获得稳定回应，逻辑取代情绪成为主要策略。</span></div>
+            <div class="tl-row"><span class="tl-yr">6–12岁</span><span class="tl-txt"><strong>理性庇护</strong>：用逻辑保护自己不被嘲笑，解释系统与身份结构首次融合。</span></div>
+            <div class="tl-row"><span class="tl-yr">青春期</span><span class="tl-txt"><strong>理性过载</strong>："我不是难过，我只是还没想明白"——情绪问题被知识性掩盖。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-head">操作层级 · Operating Levels</div>
+    <div class="level-row">
+      <div class="lv"><span class="lv-badge r">第一层 · Reactive</span><h5>防御性理解</h5><p>系统刚性、过度激活。陷入逻辑循环，将失败解读为全局性人格缺陷。大量使用理智化、合理化防御机制。</p><span class="lv-q">"如果我能解释清楚，我就不必感受了。"</span></div>
+      <div class="lv"><span class="lv-badge i">第二层 · Integrative</span><h5>弹性理解</h5><p>系统获得灵活性，可容忍模糊，能修正叙事，开始与情感系统协商。能接受替代性解释。</p><span class="lv-q">"我可以理解，也可以感受，两者同时存在。"</span></div>
+      <div class="lv"><span class="lv-badge t">第三层 · Transformative</span><h5>整合性桥梁</h5><p>解释系统成为认知与情感之间的桥梁，构建多层次叙事。具备反射性功能与叙事修复能力。</p><span class="lv-q">"理解不是为了控制，而是为了连接。"</span></div>
+    </div>
+    <div class="sub-head">激活度解读 · Activation Levels</div>
+    <div class="act-row">
+      <div class="ac"><div class="ac-head">Primary · 主导</div><p>第一反应是理解原因、逻辑和结构。在复杂情境中有极强的理解深度。</p><ul><li>迅速看见事情背后的逻辑</li><li>在混乱中建立清晰的理解框架</li><li>帮助他人整理可理解的模式</li></ul><p class="ac-note">留意：理解有时成为行动的必要条件，需要时主动调用执行系统。</p></div>
+      <div class="ac"><div class="ac-head">Secondary · 辅助</div><p>需要时能调用分析和理解能力，增强主系统效果。</p><ul><li>帮助看清事情背后的逻辑</li><li>在混乱中提供理解框架</li><li>让判断更有深度</li></ul></div>
+      <div class="ac"><div class="ac-head">Low · 低激活</div><p>不是压力下的主要驱动，更倾向直接感受或行动。</p><ul><li>较难快速把复杂事情拆清楚</li><li>较难单靠理解感获得稳定</li><li>不容易迅速看见行为背后逻辑</li></ul></div>
+    </div>
+    <div class="profile" style="border-color:var(--cA)">
+      <div class="profile-hed">主导形貌</div>
+      <ul>
+        <li>遇事第一反应：这是为什么？逻辑在哪里？</li>
+        <li>情绪往往"慢于"分析——感受到了，先翻译成语言才敢承认</li>
+        <li>在混乱中靠理解获得稳定感；不理解就无法真正放下</li>
+        <li>常见困境：<span class="hl">分析瘫痪</span>、过度反刍、情感与逻辑长期脱轨</li>
+        <li>高功能表现：深度洞见、跨领域整合、极强的叙事建构能力</li>
+      </ul>
+    </div>
+    <div class="cf-grid">
+      <div class="cf"><div class="cf-title" style="color:var(--cA)">解释系统 ↔ 执行系统</div><p><strong>分析瘫痪</strong>：过度思考压制行动。允许执行系统先走一步，打破"必须完全理解才能开始"的循环。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cA)">解释系统 ↔ 情感系统</div><p><strong>情绪被理智化</strong>：用解释绕过感受，制造"清醒但情感麻木"的状态。允许情绪先存在，再翻译。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cA)">解释系统 ↔ 认同系统</div><p><strong>身份认知化</strong>："我是谁"等同于"我能解释什么"——身份刚性，拒绝情感维度，叙事封闭。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cA)">解释系统 ↔ 游戏系统</div><p><strong>意义暴政</strong>：每件事都必须有逻辑和目的，无法容忍"无意义的探索"，游戏空间被关闭。</p></div>
+    </div>
+  </div>
+
+  <!-- ════ ES ════ -->
+  <div class="block" id="ES">
+    <div class="block-label">执行系统 · Execution System</div>
+    <div class="sys-head">
+      <div class="sys-head-row">
+        <span class="sys-code" style="color:var(--cB)">执行系统</span>
+        <span class="sys-name-en">Execution System</span>
+        <span class="sys-drive">核心驱力：把局面拉回来</span>
+      </div>
+    </div>
+    <div class="two-up">
+      <div>
+        <div class="col-hed">系统定义</div>
+        <div class="col-body">
+          <p>执行系统是<strong>行动意志的源头</strong>。核心不是速度，而是<span class="hl-b">可操作性</span>——将任何情境转化为"接下来可以做什么"。当它主导时，行动本身是安全感的来源。</p>
+          <p>高功能倦怠往往是执行系统长期独裁的结果——它总是"看起来在运转"，因此内在耗损很难被察觉。</p>
+        </div>
+      </div>
+      <div>
+        <div class="col-hed">发育起源</div>
+        <div class="col-body">
+          <div class="tl">
+            <div class="tl-row"><span class="tl-yr">0–3岁</span><span class="tl-txt"><strong>控制幻想</strong>：不稳定依附中，孩子发展出"乖=安全"的策略——行为控制成为情绪安全的替代通道。</span></div>
+            <div class="tl-row"><span class="tl-yr">3–6岁</span><span class="tl-txt"><strong>任务-奖赏</strong>："哭被忽视，完成任务被表扬"——功能性付出成为获得认可的唯一通道。</span></div>
+            <div class="tl-row"><span class="tl-yr">6–12岁</span><span class="tl-txt"><strong>结构同一化</strong>："我做得多，才代表我好"——执行系统从工具变成身份本体。</span></div>
+            <div class="tl-row"><span class="tl-yr">青春期</span><span class="tl-txt"><strong>目标上瘾</strong>：对空闲极度焦虑，"无事可做=自我崩解"——高功能但内在空心的人格结构成型。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-head">操作层级 · Operating Levels</div>
+    <div class="level-row">
+      <div class="lv"><span class="lv-badge r">第一层 · Reactive</span><h5>强迫性执行</h5><p>两极化：要么过度激活（完美主义、强迫性行动），要么完全瘫痪（拖延、决策麻痹）。情绪信号被系统性压制。</p><span class="lv-q">"停下来等于我没有价值。"</span></div>
+      <div class="lv"><span class="lv-badge i">第二层 · Integrative</span><h5>节奏性执行</h5><p>系统获得灵活性与节奏感。可以设定优先级，校准努力程度，并与其他系统协商。</p><span class="lv-q">"行动服务于意义，而不是替代意义。"</span></div>
+      <div class="lv"><span class="lv-badge t">第三层 · Transformative</span><h5>活体性行动</h5><p>行动与内在价值和系统平衡深度一致。可以整合休息、情感与自发性，而不失去方向。</p><span class="lv-q">"我做事，因为我在乎——不是为了证明我存在。"</span></div>
+    </div>
+    <div class="sub-head">激活度解读 · Activation Levels</div>
+    <div class="act-row">
+      <div class="ac"><div class="ac-head">Primary · 主导</div><p>面对困难时，第一反应是寻找下一步行动。在不确定情境中依然保持推进能力。</p><ul><li>迅速把问题转化为具体步骤</li><li>在混乱中快速建立行动节奏</li><li>推动事情往前走的力量</li></ul><p class="ac-note">留意：行动有时跳过情绪处理，在需要关系敏感度时适当停顿。</p></div>
+      <div class="ac"><div class="ac-head">Secondary · 辅助</div><p>方向明确后能切换到行动模式，避免长期停留在思考阶段。</p><ul><li>把想法转化为实际步骤</li><li>在复杂情境中建立行动节奏</li><li>避免"想太多但不动"的循环</li></ul></div>
+      <div class="ac"><div class="ac-head">Low · 低激活</div><p>行动不是压力下的首要驱动，更倾向先停下来感受或理解。</p><ul><li>较难快速把事情推进起来</li><li>较难自然建立节奏和秩序</li><li>知道方向，但不容易立刻转化为步骤</li></ul></div>
+    </div>
+    <div class="profile" style="border-color:var(--cB)">
+      <div class="profile-hed">主导形貌</div>
+      <ul>
+        <li>遇事第一反应：下一步做什么？怎么处理？</li>
+        <li>通过行动获得控制感和安全感；停下来会让人焦虑</li>
+        <li>对低效极度不耐；讨论太久不如直接做</li>
+        <li>常见困境：情感麻木、边界感缺失、<span class="hl">倦怠与突然崩溃</span></li>
+        <li>高功能表现：危机处理、快速决策、在混乱中建立节奏</li>
+      </ul>
+    </div>
+    <div class="cf-grid">
+      <div class="cf"><div class="cf-title" style="color:var(--cB)">执行系统 ↔ 情感系统</div><p><strong>情绪被压制</strong>：情绪不会消失，只会以躯体化或突然崩溃的形式出现——系统的"强制关机"。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cB)">执行系统 ↔ 认同系统</div><p><strong>羞耻驱动绩效</strong>：自我价值与产出绑定，失败不是情境挫折，而是"存在危机"。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cB)">执行系统 ↔ 游戏系统</div><p><strong>活力被牺牲</strong>：游戏/创造被定义为"浪费时间"，除非证明"有用"，内在驱动力逐渐枯竭。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cB)">执行系统 ↔ 解释系统</div><p><strong>行而不思</strong>：解释系统降格为"计划仪表板"，丧失追问"为什么做"的能力，意义越来越空洞。</p></div>
+    </div>
+  </div>
+
+  <!-- ════ EM ════ -->
+  <div class="block" id="EM">
+    <div class="block-label">情感系统 · Emotion System</div>
+    <div class="sys-head">
+      <div class="sys-head-row">
+        <span class="sys-code" style="color:var(--cC)">情感系统</span>
+        <span class="sys-name-en">Emotion System</span>
+        <span class="sys-drive">核心驱力：先被感觉击中</span>
+      </div>
+    </div>
+    <div class="two-up">
+      <div>
+        <div class="col-hed">系统定义</div>
+        <div class="col-body">
+          <p>情感系统是人类体验的<strong>入口</strong>。它不是非理性的——它是<span class="hl-b">前认知的</span>。情绪是数据，是身体说话的方式，是自我形成的最早介质。</p>
+          <p>情感系统的失调往往不是"太情绪化"，而是情绪从未被好好接收和翻译——导致<span class="hl-r">情感泛滥</span>或<span class="hl">情感麻木</span>两种极端。两者都是同一个问题的两个面向。</p>
+        </div>
+      </div>
+      <div>
+        <div class="col-hed">发育起源</div>
+        <div class="col-body">
+          <div class="tl">
+            <div class="tl-row"><span class="tl-yr">0–3岁</span><span class="tl-txt"><strong>原始语言</strong>：若"哭得很惨才被回应"，孩子学会以情绪强度作为存在确认。</span></div>
+            <div class="tl-row"><span class="tl-yr">3–6岁</span><span class="tl-txt"><strong>情绪-行为融合</strong>：缺乏语言翻译，情绪直接驱动行为——情绪不再是信号，而是行动本身。</span></div>
+            <div class="tl-row"><span class="tl-yr">6–12岁</span><span class="tl-txt"><strong>自我污名化</strong>："你怎么这么敏感"——被标记为缺陷，形成"太多+无可替代"的困局。</span></div>
+            <div class="tl-row"><span class="tl-yr">青春期</span><span class="tl-txt"><strong>情绪即身份</strong>："你不懂我的情绪=你不爱我"——高感受力与低自我支持力并存。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-head">操作层级 · Operating Levels</div>
+    <div class="level-row">
+      <div class="lv"><span class="lv-badge r">第一层 · Reactive</span><h5>压倒或麻木</h5><p>情感泛滥（冲动、崩溃、解离）或情感关闭（"我很好"作为防御）。两者源于同一根源：情感系统从未被安全容纳。</p><span class="lv-q">"我被感觉淹没，或者什么都感觉不到。"</span></div>
+      <div class="lv"><span class="lv-badge i">第二层 · Integrative</span><h5>觉察与部分调节</h5><p>情绪被识别并部分表达，支持自我理解和与他人连接。"我感到不安——我们能稍后谈吗？"</p><span class="lv-q">"我知道我现在有情绪，我可以告诉你。"</span></div>
+      <div class="lv"><span class="lv-badge t">第三层 · Transformative</span><h5>情绪作为智慧</h5><p>情感系统与认知整合，产生洞见与深度。"这种恐惧在告诉我有什么我还没准备好说出口。"</p><span class="lv-q">"我的情绪是我认识世界最精准的仪器。"</span></div>
+    </div>
+    <div class="sub-head">激活度解读 · Activation Levels</div>
+    <div class="act-row">
+      <div class="ac"><div class="ac-head">Primary · 主导</div><p>情感是理解自己和他人的主要信息来源，对情感信号的感知度极高。</p><ul><li>对情绪变化非常敏感</li><li>能快速捕捉关系中的微妙信号</li><li>高度共情能力</li></ul><p class="ac-note">留意：在需要快速决策时，结合解释系统或执行系统让反应更稳定。</p></div>
+      <div class="ac"><div class="ac-head">Secondary · 辅助</div><p>在过程中逐渐觉察情绪，把感受纳入判断。</p><ul><li>提供关于关系和氛围的重要信息</li><li>帮助理解自己和他人的感受</li><li>让决策保有人情温度</li></ul></div>
+      <div class="ac"><div class="ac-head">Low · 低激活</div><p>情绪不是压力下最早启动的系统，在高压中较快切换到理性或行动模式。</p><ul><li>不容易快速捕捉真实情绪状态</li><li>对关系氛围的敏锐度可能不稳定</li><li>情绪信号较难被及时利用</li></ul></div>
+    </div>
+    <div class="profile" style="border-color:var(--cC)">
+      <div class="profile-hed">主导形貌</div>
+      <ul>
+        <li>遇事第一反应：感受是最早出现的，往往先于思考和行动</li>
+        <li>对他人情绪极度敏感；能感受到别人没有说出来的那部分</li>
+        <li>在被理解、被接住之后，才能真正进入处理状态</li>
+        <li>常见困境：情感泛滥、依赖外部共情、<span class="hl-r">躯体化</span></li>
+        <li>高功能表现：深度共情、关系感知、非语言信息读取</li>
+      </ul>
+    </div>
+    <div class="cf-grid">
+      <div class="cf"><div class="cf-title" style="color:var(--cC)">情感系统 ↔ 解释系统</div><p><strong>情绪被理性化绕过</strong>："我明白为什么难过"不等于难过被处理——感受被马上分析，反而无法被体验。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cC)">情感系统 ↔ 执行系统</div><p><strong>情绪被行动推迟</strong>：压力下立刻行动，情绪堆积，最终以躯体化或突然崩溃的形式出现。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cC)">情感系统 ↔ 认同系统</div><p><strong>情绪即人格</strong>："我太情绪化=我是不好的人"——把情绪状态等同于自我定义，导致情绪羞耻与自我攻击。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cC)">情感系统 ↔ 游戏系统</div><p><strong>未处理情绪抑制探索</strong>：过重的情绪负担让游戏感觉"不应该"。当情绪被安全容纳，游戏系统自然重新激活。</p></div>
+    </div>
+  </div>
+
+  <!-- ════ ID ════ -->
+  <div class="block" id="ID">
+    <div class="block-label">认同系统 · Identity System</div>
+    <div class="sys-head">
+      <div class="sys-head-row">
+        <span class="sys-code" style="color:var(--cD)">认同系统</span>
+        <span class="sys-name-en">Identity System</span>
+        <span class="sys-drive">核心驱力：这件事说明我是谁</span>
+      </div>
+    </div>
+    <div class="two-up">
+      <div>
+        <div class="col-hed">系统定义</div>
+        <div class="col-body">
+          <p>认同系统维护一个跨时间、跨角色的连贯自我感。它整合价值观、关系模板与自我形象，调节<strong>真实性与适应性</strong>之间的张力。</p>
+          <p>认同系统的根源不是哲学，而是<span class="hl-p">依附</span>——"我存在，因为你回应我"。区分"失败（情境挫折）"和"我不够好（身份威胁）"的能力，是这个系统成熟度的核心标志。</p>
+        </div>
+      </div>
+      <div>
+        <div class="col-hed">发育起源</div>
+        <div class="col-body">
+          <div class="tl">
+            <div class="tl-row"><span class="tl-yr">0–3岁</span><span class="tl-txt"><strong>条件式存在</strong>：回应不稳定时，"只有当我够乖，我才被看见"——自我感开始围绕"被认同"建立。</span></div>
+            <div class="tl-row"><span class="tl-yr">3–6岁</span><span class="tl-txt"><strong>镜像式自我</strong>："我是谁，取决于你怎么形容我"——他人评价内化为自我模板，认同焦虑的种子种下。</span></div>
+            <div class="tl-row"><span class="tl-yr">6–12岁</span><span class="tl-txt"><strong>比较性身份</strong>：在成绩/外貌等级系统中，一旦被贬低，认同系统启动极端保护机制。</span></div>
+            <div class="tl-row"><span class="tl-yr">青春期</span><span class="tl-txt"><strong>人格主控台</strong>："我讨好别人很厉害，但不知道自己要什么"——认同系统过早独占人格主导权。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-head">操作层级 · Operating Levels</div>
+    <div class="level-row">
+      <div class="lv"><span class="lv-badge r">第一层 · Reactive</span><h5>外部验证依赖</h5><p>"如果我不被喜欢，我就不存在"——通过讨好或角色过度认同维持脆弱的归属感。</p><span class="lv-q">"我是你眼中的那个我。"</span></div>
+      <div class="lv"><span class="lv-badge i">第二层 · Integrative</span><h5>情境化身份意识</h5><p>"在诊所是治疗师，在家是女儿，独处时是艺术家"——能觉察多重身份角色并以连贯性驾驭它们。</p><span class="lv-q">"我在不同地方是不同的我，但知道哪个是真正的我。"</span></div>
+      <div class="lv"><span class="lv-badge t">第三层 · Transformative</span><h5>稳定而演化的核心</h5><p>"无论我在哪里，我知道我代表什么"——自我稳固而持续发展，即使在角色转换或外部压力中仍保持根植。</p><span class="lv-q">"我可以被看见，但不再需要表演才能存在。"</span></div>
+    </div>
+    <div class="sub-head">激活度解读 · Activation Levels</div>
+    <div class="act-row">
+      <div class="ac"><div class="ac-head">Primary · 主导</div><p>行动和判断受价值观和自我认知的深刻影响，在压力中不容易被带偏。</p><ul><li>拥有稳定而清晰的内在方向</li><li>行动与长期价值和原则一致</li><li>对"不符合我"的事有强烈本能感知</li></ul><p class="ac-note">留意：外部评价可能更容易触及自我感，把外部事件与自我价值区分开。</p></div>
+      <div class="ac"><div class="ac-head">Secondary · 辅助</div><p>在重要选择或长期方向时，价值观和自我认知被纳入考虑。</p><ul><li>让决策更符合长期方向</li><li>提供内在一致性和稳定感</li><li>在压力下帮助判断什么真正重要</li></ul></div>
+      <div class="ac"><div class="ac-head">Low · 低激活</div><p>认同感不是压力下最先启动的系统，更灵活地处理具体问题。</p><ul><li>面对压力时较难持续依靠内在原则稳定</li><li>不容易快速分辨什么真正符合自己</li><li>行动和选择有时缺少深层身份感带来的方向</li></ul></div>
+    </div>
+    <div class="profile" style="border-color:var(--cD)">
+      <div class="profile-hed">主导形貌</div>
+      <ul>
+        <li>遇事第一反应：这件事说明我是谁？这和我的原则一致吗？</li>
+        <li>对"不被尊重/被误解/被否定"极度敏感，且难以快速放下</li>
+        <li>在失败时容易将情境结果等同于自我价值的崩塌</li>
+        <li>常见困境：身份僵化、认同过度依赖外部镜像、<span class="hl-p">冒牌者综合征</span></li>
+        <li>高功能表现：内在方向感强、价值观清晰、压力下不轻易被带偏</li>
+      </ul>
+    </div>
+    <div class="cf-grid">
+      <div class="cf"><div class="cf-title" style="color:var(--cD)">认同系统 ↔ 情感系统</div><p><strong>情绪被身份压抑</strong>："我必须坚强"——脆弱的情绪违背身份脚本，导致情绪与真实自我的长期脱离。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cD)">认同系统 ↔ 游戏系统</div><p><strong>角色限制活力</strong>："玩乐不像我"——自发性与好奇心被严格的自我脚本压制，生命越来越沉重。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cD)">认同系统 ↔ 执行系统</div><p><strong>羞耻驱动绩效</strong>：行动是为了维持"我是有价值的人"的形象，失败就是存在危机。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cD)">认同系统 ↔ 解释系统</div><p><strong>叙事封闭</strong>：解释系统为认同系统的故事辩护而非更新它——"我一直都是这样的人"，主动过滤矛盾信息。</p></div>
+    </div>
+  </div>
+
+  <!-- ════ PS ════ -->
+  <div class="block" id="PS">
+    <div class="block-label">游戏系统 · Play System</div>
+    <div class="sys-head">
+      <div class="sys-head-row">
+        <span class="sys-code" style="color:var(--cE)">游戏系统</span>
+        <span class="sys-name-en">Play System</span>
+        <span class="sys-drive">核心驱力：保住心理空间，不被困死</span>
+      </div>
+    </div>
+    <div class="two-up">
+      <div>
+        <div class="col-hed">系统定义</div>
+        <div class="col-body">
+          <p>游戏系统是<strong>心理弹性</strong>的核心机制。它通过象征、比喻与即兴探索，让个体在"非现实但极度真实"的空间中整合体验、修复创伤、扩展自我边界。</p>
+          <p>游戏不是逃避——它是<span class="hl-b">重新建构现实的方式</span>。当 CBT 修复了认知，执行系统恢复了功能，但内心依然空洞时，往往是游戏系统从未被触动。这是抑郁治疗中最常被忽略的入口。</p>
+        </div>
+      </div>
+      <div>
+        <div class="col-hed">发育起源</div>
+        <div class="col-body">
+          <div class="tl">
+            <div class="tl-row"><span class="tl-yr">0–3岁</span><span class="tl-txt"><strong>逃逸性主导</strong>：探索被高度限制时，游戏退缩为内在私密空间——"我只能在脑海里编故事"。</span></div>
+            <div class="tl-row"><span class="tl-yr">3–6岁</span><span class="tl-txt"><strong>象征避难所</strong>：现实创伤出现时，真实情绪转移进虚构剧本——游戏从发展工具变成保护机制。</span></div>
+            <div class="tl-row"><span class="tl-yr">6–12岁</span><span class="tl-txt"><strong>防御型进化</strong>：走神与创造性被病理化——游戏成为"必须逃离现实任务"的手段。</span></div>
+            <div class="tl-row"><span class="tl-yr">青春期</span><span class="tl-txt"><strong>剧本自我</strong>：沉迷虚拟世界，以"剧本生活"应对真实世界的无力感——"我其实注定非凡，只是没人懂我。"</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-head">操作层级 · Operating Levels</div>
+    <div class="level-row">
+      <div class="lv"><span class="lv-badge r">第一层 · Reactive</span><h5>逃逸性游戏</h5><p>游戏变成逃避或虚无主义。"反正都没意义，随便玩吧"——以互联网成瘾或讽刺作为防御，无根基。</p><span class="lv-q">"现实太硬，我只能活在我建的世界里。"</span></div>
+      <div class="lv"><span class="lv-badge i">第二层 · Integrative</span><h5>调节性游戏</h5><p>通过绘画、写作、角色扮演等创造性活动获得心理弹性和情绪释放。游戏有了根基与目的，成为系统间的过渡机制。</p><span class="lv-q">"我用创造来恢复，用玩耍来喘息。"</span></div>
+      <div class="lv"><span class="lv-badge t">第三层 · Transformative</span><h5>象征性整合</h5><p>能将苦难或难以言说的体验转化为可被感受、言说和分享的形式——通过诗歌、音乐、叙事。游戏成为意义创造的通道。</p><span class="lv-q">"虽然现实破碎，我依然能讲一个不同的故事。"</span></div>
+    </div>
+    <div class="sub-head">激活度解读 · Activation Levels</div>
+    <div class="act-row">
+      <div class="ac"><div class="ac-head">Primary · 主导</div><p>好奇心、乐趣感和创造力是主要驱动力，在新奇事物里感到最有活力。</p><ul><li>容易发现新的角度和可能性</li><li>在压力中保持心理弹性</li><li>通过探索与尝试创造新路径</li></ul><p class="ac-note">留意：在需要长期深耕目标时，调动执行系统帮助维持稳定投入。</p></div>
+      <div class="ac"><div class="ac-head">Secondary · 辅助</div><p>当情境需要新角度或缓解压力时，能通过探索重新看待问题。</p><ul><li>提供新的视角和可能性</li><li>在压力中增加心理弹性</li><li>帮助打破单一思路的限制</li></ul></div>
+      <div class="ac"><div class="ac-head">Low · 低激活</div><p>游戏和探索不是压力下的主要驱动，更倾向认真处理困难。</p><ul><li>在压力中较难保持轻盈感</li><li>容易把问题处理得过重、过直</li><li>不容易快速产生新角度或新玩法</li></ul></div>
+    </div>
+    <div class="profile" style="border-color:var(--cE)">
+      <div class="profile-hed">主导形貌</div>
+      <ul>
+        <li>遇事第一反应：有没有别的玩法？我能不被这件事困住吗？</li>
+        <li>通过创造、探索、想象力来恢复能量和维持活力</li>
+        <li>在僵局中常能找到别人没看到的新可能</li>
+        <li>常见困境：逃逸性使用（回避现实）、执行力不稳、<span class="hl-r">剧本自我</span>与真实自我混淆</li>
+        <li>高功能表现：创造力、心理弹性、在混乱中维持活性与新奇感</li>
+      </ul>
+    </div>
+    <div class="cf-grid">
+      <div class="cf"><div class="cf-title" style="color:var(--cE)">游戏系统 ↔ 执行系统</div><p><strong>无限构想零执行</strong>：创意丰沛但无法完成。游戏提供启动能量，执行系统提供完成形式，两者协作才能实现转化。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cE)">游戏系统 ↔ 情感系统</div><p><strong>以游戏逃避情绪</strong>："我不是难过，我只是在玩"——游戏绕过痛苦而非处理它，情感系统从未被真正接触。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cE)">游戏系统 ↔ 认同系统</div><p><strong>身份扩散</strong>：多重角色与频繁切换，没有认同锚点时导致"我究竟是谁"的持续混乱。</p></div>
+      <div class="cf"><div class="cf-title" style="color:var(--cE)">游戏系统 ↔ 解释系统</div><p><strong>自发性被分析吞噬</strong>：每个游戏冲动都要先被"解释得通"才允许发生，游戏的自由性完全消失。</p></div>
+    </div>
+  </div>
+
+  <!-- ════ SCENARIO ════ -->
+  <div class="block" id="scenario">
+    <div class="block-label">情境反应矩阵 · Scenario Response Matrix</div>
+    <p class="prose">同一情境，五个系统的<strong>第一心理动作</strong>截然不同。关注"哪个最像你的第一反应"——不是最成熟的，也不是你认为应该有的。区分系统的关键是<span class="hl-b">驱动力</span>，而非行为本身。</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>情境</th>
+            <th style="color:var(--cA)">解释系统</th>
+            <th style="color:var(--cB)">执行系统</th>
+            <th style="color:var(--cC)">情感系统</th>
+            <th style="color:var(--cD)">认同系统</th>
+            <th style="color:var(--cE)">游戏系统</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-sit">被批评</td><td>先想：批评的依据是什么？</td><td>先想：我现在该怎么修正？</td><td>先感到被刺到、委屈</td><td>先感觉：碰到了我的价值</td><td>先想：别被这一击困死</td></tr>
+          <tr><td class="td-sit">被忽视</td><td>先想：对方为什么这样？</td><td>先想：要不要主动推进？</td><td>先感到落空、难过</td><td>先感觉：自己不被看见</td><td>先想：不被落空感吞掉</td></tr>
+          <tr><td class="td-sit">失败</td><td>先想：哪里出问题了？</td><td>先想：怎么修、怎么减损？</td><td>先感到挫败、沮丧</td><td>先感觉：这说明我不够好</td><td>先想：别让失败把我锁死</td></tr>
+          <tr><td class="td-sit">冲突升温</td><td>先想：核心分歧在哪里？</td><td>先想：怎么让局面不恶化？</td><td>先被愤怒或委屈顶上来</td><td>先感觉：被冒犯、被踩到</td><td>先想：不被拉进僵局</td></tr>
+          <tr><td class="td-sit">羞耻感</td><td>先想：事情怎么走到这一步？</td><td>先想：怎么赶快补救？</td><td>先感到想缩起来、难堪</td><td>先感觉：形象和价值被击穿</td><td>先想：留一点喘息，不被定死</td></tr>
+          <tr><td class="td-sit">失控感</td><td>先想：失控点在哪里？</td><td>先想：马上重建秩序</td><td>先感到慌、紧绷、不安</td><td>先感觉：不像能掌控的人了</td><td>先想：别让失控感封住我</td></tr>
+          <tr><td class="td-sit">被误解</td><td>先想：对方根据什么信息？</td><td>先想：要不要立刻澄清？</td><td>先感到委屈或不舒服</td><td>先感觉：形象被错误定义</td><td>先想：不被误会拖进去</td></tr>
+          <tr><td class="td-sit">长期低落</td><td>先想：我为什么没有意义感？</td><td>强迫自己进入行动与纪律</td><td>关注：我是不是累了、孤独了？</td><td>追问：我是谁、我想成为什么？</td><td>用创造与探索重新点火</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════ RESONANCE ════ -->
+  <div class="block" id="resonance">
+    <div class="block-label">系统协同 · Cross-System Resonance</div>
+    <p class="prose">Z5S 不只描述冲突与失衡——它同样描述<strong>系统合作时产生的涌现状态</strong>。当系统不再相互压制，而是互相信息共享、相互调节，个体体验到一种"无阻力的方向感"。</p>
+    <div class="axiom">
+      <p>「系统整合不是把各部分压平，而是让它们各自发声——然后学会一起演奏。」</p>
+      <cite>— Z5S Essay Paper, Section 6</cite>
+    </div>
+    <div class="pair-grid">
+      <div class="pair"><div class="pair-title" style="color:var(--cA)">解释系统 × 执行系统 — 分析→行动</div><p>CBT 的核心协同——识别自动思维，然后重新规划行为（执行系统）。解释系统建立理解框架，执行系统将洞见转化为步骤。</p></div>
+      <div class="pair"><div class="pair-title" style="color:var(--cC)">情感系统 × 执行系统 — 情绪调节的节奏</div><p>DBT 的核心——情绪调节技能是情感与执行协同的产物。情感系统提供边界、节奏与疲惫信号；执行系统将信号转化为行动调整。</p></div>
+      <div class="pair"><div class="pair-title" style="color:var(--cD)">认同系统 × 解释系统 — 价值观驱动的叙事</div><p>ACT 的核心协同——认同系统提供价值观锚点，解释系统将其翻译成可行动的意义框架，使选择既有方向感，又有内在连贯性。</p></div>
+      <div class="pair"><div class="pair-title" style="color:var(--cE)">游戏系统 × 情感系统 — 创伤整合的安全容器</div><p>表达性艺术治疗、沙盘游戏、心理剧都是这对协同的临床应用。游戏系统提供象征性空间；情感系统允许真实感受在其中安全浮现。</p></div>
+      <div class="pair"><div class="pair-title" style="color:var(--cD)">认同系统 × 情感系统 — 真实性与情感深度</div><p>IFS 的核心协同——认同系统的稳定核心（Self）与情感系统协同时，人能"带着感受，而不被感受淹没"。</p></div>
+      <div class="pair"><div class="pair-title" style="color:var(--cE)">游戏系统 × 解释系统 — 洞见的创造性表达</div><p>解释系统将象征性游戏素材翻译成认知意义；游戏系统防止解释系统封闭。"当我在沙盘里把那个人埋掉，我才明白自己有多愤怒。"</p></div>
+    </div>
+    <div class="sub-head">整合的益处</div>
+    <div class="ben-grid">
+      <div class="ben"><div class="ben-title">思考更清晰</div><p>意义、情感与行动一致，减少内在噪音和心理疲劳。决策不再需要"说服自己"。</p></div>
+      <div class="ben"><div class="ben-title">情感更平衡</div><p>情绪被理解和引导，而不是被压倒或被压制。情感成为信息，而不是命令。</p></div>
+      <div class="ben"><div class="ben-title">身份更稳定</div><p>行为反映核心价值观，创造稳定的自我感。身份不再需要通过表演来维持。</p></div>
+      <div class="ben"><div class="ben-title">创造力与弹性</div><p>整合打开了新想法和适应性回应的空间。在僵局中，系统协作自然产生出意料之外的出路。</p></div>
+    </div>
+  </div>
+
+  <!-- ════ CLINICAL ════ -->
+  <div class="block" id="clinical">
+    <div class="block-label">临床意义 · Clinical Significance</div>
+    <p class="prose">Z5S 的核心临床价值：帮助治疗师识别<strong>哪两个系统之间的张力</strong>构成来访者最核心的动力学。这个"主要系统对"决定了治疗的切入点，也解释了来访者为何总是陷入同样的循环。</p>
+
+    <div class="sub-head">双系统觉知</div>
+    <div class="case">
+      <div class="case-head">案例：「我知道他不是故意的，但我就是无法原谅。」</div>
+      <div class="case-body">
+        <div class="scan-row">
+          <div class="sc" style="background:var(--cA2)"><div class="sc-name" style="color:var(--cA)">解释系统</div><div class="sc-state">部分活跃 · 能讲明逻辑</div></div>
+          <div class="sc" style="background:var(--cB2)"><div class="sc-name" style="color:var(--cB)">执行系统</div><div class="sc-state">运作中 · 配合度高</div></div>
+          <div class="sc" style="background:var(--cE2)"><div class="sc-name" style="color:var(--cE)">情感系统</div><div class="sc-state">🚨 被压抑</div></div>
+          <div class="sc" style="background:var(--cD2)"><div class="sc-name" style="color:var(--cD)">认同系统</div><div class="sc-state">🚨 高度冲突</div></div>
+          <div class="sc"><div class="sc-name" style="color:#aaa">游戏系统</div><div class="sc-state">❌ 冻结</div></div>
+        </div>
+        <div class="case-p"><strong>错误路径</strong>：用 CBT 只激活了 解释系统 + 执行系统，但真正痛苦源头在"情绪未被容纳 + 认同系统崩塌"。来访者开始假装"我好多了"，疗效全是假象。</div>
+        <div class="case-p"><strong>正确路径：从情感系统和认同系统入手</strong></div>
+        <div class="case-p step-item">
+          <span class="step-num">① 情感系统入口</span>
+          <strong>治疗方法：AEDP（加速体验性动态心理治疗，Accelerated Experiential Dynamic Psychotherapy）</strong><br>
+          治疗师聚焦于身体感受，而非认知解释："当你说'无法原谅'时，你身体里哪里在疼？" 这个问题绕过了解释系统的过度分析，直接激活情感系统，让来访者接触被压抑的悲伤与愤怒。
+          <br><span class="evidence-note">研究依据：AEDP 由 Diana Fosha 开发，已有多项随机对照研究（RCT）支持其在处理未处理创伤和复杂情绪方面的有效性（Fosha, 2000; Iwakabe & Conceição, 2016）。核心机制是通过"情感接触"让被防御阻断的情绪重新流动。</span>
+        </div>
+        <div class="case-p step-item">
+          <span class="step-num">② 认同系统入口</span>
+          <strong>治疗方法：IFS（内在家庭系统治疗，Internal Family Systems）</strong><br>
+          "那部分无法原谅的你，是不是其实一直在保护你？" 这个问题将"无法原谅"从道德问题重新框架为一个有功能的保护性自我部分，化解了认同系统的羞耻感和僵化。
+          <br><span class="evidence-note">研究依据：IFS 由 Richard Schwartz 开发，已被列入 SAMHSA 的循证实践库。研究表明 IFS 在处理创伤后应激（PTSD）和复杂情绪时显著有效（Shadick et al., 2013; Anderson et al., 2017）。</span>
+        </div>
+        <div class="case-p step-item">
+          <span class="step-num">③ 游戏系统入口</span>
+          <strong>治疗方法：表达性艺术治疗（Expressive Arts Therapy）/ 沙盘游戏（Sandplay Therapy）</strong><br>
+          当语言和认知通道被堵塞时，游戏系统可以绕过语言，通过象征性行动处理情绪。她在沙盘中"把那个男人埋掉再种花"——这个行为同时完成了认同系统的重建（我可以选择如何面对这段关系）和情感系统的释放（悲伤与愤怒通过象征行动得以表达）。
+          <br><span class="evidence-note">研究依据：沙盘游戏治疗有大量案例研究与质性研究支持（Homeyer & Sweeney, 2011）。表达性艺术治疗已被多项研究证实对创伤和复杂悲伤有效（Malchiodi, 2011）。在 Z5S 框架中，游戏系统入口在解释系统和执行系统均失效时最有价值。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head" style="margin-top:28px;">层级回退 · Level Regression under Stress</div>
+    <div class="case">
+      <div class="case-head">案例：层级回退——哲学学者 Ms. L 的情境性退缩</div>
+      <div class="case-body">
+        <div class="case-p"><strong>Z5S 的一个关键特性：操作层级不是固定的。</strong>一个人在日常状态下可以稳定运作于第二层（Integrative）或第三层（Transformative），但当遇到特定触发情境时，该系统会<span class="hl-r">临时性退回第一层的反应模式</span>。这就是层级回退——不是永久性退化，而是情境性的防御性反应。</div>
+        <div class="case-p">Ms. L 是一位哲学学者。平时，她的解释系统在<strong>第三层（Transformative）</strong>稳定运作——她能构建多层次的叙事框架，整合情感与认知，在日常生活中展现出深度的整合能力。然而，当长期伴侣突然结束关系后，她的解释系统<strong>回退到了第一层（Reactive）</strong>：连续数天沉浸于逻辑重构，而非情绪体验：</div>
+        <div class="blockquote">"他的离开并没有错；这是价值体系错位的必然。"<br>"我的受伤只是因为我对爱情的理解中仍然包含依附。"<br>"这是人类关系结构性崩塌的哲学必然性。"</div>
+        <div class="case-p"><strong>为什么会发生层级回退？</strong>当情感系统被强烈激活（失去重要关系），而认知系统感知到无法"解释清楚"这种痛苦时，解释系统会自动启动防御性模式——用过度理性化来压制情绪体验，维持表面的稳定感。这是大脑面对无法承受的情感时的自我保护机制。</div>
+        <div class="case-p"><strong>临床识别信号</strong>：来访者"说得通透"但情感状态持续不变；解释越来越精密，但距离真实感受越来越远；治疗进展停滞，甚至来访者开始假装好转。这正是 <span class="hl">"高功能受苦"</span> 的结构——平时第三层运作的人，在危机下反而比第一层固着的人更难被帮到，因为他们的防御机制更精密。</div>
+      </div>
+    </div>
+
+    <div class="sub-head" style="margin-top:28px;">抑郁的五种系统路径</div>
+    <div class="case">
+      <div class="case-head">同症状，不同入口——Z5S 与 CBT</div>
+      <div class="case-body">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>主导系统</th><th>抑郁路径</th><th>治疗入口</th></tr></thead>
+            <tbody>
+              <tr><td class="td-sys" style="color:var(--cA)">解释系统</td><td>过度思考、自我批判逻辑、内化攻击</td><td>认知重构、叙事治疗</td></tr>
+              <tr><td class="td-sys" style="color:var(--cB)">执行系统</td><td>功能性空洞，目标固着下的虚无感</td><td>价值澄清、意义导向行动</td></tr>
+              <tr><td class="td-sys" style="color:var(--cC)">情感系统</td><td>情绪停滞、压制与内爆</td><td>情绪聚焦治疗、AEDP、躯体感知</td></tr>
+              <tr><td class="td-sys" style="color:var(--cD)">认同系统</td><td>角色僵化、自我价值崩塌</td><td>IFS、叙事治疗、价值重建</td></tr>
+              <tr><td class="td-sys" style="color:var(--cE)">游戏系统</td><td>创造力压制、无法想象快乐或未来</td><td>表达性艺术、游戏治疗、想象力激活</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fine">Z5S 不替代 CBT，而是为治疗师提供"哪个系统是真正入口"的诊断框架。两个有相同 PHQ-9 分数的来访者，可能需要完全不同的治疗路径。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ MEASUREMENT ════ -->
+  <div class="block" id="measurement">
+    <div class="block-label">测量工具 · Measurement</div>
+    <p class="prose">Z5S 目前有两个版本：<strong>V1 人格系统量表</strong>（30题，测平时主导系统）与 <strong>Stress V1 压力启动量表</strong>（25题，测压力下第一启动系统）。</p>
+    <div class="q-block"><div class="q-head"><span class="q-pip" style="background:var(--cA)"></span><span>解释系统（Interpretation System · V1 示例）</span></div><ul class="q-list"><li data-n="1">我会自动分析事情背后的原因，而不是只看表面。</li><li data-n="2">当别人表达情绪时，我会本能地去理解它从哪里来。</li><li data-n="3">遇到冲突时，我倾向于先搞清楚问题，再考虑怎么做。</li><li data-n="4">一个让我困惑的问题，我很难不去深入想它。</li><li data-n="5">即使情绪已经出现，我仍会优先试图搞清楚事情的逻辑。</li></ul></div>
+    <div class="q-block"><div class="q-head"><span class="q-pip" style="background:var(--cB)"></span><span>执行系统（Execution System · V1 示例）</span></div><ul class="q-list"><li data-n="1">遇到问题时，我更倾向于立刻采取行动。</li><li data-n="2">我会通过做事来减少焦虑或不确定的感觉。</li><li data-n="3">在团队里，我通常是推动事情往前走的那个人。</li><li data-n="4">即使情况复杂，我也倾向先开始，再边做边调整。</li><li data-n="5">我喜欢推进事情，而不是花太多时间讨论。</li></ul></div>
+    <div class="q-block"><div class="q-head"><span class="q-pip" style="background:var(--cC)"></span><span>情感系统（Emotion System · V1 示例）</span></div><ul class="q-list"><li data-n="1">我很容易感受到自己情绪上的细微变化。</li><li data-n="2">我对他人的情绪非常敏感，很容易察觉到。</li><li data-n="3">我经常能感受到别人没有说出来的情绪。</li><li data-n="4">我的很多决定会受到当下情绪的影响。</li><li data-n="5">当别人处于痛苦中，我很容易被触动。</li></ul></div>
+    <div class="q-block"><div class="q-head"><span class="q-pip" style="background:var(--cD)"></span><span>认同系统（Identity System · Stress V1）</span></div><ul class="q-list"><li data-n="1">当我被别人指出做错事时，我会很快想：这件事会不会改变我对自己的看法。</li><li data-n="2">当一件事情失败时，我会先问自己：这件事说明了我是什么样的人。</li><li data-n="3">在压力情境中，我会很快想：这件事像不像平时的我。</li><li data-n="4">当被否定时，我会立刻联想到自己的价值或能力。</li><li data-n="5">在失败或冲突中，我会很快联想到自我评价的问题。</li></ul></div>
+    <div class="q-block"><div class="q-head"><span class="q-pip" style="background:var(--cE)"></span><span>游戏系统（Play System · Stress V1）</span></div><ul class="q-list"><li data-n="1">当事情变得太紧张时，我会本能地想让气氛变得轻松一点。</li><li data-n="2">我会通过玩、创造或表达来恢复能量。</li><li data-n="3">即使在压力情境中，我也会寻找一些有趣或好奇的事情。</li><li data-n="4">我喜欢用有趣或带一点创造性的方式做事情。</li><li data-n="5">当生活变得太严肃时，我会主动寻找乐趣。</li></ul></div>
+    <p class="fine">量表设计原则：Z5S 不测"行为"，测"压力下的心理驱动力"。每题只属于一个系统——若一道题可被两个系统合理解释，直接删除（区分度规则）。真正量表需 N≥200–300 样本做 EFA/CFA，目标 5 因子结构。信度目标：Cronbach α ≥ 0.75。</p>
+  </div>
+
+  <!-- ════ PREDICTIONS ════ -->
+  <div class="block" id="predictions">
+    <div class="block-label">可证伪预测 · Falsifiable Predictions P1–P5</div>
+    <p class="prose">Z5S 的合法性建立在可被检验上。以下五条预测是框架的核心命题——如果数据不支持，理论必须被修正。</p>
+    <div class="pred"><span class="pred-n">P1</span><div><h5>主导系统随情境切换，且切换模式与压力类型相关</h5><p class="pred-body">人际威胁 / 任务压力 / 身份羞耻 / 无聊刺激等条件下，同一个人会出现可预测的主导系统切换，并伴随不同的行为/语言特征。</p><p class="pred-neg">否定条件：若多情境 EMA 显示多数个体主导系统几乎不变，或切换与诱发条件无关，则 P1 被削弱。</p></div></div>
+    <div class="pred"><span class="pred-n">P2</span><div><h5>三层级预测同系统内部的不同质量反应</h5><p class="pred-body">即便同样是某系统主导，Reactive 层级表现为自动化/防御化，Integrative 更协商调节，Transformative 具有元认知与跨系统对齐能力。</p><p class="pred-neg">否定条件：若层级评分与冲突修复、压力恢复等功能结果无显著关联，则 P2 被否定。</p></div></div>
+    <div class="pred"><span class="pred-n">P3</span><div><h5>系统冲突类型可预测症状形态，且优于单纯特质描述</h5><p class="pred-body">执行系统↔情感系统 → 倦怠/情感迟钝；认同系统↔解释系统 → 亲密-撤退矛盾行为；ID 压制 PS → 创造力抑制/失去乐趣。两个有相同 PHQ-9 分数的个体可能有完全不同的系统冲突路径。</p><p class="pred-neg">否定条件：若冲突评分无法预测症状形态，或不优于 Big Five 预测力，则 P3 被否定。</p></div></div>
+    <div class="pred"><span class="pred-n">P4</span><div><h5>"高功能受苦者"呈现"表层成熟 + 情境回退"结构</h5><p class="pred-body">存在一类个体：平时高层级运作，在强情绪/关系断裂等情境下短时回退到 Reactive——"看似成熟但实为防御性主导（false maturity）"。</p><p class="pred-neg">否定条件：若无法用生理/行为/语言指标重复测量到这种"情境回退"，P4 被否定。</p></div></div>
+    <div class="pred"><span class="pred-n">P5</span><div><h5>"干预入口系统匹配"显著影响疗效</h5><p class="pred-body">CBT → 解释/执行系统；IFS → EM；ACT → 解释/认同系统 整合；EMDR → 重开 情感系统↔解释系统 通道；DBT → 情感/执行系统 协同。不同主导系统的人对不同疗法存在系统性交互效应。</p><p class="pred-neg">否定条件：若入口系统匹配与疗效无交互效应，或匹配指标无法预测疗效差异，则 P5 被否定。</p></div></div>
+  </div>
+
+  <!-- ════ POSITIONING ════ -->
+  <div class="block" id="positioning">
+    <div class="block-label">传播定位 · Positioning</div>
+    <p class="prose">Z5S 是系统语言的发现者与组织者——不是"讲一个道理"，而是"捕捉一个很多人心里都有、但没有语言命名的真实经验结构"。传播不争"对不对"，只争"有没有用"。</p>
+    <div class="qa-list">
+      <div class="qa"><div class="qa-q">「你这个没有文献支持，不是主流理论。」</div><div class="qa-a">Z5S 并不是替代任何理论，而是建立在对人类真实经验的五种系统性反应上。它是结构语言系统，可以并行适配 Attachment Theory、Erikson 阶段理论、IFS。你可以把它当作地图，不是教科书——地图不需要比地形更早存在。未来证明路径：EMA 多情境研究（P1）+ 量表因子结构（Z5S-20 EFA）+ 案例系列（Evidence v0）。</div></div>
+      <div class="qa"><div class="qa-q">「这只是 IFS / Big Five 的换皮？」</div><div class="qa-a">三点核心差异：(1) Z5S 不假设单一主 Self 统领，而是多核心系统各有逻辑与权威；(2) 提供系统冲突动力学，而非只描述特质分布；(3) 三层级质量差异使"同一人的矛盾表现"有结构解释，而非简单标注为"人格不稳定"。Big Five 描述"你是什么样的人"，Z5S 问的是"你此刻以什么系统在运作世界"。</div></div>
+      <div class="qa"><div class="qa-q">「临床上怎么用？没有证据能用吗？」</div><div class="qa-a">用于临床时，Z5S 是 case conceptualization 语言框架，不是独立疗法。合规用法：主体干预仍用循证方法（CBT/DBT/ACT/IFS），Z5S 负责"解释与导航"。对外定位为 framework / model，避免 treatment efficacy 表述。</div></div>
+      <div class="qa"><div class="qa-q">「怎么开始收集证据？」</div><div class="qa-a"><strong>Evidence v0（自己就能做）</strong>：定义可观察指标（PHQ-9/GAD-7/DERS），按周或阶段收集，形成 10–30 例案例系列（前后对比+过程记录）。<strong>Evidence v1</strong>：Z5S-20 量表+小样本 EFA/CFA。路线：Preprint 先公开 → OSF 上传 → 合作者加入 → 逐层升级。</div></div>
+    </div>
+  </div>
+
+</div><!-- content -->
+</div><!-- shell -->
+
+<footer class="footer-bar" id="footerBar">
+  <div class="footer-bar-inner">
+  <span class="footer-sig">Z5S · Zebin Ye · 2025 · 主权系统</span>
+  <nav class="footer-nav">
+    <a href="#">总览</a>
+    <a href="#">操作系统 →</a>
+    <a href="#">Sample 证明 →</a>
+  </nav>
+  </div>
+</footer>
+
+<script>
+// TOC collapse — only the panel itself collapses, content never moves
+const tocPanel = document.getElementById('tocPanel');
+const tocBtn   = document.getElementById('tocBtn');
+let shut = false;
+
+tocBtn.addEventListener('click', () => {
+  shut = !shut;
+  tocPanel.classList.toggle('shut', shut);
+  tocBtn.querySelector('.toc-btn-label').textContent = shut ? '展开目录' : '收起目录';
+});
+
+// TOC active highlight
+const IDS = ['overview','IS','ES','EM','ID','PS','scenario','resonance','clinical','measurement','predictions','positioning'];
+const links = {};
+IDS.forEach(id => { links[id] = document.querySelector(`.toc-link[href="#${id}"]`); });
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && links[e.target.id]) {
+      Object.values(links).forEach(a => a && a.classList.remove('on'));
+      links[e.target.id].classList.add('on');
+    }
+  });
+}, { rootMargin: '-10% 0px -84% 0px' });
+IDS.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+</script>
+</body>
+</html>
