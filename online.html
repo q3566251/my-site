@@ -394,14 +394,33 @@ body.gameover{filter:grayscale(0.6)}
 </div>
 
 <div class="ftr">
-  地球 Online · EST. ~4,500,000,000 BC · 所有数据自动存档<br>
+  地球 Online · EST. ~4,500,000,000 BC · 数据云端同步<br>
   <button onclick="resetAll()">⚠ 重置存档</button>
 </div>
 
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.0/firebase-app-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.0/firebase-database-compat.js"></script>
 <script>
-const S={g(k,d=null){try{const v=localStorage.getItem('eo5_'+k);return v!==null?JSON.parse(v):d}catch{return d}},s(k,v){try{localStorage.setItem('eo5_'+k,JSON.stringify(v))}catch{}}};
+firebase.initializeApp({
+  apiKey:"AIzaSyB1pjnUMABz1d47uVbiANygtpuuBs6YJ3Q",
+  authDomain:"earth-online-3e1b8.firebaseapp.com",
+  databaseURL:"https://earth-online-3e1b8-default-rtdb.firebaseio.com",
+  projectId:"earth-online-3e1b8",
+  storageBucket:"earth-online-3e1b8.firebasestorage.app",
+  messagingSenderId:"972615373546",
+  appId:"1:972615373546:web:02edc85816284c9ef43d93"
+});
+const db=firebase.database();
+const dbRef=db.ref('player');
+let _c={};let _ready=false;
+
+const S={
+  g(k,d=null){if(_c[k]!==undefined)return _c[k];try{const v=localStorage.getItem('eo5_'+k);return v!==null?JSON.parse(v):d}catch{return d}},
+  s(k,v){_c[k]=v;try{localStorage.setItem('eo5_'+k,JSON.stringify(v))}catch{};if(_ready)dbRef.child(k).set(v)}
+};
+
 const TD=()=>new Date().toISOString().slice(0,10);
 const TN=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
 const TITLES=['初心','修行','觉醒','突破','引领','大师','传说'];
@@ -415,13 +434,11 @@ let tt;function toast(m,c=''){const e=document.getElementById('toast');e.textCon
 
 setInterval(()=>{const d=new Date();document.getElementById('clk').textContent=`${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} EST`},1000);
 
-// LOG
 function gLog(){return S.g('log',[])}
 function aLog(tag,msg,cls='h'){const l=gLog();l.unshift({t:TN(),tag,msg,cls,d:TD()});if(l.length>50)l.length=50;S.s('log',l);rLog()}
 function rLog(){const l=gLog(),e=document.getElementById('elog');e.innerHTML=l.length?l.slice(0,12).map(x=>`<div class="le"><span style="flex-shrink:0">${x.t}</span><span>[<span class="${x.cls}">${x.tag}</span>] ${x.msg}</span></div>`).join(''):'<div class="le"><span style="color:var(--dim)">暂无</span></div>'}
 function clearLog(){S.s('log',[]);rLog();toast('已清空')}
 
-// BOOT
 function doBoot(){
   const d=new Date();
   const dateStr=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 星期'+['日','一','二','三','四','五','六'][d.getDay()];
@@ -452,80 +469,32 @@ function doBoot(){
   });
 }
 
-// AVATAR
 function cycleAvatar(){const cur=S.g('avi',0);const next=(cur+1)%AVATARS.length;S.s('avi',next);document.getElementById('avatar').textContent=AVATARS[next]}
 
-// BARS
-function barColor(k,v){
-  const f=document.getElementById('bf-'+k);
-  f.style.width=Math.max(0,Math.min(100,v))+'%';
-  f.style.background=BCOL(v);
-  f.classList.toggle('pulsing',v<30);
-  document.getElementById('bi-'+k).classList.toggle('crit',v<=25);
-}
+function barColor(k,v){const f=document.getElementById('bf-'+k);f.style.width=Math.max(0,Math.min(100,v))+'%';f.style.background=BCOL(v);f.classList.toggle('pulsing',v<30);document.getElementById('bi-'+k).classList.toggle('crit',v<=25)}
 function loadBars(){BK.forEach(k=>{const v=S.g('b-'+k,BD[k]);document.getElementById('in-'+k).value=v;barColor(k,v);renderSparkline(k)})}
-BK.forEach(k=>{
-  document.getElementById('in-'+k).addEventListener('change',function(){
-    let v=Math.max(0,Math.min(100,parseInt(this.value)||0));this.value=v;
-    S.s('b-'+k,v);S.s('b-'+k+'-d',TD());barColor(k,v);
-    recordSparkline(k,v);toast(BN[k]+' → '+v);aLog('状态',BN[k]+' → '+v,'i');
-    chkGameOver();
-  });
-});
+BK.forEach(k=>{document.getElementById('in-'+k).addEventListener('change',function(){let v=Math.max(0,Math.min(100,parseInt(this.value)||0));this.value=v;S.s('b-'+k,v);S.s('b-'+k+'-d',TD());barColor(k,v);recordSparkline(k,v);toast(BN[k]+' → '+v);aLog('状态',BN[k]+' → '+v,'i');chkGameOver()})});
 
-// SPARKLINES
 function getSparkData(k){return S.g('spark-'+k,[])}
 function recordSparkline(k,v){let d=getSparkData(k);const today=d.find(x=>x.d===TD());if(today)today.v=v;else d.push({d:TD(),v});if(d.length>7)d=d.slice(-7);S.s('spark-'+k,d);renderSparkline(k)}
-function renderSparkline(k){const d=getSparkData(k),el=document.getElementById('sp-'+k);if(!d.length){el.innerHTML='';return}const max=100;el.innerHTML=d.map(x=>`<div class="dot" style="height:${Math.max(1,x.v/max*14)}px;background:${BCOL(x.v)}" title="${x.d.slice(5)}: ${x.v}"></div>`).join('')}
+function renderSparkline(k){const d=getSparkData(k),el=document.getElementById('sp-'+k);if(!d.length){el.innerHTML='';return}el.innerHTML=d.map(x=>`<div class="dot" style="height:${Math.max(1,x.v/100*14)}px;background:${BCOL(x.v)}" title="${x.d.slice(5)}: ${x.v}"></div>`).join('')}
 
-// HP DECAY
 function chkDecay(){const ld=S.g('b-hp-d',TD());if(ld===TD())return;const ds=Math.floor((new Date(TD())-new Date(ld))/864e5);if(ds<=0)return;const decay=ds*2;let v=S.g('b-hp',BD.hp);v=Math.max(0,v-decay);S.s('b-hp',v);S.s('b-hp-d',TD());document.getElementById('in-hp').value=v;barColor('hp',v);aLog('衰减','Vitality -'+decay+' ('+ds+'天)','w');document.getElementById('bs-hp').innerHTML='衰减 <span class="c">-'+decay+'</span>'}
 
-// GAME OVER
 function chkGameOver(){const hp=S.g('b-hp',BD.hp);if(hp<=0){document.body.classList.add('gameover');document.getElementById('goBanner').classList.add('show')}else{document.body.classList.remove('gameover');document.getElementById('goBanner').classList.remove('show')}}
 function recover(){const action=prompt('输入你的恢复行动（运动/睡眠/社交等）：');if(action&&action.trim()){S.s('b-hp',30);S.s('b-hp-d',TD());document.getElementById('in-hp').value=30;barColor('hp',30);chkGameOver();aLog('恢复','执行恢复协议: '+action.trim()+' → HP恢复至30','h');toast('系统恢复 ✓')}}
 
-// ENERGY reminder
 function chkEn(){document.getElementById('bs-en').textContent=S.g('b-en-d','')===TD()?'✓ 已更新':'记录今天的状态'}
 
-// XP & LEVEL
-function calcLv(){const xp=S.g('txp',0);return Math.floor(xp/500)+1}
+function calcLv(){return Math.floor(S.g('txp',0)/500)+1}
 function getTitle(lv){return TITLES[Math.min(TITLES.length-1,lv-1)]}
-function updateLvDisp(){
-  const xp=S.g('txp',0),lv=calcLv(),title=getTitle(lv);
-  document.getElementById('xpDisp').textContent=xp.toLocaleString();
-  document.getElementById('lvDisp').textContent='Lv.'+lv;
-  document.getElementById('titleDisp').textContent=title;
-}
-function addXP(n){
-  const old=S.g('txp',0),oldLv=Math.floor(old/500)+1;
-  const nw=old+n;S.s('txp',nw);
-  const newLv=Math.floor(nw/500)+1;
-  updateLvDisp();
-  document.getElementById('xpDisp').classList.add('xp-bounce');
-  setTimeout(()=>document.getElementById('xpDisp').classList.remove('xp-bounce'),300);
-  if(newLv>oldLv)showLvUp(newLv);
-}
-function showLvUp(lv){
-  document.getElementById('lvupTitle').textContent='LEVEL '+lv;
-  document.getElementById('lvupSub').textContent='新称号: '+getTitle(lv);
-  document.getElementById('lvup').classList.add('show');
-  aLog('升级','达到 Lv.'+lv+' · '+getTitle(lv),'n');
-}
+function updateLvDisp(){const xp=S.g('txp',0),lv=calcLv(),title=getTitle(lv);document.getElementById('xpDisp').textContent=xp.toLocaleString();document.getElementById('lvDisp').textContent='Lv.'+lv;document.getElementById('titleDisp').textContent=title}
+function addXP(n){const old=S.g('txp',0),oldLv=Math.floor(old/500)+1;const nw=old+n;S.s('txp',nw);const newLv=Math.floor(nw/500)+1;updateLvDisp();document.getElementById('xpDisp').classList.add('xp-bounce');setTimeout(()=>document.getElementById('xpDisp').classList.remove('xp-bounce'),300);if(newLv>oldLv)showLvUp(newLv)}
+function showLvUp(lv){document.getElementById('lvupTitle').textContent='LEVEL '+lv;document.getElementById('lvupSub').textContent='新称号: '+getTitle(lv);document.getElementById('lvup').classList.add('show');aLog('升级','达到 Lv.'+lv+' · '+getTitle(lv),'n')}
 function closeLvUp(){document.getElementById('lvup').classList.remove('show')}
 
-// PARTICLES
-function emitParticles(el){
-  const rect=el.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
-  for(let i=0;i<8;i++){
-    const p=document.createElement('div');p.className='particle';
-    const angle=Math.random()*Math.PI*2,dist=30+Math.random()*40;
-    p.style.cssText=`left:${cx}px;top:${cy}px;position:fixed;background:var(--accent);--px:${Math.cos(angle)*dist}px;--py:${Math.sin(angle)*dist}px;animation:particleFly 0.3s ease-out forwards`;
-    document.body.appendChild(p);setTimeout(()=>p.remove(),350);
-  }
-}
+function emitParticles(el){const rect=el.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;for(let i=0;i<8;i++){const p=document.createElement('div');p.className='particle';const angle=Math.random()*Math.PI*2,dist=30+Math.random()*40;p.style.cssText=`left:${cx}px;top:${cy}px;position:fixed;background:var(--accent);--px:${Math.cos(angle)*dist}px;--py:${Math.sin(angle)*dist}px;animation:particleFly 0.3s ease-out forwards`;document.body.appendChild(p);setTimeout(()=>p.remove(),350)}}
 
-// QUESTS
 const DQ=[{t:'投递简历 — BHC岗位',xp:50,done:false},{t:'DentalBrief 开发',xp:80,done:false},{t:'30分钟运动',xp:30,done:false},{t:'Z5S 迭代',xp:60,done:false},{t:'读30页书',xp:25,done:false}];
 function gQ(){const s=S.g('q-'+TD());if(s)return s;const y=new Date();y.setDate(y.getDate()-1);const o=S.g('q-'+y.toISOString().slice(0,10));if(o){const c=o.filter(x=>!x.done);if(c.length){aLog('系统','继承'+c.length+'个昨日任务','w');return c}}return DQ}
 function sQ(q){S.s('q-'+TD(),q)}
@@ -535,14 +504,12 @@ function dQ(i){const q=gQ();q.splice(i,1);sQ(q);rQ()}
 function clearDone(){sQ(gQ().filter(x=>!x.done));rQ();toast('已清除')}
 document.getElementById('qIn').addEventListener('keydown',e=>{if(e.key==='Enter'){const t=e.target.value.trim();if(t){const q=gQ();q.push({t,xp:20,done:false});sQ(q);e.target.value='';rQ();toast('已添加')}}});
 
-// MAIN QUEST
 function gMQ(){return S.g('mq',[])}
 function addMQ(){const i=document.getElementById('mqIn'),st=document.getElementById('mqSt'),t=i.value.trim();if(!t)return;const m=gMQ();m.unshift({t,s:st.value,d:TD()});S.s('mq',m);i.value='';rMQ();aLog('主线',t+' ['+st.value+']','i');toast('已记录');let b=0;if(st.value==='applied')b=20;if(st.value==='interview')b=50;if(st.value==='offer')b=200;if(b)addXP(b)}
 function delMQ(i){const m=gMQ();m.splice(i,1);S.s('mq',m);rMQ()}
 function rMQ(){const m=gMQ(),e=document.getElementById('mqList'),lb={applied:'投递',interview:'面试',offer:'Offer',rejected:'拒绝'};e.innerHTML=m.length?m.slice(0,12).map((x,i)=>`<div class="mq-e"><span class="mq-tag ${x.s}">${lb[x.s]}</span><span class="mq-t">${x.t}</span><span class="mq-d">${x.d.slice(5)}</span><span class="mq-x" onclick="delMQ(${i})">✕</span></div>`).join(''):'<div style="font-size:0.68rem;color:var(--dim);padding:0.3rem 0">开始记录求职之路</div>';const c={applied:0,interview:0,offer:0,rejected:0};m.forEach(x=>c[x.s]!==undefined&&c[x.s]++);document.getElementById('mqStats').textContent=`投${c.applied} 面${c.interview} O${c.offer} 拒${c.rejected}`}
 document.getElementById('mqIn').addEventListener('keydown',e=>{if(e.key==='Enter')addMQ()});
 
-// SOCIAL
 function gS(){return S.g('slog',[])}
 function addS(){const i=document.getElementById('sIn'),t=i.value.trim();if(!t)return;const s=gS();s.unshift({d:TD(),t});S.s('slog',s);i.value='';let sv=Math.min(100,(S.g('b-so',45))+10);S.s('b-so',sv);S.s('b-so-d',TD());document.getElementById('in-so').value=sv;barColor('so',sv);recordSparkline('so',sv);rS();aLog('社交',t,'i');toast('+10 Social')}
 function delS(i){const s=gS();s.splice(i,1);S.s('slog',s);rS()}
@@ -550,107 +517,60 @@ function rS(){const s=gS(),e=document.getElementById('sList');e.innerHTML=s.leng
 function chkSoc(){const s=gS(),w=document.getElementById('sWarn'),sub=document.getElementById('bs-so');if(!s.length){w.className='sw critical';w.textContent='30天不社交 → Vitality-20';if(sub)sub.innerHTML='<span class="c">无记录</span>';return}const ds=Math.floor((new Date()-new Date(s[0].d))/864e5),dl=30-ds;if(ds>=30){const mo=TD().slice(0,7);if(S.g('spen','')!==mo){let v=S.g('b-hp',78);v=Math.max(0,v-20);S.s('b-hp',v);S.s('b-hp-d',TD());document.getElementById('in-hp').value=v;barColor('hp',v);S.s('spen',mo);aLog('惩罚','社交超时 Vitality-20','d');toast('Vitality -20','d')}w.className='sw critical';w.textContent='超过30天未社交';if(sub)sub.innerHTML='<span class="c">超'+ds+'天</span>'}else if(dl<=7){w.className='sw caution';w.textContent='剩 '+dl+' 天';if(sub)sub.textContent='⏰ '+dl+'天'}else{w.className='sw ok';w.textContent='✓ '+ds+'天前 · 剩'+dl+'天';if(sub)sub.textContent='✓ '+dl+'天'}}
 document.getElementById('sIn').addEventListener('keydown',e=>{if(e.key==='Enter')addS()});
 
-// SKILLS
 const SKS=[{id:'counsel',n:'心理咨询',b:75},{id:'webdev',n:'Web开发',b:68},{id:'cnwrite',n:'中文写作',b:72},{id:'english',n:'英语',b:82},{id:'canto',n:'粤语/台山',b:70},{id:'mandarin',n:'普通话',b:85},{id:'z5s',n:'Z5S框架',b:90},{id:'gamedev',n:'游戏开发',b:55}];
 const INVEST_MAP={求职:'counsel',开发:'webdev',健康:'counsel',学习:'english'};
 function rSK(){document.getElementById('skTree').innerHTML=SKS.map(s=>{const a=S.g('sk-'+s.id,0);const lv=Math.min(99,s.b+a);return `<div class="sk"><div class="skn">${s.n}</div><div class="skt"><div class="skf" data-w="${lv}"></div></div><div class="sklv">Lv.${lv}</div><button class="sk-train" onclick="trainSk('${s.id}')" title="消耗50XP">+1</button></div>`}).join('');setTimeout(()=>document.querySelectorAll('.skf').forEach(e=>e.style.width=e.dataset.w+'%'),100)}
 function trainSk(id){const xp=S.g('txp',0);if(xp<50){toast('需要50XP才能训练 (当前'+xp+')','w');return}S.s('txp',xp-50);S.s('sk-'+id,(S.g('sk-'+id,0))+1);const sk=SKS.find(s=>s.id===id);rSK();updateLvDisp();toast(sk.n+' +1 (-50XP)');aLog('训练',sk.n+' 升级','h')}
 
-// DAILY INVESTMENT (Sid Meier)
 const INV_AREAS=['求职','开发','健康','学习'];
 const INV_SK={求职:'counsel',开发:'webdev',健康:'counsel',学习:'english'};
-function loadInvest(){
-  const used=S.g('inv-'+TD(),[]);const left=3-used.length;
-  document.getElementById('invLeft').textContent='剩余: '+left+'点';
-  const el=document.getElementById('investEl');
-  el.innerHTML=INV_AREAS.map(a=>{const cnt=used.filter(x=>x===a).length;return `<button class="inv-btn ${cnt?'sel':''}" onclick="doInvest('${a}')" ${left<=0&&!cnt?'disabled':''}>${a}${cnt?' ×'+cnt:''}</button>`}).join('');
-  document.getElementById('invInfo').textContent=left>0?'点击分配今天的精力':'今日已分配完毕';
-}
-function doInvest(area){
-  const used=S.g('inv-'+TD(),[]);if(used.length>=3)return;
-  used.push(area);S.s('inv-'+TD(),used);
-  const skId=INV_SK[area];if(skId){S.s('sk-'+skId,(S.g('sk-'+skId,0))+1);rSK()}
-  loadInvest();toast(area+' +1');aLog('投资','精力→'+area,'i');
-}
+function loadInvest(){const used=S.g('inv-'+TD(),[]);const left=3-used.length;document.getElementById('invLeft').textContent='剩余: '+left+'点';document.getElementById('investEl').innerHTML=INV_AREAS.map(a=>{const cnt=used.filter(x=>x===a).length;return `<button class="inv-btn ${cnt?'sel':''}" onclick="doInvest('${a}')" ${left<=0&&!cnt?'disabled':''}>${a}${cnt?' ×'+cnt:''}</button>`}).join('');document.getElementById('invInfo').textContent=left>0?'点击分配今天的精力':'今日已分配完毕'}
+function doInvest(area){const used=S.g('inv-'+TD(),[]);if(used.length>=3)return;used.push(area);S.s('inv-'+TD(),used);const skId=INV_SK[area];if(skId){S.s('sk-'+skId,(S.g('sk-'+skId,0))+1);rSK()}loadInvest();toast(area+' +1');aLog('投资','精力→'+area,'i')}
 
-// JOURNAL (Jenova Chen)
-function loadJ(){const t=S.g('j-'+TD(),'');document.getElementById('jIn').value=t}
+function loadJ(){document.getElementById('jIn').value=S.g('j-'+TD(),'')}
 document.getElementById('jIn').addEventListener('blur',function(){const t=this.value.trim();if(!t)return;S.s('j-'+TD(),t);const h=S.g('journal',[]);const ex=h.findIndex(e=>e.d===TD());if(ex>=0)h[ex].t=t;else h.unshift({d:TD(),t});if(h.length>365)h.length=365;S.s('journal',h)});
 function toggleJH(){const el=document.getElementById('jHist'),open=el.classList.toggle('open');document.getElementById('jToggle').textContent=open?'↑ 收起':'↓ 过去的日记';if(open){const h=S.g('journal',[]);el.innerHTML=h.length?h.slice(0,30).map(e=>`<div class="jh-e"><span class="jh-d">${e.d.slice(5)}</span><span class="jh-t">${e.t}</span></div>`).join(''):'<div style="font-size:0.68rem;color:var(--dim);padding:0.3rem 0">还没有记录</div>'}}
 
-// RANDOM EVENT (Rob Pardo)
-const EVENTS=[
-  {t:'晨跑灵感爆发',xp:20,icon:'🏃'},{t:'读到一篇好文章',xp:15,icon:'📖'},{t:'咖啡特别好喝',xp:10,icon:'☕'},
-  {t:'收到老朋友消息',xp:25,icon:'💌'},{t:'灵感突来写下好代码',xp:30,icon:'💡'},{t:'天气很好心情愉快',xp:10,icon:'☀️'},
-  {t:'冥想5分钟获得平静',xp:15,icon:'🧘'},{t:'帮助了一个陌生人',xp:20,icon:'🤝'},{t:'发现一家好餐厅',xp:10,icon:'🍜'},
-  {t:'完成了一个小目标',xp:25,icon:'🎯'},{t:'学会了一个新技能',xp:20,icon:'📚'},{t:'早起看到日出',xp:15,icon:'🌅'},
-  {t:'收到面试邀请',xp:40,icon:'📧'},{t:'音乐带来好心情',xp:10,icon:'🎵'},
-  {t:'通勤延误浪费时间',xp:-10,icon:'🚇'},{t:'睡眠不足精神不佳',xp:-15,icon:'😴'},
-  {t:'手机刷太久了',xp:-10,icon:'📱'},{t:'忘记吃午饭',xp:-5,icon:'🍽️'},
-  {t:'被拒绝了一次',xp:-10,icon:'📉'},{t:'下雨没带伞',xp:-5,icon:'🌧️'},
-];
-function rollEvent(){
-  if(S.g('evt-'+TD()))return;
-  const e=EVENTS[Math.floor(Math.random()*EVENTS.length)];
-  S.s('evt-'+TD(),e);addXP(e.xp);
-  aLog('事件',e.icon+' '+e.t+' ('+(e.xp>0?'+':'')+e.xp+'XP)','n');
-  toast(e.icon+' '+e.t+(e.xp>0?' +'+e.xp+'XP':' '+e.xp+'XP'),e.xp<0?'w':'');
-}
+const EVENTS=[{t:'晨跑灵感爆发',xp:20,icon:'🏃'},{t:'读到一篇好文章',xp:15,icon:'📖'},{t:'咖啡特别好喝',xp:10,icon:'☕'},{t:'收到老朋友消息',xp:25,icon:'💌'},{t:'灵感突来写下好代码',xp:30,icon:'💡'},{t:'天气很好心情愉快',xp:10,icon:'☀️'},{t:'冥想5分钟获得平静',xp:15,icon:'🧘'},{t:'帮助了一个陌生人',xp:20,icon:'🤝'},{t:'发现一家好餐厅',xp:10,icon:'🍜'},{t:'完成了一个小目标',xp:25,icon:'🎯'},{t:'学会了一个新技能',xp:20,icon:'📚'},{t:'早起看到日出',xp:15,icon:'🌅'},{t:'收到面试邀请',xp:40,icon:'📧'},{t:'音乐带来好心情',xp:10,icon:'🎵'},{t:'通勤延误浪费时间',xp:-10,icon:'🚇'},{t:'睡眠不足精神不佳',xp:-15,icon:'😴'},{t:'手机刷太久了',xp:-10,icon:'📱'},{t:'忘记吃午饭',xp:-5,icon:'🍽️'},{t:'被拒绝了一次',xp:-10,icon:'📉'},{t:'下雨没带伞',xp:-5,icon:'🌧️'}];
+function rollEvent(){if(S.g('evt-'+TD()))return;const e=EVENTS[Math.floor(Math.random()*EVENTS.length)];S.s('evt-'+TD(),e);addXP(e.xp);aLog('事件',e.icon+' '+e.t+' ('+(e.xp>0?'+':'')+e.xp+'XP)','n');toast(e.icon+' '+e.t+(e.xp>0?' +'+e.xp+'XP':' '+e.xp+'XP'),e.xp<0?'w':'')}
 
-// DAILY NARRATIVE (Kojima)
-function genNarrative(){
-  if(S.g('narr-'+TD()))return;
-  const y=new Date();y.setDate(y.getDate()-1);const yd=y.toISOString().slice(0,10);
-  const yq=S.g('q-'+yd);if(!yq)return;
-  const done=yq.filter(x=>x.done).length,total=yq.length;
-  const hp=S.g('b-hp',78),en=S.g('b-en',62);
-  const day=Math.floor((new Date()-new Date(S.g('first',TD())))/864e5);
-  let narrative='Day '+day+' — ';
-  if(done===total)narrative+='玩家完成了所有任务，展现了极高的执行力。';
-  else if(done>0)narrative+='玩家完成了'+done+'/'+total+'个任务'+(en<40?'，虽然精力低迷但仍在坚持。':'。');
-  else narrative+='玩家未能完成任何任务'+(hp<30?'，系统检测到状态危险。':'，休整也是战斗的一部分。');
-  const soc=gS();if(soc.length&&soc[0].d===yd)narrative+=' 社交活动：'+soc[0].t+'。';
-  S.s('narr-'+TD(),narrative);aLog('叙事',narrative,'n');
-}
+function genNarrative(){if(S.g('narr-'+TD()))return;const y=new Date();y.setDate(y.getDate()-1);const yd=y.toISOString().slice(0,10);const yq=S.g('q-'+yd);if(!yq)return;const done=yq.filter(x=>x.done).length,total=yq.length;const hp=S.g('b-hp',78),en=S.g('b-en',62);const day=Math.floor((new Date()-new Date(S.g('first',TD())))/864e5);let narrative='Day '+day+' — ';if(done===total)narrative+='玩家完成了所有任务，展现了极高的执行力。';else if(done>0)narrative+='玩家完成了'+done+'/'+total+'个任务'+(en<40?'，虽然精力低迷但仍在坚持。':'。');else narrative+='玩家未能完成任何任务'+(hp<30?'，系统检测到状态危险。':'，休整也是战斗的一部分。');const soc=gS();if(soc.length&&soc[0].d===yd)narrative+=' 社交活动：'+soc[0].t+'。';S.s('narr-'+TD(),narrative);aLog('叙事',narrative,'n')}
 
-// STREAK
 function chkStreak(){const last=S.g('last-login','');const y=new Date();y.setDate(y.getDate()-1);let streak=S.g('streak',0);if(last===TD()){}else if(last===y.toISOString().slice(0,10)){streak++}else{streak=1}S.s('streak',streak);S.s('last-login',TD());document.getElementById('streakDisp').textContent=streak}
 
-// DAYS
 function initDays(){if(!S.g('first'))S.s('first',TD());document.getElementById('dayDisp').textContent='D'+(Math.floor((new Date()-new Date(S.g('first')))/864e5)+1)}
 
-// TICKER
-function initTicker(){
-  const items=['纽约 12°C 多云','全球玩家: 8,091,735,204','社交30天维护一次','Vitality每日-2','数据自动存档','NYC地铁正常运行'];
-  document.getElementById('tickerEl').innerHTML=(items.concat(items)).map((t,i)=>`<div class="ticker-item"><span class="td" style="background:${['var(--accent)','var(--warn)','var(--blue)','var(--danger)','var(--purple)','var(--accent)'][i%6]}"></span>${t}</div>`).join('')}
+function initTicker(){const items=['纽约 12°C 多云','全球玩家: 8,091,735,204','社交30天维护一次','Vitality每日-2','数据云端同步','NYC地铁正常运行'];document.getElementById('tickerEl').innerHTML=(items.concat(items)).map((t,i)=>`<div class="ticker-item"><span class="td" style="background:${['var(--accent)','var(--warn)','var(--blue)','var(--danger)','var(--purple)','var(--accent)'][i%6]}"></span>${t}</div>`).join('')}
 
-// BADGES
-function initBadges(){
-  const all=[
-    {e:'🎓',n:'Hunter硕士',u:true},{e:'📜',n:'LMHC执照',u:true},{e:'🌐',n:'三语者',u:true},
-    {e:'🧩',n:'Z5S创造者',u:true},{e:'🕹️',n:'独立游戏',u:true},
-    {e:'🔥',n:'连续7天',u:S.g('streak',0)>=7},{e:'⚔️',n:'投递10份',u:gMQ().filter(x=>x.s==='applied').length>=10},
-    {e:'🔒',n:'???',u:false},{e:'🔒',n:'???',u:false},
-  ];
-  document.getElementById('badgesEl').innerHTML=all.map(b=>`<div class="badge ${b.u?'':'locked'}"><div class="be">${b.e}</div><div class="bn">${b.n}</div></div>`).join('')}
+function initBadges(){const all=[{e:'🎓',n:'Hunter硕士',u:true},{e:'📜',n:'LMHC执照',u:true},{e:'🌐',n:'三语者',u:true},{e:'🧩',n:'Z5S创造者',u:true},{e:'🕹️',n:'独立游戏',u:true},{e:'🔥',n:'连续7天',u:S.g('streak',0)>=7},{e:'⚔️',n:'投递10份',u:gMQ().filter(x=>x.s==='applied').length>=10},{e:'🔒',n:'???',u:false},{e:'🔒',n:'???',u:false}];document.getElementById('badgesEl').innerHTML=all.map(b=>`<div class="badge ${b.u?'':'locked'}"><div class="be">${b.e}</div><div class="bn">${b.n}</div></div>`).join('')}
 
-// CONTENTEDITABLE
 document.querySelectorAll('[data-key]').forEach(el=>{const s=S.g(el.dataset.key);if(s!==null)el.innerHTML=s;el.addEventListener('blur',()=>S.s(el.dataset.key,el.innerHTML))});
 
-// INIT
-(function(){
+function initAll(){
   doBoot();initDays();chkStreak();loadBars();chkDecay();chkEn();
   rQ();rS();rMQ();rSK();rLog();updateLvDisp();loadJ();loadInvest();initTicker();initBadges();
   chkGameOver();
   document.getElementById('avatar').textContent=AVATARS[S.g('avi',0)];
-  // record today's sparkline for each bar
   BK.forEach(k=>recordSparkline(k,S.g('b-'+k,BD[k])));
   const lc=S.g('lc',0)+1;S.s('lc',lc);
   const lg=gLog();if(!lg.length||lg[0]?.d!==TD()){aLog('系统','上线 · 第'+lc+'次','h');genNarrative();rollEvent()}
   setTimeout(()=>document.querySelectorAll('.skf').forEach(e=>e.style.width=e.dataset.w+'%'),2800);
-})();
+}
 
-function resetAll(){if(confirm('重置所有数据？')){Object.keys(localStorage).filter(k=>k.startsWith('eo5_')).forEach(k=>localStorage.removeItem(k));location.reload()}}
+// Load from Firebase first, then init
+dbRef.once('value').then(snap=>{
+  const data=snap.val();
+  if(data){
+    Object.keys(data).forEach(k=>{_c[k]=data[k];try{localStorage.setItem('eo5_'+k,JSON.stringify(data[k]))}catch{}});
+    console.log('[EarthOnline] 云端存档已加载');
+  }else{
+    const keys=Object.keys(localStorage).filter(k=>k.startsWith('eo5_'));
+    if(keys.length){const up={};keys.forEach(k=>{try{up[k.slice(4)]=JSON.parse(localStorage.getItem(k))}catch{}});dbRef.set(up);console.log('[EarthOnline] 本地存档已上传')}
+  }
+  _ready=true;initAll();
+}).catch(e=>{console.warn('[EarthOnline] Firebase连接失败，用本地',e);_ready=false;initAll()});
+
+function resetAll(){if(confirm('重置所有数据？')){Object.keys(localStorage).filter(k=>k.startsWith('eo5_')).forEach(k=>localStorage.removeItem(k));if(_ready)dbRef.remove();_c={};location.reload()}}
 </script>
 </body>
 </html>
