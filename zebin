@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人生履历 — G</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#1a1a1a;
+  --paper:#f5f0e8;
+  --paper-dark:#e8e0d0;
+  --accent:#c0392b;
+  --accent-light:#e74c3c;
+  --gold:#b8860b;
+  --gold-light:#daa520;
+  --muted:#6b6b6b;
+  --line:#d4c9b8;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Noto Sans SC','Noto Serif SC',serif;
+  font-weight:300;
+  line-height:1.9;
+  overflow-x:hidden;
+}
+
+/* === HERO === */
+.hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'履';
+  position:absolute;
+  font-family:'Noto Serif SC',serif;
+  font-size:clamp(300px,50vw,600px);
+  font-weight:900;
+  color:rgba(0,0,0,0.03);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  z-index:0;
+}
+.hero-content{position:relative;z-index:1}
+.hero h1{
+  font-family:'Noto Serif SC',serif;
+  font-weight:900;
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  letter-spacing:0.15em;
+  margin-bottom:0.3em;
+  animation:fadeUp 1.2s ease both;
+}
+.hero .subtitle{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(1rem,2.5vw,1.4rem);
+  color:var(--muted);
+  margin-bottom:1em;
+  animation:fadeUp 1.2s 0.3s ease both;
+}
+.hero .epigraph{
+  font-size:1rem;
+  color:var(--muted);
+  max-width:400px;
+  margin:0 auto;
+  animation:fadeUp 1.2s 0.6s ease both;
+  line-height:2;
+}
+.hero .birth{
+  margin-top:2em;
+  font-family:'Playfair Display',serif;
+  font-size:0.9rem;
+  color:var(--gold);
+  letter-spacing:0.3em;
+  animation:fadeUp 1.2s 0.9s ease both;
+}
+.scroll-hint{
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  animation:fadeUp 1.2s 1.2s ease both, float 2s ease-in-out infinite 2s;
+}
+.scroll-hint span{
+  display:block;
+  width:1px;height:50px;
+  background:var(--gold);
+  margin:0 auto 8px;
+}
+.scroll-hint small{
+  font-size:0.7rem;
+  color:var(--muted);
+  letter-spacing:0.2em;
+}
+
+/* === TIMELINE === */
+.timeline-section{
+  max-width:900px;
+  margin:0 auto;
+  padding:80px 24px 120px;
+  position:relative;
+}
+.timeline-section::before{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:0;bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom,transparent,var(--line) 100px,var(--line) calc(100% - 100px),transparent);
+}
+
+/* Early life preamble */
+.preamble{
+  text-align:center;
+  max-width:600px;
+  margin:0 auto 100px;
+  position:relative;
+  z-index:1;
+}
+.preamble h2{
+  font-family:'Noto Serif SC',serif;
+  font-weight:700;
+  font-size:1.6rem;
+  margin-bottom:0.8em;
+  color:var(--accent);
+}
+.preamble p{
+  font-size:0.95rem;
+  color:var(--muted);
+  line-height:2;
+}
+
+/* Timeline node */
+.node{
+  position:relative;
+  margin-bottom:100px;
+  display:flex;
+  align-items:flex-start;
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 0.8s ease,transform 0.8s ease;
+}
+.node.visible{opacity:1;transform:translateY(0)}
+.node:nth-child(odd){flex-direction:row}
+.node:nth-child(even){flex-direction:row-reverse}
+
+.node-content{
+  width:calc(50% - 50px);
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(10px);
+  border:1px solid var(--line);
+  padding:32px 28px;
+  position:relative;
+}
+.node:nth-child(odd) .node-content{margin-right:auto}
+.node:nth-child(even) .node-content{margin-left:auto}
+
+.node-dot{
+  position:absolute;
+  left:50%;top:30px;
+  width:14px;height:14px;
+  border-radius:50%;
+  background:var(--paper);
+  border:2px solid var(--accent);
+  transform:translateX(-50%);
+  z-index:2;
+  transition:background 0.3s;
+}
+.node:hover .node-dot{background:var(--accent)}
+
+.node-year{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:700;
+  color:var(--accent);
+  opacity:0.2;
+  position:absolute;
+  top:20px;
+}
+.node:nth-child(odd) .node-year{right:calc(50% + 60px);text-align:right}
+.node:nth-child(even) .node-year{left:calc(50% + 60px)}
+
+.node-title{
+  font-family:'Noto Serif SC',serif;
+  font-weight:700;
+  font-size:1.2rem;
+  margin-bottom:0.6em;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.node-title .num{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;height:28px;
+  border-radius:50%;
+  background:var(--accent);
+  color:white;
+  font-family:'Playfair Display',serif;
+  font-size:0.8rem;
+  flex-shrink:0;
+}
+.node-body{
+  font-size:0.9rem;
+  color:#444;
+  line-height:2;
+}
+.node-body .highlight{
+  background:linear-gradient(to top,rgba(218,165,32,0.2) 40%,transparent 40%);
+  padding:0 2px;
+}
+.node-body .quote{
+  display:block;
+  margin:12px 0;
+  padding-left:16px;
+  border-left:2px solid var(--gold);
+  font-family:'Noto Serif SC',serif;
+  font-style:italic;
+  color:var(--gold);
+  font-size:0.85rem;
+}
+
+/* === LIFE STATS === */
+.stats-bar{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:40px;
+  max-width:800px;
+  margin:0 auto 80px;
+  padding:40px 24px;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.stat{text-align:center}
+.stat .num{
+  font-family:'Playfair Display',serif;
+  font-size:2.2rem;
+  font-weight:700;
+  color:var(--accent);
+}
+.stat .label{
+  font-size:0.75rem;
+  color:var(--muted);
+  letter-spacing:0.1em;
+  margin-top:4px;
+}
+
+/* === CLOSING === */
+.closing{
+  text-align:center;
+  max-width:600px;
+  margin:0 auto;
+  padding:60px 24px 120px;
+}
+.closing h2{
+  font-family:'Noto Serif SC',serif;
+  font-weight:900;
+  font-size:1.8rem;
+  margin-bottom:0.6em;
+}
+.closing p{
+  font-size:0.95rem;
+  color:var(--muted);
+  line-height:2;
+}
+.closing .seal{
+  margin-top:40px;
+  display:inline-block;
+  width:80px;height:80px;
+  border:3px solid var(--accent);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Noto Serif SC',serif;
+  font-weight:900;
+  font-size:2rem;
+  color:var(--accent);
+  transform:rotate(-8deg);
+  margin:40px auto 0;
+  opacity:0.7;
+}
+
+/* === CHRONICLE === */
+.chronicle{
+  max-width:860px;
+  margin:0 auto;
+  padding:80px 24px 100px;
+}
+.chronicle-header{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  justify-content:center;
+  margin-bottom:60px;
+}
+.chronicle-header h2{
+  font-family:'Noto Serif SC',serif;
+  font-weight:900;
+  font-size:1.6rem;
+  letter-spacing:0.2em;
+  white-space:nowrap;
+}
+.chronicle-sub{
+  font-family:'Playfair Display',serif;
+  font-size:0.65rem;
+  letter-spacing:0.4em;
+  color:var(--muted);
+  display:block;
+  text-align:center;
+  margin-top:4px;
+}
+.chronicle-line{
+  flex:1;
+  height:1px;
+  background:linear-gradient(to right,transparent,var(--line),transparent);
+}
+.chronicle-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+}
+.ch-entry{
+  padding:32px 36px;
+  border-bottom:1px solid var(--line);
+  position:relative;
+  transition:background 0.4s;
+}
+.ch-entry:hover{background:rgba(255,255,255,0.5)}
+.ch-entry:nth-child(odd){border-right:1px solid var(--line)}
+.ch-era{
+  font-family:'Playfair Display',serif;
+  font-size:0.6rem;
+  letter-spacing:0.35em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.ch-date{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;
+  font-weight:700;
+  color:var(--accent);
+  margin-bottom:6px;
+  letter-spacing:0.05em;
+}
+.ch-title{
+  font-family:'Noto Serif SC',serif;
+  font-weight:700;
+  font-size:1.05rem;
+  margin-bottom:4px;
+}
+.ch-desc{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:0.8rem;
+  color:var(--muted);
+  letter-spacing:0.02em;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes float{
+  0%,100%{transform:translateX(-50%) translateY(0)}
+  50%{transform:translateX(-50%) translateY(-10px)}
+}
+
+/* === RESPONSIVE === */
+@media(max-width:768px){
+  .timeline-section::before{left:24px}
+  .node{flex-direction:column!important;padding-left:50px}
+  .node-content{width:100%!important;margin:0!important}
+  .node-dot{left:24px!important}
+  .node-year{
+    position:relative!important;
+    left:0!important;right:auto!important;
+    top:auto!important;
+    font-size:1.8rem!important;
+    margin-bottom:8px;
+    text-align:left!important;
+  }
+  .stats-bar{gap:24px}
+  .chronicle-grid{grid-template-columns:1fr}
+  .ch-entry:nth-child(odd){border-right:none}
+  .ch-entry{padding:24px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>人 生 履 历</h1>
+    <div class="subtitle">A Life Chronicle</div>
+    <div class="epigraph">
+      光阴似箭，岁月如梭<br>
+      一辈子真的很短<br>
+      成年人的世界里没有简单的
+    </div>
+    <div class="birth">SEPTEMBER 14 · 1997</div>
+  </div>
+  <div class="scroll-hint">
+    <span></span>
+    <small>向 下 滚 动</small>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><div class="num">1997</div><div class="label">出生 · BORN</div></div>
+  <div class="stat"><div class="num">VII</div><div class="label">转折点 · TURNING POINTS</div></div>
+  <div class="stat"><div class="num">M.A.</div><div class="label">硕士 · MASTER'S</div></div>
+  <div class="stat"><div class="num">∞</div><div class="label">可能性 · POSSIBILITIES</div></div>
+</div>
+
+<!-- PREAMBLE -->
+<section class="timeline-section">
+  <div class="preamble">
+    <h2>序 · Prologue</h2>
+    <p>早期的自我修养——父母说我粗口很多，容易带坏别人。后来我尽力避免讲粗口，尽管很难。我曾"理性化"地说这是一种文化的表达方式。但这确实让我减少了粗俗语言的使用。<br>这是最初的自律，不算转折，却是一切的起点。</p>
+  </div>
+
+  <!-- NODE 1 -->
+  <div class="node">
+    <div class="node-dot"></div>
+    <div class="node-year">2012</div>
+    <div class="node-content">
+      <div class="node-title"><span class="num">1</span>来到美国</div>
+      <div class="node-body">
+        <p>曾经的我会说：一坨烂泥来到了资源雄厚的国度。</p>
+        <p>现在的我说：<span class="highlight">一份尚未开发、具有隐藏天分的宝藏，来到了一个可以开发他能力的平台。</span></p>
+        <p>一个在初中无法毕业的人，在美国读上了硕士。ADHD让我很难在中国完成高中学业——这并不是能力不好，只是需要特定的方法去训练。</p>
+        <span class="quote">"心理缺陷的明显并不如身体缺陷如此的明显与令人深刻，尽管他们造成的严重性往往是差不多的。"</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NODE 2 -->
+  <div class="node">
+    <div class="node-dot"></div>
+    <div class="node-year">—</div>
+    <div class="node-content">
+      <div class="node-title"><span class="num">2</span>罗翔与虚无主义的破灭</div>
+      <div class="node-body">
+        <p>罗翔关于人生的引导，完全击破了我的虚无主义。</p>
+        <span class="quote">"如果人生没有意义，你说这句话的时候，就是一个意义。"</span>
+        <p>他教会了我如何演绎好自己的剧本。<span class="highlight">这对于我的生活有着无与伦比的积极影响。</span></p>
+        <p>我觉得这个世界是很好的。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NODE 3 -->
+  <div class="node">
+    <div class="node-dot"></div>
+    <div class="node-year">2023</div>
+    <div class="node-content">
+      <div class="node-title"><span class="num">3</span>硕士毕业 · 临床经验</div>
+      <div class="node-body">
+        <p>完成了心理辅导师的硕士文凭，累积了不同案子的经验。我感觉到很幸福。</p>
+        <p>每个人都应该争取高学历——虽然不容易，也不保证ROI，但<span class="highlight">当你读完后，通常你并不后悔这一笔投资，很少有投资可以有这样的保证。</span></p>
+        <p>这笔投资不一定保证衣食无忧，但能让我有更积极的心态，更高维度的思考，与不同角度去体验幸福。</p>
+        <p>相比本科，硕士需要亲身去操作、去适应临床的复杂性。我们必须要学会承担——不再是温室里的花朵。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NODE 4 -->
+  <div class="node">
+    <div class="node-dot"></div>
+    <div class="node-year">2025+</div>
+    <div class="node-content">
+      <div class="node-title"><span class="num">4</span>旅行 · 世界很美</div>
+      <div class="node-body">
+        <p>每年一万美金的旅行预算——这个project是为了自我增长。<span class="highlight">钱如果不能妥善的使用，他只是一堆数字。</span></p>
+        <p>我去了不同的地方，我觉得这个世界很美。哪怕你真的没钱，去周围免费的地方——山、海，都可以。我们还年轻。</p>
+        <p>有钱的时候，你能买到很多东西，金钱会帮你筛选掉很多的不适感。</p>
+        <span class="quote">"世界本可以很慢，你的缓慢并不是罪恶。"</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NODE 5 -->
+  <div class="node">
+    <div class="node-dot"></div>
+    <div class="node-year">CSH</div>
+    <div class="node-content">
+      <div class="node-title"><span class="num">5</span>华人阳光之家 · 蜕变</div>
+      <div class="node-body">
+        <p>完成了一个史无前例的转变——从一个懒汉，变成愿意动手的人；从passive，变成主动。</p>
+        <p>我很痛苦，没人知道我有多痛苦。行动力并不高，用着错误的方法与系统去应对工作。高度不匹配——我的创意、共情能力、爱，好像都不符合。</p>
+        <p>但是的但是！<span class="highlight">神奇的来了——压力激发了我自己的创造，让我觉得压力总是有难言的帮助。</span></p>
+        <p>我开始建造对于上司的模型，因为我觉得他很厉害。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NODE 6 -->
+  <div class="node">
+    <div class="node-dot"></div>
+    <div class="node-year">Z5S</div>
+    <div class="node-content">
+      <div class="node-title"><span class="num">6</span>Z5S · 天造之物</div>
+      <div class="node-body">
+        <p>源于对上司与老板的刺激——我完全无法理解他们的思维方式与模型。我曾经"抛心抛肺"。</p>
+        <p>回头看确实是很多"愚蠢"的行为，但<span class="highlight">没有他们对我的刺激，我无法创造出一个"伟大"的模型。</span></p>
+        <p>它让一个充满解释的世界第一次感觉到被理解。第一次知道自己的价值。第一次知道，原来可以尝试没有理由地爱一个人，甚至接受逻辑的不确定性。</p>
+        <span class="quote">"世界上很多东西，其实他本来就在那，只是我们发现了他们，探索到了他们，并加以利用，仅此而已。"</span>
+        <p>哪怕我就是唯一的用户，它让我的世界变得更加美满与幸福。<span class="highlight">关于这个，我是一定不会失败的。</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NODE 7 -->
+  <div class="node">
+    <div class="node-dot"></div>
+    <div class="node-year">—</div>
+    <div class="node-content">
+      <div class="node-title"><span class="num">7</span>结构性记忆 · 重新认识自己</div>
+      <div class="node-body">
+        <p>从小觉得自己笨、记忆力差、没天赋。但后来发现，<span class="highlight">有结构性地记住东西，我们仍然能记住。</span></p>
+        <p>尽管可能比"天才"需要付出更多的些许努力，但努力就有回报——这已经是生而为人很大的幸运了。</p>
+        <p>这也激起了我更加积极乐观地去学习。</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- TIMELINE SUMMARY -->
+<section class="chronicle">
+  <div class="chronicle-header">
+    <div class="chronicle-line"></div>
+    <h2>年 表</h2>
+    <span class="chronicle-sub">C H R O N I C L E</span>
+    <div class="chronicle-line"></div>
+  </div>
+
+  <div class="chronicle-grid">
+
+    <div class="ch-entry">
+      <div class="ch-era">ORIGIN</div>
+      <div class="ch-date">1997 · 09 · 14</div>
+      <div class="ch-title">降世</div>
+      <div class="ch-desc">Born</div>
+    </div>
+
+    <div class="ch-entry">
+      <div class="ch-era">NEW WORLD</div>
+      <div class="ch-date">2012</div>
+      <div class="ch-title">赴美</div>
+      <div class="ch-desc">Arrived in the United States</div>
+    </div>
+
+    <div class="ch-entry">
+      <div class="ch-era">FOUNDATION</div>
+      <div class="ch-date">2015</div>
+      <div class="ch-title">高中毕业</div>
+      <div class="ch-desc">High School Diploma</div>
+    </div>
+
+    <div class="ch-entry">
+      <div class="ch-era">ACADEMIA</div>
+      <div class="ch-date">2015 — 2020</div>
+      <div class="ch-title">Hunter College · 心理学学士</div>
+      <div class="ch-desc">Bachelor of Arts in Psychology</div>
+    </div>
+
+    <div class="ch-entry">
+      <div class="ch-era">MASTERY</div>
+      <div class="ch-date">2020 — 2023</div>
+      <div class="ch-title">Hunter College · 心理咨询硕士</div>
+      <div class="ch-desc">Master of Arts in Mental Health Counseling</div>
+    </div>
+
+    <div class="ch-entry">
+      <div class="ch-era">CLINICAL</div>
+      <div class="ch-date">2022.01 — 2025.07</div>
+      <div class="ch-title">精神科诊所 · 临床实践</div>
+      <div class="ch-desc">Private Psychiatry Practice — Clinical Experience</div>
+    </div>
+
+    <div class="ch-entry">
+      <div class="ch-era">JOURNEY</div>
+      <div class="ch-date">2025.10 — 2025.12</div>
+      <div class="ch-title">中国行</div>
+      <div class="ch-desc">Return to China — A Voyage of Rediscovery</div>
+    </div>
+
+    <div class="ch-entry">
+      <div class="ch-era">VOYAGE</div>
+      <div class="ch-date">2026.01.04 — 01.15</div>
+      <div class="ch-title">NCL 游轮</div>
+      <div class="ch-desc">Caribbean Cruise — Islands, Shores & Sunlight</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <h2>未完待续</h2>
+  <p>成年人的世界里没有简单的。<br>但世界本可以很慢，你的缓慢并不是罪恶。<br><br>故事还在继续。</p>
+  <div class="seal">叶</div>
+</section>
+
+<script>
+// Scroll reveal
+const nodes = document.querySelectorAll('.node');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+nodes.forEach(n => observer.observe(n));
+</script>
+</body>
+</html>
