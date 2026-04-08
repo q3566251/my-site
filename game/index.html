@@ -254,13 +254,15 @@ window.doCreate = async()=>{
   // Auto-delete old rooms (>2hrs)
   cleanup();
   window.closeCreate();
+_navigating=true;
   location.href=`${PAGES[CG]}?room=${id}&seat=0&name=${encodeURIComponent(name)}`;
 };
 
 window.doJoin = async(id,game,hc)=>{
   // Rejoin own room
   if(id===myRoomId){
-    location.href=`${PAGES[game]}?room=${id}&seat=${mySeat}&name=${encodeURIComponent(myName)}`;
+  _navigating=true;
+  location.href=`${PAGES[game]}?room=${id}&seat=${mySeat}&name=${encodeURIComponent(myName)}`;
     return;
   }
   // Check room still open
@@ -288,6 +290,7 @@ window.confirmJoin=async()=>{
   sessionStorage.setItem('myName',name);
   // Mark room as started so no one else can join
   await update(ref(db,`rooms/${_joinId}`),{p1:{name,seat:1},state:'started'});
+_navigating=true;
   location.href=`${PAGES[_joinGame]}?room=${_joinId}&seat=1&name=${encodeURIComponent(name)}`;
 };
 
@@ -301,7 +304,9 @@ async function cleanup(){
   });
 }
 cleanup();
+let _navigating=false;
 window.addEventListener('beforeunload',()=>{
+  if(_navigating)return;
   if(myRoomId){
     get(ref(db,`rooms/${myRoomId}`)).then(snap=>{
       if(snap.exists()&&snap.val().state==='waiting')
