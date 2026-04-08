@@ -70,7 +70,7 @@ body{background:#f2f4f7;font-family:'Nunito',system-ui,sans-serif;min-height:100
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-const app=initializeApp({apiKey:"AIzaSyA6bEgCKXGrDA1c1lcsUT_JyK4cUXorTL0",authDomain:"chess-361a6.firebaseapp.com",databaseURL:"https://chess-361a6-default-rtdb.firebaseio.com",projectId:"chess-361a6",storageBucket:"chess-361a6.firebasestorage.app",messagingSenderId:"508387564049",appId:"1:508387564049:web:673daab5203d2bbb46afb0"});
+const app=initializeApp({apiKey:"AIzaSyBOXbDmr63jmpzkE9n2l219Gzm-7EEAGXc",authDomain:"chess-fbf5e.firebaseapp.com",databaseURL:"https://chess-fbf5e-default-rtdb.firebaseio.com",projectId:"chess-fbf5e",storageBucket:"chess-fbf5e.firebasestorage.app",messagingSenderId:"745745076663",appId:"1:745745076663:web:7ab63fd505ff109535d832"});
 const db=getDatabase(app);
 const Q=new URLSearchParams(location.search);
 const roomId=Q.get('room')||'',seat=+Q.get('seat'),myName=decodeURIComponent(Q.get('name')||'玩家'+(seat+1));
