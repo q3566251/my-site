@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Z5S 人格结构图鉴</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;background:#f5f4f0;min-height:100vh;color:#1a1a1a}
+.wrap{max-width:720px;margin:0 auto;padding:2rem 1.25rem}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#faf7f2,#f0e9dc);border:1px solid #e8e0d4;border-radius:16px;padding:2.75rem 2rem 2.25rem;text-align:center;margin-bottom:2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(127,119,221,.12),transparent 60%)}
+.hero-inner{position:relative;z-index:1}
+.hero .sub{font-size:11px;color:rgba(0,0,0,.32);font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.75rem}
+.hero h1{font-size:27px;font-weight:800;color:#1a1a1a;margin-bottom:.75rem;letter-spacing:-.4px;line-height:1.2}
+.hero-vp{font-size:15px;color:rgba(0,0,0,.6);line-height:1.7;max-width:420px;margin:0 auto .2rem}
+.hero-vp strong{color:#1a1a1a;font-weight:700}
+.hero-sub{font-size:13px;color:rgba(0,0,0,.38);line-height:1.55;margin-top:.4rem}
+.hero-count{display:inline-flex;gap:1.5rem;margin-top:1.4rem;padding:.65rem 1.5rem;background:rgba(255,255,255,.65);border:1px solid rgba(0,0,0,.08);border-radius:30px}
+.hero-count-item{font-size:12px;color:#555}
+.hero-count-item strong{font-size:18px;font-weight:800;color:#534AB7;display:block;line-height:1}
+
+/* SYS LEGEND */
+.sys-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
+.sys-tag{display:inline-flex;align-items:center;gap:6px;padding:.35rem .85rem;border-radius:20px;font-size:12px;font-weight:700}
+
+/* FILTER TABS */
+.tabs{display:flex;gap:8px;margin-bottom:1.75rem;background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:5px}
+.tab{flex:1;text-align:center;padding:.6rem .5rem;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:#888;transition:all .18s;border:none;background:transparent;font-family:inherit}
+.tab.active{background:#534AB7;color:#fff}
+.tab:hover:not(.active){background:#f0eefc;color:#534AB7}
+
+/* SECTION HEADER */
+.section-head{margin-bottom:1.25rem;padding-bottom:.85rem;border-bottom:1.5px solid #e8e6e0}
+.section-head .sh-label{font-size:10.5px;font-weight:700;color:#aaa;letter-spacing:.09em;text-transform:uppercase;margin-bottom:.3rem}
+.section-head h2{font-size:18px;font-weight:800;color:#1a1a1a}
+.section-head p{font-size:13px;color:#888;margin-top:.25rem;line-height:1.5}
+
+/* CARD GRID */
+.card-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:2rem}
+
+/* STRUCT CARD */
+.struct-card{background:#fff;border:1px solid #e8e6e0;border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:box-shadow .18s}
+.struct-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.card-top{padding:1.1rem 1.4rem .9rem;position:relative}
+.card-sys-strip{display:flex;gap:6px;margin-bottom:.7rem}
+.sys-chip{font-size:10px;font-weight:700;padding:3px 9px;border-radius:5px;letter-spacing:.04em}
+.card-main{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:.8rem}
+.card-zh{font-size:21px;font-weight:800;letter-spacing:-.2px;line-height:1}
+.card-en{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;margin-top:.3rem;opacity:.5}
+.card-person{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.person-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid rgba(0,0,0,.06)}
+.person-name{font-size:11px;font-weight:700;color:#555;text-align:right;line-height:1.3}
+.person-name span{font-size:10px;font-weight:400;color:#aaa;display:block}
+.traits-row{display:flex;flex-wrap:wrap;gap:6px}
+.trait-tag{font-size:11.5px;padding:.3rem .75rem;border-radius:6px;font-weight:600}
+
+/* EXPAND BUTTON */
+.expand-btn{width:100%;background:none;border:none;border-top:1px solid #f0eeea;padding:.6rem 1.4rem;font-size:12px;font-weight:600;color:#999;cursor:pointer;text-align:left;font-family:inherit;display:flex;align-items:center;justify-content:space-between;transition:background .15s;letter-spacing:.02em}
+.expand-btn:hover{background:#fafaf8;color:#534AB7}
+.struct-card.open .expand-btn{color:#534AB7;background:#fafaf8}
+.expand-arrow{transition:transform .22s}
+.struct-card.open .expand-arrow{transform:rotate(180deg)}
+
+/* CARD BODY — hidden by default */
+.card-body{display:none;padding:1.1rem 1.4rem 0}
+.struct-card.open .card-body{display:block}
+
+.card-why{font-size:12.5px;line-height:1.75;color:#555;margin-bottom:.9rem;padding:.75rem 1rem;background:#f9f8f6;border-radius:8px;border-left:3px solid #534AB7}
+.card-why-label{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#534AB7;margin-bottom:.35rem}
+.card-2p{font-size:12.5px;line-height:1.65;color:#444;font-style:italic;margin-bottom:.9rem;padding:.6rem .9rem;border-radius:8px;background:#f5f3ff;border-left:3px solid #a89ee8}
+
+/* DARK SIDE */
+.card-dark{font-size:12.5px;line-height:1.65;color:#7a3030;padding:.7rem .95rem;border-radius:8px;border:1px solid #f0e0e0;background:#fff8f7;margin-bottom:.85rem}
+.card-dark-label{font-size:9.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#c03820;margin-bottom:.3rem}
+
+.card-note{font-size:12.5px;line-height:1.65;color:#666;padding:.7rem .95rem;border-radius:8px;border:1px solid #e8e6e0;background:#fafaf8;margin-bottom:.9rem}
+.card-note-label{font-size:9.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#aaa;margin-bottom:.3rem}
+
+/* CTA */
+.card-cta-wrap{padding:.85rem 0 1.1rem;border-top:1px solid #f0eeea}
+.card-cta{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#534AB7;text-decoration:none;padding:.5rem .9rem;border:1.5px solid #534AB7;border-radius:8px;transition:all .15s;cursor:pointer;background:none;font-family:inherit}
+.card-cta:hover{background:#534AB7;color:#fff}
+
+.card-fail-preview{margin-top:.7rem;font-size:12px;line-height:1.6;color:#8a2e10;display:flex;gap:7px;align-items:flex-start;padding:.55rem .8rem;background:#fff5f3;border-radius:8px;border-left:2.5px solid #c84020}
+.fail-icon{flex-shrink:0;font-size:11px;margin-top:1px;opacity:.7}
+
+.sys-filter{background:#fff;border:1px solid #e8e6e0;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.sf-label{font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:1rem;letter-spacing:.01em}
+.sf-row{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.sf-col{flex:1;min-width:200px}
+.sf-sublabel{font-size:10px;font-weight:700;color:#aaa;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.55rem}
+.sf-chips{display:flex;flex-wrap:wrap;gap:7px}
+.sf-chip{background:#f9f8f6;border:1.5px solid #e8e6e0;border-radius:8px;padding:.45rem .9rem;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;color:#555;transition:all .15s}
+.sf-chip:hover{border-color:#534AB7;color:#534AB7;background:#f0eefc}
+.sf-chip.active{border-color:#534AB7;background:#534AB7;color:#fff}
+.sf-div{font-size:18px;color:#ccc;padding-top:1.6rem;flex-shrink:0}
+.sf-result{margin-top:.9rem;padding:.6rem 1rem;background:#f0eefc;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+#sfResultText{font-size:12.5px;font-weight:600;color:#534AB7}
+.sf-clear{font-size:11px;color:#888;background:none;border:none;cursor:pointer;font-family:inherit;padding:0}
+.sf-clear:hover{color:#c03820}
+.struct-card.sf-hidden{display:none}
+
+@media(max-width:480px){
+  .wrap{padding:1rem .9rem}
+  .hero h1{font-size:22px}
+  .hero-vp{font-size:14px}
+  .tabs{gap:4px}
+  .tab{font-size:12px;padding:.55rem .35rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="sub">Z5S Personality Structures · 人格结构图鉴</div>
+      <h1>你的反应模式不是性格<br>是结构</h1>
+      <div class="hero-vp"><strong>结构可以被看见——看见了，就可以改。</strong><br>你在压力下的自动反应、你在关系里反复走进的死角、你每次做决定时的内耗，都有一个可预测的结构源头。</div>
+      <div class="hero-sub">Z5S 用五个系统描述这个结构 · 30种组合对应30种卡点 · 每种都有系统性失灵的时刻</div>
+      <div class="hero-count">
+        <div class="hero-count-item"><strong>5</strong>单系统主导</div>
+        <div class="hero-count-item"><strong>20</strong>双系统组合</div>
+        <div class="hero-count-item"><strong>5</strong>极端单核</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SYS LEGEND -->
+  <div class="sys-legend">
+    <span class="sys-tag" style="background:#eef6e6;color:#2a5a14">🔍 A · 解释系统</span>
+    <span class="sys-tag" style="background:#e4eef8;color:#144080">⚡ B · 执行系统</span>
+    <span class="sys-tag" style="background:#fdf0dc;color:#8a4e08">💛 C · 情感系统</span>
+    <span class="sys-tag" style="background:#eeebfc;color:#4a34a0">🪞 D · 认同系统</span>
+    <span class="sys-tag" style="background:#fce8e4;color:#902010">🎮 E · 游戏系统</span>
+  </div>
+
+  <!-- 系统筛选器 -->
+  <div class="sys-filter" id="sysFilter">
+    <div class="sf-label">选你的操作系统，找你的卡点</div>
+    <div class="sf-row">
+      <div class="sf-col">
+        <div class="sf-sublabel">第一系统（主导）</div>
+        <div class="sf-chips" id="chips1">
+          <button class="sf-chip" data-sys="A" onclick="pickSys(1,'A',this)">🔍 解释</button>
+          <button class="sf-chip" data-sys="B" onclick="pickSys(1,'B',this)">⚡ 执行</button>
+          <button class="sf-chip" data-sys="C" onclick="pickSys(1,'C',this)">💛 情感</button>
+          <button class="sf-chip" data-sys="D" onclick="pickSys(1,'D',this)">🪞 认同</button>
+          <button class="sf-chip" data-sys="E" onclick="pickSys(1,'E',this)">🎮 游戏</button>
+        </div>
+      </div>
+      <div class="sf-div">＋</div>
+      <div class="sf-col">
+        <div class="sf-sublabel">第二系统（选填）</div>
+        <div class="sf-chips" id="chips2">
+          <button class="sf-chip" data-sys="A" onclick="pickSys(2,'A',this)">🔍 解释</button>
+          <button class="sf-chip" data-sys="B" onclick="pickSys(2,'B',this)">⚡ 执行</button>
+          <button class="sf-chip" data-sys="C" onclick="pickSys(2,'C',this)">💛 情感</button>
+          <button class="sf-chip" data-sys="D" onclick="pickSys(2,'D',this)">🪞 认同</button>
+          <button class="sf-chip" data-sys="E" onclick="pickSys(2,'E',this)">🎮 游戏</button>
+        </div>
+      </div>
+    </div>
+    <div class="sf-result" id="sfResult" style="display:none">
+      <span id="sfResultText"></span>
+      <button class="sf-clear" onclick="clearFilter()">清除筛选 ×</button>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="filterCat('all',this)">全部 30 种卡点</button>
+    <button class="tab" onclick="filterCat('single',this)">当一个系统独占全局</button>
+    <button class="tab" onclick="filterCat('double',this)">两个系统搭档时</button>
+    <button class="tab" onclick="filterCat('extreme',this)">极端单核</button>
+  </div>
+
+  <!-- ═══ 单系统主导 ═══ -->
+  <div class="cat-single">
+    <div class="section-head">
+      <div class="sh-label">Pattern 01 · 单系统主导</div>
+      <h2>当一个系统占据全部空间</h2>
+      <p>这类结构的卡点高度可预测——强势系统的盲区，就是它从不质疑自己的必要性</p>
+    </div>
+    <div class="card-grid">
+
+      <!-- 1 拆局者 · A 解释系统 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:#eef6e6">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#2a5a14;color:#fff">🔍 解释系统</span></div>
+          <div class="card-main">
+            <div><div class="card-zh" style="color:#1a1a1a">拆局者</div><div class="card-en" style="color:#2a5a14">The Deconstructor</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d4eccc">🧠</div><div class="person-name">查理·芒格<span>Charlie Munger</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">别人在聊天，你在建模</span>
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">没搞清楚之前不会动</span>
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">满足感来自「想明白了」</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why">
+            <div class="card-why-label">你是这样的人</div>
+            你走进一个会议室，别人在讨论方案，你在脑子里同时做三件事：这个方案的逻辑链是什么，哪个环节最脆弱，如果这个环节断了会发生什么。
+
+你不是故意这样的。这是你的默认模式。别人看到一个问题，第一反应是感受或行动。你的第一反应是拆——把问题的结构看清楚。你需要先理解，才能参与。
+
+你是那种朋友圈里大家遇到复杂事情会来找的人。不是因为你给的建议最好，是因为你能帮他们把一团乱的东西理清楚。你说完之后，他们通常会说：「对，就是这样，我之前一直说不清楚。」
+
+你喜欢独处。不是不喜欢人，是你需要安静的空间来完成你脑子里的那些拆解。噪音对你来说不是声音大不大的问题，是它会打断你正在进行的某个思考过程。
+
+你对「想明白了」有一种近乎生理性的满足感。那个瞬间——所有的线索对上了，因果关系闭合了——比任何外在奖励都真实。
+          </div>
+          <div class="card-2p">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2a5a14;margin-bottom:.35rem">结构优势与独有能力</div>
+            你能看见别人看不见的因果链。在其他人还在讨论表面现象的时候，你已经在三层以下找到了真正的原因。
+
+这不只是聪明。很多人聪明但看不到结构。你的解释系统天然就在做一件事：把复杂的东西还原成它的组成部分，然后看它们怎么互相影响。这个能力在需要诊断、分析、策略的场景里，几乎是不可替代的。
+
+你给出的判断通常经得住追问。因为你说一句话之前，已经自己追问过好几轮了。
+          </div>
+          <div class="card-dark">
+            <div class="card-dark-label">这个结构会在哪里卡住</div>
+            你的问题不是想得不够——是想得停不下来。
+
+一个决定，逻辑上已经很清楚了。但你的脑子还在转：还有没有我没考虑到的变量？这个因果链会不会在某个我没看到的地方断掉？你告诉自己这是严谨，但有时候你心里知道，你不是在分析，你是在用分析来推迟行动。
+
+更隐蔽的问题是：你把所有东西都变成了需要理解的对象。包括不需要被理解的东西。你的朋友跟你说他很难过，你的第一反应是帮他分析为什么难过。你觉得这是帮忙。他觉得你没听他说话。
+          </div>
+          <div class="card-note">
+            <div class="card-note-label">在关系里的失灵方式</div>
+            你在关系里最常见的问题是：你用解释代替了在场。
+
+你的伴侣跟你吵架。他在表达情绪，你在分析这次冲突的结构。你甚至可能说出「你生气的真正原因不是这个」——你可能是对的，但这句话在那个时刻是最错的话。
+
+另一种失灵：你把亲近的人也当成需要被理解的系统。你会在脑子里给他们建模——他为什么这样做，他的动机结构是什么。你觉得这是关心。但当一个人发现你在「分析」他而不是「跟」他在一起，他会觉得自己是你的研究对象，不是你的人。
+
+还有一种：你在社交场合沉默。不是因为你没话说，是因为你觉得别人在说的东西缺乏结构，你参与不进去。别人读到的是冷漠。你体验到的是无聊。两边都是真的。
+          </div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- 2 推进者 · B 执行系统 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:#e4eef8">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#144080;color:#fff">⚡ 执行系统</span></div>
+          <div class="card-main">
+            <div><div class="card-zh" style="color:#1a1a1a">推进者</div><div class="card-en" style="color:#144080">The Driver</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#cce0f5">🚀</div><div class="person-name">埃隆·马斯克<span>Elon Musk</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">会议还没结束你已经在做了</span>
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">停下来比失败更难受</span>
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">满足感来自「搞定了」</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why">
+            <div class="card-why-label">你是这样的人</div>
+            你是那个别人还在讨论「要不要做」的时候，你已经开始做了的人。不是冲动——是你天然觉得：做一次比想十次更有用。
+
+你对停滞有一种近乎生理性的不适。等待、拖延、无所事事——这些状态让你焦虑，甚至烦躁。你需要感觉到事情在推进，哪怕方向还不完全确定，先动起来再调整。
+
+你的精力让身边的人惊讶。你可以同时推好几件事，每件都有进展。别人问你怎么做到的，你说不上来——你只是觉得不做更累。
+
+你在团队里通常是那个把事情从「讨论阶段」推到「执行阶段」的人。你的存在让项目有了截止日期、有了第一步、有了进展。没有你，很多事情会停在白板上。
+
+你衡量一天好不好的标准很简单：今天做成了什么。如果答案是「什么也没做成」，你会觉得这一天浪费了，哪怕你其实休息了、思考了、感受了。
+          </div>
+          <div class="card-2p">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#144080;margin-bottom:.35rem">结构优势与独有能力</div>
+            你能把想法变成现实。这听起来简单，但大部分人做不到。他们有好的想法，有清晰的分析，但在「开始做」这一步上卡住了。你不会。
+
+你的执行系统是天然的启动器。别人需要等条件齐备，你在条件不齐备的时候就开始了，然后在做的过程中把条件补上。这种能力在创业、危机处理、任何需要「先动再说」的场景里，是最稀缺的资源。
+
+你还有一种别人没有的韧性：你在被拒绝、碰壁、失败之后，恢复行动的速度比大多数人快得多。不是因为你不难受，是因为停下来比难受更让你受不了。
+          </div>
+          <div class="card-dark">
+            <div class="card-dark-label">这个结构会在哪里卡住</div>
+            你的问题不是做得不够——是做的时候不一定在想该不该做。
+
+你可以在错误的方向上极度高效。你推了三个月，回头看，方向从一开始就不对。但你在过程中没有停下来检查过，因为停下来对你来说不是「反思」，是「没在推进」。
+
+还有一种更隐蔽的卡点：你用行动来回避感受。工作忙得停不下来，不一定是因为事情真的那么多——有时候是因为一旦停下来，你得面对一些你不想面对的东西。忙碌变成了一面墙，挡住了你不想看见的自己。
+
+你最危险的时刻不是做错了——是你明明已经感觉到不对了，但因为「已经开始了」所以继续推。沉没成本对推进者来说特别致命，因为你的整个系统都在告诉你：继续。
+          </div>
+          <div class="card-note">
+            <div class="card-note-label">在关系里的失灵方式</div>
+            你在关系里最常做的一件事是：把问题变成任务。
+
+你的伴侣说「我最近不开心」，你的第一反应是「我们能做什么」。你开始列方案：换个环境？去旅行？谈一谈？你觉得你在解决问题。他觉得你在回避问题——因为他要的不是方案，是你停下来，看着他，说「我知道了」。
+
+你在关系冲突里的模式也很典型：你想快速解决。你受不了一个问题悬在那里不处理。但有些关系问题不需要解决，需要被待在里面。你的系统不允许你待着——它需要你动，哪怕这个动作是多余的。
+
+还有一种失灵：你的节奏让身边的人跟不上。你已经在下一步了，他们还在上一步。你觉得他们慢，他们觉得你不等人。不是你不在乎——是你的系统速度和他们的不匹配，而你通常不会是那个减速的人。
+          </div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- 3 共感者 · C 情感系统 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:#fdf0dc">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#8a4e08;color:#fff">💛 情感系统</span></div>
+          <div class="card-main">
+            <div><div class="card-zh" style="color:#1a1a1a">共感者</div><div class="card-en" style="color:#8a4e08">The Empath</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#fce8c0">💫</div><div class="person-name">奥普拉·温弗瑞<span>Oprah Winfrey</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">走进房间就知道气氛对不对</span>
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">别人的情绪你都能接住</span>
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">满足感来自「被理解」和「理解别人」</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why">
+            <div class="card-why-label">你是这样的人</div>
+            你走进一个房间，还没有人开口，你已经知道今天的气氛怎么样了。谁不开心，谁在装没事，谁跟谁之间有什么——你不需要证据，你就是知道。
+
+这不是你学来的技能。这是你的默认设置。你的情感系统是全开的，像一根永远竖着的天线。别人的情绪进来不需要翻译，你直接就感受到了。
+
+你是那种朋友圈里大家遇到心事会找的人。不是因为你能帮他们解决问题，是因为跟你说完之后，他们觉得自己被听见了。你不一定说了什么特别的话，但你在那里这件事本身就够了。
+
+你对关系的变化极其敏感。一条消息的语气变了，你就开始想是不是哪里不对。别人觉得你多想了，但你的感知通常是对的——你只是比他们更早发现了变化。
+
+你需要连接。独处太久你会空，不是无聊那种空，是情感层面的匮乏。你通过跟人的连接来确认自己的存在。
+          </div>
+          <div class="card-2p">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#8a4e08;margin-bottom:.35rem">结构优势与独有能力</div>
+            你能读懂别人没有说出来的东西。在所有人只看到表面的时候，你已经感受到了底下在发生什么。
+
+这个能力在需要信任、需要连接、需要让人打开心扉的场景里，是无可替代的。治疗师、教师、领导者、调解者——任何需要「让人觉得安全」的角色，你天然比别人做得好。
+
+你还有一种别人不一定有的能力：你能让一个原本紧张的空间变得柔软。你在场，人们就更容易说真话。不是因为你做了什么，是因为你的存在本身传递了一个信号：在这里，你的感受是安全的。
+          </div>
+          <div class="card-dark">
+            <div class="card-dark-label">这个结构会在哪里卡住</div>
+            你的天线没有关闭按钮。
+
+别人的情绪进来了，你接住了，但你经常分不清哪些是别人的、哪些是自己的。你的朋友跟你倾诉完，他好了，你累了。你吸收了他的重量，但没有人来接你的。
+
+还有一种卡点：你的决策太容易被情绪影响。不是说情绪不重要——是当你做一个需要逻辑的决定时，你的情感系统会先启动，你做出的选择可能是让所有人都舒服的那个，但不是最对的那个。你会为了不伤害关系而妥协自己真正想要的东西。
+
+更深层的问题是：你的存在感来自被需要。当没有人需要你的时候，你不知道自己是谁。帮所有人感受完了，回到家，房间安静下来，你发现：你是空的。
+          </div>
+          <div class="card-note">
+            <div class="card-note-label">在关系里的失灵方式</div>
+            你在关系里最常见的问题是：你给太多了。
+
+你会在对方还没有开口之前就感知到他需要什么，然后你去满足了。一次两次是贴心，长期下来，对方不再告诉你他需要什么——因为你已经替他感知完了。关系变成了一条单向的河：你永远在给，他永远在收，但你们之间少了一个东西，叫做「他主动来找你」。
+
+另一种失灵：你不会表达自己的需求。你太习惯接收别人的情绪了，以至于你自己的情绪变得模糊。有人问你「你怎么样」，你说不上来。不是不想说——是你真的不太确定自己的感受是什么，因为你一直在处理别人的。
+
+还有一种：你害怕冲突。不是因为你怕吵架，是因为冲突里的情绪强度对你来说太大了。你的天线会被冲突淹没。所以你回避，你退让，你妥协——不是因为你同意，是因为你承受不了那个情绪的重量。
+          </div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- 4 守界者 · D 认同系统 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:#eeebfc">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#4a34a0;color:#fff">🪞 认同系统</span></div>
+          <div class="card-main">
+            <div><div class="card-zh" style="color:#1a1a1a">守界者</div><div class="card-en" style="color:#4a34a0">The Principled</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#ddd6f5">🌟</div><div class="person-name">玛拉拉·优素福扎伊<span>Malala Yousafzai</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">心里有一条线，过不去就是过不去</span>
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">做对的事比做成的事更重要</span>
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">满足感来自「我没有违背自己」</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why">
+            <div class="card-why-label">你是这样的人</div>
+            你是那个在所有人都妥协的时候，还坐在那里的人。不是因为你不合群，不是因为你想对抗——是因为你心里有一条线，那条线对你来说是真实的，你过不去。
+
+你做事有一套自己的标准。这套标准不是别人给你的规则，是你自己长出来的。你可能说不清楚它是从哪里来的，但你非常清楚它在哪里。当有人试图让你越过那条线，你的反应不是思考利弊——是身体层面的不行。
+
+你在乎公平。你看到不公平的事情会有反应，不是那种「想想就算了」的反应，是真的会坐立不安。你可能不总是站出来，但你心里一定在翻。
+
+你对自己的承诺比对别人的更认真。你答应自己的事情，比答应别人的更难食言。你评判自己的标准，比评判任何人都严格。
+
+你不需要外在的奖励来确认自己做得对。你心里有一面镜子，你每天都在照。你知道自己有没有做对的事。
+          </div>
+          <div class="card-2p">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#4a34a0;margin-bottom:.35rem">结构优势与独有能力</div>
+            你在压力下保持形状的能力，比大多数人强得多。
+
+当外部环境变了，当所有人都开始改主意，当妥协变成「正常」——你还站在那里。这不是固执，是你内在有一根不会弯的东西。这根东西在危机时刻是最稀缺的资源：当所有人都在问「我们该怎么办」的时候，你知道「什么是不能做的」。
+
+你还有一种别人不容易学会的能力：你让身边的人觉得安全。不是因为你保护他们，是因为你的可预测性——他们知道你是谁，知道你会做什么，知道你不会突然变成另一个人。这种稳定感在关系和团队里是锚。
+          </div>
+          <div class="card-dark">
+            <div class="card-dark-label">这个结构会在哪里卡住</div>
+            你的原则有时候会变成围墙。
+
+你知道自己是谁，知道什么是对的。这在大事上让你站得住。但在小事上，你会发现自己也在坚持——不是因为这件小事真的重要，是因为你的系统不会自动区分「这条线值不值得守」。
+
+你对自己太严了。你给自己定的标准很高，当你没有达到自己的标准，你不是觉得「下次改」——你觉得自己有问题。你的内在批评者比任何外部批评都狠。
+
+还有一个更隐蔽的卡点：你对变化的适应比别人慢。不是因为你能力不够，是因为每一次变化都需要通过你的认同系统的审核——「这个新的方向，跟我是谁矛盾吗？」审核通过才能动。别人已经适应了新环境，你还在审核。
+          </div>
+          <div class="card-note">
+            <div class="card-note-label">在关系里的失灵方式</div>
+            你在关系里最常出现的问题是：你在无意中让身边的人觉得自己不够好。
+
+你有标准。你对自己有标准，对别人也有标准。你可能没有说出来，但你的表情、你的沉默、你选择不评论的时刻——都在传递一个信号。你身边的人能感受到：他们在被衡量。
+
+你的伴侣做了一个你觉得不对的决定。你没说什么。但他读到了。你的沉默比批评更重，因为他知道你在判断，但他不知道判断的结果是什么。
+
+另一种失灵：你很难接受别人跟你的价值观不同。不是说你不容忍——你在理智上知道每个人不一样。但在情感上，当你亲近的人做了一件你觉得「不对」的事，你的系统会产生一种摩擦感，像齿轮卡住了。你不一定会说出来，但你们之间会出现一种看不见的距离。
+
+还有一种：你不容易原谅——不是别人，是你自己。你做了一件违背自己标准的事，其他人可能几天就过去了。你会带着那件事很久，反复照那面镜子，反复确认：那个做了那件事的人，还是我吗？
+          </div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- 5 探索者 · E 游戏系统 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:#fce8e4">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#902010;color:#fff">🎮 游戏系统</span></div>
+          <div class="card-main">
+            <div><div class="card-zh" style="color:#1a1a1a">探索者</div><div class="card-en" style="color:#902010">The Explorer</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f5d0c8">🎲</div><div class="person-name">理查德·费曼<span>Richard Feynman</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">抽屉里有五个没做完的项目</span>
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">一旦变熟悉就想换</span>
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">满足感来自「发现了新东西」</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why">
+            <div class="card-why-label">你是这样的人</div>
+            你是那个永远在发现新东西的人。一个新的想法、一个新的领域、一种新的可能性——你的眼睛会亮起来，你的精力会突然充沛，你会立刻开始研究、尝试、玩。
+
+你的书架上有十本不同领域的书，每本都看了一半。你的手机里有二十个不同类型的app。你的浏览器永远开着几十个tab。不是你不专注——是你的系统需要新鲜感，就像需要氧气一样。
+
+别人觉得你兴趣广泛。你知道真相是：你对重复有一种生理性的抗拒。一件事一旦变得可预测，它就开始在你心里死去。不是它变坏了——是那个让你兴奋的部分消失了。
+
+你在社交场合通常是最有趣的那个人。你知道很多奇怪的东西，你能把完全不相关的话题连在一起，你让身边的人觉得世界比他们以为的更有意思。
+
+你对规则有天然的质疑。不是为了反叛——是你会自动想：这个规则是必须的吗？如果不是，那还有什么别的玩法？
+          </div>
+          <div class="card-2p">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#902010;margin-bottom:.35rem">结构优势与独有能力</div>
+            你能在任何地方找到乐趣和可能性。在别人看到一堵墙的时候，你看到的是一个没有被试过的角度。
+
+这个能力在创新、创业、创意工作里是核心竞争力。你天然就在做别人需要刻意练习才能做到的事情：跳出框架、换个角度、试一试没有人试过的东西。
+
+你还有一种别人不容易复制的社交能力：你让人放松。你的游戏性让严肃的场合变得轻松，让紧张的人卸下防备。你不用刻意去做——你在，空气就不一样了。
+          </div>
+          <div class="card-dark">
+            <div class="card-dark-label">这个结构会在哪里卡住</div>
+            你的问题不是开始——是结束。
+
+你有五个项目，每个都很兴奋地开始了，每个都在新鲜感消退之后停在了那里。你跟自己说「之后会回来做完的」，但你知道你大概率不会。因为那个时候会有一个新的东西出现。
+
+你的卡点不是懒，也不是能力不够。是你的系统给「新的东西」的奖赏太高了，给「坚持做完」的奖赏太低了。所以你的人生有很多精彩的开头，但完整的作品比你应该有的少。
+
+更隐蔽的问题是：你有时候用探索来回避深耕。深耕意味着你得在同一个地方待很久，意味着重复，意味着面对你在这个领域的真实水平。探索让你永远待在「初学者的兴奋」里，永远不用面对「成为专家」需要的那种无聊。
+          </div>
+          <div class="card-note">
+            <div class="card-note-label">在关系里的失灵方式</div>
+            你在关系里最常见的问题是：你的节奏让需要稳定的人不安。
+
+你的伴侣需要可预测性——知道你明天会在哪里，知道你们的方向是什么。你给不了。不是你不想——是你自己也不确定。你对未来的想象每隔几个月就会变一次，对你来说这是「成长」，对他来说这是「我不知道跟你在一起会去哪里」。
+
+另一种失灵：你对关系也会有「新鲜感消退」的问题。恋爱初期你全情投入，那种探索另一个人的兴奋感让你着迷。当这种感觉变淡了——不是感情变了，是新鲜感的部分没了——你会开始坐立不安。你不一定会离开，但你心里有一个声音在说：然后呢？
+
+还有一种：你对承诺有一种微妙的抗拒。不是你不在乎——是承诺意味着关掉其他可能性，而你的系统最怕的就是这件事。你会拖延做决定、避免定下来、保持「灵活」——但你的灵活，在对方看来是你没有全进来。
+          </div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ 双系统组合 ═══ -->
+  <div class="cat-double">
+    <div class="section-head">
+      <div class="sh-label">Pattern 02 · 双系统核心组合</div>
+      <h2>两个系统搭档时产生的卡点</h2>
+      <p>搭档产生力量，也产生盲区——两个系统互相加强时，它们共同忽略的东西会系统性缺席</p>
+    </div>
+    <div class="card-grid">
+
+      <!-- A+B 策略家 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#eef6e6,#e4eef8)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#2a5a14;color:#fff">🔍 解释</span><span class="sys-chip" style="background:#144080;color:#fff">⚡ 执行</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">策略家</div><div class="card-en" style="color:#444">Strategist · A + B</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d0e8d4">📦</div><div class="person-name">杰夫·贝佐斯<span>Jeff Bezos</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">一边分析一边已经在推了</span>
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">想法到结果的距离比别人短</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">高效得让人害怕</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你是会议室里同时在做两件事的人：一边在听别人说什么，一边在脑子里建模——这个方案的逻辑链是什么，哪个环节最脆弱，下一步应该推什么。别人还在讨论要不要做，你已经在想怎么做了。
+
+你看问题的方式是先拆解结构（解释系统），然后立刻转化成行动方案（执行系统）。这两个步骤在你身上几乎是同时发生的。你不会分析完了放在那里——你分析是为了推进，推进是基于分析。
+
+你在团队里通常是那个把混乱变成秩序的人。别人带着一堆问题来，你能很快看到优先级，然后给出一个可执行的方向。
+
+你对效率有天然的追求。没有方向的慢才让你不耐烦。如果慢是为了看清楚，你可以接受。如果慢是因为没人做决定，你会受不了。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#1a6040;margin-bottom:.35rem">结构优势与独有能力</div>你是最能把「想法变成结果」的组合。解释系统让你看清楚，执行系统让你动起来——两个系统互相加速。
+
+纯分析的人看得清但不动。纯执行的人动得快但方向可能错。你两个都有。你能在动的过程中调整方向，也能在分析的过程中同时推进。这种能力在需要战略执行的场景里几乎是顶配。
+
+你还有一种能力：你能把复杂的事情变简单——在复杂里找到那个最关键的杠杆点，然后只推那一个。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你太高效了。高效到你有时候会碾过需要慢下来的东西。
+
+你做完了分析，立刻推进了。但有些事情不适合被高效处理。一个人的情绪、一个团队需要被听见的感受、一个决定需要给其他人时间来消化。你已经到了下一步了，他们还在上一步。
+
+还有一种卡点：你用效率来回避不确定性。分析+执行的组合让你觉得所有问题都有解法。但有些问题没有解法，只有忍受。你不太擅长忍受。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常做的一件事是：把人当变量。你在脑子里给关系建模——这个人的动机是什么，接下来大概率会发生什么。你通常是对的。但没有人想被当成一个可预测的系统。
+
+另一种失灵：你解决问题的速度太快了。你的伴侣说一个困扰，你三分钟给了方案。他需要的不是方案——他需要你慢下来，说「我知道了」。你把「陪」变成了「修」。
+
+还有一种：你的节奏本身就是一种压力。他们在你身边会觉得自己应该更有产出，即使你什么都没说。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- A+C 洞察者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#eef6e6,#fdf0dc)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#2a5a14;color:#fff">🔍 解释</span><span class="sys-chip" style="background:#8a4e08;color:#fff">💛 情感</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">洞察者</div><div class="card-en" style="color:#444">Insightful · A + C</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d8ecd4">🌀</div><div class="person-name">卡尔·荣格<span>Carl Jung</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">你比他自己更早知道他为什么难过</span>
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">感受和分析同时在线</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">天然的人类解码者</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你跟一个朋友聊天。他说的是工作的事，但你听到的不只是工作——你同时感受到了他的焦虑（情感系统），并且正在拆解这个焦虑的来源（解释系统）。他还没说完，你已经知道他真正在困扰的是什么了。
+
+你看人比大多数人深。你不只听他说了什么——你同时在感受他的情绪，在分析这个情绪背后的结构。这两件事在你身上是同时发生的。
+
+你经常帮别人把混乱的感受「翻译」成清晰的语言。他说不清楚自己怎么了，你能帮他说清楚。说完之后他会看着你，说：「对，就是这样。」
+
+你对人有天然的好奇心，但这种好奇心不只是情感的——它有结构。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#4a7030;margin-bottom:.35rem">结构优势与独有能力</div>你是最能理解人的组合。纯解释系统能分析人但感受不到。纯情感系统能感受到但说不清楚。你两个都有——你既感受到了，又能说清楚为什么。
+
+这个能力在治疗、咨询、教育、写作、任何需要「把人看清楚」的领域里是核心竞争力。你还有一种独特的平衡：你不会只停在感受里，也不会只停在分析里。你在两者之间流动。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你太会理解人了。理解到你有时候忘记了：并不是每个人都想被理解到那个深度。
+
+你的朋友跟你聊天，他以为只是随便说说。但你已经看到了他话背后的焦虑、那个焦虑跟他原生家庭的关系。你可能没说出来，但你看到了。而有时候你会忍不住说出来——他不一定准备好了。
+
+还有一个卡点：你在帮所有人想清楚的过程中，忘记了问自己想要什么。你的系统太习惯朝外运转了。回到自己的时候，你可能发现自己的感受是模糊的。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你在无意中让亲近的人觉得被解剖了。
+
+你跟伴侣吵完架，他还在生气，你已经在分析这次冲突的深层原因了。你可能说出「你生气不是因为这件事，是因为你小时候……」——他需要你生气或者道歉，你给他的是一份分析报告。
+
+另一种失灵：你的理解力让你在关系里承担了太多。你能感知到对方的需求又能分析出满足方式，于是你去做了。长期下来你成了「永远懂、永远做、永远给」的人。你的需求在哪里？
+
+还有一种：你对人的洞察力让你很难「不知道」。你看到了对方的模式，你知道他接下来会怎么做——这种预测性会让关系失去惊喜。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- ██ A+D 审慎者 ██ KAHNEMAN REWRITE V3 ██ -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#eef6e6,#eeebfc)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#2a5a14;color:#fff">🔍 解释</span><span class="sys-chip" style="background:#4a34a0;color:#fff">🪞 认同</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">审慎者</div><div class="card-en" style="color:#444">The Deliberate · A + D</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d8d4f0">⚖️</div><div class="person-name">诺姆·乔姆斯基<span>Noam Chomsky</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">想得深还要想得对</span>
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">别人说你想太多，其实你在想的东西他们没想过</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">不是完美主义，是有标准</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why">
+            <div class="card-why-label">你是这样的人</div>
+            你是那个在所有人都点头说「行」的时候，脑子里还在转的人。不是因为你反对——是因为你在检查一些别人根本没注意到的东西。
+
+你看问题比大多数人深两层。第一层是「这件事的逻辑是什么」，这是你的解释系统在工作。但你不会停在那里。你还会问第二个问题：「这个结论，是对的吗？」——不是逻辑上对不对，是道德上、价值上、站得住站不住。这是你的认同系统在工作。
+
+别人觉得你想太多。但你知道自己在想什么——你在确认这件事值不值得你站上去。
+
+你说话有分量。不是因为你声音大，是因为你说出来的东西，你自己先过了两道关。你是那种让人觉得「他说的话可以信」的人。你的朋友在大事上会找你，因为他们知道你不会随便给一个答案。
+
+你在工作里通常是那个提出「等一下，这里有问题」的人。开会的时候你不一定说最多，但你说的那句话往往是整个会议的转折点。
+
+你对自己的标准比对别人高。你不是完美主义——完美主义是什么都要好，你是只在你在乎的事情上不妥协。
+          </div>
+          <div class="card-2p">
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7c6bc4;margin-bottom:.35rem">结构优势与独有能力</div>
+            大部分人要么能分析，要么有原则。你两个都有，而且它们同时在线。
+
+纯解释系统的人能拆开任何问题，但他们不关心结论是不是「对的」——只要逻辑自洽就够了。纯认同系统的人有很强的是非感，但有时候说不清楚为什么。
+
+你能说清楚。你不只是觉得某件事不对——你能一层一层告诉别人为什么不对，而且你的逻辑背后有一根价值观的脊柱。这是A+D独有的能力：有论据的正义感。
+
+别人在你身上看到的是可信度。你不是那个最快给答案的人，但你是那个给出来的答案别人不需要再去验证的人。
+          </div>
+          <div class="card-dark">
+            <div class="card-dark-label">这个结构会在哪里卡住</div>
+            你有一个别人没有的问题：你做完分析之后，不会觉得「好了」。
+
+别的组合做完分析就动了。你做完分析之后会多出一个声音：「但这个结论是我能接受的吗？」这个声音不是在质疑你的逻辑——它在质疑你的逻辑够不够资格代表你。
+
+所以你反复。不是因为你没想清楚，是因为想清楚对你来说有两道标准：一道是逻辑上说得通，一道是你这个人站得上去。大部分人只需要过第一道。你必须过两道。而第二道没有终点线。
+
+这件事从外面看不出来。别人看到的是你还没决定，还在犹豫。他们不知道你犹豫的不是这件事难不难——你犹豫的是你配不配站在那个答案上面。
+
+你最危险的时刻不是做错决定。是你一直不做决定，然后生活替你做了。
+          </div>
+          <div class="card-note">
+            <div class="card-note-label">在关系里的失灵方式</div>
+            你对问题敏感。这在工作里是优势。在关系里，它会变成一种别人说不清但能感受到的东西。
+
+你的伴侣跟你说了一件事。你听完，你的第一个反应不是感受——是理解。你开始在脑子里拆：他为什么这样想？这个逻辑的问题在哪？有没有他没看到的角度？你觉得你在帮忙。他觉得你在审他。
+
+你们吵架的时候更明显。他需要你说「我听到了」，你说的是「但你有没有想过……」。不是你不在乎——是你的系统启动得太快了，快到你自己都没注意到你已经从「在场」切换到了「分析」。
+
+还有一种更安静的失灵。你身边的人做了一个你觉得不对的选择。你没有说什么。但你的眼神、你的沉默、你的语气，已经把你的判断传递出去了。你以为你在克制，他们感受到的是失望。
+
+这些不是你的错。这是两个系统同时在线的代价。解释系统让你看见别人看不见的东西，认同系统让你对看见的东西有反应。问题不是你不该看见——是你还没学会在看见之后，先停一秒，问自己：他现在需要我看见这个，还是需要我看见他？
+          </div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- A+E 创想者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#eef6e6,#fce8e4)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#2a5a14;color:#fff">🔍 解释</span><span class="sys-chip" style="background:#902010;color:#fff">🎮 游戏</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">创想者</div><div class="card-en" style="color:#444">Innovator · A + E</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d4ecc8">💡</div><div class="person-name">史蒂夫·乔布斯<span>Steve Jobs</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">先看懂规律，再打破它</span>
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">标准永远在移动</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">别人在优化，你在重新发明</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你看到一个现有的东西——一个产品、一个流程、一个系统——你的第一反应不是「怎么改进它」，而是「如果从头来过，它应该是什么样的」。
+
+你的解释系统先工作：把这个东西的结构拆开，看清楚它为什么是现在这个样子。然后你的游戏系统接管：你开始想象如果不受现有结构限制，这个东西可以变成什么。
+
+你跟朋友聊天，经常会冒出让人觉得「你怎么会这样想」的想法。你把两个完全不相关的东西连在了一起，但你能解释为什么这个连接是合理的——解释系统给了逻辑，游戏系统给了勇气。
+
+你对「现状」有一种天然的不满足。不是愤怒，是好奇：它可以不一样吗？</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5a4020;margin-bottom:.35rem">结构优势与独有能力</div>你是最有创新力的组合。纯解释系统能看懂但不敢打破。纯游戏系统敢打破但未必看得懂。你两个都有——你先理解规律，然后颠覆规律。
+
+这种能力在创新、设计、战略层面的创造里是核心优势。你的想法有结构支撑，经得住追问。你的疯狂想法背后有逻辑。
+
+你还有一种别人不容易复制的眼光：你能看到一个东西「应该是什么样」。这个能力让你在一堆人面前像一个来自未来的人。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的想法多，落地少。你脑子里有十个精彩的构想，但完整做完的可能只有一两个。
+
+问题不是你不能执行——是你的游戏系统在你还没做完一个东西的时候，就已经给了你下一个更好的想法。然后你的解释系统开始拆解新想法的结构，发现它比现在在做的更有意思。于是上一个就放在那里了。
+
+还有一个卡点：你的标准永远在移动。你做一个东西，做到一半觉得不够好。然后推翻重来。对合作者来说，这非常疲惫：他们以为快完成了，你说「我有一个新的想法」。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常见的问题是：你把关系也当成可以重新设计的东西。你对伴侣的习惯、你们相处的模式——你总觉得可以优化。你觉得这是关心。他可能觉得你在说「你不够好」。
+
+另一种失灵：你的脑子永远在转。你的伴侣想跟你安静地待在一起，但你在想一个新项目的结构。你人在这里，但你的注意力在另一个世界。
+
+还有一种：关系进入稳定期之后，你会开始觉得少了什么。那个「少的东西」不是爱，是你的游戏系统需要的探索感。你得有意识地在关系里创造新的可能性。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- B+A 操盘者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#e4eef8,#eef6e6)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#144080;color:#fff">⚡ 执行</span><span class="sys-chip" style="background:#2a5a14;color:#fff">🔍 解释</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">操盘者</div><div class="card-en" style="color:#444">Commander · B + A</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#c8ddf0">⚔️</div><div class="person-name">拿破仑·波拿巴<span>Napoleon Bonaparte</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">先动，在动的过程中想清楚</span>
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">混乱里的秩序制造者</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">天然的危机处理者</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你跟策略家的区别是：策略家先想清楚再动，你先动再想清楚。不是冲动——是你在行动的过程中才能看清局面。坐在那里分析，你反而想不清楚。
+
+你是那种在混乱场面里反而最清醒的人。所有人都慌了，你的系统反而启动了：执行系统让你立刻开始行动，解释系统在你行动的同时快速读取反馈、调整方向。
+
+你做事的节奏比大多数人快。不是因为你不思考——是你在做的过程中思考，而不是思考完了之后才做。
+
+你在团队里通常是那个在危机中被推到前面的人。大家会看向你——因为你不会冻住。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#1a4a70;margin-bottom:.35rem">结构优势与独有能力</div>你是最能在混乱中找到出路的组合。策略家需要清晰的信息才能工作，你在信息不完整的时候就能开始。
+
+你的执行系统先启动让你进入局面；然后解释系统在局面内部工作，边做边读取、边调整。这种「边打边算」的能力在危机管理、创业早期是最稀缺的能力。
+
+你做判断的速度极快——你的系统能在极短时间内完成「看清→判断→行动」的循环。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的速度是最大的资产，也是最大的风险。
+
+你做判断很快，但快意味着反馈是滞后的。你已经走了三步了，第一步的错误这时候才显现出来——但你已经没法回头了。
+
+还有一个卡点：你不太擅长等待。有些事情需要时间去发展，不需要你做什么——但你的系统不允许你什么都不做。于是你介入了不需要你介入的事情，你的行动反而破坏了原本正在自然发展的东西。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你的速度碾过了需要慢下来的人。
+
+你做决定很快。你的伴侣可能还在想，你已经定了。他不一定不同意，但他觉得自己没有被征询。你觉得你在推进，他觉得他在被带着走。
+
+另一种失灵：你在关系冲突里的第一反应是行动而不是倾听。他说了一个问题，你立刻开始解决。但他需要你先停下来，承认这个问题存在。
+
+还有一种：你可能会在无意中控制关系的节奏。你的节奏是默认节奏，因为你总是那个先动的人。你的伴侣可能会觉得自己在关系里没有主导权。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- B+C 带动者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#e4eef8,#fdf0dc)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#144080;color:#fff">⚡ 执行</span><span class="sys-chip" style="background:#8a4e08;color:#fff">💛 情感</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">带动者</div><div class="card-en" style="color:#444">Motivator · B + C</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#c4d8ec">🎤</div><div class="person-name">巴拉克·奥巴马<span>Barack Obama</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">你相信的事情别人也会开始相信</span>
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">既做事也带人</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">天然的领袖型</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你是那种让人觉得「跟他在一起，事情会变好」的人。不只是因为你能做事——是因为你在做事的时候，身边的人会被你的状态感染。
+
+你的执行系统让你动起来，你的情感系统让你在动的过程中连接人。你不是那种一个人埋头干的类型——你在做事的同时在带人。你知道谁需要被鼓励，谁需要被推一下，谁需要被看见。
+
+你在团队里通常是那个让大家觉得「有希望」的人。不是靠画饼——是你真的在做，而且你做的时候有一种感染力。
+
+你最好的状态是在跟一群人一起做一件有意义的事。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#3a5a80;margin-bottom:.35rem">结构优势与独有能力</div>你是最能带动团队的组合。纯执行系统能做事但不一定能带人。纯情感系统能连接人但不一定能推进事。你两个都有——你让人既感受到温度，又看得见结果。
+
+这种组合在领导、管理、社会运动里是天然的核心。你的行动力给人方向，你的情感感染力给人动力。
+
+你还有一种能力：你能让一个消极的团队变积极。不是靠讲道理——是靠你自己的状态。你在，空气就不一样了。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的感染力是双刃剑。你能让人跟着你走，但如果方向是错的，你让一群人跟着你一起走错了——而且因为你的感染力太强，没有人会在中途质疑你。
+
+还有一个卡点：你太依赖跟人在一起的感觉。你一个人的时候效率其实不高，因为你的系统需要情感反馈来驱动行动。
+
+更隐蔽的问题：你可能分不清「带动」和「操控」的界限。你让人跟着你走，是因为他们真的同意，还是因为他们被你的情绪感染了？</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常见的问题是：你把关系也变成了一个需要被推进的项目。
+
+你的伴侣说「我们最近怎么样」，你开始想行动方案。你不太擅长没有行动方案地待在一段关系里——只是陪着，只是在一起。
+
+另一种失灵：你的积极让你的伴侣觉得自己不应该消沉。你的能量有时候是一种压力——他只想安静地难过一会儿。
+
+还有一种：你习惯了被需要。当你的伴侣不需要你带动的时候，你会有一种微妙的失落感。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- B+D 守序推进者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#e4eef8,#eeebfc)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#144080;color:#fff">⚡ 执行</span><span class="sys-chip" style="background:#4a34a0;color:#fff">🪞 认同</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">守序推进者</div><div class="card-en" style="color:#444">Principled Doer · B + D</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#c8d4ec">🇩🇪</div><div class="person-name">安格拉·默克尔<span>Angela Merkel</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">在框架里推进，从不越线</span>
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">最可靠的那个人</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">不是最有魅力的，但是最让人安心的</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你是那个大家知道「他一定会做到」的人。不是因为你最聪明或最有创意——是因为你说到做到，而且你做到的方式永远在一条清晰的线以内。
+
+你的执行系统让你持续推进，你的认同系统给了你一条不会越过的边界。这两个系统组合在一起产生了一种非常独特的品质：可靠性。
+
+你做事有一种节奏感——不是最快的，但是最稳的。不会突然改方向，不会突然放弃。别人在你身边会觉得安全，因为他们知道你是可预测的。
+
+你很清楚自己的边界：哪些事你会做，哪些事你不会做。这条线是你自己画的。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2a3a70;margin-bottom:.35rem">结构优势与独有能力</div>你是最适合长期建设的组合。你能在同一个方向上持续投入很长时间，而且不会迷失——因为你的认同系统一直在校准方向。
+
+这种能力在机构建设、长期管理、需要「十年如一日」的领域里是最稀缺的。很多人能冲刺，你能马拉松。
+
+你在团队里是锚。当方向不确定、士气低落，你还在那里，还在做，还在按你的标准做。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的可靠性有一个代价：你对变化的适应比别人慢。不是能力不够——是每次变化都需要通过你的认同系统审核。审核通过了才能动。别人已经适应了新环境，你还在审核。
+
+还有一个卡点：你太稳了，稳到有时候变成了僵硬。当框架本身需要被打破的时候，你是最后一个跟上的。
+
+更隐蔽的问题：你不太会休息。你的执行系统要你不停推进，你的认同系统告诉你这是责任。两个系统都不允许你停下来。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你用可靠代替了亲密。
+
+你做到了所有该做的事情。但你的伴侣有时候觉得少了什么。少的是那种「不是因为应该所以做，而是因为想要所以做」的东西。
+
+另一种失灵：你会无意中评判伴侣的「不可靠」。他变了主意、临时取消计划——你的系统会把这些读取为「不靠谱」。你的失望是可见的。
+
+还有一种：你扛太多了。你不会轻易求助。长期下来，你的伴侣不知道你需要什么——因为你从来不说。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- B+E 开路者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#e4eef8,#fce8e4)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#144080;color:#fff">⚡ 执行</span><span class="sys-chip" style="background:#902010;color:#fff">🎮 游戏</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">开路者</div><div class="card-en" style="color:#444">Trailblazer · B + E</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#c8d8f0">🛫</div><div class="person-name">理查德·布兰森<span>Richard Branson</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">「没有路」是你的信号，不是障碍</span>
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">边做边发现</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">最典型的创业型结构</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你是那种别人说「这个没有人做过」的时候，你的第一反应是「那正好」的人。没有路不是障碍——对你来说，没有路才有意思。
+
+你的执行系统让你立刻开始，你的游戏系统让你在做的过程中发现新的可能性。你是在行动中做调研的人。试一下，发现不行，换个方向再试——这个过程本身就是你的方法论。
+
+你的能量让人印象深刻。你可以同时开好几条路，每条都在往前走。
+
+你不喜欢重复。一条路走通了，你会开始觉得无聊——然后你去找下一条没有人走过的路。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#3a4070;margin-bottom:.35rem">结构优势与独有能力</div>你是最天然的创业者。你不怕失败——因为对你来说失败不是终点，是数据。你也不怕没有方向——因为你在走的过程中自然就会找到方向。
+
+这种「在做中发现」的能力在创业、开拓新市场、从零开始的场景里是最核心的资源。别人需要确定性才能开始，你在不确定性里反而最兴奋。
+
+你的冒险精神让身边的人也变得更勇敢。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你开了太多路，每条都只走了一半。
+
+你的游戏系统给你源源不断的新方向，你的执行系统让你立刻开始走。但两个系统都不擅长一件事：在一条路上走到底。走通一条路需要重复、需要优化、需要在不兴奋的时候也继续。
+
+还有一个卡点：你对风险的判断可能偏乐观。两个系统都在鼓励你开始，但没有系统在帮你评估什么时候应该停。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常见的问题是：你给不了对方「接下来会怎样」的答案。你的伴侣问你：明年你打算做什么？你不知道。不是你不在乎——是你的系统不这样运作。
+
+另一种失灵：你同时开了太多路，留给关系的精力不够了。你的伴侣成了你的「大本营」，但大本营也需要被照顾。
+
+还有一种：你对承诺有一种微妙的不适。承诺意味着关掉其他路，而你的系统最不擅长的就是关掉可能性。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- C+A 理解者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#fdf0dc,#eef6e6)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#8a4e08;color:#fff">💛 情感</span><span class="sys-chip" style="background:#2a5a14;color:#fff">🔍 解释</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">理解者</div><div class="card-en" style="color:#444">Understander · C + A</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f0e0c0">🤍</div><div class="person-name">布伦内·布朗<span>Brené Brown</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">先感受到，再想清楚为什么</span>
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">帮别人说出他们说不出的话</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">咨询师和治疗师最常见的结构</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你跟洞察者（A+C）很像，但有一个关键区别：你的情感系统先启动。你先感受到了什么，然后才用解释系统去理解它。洞察者先看到结构，然后感受。你先被触动，然后去拆解为什么。
+
+你是那种别人说了一件事，你会先在心里有一个情感的反应——可能是心疼、可能是不安、可能是温暖——然后你会开始想：这个反应是从哪里来的？他在经历什么？
+
+你帮人的方式是先用情感接住他，然后用分析帮他看清楚。这个顺序很重要——因为一个人只有先觉得被接住了，才愿意看清楚。
+
+你在朋友圈里是那个「说完之后觉得好多了」的人。不是因为你给了方案，是因为你帮他把混乱的感受变成了有结构的理解。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#6a5020;margin-bottom:.35rem">结构优势与独有能力</div>你是最能帮人「从混乱到清晰」的组合。你的情感系统让你接住对方，你的解释系统帮你把接住的东西整理成有意义的结构。
+
+这个组合在咨询、治疗、教育、写作里是核心能力。你能做到一件很难的事情：让一个人觉得被听见了，同时帮他看到了他自己没看到的东西。
+
+很多人只能做其中一件：要么只听不分析（纯情感），要么只分析不听（纯解释）。你两个都做，而且顺序是对的。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的卡点跟洞察者不一样。洞察者的风险是分析太多，你的风险是承接太多。
+
+你先感受到了别人的情绪，然后你用分析去理解它——但在你分析的过程中，那个情绪已经在你身体里了。你帮别人整理完了，他好了。你身上还留着残余。
+
+长期下来，你可能变成了那个「永远在帮别人想清楚，但自己的事情反而想不清楚」的人。你的系统太习惯朝外运转了。
+
+还有一个卡点：你太容易把别人的感受当成自己的责任。他难过了，你觉得你应该帮他想清楚。但有时候他只是需要难过一会儿，不需要你的分析。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常见的问题是：你给得太多了，多到你自己是空的。
+
+你能感知到对方的需求，又能分析出怎么满足。于是你去做了。长期下来你成了关系里那个「永远懂、永远整理、永远在」的人。你的伴侣习惯了你的理解——但他不知道你也需要被理解。因为你从来没有表达过。
+
+另一种失灵：你用理解来回避自己的情绪。当你难过的时候，你不是去感受它——你去分析它。「我为什么难过？这个模式是从哪里来的？」分析变成了一种防御，让你不必真的待在那个难过里。
+
+还有一种：你在关系冲突里会变成调解者而不是参与者。你太擅长理解对方了，以至于你忘了自己在这个冲突里也有需求。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- C+B 行动关怀者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#fdf0dc,#e4eef8)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#8a4e08;color:#fff">💛 情感</span><span class="sys-chip" style="background:#144080;color:#fff">⚡ 执行</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">行动关怀者</div><div class="card-en" style="color:#444">Active Caregiver · C + B</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f0dcc0">🕊️</div><div class="person-name">特蕾莎修女<span>Mother Teresa</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">看见痛苦的同时已经在行动了</span>
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">爱不是感觉，是动词</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">帮完所有人才发现自己也需要被帮</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你是那种看见别人难受，会同时产生两个反应的人：「我很心疼」和「我能做什么」。这两件事在你身上几乎是同时发生的。你不会只心疼——你会去做。
+
+你的情感系统让你感受到别人的需要，你的执行系统让你立刻行动。这跟共感者（纯C）的区别是：共感者感受到了但可能不知道怎么帮，你感受到了就已经在帮了。
+
+你在朋友圈里是那个「需要帮忙就找他」的人。不是那种口头说「有什么需要帮忙的」然后等你来找的人——你是那个不用你说就已经出现在你门口的人。
+
+你衡量自己的方式不是「我今天做了什么」，是「我今天帮了谁」。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5a4a20;margin-bottom:.35rem">结构优势与独有能力</div>你是最能把关怀变成行动的组合。纯情感系统能感受但不一定能帮上忙。纯执行系统能帮忙但不一定感受得到需求。你两个都有——你既感受到了，又做了。
+
+这种组合在护理、社工、教育、任何需要「用行动表达爱」的场景里是最自然的存在。你的关怀不是停在嘴上的——它是实实在在的行动。
+
+你还有一种别人不容易学会的能力：你让被帮助的人觉得不丢脸。因为你帮忙的方式不是居高临下的——你是从心疼出发的，对方能感受到。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的卡点是：你把帮助当成了存在方式。
+
+当没有人需要你帮助的时候，你不知道自己应该做什么。安静的时刻不是放松，是空虚。你的系统需要一个对象来运转——没有对象的时候，它会空转。
+
+还有一个卡点：你太习惯付出了，不知道怎么接受。别人想帮你的时候，你会不自在。不是你不需要——是你的系统不习惯被照顾。你是照顾人的人，不是被照顾的人。至少你是这样定义自己的。
+
+更隐蔽的问题：你的行动有时候会越过别人的边界。你觉得你在帮忙，但对方可能没有要你帮。你的情感系统感知到了需求，你的执行系统立刻行动了——但你没有停下来问：他真的需要吗？</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你让对方不知道怎么付出。
+
+你做了所有的事情——做饭、整理、照顾、安排。你的伴侣想做点什么，发现没有什么可做的了。他不是不想付出——是你没有给他空间。长期下来，他会觉得自己在关系里是多余的。
+
+另一种失灵：你不会说「不」。你的情感系统让你感受到所有人的需求，你的执行系统让你去满足。即使你已经累了，你还是会做。因为你不知道怎么在感受到别人的需求的同时说「但我现在不行」。
+
+还有一种：你会在没有被感谢的时候感到委屈。你做了那么多，你不需要被表扬，但你需要被看见。当你的付出被当成理所当然，你不会爆发——你会默默地往里面吃。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- C+D 守护者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#fdf0dc,#eeebfc)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#8a4e08;color:#fff">💛 情感</span><span class="sys-chip" style="background:#4a34a0;color:#fff">🪞 认同</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">守护者</div><div class="card-en" style="color:#444">Protector · C + D</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f0d8b0">✊</div><div class="person-name">纳尔逊·曼德拉<span>Nelson Mandela</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">感受到了不公，而且知道什么是对的</span>
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">对背叛零容忍</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">爱和原则在你身上是同一件事</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你是那种对「不对的事」有身体反应的人。不只是觉得「这不对」——是坐立不安，是心里的一根弦被拨动了。因为你的反应不只是情感的，也是价值观的。
+
+你的情感系统让你感受到了不公，你的认同系统告诉你什么是对的。两个系统一起工作的结果是：你不会只心疼，你会守护。你守护的不只是某个人——是某种你认为不应该被破坏的东西。
+
+你对「背叛」特别敏感。不是因为你脆弱——是因为你的情感连接里内置了一套价值承诺。一旦被违背，就不只是伤心，而是不可接受。
+
+你在朋友圈里是那个「你知道他站在你这边」的人。不是因为他偏心——是因为他对对错有一种天然的感知。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#6a3a30;margin-bottom:.35rem">结构优势与独有能力</div>你的情感和价值观共同构成了一种非常强大的保护力。你守护人，也守护原则——两件事在你身上是同一件事。
+
+这种能力在需要「有温度的正义」的场景里是最稀缺的。很多人有原则但缺温度（纯D），很多人有温度但缺原则（纯C）。你两个都有——你的正义感是有人味的。
+
+你还有一种让人信任的品质：你的立场是可预测的。别人知道你会守护什么，知道你的底线在哪里。这种可预测性在不确定的世界里是一种稀缺的安全感。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你对不公义极度敏感，会在不必要的地方也燃起道德火焰。
+
+你的情感系统感受到了一个「不对」，你的认同系统立刻判断了这件事不可接受。两个系统加在一起产生的反应比需要的更强烈。有时候那只是一件小事——但你的系统把它读取成了一个原则问题。
+
+还有一个卡点：你的保护有时候会变成控制。你觉得你在保护你在乎的人，但对方可能觉得你在限制他。你的动机是爱，但你的方式是画线。
+
+更隐蔽的问题：你很难原谅。不是因为你记仇——是因为在你的系统里，被破坏的不只是关系，是原则。关系可以修复，原则一旦被违反，你很难回到之前的状态。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你爱得太重了。
+
+你的爱里内置了一套标准。你对伴侣的期望不只是「对我好」——是「做对的人」。当他做了一件你觉得不对的事，你的情感系统受伤了，你的认同系统愤怒了。他面对的不只是一个不开心的伴侣，是一个觉得他违反了什么的人。
+
+另一种失灵：你的保护欲会让伴侣觉得窒息。你想把他放在一个安全的地方——但他想出去走走。你觉得外面不安全，他觉得你不相信他。
+
+还有一种：你很难在关系里示弱。你是守护者——你保护别人。谁保护你？你不太会让别人看见你的脆弱，因为你的系统把脆弱读取为「无法守护」。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- C+E 氛围制造者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#fdf0dc,#fce8e4)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#8a4e08;color:#fff">💛 情感</span><span class="sys-chip" style="background:#902010;color:#fff">🎮 游戏</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">氛围制造者</div><div class="card-en" style="color:#444">Atmosphere Maker · C + E</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f8d4c8">😂</div><div class="person-name">罗宾·威廉姆斯<span>Robin Williams</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">你在的地方，空气都不一样</span>
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">让所有人都笑了，没人问你今天怎么样</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">天然的社交核心</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你走进一个房间，气氛会变。不是因为你做了什么——是你的情感系统读取了这个房间的情绪状态，然后你的游戏系统自动开始调整它。你能让紧张变轻松，让沉闷变活泼，让陌生人觉得他们认识你很久了。
+
+你是那种聚会上大家最喜欢的人。你有趣、你温暖、你能让每个人都觉得自己被关注到了。你不是在表演——你是真的感受到了每个人的状态，然后用你的游戏性去回应。
+
+但你知道一种孤独：你让所有人都笑了，但聚会结束之后，没有人问你今天怎么样。因为在他们眼里，你永远是没事的那个人。
+
+你对情绪的感知力极高。你不只是感受到了——你能把感受到的东西变成一种体验。这是你独有的天赋。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7a3a20;margin-bottom:.35rem">结构优势与独有能力</div>你是最能改变空间情绪的组合。纯情感系统能感知但不一定能改变。纯游戏系统能创造乐趣但不一定能读取需求。你两个都有——你先读取了这个空间需要什么，然后你用创造力去给它。
+
+这种能力在社交、表演、主持、教育、任何需要「让人放松」的场景里是天然的核心。你不用刻意去做——你在，空间就变了。
+
+你还有一种能力：你能让严肃的东西变得容易接受。你把重的东西变轻，不是减轻它的重量，是让人有力气去面对它。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的台上和台下是两个世界。
+
+台上你是那个让所有人开心的人。台下你承受的情绪重量远超你表现出来的。你的情感系统全开，你接收了所有人的情绪——但你的游戏系统把它变成了笑声，所以没有人看到你在承受什么。
+
+长期下来，你可能不知道哪个是真的自己。那个让大家笑的人是你，那个回家之后疲惫到说不出话的人也是你。
+
+还有一个卡点：你的快乐有时候是一种防御。你用轻松来回避沉重。不是你不能面对沉重——是你的系统会自动把沉重转化成轻松。这让别人觉得你没事，其实你不是没事——你是不知道怎么不把它变轻。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：没有人见过不表演的你。
+
+你在伴侣面前也会不自觉地进入「让气氛变好」的模式。你们吵架了，你可能用一个笑话来缓解——但有时候不该缓解。那个不舒服需要被待在里面。你的系统太快了，快到你自己都没意识到你刚刚把一个需要被面对的东西变没了。
+
+另一种失灵：你不太会表达真实的负面情绪。你能让别人开心，但你不知道怎么说「我不开心」。你的系统习惯了朝外给——接收别人的情绪，给出轻松的回应。但你自己的情绪没有出口。
+
+还有一种：你的伴侣可能会觉得他不了解你。你在外面是一个样子，回到家也差不多。他想看见那个不表演的你——但你不确定那个人是什么样子。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- D+A 信念建构者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#eeebfc,#eef6e6)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#4a34a0;color:#fff">🪞 认同</span><span class="sys-chip" style="background:#2a5a14;color:#fff">🔍 解释</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">信念建构者</div><div class="card-en" style="color:#444">Belief Builder · D + A</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d8d0f0">📖</div><div class="person-name">卡尔·马克思<span>Karl Marx</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">不只有观点，有一整套系统</span>
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">你能解释为什么你是对的</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">最容易成为思想者的结构</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你跟审慎者（A+D）很像，但有一个关键区别：你的认同系统先启动。你先有了一个立场——「这是对的」或「这是不对的」——然后你的解释系统开始为这个立场建造论证。
+
+你不只是有观点。你有一套系统。你能从第一原理出发，一层一层解释为什么你的观点是对的。而且你的论证不是堆砌的——它有结构，有逻辑，有层次。
+
+你在朋友圈里是那个「跟他辩论你赢不了」的人。不是因为你最聪明——是因为你的观点背后有一套你已经想了很久的体系，而大多数人的观点是零散的。
+
+你在内心深处期待别人也能看见你看见的那个系统。不是要他们同意——是要他们理解。如果他们看完了还不同意，你可以接受。你受不了的是他们连看都不看。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#3a2870;margin-bottom:.35rem">结构优势与独有能力</div>你是最能建立思想体系的组合。纯认同系统有是非感但说不清楚。纯解释系统能分析但没有立场。你两个都有——你有立场，而且能为你的立场建造一座大厦。
+
+这种能力在学术、哲学、政治思想、任何需要「建立框架」的领域里是核心竞争力。你不是那种有想法就说的人——你的想法是经过建构的。
+
+你还有一种别人不容易做到的事情：你能让复杂的价值判断变得系统化、可讨论、可传播。你把信念变成了理论。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的思想体系太完整了。完整到外部挑战很难进来。
+
+你建了一座大厦。这座大厦逻辑严密、层次分明。但正因为它太完整了，当有人指出一个漏洞，你的第一反应不是检查——是修补。你会用你的解释系统来维护你的认同系统，而不是用新的信息来更新它。
+
+还有一个卡点：你对不同框架的人缺乏耐心。你已经把世界理解到这个深度了，而对方甚至还没开始想过这些问题。你觉得你在对话，他觉得你在教他。
+
+更隐蔽的问题：你的信念体系有时候会变成你的身份。当你的理论被挑战，你感受到的不是「我的想法被质疑了」，而是「我被质疑了」。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你把关系也拉进了你的框架。
+
+你对世界有一套理解。你的伴侣做了一件事，你会不自觉地用你的框架去解读它——他为什么这样做，这个行为背后的价值观是什么。你觉得你在理解他。他觉得你在给他贴标签。
+
+另一种失灵：你在讨论问题的时候很难真正听进去不同意见。不是你傲慢——是你的系统太完整了，对方说的东西你已经想过了，你在等他到达你已经到达的地方。但关系不是辩论赛，你的伴侣不需要到达你的地方。
+
+还有一种：你的认真有时候让人疲惫。你把每一次对话都当作可能更新理解的机会——但你的伴侣有时候只想随便聊聊。不是每句话都需要有深度。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- D+B 使命执行者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#eeebfc,#e4eef8)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#4a34a0;color:#fff">🪞 认同</span><span class="sys-chip" style="background:#144080;color:#fff">⚡ 执行</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">使命执行者</div><div class="card-en" style="color:#444">Mission Maker · D + B</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d0ccf0">✊</div><div class="person-name">马丁·路德·金<span>Martin Luther King Jr.</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">信念和行动在你身上是同一件事</span>
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">不去做你相信的事比失败还让你难受</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">最强的燃料，也是最危险的燃料</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你是那种「不做自己相信的事就会难受」的人。不是焦虑那种难受——是一种更深层的不安，像是你在违背自己。
+
+你的认同系统给了你方向：你知道什么是对的。你的执行系统给了你力量：你真的去做了。信念和行动在你身上不是两件事——是同一件事的两面。
+
+你在团队里通常是那个「有信念而且在行动」的人。别人可能有信念但不行动，或者在行动但没有信念。你两个都有。这让你在别人眼里像一个有使命的人——因为你确实是。
+
+你对自己的要求很高。不是完美主义——是你的认同系统在要求你的行动跟你的信念一致。任何不一致都会让你不舒服。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#3a2070;margin-bottom:.35rem">结构优势与独有能力</div>你是最能把信念变成现实的组合。纯认同系统有方向但不一定能做到。纯执行系统能做但不一定知道为什么。你两个都有——你知道为什么，而且你在做。
+
+这种能力在社会运动、创业、任何需要「相信一件事然后让它发生」的领域里是最核心的驱动力。你的行动有一种别人不容易复制的说服力——不是你说得有多好，是你做了。
+
+你还有一种感染力：你让身边的人也开始觉得「也许我也应该做点什么」。不是靠演讲——是靠你的存在本身。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>使命感是最强的燃料，也是最危险的燃料。它不会告诉你什么时候该停下来。
+
+你的认同系统说：这件事是对的。你的执行系统说：继续做。两个系统都在加速，没有系统在减速。你会为了「正确的事」燃烧自己，忘记照顾自己的身体和边界。
+
+还有一个卡点：你对「妥协」的抵触会让你在不需要坚持的地方也坚持。不是每一场仗都值得打。但你的系统不会自动区分「原则性问题」和「可以灵活的问题」。
+
+更隐蔽的问题：你的使命可能会变成你的盔甲。你用「我在做正确的事」来回避一些你不想面对的东西——关系的问题、自己的脆弱、需要休息的时刻。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你的使命比关系更大。
+
+不是你不爱——是你的认同系统对使命的优先级高于对关系的优先级。当使命和关系冲突的时候，你通常选使命。你的伴侣知道这一点。他可能接受，也可能被消耗。
+
+另一种失灵：你用你的标准要求你的伴侣。你在做「正确的事」，你期望他也做。当他做了一件你觉得不够好的事，你的系统会产生一种审判——不是愤怒，是失望。而失望比愤怒更让人难以承受。
+
+还有一种：你不太会停下来。你的伴侣说「我们能不能什么都不做，就待在一起」，你会不舒服。不做事对你来说不是休息——是浪费你可以在做正确的事的时间。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- D+C 价值守护者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#eeebfc,#fdf0dc)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#4a34a0;color:#fff">🪞 认同</span><span class="sys-chip" style="background:#8a4e08;color:#fff">💛 情感</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">价值守护者</div><div class="card-en" style="color:#444">Value Guardian · D + C</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d8ccf0">🕊️</div><div class="person-name">甘地<span>Mahatma Gandhi</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">你的正义感是有温度的</span>
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">对不公义有身体反应</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">温柔的力量</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你跟守护者（C+D）很像，但有一个区别：你的认同系统先启动。你先知道什么是对的，然后你的情感系统让你对「不对」产生深刻的共鸣。守护者先感受到不对，然后判断。你先判断，然后感受。
+
+你是那种对「原则」和「人」同时在乎的人。你不会为了原则伤害人，也不会为了人放弃原则。你在两者之间找到了一种张力——不是平衡，是张力。因为它不总是舒服的。
+
+你的朋友知道你是一个有温度的人，但他们也知道你是一个有底线的人。这两件事在你身上不矛盾。
+
+你对不公义的反应不是冷冰冰的判断——是一种带着心疼的愤怒。你看到一个人被不公平对待，你不只是觉得「这不对」——你心疼他。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#4a2870;margin-bottom:.35rem">结构优势与独有能力</div>你有温度的坚守——既有道德立场，又有情感连接。这两者结合产生的不是冷漠的原则，而是有人味的力量。
+
+纯认同系统有原则但可能冷。纯情感系统有温度但可能没方向。你两个都有——你的温暖是有方向的，你的原则是有温度的。
+
+这种组合在道德领导、社区建设、调解、任何需要「有温度地做对的事」的场景里是最核心的能力。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你对不公义太敏感了。你的认同系统判断「这不对」，你的情感系统让你对「不对」产生强烈的共鸣。两个系统加在一起，你的反应比需要的更强烈。
+
+有时候「不对」只是一件小事——但你的系统把它升级成了原则问题。你的朋友做了一件你觉得不公平的事，你的反应可能让他觉得你在moral judging——他只是做了一个选择，你读取到了一次价值观冲突。
+
+还有一个卡点：你的温柔有时候让你在该强硬的时候犹豫。你知道什么是对的，但你的情感系统让你担心：如果我坚持，会不会伤害到他？这个犹豫会让你错过需要你站出来的时刻。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你的标准是看不见的，但你的伴侣能感受到。
+
+你不会经常说「你不应该这样做」。但当他做了一件你觉得不对的事，你的表情、你的沉默、你微妙的退缩——他都感受到了。他知道你在判断，但他不知道标准是什么。
+
+另一种失灵：你太容易在关系里受伤。你的情感系统让你对关系变化极其敏感，你的认同系统让你对变化赋予了意义——他没有及时回你消息，纯C会想「他是不是不开心了」，你会想「他是不是不在乎我了」。你把一个行为读取成了一个价值判断。
+
+还有一种：你在冲突的时候会同时在两个地方——你在感受，同时在判断。你在心疼，同时在审视。这种双重运转让你在冲突里特别累——因为你不只是在跟对方吵架，你也在跟自己的标准对齐。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- D+E 自由守望者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#eeebfc,#fce8e4)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#4a34a0;color:#fff">🪞 认同</span><span class="sys-chip" style="background:#902010;color:#fff">🎮 游戏</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">自由守望者</div><div class="card-en" style="color:#444">Free Principled · D + E</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d4ccf0">🌲</div><div class="person-name">亨利·大卫·梭罗<span>Henry David Thoreau</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">自由是有方向感的</span>
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">不是反叛，是不匹配</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">独立性极强</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你是那种别人很难理解为什么你不愿意做某件事的人。不是因为你懒，不是因为你怕——是因为那件事和你是谁这件事不匹配。
+
+你的认同系统知道你是谁，你的游戏系统需要自由来探索你可以是谁。两个系统加在一起产生了一种很独特的人格：你有方向感的自由。你不是随机漫游——你的探索是有价值观导航的。
+
+你可能尝试过很多不同的事情，但在每一次探索的底下，都有同一条主线。别人看到的是你一直在变，你知道的是你一直在找——找一种跟你内在一致的生活方式。
+
+你不太喜欢被任何人或规则束缚。不是因为你反叛——是因为束缚让你没法成为你该成为的人。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#4a2060;margin-bottom:.35rem">结构优势与独有能力</div>你是最能按自己方式生活的组合。纯认同系统有方向但不一定会探索。纯游戏系统会探索但不一定有方向。你两个都有——你的自由是有目的地的。
+
+这种组合在独立创作、自由职业、任何需要「活出自己」的领域里是最天然的结构。你不需要外部的认可来确认你的方向——你自己就知道。
+
+你还有一种别人不容易学会的能力：你能抵抗社会惯性。当所有人都在走同一条路的时候，你能走自己的路，而且不觉得孤独——因为你的认同系统给了你内在的陪伴。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的自由和原则同时最大化，会与几乎所有结构产生摩擦。
+
+你的认同系统说：这件事必须跟我是谁一致。你的游戏系统说：我不想被限制。两个系统加在一起，你对外部结构的容忍度极低——工作规则、社交惯例、别人的期望，只要跟你的内在不一致，你就很难配合。
+
+还有一个卡点：你的独立性极强，强到你有时候把需要帮助也当成了一种束缚。你可以自己搞定——但不是所有事情都应该自己搞定。
+
+更隐蔽的问题：你的自由有时候是一种孤独。世界不总是一个可以按自己方式运作的地方。当你发现你没法完全按自己的方式生活，你的两个系统都会受挫——认同系统觉得被妥协了，游戏系统觉得被限制了。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你很难为了关系调整自己。
+
+关系需要妥协。但你的认同系统把妥协读取为「违背自己」，你的游戏系统把妥协读取为「失去自由」。所以一件在别人看来很正常的事情——比如配合伴侣的时间表、参加他家人的活动——在你的系统里需要一个很长的内部审核过程。
+
+另一种失灵：你的伴侣可能觉得他永远排在你的「自我」后面。不是你不爱——是你的系统给了「做自己」太高的优先级。关系需要你有时候不做自己——或者至少，做一个跟他在一起的自己。
+
+还有一种：你在关系里需要大量的独处空间。这对很多伴侣来说很难理解——他觉得你不想跟他在一起。你其实只是需要一个不必是任何人的时间。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- E+A 概念探索者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#fce8e4,#eef6e6)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#902010;color:#fff">🎮 游戏</span><span class="sys-chip" style="background:#2a5a14;color:#fff">🔍 解释</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">概念探索者</div><div class="card-en" style="color:#444">Concept Explorer · E + A</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f8d0c4">🎨</div><div class="person-name">莱昂纳多·达·芬奇<span>Leonardo da Vinci</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">把两个不相关的领域连在一起然后停不下来</span>
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">好奇心不是随机的，是有结构的</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">最容易跨领域突破的组合</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你跟创想者（A+E）很像，但有一个区别：你的游戏系统先启动。你先被一个新东西吸引了，然后你的解释系统开始理解它。创想者先看懂了结构再打破它，你先被打破吸引了再去理解为什么。
+
+你的好奇心是你最明显的特质。你对什么都感兴趣——但不是那种浅浅的感兴趣。你感兴趣之后会深入进去，用你的解释系统把它拆开来看。你能在任何一个领域快速到达「比大多数人理解得深」的水平。
+
+你最有趣的时刻是你发现两个完全不相关的领域之间有某种深层的相似性。生物学和经济学、音乐和数学、烹饪和化学——你的脑子天然在做这种跨领域的连接。
+
+你的问题不是缺少想法——是想法太多了，每一个都值得追下去。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#6a3020;margin-bottom:.35rem">结构优势与独有能力</div>你是最容易在跨领域产生突破的组合。你的游戏系统带你去别人不会去的地方，你的解释系统让你在那些地方真的看懂了什么。
+
+纯游戏系统会到处探索但不一定能提炼出洞见。纯解释系统能提炼洞见但不会跨到新领域。你两个都有——你先到了一个新地方，然后你理解了为什么这个地方重要。
+
+你还有一种让人兴奋的能力：你能让一个领域的专家看到他们从来没想过的角度——因为你从另一个领域带来了一种他们没有的透镜。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的想法比执行多十倍。太多未完成的项目留在脑子里——或者更准确地说，留在你的浏览器标签里。
+
+你的游戏系统给你新的好奇，你的解释系统让每个好奇都变得值得深入。问题是你深入了三步之后，另一个好奇出现了——而那个新的看起来更有意思。于是上一个就停在那里了。
+
+还有一个卡点：你的好奇心有时候是一种逃避。深耕意味着你得在同一个领域待很久，面对重复，面对你在这个领域真实的能力边界。探索让你永远待在「新手的兴奋」里。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你的脑子不在这里。
+
+你的伴侣跟你说话，你在想一个完全不相关的东西——物理学里的一个概念，或者你刚看到的一个有趣的想法。你不是不关心——是你的系统被另一个东西抓走了。他感受到了你的不在场。
+
+另一种失灵：你对关系的「研究模式」让伴侣不舒服。你会不自觉地分析你们的关系——用框架、用理论、用你从心理学书里看到的概念。你觉得这是在理解关系，他觉得你在把他当实验对象。
+
+还有一种：你的兴趣变化太快。你上个月对烹饪着迷，这个月对天文着迷。你的伴侣不知道你下个月会对什么着迷——也不确定你对他的兴趣会不会也变。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- E+B 实验者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#fce8e4,#e4eef8)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#902010;color:#fff">🎮 游戏</span><span class="sys-chip" style="background:#144080;color:#fff">⚡ 执行</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">实验者</div><div class="card-en" style="color:#444">Experimenter · E + B</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f5d4c0">💡</div><div class="person-name">托马斯·爱迪生<span>Thomas Edison</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">失败不是终点，是数据</span>
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">做一次比想一百次更真实</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">边做边学的终极形态</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你跟开路者（B+E）很像，但区别是：你的游戏系统先启动。你先好奇了，然后你的执行系统让你立刻去试。开路者先动了，然后在动的过程中发现好玩的。你先觉得好玩了，然后去做。
+
+你对「先想清楚再做」这件事有天然的抗拒。你的直觉告诉你，做一次学到的东西比想一百次更真实。你是那种会先试一下，失败了再试另一种方式，再失败了再换——每一次失败对你来说不是挫折，是数据。
+
+你的生活里有很多「实验」——有些成功了，有些没有，但你从来不觉得那些没成功的是浪费。它们都教了你什么。
+
+你的精力让人惊讶。你可以在同一天里尝试三种完全不同的东西，每一种都是真的在做，不是在想象。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5a2020;margin-bottom:.35rem">结构优势与独有能力</div>你是最强的「学习型」结构。失败对你来说是数据——这不是一句口号，是你的系统真的这样运作。
+
+纯游戏系统会好奇但不一定会动手。纯执行系统会动手但不一定在探索。你两个都有——你好奇了就做，做了就学到，学到了就好奇下一个。这个循环是你最核心的运作方式。
+
+在需要快速学习、快速迭代、快速适应的场景里——创业、产品开发、任何新领域——你的方式是最高效的。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你永远在重新开始新的实验，而不是把上一个做完。
+
+你的游戏系统给你新的好奇，你的执行系统让你立刻开始做。但「做完」需要在兴奋消退之后继续——你的系统不太支持这件事。你有很多精彩的开始，但完整做完的东西比你应该有的少。
+
+还有一个卡点：你对需要可靠性的合作者来说，看起来不稳定。你永远在尝试新东西——对你来说这是学习，对他们来说这是不靠谱。
+
+更隐蔽的问题：你有时候用「实验」来回避承诺。「我在试试看」比「我决定了」安全得多——因为试试看可以随时退出。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你的伴侣不知道哪个是你真正要走的路。
+
+你在尝试各种东西——不同的工作方向、不同的生活方式、不同的可能性。你觉得这是在探索，你的伴侣觉得这是在飘。他需要知道你们要去哪里，你只能告诉他「我们走着看」。
+
+另一种失灵：你把关系也当成实验。你会尝试不同的相处方式、不同的生活安排——你觉得你在优化关系，他可能觉得你在把他当试验品。
+
+还有一种：你的高能量和高变化性让需要稳定的伴侣疲惫。不是你要求他跟上——是你的生活节奏本身就是一种压力。他在你身边会觉得一切都在变，唯一不变的是你在变。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- E+C 快乐传播者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#fce8e4,#fdf0dc)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#902010;color:#fff">🎮 游戏</span><span class="sys-chip" style="background:#8a4e08;color:#fff">💛 情感</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">快乐传播者</div><div class="card-en" style="color:#444">Joy Spreader · E + C</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f8c8c0">😊</div><div class="person-name">艾伦·德杰尼勒斯<span>Ellen DeGeneres</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">让陌生人觉得他们认识你很久了</span>
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">用游戏性创造情感连接</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">社交场景里的天然润滑剂</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你跟氛围制造者（C+E）很像，但区别是：你的游戏系统先启动。你先想到了一个有趣的东西——一个笑话、一种玩法、一个新角度——然后你的情感系统让你知道怎么把这个有趣的东西变成一种让人感觉好的体验。
+
+你是那种让社交变得容易的人。不是那种主动networking的人——是那种你在场，大家自然就放松了，自然就开始说真话了。你的游戏性让严肃变轻松，你的情感敏感让轻松不会变成冒犯。
+
+你喜欢让人开心。不是讨好——是你真的觉得，看到别人笑起来是一件很好的事情。你的系统在别人开心的时候也会开心。
+
+你在社交场合通常是那个让所有人都记住的人——不是因为你最聪明，是因为你让他们觉得被接纳了。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7a3a10;margin-bottom:.35rem">结构优势与独有能力</div>你是最能用轻松创造连接的组合。纯游戏系统能创造乐趣但不一定能感知人。纯情感系统能感知人但不一定有趣。你两个都有——你有趣而且走心。
+
+这种能力在社交、表演、教育、品牌、任何需要「让人觉得舒服」的场景里是最天然的能力。你不用学——你在场就会发生。
+
+你还有一种别人不容易做到的事：你能让一个原本抵触的人卸下防备。你的方式不是讲道理——是让他笑一下，然后在笑里他忘记了他在抵触什么。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的快乐有时候是一种防御。
+
+你的游戏系统擅长把沉重的东西变轻。但有些东西不应该被变轻——有些痛苦需要被面对，有些悲伤需要被待在里面。你的系统太快了，快到你还没感受完一个情绪，你就已经把它变成了一个笑话。
+
+长期下来，你可能不太确定自己的真实感受是什么。因为每次一个负面情绪出现，你的系统就自动处理了它——把它变轻，变好笑，变成一个可以讲给别人听的故事。原始的那个感受呢？你不太确定它去哪了。
+
+还有一个卡点：你可能成为一个「永远开心的人」——但没有人永远开心。这个形象会变成一种牢笼：你不确定如果你不开心了，别人还会不会喜欢你。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你的伴侣不知道你真正的状态。
+
+你在他面前也会不自觉地「让一切变好」。你们有一个问题，你的第一反应是化解它——用一个笑话、用一个转移、用「没事没事」。但有时候不应该没事——那个问题需要被认真对待。
+
+另一种失灵：你不太会在关系里示弱。你是那个让别人开心的人——当你不开心的时候，你的系统不知道怎么运作。你可能选择自己消化，而不是让伴侣看到你的脆弱。
+
+还有一种：你对关系的「新鲜感」需求可能让伴侣不安。你需要新的体验、新的玩法、新的乐趣——你的伴侣可能更需要稳定。你觉得你在给关系注入活力，他可能觉得你坐不住。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- E+D 理想漫游者 -->
+      <div class="struct-card">
+        <div class="card-top" style="background:linear-gradient(135deg,#fce8e4,#eeebfc)">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#902010;color:#fff">🎮 游戏</span><span class="sys-chip" style="background:#4a34a0;color:#fff">🪞 认同</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">理想漫游者</div><div class="card-en" style="color:#444">Ideal Wanderer · E + D</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f8d0c0">🛣️</div><div class="person-name">杰克·凯鲁亚克<span>Jack Kerouac</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">不是在逃跑，是在寻找</span>
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">「稳定一点」在你听来是「妥协一点」</span>
+            <span class="trait-tag" style="background:#f0f0f0;color:#444">有方向感的漫游</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你跟自由守望者（D+E）很像，但区别是：你的游戏系统先启动。你先被自由和探索吸引，然后你的认同系统在探索中寻找意义。自由守望者先知道自己要什么，然后去探索。你先探索了，然后在探索中发现自己是谁。
+
+你可能换过很多次方向——工作、城市、生活方式。别人觉得你在飘，你知道你在找。找什么？找一种跟你内在一致的生活方式。你还没找到，但你知道不是眼前这个。
+
+别人说「你能不能稳定一点」，你听进去的是「你能不能妥协一点」。不是你不想稳定——是你的稳定不能建立在跟自己不一致的基础上。
+
+你的漫游不是随机的。在每一次出发的底下，都有同一个问题：真实的生活应该是什么样的？</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#6a2040;margin-bottom:.35rem">结构优势与独有能力</div>你是最能活出自己的组合之一。你的游戏系统给你探索的勇气，你的认同系统给你探索的方向——不是具体的目的地，是一种「我会知道的」的内在指南针。
+
+这种组合在创作、独立生活、任何需要「找到自己的路」的领域里是最天然的结构。你不是跟着别人的地图走——你在画自己的地图。
+
+你还有一种让人向往的品质：你活出了很多人想活但不敢活的样子。他们在你身上看到了一种他们自己放弃了的可能性。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的漫游有时候是一种逃避。
+
+你的游戏系统说：再试一个。你的认同系统说：这个不是我要的。两个系统加在一起，你可以无限地「还在找」——永远不用面对一个你找到了之后的生活。因为找到了意味着停下来，停下来意味着没有了「在路上」的浪漫。
+
+还有一个卡点：你的理想可能太纯粹了。你在找的那种「完全一致」的生活方式可能不存在。不是因为你的理想有问题——是因为现实总是需要某种程度的妥协。你的系统不太能接受这种妥协。
+
+更隐蔽的问题：你有时候用探索来回避深耕。深耕意味着在同一个地方待很久，意味着面对你的平庸。探索让你永远在出发。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最常出现的问题是：你的伴侣不知道你会不会留下来。
+
+不是你不爱——是你的系统让你很难对「留下来」做出一个干脆的承诺。你的游戏系统需要可能性，你的认同系统需要一致性——当关系进入日常，你的游戏系统开始不安（太重复了），你的认同系统开始审核（这是我想要的关系吗？）。
+
+另一种失灵：你对伴侣的期望可能太理想化。你在找的不只是一个人——是一个跟你的理想生活一致的人。当现实中的伴侣不完全匹配你的理想，你的系统会产生一种拉扯。
+
+还有一种：你在关系里需要大量的自由空间。对你来说这是必需品，对你的伴侣来说可能是一种信号：他不确定你是需要空间，还是在为离开做准备。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ 极端单核 ═══ -->
+  <div class="cat-extreme">
+    <div class="section-head">
+      <div class="sh-label">Pattern 03 · 极端单核结构</div>
+      <h2>当一个系统成为唯一的现实</h2>
+      <p>极端结构的卡点不是强度，是排他性——其他系统的信号被当作噪音处理，直到它们无法再被忽略</p>
+    </div>
+    <div class="card-grid">
+
+      <!-- 纯分析者 -->
+      <div class="struct-card" style="border-left:3px solid #2a5a14">
+        <div class="card-top" style="background:#eef6e6">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#2a5a14;color:#fff">🔍 极端解释系统</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">纯分析者</div><div class="card-en" style="color:#444">Pure Analyst</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d0e8c8">∞</div><div class="person-name">约翰·冯·诺依曼<span>John von Neumann</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">世界是一个等待被理解的系统</span>
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">情感对你来说需要翻译</span>
+            <span class="trait-tag" style="background:#d4eccc;color:#2a5a14">极度高效，极度孤独</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你的世界是由结构、模式和因果链组成的。情绪、直觉、氛围——这些对别人来说是自动运作的东西，对你来说需要主动翻译。不是你不在乎，是「在乎」这件事不是你的默认模式。
+
+你可以在任何嘈杂的环境中保持专注。你的注意力像一束激光，能穿透复杂性直接到达结构的核心。你在某些领域可以到达别人到不了的深度。
+
+你与人相处不是你最自然的状态。不是你不喜欢人——是社交对你来说需要消耗额外的能量去做「翻译」：这个表情是什么意思？我应该怎么回应？他在等我说什么？这些对别人来说是自动的事情，你需要手动运行。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#2a5a14;margin-bottom:.35rem">结构优势与独有能力</div>你是所有结构里分析能力最强的。没有情感干扰，你的解释系统可以以最高效率运转。在需要纯粹的智力工作的领域——数学、理论物理、系统设计、算法——你能到达别人到不了的地方。
+
+你还有一种罕见的客观性：你的判断几乎不受情绪影响。在其他人都在被恐惧或兴奋左右的时候，你还在看数据。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你最大的盲区是你通常最后一个发现的：你很孤独。
+
+不是你不想连接——是你的系统不知道怎么连接。情感对你来说像一门外语——你可以学，但永远不是母语。你会错过很多社交信号，会在需要共情的时候给出分析，会在别人需要你「在」的时候只是在「想」。
+
+你可能很久之后才发现：你身边的人越来越少了。不是他们不好——是跟你在一起太累了。他们需要的情感回应，你给不了。你能给的深度分析，他们不需要。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最大的挑战是：你的伴侣觉得你不在那里。
+
+你在那里——你在想。但对他来说，你在想和你不在没有区别。他说一件事，他期待的是情感回应——一个表情、一个拥抱、一句「我理解」。你给的是一个解释。他觉得你在回避，你觉得你在帮忙。
+
+你很难理解为什么有些对话「不需要有结论」。你的伴侣想说说他的一天——不是要你分析，只是要你听。但你的系统不知道怎么「只听」。它会自动开始处理、分类、找模式。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- 纯行动者 -->
+      <div class="struct-card" style="border-left:3px solid #144080">
+        <div class="card-top" style="background:#e4eef8">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#144080;color:#fff">⚡ 极端执行系统</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">纯行动者</div><div class="card-en" style="color:#444">Pure Actor</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#c0d8f0">⚔️</div><div class="person-name">亚历山大大帝<span>Alexander the Great</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">停下来比死亡更可怕</span>
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">行动是你的全部存在方式</span>
+            <span class="trait-tag" style="background:#cce0f5;color:#144080">从不回头</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你的存在方式就是行动。停下来对你来说不是休息——是一种威胁。因为一旦停下来，你不知道自己是谁。你通过做来确认自己的存在。
+
+你的速度和产出让人震惊。你可以在别人还在计划的时候就已经完成了。你不需要准备——你就是准备。你的整个系统都在为行动服务。
+
+你对反思有一种天然的回避。不是你不能想——是想的时候你会不舒服。行动让你觉得踏实，思考让你觉得漂浮。所以你一直在做，一直在推，一直在征服下一个。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#144080;margin-bottom:.35rem">结构优势与独有能力</div>你是所有结构里行动力最强的。没有分析的犹豫、情感的牵绊、原则的审核或好奇的分心——你的执行系统以最大功率运转。在需要纯粹的行动力的场景里——战场、紧急救援、高压竞争——你是最极致的存在。
+
+你还有一种别人不容易学会的韧性：你在被打倒之后站起来的速度比任何人都快。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你从不停下来，也从不反思。高速但方向感模糊，最后往往不知道自己在哪里——或者为什么要在这里。
+
+你用行动填满了所有的空间。如果有人让你「什么都不做地坐一个小时」，你会焦虑到发疯。不做事对你来说不是休息，是一种存在的空洞。
+
+你最深层的恐惧不是失败——是停下来之后发现：你不知道自己是谁。你的身份建立在「我在做」上面。没有了做的那个部分，你是谁？</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最大的挑战是：你不知道怎么「在一起但什么都不做」。
+
+你的伴侣想跟你安静地待着。你坐不住。你会开始找事做——收拾房间、回邮件、计划下周。他要的是你的存在，你给的是你的产出。
+
+你的速度让伴侣觉得自己永远在追你。你已经在下一步了，他还在这一步。他不是慢——是你不等人。
+
+你很难说出「我需要你」。因为需要别人意味着你不能独自完成，而你的系统把「不能独自完成」读取为「失败」。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- 纯感受者 -->
+      <div class="struct-card" style="border-left:3px solid #8a4e08">
+        <div class="card-top" style="background:#fdf0dc">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#8a4e08;color:#fff">💛 极端情感系统</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">纯感受者</div><div class="card-en" style="color:#444">Pure Feeler</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f8e0b8">✍️</div><div class="person-name">弗吉尼亚·伍尔夫<span>Virginia Woolf</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">情绪以你无法控制的方式进入你</span>
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">感知力是天赋，也是诅咒</span>
+            <span class="trait-tag" style="background:#fce8c0;color:#8a4e08">非凡的感知力和极度的脆弱性是同一枚硬币</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你的情感系统没有过滤器。一切感受以原始强度进入。光线的变化、他人的一个眼神、一首歌的旋律——这些东西可以在你身体里引发巨大的波动。不是你太敏感——是你的系统天然就是全开的。
+
+你能感受到别人感受不到的东西。一个房间里最微小的情绪变化，你都能捕捉到。这让你在创造性领域有非凡的能力——写作、艺术、音乐——因为你的原材料比别人丰富得多。
+
+但你也知道被一首歌压垮是什么感觉。不是比喻——是真的。情绪以你不能控制的方式进入你，以你不能控制的强度停留在你身体里。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#8a4e08;margin-bottom:.35rem">结构优势与独有能力</div>你的感知力是所有结构里最强的。你能触及人类体验中最细微的层面——别人用词语描述的东西，你用整个身体感受到。
+
+在创造性领域，这是最核心的天赋。你的作品之所以能打动人，是因为你真的感受到了那些东西——不是在描述感受，是在传递感受。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你的情感边界几乎不存在。别人的情绪进来了，你不知道它什么时候会走。你吸收了太多不是你的东西，却分不清哪些是你的、哪些是别人的。
+
+你极易被外部情绪淹没。一次激烈的对话可以让你几天都恢复不过来。不是你不坚强——是你的系统接收的信号强度太大了，处理需要时间。
+
+你最大的挑战是：保护自己，但不关掉感知力。因为关掉感知力就等于关掉你最核心的能力——你的感受是你的天赋，也是你的脆弱。它们是同一个东西。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最大的挑战是：你太容易被伴侣的情绪影响。
+
+他不开心了，你也不开心了——不是因为同理心，是因为你的系统直接吸收了他的情绪。你分不清「我在感受他的情绪」和「我自己的情绪」。长期下来，你在关系里可能会失去自己的情感边界。
+
+你害怕冲突。不是怕吵架——是冲突里的情绪强度对你来说太大了。你的系统会被淹没。所以你回避、退让、压下自己的需求——不是你不在乎，是你承受不了那个重量。
+
+你需要大量的独处时间来恢复——但你的伴侣可能不理解为什么你需要这么多空间。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- 纯原则者 -->
+      <div class="struct-card" style="border-left:3px solid #4a34a0">
+        <div class="card-top" style="background:#eeebfc">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#4a34a0;color:#fff">🪞 极端认同系统</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">纯原则者</div><div class="card-en" style="color:#444">Pure Principled</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#d4ccec">🏺</div><div class="person-name">第欧根尼<span>Diogenes of Sinope</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">内在标准是唯一的现实</span>
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">零妥协</span>
+            <span class="trait-tag" style="background:#ddd6f5;color:#4a34a0">原则高于一切，包括帝王的好意</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你的内在标准是唯一的现实。外部世界的奖惩——钱、名声、别人的看法——对你几乎没有影响。你做一件事不是因为它有好处，是因为它是对的。你不做一件事不是因为它有风险，是因为它是错的。
+
+你极度独立。你不需要别人的认可来确认你的方向。你心里有一面镜子，你每天都在照。你知道自己有没有做对的事。
+
+别人可能觉得你固执、不通融、很难合作。你知道真相是：你可以通融，但你选择不。因为通融的代价是你不再是你了。
+
+你的原则不是规则——规则是别人给的。你的原则是你自己长出来的，跟你的身份绑在一起。违反原则不是犯错——是自毁。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#4a34a0;margin-bottom:.35rem">结构优势与独有能力</div>你是所有结构里内在最稳定的。没有什么可以动摇你——不是因为你强大，是因为你的参照系完全在内部。外部世界可以变，你不变。
+
+这种稳定性在极端环境里是最稀缺的资源。当所有人都在妥协的时候，你还在那里。这不是勇气——是结构。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你最难与他人真正建立连接。原则是你的资产，也是一堵把所有人挡在外面的墙。
+
+你的标准太高了——不只是对自己，是对所有人。你不会说出来，但你的评判是可见的。身边的人能感受到：在你面前，他们永远不够好。
+
+你极度难以合作。不是因为你不愿意——是因为合作需要妥协，而你的系统把妥协读取为投降。你宁可一个人做，也不愿意跟别人做一个你觉得不对的版本。
+
+你可能是最孤独的结构——而且你通常是最后一个意识到自己孤独的人。因为你的系统把孤独读取为「代价」，而不是「问题」。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最大的挑战是：你让亲近的人觉得自己永远不够好。
+
+你的标准是看不见的，但你的伴侣能感受到。他做了一件事，你没说什么。但你的沉默比批评更重——因为他知道你在判断，但他不知道结果。
+
+你很难妥协。关系需要妥协，但你的系统把妥协读取为「不再是我」。小事上的妥协——去哪里吃饭、看什么电影——你可以。但涉及价值观的事情——怎么花钱、怎么教育孩子、怎么对待家人——你让步不了。
+
+你很难接受帮助。你的系统把接受帮助读取为「需要依赖」，而依赖意味着你不再完全自主。你宁可一个人扛着，也不会让伴侣看到你扛不动。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+      <!-- 纯探索者 -->
+      <div class="struct-card" style="border-left:3px solid #902010">
+        <div class="card-top" style="background:#fce8e4">
+          <div class="card-sys-strip"><span class="sys-chip" style="background:#902010;color:#fff">🎮 极端游戏系统</span></div>
+          <div class="card-main">
+            <div><div class="card-zh">纯探索者</div><div class="card-en" style="color:#444">Pure Explorer</div></div>
+            <div class="card-person"><div class="person-avatar" style="background:#f8d0c4">🗺️</div><div class="person-name">马可·波罗<span>Marco Polo</span></div></div>
+          </div>
+          <div class="traits-row">
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">永远在出发，从不到达</span>
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">稳定是你的敌人</span>
+            <span class="trait-tag" style="background:#f5d0c8;color:#902010">当一件事开始变熟悉，它就开始死去</span>
+          </div>
+        </div>
+        <button class="expand-btn" onclick="toggleCard(this)"><span>你是这样的人 · 结构优势 · 卡点 · 关系</span><span class="expand-arrow">↓</span></button>
+        <div class="card-body">
+          <div class="card-why"><div class="card-why-label">你是这样的人</div>你的系统只有一个驱动力：新鲜感。还有没有去过的地方？还有没有见过的人？还有没有尝试过的东西？只要答案是「有」，你就有能量。一旦答案变成「没有了」——你会陷入一种你很少跟别人描述的低落。
+
+你对重复有生理性的抗拒。一件事做熟了，它在你心里就开始死去。不是它变坏了——是那个让你兴奋的部分消失了。你需要的不是更好——是不同。
+
+你可能换过很多次方向。工作、城市、爱好、甚至关系。别人觉得你善变，你知道真相是：你在找一种你还没找到的东西。但你也不确定你在找什么——也许你在找的就是「找」本身。
+
+你是最自由的结构。但自由的代价是没有根。</div>
+          <div class="card-2p"><div style="font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#902010;margin-bottom:.35rem">结构优势与独有能力</div>你是所有结构里探索力最强的。没有分析的犹豫、没有原则的限制、没有情感的牵绊——你的游戏系统以最大功率运转。你能在任何地方找到乐趣和可能性。
+
+你还有一种让人向往的品质：你真的在活。不是在计划活、不是在准备活——是在活。当下这一刻你全部在这里。下一刻你在别的地方——但那一刻你也全部在那里。</div>
+          <div class="card-dark"><div class="card-dark-label">这个结构会在哪里卡住</div>你永远在出发，从不到达。深耕和承诺对你来说是真实的挑战。
+
+你的系统给「新」的奖赏太高了，给「坚持」的奖赏太低了。所以你有无数个精彩的开头，但很少有完整的作品。你跟自己说「我还在探索」——但有时候探索不是在寻找，是在逃避停下来之后会发现的东西。
+
+你最深层的恐惧可能是：如果你停下来，你会发现你没有一个可以称为「家」的地方——不是物理的家，是心理的家。一个你属于的地方，一件你可以做一辈子的事情。
+
+「到达」本身可以是一种新的探索——如果你愿意尝试的话。</div>
+          <div class="card-note"><div class="card-note-label">在关系里的失灵方式</div>你在关系里最大的挑战是：你不知道怎么留下来。
+
+恋爱的开头你全情投入——探索另一个人是世界上最有趣的事情。但当这种探索的新鲜感消退了——不是不爱了，是新鲜感的部分没了——你会开始坐立不安。
+
+你的伴侣需要知道你会在那里。你给不了这个保证——不是因为你不忠诚，是因为你自己也不确定你明天会想要什么。
+
+你对承诺有一种深层的恐惧。承诺意味着关掉可能性——而你最怕的事情就是没有可能性。你会拖延每一个需要「定下来」的决定：搬家、结婚、生孩子。不是你不想——是定下来之后你就不能出发了。</div>
+          <div class="card-cta-wrap"><button class="card-cta" onclick="goTest()">测一测你的系统层级 →</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="text-align:center;padding:2rem 0 3rem;border-top:1px solid #e8e6e0;margin-top:1rem">
+    <div style="font-size:11px;color:#ccc;letter-spacing:.07em;font-weight:600;text-transform:uppercase">Z5S Personality Structures · 人格结构图鉴 · V2</div>
+    <div style="font-size:12px;color:#bbb;margin-top:.4rem">5 单系统 · 20 双系统 · 5 极端单核 · 共 30 种</div>
+  </div>
+
+</div>
+
+<script>
+var sfSys1=null, sfSys2=null;
+
+function getCardSystems(card){
+  var chips=card.querySelectorAll('.sys-chip');
+  var result=[];
+  chips.forEach(function(c){
+    var t=c.textContent;
+    if(t.includes('解释')) result.push('A');
+    else if(t.includes('执行')) result.push('B');
+    else if(t.includes('情感')) result.push('C');
+    else if(t.includes('认同')) result.push('D');
+    else if(t.includes('游戏')) result.push('E');
+  });
+  return result;
+}
+
+function pickSys(slot, sys, btn){
+  if(slot===1){
+    if(sfSys1===sys){sfSys1=null;btn.classList.remove('active');}
+    else{document.querySelectorAll('#chips1 .sf-chip').forEach(function(b){b.classList.remove('active');});sfSys1=sys;btn.classList.add('active');}
+    if(sfSys2===sfSys1){sfSys2=null;document.querySelectorAll('#chips2 .sf-chip').forEach(function(b){b.classList.remove('active');});}
+  } else {
+    if(!sfSys1) return;
+    if(sfSys2===sys){sfSys2=null;btn.classList.remove('active');}
+    else{document.querySelectorAll('#chips2 .sf-chip').forEach(function(b){b.classList.remove('active');});sfSys2=sys;btn.classList.add('active');}
+    if(sfSys2===sfSys1){sfSys2=null;document.querySelectorAll('#chips2 .sf-chip').forEach(function(b){b.classList.remove('active');});}
+  }
+  applyFilter();
+}
+
+function applyFilter(){
+  var r=document.getElementById('sfResult');
+  var rt=document.getElementById('sfResultText');
+  var sysName={A:'解释',B:'执行',C:'情感',D:'认同',E:'游戏'};
+  if(!sfSys1){
+    r.style.display='none';
+    document.querySelectorAll('.struct-card').forEach(function(c){c.classList.remove('sf-hidden');});
+    ['cat-single','cat-double','cat-extreme'].forEach(function(cls){document.querySelector('.'+cls).style.display='';});
+    return;
+  }
+  var label=sysName[sfSys1];
+  if(sfSys2) label+=' → '+sysName[sfSys2];
+  rt.textContent='显示：'+label+' 的结构';
+  r.style.display='flex';
+  document.querySelectorAll('.struct-card').forEach(function(card){
+    var sysList=getCardSystems(card);
+    var match=false;
+    if(sfSys1&&sfSys2){
+      match=sysList.length===2&&sysList[0]===sfSys1&&sysList[1]===sfSys2;
+    } else {
+      match=sysList.length===1&&sysList[0]===sfSys1;
+    }
+    card.classList.toggle('sf-hidden',!match);
+  });
+  ['cat-single','cat-double','cat-extreme'].forEach(function(cls){
+    document.querySelector('.'+cls).style.display='';
+  });
+}
+
+function clearFilter(){
+  sfSys1=null;sfSys2=null;
+  document.querySelectorAll('.sf-chip').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('sfResult').style.display='none';
+  document.querySelectorAll('.struct-card').forEach(function(c){c.classList.remove('sf-hidden');});
+}
+
+function toggleCard(btn){
+  var card=btn.closest('.struct-card');
+  card.classList.toggle('open');
+  var span=btn.querySelector('span:first-child');
+  span.textContent=card.classList.contains('open')?'收起':'临床现象与参照 · 结构深析';
+}
+
+function filterCat(cat,el){
+  clearFilter();
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  var s=document.querySelector('.cat-single');
+  var d=document.querySelector('.cat-double');
+  var e=document.querySelector('.cat-extreme');
+  s.style.display=cat==='double'||cat==='extreme'?'none':'';
+  d.style.display=cat==='single'||cat==='extreme'?'none':'';
+  e.style.display=cat==='single'||cat==='double'?'none':'';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goTest(){
+  window.open('z5s-level-measure.html','_self');
+}
+
+document.querySelectorAll('.card-why-label').forEach(function(el){
+  el.textContent='临床现象与参照';
+});
+document.querySelectorAll('.card-dark-label').forEach(function(el){
+  el.textContent='这个结构会在哪里卡住';
+});
+document.querySelectorAll('.card-note-label').forEach(function(el){
+  var t=el.textContent;
+  if(t==='结构特点'||t==='结构特别之处'||t==='极端特征'||t==='结构特点') el.textContent='在关系里的失灵方式';
+});
+document.querySelectorAll('.expand-btn span:first-child').forEach(function(el){
+  el.textContent='临床现象与参照 · 结构深析';
+});
+</script>
+</body>
+</html>
