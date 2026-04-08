@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>为什么我会被吓到 — 了解ADHD的感官世界</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #faf8f5;
+    --warm: #e8ddd3;
+    --accent: #c45d3e;
+    --accent-soft: #e8a690;
+    --accent-glow: rgba(196, 93, 62, 0.08);
+    --sage: #5a7a6a;
+    --sage-soft: #dce8e0;
+    --storm: #4a5568;
+    --mist: #f0ece6;
+    --gold: #b8860b;
+    --gold-soft: rgba(184,134,11,0.1);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.85;
+    font-size: 17px;
+    overflow-x: hidden;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    background: linear-gradient(170deg, var(--paper) 0%, var(--warm) 50%, var(--mist) 100%);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+      radial-gradient(ellipse 600px 400px at 20% 30%, rgba(196,93,62,0.06), transparent),
+      radial-gradient(ellipse 500px 500px at 80% 70%, rgba(90,122,106,0.06), transparent);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    background: var(--sage-soft);
+    padding: 0.4rem 1.2rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    animation: fadeDown 1s ease-out;
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    animation: fadeDown 1s ease-out 0.15s both;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+    position: relative;
+  }
+
+  .hero h1 em::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 0; right: 0;
+    height: 3px;
+    background: var(--accent-soft);
+    border-radius: 2px;
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--storm);
+    max-width: 540px;
+    line-height: 1.9;
+    animation: fadeDown 1s ease-out 0.3s both;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    margin-top: 2.5rem;
+    animation: fadeDown 1s ease-out 0.45s both;
+  }
+
+  .hero-cta a {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    padding: 0.9rem 2.4rem;
+    border-radius: 100px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition: all 0.3s ease;
+  }
+
+  .hero-cta a:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(196,93,62,0.2);
+  }
+
+  /* ============ SCROLL INDICATOR ============ */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite, fadeDown 1s ease-out 0.6s both;
+  }
+
+  .scroll-hint svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--storm);
+    opacity: 0.4;
+  }
+
+  /* ============ NAV ============ */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,248,245,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding: 0.8rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .sticky-nav a {
+    text-decoration: none;
+    color: var(--storm);
+    font-size: 0.82rem;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    transition: all 0.25s;
+    font-weight: 400;
+  }
+
+  .sticky-nav a:hover {
+    background: var(--accent-glow);
+    color: var(--accent);
+  }
+
+  /* ============ SECTIONS ============ */
+  .content-wrap {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section {
+    padding: 5rem 0;
+  }
+
+  section + section {
+    border-top: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .section-num {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  h2 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 2.5rem 0 1rem;
+    color: var(--ink);
+  }
+
+  p {
+    margin-bottom: 1.3rem;
+    color: var(--storm);
+  }
+
+  p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ============ EVIDENCE CARDS ============ */
+  .evidence-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem 2.2rem;
+    margin: 2rem 0;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+    border-left: 4px solid var(--accent);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .evidence-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, var(--accent-glow), transparent);
+    border-radius: 50%;
+    transform: translate(30%, -30%);
+  }
+
+  .evidence-card .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.8rem;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+
+  .tag-research {
+    background: var(--gold-soft);
+    color: var(--gold);
+  }
+
+  .tag-neuro {
+    background: rgba(90,122,106,0.1);
+    color: var(--sage);
+  }
+
+  .tag-clinical {
+    background: rgba(196,93,62,0.08);
+    color: var(--accent);
+  }
+
+  .evidence-card h4 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+
+  .evidence-card p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+
+  .source {
+    font-size: 0.78rem;
+    color: var(--sage);
+    margin-top: 0.8rem;
+    font-style: italic;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding-top: 0.8rem;
+  }
+
+  .source a {
+    color: var(--sage);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* ============ ANALOGY BOX ============ */
+  .analogy {
+    background: linear-gradient(135deg, var(--sage-soft), #e8ede9);
+    border-radius: 16px;
+    padding: 2.2rem 2.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+  }
+
+  .analogy::before {
+    content: '💡';
+    font-size: 1.5rem;
+    position: absolute;
+    top: -12px;
+    left: 24px;
+  }
+
+  .analogy h4 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--sage);
+    margin-bottom: 0.6rem;
+  }
+
+  .analogy p {
+    color: #3d5a4a;
+    font-size: 0.95rem;
+  }
+
+  /* ============ PARTNER TIPS ============ */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    margin: 2rem 0;
+  }
+
+  .tip-item {
+    background: white;
+    border-radius: 14px;
+    padding: 1.8rem 2rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.03);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .tip-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+  }
+
+  .tip-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: var(--mist);
+  }
+
+  .tip-content h4 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--ink);
+  }
+
+  .tip-content p {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  /* ============ QUOTE STRIP ============ */
+  .quote-strip {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .quote-strip blockquote {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(1.2rem, 3vw, 1.7rem);
+    font-weight: 400;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.9;
+  }
+
+  .quote-strip cite {
+    display: block;
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    font-style: normal;
+    opacity: 0.5;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+
+  /* ============ VISUAL DIAGRAM ============ */
+  .brain-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+
+  .brain-box {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.03);
+  }
+
+  .brain-box.nt { border-top: 4px solid var(--sage); }
+  .brain-box.adhd { border-top: 4px solid var(--accent); }
+
+  .brain-box .emoji {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .brain-box h4 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+
+  .brain-box p {
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .signal-bar {
+    height: 8px;
+    border-radius: 100px;
+    margin: 1rem auto 0.4rem;
+    max-width: 180px;
+  }
+
+  .signal-bar.low {
+    background: linear-gradient(90deg, var(--sage), var(--sage-soft));
+  }
+
+  .signal-bar.high {
+    background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+    animation: pulse-bar 2s ease-in-out infinite;
+  }
+
+  .signal-label {
+    font-size: 0.72rem;
+    color: var(--storm);
+    opacity: 0.7;
+  }
+
+  /* ============ INTERACTIVE SIMULATION ============ */
+  .sim-container {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin: 2.5rem 0;
+    text-align: center;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .sim-container h4 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.15rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .sim-container p.sim-desc {
+    font-size: 0.88rem;
+    color: var(--storm);
+    margin-bottom: 1.5rem;
+  }
+
+  .sim-visual {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    background: var(--mist);
+    transition: all 0.15s ease;
+    cursor: default;
+    position: relative;
+    user-select: none;
+  }
+
+  .sim-visual.startled {
+    background: rgba(196,93,62,0.15);
+    transform: scale(1.15);
+    box-shadow: 0 0 0 20px rgba(196,93,62,0.06), 0 0 0 40px rgba(196,93,62,0.03);
+  }
+
+  .sim-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 100px;
+    font-size: 0.9rem;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .sim-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(196,93,62,0.25);
+  }
+
+  .sim-result {
+    margin-top: 1.2rem;
+    font-size: 0.88rem;
+    color: var(--storm);
+    min-height: 1.5rem;
+  }
+
+  /* ============ CLOSING ============ */
+  .closing {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: linear-gradient(180deg, var(--paper), var(--warm));
+  }
+
+  .closing h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    margin-bottom: 1rem;
+  }
+
+  .closing p {
+    max-width: 520px;
+    margin: 0 auto 1rem;
+    font-size: 1rem;
+  }
+
+  .heart {
+    font-size: 2rem;
+    margin-top: 1.5rem;
+    display: inline-block;
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.75rem;
+    color: var(--storm);
+    opacity: 0.5;
+  }
+
+  footer a {
+    color: var(--storm);
+  }
+
+  /* ============ ANIMATIONS ============ */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  @keyframes pulse-bar {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.15); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.1); }
+  }
+
+  /* ============ SCROLL REVEAL ============ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 640px) {
+    .brain-compare {
+      grid-template-columns: 1fr;
+    }
+
+    .evidence-card {
+      padding: 1.5rem 1.6rem;
+    }
+
+    .content-wrap {
+      padding: 0 1.2rem;
+    }
+
+    section {
+      padding: 3.5rem 0;
+    }
+
+    .sticky-nav {
+      padding: 0.6rem 1rem;
+      gap: 0.3rem;
+    }
+
+    .sticky-nav a {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.7rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======== HERO ======== -->
+<div class="hero">
+  <span class="hero-badge">写给你的一封解释信</span>
+  <h1>为什么我会被<em>吓到</em></h1>
+  <p class="hero-sub">
+    这不是夸张，不是矫情，不是不喜欢你的声音。<br>
+    这是我大脑的运作方式。让我用科学告诉你。
+  </p>
+  <div class="hero-cta">
+    <a href="#start">往下看看 ↓</a>
+  </div>
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ======== NAV ======== -->
+<nav class="sticky-nav">
+  <a href="#start">什么是ADHD</a>
+  <a href="#startle">惊吓反应</a>
+  <a href="#sensory">感官超载</a>
+  <a href="#emotional">情绪风暴</a>
+  <a href="#tips">怎样帮我</a>
+</nav>
+
+<!-- ======== SECTION 1: WHAT IS ADHD ======== -->
+<section id="start">
+  <div class="content-wrap">
+    <div class="reveal">
+      <span class="section-num">01</span>
+      <h2>ADHD 不只是"坐不住"</h2>
+      <p>
+        你可能觉得 ADHD（注意力缺陷多动障碍）只是上课走神或者坐不住。但实际上，<strong>ADHD 是一种神经发育差异</strong>，它影响大脑处理信息的方式——包括声音、触觉、情绪，以及……突然出现的一声 "baby"。
+      </p>
+      <p>
+        ADHD 大脑中的<strong>多巴胺系统运作方式不同</strong>，前额叶皮层和基底神经节——负责注意力调节和抑制无关刺激的区域——工作方式不一样。这意味着大脑很难把不重要的感官信息过滤掉。
+      </p>
+    </div>
+
+    <div class="brain-compare reveal">
+      <div class="brain-box nt">
+        <div class="emoji">🧠</div>
+        <h4>普通大脑</h4>
+        <p>自动过滤背景噪音，<br>只关注重要信息</p>
+        <div class="signal-bar low"></div>
+        <div class="signal-label">感官输入 → 已过滤</div>
+      </div>
+      <div class="brain-box adhd">
+        <div class="emoji">⚡</div>
+        <h4>ADHD 大脑</h4>
+        <p>所有信息同时涌入，<br>无法分轻重缓急</p>
+        <div class="signal-bar high"></div>
+        <div class="signal-label">感官输入 → 全部接收中…</div>
+      </div>
+    </div>
+
+    <div class="evidence-card reveal">
+      <span class="tag tag-research">同行评审研究</span>
+      <h4>ADHD 特征与感官敏感性的关系</h4>
+      <p>
+        一项针对 234 人的研究发现，<strong>ADHD 特征数量与感官处理问题之间存在高度显著的正相关</strong>。这种关系不限于某一种感官——在所有感官模式中，ADHD 特征越多，感官困难越多。
+      </p>
+      <div class="source">
+        来源：Panagiotidi, M., Overton, P. G., & Stafford, T. (2018). <em>Comprehensive Psychiatry</em>.
+        <a href="https://pubmed.ncbi.nlm.nih.gov/29121555/" target="_blank" rel="noopener">PubMed</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== SECTION 2: STARTLE RESPONSE ======== -->
+<section id="startle">
+  <div class="content-wrap">
+    <div class="reveal">
+      <span class="section-num">02</span>
+      <h2>为什么突然叫我会把我吓一跳</h2>
+      <p>
+        当你突然叫我 "baby" 的时候，如果我正沉浸在某件事里，<strong>我的大脑没有准备好接收这个突然的声音</strong>。普通大脑有一个叫做"感觉门控"（sensory gating）的机制——它能在惊吓刺激到来之前做好准备，减弱反应。
+      </p>
+      <p>
+        <strong>ADHD 大脑的这个门控功能减弱了。</strong>突然的声音会直接"破门而入"，绕过正常的缓冲，直接触发惊吓反射。
+      </p>
+    </div>
+
+    <div class="evidence-card reveal">
+      <span class="tag tag-neuro">神经科学</span>
+      <h4>ADHD 成人的前脉冲抑制（PPI）研究</h4>
+      <p>
+        NIH 发表的研究显示，<strong>感觉运动门控（sensorimotor gating）在 ADHD 中可能受到破坏</strong>。这种门控是一种前意识的注意力调节机制——当它受损时，大脑对突然刺激的"准备能力"下降，惊吓反应更强烈。
+      </p>
+      <div class="source">
+        来源：Holstein, D. H., et al. (2009). <em>International Journal of Neuropsychopharmacology</em>;
+        Feifel, D., et al. (2009). <em>Journal of Psychiatric Research</em>.
+        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2669714/" target="_blank" rel="noopener">PMC</a>
+      </div>
+    </div>
+
+    <!-- INTERACTIVE SIMULATION -->
+    <div class="sim-container reveal">
+      <h4>🔔 体验一下被"突然叫到"的感觉</h4>
+      <p class="sim-desc">点击按钮，在随机的几秒后，会突然出现一个刺激。<br>注意你的身体反应——ADHD 大脑每次都是这个强度。</p>
+      <div class="sim-visual" id="simFace">😌</div>
+      <button class="sim-btn" id="simBtn" onclick="startSim()">开始模拟</button>
+      <div class="sim-result" id="simResult"></div>
+    </div>
+
+    <div class="analogy reveal">
+      <h4>一个比喻</h4>
+      <p>
+        想象你正戴着降噪耳机，沉浸在音乐中。突然有人拍你肩膀——你会猛地一跳，对吧？<strong>ADHD 大脑时刻都像戴着反向的降噪耳机</strong>：不是屏蔽噪音，而是放大一切。每一次突然的声音，都像那个拍肩膀的瞬间。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ======== QUOTE ======== -->
+<div class="quote-strip">
+  <blockquote>
+    "ADHD大脑没有信息过滤器，<br>它时刻在被所有信息、感觉和<br>环境刺激围攻。"
+  </blockquote>
+  <cite>— 临床 ADHD 研究描述</cite>
+</div>
+
+<!-- ======== SECTION 3: SENSORY ======== -->
+<section id="sensory">
+  <div class="content-wrap">
+    <div class="reveal">
+      <span class="section-num">03</span>
+      <h2>不只是声音——一切都更"大声"</h2>
+      <p>
+        ADHD 的感官超敏不仅仅是对声音。触觉、光线、气味、甚至别人的情绪变化，都可能被放大处理。<strong>大约 30%–50% 的 ADHD 人群存在某种形式的感官处理差异</strong>，其中声音敏感最为常见。
+      </p>
+    </div>
+
+    <div class="evidence-card reveal">
+      <span class="tag tag-research">系统综述</span>
+      <h4>ADHD 儿童的感官处理问题</h4>
+      <p>
+        一项系统性文献综述发现，<strong>ADHD 儿童的感官处理问题比普通儿童更常见</strong>。触觉防御、听觉过度反应和感官调节困难是最突出的表现。
+      </p>
+      <div class="source">
+        来源：Ghanizadeh, A. (2011). <em>Psychiatry Investigation</em>.
+        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3149116/" target="_blank" rel="noopener">PMC</a>
+      </div>
+    </div>
+
+    <div class="evidence-card reveal">
+      <span class="tag tag-neuro">神经生理学</span>
+      <h4>感官过度反应可能是 ADHD 的一个维度</h4>
+      <p>
+        NIH 的一项研究提出，<strong>感官过度反应（Sensory Over-Responsivity）应被视为 ADHD 诊断中的一个额外维度</strong>。研究发现有感官过度反应的 ADHD 儿童焦虑水平显著更高，且皮质醇和电皮反应都有异常。
+      </p>
+      <div class="source">
+        来源：Reynolds, S., Lane, S. J., & Gennings, C. (2010). <em>Frontiers in Integrative Neuroscience</em>.
+        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6742721/" target="_blank" rel="noopener">PMC</a>
+      </div>
+    </div>
+
+    <div class="analogy reveal">
+      <h4>为什么伴侣的突然呼唤特别"惊悚"</h4>
+      <p>
+        在亲密关系中，伴侣的声音会触发更强的注意力反应（因为它对我们有情感意义）。当 ADHD 大脑正专注于某事时，一个有情感意义的突然声音就像一个<strong>加了双重buff的惊吓</strong>：既打破了专注，又激活了情感处理系统。这不是讨厌你的声音——恰恰相反，是因为你的声音太重要了。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ======== SECTION 4: EMOTIONAL ======== -->
+<section id="emotional">
+  <div class="content-wrap">
+    <div class="reveal">
+      <span class="section-num">04</span>
+      <h2>情绪也会"被吓到"</h2>
+      <p>
+        ADHD 不只让感官敏感，还让<strong>情绪反应更强烈、更突然、更难控制</strong>。这叫做"情绪失调"（emotional dysregulation），是 ADHD 中非常核心但经常被忽视的特征。
+      </p>
+      <p>
+        还有一个概念叫 <strong>RSD（拒绝敏感性烦躁，Rejection Sensitive Dysphoria）</strong>——当感受到被批评或被拒绝时，ADHD 大脑会产生极端的情绪痛苦，远远超出事件本身的严重程度。
+      </p>
+    </div>
+
+    <div class="evidence-card reveal">
+      <span class="tag tag-clinical">临床研究</span>
+      <h4>ADHD 中的拒绝敏感性</h4>
+      <p>
+        发表在 PLOS ONE 上的定性研究发现，ADHD 人群中拒绝敏感性的核心体验包括三个主题：<strong>退缩、伪装和身体感觉</strong>。参与者描述了感知到的拒绝如何引发不愉快的身体反应、焦虑和痛苦。
+      </p>
+      <div class="source">
+        来源：Sherlock, C., et al. (2026). <em>PLOS ONE</em>.
+        <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0314669" target="_blank" rel="noopener">PLOS ONE</a>
+      </div>
+    </div>
+
+    <div class="evidence-card reveal">
+      <span class="tag tag-clinical">临床观察</span>
+      <h4>RSD 可能是 ADHD 最具破坏力的方面</h4>
+      <p>
+        临床医生 Dr. William Dodson 的长期观察表明，大约<strong>三分之一的成人 ADHD 患者认为 RSD 是他们个人体验中最具损害性的部分</strong>——因为他们从未找到有效的应对方式。情绪可以在一天之内多次剧烈波动。
+      </p>
+      <div class="source">
+        来源：Dodson, W. (2025). <em>ADDitude Magazine</em>.
+        <a href="https://www.additudemag.com/rejection-sensitive-dysphoria-adhd-emotional-dysregulation/" target="_blank" rel="noopener">ADDitude</a>
+      </div>
+    </div>
+
+    <div class="analogy reveal">
+      <h4>这和你有什么关系？</h4>
+      <p>
+        所以当我被你的声音吓到后，如果我看起来反应很大，或者一瞬间表情不对——<strong>那不是因为我对你有任何负面感受</strong>。那是 ADHD 大脑正在处理一个它没准备好接收的刺激，同时情绪调节系统也在过载。给我几秒钟，我就回来了。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ======== SECTION 5: TIPS ======== -->
+<section id="tips">
+  <div class="content-wrap">
+    <div class="reveal">
+      <span class="section-num">05</span>
+      <h2>你可以怎样帮我</h2>
+      <p>
+        你不需要变成 ADHD 专家。只需要知道几件小事，就能让我们的相处更舒服。
+      </p>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip-item reveal">
+        <div class="tip-icon">👋</div>
+        <div class="tip-content">
+          <h4>先出现在我视野里</h4>
+          <p>叫我之前，如果可以先走到我能看到的地方，或者先轻轻碰一下我的肩膀。让我的大脑有"哦，有人来了"的准备时间。</p>
+        </div>
+      </div>
+      <div class="tip-item reveal">
+        <div class="tip-icon">🔉</div>
+        <div class="tip-content">
+          <h4>渐进式叫我</h4>
+          <p>不要突然大声叫。可以先小声说一句，等我回应了，再正常音量说话。就像"嘿…"→ 等我看你 → 再说"baby"。</p>
+        </div>
+      </div>
+      <div class="tip-item reveal">
+        <div class="tip-icon">⏱️</div>
+        <div class="tip-content">
+          <h4>给我恢复的时间</h4>
+          <p>如果我被吓到了，不需要道歉或紧张。给我几秒钟让神经系统平复下来。我不是生气，只是大脑在重启。</p>
+        </div>
+      </div>
+      <div class="tip-item reveal">
+        <div class="tip-icon">🧊</div>
+        <div class="tip-content">
+          <h4>别觉得是你的错</h4>
+          <p>我的惊吓反应和你做了什么无关。这是我的大脑机制。你叫我 baby 没有任何问题——问题在于"突然性"，不在于内容。</p>
+        </div>
+      </div>
+      <div class="tip-item reveal">
+        <div class="tip-icon">💬</div>
+        <div class="tip-content">
+          <h4>聊这件事本身就在帮我</h4>
+          <p>ADHD 研究表明，当身边的人理解这种感官差异时，ADHD 人群的焦虑水平会显著下降。你愿意了解这些，对我意义重大。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== CLOSING ======== -->
+<div class="closing">
+  <div class="content-wrap">
+    <div class="reveal">
+      <h2>谢谢你愿意了解我</h2>
+      <p>
+        ADHD 让我的世界更吵、更亮、更烈。但也让我对你的每一句话、每一个表情，都比别人感受得更深。
+      </p>
+      <p>
+        <strong>被你吓到不是因为不爱你。<br>恰恰因为你的声音对我太重要了。</strong>
+      </p>
+      <div class="heart">❤️</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== FOOTER ======== -->
+<footer>
+  <p>
+    本页面所有研究证据均来自同行评审期刊或权威临床资源。<br>
+    了解更多：
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6742721/" target="_blank">NIH - 感官过度反应与ADHD</a> ·
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2669714/" target="_blank">NIH - ADHD惊吓反射研究</a> ·
+    <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0314669" target="_blank">PLOS ONE - 拒绝敏感性</a>
+  </p>
+</footer>
+
+<script>
+// ========= Scroll Reveal =========
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ========= Startle Simulation =========
+let simTimeout = null;
+
+function startSim() {
+  const face = document.getElementById('simFace');
+  const btn = document.getElementById('simBtn');
+  const result = document.getElementById('simResult');
+
+  // Reset
+  face.textContent = '😌';
+  face.classList.remove('startled');
+  result.textContent = '等待中……不要离开这个区域';
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+
+  const delay = 2000 + Math.random() * 4000;
+
+  simTimeout = setTimeout(() => {
+    // STARTLE
+    face.textContent = '😱';
+    face.classList.add('startled');
+
+    // Sound effect via Web Audio
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = 800;
+      gain.gain.value = 0.3;
+      osc.start();
+      osc.stop(ctx.currentTime + 0.15);
+    } catch(e) {}
+
+    result.innerHTML = '<strong>就是这种感觉。</strong><br>ADHD 大脑在每次被突然叫到时，<br>都经历类似强度的惊吓反射。';
+
+    setTimeout(() => {
+      face.textContent = '😮‍💨';
+      face.classList.remove('startled');
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    }, 2000);
+  }, delay);
+}
+</script>
+</body>
+</html>
