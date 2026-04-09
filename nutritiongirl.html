@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>好好吃饭 · 不挨饿的瘦身指南</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --page-bg: #f7f1e8;
+  --soft-bg: #f2e7d9;
+  --card-bg: #fdf9f4;
+  --glass: rgba(247,241,232,0.85);
+  --text: #1d1d1f;
+  --text-mid: #48484a;
+  --text-body: #6e6e73;
+  --text-light: #86868b;
+  --border: #e0d5c5;
+  --border-light: #ebe0d2;
+  --accent: #2d6a4f;
+  --accent-light: #52b788;
+  --accent-bg: #e8f0ec;
+  --warm: #c87f2e;
+  --warm-bg: #fdf3e4;
+  --rose: #b5566a;
+  --rose-bg: #f9ece9;
+  --blue: #4a7c9b;
+  --blue-bg: #e8f0f5;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.08);
+  --r: 16px;
+  --r-sm: 10px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: var(--page-bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════ NAV ═══════ */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--glass);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.nav-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.nav-title span { font-weight: 700; color: var(--accent); }
+
+.nav-links { display: flex; gap: 18px; list-style: none; }
+
+.nav-links a {
+  font-size: 12px;
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+/* ═══════ CONTAINER ═══════ */
+.container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+
+/* ═══════ HERO ═══════ */
+.hero {
+  padding: 56px 0 44px;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 48px;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: 16px;
+}
+
+.hero p {
+  font-size: 15px;
+  color: var(--text-body);
+  max-width: 540px;
+  line-height: 1.9;
+}
+
+.hero-badges {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.hero-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: var(--soft-bg);
+  color: var(--text-mid);
+  border: 1px solid var(--border-light);
+}
+
+/* ═══════ PRINCIPLE ═══════ */
+.principle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 56px;
+}
+
+.principle-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.5s ease;
+}
+
+.principle-card.visible { opacity: 1; transform: translateY(0); }
+
+.principle-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.principle-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.principle-card h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.principle-card p {
+  font-size: 13px;
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+/* ═══════ SECTION HEADER ═══════ */
+.sect-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.sect-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.sect-desc {
+  font-size: 14px;
+  color: var(--text-body);
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+/* ═══════ MEAL SECTION ═══════ */
+.meal-section {
+  margin-bottom: 52px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.meal-section.visible { opacity: 1; transform: translateY(0); }
+
+.meal-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+
+.meal-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.meal-header-text h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.meal-header-text .meal-time {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.meal-summary {
+  font-size: 14px;
+  color: var(--text-body);
+  margin-bottom: 20px;
+  padding-left: 58px;
+  line-height: 1.8;
+}
+
+/* Options grid */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.option-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.option-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.option-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 12px;
+}
+
+.option-card h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.food-list {
+  list-style: none;
+}
+
+.food-list li {
+  font-size: 13.5px;
+  color: var(--text-mid);
+  padding: 4px 0 4px 16px;
+  position: relative;
+  line-height: 1.7;
+}
+
+.food-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 12px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent-light);
+}
+
+.food-kcal {
+  font-size: 11px;
+  color: var(--text-light);
+  font-weight: 400;
+}
+
+/* Tip box */
+.tip-box {
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent-light);
+  border-radius: var(--r-sm);
+  padding: 14px 18px;
+  margin-top: 4px;
+}
+
+.tip-box-title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.tip-box p {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+.tip-box strong { color: var(--text); }
+
+/* ═══════ SNACK SECTION ═══════ */
+.snack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.snack-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.snack-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.snack-emoji { font-size: 28px; margin-bottom: 8px; }
+
+.snack-card h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.snack-card .snack-detail {
+  font-size: 12px;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+.snack-card .snack-kcal {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* ═══════ AVOID ═══════ */
+.avoid-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.avoid-card {
+  background: var(--rose-bg);
+  border: 1px solid #e8d5d0;
+  border-radius: var(--r);
+  padding: 18px;
+}
+
+.avoid-card h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--rose);
+  margin-bottom: 8px;
+}
+
+.avoid-card p {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+.swap-arrow { color: var(--accent); font-weight: 600; }
+
+/* ═══════ WEEKLY ═══════ */
+.weekly-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
+}
+
+.weekly-table th {
+  background: var(--soft-bg);
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-mid);
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.weekly-table td {
+  font-size: 13px;
+  color: var(--text-mid);
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-light);
+  line-height: 1.6;
+}
+
+.weekly-table tr:last-child td { border-bottom: none; }
+
+.weekly-table .day-name {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* ═══════ DANGER ZONE ═══════ */
+.danger-box {
+  background: var(--rose-bg);
+  border: 1px solid #e8d5d0;
+  border-left: 3px solid var(--rose);
+  border-radius: var(--r-sm);
+  padding: 18px 20px;
+  margin-bottom: 48px;
+}
+
+.danger-box h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--rose);
+  margin-bottom: 10px;
+}
+
+.danger-list {
+  list-style: none;
+}
+
+.danger-list li {
+  font-size: 13.5px;
+  color: var(--text-mid);
+  padding: 4px 0 4px 16px;
+  position: relative;
+  line-height: 1.8;
+}
+
+.danger-list li::before {
+  content: '✕';
+  position: absolute;
+  left: 0; top: 4px;
+  font-size: 10px;
+  color: var(--rose);
+  font-weight: 700;
+}
+
+.danger-list li strong { color: var(--text); }
+
+/* ═══════ MINDSET ═══════ */
+.mindset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 56px;
+}
+
+.mindset-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.5s ease;
+}
+
+.mindset-card.visible { opacity: 1; transform: translateY(0); }
+
+.mindset-card h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.mindset-card p {
+  font-size: 13px;
+  color: var(--text-body);
+  line-height: 1.8;
+}
+
+/* ═══════ FOOTER ═══════ */
+footer {
+  text-align: center;
+  padding: 48px 24px;
+  border-top: 1px solid var(--border-light);
+  margin-top: 20px;
+}
+
+footer .ft-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-mid);
+  margin-bottom: 4px;
+}
+
+footer .ft-sub {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .principle-grid { grid-template-columns: 1fr; }
+  .options-grid { grid-template-columns: 1fr; }
+  .avoid-grid { grid-template-columns: 1fr; }
+  .meal-summary { padding-left: 0; }
+  .weekly-table { font-size: 12px; }
+  .weekly-table th, .weekly-table td { padding: 9px 10px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-title"><span>好好吃饭</span> · 不挨饿的瘦身指南</div>
+    <ul class="nav-links">
+      <li><a href="#principles">原则</a></li>
+      <li><a href="#meals">三餐</a></li>
+      <li><a href="#snacks">加餐</a></li>
+      <li><a href="#avoid">避雷</a></li>
+      <li><a href="#weekly">周食谱</a></li>
+      <li><a href="#mindset">心态</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Healthy Eating Guide</div>
+  <h1>不挨饿，也能慢慢瘦</h1>
+  <p>节食只会让身体进入"省电模式"，代谢变慢，最后反弹更凶。真正能持续的方式是：吃对、吃够、吃舒服。这份指南帮你建立一个可以长期执行的饮食习惯。</p>
+  <div class="hero-badges">
+    <span class="hero-badge">🎯 每日 1400–1600 kcal</span>
+    <span class="hero-badge">🥗 不节食</span>
+    <span class="hero-badge">📐 蛋白质优先</span>
+    <span class="hero-badge">🍵 三餐 + 加餐</span>
+  </div>
+</div>
+
+<!-- PRINCIPLES -->
+<div id="principles" style="margin-bottom: 56px;">
+  <div class="sect-eyebrow">核心原则</div>
+  <div class="sect-title">三个不饿也能瘦的秘密</div>
+  <div class="sect-desc">不用计算每一克热量，只需要记住这三件事。</div>
+
+  <div class="principle-grid">
+    <div class="principle-card">
+      <div class="principle-icon">🥚</div>
+      <h3>蛋白质优先</h3>
+      <p>每餐保证一个手掌大小的蛋白质（鸡蛋、鸡胸、鱼、豆腐）。蛋白质饱腹感最强，消化还额外消耗热量。</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon">🥬</div>
+      <h3>蔬菜铺底</h3>
+      <p>先吃蔬菜再吃主食。膳食纤维撑起饱腹感，血糖升得慢，就不容易饿得快、想吃零食。</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon">🍚</div>
+      <h3>主食减半不戒断</h3>
+      <p>主食从满满一碗改成小半碗，白米饭换成杂粮/糙米/红薯。完全不吃碳水会掉头发、脾气差、反弹猛。</p>
+    </div>
+  </div>
+</div>
+
+<!-- MEALS -->
+<div id="meals">
+
+  <!-- BREAKFAST -->
+  <div class="meal-section">
+    <div class="meal-header">
+      <div class="meal-icon" style="background: var(--warm-bg); color: var(--warm);">🌅</div>
+      <div class="meal-header-text">
+        <h2>早餐</h2>
+        <span class="meal-time">7:00 – 9:00 · 约 350–450 kcal</span>
+      </div>
+    </div>
+    <p class="meal-summary">早餐一定要吃。不吃早餐→中午暴食→下午犯困→晚上报复性吃零食，这是最常见的恶性循环。</p>
+
+    <div class="options-grid">
+      <div class="option-card">
+        <div class="option-tag" style="background: var(--warm-bg); color: var(--warm);">方案 A · 中式</div>
+        <h3>鸡蛋 + 杂粮粥 + 小菜</h3>
+        <ul class="food-list">
+          <li>水煮蛋 1–2 个 <span class="food-kcal">~140 kcal</span></li>
+          <li>小米/燕麦粥一小碗 <span class="food-kcal">~120 kcal</span></li>
+          <li>凉拌黄瓜或拌豆腐丝 <span class="food-kcal">~50 kcal</span></li>
+          <li>几颗坚果（核桃/杏仁）<span class="food-kcal">~80 kcal</span></li>
+        </ul>
+      </div>
+      <div class="option-card">
+        <div class="option-tag" style="background: var(--blue-bg); color: var(--blue);">方案 B · 西式</div>
+        <h3>酸奶 + 全麦面包 + 水果</h3>
+        <ul class="food-list">
+          <li>无糖希腊酸奶 150g <span class="food-kcal">~90 kcal</span></li>
+          <li>全麦面包 1 片 <span class="food-kcal">~120 kcal</span></li>
+          <li>牛油果半个 或 香蕉半根 <span class="food-kcal">~80 kcal</span></li>
+          <li>黑咖啡/无糖茶 <span class="food-kcal">~5 kcal</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-box-title">小贴士</div>
+      <p><strong>不要喝甜豆浆、配油条、吃包子。</strong>一根油条 ~230 kcal，等于你的早餐蛋白质全变成油脂。如果喜欢豆浆，选无糖。</p>
+    </div>
+  </div>
+
+  <!-- LUNCH -->
+  <div class="meal-section">
+    <div class="meal-header">
+      <div class="meal-icon" style="background: var(--accent-bg); color: var(--accent);">☀️</div>
+      <div class="meal-header-text">
+        <h2>午餐</h2>
+        <span class="meal-time">11:30 – 13:00 · 约 450–550 kcal</span>
+      </div>
+    </div>
+    <p class="meal-summary">午餐是一天中吃得最"正常"的一餐。不要委屈自己，但要学会点菜技巧。</p>
+
+    <div class="options-grid">
+      <div class="option-card">
+        <div class="option-tag" style="background: var(--accent-bg); color: var(--accent);">自己带饭</div>
+        <h3>一荤一素一杂粮</h3>
+        <ul class="food-list">
+          <li>鸡胸肉/虾仁/鱼肉 100g <span class="food-kcal">~150 kcal</span></li>
+          <li>炒时蔬（少油）一份 <span class="food-kcal">~80 kcal</span></li>
+          <li>杂粮饭小半碗（约 100g）<span class="food-kcal">~130 kcal</span></li>
+          <li>午餐后一个小水果 <span class="food-kcal">~60 kcal</span></li>
+        </ul>
+      </div>
+      <div class="option-card">
+        <div class="option-tag" style="background: var(--warm-bg); color: var(--warm);">外食点菜</div>
+        <h3>轻食/沙拉/拌饭</h3>
+        <ul class="food-list">
+          <li>优先选：蒸、煮、烤、凉拌</li>
+          <li>回避：干锅、红烧、糖醋、水煮鱼</li>
+          <li>米饭只要小份 / 吃一半</li>
+          <li>汤选清汤，不选奶油浓汤</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-box-title">点外卖技巧</div>
+      <p><strong>进食顺序很重要</strong>：先喝汤 → 吃蔬菜 → 吃肉 → 最后吃主食。这样自然就会少吃碳水，而且更容易饱。</p>
+    </div>
+  </div>
+
+  <!-- DINNER -->
+  <div class="meal-section">
+    <div class="meal-header">
+      <div class="meal-icon" style="background: #f0eeff; color: #5856d6;">🌙</div>
+      <div class="meal-header-text">
+        <h2>晚餐</h2>
+        <span class="meal-time">18:00 – 19:30 · 约 350–450 kcal</span>
+      </div>
+    </div>
+    <p class="meal-summary">晚餐吃轻一点但一定要吃。不吃晚饭→半夜饿→吃夜宵→更胖。</p>
+
+    <div class="options-grid">
+      <div class="option-card">
+        <div class="option-tag" style="background: #f0eeff; color: #5856d6;">低碳方案</div>
+        <h3>蛋白质 + 蔬菜为主</h3>
+        <ul class="food-list">
+          <li>清蒸鱼/豆腐/蛋羹 <span class="food-kcal">~150 kcal</span></li>
+          <li>炒青菜/白灼西兰花 <span class="food-kcal">~60 kcal</span></li>
+          <li>红薯/玉米半根代替米饭 <span class="food-kcal">~100 kcal</span></li>
+          <li>一碗紫菜蛋花汤 <span class="food-kcal">~40 kcal</span></li>
+        </ul>
+      </div>
+      <div class="option-card">
+        <div class="option-tag" style="background: var(--rose-bg); color: var(--rose);">简便方案</div>
+        <h3>一餐搞定不开火</h3>
+        <ul class="food-list">
+          <li>全麦三明治（鸡蛋+生菜+番茄）</li>
+          <li>或：无糖酸奶+水果+坚果碗</li>
+          <li>或：速冻玉米/红薯+牛奶</li>
+          <li>关键：有蛋白质，有蔬果</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-box-title">时间线</div>
+      <p><strong>晚餐和睡觉之间至少隔 3 小时。</strong>19:00 吃完 → 22:00 后再睡。太晚吃东西会影响睡眠质量，睡不好又会刺激食欲激素。</p>
+    </div>
+  </div>
+</div>
+
+<!-- SNACKS -->
+<div id="snacks" class="meal-section">
+  <div class="sect-eyebrow">聪明加餐</div>
+  <div class="sect-title">两餐之间饿了怎么办</div>
+  <div class="sect-desc">饿的时候硬撑着只会在下一餐暴食。选对加餐，每天 100–150 kcal 的小零食完全没问题。</div>
+
+  <div class="snack-grid">
+    <div class="snack-card">
+      <div class="snack-emoji">🥜</div>
+      <h4>坚果</h4>
+      <div class="snack-detail">杏仁/核桃 10 颗<br>健康脂肪 + 蛋白质</div>
+      <div class="snack-kcal">~100 kcal</div>
+    </div>
+    <div class="snack-card">
+      <div class="snack-emoji">🍎</div>
+      <h4>水果</h4>
+      <div class="snack-detail">苹果/橘子/蓝莓<br>优选低糖水果</div>
+      <div class="snack-kcal">~60–80 kcal</div>
+    </div>
+    <div class="snack-card">
+      <div class="snack-emoji">🥛</div>
+      <h4>奶制品</h4>
+      <div class="snack-detail">无糖酸奶/牛奶一杯<br>补钙 + 蛋白质</div>
+      <div class="snack-kcal">~80–120 kcal</div>
+    </div>
+    <div class="snack-card">
+      <div class="snack-emoji">🥒</div>
+      <h4>蔬菜零食</h4>
+      <div class="snack-detail">小番茄/黄瓜/胡萝卜<br>随便吃，热量极低</div>
+      <div class="snack-kcal">~20–40 kcal</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-box-title">加餐时间</div>
+    <p><strong>上午 10:00 或 下午 15:00</strong> 各一次小加餐，就不会到了正餐时间饿到两眼发绿。饿了就吃，不要忍——忍到最后一定会报复性暴食。</p>
+  </div>
+</div>
+
+<!-- AVOID -->
+<div id="avoid" class="meal-section">
+  <div class="sect-eyebrow">避雷清单</div>
+  <div class="sect-title">这些"隐形炸弹"让你白白努力</div>
+  <div class="sect-desc">很多看起来"健康"或"没什么"的东西，热量高得离谱。</div>
+
+  <div class="avoid-grid">
+    <div class="avoid-card">
+      <h4>🧋 奶茶 · 一杯 = 一顿饭</h4>
+      <p>一杯正常甜度奶茶 400–600 kcal。即使选"三分糖"也在 300 kcal 以上。<br><span class="swap-arrow">→ 换成</span> 无糖茶/黑咖啡/自泡水果水</p>
+    </div>
+    <div class="avoid-card">
+      <h4>🍞 面包 · 比你想的油</h4>
+      <p>酥皮面包、牛角包、菠萝包热量惊人（一个 300–400 kcal）。<br><span class="swap-arrow">→ 换成</span> 全麦吐司（不超过 2 片）</p>
+    </div>
+    <div class="avoid-card">
+      <h4>🥤 果汁 · 水果变"糖水"</h4>
+      <p>一杯鲜榨橙汁 = 4 个橙子的糖，却没有纤维。<br><span class="swap-arrow">→ 换成</span> 直接吃水果，咀嚼更饱</p>
+    </div>
+    <div class="avoid-card">
+      <h4>🍜 重口味菜</h4>
+      <p>干锅、水煮、红烧、糖醋——调味料里全是油和糖。<br><span class="swap-arrow">→ 换成</span> 清蒸、白灼、凉拌</p>
+    </div>
+  </div>
+
+  <div class="danger-box">
+    <h3>⚠️ 绝对不要做的事</h3>
+    <ul class="danger-list">
+      <li><strong>不吃饭饿着</strong>——代谢下降 → 吃一点就胖，而且掉肌肉不掉脂肪</li>
+      <li><strong>只吃水果代餐</strong>——果糖大量摄入反而容易长内脏脂肪</li>
+      <li><strong>催吐/泻药</strong>——严重伤害食道和电解质平衡，有生命危险</li>
+      <li><strong>每天称好几次体重</strong>——体重波动 1–2 斤是正常的水分变化，不是胖了</li>
+      <li><strong>因为"吃多了"就惩罚性不吃下一顿</strong>——这是饮食紊乱的开始</li>
+    </ul>
+  </div>
+</div>
+
+<!-- WEEKLY PLAN -->
+<div id="weekly" class="meal-section">
+  <div class="sect-eyebrow">参考食谱</div>
+  <div class="sect-title">一周七天怎么吃</div>
+  <div class="sect-desc">不需要完全照做，重要的是感受"原来吃这么多也不会胖"。每天约 1400–1600 kcal。</div>
+
+  <table class="weekly-table">
+    <thead>
+      <tr>
+        <th>日</th>
+        <th>早餐</th>
+        <th>午餐</th>
+        <th>晚餐</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="day-name">周一</td>
+        <td>水煮蛋 2 + 小米粥 + 拌黄瓜</td>
+        <td>鸡胸肉 + 西兰花 + 杂粮饭半碗</td>
+        <td>清蒸鱼 + 炒青菜 + 玉米半根</td>
+      </tr>
+      <tr>
+        <td class="day-name">周二</td>
+        <td>无糖酸奶 + 全麦面包 + 蓝莓</td>
+        <td>虾仁炒芦笋 + 糙米饭半碗</td>
+        <td>番茄蛋花汤 + 蒸红薯 + 凉拌菠菜</td>
+      </tr>
+      <tr>
+        <td class="day-name">周三</td>
+        <td>蛋饼（1 蛋 + 少油）+ 豆浆无糖</td>
+        <td>牛肉片 + 炒时蔬 + 荞麦面半碗</td>
+        <td>豆腐汤 + 蒸南瓜 + 白灼生菜</td>
+      </tr>
+      <tr>
+        <td class="day-name">周四</td>
+        <td>燕麦 + 牛奶 + 核桃 + 半根香蕉</td>
+        <td>三文鱼/鸡腿 + 沙拉 + 杂粮饭</td>
+        <td>紫菜蛋花汤 + 蒸玉米 + 凉拌木耳</td>
+      </tr>
+      <tr>
+        <td class="day-name">周五</td>
+        <td>水煮蛋 2 + 红薯小块 + 小番茄</td>
+        <td>清炒虾仁 + 丝瓜汤 + 糙米饭</td>
+        <td>蛋羹 + 炒菜心 + 全麦馒头半个</td>
+      </tr>
+      <tr>
+        <td class="day-name">周六</td>
+        <td>无糖酸奶水果碗 + 坚果</td>
+        <td>可以吃想吃的 🎉（火锅/面食/外食）</td>
+        <td>清淡蔬菜粥 + 凉拌豆腐</td>
+      </tr>
+      <tr>
+        <td class="day-name">周日</td>
+        <td>全麦三明治（蛋+生菜+番茄）</td>
+        <td>鸡肉蔬菜卷 / 越南粉</td>
+        <td>冬瓜排骨汤（少油）+ 蒸芋头</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    <div class="tip-box-title">周六午餐是"放松餐"</div>
+    <p><strong>一周给自己一顿完全自由的午餐</strong>，想吃火锅就火锅，想吃炸鸡就炸鸡。这不是"作弊"——这是让你长期坚持下去的关键。心理上没有被剥夺感，就不会报复性暴食。</p>
+  </div>
+</div>
+
+<!-- MINDSET -->
+<div id="mindset" class="meal-section">
+  <div class="sect-eyebrow">最重要的事</div>
+  <div class="sect-title">心态比食谱更关键</div>
+  <div class="sect-desc">如果你因为减肥而焦虑、自责、不开心——那就说明方法不对。</div>
+
+  <div class="mindset-grid">
+    <div class="mindset-card">
+      <h4>🎯 目标是"习惯"不是"数字"</h4>
+      <p>不要盯着体重秤。养成好的饮食习惯后，身材自然会改变。一周称一次就够了，固定时间（早上空腹）。</p>
+    </div>
+    <div class="mindset-card">
+      <h4>💚 吃多了不是罪</h4>
+      <p>某一顿吃多了？没关系。下一餐正常吃就好。千万不要因为"吃多了"而跳过下一餐，那才是真正伤身体的做法。</p>
+    </div>
+    <div class="mindset-card">
+      <h4>🌊 体重波动是正常的</h4>
+      <p>生理期前体重涨 1–3 斤是水肿，不是胖了。吃了偏咸的食物第二天体重涨也是水分。看趋势，不看单天数字。</p>
+    </div>
+    <div class="mindset-card">
+      <h4>⏰ 慢就是快</h4>
+      <p>健康的减脂速度是每周 0.5–1 斤。一个月 2–4 斤就很好了。快速减肥 = 快速反弹 + 掉肌肉 + 皮肤松弛。</p>
+    </div>
+    <div class="mindset-card">
+      <h4>🍽️ 不饿就是最好的状态</h4>
+      <p>如果你一天下来从不觉得特别饿，但体重在慢慢往下走——恭喜，这才是最理想的减脂节奏。</p>
+    </div>
+    <div class="mindset-card">
+      <h4>💪 运动是加分项</h4>
+      <p>先把吃的搞对，运动是锦上添花。散步、瑜伽、跳绳都可以。不需要每天跑步 5 公里——那反而容易饿到暴食。</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<footer>
+  <p class="ft-title">好好吃饭 · 不挨饿的瘦身指南</p>
+  <p class="ft-sub">吃对了，身体自然会找到它最舒服的样子</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.meal-section, .principle-card, .mindset-card').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
