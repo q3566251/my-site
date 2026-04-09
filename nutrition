@@ -1,0 +1,471 @@
+import { useState, useMemo } from "react";
+
+const DAILY_TARGETS = {
+  calories: { value: 2360, unit: "kcal", label: "总热量" },
+  protein: { value: 125, unit: "g", label: "蛋白质" },
+  carbs: { value: 330, unit: "g", label: "碳水化合物" },
+  fat: { value: 60, unit: "g", label: "脂肪" },
+  fiber: { value: 40, unit: "g", label: "膳食纤维" },
+  sodium: { value: 2300, unit: "mg", label: "钠" },
+  calcium: { value: 1000, unit: "mg", label: "钙" },
+  iron: { value: 12, unit: "mg", label: "铁" },
+  water: { value: 4000, unit: "mL", label: "水分" },
+};
+
+const VITAMINS_MINERALS = [
+  { name: "维生素A", amount: "900μg", note: "胡萝卜、红薯" },
+  { name: "维生素C", amount: "90mg", note: "柑橘、西兰花" },
+  { name: "维生素D", amount: "15μg", note: "三文鱼、阳光" },
+  { name: "维生素E", amount: "15mg", note: "坚果、牛油果" },
+  { name: "维生素K", amount: "120μg", note: "绿叶蔬菜" },
+  { name: "维生素B1", amount: "1.2mg", note: "全谷物、猪肉" },
+  { name: "维生素B2", amount: "1.3mg", note: "奶制品、蛋" },
+  { name: "维生素B3", amount: "16mg", note: "鸡肉、花生" },
+  { name: "维生素B6", amount: "1.7mg", note: "鸡肉、香蕉" },
+  { name: "维生素B9(叶酸)", amount: "400μg", note: "绿叶蔬菜、豆类" },
+  { name: "维生素B12", amount: "2.4μg", note: "肉类、蛋" },
+  { name: "磷", amount: "700mg", note: "肉类、奶制品" },
+  { name: "钾", amount: "3400mg", note: "香蕉、土豆" },
+  { name: "镁", amount: "420mg", note: "坚果、全谷" },
+  { name: "锌", amount: "11mg", note: "牛肉、豆类" },
+  { name: "碘", amount: "150μg", note: "海鲜、碘盐" },
+  { name: "铜", amount: "0.9mg", note: "坚果、肝脏" },
+  { name: "硒", amount: "55μg", note: "巴西坚果、鱼" },
+  { name: "锰", amount: "2.3mg", note: "全谷、坚果" },
+];
+
+// ===== 按营养素分类的食物 =====
+const FOODS = [
+  // 蛋白质
+  { name: "鸡胸肉（去皮）", cal: 120, p: 23, c: 0, f: 2.6, fiber: 0, category: "蛋白质" },
+  { name: "鸡腿肉（去皮）", cal: 135, p: 19, c: 0, f: 7.5, fiber: 0, category: "蛋白质" },
+  { name: "牛肉（瘦）", cal: 176, p: 20, c: 0, f: 10, fiber: 0, category: "蛋白质" },
+  { name: "三文鱼", cal: 208, p: 20, c: 0, f: 13, fiber: 0, category: "蛋白质" },
+  { name: "金枪鱼罐头", cal: 120, p: 26, c: 0, f: 1, fiber: 0, category: "蛋白质" },
+  { name: "鸡蛋（全蛋）", cal: 143, p: 13, c: 1, f: 10, fiber: 0, category: "蛋白质" },
+  { name: "蛋清", cal: 52, p: 11, c: 0.7, f: 0.2, fiber: 0, category: "蛋白质" },
+  { name: "希腊酸奶(0%)", cal: 60, p: 10, c: 3.5, f: 0, fiber: 0, category: "蛋白质" },
+  { name: "豆腐（硬）", cal: 110, p: 12, c: 3, f: 6, fiber: 0.3, category: "蛋白质" },
+  { name: "毛豆 Edamame（熟）", cal: 122, p: 11, c: 10, f: 5, fiber: 5.2, category: "蛋白质" },
+  // 碳水
+  { name: "白米（干）", cal: 365, p: 7.1, c: 80, f: 0.7, fiber: 1.3, category: "碳水" },
+  { name: "面条（干）", cal: 371, p: 13, c: 75, f: 1.5, fiber: 3.2, category: "碳水" },
+  { name: "土豆", cal: 77, p: 2, c: 17, f: 0.1, fiber: 2.2, category: "碳水" },
+  { name: "红薯 Sweet Potato", cal: 86, p: 1.6, c: 20, f: 0.1, fiber: 3.0, category: "碳水" },
+  { name: "香蕉", cal: 89, p: 1.1, c: 23, f: 0.3, fiber: 2.6, category: "碳水" },
+  { name: "燕麦（干）Oats", cal: 379, p: 13, c: 68, f: 7, fiber: 10, category: "碳水" },
+  { name: "藜麦（熟）Quinoa", cal: 120, p: 4.4, c: 21, f: 1.9, fiber: 2.8, category: "碳水" },
+  { name: "全麦面包(2片)", cal: 247, p: 13, c: 41, f: 4.2, fiber: 7, category: "碳水" },
+  // 脂肪
+  { name: "牛油果", cal: 160, p: 2, c: 9, f: 15, fiber: 6.7, category: "脂肪" },
+  { name: "橄榄油", cal: 884, p: 0, c: 0, f: 100, fiber: 0, category: "脂肪" },
+  { name: "全脂牛奶", cal: 61, p: 3.2, c: 4.8, f: 3.3, fiber: 0, category: "脂肪" },
+  { name: "2%牛奶", cal: 50, p: 3.4, c: 4.9, f: 2, fiber: 0, category: "脂肪" },
+  { name: "奇亚籽 Chia Seeds", cal: 486, p: 17, c: 42, f: 31, fiber: 34, category: "脂肪" },
+  // 纤维
+  { name: "鹰嘴豆（熟）Chickpeas", cal: 164, p: 9, c: 27, f: 2.6, fiber: 7.6, category: "纤维" },
+  { name: "扁豆（熟）Lentils", cal: 116, p: 9, c: 20, f: 0.4, fiber: 7.9, category: "纤维" },
+  { name: "黑豆（罐头沥干）", cal: 132, p: 9, c: 24, f: 0.5, fiber: 8.7, category: "纤维" },
+  { name: "红豆（熟）", cal: 128, p: 8.7, c: 23, f: 0.5, fiber: 7.3, category: "纤维" },
+  { name: "青豌豆（熟）", cal: 81, p: 5.4, c: 14, f: 0.4, fiber: 5.5, category: "纤维" },
+  { name: "覆盆子 Raspberries", cal: 52, p: 1.2, c: 12, f: 0.7, fiber: 6.5, category: "纤维" },
+  { name: "西兰花", cal: 34, p: 2.8, c: 6.6, f: 0.4, fiber: 2.6, category: "纤维" },
+  { name: "小白菜", cal: 13, p: 1.5, c: 2.2, f: 0.2, fiber: 1.0, category: "纤维" },
+  { name: "洋车前子壳 Psyllium", cal: 200, p: 0, c: 80, f: 0, fiber: 71, category: "纤维", per: "每次5-10g冲水" },
+];
+
+// ===== 补剂（底部单独区域） =====
+const SUPPLEMENTS = [
+  { name: "Ascent蛋白粉(1勺)", cal: 120, p: 25, c: 1, f: 1, fiber: 0, per: "30g/勺", stag: "蛋白质" },
+  { name: "Quest Bar(1条)", cal: 190, p: 20, c: 22, f: 7, fiber: 14, per: "60g/条", stag: "蛋白质+纤维" },
+  { name: "ON Gold Standard蛋白粉(1勺)", cal: 120, p: 24, c: 3, f: 1, fiber: 0, per: "31g/勺", stag: "蛋白质" },
+  { name: "Kirkland鸡胸肉罐头(1罐)", cal: 180, p: 40, c: 0, f: 2, fiber: 0, per: "354g/罐", stag: "蛋白质" },
+  { name: "Metamucil纤维粉(1勺)", cal: 25, p: 0, c: 7, f: 0, fiber: 3, per: "5.8g/勺", stag: "纤维" },
+  { name: "Benefiber纤维粉(1勺)", cal: 15, p: 0, c: 4, f: 0, fiber: 3, per: "4g/勺", stag: "纤维" },
+  { name: "花生酱(2tbsp)", cal: 190, p: 7, c: 7, f: 16, fiber: 2, per: "32g/2tbsp", stag: "脂肪" },
+  { name: "Mass Gainer增肌粉(1勺)", cal: 650, p: 32, c: 110, f: 8, fiber: 3, per: "~165g/勺", stag: "碳水" },
+];
+
+const CATEGORY_RECS = {
+  "蛋白质": { icon: "🥩", color: "#3b82f6", tip: "增肌核心：每餐30-40g，鸡胸/鸡蛋/金枪鱼性价比最高" },
+  "碳水": { icon: "🍚", color: "#10b981", tip: "能量来源：燕麦和红薯比白米纤维高5-8倍，优先选" },
+  "脂肪": { icon: "🥑", color: "#ef4444", tip: "别怕脂肪：牛油果+奇亚籽同时补纤维，一举两得" },
+  "纤维": { icon: "🌿", color: "#a78bfa", tip: "缺口最大：豆类(7-9g/100g)最容易加进饭里" },
+};
+
+const FIBER_COMBOS = [
+  { name: "🥤 早餐Smoothie加料", desc: "蛋白粉 + 1勺奇亚籽(15g) + 半根香蕉 + 燕麦30g", fiber: "~8g", carbs: "~45g", cal: "~350kcal", tip: "打成奶昔喝掉，不占胃，5分钟搞定", difficulty: "⭐" },
+  { name: "🫘 午餐加一勺鹰嘴豆", desc: "面条里加100g罐头鹰嘴豆（沥干即食）", fiber: "~7.6g", carbs: "~27g", cal: "~164kcal", tip: "罐头免煮，直接倒进面汤，软烂不占胃", difficulty: "⭐" },
+  { name: "🥜 下午加餐：Quest Bar + 毛豆", desc: "Quest Bar 1条 + 冷冻毛豆100g（微波2分钟）", fiber: "~19g", carbs: "~32g", cal: "~310kcal", tip: "两样东西 = 半天纤维量，毛豆解冻就能吃", difficulty: "⭐" },
+  { name: "🥣 睡前燕麦糊", desc: "40g燕麦 + 热水/牛奶 + 1勺蛋白粉", fiber: "~4g", carbs: "~30g", cal: "~270kcal", tip: "泡2分钟就软，胃弱也好消化，同时补碳水+蛋白", difficulty: "⭐" },
+  { name: "💧 洋车前子壳冲水（纤维核弹）", desc: "5g洋车前子壳 + 300mL水搅匀立刻喝", fiber: "~3.5g", carbs: "~4g", cal: "~10kcal", tip: "几乎零热量纯补纤维，必须多喝水，一天1-2次", difficulty: "⭐⭐" },
+  { name: "🍠 红薯代替部分面条", desc: "200g蒸红薯（微波8分钟）替换半碗面", fiber: "~6g", carbs: "~40g", cal: "~172kcal", tip: "甜的更容易吃下去，GI比白面低，血糖更稳", difficulty: "⭐" },
+];
+
+const MEAL_PLAN = [
+  { time: "🕘 起床30min", meal: "早餐", items: "2颗鸡蛋 + 一碗面 + 青菜", targets: "30g蛋白 / 60g碳水 / 12g脂肪", cal: "500-600" },
+  { time: "🕚 上午加餐", meal: "加餐1", items: "半杯蛋白粉 + 半根香蕉", targets: "20g蛋白 / 20g碳水", cal: "200-250" },
+  { time: "🕒 午餐", meal: "午餐", items: "鸡腿肉200g + 青菜 + 面条 + 泡菜", targets: "45g蛋白 / 70g碳水 / 20g脂肪", cal: "700-800" },
+  { time: "🕓 下午加餐", meal: "加餐2", items: "Quest Bar 或 蛋白粉+面汤", targets: "20g蛋白 / 30g碳水", cal: "200-300" },
+  { time: "🕗 晚餐", meal: "晚餐", items: "鸡腿肉150g + 青菜 + 半碗面 + 泡菜", targets: "35g蛋白 / 50g碳水 / 15g脂肪", cal: "~700" },
+  { time: "🕙 睡前", meal: "宵夜", items: "鸡蛋1颗 + 半杯蛋白粉", targets: "20g蛋白 / 5g脂肪", cal: "150-200" },
+];
+
+const CATEGORIES = ["全部", "蛋白质", "碳水", "脂肪", "纤维"];
+
+function MacroBar({ label, current, target, color, unit }) {
+  const pct = Math.min((current / target) * 100, 100);
+  return (
+    <div style={{ marginBottom: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 4, color: "var(--text-secondary)" }}>
+        <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>{label}</span>
+        <span>{current}{unit} / {target}{unit}</span>
+      </div>
+      <div style={{ height: 8, borderRadius: 4, background: "var(--bar-bg)", overflow: "hidden" }}>
+        <div style={{ height: "100%", borderRadius: 4, width: `${pct}%`, background: color, transition: "width 0.5s ease" }} />
+      </div>
+    </div>
+  );
+}
+
+function FoodCard({ food, onAdd, isSupplement }) {
+  const [amt, setAmt] = useState(isSupplement ? 1 : 100);
+  const mult = isSupplement ? amt : amt / 100;
+  return (
+    <div style={{
+      background: isSupplement ? "var(--input-bg)" : "var(--card-bg)", borderRadius: 12, padding: "14px 16px",
+      border: "1px solid var(--border)", transition: "transform 0.15s, box-shadow 0.15s",
+    }}
+      onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 6px 20px var(--shadow)"; }}
+      onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+        <span style={{ fontWeight: 700, fontSize: 14.5, color: "var(--text-primary)" }}>{food.name}</span>
+        {isSupplement && food.stag && (
+          <span style={{ fontSize: 11, color: CATEGORY_RECS[food.stag]?.color || "var(--accent-p)", background: "rgba(255,255,255,0.05)", padding: "2px 8px", borderRadius: 10 }}>
+            {food.stag}
+          </span>
+        )}
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px 12px", fontSize: 12.5, color: "var(--text-secondary)", marginBottom: 10 }}>
+        <span>热量: <b style={{ color: "var(--accent-cal)" }}>{(food.cal * mult).toFixed(0)}</b> kcal</span>
+        <span>蛋白: <b style={{ color: "var(--accent-p)" }}>{(food.p * mult).toFixed(1)}</b>g</span>
+        <span>碳水: <b style={{ color: "var(--accent-c)" }}>{(food.c * mult).toFixed(1)}</b>g</span>
+        <span>脂肪: <b style={{ color: "var(--accent-f)" }}>{(food.f * mult).toFixed(1)}</b>g</span>
+        {food.fiber > 0 && <span>纤维: <b style={{ color: "var(--accent-fiber)" }}>{(food.fiber * mult).toFixed(1)}</b>g</span>}
+        {food.per && <span style={{ fontSize: 11, opacity: 0.7 }}>{food.per}</span>}
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <input type="number" value={amt} min={1} max={isSupplement ? 20 : 2000}
+          onChange={e => setAmt(Math.max(1, +e.target.value || 0))}
+          style={{ width: isSupplement ? 44 : 56, padding: "5px 6px", borderRadius: 6, border: "1px solid var(--border)", background: isSupplement ? "var(--card-bg)" : "var(--input-bg)", color: "var(--text-primary)", fontSize: 13, textAlign: "center" }}
+        />
+        <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>{isSupplement ? "份" : "g"}</span>
+        <button onClick={() => onAdd(food, amt)} style={{
+          marginLeft: "auto", padding: "5px 14px", borderRadius: 8, border: "none",
+          background: "var(--accent-p)", color: "#fff", fontWeight: 600, fontSize: 12.5, cursor: "pointer", transition: "opacity 0.15s"
+        }}
+          onMouseEnter={e => e.target.style.opacity = 0.85} onMouseLeave={e => e.target.style.opacity = 1}
+        >+ 加入</button>
+      </div>
+    </div>
+  );
+}
+
+export default function NutritionDashboard() {
+  const [tab, setTab] = useState("tracker");
+  const [catFilter, setCatFilter] = useState("全部");
+  const [search, setSearch] = useState("");
+  const [eaten, setEaten] = useState([]);
+
+  const totals = useMemo(() => {
+    const t = { cal: 0, p: 0, c: 0, f: 0, fiber: 0 };
+    eaten.forEach(e => {
+      const m = e.isSup ? e.grams : e.grams / 100;
+      t.cal += e.food.cal * m; t.p += e.food.p * m; t.c += e.food.c * m; t.f += e.food.f * m; t.fiber += e.food.fiber * m;
+    });
+    return t;
+  }, [eaten]);
+
+  const addFood = (food, grams, isSup = false) => setEaten(prev => [...prev, { food, grams, isSup, id: Date.now() }]);
+  const removeFood = (id) => setEaten(prev => prev.filter(e => e.id !== id));
+
+  const filteredFoods = FOODS.filter(f =>
+    (catFilter === "全部" || f.category === catFilter) &&
+    (!search || f.name.toLowerCase().includes(search.toLowerCase()))
+  );
+
+  const calPct = Math.round((totals.cal / DAILY_TARGETS.calories.value) * 100);
+
+  return (
+    <div style={{
+      "--bg": "#0c0f14", "--card-bg": "#161b24", "--border": "#1e2636", "--shadow": "rgba(0,0,0,0.4)",
+      "--text-primary": "#e8ecf4", "--text-secondary": "#8892a6", "--input-bg": "#1a2030",
+      "--accent-cal": "#f59e0b", "--accent-p": "#3b82f6", "--accent-c": "#10b981", "--accent-f": "#ef4444",
+      "--accent-fiber": "#a78bfa", "--tab-bg": "#1a2030", "--tab-active": "#3b82f6",
+      fontFamily: "'DM Sans', 'Noto Sans SC', sans-serif",
+      background: "var(--bg)", color: "var(--text-primary)", minHeight: "100vh", padding: 0,
+    }}>
+      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+
+      <div style={{ background: "linear-gradient(135deg, #161b24, #1a2636)", padding: "28px 24px 20px", borderBottom: "1px solid var(--border)" }}>
+        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: "-0.5px" }}>🥗 每日营养追踪</h1>
+        <p style={{ margin: "6px 0 0", fontSize: 13, color: "var(--text-secondary)" }}>增肌计划 · 128→155lb · 2360 kcal/天</p>
+      </div>
+
+      <div style={{ display: "flex", gap: 0, background: "var(--tab-bg)", borderBottom: "1px solid var(--border)", overflowX: "auto" }}>
+        {[
+          { key: "tracker", label: "📊 追踪" },
+          { key: "foods", label: "🍖 食物库" },
+          { key: "plan", label: "📋 饮食计划" },
+          { key: "fiber", label: "⚡ 补纤维" },
+          { key: "vitamins", label: "💊 维生素" },
+        ].map(t => (
+          <button key={t.key} onClick={() => setTab(t.key)} style={{
+            flex: "0 0 auto", padding: "12px 14px", border: "none", background: "transparent", cursor: "pointer",
+            color: tab === t.key ? "var(--tab-active)" : "var(--text-secondary)",
+            fontWeight: tab === t.key ? 700 : 500, fontSize: 13, whiteSpace: "nowrap",
+            borderBottom: tab === t.key ? "2px solid var(--tab-active)" : "2px solid transparent", transition: "all 0.2s"
+          }}>{t.label}</button>
+        ))}
+      </div>
+
+      <div style={{ padding: "20px 20px 40px", maxWidth: 720, margin: "0 auto" }}>
+
+        {/* ===== TRACKER ===== */}
+        {tab === "tracker" && (
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 28, marginBottom: 28 }}>
+              <div style={{ position: "relative", width: 110, height: 110, flexShrink: 0 }}>
+                <svg viewBox="0 0 120 120" style={{ width: 110, height: 110, transform: "rotate(-90deg)" }}>
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="var(--border)" strokeWidth="10" />
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="var(--accent-cal)" strokeWidth="10"
+                    strokeDasharray={`${Math.min(calPct, 100) * 3.267} 326.7`} strokeLinecap="round" style={{ transition: "stroke-dasharray 0.6s ease" }} />
+                </svg>
+                <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                  <span style={{ fontSize: 22, fontWeight: 700 }}>{calPct}%</span>
+                  <span style={{ fontSize: 10.5, color: "var(--text-secondary)" }}>热量</span>
+                </div>
+              </div>
+              <div style={{ flex: 1 }}>
+                <MacroBar label="蛋白质" current={totals.p.toFixed(0)} target={125} color="var(--accent-p)" unit="g" />
+                <MacroBar label="碳水" current={totals.c.toFixed(0)} target={330} color="var(--accent-c)" unit="g" />
+                <MacroBar label="脂肪" current={totals.f.toFixed(0)} target={60} color="var(--accent-f)" unit="g" />
+                <MacroBar label="纤维" current={totals.fiber.toFixed(0)} target={40} color="var(--accent-fiber)" unit="g" />
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 24 }}>
+              {[
+                { label: "蛋白", val: totals.p, kcalPer: 4, color: "var(--accent-p)" },
+                { label: "碳水", val: totals.c, kcalPer: 4, color: "var(--accent-c)" },
+                { label: "脂肪", val: totals.f, kcalPer: 9, color: "var(--accent-f)" },
+              ].map(m => (
+                <div key={m.label} style={{ background: "var(--card-bg)", borderRadius: 10, padding: "12px 14px", borderLeft: `3px solid ${m.color}` }}>
+                  <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>{m.label} 热量</div>
+                  <div style={{ fontSize: 18, fontWeight: 700 }}>{(m.val * m.kcalPer).toFixed(0)}</div>
+                  <div style={{ fontSize: 11, color: "var(--text-secondary)" }}>kcal (1g={m.kcalPer}kcal)</div>
+                </div>
+              ))}
+            </div>
+
+            <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 12 }}>已吃食物</h3>
+            {eaten.length === 0 ? (
+              <div style={{ textAlign: "center", padding: 32, color: "var(--text-secondary)", background: "var(--card-bg)", borderRadius: 12, fontSize: 13.5 }}>
+                去 🍖食物库 添加今天吃的食物
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {eaten.map(e => {
+                  const m = e.isSup ? e.grams : e.grams / 100;
+                  return (
+                    <div key={e.id} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", background: "var(--card-bg)", borderRadius: 10, fontSize: 13 }}>
+                      <span style={{ flex: 1, fontWeight: 600 }}>{e.food.name}</span>
+                      <span style={{ color: "var(--text-secondary)" }}>{e.isSup ? `${e.grams}份` : `${e.grams}g`}</span>
+                      <span style={{ color: "var(--accent-cal)", fontWeight: 600, width: 60, textAlign: "right" }}>{(e.food.cal * m).toFixed(0)} kcal</span>
+                      <button onClick={() => removeFood(e.id)} style={{ background: "none", border: "none", color: "var(--accent-f)", cursor: "pointer", fontSize: 16, lineHeight: 1, padding: "2px 6px" }}>×</button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            <h3 style={{ fontSize: 15, fontWeight: 700, margin: "28px 0 12px" }}>每日目标参考值</h3>
+            <div style={{ background: "var(--card-bg)", borderRadius: 12, overflow: "hidden" }}>
+              {Object.entries(DAILY_TARGETS).map(([k, v], i) => (
+                <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "10px 16px", borderBottom: i < Object.keys(DAILY_TARGETS).length - 1 ? "1px solid var(--border)" : "none", fontSize: 13.5 }}>
+                  <span style={{ color: "var(--text-secondary)" }}>{v.label}</span>
+                  <span style={{ fontWeight: 600 }}>{v.value} {v.unit}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ===== FOODS ===== */}
+        {tab === "foods" && (
+          <div>
+            <input type="text" placeholder="搜索食物..." value={search} onChange={e => setSearch(e.target.value)}
+              style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid var(--border)", background: "var(--input-bg)", color: "var(--text-primary)", fontSize: 14, marginBottom: 14, boxSizing: "border-box" }}
+            />
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 18 }}>
+              {CATEGORIES.map(c => {
+                const rec = CATEGORY_RECS[c];
+                return (
+                  <button key={c} onClick={() => setCatFilter(c)} style={{
+                    padding: "7px 16px", borderRadius: 20, border: "1px solid var(--border)",
+                    background: catFilter === c ? (rec?.color || "var(--accent-p)") : "var(--card-bg)",
+                    color: catFilter === c ? "#fff" : "var(--text-secondary)",
+                    fontWeight: 600, fontSize: 13, cursor: "pointer", transition: "all 0.15s"
+                  }}>{rec?.icon || "📋"} {c}</button>
+                );
+              })}
+            </div>
+
+            {catFilter !== "全部" && CATEGORY_RECS[catFilter] && (
+              <div style={{ background: "var(--card-bg)", borderRadius: 10, padding: "10px 14px", marginBottom: 14, fontSize: 12.5, color: "var(--accent-c)", border: "1px solid var(--border)" }}>
+                💡 {CATEGORY_RECS[catFilter].tip}
+              </div>
+            )}
+
+            <p style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 14 }}>* 数值基于每100g，调整克数后自动计算</p>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
+              {filteredFoods.map((f, i) => <FoodCard key={i} food={f} onAdd={(food, grams) => addFood(food, grams, false)} />)}
+            </div>
+
+            {/* ===== 补剂区（虚线隔开） ===== */}
+            <div style={{ marginTop: 40, paddingTop: 28, borderTop: "2px dashed var(--border)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+                <span style={{ fontSize: 16, fontWeight: 700 }}>💊 补剂推荐</span>
+                <span style={{ fontSize: 11, color: "var(--accent-cal)", background: "rgba(245,158,11,0.1)", padding: "3px 10px", borderRadius: 10 }}>可选 · 仅供参考</span>
+              </div>
+              <p style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 16 }}>
+                不确定就别加，放在这里给你选。数值按"份"计算（1勺/1条/1罐）。
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
+                {SUPPLEMENTS.map((s, i) => (
+                  <FoodCard key={`sup-${i}`} food={s} onAdd={(food, grams) => addFood(food, grams, true)} isSupplement />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ===== MEAL PLAN ===== */}
+        {tab === "plan" && (
+          <div>
+            <div style={{ background: "var(--card-bg)", borderRadius: 12, padding: 16, marginBottom: 20, border: "1px solid var(--border)" }}>
+              <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>📌 关键提醒</div>
+              <div style={{ fontSize: 12.5, color: "var(--text-secondary)", lineHeight: 1.8 }}>
+                • 每次吃完东西后<b style={{ color: "var(--accent-c)" }}>慢走10分钟</b><br />
+                • 每1-2小时喝<b style={{ color: "var(--accent-p)" }}>200mL水</b>（目标4L/天）<br />
+                • 每<b style={{ color: "var(--accent-cal)" }}>3小时</b>吃一次东西<br />
+                • 每天吃<b style={{ color: "var(--accent-f)" }}>2粒鱼油</b><br />
+                • 每日盐分控制在 <b>2-2.5g</b>
+              </div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {MEAL_PLAN.map((m, i) => (
+                <div key={i} style={{ background: "var(--card-bg)", borderRadius: 12, padding: "14px 16px", border: "1px solid var(--border)", borderLeftWidth: 3, borderLeftColor: "var(--accent-c)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                    <span style={{ fontWeight: 700, fontSize: 14 }}>{m.time}</span>
+                    <span style={{ padding: "3px 10px", borderRadius: 12, background: "var(--input-bg)", fontSize: 12, color: "var(--accent-cal)", fontWeight: 600 }}>{m.cal} kcal</span>
+                  </div>
+                  <div style={{ fontSize: 13.5, marginBottom: 4 }}>{m.items}</div>
+                  <div style={{ fontSize: 12, color: "var(--text-secondary)" }}>{m.targets}</div>
+                </div>
+              ))}
+            </div>
+            <h3 style={{ fontSize: 15, fontWeight: 700, margin: "28px 0 12px" }}>增肌期营养目标汇总</h3>
+            <div style={{ background: "var(--card-bg)", borderRadius: 12, overflow: "hidden" }}>
+              {[["总热量","2400-2600 kcal"],["蛋白质","120-150g (1g/lb)"],["碳水化合物","270-320g"],["脂肪","65-75g"],["膳食纤维","30-45g"],["钠","1800-2300mg"],["钙","≥800mg"],["铁","≥10-12mg"],["水分","3.5-4.5L"]].map(([k,v],i) => (
+                <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "10px 16px", borderBottom: i < 8 ? "1px solid var(--border)" : "none", fontSize: 13.5 }}>
+                  <span style={{ color: "var(--text-secondary)" }}>{k}</span><span style={{ fontWeight: 600 }}>{v}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ===== FIBER COMBOS ===== */}
+        {tab === "fiber" && (
+          <div>
+            <div style={{ background: "linear-gradient(135deg, #1a1428, #1e1633)", borderRadius: 12, padding: 18, marginBottom: 20, border: "1px solid #2d2548" }}>
+              <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 8, color: "#a78bfa" }}>🧮 纤维缺口分析</div>
+              <div style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.8 }}>
+                你现在的饮食（面条+鸡肉+青菜）每天大约只有 <b style={{ color: "#ef4444" }}>15-18g纤维</b>，
+                目标 <b style={{ color: "#a78bfa" }}>40g</b>，缺口 <b style={{ color: "#ef4444" }}>~22g</b>。<br />
+                下面的组合专门为<b style={{ color: "#10b981" }}>瘦子/胃小/容易饱</b>设计：喝的 &gt; 吃的，软的 &gt; 硬的，加料 &gt; 单独吃。
+              </div>
+            </div>
+
+            <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 12 }}>🎯 轻松补纤维组合（选2-3个就够）</h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }}>
+              {FIBER_COMBOS.map((combo, i) => (
+                <div key={i} style={{ background: "var(--card-bg)", borderRadius: 12, padding: "16px 18px", border: "1px solid var(--border)", borderLeft: "4px solid #a78bfa" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                    <span style={{ fontWeight: 700, fontSize: 15 }}>{combo.name}</span>
+                    <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>难度 {combo.difficulty}</span>
+                  </div>
+                  <div style={{ fontSize: 13.5, marginBottom: 8 }}>{combo.desc}</div>
+                  <div style={{ display: "flex", gap: 16, fontSize: 12.5, marginBottom: 8 }}>
+                    <span style={{ color: "#a78bfa", fontWeight: 700 }}>纤维 {combo.fiber}</span>
+                    <span style={{ color: "#10b981", fontWeight: 700 }}>碳水 {combo.carbs}</span>
+                    <span style={{ color: "#f59e0b" }}>热量 {combo.cal}</span>
+                  </div>
+                  <div style={{ fontSize: 12, color: "#6ee7b7", background: "rgba(16,185,129,0.08)", padding: "6px 10px", borderRadius: 8 }}>💡 {combo.tip}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ background: "var(--card-bg)", borderRadius: 12, padding: 18, border: "1px solid var(--border)", marginBottom: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 10 }}>📐 举个例子：一天轻松到40g</div>
+              <div style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 2 }}>
+                现有饮食（面+肉+菜）≈ <b style={{ color: "var(--text-primary)" }}>15g</b><br />
+                + 早餐Smoothie加奇亚籽+燕麦 ≈ <b style={{ color: "#a78bfa" }}>+8g</b><br />
+                + 午餐加100g鹰嘴豆 ≈ <b style={{ color: "#a78bfa" }}>+7.6g</b><br />
+                + Quest Bar（你已经在吃）≈ <b style={{ color: "#a78bfa" }}>+14g</b><br />
+                <span style={{ color: "#10b981", fontWeight: 700, fontSize: 15 }}>= 44.6g ✅</span>
+                <span style={{ color: "var(--text-secondary)", fontSize: 12 }}> 超过目标，不需要额外硬吃</span>
+              </div>
+            </div>
+
+            <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 12 }}>🏆 纤维含量排行（每100g）</h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              {[...FOODS].filter(f => f.fiber > 2).sort((a, b) => b.fiber - a.fiber).map((f, i) => {
+                const barW = Math.min((f.fiber / 71) * 100, 100);
+                return (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 14px", background: i < 3 ? "rgba(167,139,250,0.08)" : "var(--card-bg)", borderRadius: 8, fontSize: 13 }}>
+                    <span style={{ width: 24, fontWeight: 700, color: i < 3 ? "#a78bfa" : "var(--text-secondary)" }}>{i + 1}</span>
+                    <span style={{ width: 180, fontWeight: 600, fontSize: 12.5 }}>{f.name}</span>
+                    <div style={{ flex: 1, height: 6, borderRadius: 3, background: "var(--border)", overflow: "hidden" }}>
+                      <div style={{ height: "100%", width: `${barW}%`, background: "#a78bfa", borderRadius: 3 }} />
+                    </div>
+                    <span style={{ fontWeight: 700, color: "#a78bfa", minWidth: 45, textAlign: "right" }}>{f.fiber}g</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* ===== VITAMINS ===== */}
+        {tab === "vitamins" && (
+          <div>
+            <p style={{ fontSize: 13, color: "var(--text-secondary)", marginBottom: 16 }}>每日建议摄入量（RDI），基于2000kcal成年男性标准</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {VITAMINS_MINERALS.map((v, i) => (
+                <div key={i} style={{ display: "grid", gridTemplateColumns: "120px 80px 1fr", gap: 8, padding: "10px 14px", background: "var(--card-bg)", borderRadius: 10, alignItems: "center", fontSize: 13.5 }}>
+                  <span style={{ fontWeight: 600 }}>{v.name}</span>
+                  <span style={{ color: "var(--accent-cal)", fontWeight: 700, textAlign: "right" }}>{v.amount}</span>
+                  <span style={{ color: "var(--text-secondary)", fontSize: 12 }}>{v.note}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
