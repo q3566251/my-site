@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>临床案例库 — 治疗会谈完整指南</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Sans+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+Mono&display=swap');
 
 :root {
-  --bg: #faf8f4;
-  --surface: #ffffff;
-  --surface2: #f4f1eb;
-  --border: #e2ddd4;
-  --border2: #d0c9bc;
-  --ink: #1c1a16;
-  --ink2: #4a4640;
-  --ink3: #8a837a;
-  --accent: #2c5f4a;
+  --bg: #f7f1e8;
+  --surface: #fdf9f4;
+  --surface2: #f2e7d9;
+  --border: #e0d5c5;
+  --border2: #cfc4b2;
+  --ink: #1d1d1f;
+  --ink2: #48484a;
+  --ink3: #86868b;
+  --accent: #2d6a4f;
   --accent-light: #e8f2ee;
   --gold: #8b6914;
   --gold-light: #fdf6e3;
@@ -24,8 +24,8 @@
   --red-light: #fdf0f0;
   --blue: #2c3f6b;
   --blue-light: #eef1f8;
-  --tag-bg: #2c5f4a;
-  --session-dot: #2c5f4a;
+  --tag-bg: #2d6a4f;
+  --session-dot: #2d6a4f;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,53 +35,106 @@ body {
   color: var(--ink);
   font-family: 'Noto Sans SC', sans-serif;
   font-weight: 300;
-  line-height: 1.8;
+  line-height: 1.9;
   min-height: 100vh;
+
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ── 顶部 ── */
 .site-header {
-  background: var(--ink);
-  color: #faf8f4;
+  background: rgba(247,241,232,0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  color: var(--ink);
   padding: 0 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 56px;
+  height: 52px;
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid var(--border);
 }
 .site-header .logo {
   font-family: 'Noto Serif SC', serif;
   font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  opacity: 0.9;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink);
 }
 .site-header .subtitle {
   font-size: 12px;
-  opacity: 0.4;
+  color: var(--ink3);
   font-weight: 300;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
 }
 
 /* ── 布局 ── */
 .layout {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  min-height: calc(100vh - 56px);
+  max-width: 920px;
+  margin: 0 auto;
+  min-height: calc(100vh - 52px);
 }
 
-/* ── 左侧边栏 ── */
+/* ── 左侧边栏（固定悬浮，可收起） ── */
 .sidebar {
-  border-right: 1px solid var(--border);
+  position: fixed;
+  left: 0;
+  top: 52px;
+  width: 48px;
+  height: calc(100vh - 52px);
   background: var(--surface);
-  padding: 32px 0;
-  position: sticky;
-  top: 56px;
-  height: calc(100vh - 56px);
+  border-right: 1px solid var(--border);
+  padding: 12px 0;
+  overflow: hidden;
+  transition: width 0.25s ease, box-shadow 0.25s ease;
+  z-index: 80;
+}
+.sidebar.open {
+  width: 240px;
   overflow-y: auto;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.08);
+}
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink3);
+  font-size: 15px;
+  transition: color 0.2s;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+.sidebar-toggle:hover { color: var(--ink); }
+.sidebar-toggle .arrow { transition: transform 0.25s; display: inline-block; }
+.sidebar.open .sidebar-toggle .arrow { transform: rotate(180deg); }
+.sidebar-inner {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease 0s;
+  white-space: nowrap;
+}
+.sidebar.open .sidebar-inner {
+  opacity: 1;
+  pointer-events: all;
+  transition: opacity 0.2s ease 0.1s;
+}
+/* 点击空白关闭 */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 79;
+}
+.sidebar-overlay.show {
+  display: block;
 }
 
 .sidebar-section-label {
@@ -157,8 +210,9 @@ body {
 
 /* ── 主内容 ── */
 .main {
-  padding: 40px 48px;
-  max-width: 960px;
+  padding: 36px 48px 80px;
+  max-width: 840px;
+  margin: 0 auto;
 }
 
 /* ── Case 头部 ── */
@@ -178,8 +232,8 @@ body {
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: var(--ink);
-  color: #faf8f4;
+  background: var(--accent);
+  color: #fdf9f4;
   padding: 3px 10px;
   border-radius: 3px;
 }
@@ -190,7 +244,7 @@ body {
 }
 .case-title {
   font-family: 'Noto Serif SC', serif;
-  font-size: 28px;
+  font-size: clamp(22px,3vw,30px);
   font-weight: 600;
   line-height: 1.4;
   margin-bottom: 12px;
@@ -207,7 +261,7 @@ body {
 .profile-card {
   background: var(--surface2);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 14px;
   padding: 24px;
   margin-bottom: 40px;
   display: grid;
@@ -239,7 +293,7 @@ body {
 .sess-btn {
   padding: 6px 14px;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 100px;
   background: var(--surface);
   font-size: 12px;
   font-weight: 400;
@@ -275,16 +329,17 @@ body {
 }
 .session-title {
   font-family: 'Noto Serif SC', serif;
-  font-size: 22px;
+  font-size: clamp(18px,2.5vw,22px);
   font-weight: 600;
   color: var(--ink);
   margin-bottom: 8px;
+  line-height: 1.35;
 }
 .session-goal-line {
   font-size: 13px;
   color: var(--ink2);
   line-height: 1.8;
-  padding: 12px 16px;
+  padding: 14px 18px;
   background: var(--gold-light);
   border-left: 3px solid var(--gold);
   border-radius: 0 4px 4px 0;
@@ -298,7 +353,7 @@ body {
 }
 .block-label {
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink3);
@@ -344,9 +399,9 @@ body {
 
 .speech {
   font-size: 14px;
-  line-height: 1.85;
+  line-height: 1.95;
   color: var(--ink);
-  padding: 8px 14px;
+  padding: 10px 16px;
   border-radius: 4px;
   background: transparent;
 }
@@ -361,7 +416,7 @@ body {
 
 .annotation {
   grid-column: 2;
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--gold);
   font-style: italic;
   padding: 2px 14px 10px;
@@ -378,7 +433,7 @@ body {
   gap: 16px;
 }
 .compare-box {
-  border-radius: 6px;
+  border-radius: 10px;
   padding: 18px 20px;
   border: 1px solid;
 }
@@ -473,7 +528,7 @@ body {
 .tech-tag {
   font-size: 11px;
   padding: 3px 10px;
-  border-radius: 3px;
+  border-radius: 100px;
   font-weight: 400;
   border: 1px solid;
 }
@@ -550,8 +605,11 @@ body {
   <div class="logo">临床案例库 · Clinical Case Library</div>
   <div class="subtitle">治疗会谈完整指南 · Full Session Walkthrough Guide</div>
 </header>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="layout">
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle"><span class="arrow">▶</span></button>
+    <div class="sidebar-inner">
     <div class="sidebar-section-label">障碍类别</div>
     <div class="disorder-item active" onclick="switchDisorder('gaming',this)">
       <div class="dot"></div><div class="name">游戏成瘾障碍</div><div class="tag">12节</div>
@@ -614,6 +672,7 @@ body {
     </div>
     <hr class="sidebar-divider">
     <button class="add-btn">＋ 添加新障碍类别</button>
+    </div><!-- /.sidebar-inner -->
   </aside>
   <div id="disorder-gaming" class="disorder-content"><main class="main">
 
@@ -7464,6 +7523,8 @@ function switchDisorder(disorder,el){
   document.querySelectorAll('.disorder-item').forEach(d=>d.classList.remove('active'));
   el.classList.add('active');
   currentDisorder=disorder;
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function buildNav(disorder){
@@ -7501,6 +7562,15 @@ function switchSession(disorder,n){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 ['gaming','depression','gad','adhd','ptsd'].forEach(buildNav);
+
+// ── Sidebar toggle ──
+const _sb=document.getElementById('sidebar');
+const _ov=document.getElementById('sidebarOverlay');
+const _tg=document.getElementById('sidebarToggle');
+function toggleSidebar(){_sb.classList.toggle('open');_ov.classList.toggle('show');}
+function closeSidebar(){_sb.classList.remove('open');_ov.classList.remove('show');}
+_tg.addEventListener('click',toggleSidebar);
+_ov.addEventListener('click',closeSidebar);
 </script>
 </body>
 </html>
