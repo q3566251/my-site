@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Z5S 五系统 · 过载与停摆 — 临床识别指南</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --page-bg: #f7f1e8;
+  --soft-bg: #f2e7d9;
+  --card-bg: #fdf9f4;
+  --sidebar-bg: #f5ede3;
+  --glass: rgba(247,241,232,0.82);
+  --text: #1d1d1f;
+  --text-mid: #48484a;
+  --text-body: #6e6e73;
+  --text-light: #86868b;
+  --border: #e0d5c5;
+  --border-light: #ebe0d2;
+  --accent: #2d6a4f;
+  --accent-light: #52b788;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+  --r: 14px;
+  --r-sm: 10px;
+
+  --overload: #c0392b;
+  --overload-bg: #f9ebe8;
+  --overload-border: #e8cfc9;
+  --shutdown: #636366;
+  --shutdown-bg: #eee9e2;
+  --shutdown-border: #d8d0c5;
+
+  --interp: #5856d6;
+  --exec: #c87f2e;
+  --emot: #c0392b;
+  --ident: #2980b9;
+  --play: #2d6a4f;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: var(--page-bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════ NAV ═══════ */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--glass);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.nav-inner {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.nav-title span {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex; gap: 20px; list-style: none;
+}
+
+.nav-links a {
+  font-size: 12px;
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+/* ═══════ CONTAINER ═══════ */
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ═══════ HERO ═══════ */
+.hero {
+  padding: 56px 0 48px;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 48px;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 16px;
+}
+
+.hero p {
+  font-size: 15px;
+  color: var(--text-body);
+  max-width: 560px;
+  line-height: 1.9;
+}
+
+.hero-spectrum {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 32px;
+  max-width: 420px;
+}
+
+.spectrum-end {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+}
+
+.spectrum-end.ol {
+  color: var(--overload);
+  background: var(--overload-bg);
+}
+
+.spectrum-end.sd {
+  color: var(--shutdown);
+  background: var(--shutdown-bg);
+}
+
+.spectrum-bar {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, var(--overload), var(--border) 50%, var(--shutdown));
+  margin: 0 10px;
+}
+
+/* ═══════ SYSTEM SECTION ═══════ */
+.system-section {
+  margin-bottom: 56px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.system-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.system-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.system-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.system-header-text h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.system-header-text .sys-en {
+  font-size: 11px;
+  color: var(--text-light);
+  letter-spacing: 0.04em;
+}
+
+.system-essence {
+  font-size: 14px;
+  color: var(--text-body);
+  margin-bottom: 24px;
+  line-height: 1.8;
+  padding-left: 54px;
+}
+
+/* ═══════ DUAL CARDS ═══════ */
+.dual-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.state-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.state-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.state-card.overload {
+  border-left: 3px solid var(--overload);
+}
+
+.state-card.shutdown {
+  border-left: 3px solid var(--shutdown);
+}
+
+.state-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 14px;
+}
+
+.state-tag.overload {
+  color: var(--overload);
+  background: var(--overload-bg);
+}
+
+.state-tag.shutdown {
+  color: var(--shutdown);
+  background: var(--shutdown-bg);
+}
+
+.state-tag .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+}
+
+.state-tag.overload .dot { background: var(--overload); }
+.state-tag.shutdown .dot { background: var(--shutdown); }
+
+.state-card h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.state-card .definition {
+  font-size: 13.5px;
+  color: var(--text-body);
+  line-height: 1.8;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* Example */
+.example-block {
+  background: var(--soft-bg);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.example-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.example-scene {
+  font-size: 13.5px;
+  color: var(--text);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.example-inner {
+  font-size: 13px;
+  color: var(--text-body);
+  font-style: italic;
+  line-height: 1.7;
+  padding-left: 12px;
+  border-left: 2px solid var(--border);
+}
+
+/* Signs */
+.signs-list {
+  list-style: none;
+  margin-top: 12px;
+}
+
+.signs-list li {
+  font-size: 12.5px;
+  color: var(--text-mid);
+  padding: 5px 0 5px 18px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.signs-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 11px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+}
+
+.overload .signs-list li::before {
+  background: var(--overload-bg);
+  border: 1.5px solid var(--overload);
+}
+
+.shutdown .signs-list li::before {
+  background: var(--shutdown-bg);
+  border: 1.5px solid var(--shutdown);
+}
+
+/* Clinical box */
+.clinical-box {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: var(--r-sm);
+  background: var(--soft-bg);
+  border-left: 3px solid var(--accent-light);
+}
+
+.clinical-box-title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.clinical-q {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 4px;
+}
+
+.clinical-a {
+  font-size: 13.5px;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+.clinical-a strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ═══════ DISTINGUISH BOX ═══════ */
+.distinguish {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 56px;
+}
+
+.distinguish-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dist-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 1fr;
+  gap: 8px 16px;
+  font-size: 13px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.dist-row:last-child { border-bottom: none; }
+
+.dist-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: 0.03em;
+  padding-top: 1px;
+}
+
+.dist-ol { color: var(--overload); }
+.dist-sd { color: var(--shutdown); }
+
+.dist-full {
+  grid-column: 2 / -1;
+  font-size: 13px;
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+.dist-full strong {
+  color: var(--text);
+}
+
+/* ═══════ INTERACTION PATTERNS ═══════ */
+.interactions-header {
+  margin-bottom: 32px;
+}
+
+.interactions-header .sect-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.interactions-header .sect-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.interactions-header p {
+  font-size: 14px;
+  color: var(--text-body);
+  line-height: 1.8;
+}
+
+.pattern-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.pattern-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.pattern-card.cascade {
+  background: var(--soft-bg);
+  border: 1.5px solid var(--border);
+}
+
+.pattern-title {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.pattern-sub {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 14px;
+}
+
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  background: var(--soft-bg);
+  border-radius: var(--r-sm);
+}
+
+.flow-step {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.flow-arrow {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.pattern-ex {
+  padding: 14px 16px;
+  background: var(--soft-bg);
+  border-radius: var(--r-sm);
+}
+
+.pattern-ex .pq {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.pattern-ex .pa {
+  font-size: 13px;
+  color: var(--text-body);
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.pattern-ex .analysis {
+  font-size: 12.5px;
+  color: var(--accent);
+  font-style: normal;
+  line-height: 1.7;
+}
+
+/* Cascade steps */
+.cascade-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cascade-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cascade-row .tag {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+.cascade-row .desc {
+  font-size: 12px;
+  color: var(--text-body);
+}
+
+/* ═══════ QUICK REF ═══════ */
+.quickref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 60px;
+}
+
+.qr-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.qr-card h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.qr-card ol {
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.9;
+}
+
+/* ═══════ FOOTER ═══════ */
+footer {
+  text-align: center;
+  padding: 48px 24px;
+  border-top: 1px solid var(--border-light);
+  margin-top: 20px;
+}
+
+footer .ft-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-mid);
+  margin-bottom: 4px;
+}
+
+footer .ft-sub {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .dual-cards { grid-template-columns: 1fr; }
+  .dist-row { grid-template-columns: 1fr; }
+  .dist-row .dist-ol,
+  .dist-row .dist-sd { padding-left: 12px; }
+  .flow { flex-direction: column; align-items: flex-start; }
+  .system-essence { padding-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-title"><span>Z5S</span> 五系统 · 过载与停摆</div>
+    <ul class="nav-links">
+      <li><a href="#s-interp">解释</a></li>
+      <li><a href="#s-exec">执行</a></li>
+      <li><a href="#s-emot">情绪</a></li>
+      <li><a href="#s-ident">认同</a></li>
+      <li><a href="#s-play">游戏</a></li>
+      <li><a href="#interactions">交互</a></li>
+      <li><a href="#quickref">快速判断</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Z5S Clinical Reference</div>
+  <h1>每个系统都有两种失调</h1>
+  <p>过载是失控地输出，停摆是保护性关闭。临床上真正关键的是：看清哪个在过载、哪个在停摆、谁在压制谁。</p>
+  <div class="hero-spectrum">
+    <span class="spectrum-end ol">过载 Overload</span>
+    <div class="spectrum-bar"></div>
+    <span class="spectrum-end sd">停摆 Shutdown</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ -->
+<!-- 1. INTERPRETATION          -->
+<!-- ═══════════════════════════ -->
+<div class="system-section" id="s-interp">
+  <div class="system-header">
+    <div class="system-icon" style="background: #f0eeff; color: var(--interp);">🔍</div>
+    <div class="system-header-text">
+      <h2>解释系统</h2>
+      <span class="sys-en">Interpretation System</span>
+    </div>
+  </div>
+  <p class="system-essence">负责处理信息、赋予意义、理解因果。核心功能：分析、归因、预测。</p>
+
+  <div class="dual-cards">
+    <div class="state-card overload">
+      <div class="state-tag overload"><span class="dot"></span>过载</div>
+      <h3>想太多，停不下来</h3>
+      <p class="definition">信息处理过度激活 → 反刍、灾难化、过度归因。系统超频运转但不产出有效结论。</p>
+      <div class="example-block">
+        <div class="example-label">场景</div>
+        <div class="example-scene">老板回复了一句"OK"。</div>
+        <div class="example-inner">"他是不是不满意？我那句话是不是有问题？他会不会下次开会提这件事？我是不是要被边缘化了？" — 反复想了30分钟</div>
+      </div>
+      <ul class="signs-list">
+        <li>同一件事反复分析但没有新结论（rumination）</li>
+        <li>小事件被推导出灾难性后果</li>
+        <li>逻辑"过拟合"——每个细节都有解读，但整体不合理</li>
+        <li>难以停止思考、入睡困难</li>
+      </ul>
+      <div class="clinical-box">
+        <div class="clinical-box-title">临床识别句</div>
+        <div class="clinical-q">来访者会说：</div>
+        <div class="clinical-a">"我<strong>脑子停不下来</strong>"<br>"我<strong>想太多</strong>了但还是不确定"<br>"每件事我都能想出几种最坏的可能"</div>
+      </div>
+    </div>
+
+    <div class="state-card shutdown">
+      <div class="state-tag shutdown"><span class="dot"></span>停摆</div>
+      <h3>不想想了，懒得分析</h3>
+      <p class="definition">认知处理低激活 → 回避理解、思维迟钝、简单化世界。系统节能模式，不再处理信息。</p>
+      <div class="example-block">
+        <div class="example-label">场景</div>
+        <div class="example-scene">考试没考好，成绩单摆在面前。</div>
+        <div class="example-inner">"算了，不想看哪题错了。反正就那样。" — 直接把成绩单翻过去</div>
+      </div>
+      <ul class="signs-list">
+        <li>不去理解原因、回避分析（"算了"）</li>
+        <li>脑雾（brain fog）——思维变慢、注意力散</li>
+        <li>对复杂事物简单化归类（"都一样"）</li>
+        <li>阅读看不进去、对话跟不上</li>
+      </ul>
+      <div class="clinical-box">
+        <div class="clinical-box-title">临床识别句</div>
+        <div class="clinical-q">来访者会说：</div>
+        <div class="clinical-a">"我<strong>懒得想</strong>了"<br>"<strong>太麻烦了</strong>，不想分析"<br>"我脑子<strong>转不动</strong>"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="distinguish">
+    <div class="distinguish-title">🔑 如何区分</div>
+    <div class="dist-row">
+      <div class="dist-label">核心差异</div>
+      <div class="dist-ol">过载：不停地想</div>
+      <div class="dist-sd">停摆：完全不想</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-label">能量</div>
+      <div class="dist-ol">脑子很忙，停不下来</div>
+      <div class="dist-sd">脑子很空，启动不了</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-label">⚠️ 易混</div>
+      <div class="dist-full"><strong>Interpretation停摆 vs Identity停摆</strong>：前者是"不分析事情"，后者是"放弃定义自己"。<br>判断 → 问：<strong>你是不想想事情，还是觉得是自己的问题？</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ -->
+<!-- 2. EXECUTION                -->
+<!-- ═══════════════════════════ -->
+<div class="system-section" id="s-exec">
+  <div class="system-header">
+    <div class="system-icon" style="background: #fdf3e4; color: var(--exec);">⚡</div>
+    <div class="system-header-text">
+      <h2>执行系统</h2>
+      <span class="sys-en">Execution System</span>
+    </div>
+  </div>
+  <p class="system-essence">负责行动的启动、计划、调度。核心功能：从想法到行为的转化。</p>
+
+  <div class="dual-cards">
+    <div class="state-card overload">
+      <div class="state-tag overload"><span class="dot"></span>过载</div>
+      <h3>停不下来，疯狂地做</h3>
+      <p class="definition">行动过度激活 → 焦虑驱动的忙碌、强迫性工作、无法休息。忙 ≠ 有效。</p>
+      <div class="example-block">
+        <div class="example-label">场景</div>
+        <div class="example-scene">晚上11点，已经很累了。</div>
+        <div class="example-inner">"还有邮件没回。再整理一下房间。明天的PPT也先改改。" — 身体累到不行，但手还在动</div>
+      </div>
+      <ul class="signs-list">
+        <li>焦虑驱动的效率——停下来就不安</li>
+        <li>过度多任务（同时做很多但完成率低）</li>
+        <li>身体已经发出信号（累、疼）但继续</li>
+        <li>把"忙"当作安全感来源</li>
+      </ul>
+      <div class="clinical-box">
+        <div class="clinical-box-title">临床识别句</div>
+        <div class="clinical-q">来访者会说：</div>
+        <div class="clinical-a">"我<strong>不能停</strong>"<br>"<strong>停下来就焦虑</strong>"<br>"我总觉得还有事情要做"</div>
+      </div>
+    </div>
+
+    <div class="state-card shutdown">
+      <div class="state-tag shutdown"><span class="dot"></span>停摆</div>
+      <h3>知道要做，但动不了</h3>
+      <p class="definition">行动启动失败 → 拖延、瘫痪、initiation failure。不是不想做，是无法开始。</p>
+      <div class="example-block">
+        <div class="example-label">场景</div>
+        <div class="example-scene">Report下午要交，坐在电脑前已经2小时。</div>
+        <div class="example-inner">"我知道要写…打开了文档…然后就在看手机…" — 不是在休息，是想动但启动不了</div>
+      </div>
+      <ul class="signs-list">
+        <li>拖延但伴随愧疚（不是"不想"而是"不能"）</li>
+        <li>启动困难——第一步永远最难</li>
+        <li>决策瘫痪（太多选项 → 什么都不做）</li>
+        <li>用低能耗行为填充时间（刷手机）</li>
+      </ul>
+      <div class="clinical-box">
+        <div class="clinical-box-title">临床识别句</div>
+        <div class="clinical-q">来访者会说：</div>
+        <div class="clinical-a">"我<strong>知道要做但就是动不了</strong>"<br>"我打开了但什么都没写"<br>"每天都想着<strong>明天开始</strong>"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="distinguish">
+    <div class="distinguish-title">🔑 如何区分</div>
+    <div class="dist-row">
+      <div class="dist-label">核心差异</div>
+      <div class="dist-ol">过载：不停做——行动量过大</div>
+      <div class="dist-sd">停摆：做不了——行动量为零</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-label">情绪</div>
+      <div class="dist-ol">焦虑、紧迫感</div>
+      <div class="dist-sd">愧疚、无力感</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-label">⚠️ 易混</div>
+      <div class="dist-full"><strong>Execution停摆 vs Emotion停摆</strong>：前者是"想做但启动不了"，后者是"不想做因为没感觉"。<br>判断 → 问：<strong>你是想做但动不了，还是完全不在乎做不做？</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ -->
+<!-- 3. EMOTION                  -->
+<!-- ═══════════════════════════ -->
+<div class="system-section" id="s-emot">
+  <div class="system-header">
+    <div class="system-icon" style="background: var(--overload-bg); color: var(--emot);">❤️</div>
+    <div class="system-header-text">
+      <h2>情绪系统</h2>
+      <span class="sys-en">Emotion System</span>
+    </div>
+  </div>
+  <p class="system-essence">负责感受、情绪调节、情感表达。核心功能：体验和传递情绪信号。</p>
+
+  <div class="dual-cards">
+    <div class="state-card overload">
+      <div class="state-tag overload"><span class="dot"></span>过载</div>
+      <h3>情绪泛滥，控制不住</h3>
+      <p class="definition">情绪输入 > 调节能力 → 情绪洪水。反应强度远超事件本身。</p>
+      <div class="example-block">
+        <div class="example-label">场景</div>
+        <div class="example-scene">朋友迟到了10分钟。</div>
+        <div class="example-inner">"你一点都不尊重我！你根本不在乎我！" — 愤怒程度和事件完全不成比例</div>
+      </div>
+      <ul class="signs-list">
+        <li>情绪强度 >> 事件强度</li>
+        <li>冲动反应（说了后悔的话、摔东西）</li>
+        <li>身体高唤醒（心跳快、手抖、呼吸急）</li>
+        <li>情绪切换极快（突然崩溃/暴怒）</li>
+      </ul>
+      <div class="clinical-box">
+        <div class="clinical-box-title">临床识别句</div>
+        <div class="clinical-q">来访者会说：</div>
+        <div class="clinical-a">"我<strong>控制不了</strong>"<br>"我<strong>一下子就炸了</strong>"<br>"我知道反应过度了但<strong>停不下来</strong>"</div>
+      </div>
+    </div>
+
+    <div class="state-card shutdown">
+      <div class="state-tag shutdown"><span class="dot"></span>停摆</div>
+      <h3>什么都感觉不到</h3>
+      <p class="definition">情绪系统保护性关闭 → 麻木、快感缺失（anhedonia）。不是没有情绪，是情绪被切断了。</p>
+      <div class="example-block">
+        <div class="example-label">场景</div>
+        <div class="example-scene">以前最喜欢的游戏更新了，朋友叫你一起玩。</div>
+        <div class="example-inner">"嗯…你们玩吧。" — 不是不想，是感受不到任何期待或兴奋</div>
+      </div>
+      <ul class="signs-list">
+        <li>对以前喜欢的事物没感觉</li>
+        <li>被关心时感到空白（不是感动也不是烦）</li>
+        <li>描述事件时像在讲别人的故事</li>
+        <li>低唤醒（说话慢、表情少）</li>
+      </ul>
+      <div class="clinical-box">
+        <div class="clinical-box-title">临床识别句</div>
+        <div class="clinical-q">来访者会说：</div>
+        <div class="clinical-a">"我<strong>没什么感觉</strong>"<br>"以前喜欢的现在<strong>都无所谓</strong>"<br>"好像有一层东西<strong>隔开了</strong>"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="distinguish">
+    <div class="distinguish-title">🔑 如何区分</div>
+    <div class="dist-row">
+      <div class="dist-label">核心差异</div>
+      <div class="dist-ol">过载：情绪太多——泛滥失控</div>
+      <div class="dist-sd">停摆：情绪太少——几乎没有</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-label">身体</div>
+      <div class="dist-ol">高唤醒（交感激活）</div>
+      <div class="dist-sd">低唤醒（冻结/迟缓）</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-label">⚠️ 关键</div>
+      <div class="dist-full"><strong>停摆常被误诊为"没有情绪问题"</strong>。来访者说"我没事" ≠ 真的没事。<br>追问：<strong>你是真的没事，还是感觉不到？</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ -->
+<!-- 4. IDENTITY                 -->
+<!-- ═══════════════════════════ -->
+<div class="system-section" id="s-ident">
+  <div class="system-header">
+    <div class="system-icon" style="background: #e8f2fa; color: var(--ident);">🪞</div>
+    <div class="system-header-text">
+      <h2>认同系统</h2>
+      <span class="sys-en">Identity System</span>
+    </div>
+  </div>
+  <p class="system-essence">负责自我定义、自我评价、价值感。核心功能：回答"我是谁"和"我够不够好"。</p>
+
+  <div class="dual-cards">
+    <div class="state-card overload">
+      <div class="state-tag overload"><span class="dot"></span>过载</div>
+      <h3>不停地攻击自己</h3>
+      <p class="definition">自我评价过度激活 → 完美主义、自我攻击、羞耻感。每件事都变成对"我是谁"的审判。</p>
+      <div class="example-block">
+        <div class="example-label">场景</div>
+        <div class="example-scene">Presentation有一个小口误。</div>
+        <div class="example-inner">"完了。大家一定觉得我不专业。我怎么连这点事都做不好？别人都比我强。" — 一个口误 → 全面否定自我</div>
+      </div>
+      <ul class="signs-list">
+        <li>小失误 → 全局性自我否定</li>
+        <li>高标准但永远"不够好"</li>
+        <li>频繁社会比较（"别人都比我…"）</li>
+        <li>羞耻感强烈且持续</li>
+      </ul>
+      <div class="clinical-box">
+        <div class="clinical-box-title">临床识别句</div>
+        <div class="clinical-q">来访者会说：</div>
+        <div class="clinical-a">"我<strong>就是不够好</strong>"<br>"<strong>都是我的问题</strong>"<br>"别人肯定觉得我很差"</div>
+      </div>
+    </div>
+
+    <div class="state-card shutdown">
+      <div class="state-tag shutdown"><span class="dot"></span>停摆</div>
+      <h3>我是谁都不重要了</h3>
+      <p class="definition">自我结构解体 → 不在乎自我评价、身份感丧失。不是自我攻击，是自我"消失"。</p>
+      <div class="example-block">
+        <div class="example-label">场景</div>
+        <div class="example-scene">面试被拒。</div>
+        <div class="example-inner">"随便吧。反正我也没什么用。找到找不到都一样。" — 不是愤怒或难过，是完全放弃定义自己</div>
+      </div>
+      <ul class="signs-list">
+        <li>对自己的评价是"无所谓"而非"不好"</li>
+        <li>不在乎未来、不设目标</li>
+        <li>"我是谁"这个问题本身失去意义</li>
+        <li>行为随意、不再维护自我形象</li>
+      </ul>
+      <div class="clinical-box">
+        <div class="clinical-box-title">临床识别句</div>
+        <div class="clinical-q">来访者会说：</div>
+        <div class="clinical-a">"<strong>随便吧</strong>"<br>"我<strong>无所谓</strong>了"<br>"<strong>是谁都不重要</strong>"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="distinguish">
+    <div class="distinguish-title">🔑 如何区分（这对最容易混）</div>
+    <div class="dist-row">
+      <div class="dist-label">核心差异</div>
+      <div class="dist-ol">过载："我不够好"——在乎但达不到</div>
+      <div class="dist-sd">停摆："都无所谓"——不再在乎</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-label">情绪</div>
+      <div class="dist-ol">痛苦、羞耻（高情绪）</div>
+      <div class="dist-sd">空洞、漠然（低/无情绪）</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-label">⚠️ 关键</div>
+      <div class="dist-full"><strong>Identity过载有时看起来像"努力"</strong>（完美主义），实际是自我攻击。<br><strong>Identity停摆有时看起来像"淡定"</strong>，实际是放弃。<br>判断 → 问：<strong>你是觉得自己不够好，还是觉得好不好都不重要？</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ -->
+<!-- 5. PLAY                     -->
+<!-- ═══════════════════════════ -->
+<div class="system-section" id="s-play">
+  <div class="system-header">
+    <div class="system-icon" style="background: #e8f5e9; color: var(--play);">✨</div>
+    <div class="system-header-text">
+      <h2>游戏系统</h2>
+      <span class="sys-en">Play System</span>
+    </div>
+  </div>
+  <p class="system-essence">负责探索、创造、乐趣、生命力。核心功能：让人"想活着"——好奇心、兴趣、审美、幽默。</p>
+
+  <div class="dual-cards">
+    <div class="state-card overload">
+      <div class="state-tag overload"><span class="dot"></span>过载</div>
+      <h3>不停追求刺激，停不下来</h3>
+      <p class="definition">快感回路过度激活 → 多巴胺追逐、上瘾行为、即时满足。用刺激填充所有空白。</p>
+      <div class="example-block">
+        <div class="example-label">场景</div>
+        <div class="example-scene">本来只想刷10分钟短视频。</div>
+        <div class="example-inner">"再看一个就停…再看一个…" — 2小时过去了，手指还在滑</div>
+      </div>
+      <ul class="signs-list">
+        <li>即时刺激停不下来（短视频、游戏、购物）</li>
+        <li>需要越来越强的刺激才有感觉（耐受性）</li>
+        <li>无刺激时立刻焦躁不安</li>
+        <li>用娱乐逃避不舒服的感受</li>
+      </ul>
+      <div class="clinical-box">
+        <div class="clinical-box-title">临床识别句</div>
+        <div class="clinical-q">来访者会说：</div>
+        <div class="clinical-a">"我<strong>就是停不下来</strong>"<br>"<strong>不刷/不玩就难受</strong>"<br>"明知在浪费时间但<strong>控制不住</strong>"</div>
+      </div>
+    </div>
+
+    <div class="state-card shutdown">
+      <div class="state-tag shutdown"><span class="dot"></span>停摆</div>
+      <h3>什么都不好玩了</h3>
+      <p class="definition">生命力枯竭 → 无兴趣、无创造力、无好奇心。不是累，是"活着没意思"。</p>
+      <div class="example-block">
+        <div class="example-label">场景</div>
+        <div class="example-scene">周末空闲，没有安排。</div>
+        <div class="example-inner">"不知道做什么。看电影？没兴趣。出去走走？算了。" — 连娱乐都没有动力</div>
+      </div>
+      <ul class="signs-list">
+        <li>以前的爱好变得无聊</li>
+        <li>没有想做的事、没有期待</li>
+        <li>创造力消失（写不出东西、画不下去）</li>
+        <li>世界变得"灰色"</li>
+      </ul>
+      <div class="clinical-box">
+        <div class="clinical-box-title">临床识别句</div>
+        <div class="clinical-q">来访者会说：</div>
+        <div class="clinical-a">"<strong>什么都不好玩</strong>"<br>"<strong>没什么想做的</strong>"<br>"不知道喜欢什么了"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="distinguish">
+    <div class="distinguish-title">🔑 如何区分</div>
+    <div class="dist-row">
+      <div class="dist-label">核心差异</div>
+      <div class="dist-ol">过载：过度追求刺激——"瘾"</div>
+      <div class="dist-sd">停摆：没有任何兴趣——"空"</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-label">关系</div>
+      <div class="dist-ol">用快乐逃避痛苦</div>
+      <div class="dist-sd">连快乐都找不到</div>
+    </div>
+    <div class="dist-row">
+      <div class="dist-label">⚠️ 关键</div>
+      <div class="dist-full"><strong>Play停摆是抑郁的核心指标之一</strong>（快感缺失），但常被忽略。<br><strong>Play过载常被当作"懒"或"没自制力"</strong>，实际可能是其他系统停摆后的代偿。<br>判断 → 问：<strong>你是在追求快乐，还是在逃避不快乐？</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ -->
+<!-- INTERACTIONS                -->
+<!-- ═══════════════════════════ -->
+<div id="interactions" class="system-section">
+  <div class="interactions-header">
+    <div class="sect-eyebrow">最关键的临床能力</div>
+    <div class="sect-title">系统间的压制关系</div>
+    <p>单独看一个系统的过载/停摆不够——真正有价值的临床洞察来自：看清哪个系统在压制哪个系统。</p>
+  </div>
+
+  <div class="pattern-card">
+    <div class="pattern-title">Identity 过载 → Emotion 停摆</div>
+    <div class="pattern-sub">最常见的抑郁结构 · "不允许自己有感觉"</div>
+    <div class="flow">
+      <span class="flow-step" style="background:#e8f2fa; color:var(--ident);">Identity 自我攻击</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step" style="background:var(--soft-bg); color:var(--text-body);">"表达情绪=危险"</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step" style="background:var(--overload-bg); color:var(--emot);">Emotion 关闭</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step" style="background:var(--shutdown-bg); color:var(--shutdown);">麻木</span>
+    </div>
+    <div class="pattern-ex">
+      <div class="pq">治疗师："最近有没有开心一点的时刻？"</div>
+      <div class="pa">"好像有一点…但不重要。"</div>
+      <div class="analysis">→ "有一点"= Emotion微启动；"不重要"= Identity立刻压制。这不是没有情绪，是情绪被自我攻击掐掉了。</div>
+    </div>
+  </div>
+
+  <div class="pattern-card">
+    <div class="pattern-title">Emotion 过载 → Execution 停摆</div>
+    <div class="pattern-sub">焦虑性瘫痪 · "太害怕了所以什么都做不了"</div>
+    <div class="flow">
+      <span class="flow-step" style="background:var(--overload-bg); color:var(--emot);">Emotion 焦虑泛滥</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step" style="background:var(--soft-bg); color:var(--text-body);">行动=可能出错</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step" style="background:#fdf3e4; color:var(--exec);">Execution 瘫痪</span>
+    </div>
+    <div class="pattern-ex">
+      <div class="pq">来访者："我有5个任务要做。"</div>
+      <div class="pa">"但我不知道先做哪个…每个都可能做错…算了。"</div>
+      <div class="analysis">→ 不是Execution本身的问题——是Emotion（恐惧）压住了行动。干预点在降低焦虑，不在"教时间管理"。</div>
+    </div>
+  </div>
+
+  <div class="pattern-card">
+    <div class="pattern-title">Interpretation 过载 → Emotion 过载</div>
+    <div class="pattern-sub">灾难化升级 · "越想越害怕"</div>
+    <div class="flow">
+      <span class="flow-step" style="background:#f0eeff; color:var(--interp);">Interpretation 灾难化</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step" style="background:var(--soft-bg); color:var(--text-body);">生成威胁信号</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step" style="background:var(--overload-bg); color:var(--emot);">Emotion 焦虑爆发</span>
+    </div>
+    <div class="pattern-ex">
+      <div class="pq">"老板今天没跟我打招呼。"</div>
+      <div class="pa">"他是不是要裁员？我是不是第一个？" → 恐慌发作</div>
+      <div class="analysis">→ 情绪不是凭空来的——是Interpretation过度分析"制造"出来的威胁。先稳定解释系统，情绪才能降。</div>
+    </div>
+  </div>
+
+  <div class="pattern-card">
+    <div class="pattern-title">Play 过载 → Execution 停摆</div>
+    <div class="pattern-sub">游戏成瘾结构 · "被即时快感劫持"</div>
+    <div class="flow">
+      <span class="flow-step" style="background:#e8f5e9; color:var(--play);">Play 多巴胺追逐</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step" style="background:var(--soft-bg); color:var(--text-body);">阈值升高</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step" style="background:#fdf3e4; color:var(--exec);">日常任务无法启动</span>
+    </div>
+    <div class="pattern-ex">
+      <div class="pq">"我知道要学习。"</div>
+      <div class="pa">"但打开书就觉得无聊…打开游戏就好了。"</div>
+      <div class="analysis">→ 不是"懒"——是Play系统把多巴胺阈值拉高了，日常任务的奖励信号"不够用"。Execution缺乏足够驱动信号。</div>
+    </div>
+  </div>
+
+  <div class="pattern-card cascade">
+    <div class="pattern-title">🔗 经典级联失衡（抑郁 + 焦虑）</div>
+    <div class="pattern-sub">"脑子很忙，但整个人是停的"</div>
+    <div class="cascade-steps">
+      <div class="cascade-row">
+        <span class="tag" style="background:#f0eeff; color:var(--interp);">Interpretation 过载</span>
+        <span class="desc">— "我是不是又做错了"</span>
+      </div>
+      <div class="cascade-row">
+        <span class="tag" style="background:#e8f2fa; color:var(--ident);">Identity 过载</span>
+        <span class="desc">— "我就是不够好"</span>
+      </div>
+      <div class="cascade-row">
+        <span class="tag" style="background:var(--shutdown-bg); color:var(--shutdown);">Emotion 停摆</span>
+        <span class="desc">— "什么都感觉不到了"</span>
+      </div>
+      <div class="cascade-row">
+        <span class="tag" style="background:var(--shutdown-bg); color:var(--shutdown);">Execution 停摆</span>
+        <span class="desc">— "什么都做不了"</span>
+      </div>
+      <div class="cascade-row">
+        <span class="tag" style="background:var(--shutdown-bg); color:var(--shutdown);">Play 停摆</span>
+        <span class="desc">— "什么都不好玩"</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ -->
+<!-- QUICK REFERENCE             -->
+<!-- ═══════════════════════════ -->
+<div id="quickref" class="system-section">
+  <div class="interactions-header">
+    <div class="sect-eyebrow">临床工具</div>
+    <div class="sect-title">快速判断框架</div>
+    <p>三步定位来访者的系统状态。</p>
+  </div>
+
+  <div class="quickref-grid">
+    <div class="qr-card">
+      <h4>Step 1 · 过载还是停摆？</h4>
+      <ol>
+        <li>"太多了停不下来" → 过载</li>
+        <li>"太少了做不起来" → 停摆</li>
+        <li>核心判断词：控制不住 vs 启动不了</li>
+      </ol>
+    </div>
+
+    <div class="qr-card">
+      <h4>Step 2 · 哪个系统？</h4>
+      <ol>
+        <li>在"想" → Interpretation</li>
+        <li>在"做" → Execution</li>
+        <li>在"感受" → Emotion</li>
+        <li>在"评价自己" → Identity</li>
+        <li>在"找快乐" → Play</li>
+      </ol>
+    </div>
+
+    <div class="qr-card">
+      <h4>Step 3 · 谁在压谁？</h4>
+      <ol>
+        <li>找触发瞬间：哪个系统先启动？</li>
+        <li>"刚有感觉就否定" → Identity 压 Emotion</li>
+        <li>干预A没反应，碰到B有波动 → B是上游</li>
+      </ol>
+    </div>
+
+    <div class="qr-card">
+      <h4>微实验 · 现场测试</h4>
+      <ol>
+        <li>"如果没有任何评判，你现在会有什么感觉？"（测 Emotion）</li>
+        <li>"那一刻有没有一个声音在评价这个感觉？"（测 Identity）</li>
+        <li>"你是想做但动不了，还是完全不在乎？"（Execution vs Emotion）</li>
+      </ol>
+    </div>
+
+    <div class="qr-card">
+      <h4>语言快捷识别</h4>
+      <ol>
+        <li>"不重要 / 不值得 / 不该" → Identity 压制</li>
+        <li>"控制不了 / 停不下来" → 过载</li>
+        <li>"动不了 / 启动不了" → Execution 停摆</li>
+        <li>"没感觉 / 无所谓" → Emotion 或 Identity 停摆</li>
+        <li>"没意思 / 不好玩" → Play 停摆</li>
+      </ol>
+    </div>
+
+    <div class="qr-card">
+      <h4>干预原则</h4>
+      <ol>
+        <li>过载 → 降温（down-regulate）：降低激活</li>
+        <li>停摆 → 激活（up-regulate）：小剂量启动</li>
+        <li>有上游压制 → 先处理上游系统</li>
+        <li>不确定 → 先找"谁先动了"（时间顺序）</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<footer>
+  <p class="ft-title">Z5S 五系统理论 · 临床参考</p>
+  <p class="ft-sub">Five-System Model of Personality and Clinical Psychology</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.system-section').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
