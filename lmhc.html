@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纽约心理健康 · 供需差距报告</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FDFAF5;
+  --warm-white: #FFFDF9;
+  --sand: #F5EDE3;
+  --sand-light: #FAF5EE;
+  --clay: #E8D5C0;
+  --terracotta: #C4725A;
+  --terracotta-light: #D4917D;
+  --moss: #6B8F71;
+  --moss-light: #8FB996;
+  --ocean: #5B8FA8;
+  --ocean-light: #7DB3CB;
+  --ink: #2C2418;
+  --ink-soft: #5A4E3E;
+  --ink-muted: #8C7E6A;
+  --ink-faint: #B8AD9E;
+  --rose: #D4918B;
+  --rose-light: #F0D1CC;
+  --amber: #D4A857;
+  --shadow-sm: 0 1px 3px rgba(44,36,24,0.04);
+  --shadow-md: 0 4px 20px rgba(44,36,24,0.06);
+  --shadow-lg: 0 12px 40px rgba(44,36,24,0.08);
+  --radius: 20px;
+  --radius-sm: 12px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--cream); color:var(--ink);
+  font-family:'Noto Sans SC',sans-serif; font-weight:400; line-height:1.8;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+::selection { background:var(--rose-light); color:var(--ink); }
+
+/* === Source link pill === */
+.src-link {
+  display:inline-flex; align-items:center; gap:0.3rem;
+  font-size:0.68rem; font-weight:500; color:var(--ocean);
+  background:rgba(91,143,168,0.08); padding:0.2rem 0.6rem;
+  border-radius:100px; text-decoration:none;
+  transition:all 0.2s; border:1px solid rgba(91,143,168,0.12);
+  white-space:nowrap;
+}
+.src-link:hover { background:rgba(91,143,168,0.15); border-color:var(--ocean-light); }
+.src-link::before { content:'🔗'; font-size:0.6rem; }
+.src-row {
+  display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.5rem;
+  justify-content:center;
+}
+.src-row.left { justify-content:flex-start; }
+
+/* === HERO === */
+.hero {
+  min-height:100vh; display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  text-align:center; padding:4rem 2rem; position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; top:-30%; right:-20%;
+  width:700px; height:700px;
+  background:radial-gradient(circle, rgba(212,145,139,0.15) 0%, transparent 70%);
+  border-radius:50%; animation:float 20s ease-in-out infinite;
+}
+.hero::after {
+  content:''; position:absolute; bottom:-20%; left:-15%;
+  width:600px; height:600px;
+  background:radial-gradient(circle, rgba(107,143,113,0.1) 0%, transparent 70%);
+  border-radius:50%; animation:float 25s ease-in-out infinite reverse;
+}
+@keyframes float { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-20px)} }
+.hero-content { position:relative; z-index:1; max-width:800px; }
+.hero-tag {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  background:var(--sand); color:var(--ink-soft);
+  padding:0.5rem 1.2rem; border-radius:100px;
+  font-size:0.82rem; font-weight:500; margin-bottom:2rem;
+  animation:fadeUp 1s ease both;
+}
+.hero-tag .dot { width:6px;height:6px;background:var(--terracotta);border-radius:50%;animation:pulse 2s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.hero h1 {
+  font-family:'Noto Serif SC',serif;
+  font-size:clamp(2.6rem,6vw,4.2rem);
+  font-weight:600; line-height:1.3;
+  margin-bottom:1.5rem; animation:fadeUp 1s 0.15s ease both;
+}
+.hero h1 em { font-style:normal; color:var(--terracotta); position:relative; }
+.hero h1 em::after {
+  content:''; position:absolute; bottom:2px; left:0; right:0;
+  height:3px; background:var(--terracotta-light); border-radius:2px; opacity:0.5;
+}
+.hero-sub {
+  font-size:1.1rem; color:var(--ink-muted); font-weight:300; line-height:1.9;
+  max-width:560px; margin:0 auto 2.5rem; animation:fadeUp 1s 0.3s ease both;
+}
+.hero-stats {
+  display:flex; justify-content:center; gap:3rem; flex-wrap:wrap;
+  animation:fadeUp 1s 0.45s ease both;
+}
+.hero-stat { text-align:center; }
+.hero-stat .num {
+  font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:600;
+  color:var(--ink); line-height:1.2;
+}
+.hero-stat .num span { font-size:1.4rem; color:var(--ink-faint); }
+.hero-stat .desc { font-size:0.78rem; color:var(--ink-muted); margin-top:0.2rem; }
+.scroll-hint {
+  position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:0.4rem;
+  color:var(--ink-faint); font-size:0.72rem; animation:fadeUp 1s 0.6s ease both;
+}
+.scroll-hint .arrow {
+  width:1px;height:30px;background:linear-gradient(to bottom,var(--ink-faint),transparent);
+  animation:scrollBounce 2s ease infinite;
+}
+@keyframes scrollBounce { 0%,100%{transform:translateY(0);opacity:1} 50%{transform:translateY(8px);opacity:0.3} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+/* === SECTIONS === */
+.section { max-width:1100px; margin:0 auto; padding:5rem 2rem; }
+.section-label {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  font-size:0.75rem; font-weight:500; color:var(--terracotta);
+  text-transform:uppercase; letter-spacing:0.12em; margin-bottom:1rem;
+}
+.section-label::before { content:''; width:24px; height:1.5px; background:var(--terracotta); }
+.section h2 {
+  font-family:'Noto Serif SC',serif; font-size:clamp(1.8rem,3.5vw,2.4rem);
+  font-weight:500; line-height:1.4; margin-bottom:0.6rem;
+}
+.section .lead { font-size:0.95rem; color:var(--ink-muted); max-width:600px; margin-bottom:2.5rem; font-weight:300; }
+
+/* === PROVIDER CARDS === */
+.provider-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.2rem; }
+@media(max-width:700px){ .provider-grid{grid-template-columns:repeat(2,1fr);} }
+.provider-card {
+  background:var(--warm-white); border:1px solid var(--clay); border-radius:var(--radius-sm);
+  padding:1.5rem 1rem; text-align:center; transition:all 0.4s cubic-bezier(0.22,1,0.36,1);
+  position:relative; overflow:hidden;
+}
+.provider-card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; border-radius:var(--radius-sm) var(--radius-sm) 0 0; }
+.provider-card:nth-child(1)::before{background:var(--terracotta)}
+.provider-card:nth-child(2)::before{background:var(--moss)}
+.provider-card:nth-child(3)::before{background:var(--ocean)}
+.provider-card:nth-child(4)::before{background:var(--amber)}
+.provider-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:transparent; }
+.provider-card .emoji { font-size:1.6rem; margin-bottom:0.4rem; display:block; }
+.provider-card .count { font-family:'Playfair Display',serif; font-size:1.9rem; font-weight:600; line-height:1.2; }
+.provider-card:nth-child(1) .count{color:var(--terracotta)}
+.provider-card:nth-child(2) .count{color:var(--moss)}
+.provider-card:nth-child(3) .count{color:var(--ocean)}
+.provider-card:nth-child(4) .count{color:var(--amber)}
+.provider-card .type { font-size:0.82rem; font-weight:600; color:var(--ink-soft); margin-top:0.2rem; }
+.provider-card .note { font-size:0.68rem; color:var(--ink-faint); margin-top:0.2rem; }
+
+.total-banner {
+  background:var(--sand-light); border-radius:var(--radius); padding:1.8rem 2rem;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+}
+.total-banner .left { font-size:0.9rem; color:var(--ink-soft); }
+.total-banner .left strong { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--ink); display:block; line-height:1.2; }
+.total-banner .right { text-align:right; font-size:0.82rem; color:var(--ink-muted); }
+
+/* === BOROUGH ROWS === */
+.borough-cards { display:grid; grid-template-columns:1fr; gap:1rem; }
+.borough-row {
+  background:var(--warm-white); border:1px solid var(--clay); border-radius:var(--radius);
+  padding:1.5rem 2rem; display:grid; grid-template-columns:180px 1fr 140px;
+  align-items:center; gap:1.5rem; transition:all 0.3s ease; position:relative; overflow:hidden;
+}
+.borough-row:hover { border-color:var(--terracotta-light); box-shadow:var(--shadow-md); }
+.borough-row.worst { border-color:var(--terracotta-light); background:linear-gradient(135deg,#FFFDF9,#FFF5F0); }
+.borough-row.worst::after {
+  content:'⚠ 最缺人'; position:absolute; top:12px; right:16px;
+  background:var(--terracotta); color:white; font-size:0.68rem; font-weight:600;
+  padding:0.2rem 0.7rem; border-radius:100px;
+}
+.borough-info .name { font-family:'Noto Serif SC',serif; font-size:1.3rem; font-weight:600; }
+.borough-info .name-en { font-family:'Playfair Display',serif; font-size:0.82rem; color:var(--ink-faint); font-style:italic; }
+.borough-info .pop { font-size:0.78rem; color:var(--ink-muted); margin-top:0.2rem; }
+.borough-bar-area { display:flex; flex-direction:column; gap:0.5rem; }
+.bar-group { display:flex; align-items:center; gap:0.5rem; }
+.bar-group .bar-label-sm { width:50px; font-size:0.68rem; color:var(--ink-faint); text-align:right; flex-shrink:0; }
+.bar-track { flex:1; height:18px; background:var(--sand); border-radius:9px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:9px; transition:width 1.5s cubic-bezier(0.22,1,0.36,1); }
+.bar-fill.terracotta{background:linear-gradient(90deg,var(--terracotta-light),var(--terracotta))}
+.bar-fill.moss{background:linear-gradient(90deg,var(--moss-light),var(--moss))}
+.bar-fill.ocean{background:linear-gradient(90deg,var(--ocean-light),var(--ocean))}
+.bar-fill.amber{background:linear-gradient(90deg,#E8C87A,var(--amber))}
+.bar-num { font-size:0.7rem; font-weight:600; color:var(--ink-soft); min-width:36px; }
+.borough-ratio { text-align:center; padding:0.8rem; background:var(--sand-light); border-radius:var(--radius-sm); }
+.borough-ratio .ratio-num { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:600; }
+.borough-ratio .ratio-label { font-size:0.68rem; color:var(--ink-faint); }
+.ratio-danger{color:var(--terracotta)} .ratio-warn{color:var(--amber)} .ratio-good{color:var(--moss)}
+@media(max-width:700px){ .borough-row{grid-template-columns:1fr;gap:1rem;} }
+
+/* === INSIGHT === */
+.insight-box {
+  background:linear-gradient(135deg,#FFF8F5,#FFF5F0,#FFFDF9);
+  border:1px solid var(--rose-light); border-radius:var(--radius);
+  padding:3rem; text-align:center; margin:3rem 0;
+}
+.insight-box::before { content:'💡'; font-size:2rem; display:block; margin-bottom:1rem; }
+.insight-box h3 { font-family:'Noto Serif SC',serif; font-size:1.5rem; font-weight:500; margin-bottom:1rem; }
+.insight-box .stats-row { display:flex; justify-content:center; gap:3rem; flex-wrap:wrap; margin:1.5rem 0; }
+.insight-box .stat { text-align:center; }
+.insight-box .stat .val { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:600; color:var(--terracotta); line-height:1.2; }
+.insight-box .stat .lbl { font-size:0.75rem; color:var(--ink-muted); margin-top:0.15rem; }
+.insight-box p { font-size:0.92rem; color:var(--ink-muted); max-width:550px; margin:0 auto; line-height:1.9; }
+
+/* === RANKING === */
+.ranking-visual { display:flex; align-items:flex-end; justify-content:center; gap:1.2rem; padding:2rem 0 1rem; }
+.rank-col { display:flex; flex-direction:column; align-items:center; gap:0.5rem; flex:1; max-width:160px; }
+.rank-col .rank-bar {
+  width:100%; border-radius:12px 12px 4px 4px;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  padding:1rem 0.5rem; position:relative;
+}
+.rank-col .borough-name { font-family:'Noto Serif SC',serif; font-size:0.95rem; font-weight:600; }
+.rank-col .rank-ratio { font-family:'Playfair Display',serif; font-size:1rem; font-weight:600; color:white; text-shadow:0 1px 3px rgba(0,0,0,0.15); }
+.rank-col .rank-pop { font-size:0.68rem; color:var(--ink-faint); }
+.rank-col .rank-badge {
+  font-size:0.65rem; font-weight:700; color:white; background:var(--ink);
+  width:22px;height:22px;border-radius:50%; display:flex;align-items:center;justify-content:center;
+  position:absolute; top:-11px;
+}
+
+/* === DATA TABLE === */
+.data-table-wrap { background:var(--warm-white); border:1px solid var(--clay); border-radius:var(--radius); overflow:hidden; margin-top:2rem; }
+.data-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+.data-table thead th {
+  background:var(--sand-light); padding:0.9rem 0.7rem; font-size:0.72rem;
+  font-weight:600; text-transform:uppercase; letter-spacing:0.06em;
+  color:var(--ink-muted); text-align:right; border-bottom:1px solid var(--clay);
+}
+.data-table thead th:first-child { text-align:left; padding-left:1.2rem; }
+.data-table tbody td { padding:0.8rem 0.7rem; text-align:right; border-bottom:1px solid var(--sand); color:var(--ink-soft); }
+.data-table tbody td:first-child { text-align:left; font-weight:600; color:var(--ink); padding-left:1.2rem; }
+.data-table tbody tr:hover { background:var(--sand-light); }
+.data-table tbody tr:last-child td { border-bottom:none; }
+.data-table tfoot td {
+  padding:0.9rem 0.7rem; text-align:right; font-weight:700;
+  color:var(--ink); background:var(--sand-light); border-top:2px solid var(--clay);
+}
+.data-table tfoot td:first-child { text-align:left; padding-left:1.2rem; }
+.td-highlight { color:var(--terracotta)!important; font-weight:700!important; }
+
+/* === METHODOLOGY === */
+.methodology { background:var(--sand-light); border-radius:var(--radius); padding:2rem 2.5rem; margin-top:3rem; }
+.methodology h4 { font-family:'Noto Serif SC',serif; font-size:1.1rem; font-weight:500; margin-bottom:0.8rem; }
+.methodology p { font-size:0.78rem; color:var(--ink-muted); line-height:2; }
+.methodology a { color:var(--ocean); text-decoration:none; border-bottom:1px solid var(--ocean-light); }
+.methodology a:hover { border-color:var(--ocean); }
+
+.site-footer { text-align:center; padding:3rem 2rem; font-size:0.72rem; color:var(--ink-faint); }
+.site-footer .heart { color:var(--rose); }
+.reveal { opacity:0; transform:translateY(30px); transition:all 0.8s cubic-bezier(0.22,1,0.36,1); }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.divider { width:60px; height:1.5px; background:var(--clay); margin:0 auto 3rem; }
+.table-scroll { overflow-x:auto; }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag"><span class="dot"></span> 2025 年数据报告</div>
+    <h1>纽约市有 858 万人<br>心理咨询师<em>够用吗</em>？</h1>
+    <p class="hero-sub">
+      我们收集了纽约州教育厅的官方执照数据，<br>
+      来看看纽约五大区的心理健康服务供需缺口。
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">858<span>万</span></div>
+        <div class="desc">纽约市总人口</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">20,974</div>
+        <div class="desc">可独立执业的核心持证人</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">1<span> : </span>409</div>
+        <div class="desc">平均每位持证人服务人数</div>
+      </div>
+    </div>
+    <div class="src-row" style="margin-top:1.2rem;">
+      <a class="src-link" href="https://s-media.nyc.gov/agencies/dcp/assets/files/pdf/data-tools/population/population-estimates/new-york-city-population-estimates-and-trends-march-2026.pdf" target="_blank">人口来源：Census Vintage 2025</a>
+      <a class="src-link" href="https://www.op.nysed.gov/professions/mental-health-counselors/license-statistics" target="_blank">执照来源：NYSED</a>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>向下滑动</span><div class="arrow"></div></div>
+</section>
+
+<!-- ===== 四大执照 ===== -->
+<div class="section reveal">
+  <div class="section-label">执照类型</div>
+  <h2>纽约有四种心理健康执照</h2>
+  <p class="lead">在纽约州，提供心理健康服务需要持有以下执照之一。LMSW 需要在督导下才能做临床工作。</p>
+  <div class="provider-grid">
+    <div class="provider-card">
+      <span class="emoji">🧠</span>
+      <div class="count">3,786</div>
+      <div class="type">LMHC</div>
+      <div class="note">持证心理咨询师</div>
+      <a class="src-link" href="https://www.op.nysed.gov/professions/mental-health-counselors/license-statistics" target="_blank" style="margin-top:0.5rem">查看来源</a>
+    </div>
+    <div class="provider-card">
+      <span class="emoji">💚</span>
+      <div class="count">12,005</div>
+      <div class="type">LCSW</div>
+      <div class="note">持证临床社工</div>
+      <a class="src-link" href="https://www.op.nysed.gov/professions/licensed-clinical-social-worker/license-statistics" target="_blank" style="margin-top:0.5rem">查看来源</a>
+    </div>
+    <div class="provider-card">
+      <span class="emoji">🔬</span>
+      <div class="count">5,183</div>
+      <div class="type">心理学家</div>
+      <div class="note">Psychologist</div>
+      <a class="src-link" href="https://www.op.nysed.gov/professions/psychology/license-statistics" target="_blank" style="margin-top:0.5rem">查看来源</a>
+    </div>
+    <div class="provider-card">
+      <span class="emoji">🤝</span>
+      <div class="count">14,390</div>
+      <div class="type">LMSW</div>
+      <div class="note">需督导 · 不计入核心</div>
+      <a class="src-link" href="https://op.nysed.gov/professions/licensed-master-social-worker-lmsw/license-statistics" target="_blank" style="margin-top:0.5rem">查看来源</a>
+    </div>
+  </div>
+
+  <div class="total-banner">
+    <div class="left">
+      五大区核心执照持有人总计
+      <strong>20,974 人</strong>
+    </div>
+    <div class="right">
+      含 LMSW 总计 <strong>35,364 人</strong><br>
+      <span style="font-size:0.72rem;color:var(--ink-faint)">核心 = LMHC + LCSW + 心理学家</span>
+    </div>
+  </div>
+  <p style="font-size:0.75rem;color:var(--ink-faint);margin-top:0.8rem;">
+    ⚠️ 以上为在纽约五大区有注册地址的执照持有人数量（LMHC/LCSW/心理学家截至2025年7月，LMSW截至2026年1月），不代表全部在积极执业。
+  </p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== 五大区对比 ===== -->
+<div class="section reveal">
+  <div class="section-label">五大区对比</div>
+  <h2>哪个区的咨询师最不够用？</h2>
+  <p class="lead">用「人口 ÷ 核心持证人」来衡量每位持证人需要服务多少居民。数字越大 = 差距越严重。</p>
+  <div class="src-row left" style="margin-bottom:1rem;">
+    <a class="src-link" href="https://www.op.nysed.gov/professions/mental-health-counselors/license-statistics" target="_blank">LMHC 来源</a>
+    <a class="src-link" href="https://www.op.nysed.gov/professions/licensed-clinical-social-worker/license-statistics" target="_blank">LCSW 来源</a>
+    <a class="src-link" href="https://www.op.nysed.gov/professions/psychology/license-statistics" target="_blank">心理学家来源</a>
+    <a class="src-link" href="https://op.nysed.gov/professions/licensed-master-social-worker-lmsw/license-statistics" target="_blank">LMSW 来源</a>
+    <a class="src-link" href="https://s-media.nyc.gov/agencies/dcp/assets/files/pdf/data-tools/population/population-estimates/new-york-city-population-estimates-and-trends-march-2026.pdf" target="_blank">人口来源</a>
+  </div>
+  <div class="borough-cards" id="boroughCards"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== Insight: Bronx ===== -->
+<div class="section reveal">
+  <div class="insight-box">
+    <h3>布朗克斯：纽约最缺心理健康服务的地方</h3>
+    <div class="stats-row">
+      <div class="stat">
+        <div class="val">1 : 913</div>
+        <div class="lbl">人口 / 核心持证人</div>
+      </div>
+      <div class="stat">
+        <div class="val">1,540</div>
+        <div class="lbl">核心持证人</div>
+      </div>
+      <div class="stat">
+        <div class="val">141万</div>
+        <div class="lbl">总人口</div>
+      </div>
+      <div class="stat">
+        <div class="val">4.8×</div>
+        <div class="lbl">比曼哈顿差</div>
+      </div>
+    </div>
+    <p>
+      布朗克斯拥有全市最高的贫困率、大量移民与非英语居民，
+      却只有最少的心理健康执业者。语言障碍、文化差异与保险覆盖不足
+      进一步加剧了服务可及性问题。皇后区紧随其后。
+    </p>
+    <div class="src-row" style="margin-top:1rem;">
+      <a class="src-link" href="https://www.op.nysed.gov/professions/mental-health-counselors/license-statistics" target="_blank">LMHC：Bronx 309</a>
+      <a class="src-link" href="https://www.op.nysed.gov/professions/licensed-clinical-social-worker/license-statistics" target="_blank">LCSW：Bronx 1,027</a>
+      <a class="src-link" href="https://www.op.nysed.gov/professions/psychology/license-statistics" target="_blank">心理学家：Bronx 204</a>
+    </div>
+    <p style="font-size:0.72rem;color:var(--ink-faint);margin-top:0.5rem;">
+      计算：核心 = 309+1,027+204 = 1,540；比例 = 1,406,332÷1,540 = 913；曼哈顿比例 = 1,664,862÷8,776 = 190；913÷190 = 4.8
+    </p>
+  </div>
+</div>
+
+<!-- ===== Ranking ===== -->
+<div class="section reveal">
+  <div class="section-label">供需差距排名</div>
+  <h2>五大区「压力指数」</h2>
+  <p class="lead">柱越高 = 每位核心持证人需要服务的人越多 = 越缺人</p>
+  <div class="ranking-visual" id="rankingVisual"></div>
+</div>
+
+<!-- ===== 够不够分析 ===== -->
+<div class="section reveal">
+  <div class="section-label">到底够不够</div>
+  <h2>这些持证人够用吗？</h2>
+  <p class="lead">光看比例没意义，要看多少人真的需要心理健康服务。</p>
+
+  <div style="background:var(--warm-white);border:1px solid var(--clay);border-radius:var(--radius);padding:2rem 2.5rem;margin-bottom:1.5rem;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:1.5rem;">
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:600;color:var(--terracotta);line-height:1.2;">~180 万</div>
+        <div style="font-size:0.82rem;color:var(--ink-muted);margin-top:0.2rem;">NYC成年人每年经历心理疾病</div>
+        <div style="font-size:0.72rem;color:var(--ink-faint);">约占成人的 21%（NAMI / SAMHSA 数据）</div>
+      </div>
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:600;color:var(--terracotta);line-height:1.2;">20,974</div>
+        <div style="font-size:0.82rem;color:var(--ink-muted);margin-top:0.2rem;">可独立执业的核心持证人</div>
+        <div style="font-size:0.72rem;color:var(--ink-faint);">LMHC + LCSW + 心理学家</div>
+      </div>
+    </div>
+
+    <div style="background:var(--sand-light);border-radius:var(--radius-sm);padding:1.2rem 1.5rem;margin-bottom:1.5rem;">
+      <div style="font-size:0.92rem;font-weight:600;color:var(--ink);margin-bottom:0.5rem;">📊 如果每位需要帮助的人都去看咨询师：</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:600;color:var(--terracotta);">
+        每位持证人需要服务 86 位患者
+      </div>
+      <div style="font-size:0.78rem;color:var(--ink-muted);">1,800,000 ÷ 20,974 = 86。一位全职咨询师通常每周只能接 25-30 位来访者，即使每人只来一次月度咨询也远远不够。</div>
+    </div>
+
+    <div style="font-size:0.88rem;color:var(--ink-soft);line-height:1.9;margin-bottom:1rem;">
+      <strong>那曼哈顿 1:190 够了吗？</strong><br>
+      曼哈顿的8,776名核心持证人看起来很多，但曼哈顿成年人约135万，21%有心理健康需求 ≈ <strong>28.4万人</strong>。
+      即使只算曼哈顿：28.4万 ÷ 8,776 = <strong>每位持证人仍需服务 32 人</strong>。
+      考虑到并非所有持证人都全职执业、部分人不接受保险、且来访者通常需要每周或每两周一次的持续服务——<strong>曼哈顿也不够</strong>。只是比其他区好太多。
+    </div>
+
+    <div style="font-size:0.88rem;color:var(--ink-soft);line-height:1.9;">
+      <strong>布朗克斯呢？</strong><br>
+      布朗克斯成年人约110万，21% ≈ <strong>23万人有需求</strong>，只有1,540名核心持证人 → <strong>每位持证人需服务 149 人</strong>。
+      加上布朗克斯贫困率高、保险覆盖差、语言障碍严重——实际可及性远比数字更糟。
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+    <div style="background:var(--warm-white);border:1px solid var(--clay);border-radius:var(--radius-sm);padding:1.2rem;text-align:center;">
+      <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:600;color:var(--ink);">340:1</div>
+      <div style="font-size:0.72rem;color:var(--ink-muted);">全美平均 MH provider 比例</div>
+      <a class="src-link" href="https://www.statista.com/statistics/607087/us-mental-health-providers-rate-state/" target="_blank" style="margin-top:0.3rem">Statista 2024</a>
+    </div>
+    <div style="background:var(--warm-white);border:1px solid var(--clay);border-radius:var(--radius-sm);padding:1.2rem;text-align:center;">
+      <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:600;color:var(--moss);">140:1</div>
+      <div style="font-size:0.72rem;color:var(--ink-muted);">全美最佳（麻省）</div>
+      <a class="src-link" href="https://www.statista.com/statistics/607087/us-mental-health-providers-rate-state/" target="_blank" style="margin-top:0.3rem">Statista 2024</a>
+    </div>
+    <div style="background:var(--warm-white);border:1px solid var(--clay);border-radius:var(--radius-sm);padding:1.2rem;text-align:center;">
+      <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:600;color:var(--terracotta);">800:1</div>
+      <div style="font-size:0.72rem;color:var(--ink-muted);">全美最差（阿拉巴马）</div>
+      <a class="src-link" href="https://www.statista.com/statistics/607087/us-mental-health-providers-rate-state/" target="_blank" style="margin-top:0.3rem">Statista 2024</a>
+    </div>
+  </div>
+
+  <p style="font-size:0.78rem;color:var(--ink-muted);margin-top:1.2rem;line-height:1.9;">
+    <strong>结论：</strong>即使是全NYC平均的 1:409，也比全美平均 340:1 差。布朗克斯的 1:913 接近全美最差水平。而这些数字还没考虑"持证人≠全职执业"、"不接受Medicaid"、"语言不匹配"等实际障碍。真正的可及性远比数字显示的更差。
+  </p>
+
+  <div class="src-row left" style="margin-top:1rem;">
+    <a class="src-link" href="https://nyhealthfoundation.org/resource/bouncing-back-new-yorkers-mental-health-progress-and-remaining-challenges/" target="_blank">NYS Health Foundation: 18.9%焦虑/抑郁率</a>
+    <a class="src-link" href="https://www.osc.ny.gov/press/releases/2024/03/dinapoli-percentage-new-yorkers-mental-illness-rose-available-psychiatric-beds-declined" target="_blank">NYS审计长: 320万NYS成人有AMI</a>
+    <a class="src-link" href="https://www.usa.edu/blog/mental-health-statistics/" target="_blank">NIMH/SAMHSA: 23%全美成人AMI率</a>
+    <a class="src-link" href="https://www.countyhealthrankings.org/health-data/health-factors/clinical-care/access-to-care/mental-health-providers" target="_blank">County Health Rankings 方法论</a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== Full Table ===== -->
+<div class="section reveal">
+  <div class="section-label">完整数据</div>
+  <h2>全量数据表</h2>
+  <p class="lead">所有执照类型 × 五大区 × 人口 · 每一列数据均可点击来源验证</p>
+  <div class="src-row left" style="margin-bottom:0.5rem;">
+    <a class="src-link" href="https://www.op.nysed.gov/professions/mental-health-counselors/license-statistics" target="_blank">LMHC 原始数据 ↗</a>
+    <a class="src-link" href="https://www.op.nysed.gov/professions/licensed-clinical-social-worker/license-statistics" target="_blank">LCSW 原始数据 ↗</a>
+    <a class="src-link" href="https://www.op.nysed.gov/professions/psychology/license-statistics" target="_blank">心理学家原始数据 ↗</a>
+    <a class="src-link" href="https://op.nysed.gov/professions/licensed-master-social-worker-lmsw/license-statistics" target="_blank">LMSW 原始数据 ↗</a>
+    <a class="src-link" href="https://s-media.nyc.gov/agencies/dcp/assets/files/pdf/data-tools/population/population-estimates/new-york-city-population-estimates-and-trends-march-2026.pdf" target="_blank">人口原始数据 ↗</a>
+  </div>
+  <div class="table-scroll">
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>区</th><th>人口</th><th>LMHC</th><th>LCSW</th><th>心理学家</th><th>LMSW</th><th>核心合计</th><th>全部合计</th><th>人口:核心</th></tr>
+        </thead>
+        <tbody id="fullTableBody"></tbody>
+        <tfoot id="fullTableFoot"></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div class="methodology">
+    <h4>📐 数据来源与说明</h4>
+    <p>
+      <strong>执照数据</strong>全部来自纽约州教育厅（NYSED）Office of Professions 官网的 License Statistics 页面，每个页面包含按县（County）分布的执照持有人数量：<br>
+      · <a href="https://www.op.nysed.gov/professions/mental-health-counselors/license-statistics" target="_blank">LMHC 执照统计</a> — 地理分布截至 2025 年 7 月 1 日<br>
+      · <a href="https://www.op.nysed.gov/professions/licensed-clinical-social-worker/license-statistics" target="_blank">LCSW 执照统计</a> — 地理分布截至 2025 年 7 月 1 日<br>
+      · <a href="https://www.op.nysed.gov/professions/psychology/license-statistics" target="_blank">心理学家执照统计</a> — 地理分布截至 2025 年 7 月 1 日<br>
+      · <a href="https://op.nysed.gov/professions/licensed-master-social-worker-lmsw/license-statistics" target="_blank">LMSW 执照统计</a> — 地理分布截至 2026 年 1 月 1 日<br><br>
+      <strong>人口数据</strong>来自美国人口普查局 Population Estimates Program（Vintage 2025），2025 年 7 月估计值。具体引用自纽约市城市规划局 2026 年 3 月发布的报告：<br>
+      · <a href="https://s-media.nyc.gov/agencies/dcp/assets/files/pdf/data-tools/population/population-estimates/new-york-city-population-estimates-and-trends-march-2026.pdf" target="_blank">NYC Population Estimates & Trends — March 2026 Release (PDF)</a><br>
+      · 表格位于该 PDF 第 24 页 Appendix A：Bronx 1,406,332 / Brooklyn 2,653,963 / Manhattan 1,664,862 / Queens 2,358,182 / Staten Island 501,290<br><br>
+      <strong>核心持证人</strong> = LMHC + LCSW + 心理学家 — 可独立提供临床服务。LMSW 需在 LCSW / 心理学家 / 精神科医生督导下做临床，因此单独列出。<br>
+      <strong>统计口径：</strong>县位数据为执照持有人的主要通讯地址（home 或 practice address）。注册地址 ≠ 执业地址；部分持证人跨区服务或不在积极执业；不包括精神科医生（Psychiatrist）和精神科 NP。<br>
+      <strong>五大区对应县名：</strong>Manhattan = New York County, Brooklyn = Kings County, Queens = Queens County, Bronx = Bronx County, Staten Island = Richmond County。
+    </p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  用数据关注心理健康服务公平 · 所有数据来自公开政府来源 · 2026 年 4 月 <span class="heart">♥</span>
+</footer>
+
+<script>
+const data = [
+  // LMHC source: op.nysed.gov LMHC license-statistics → Geographic Distribution as of July 1, 2025
+  // LCSW source: op.nysed.gov LCSW license-statistics → Geographic Distribution as of July 1, 2025
+  // Psych source: op.nysed.gov psychology license-statistics → Geographic Distribution as of July 1, 2025
+  // LMSW source: op.nysed.gov LMSW license-statistics → Geographic Distribution as of January 1, 2026
+  // Pop source: Census Vintage 2025 via NYC DCP March 2026 report, Appendix A page 24
+  { name:'曼哈顿', en:'Manhattan', county:'New York',      pop:1664862, lmhc:985,  lcsw:4682, psych:3109, lmsw:3563 },
+  { name:'布鲁克林', en:'Brooklyn', county:'Kings',          pop:2653963, lmhc:1232, lcsw:3648, psych:1173, lmsw:5033 },
+  { name:'皇后区',  en:'Queens',   county:'Queens',          pop:2358182, lmhc:973,  lcsw:2112, psych:578,  lmsw:3057 },
+  { name:'布朗克斯', en:'Bronx',    county:'Bronx',          pop:1406332, lmhc:309,  lcsw:1027, psych:204,  lmsw:2024 },
+  { name:'史坦顿岛', en:'Staten Island', county:'Richmond',  pop:501290,  lmhc:287,  lcsw:536,  psych:119,  lmsw:713  },
+];
+
+data.forEach(d => {
+  d.core = d.lmhc + d.lcsw + d.psych;
+  d.all = d.core + d.lmsw;
+  d.ratio = Math.round(d.pop / d.core);
+});
+
+const ranked = [...data].sort((a,b) => b.ratio - a.ratio);
+
+// Borough cards
+const cardsEl = document.getElementById('boroughCards');
+ranked.forEach((d, i) => {
+  const isWorst = i === 0;
+  const ratioClass = d.ratio > 800 ? 'ratio-danger' : d.ratio > 500 ? 'ratio-warn' : 'ratio-good';
+  const maxVal = Math.max(d.lmhc, d.lcsw, d.psych, d.lmsw);
+  const pct = v => (v / maxVal * 100).toFixed(1);
+
+  cardsEl.innerHTML += `
+    <div class="borough-row ${isWorst?'worst':''}">
+      <div class="borough-info">
+        <div class="name">${d.name}</div>
+        <div class="name-en">${d.en} · ${d.county} County</div>
+        <div class="pop">👤 ${(d.pop/10000).toFixed(1)} 万人</div>
+      </div>
+      <div class="borough-bar-area">
+        <div class="bar-group"><div class="bar-label-sm">LMHC</div><div class="bar-track"><div class="bar-fill terracotta" style="width:${pct(d.lmhc)}%"></div></div><div class="bar-num">${d.lmhc.toLocaleString()}</div></div>
+        <div class="bar-group"><div class="bar-label-sm">LCSW</div><div class="bar-track"><div class="bar-fill moss" style="width:${pct(d.lcsw)}%"></div></div><div class="bar-num">${d.lcsw.toLocaleString()}</div></div>
+        <div class="bar-group"><div class="bar-label-sm">心理学家</div><div class="bar-track"><div class="bar-fill ocean" style="width:${pct(d.psych)}%"></div></div><div class="bar-num">${d.psych.toLocaleString()}</div></div>
+        <div class="bar-group"><div class="bar-label-sm">LMSW</div><div class="bar-track"><div class="bar-fill amber" style="width:${pct(d.lmsw)}%"></div></div><div class="bar-num">${d.lmsw.toLocaleString()}</div></div>
+      </div>
+      <div class="borough-ratio">
+        <div class="ratio-num ${ratioClass}">1:${d.ratio}</div>
+        <div class="ratio-label">人口 / 核心持证人</div>
+      </div>
+    </div>`;
+});
+
+// Ranking visual
+const rankEl = document.getElementById('rankingVisual');
+const maxRatio = Math.max(...data.map(d=>d.ratio));
+const colors = ['#C4725A','#D4917D','#D4A857','#5B8FA8','#6B8F71'];
+
+ranked.forEach((d, i) => {
+  const h = (d.ratio / maxRatio * 260);
+  rankEl.innerHTML += `
+    <div class="rank-col">
+      <div class="rank-bar" style="height:${h}px;background:${colors[i]};min-height:60px">
+        <div class="rank-badge">${i+1}</div>
+        <div class="rank-ratio">1:${d.ratio}</div>
+      </div>
+      <div class="borough-name">${d.name}</div>
+      <div class="rank-pop">${(d.pop/10000).toFixed(0)}万人</div>
+    </div>`;
+});
+
+// Full table
+const tbody = document.getElementById('fullTableBody');
+const tfoot = document.getElementById('fullTableFoot');
+const totPop = data.reduce((s,d)=>s+d.pop,0);
+const totCore = data.reduce((s,d)=>s+d.core,0);
+const totAll = data.reduce((s,d)=>s+d.all,0);
+
+ranked.forEach(d => {
+  const cls = d.ratio > 800 ? 'td-highlight' : '';
+  tbody.innerHTML += `<tr>
+    <td>${d.name}</td><td>${d.pop.toLocaleString()}</td><td>${d.lmhc.toLocaleString()}</td>
+    <td>${d.lcsw.toLocaleString()}</td><td>${d.psych.toLocaleString()}</td><td>${d.lmsw.toLocaleString()}</td>
+    <td>${d.core.toLocaleString()}</td><td>${d.all.toLocaleString()}</td><td class="${cls}">1:${d.ratio}</td>
+  </tr>`;
+});
+
+tfoot.innerHTML = `<tr>
+  <td>纽约市合计</td><td>${totPop.toLocaleString()}</td>
+  <td>${data.reduce((s,d)=>s+d.lmhc,0).toLocaleString()}</td>
+  <td>${data.reduce((s,d)=>s+d.lcsw,0).toLocaleString()}</td>
+  <td>${data.reduce((s,d)=>s+d.psych,0).toLocaleString()}</td>
+  <td>${data.reduce((s,d)=>s+d.lmsw,0).toLocaleString()}</td>
+  <td>${totCore.toLocaleString()}</td><td>${totAll.toLocaleString()}</td>
+  <td>1:${Math.round(totPop/totCore)}</td>
+</tr>`;
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.1, rootMargin:'0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
