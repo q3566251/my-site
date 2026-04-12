@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psych Mnemonics — DSM-5 Study Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:#f5f4f0;--surface:#fff;--surface2:#f0efe9;--border:#e2e1da;--border2:#cccbc3;
+    --text:#1a1a18;--text2:#6b6a63;--text3:#9b9a93;
+    --radius:10px;--radius-sm:6px;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
+    --mood-bg:#fff3ee;--mood-tx:#8b3010;--mood-ac:#c94f28;--mood-bd:#f0b89e;
+    --anx-bg:#eef4ff;--anx-tx:#1a47a0;--anx-ac:#3068d4;--anx-bd:#a0bcee;
+    --trm-bg:#f0eeff;--trm-tx:#4a3aac;--trm-ac:#6b5bd4;--trm-bd:#b4aaec;
+    --psy-bg:#fff0f5;--psy-tx:#8a2255;--psy-ac:#bf3a7a;--psy-bd:#f0a8c8;
+    --nro-bg:#eefaf4;--nro-tx:#0d6048;--nro-ac:#1a9470;--nro-bd:#7ed4b4;
+    --beh-bg:#fff0f0;--beh-tx:#8b2020;--beh-ac:#d43a3a;--beh-bd:#f0a0a0;
+    --eat-bg:#f0f8ee;--eat-tx:#2e620e;--eat-ac:#4d920f;--eat-bd:#9ed47a;
+    --som-bg:#fffaee;--som-tx:#7a4408;--som-ac:#b06a14;--som-bd:#f0c878;
+    --ok:#1a6e3c;--ok-bg:#eef7f2;--ok-bd:#8ecbaa;
+    --err:#991c1c;--err-bg:#fef2f2;--err-bd:#f4a8a8;
+  }
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
+  .wrapper{max-width:860px;margin:0 auto;padding:32px 24px 80px;}
+  header{margin-bottom:28px;}
+  header h1{font-family:var(--mono);font-size:18px;font-weight:500;margin-bottom:4px;}
+  header p{font-size:12px;color:var(--text3);}
+  .tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:20px;}
+  .tab{padding:8px 14px;font-family:var(--sans);font-size:13px;color:var(--text2);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;transition:all .15s;}
+  .tab:hover{color:var(--text);}
+  .tab.active{color:var(--text);border-bottom-color:var(--text);font-weight:500;}
+  .fbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;}
+  .fb{padding:4px 12px;border-radius:100px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-size:12px;cursor:pointer;font-family:var(--sans);transition:all .15s;}
+  .fb:hover{background:var(--surface2);}
+  .sec-div{display:flex;align-items:center;gap:12px;margin:28px 0 16px;}
+  .sec-div span{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:1px;color:var(--text3);white-space:nowrap;text-transform:uppercase;}
+  .sec-div hr{flex:1;border:none;border-top:1px solid var(--border);}
+  .sec-div.verify span{color:#b06a14;}
+  .sec-div.verify hr{border-top-color:#f0c878;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px;}
+  .dcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;transition:border-color .15s,box-shadow .15s;position:relative;overflow:hidden;}
+  .dcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:var(--radius) 0 0 var(--radius);}
+  .dcard:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+  .dh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;}
+  .dn{font-family:var(--mono);font-size:13px;font-weight:500;}
+  .df{font-size:11px;color:var(--text3);margin-top:1px;}
+  .ctag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:100px;border:1px solid;white-space:nowrap;flex-shrink:0;margin-left:8px;}
+  .mn{font-family:var(--mono);font-weight:500;margin-bottom:9px;}
+  .pills{display:flex;flex-wrap:wrap;gap:4px;}
+  .pill{font-size:11px;padding:2px 9px;background:var(--surface2);border:1px solid var(--border);border-radius:100px;color:var(--text2);}
+  .xbody{margin-top:12px;border-top:1px solid var(--border);padding-top:11px;}
+  .lrow{display:flex;gap:10px;margin-bottom:6px;align-items:baseline;}
+  .lk{font-family:var(--mono);font-size:12px;font-weight:500;width:34px;flex-shrink:0;text-align:right;}
+  .lv{font-size:12px;color:var(--text);}
+  .nb{margin-top:10px;font-size:11px;padding:7px 10px;border-radius:var(--radius-sm);border:1px solid;line-height:1.5;}
+  .xh{font-size:10px;color:var(--text3);text-align:right;margin-top:8px;}
+  .card-wrap{max-width:540px;margin:0 auto;}
+  .cprow{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12px;color:var(--text3);}
+  .kct{color:var(--ok);font-weight:500;}
+  .pbar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:16px;}
+  .pbf{height:100%;border-radius:2px;transition:width .3s;}
+  .flip-scene{perspective:1000px;height:460px;}
+  .flip-card{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .4s cubic-bezier(.4,0,.2,1);cursor:pointer;}
+  .flip-card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow-y:auto;}
+  .face-back{transform:rotateY(180deg);}
+  .face-front{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;}
+  .fbi{padding:22px;}
+  .chint{font-size:12px;color:var(--text3);margin-top:20px;}
+  .kbadge{font-size:11px;color:var(--ok);margin-top:10px;}
+  .cbtns{display:flex;gap:8px;justify-content:center;margin-top:13px;}
+  .btn{padding:8px 16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--surface);color:var(--text);font-size:13px;font-family:var(--sans);cursor:pointer;transition:all .15s;}
+  .btn:hover{background:var(--surface2);}
+  .btn:disabled{opacity:.3;cursor:not-allowed;}
+  .btn.ok{color:var(--ok);border-color:var(--ok-bd);background:var(--ok-bg);}
+  .btn.err{color:var(--err);border-color:var(--err-bd);background:var(--err-bg);}
+  .btn.sm{font-size:11px;padding:4px 11px;opacity:.7;}
+  .dw{max-width:500px;margin:0 auto;}
+  .srow{display:flex;gap:16px;align-items:center;margin-bottom:16px;font-size:12px;}
+  .sr{color:var(--ok);font-weight:500;}.sw{color:var(--err);font-weight:500;}.sa{color:var(--text3);}.sp{color:var(--text3);margin-left:auto;}
+  .dcrd{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px;min-height:290px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden;}
+  .dcrd::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+  .chips{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin:14px 0;}
+  .chip{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;padding:0 5px;border-radius:var(--radius-sm);border:1px solid var(--border);font-family:var(--mono);font-size:12px;font-weight:500;color:var(--text2);}
+  .dq{font-size:13px;color:var(--text2);margin-bottom:16px;}
+  .dl{font-family:var(--mono);font-size:17px;font-weight:500;}
+  .ans{font-size:14px;font-weight:500;padding:10px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:14px;line-height:1.5;}
+  .qw{max-width:480px;margin:0 auto;}
+  .qqc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:11px;position:relative;overflow:hidden;}
+  .qqc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+  .qqn{font-family:var(--mono);font-size:13px;font-weight:500;margin:9px 0 5px;}
+  .qqt{font-size:14px;color:var(--text);line-height:1.5;}
+  .qopt{width:100%;text-align:left;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:13px;font-family:var(--sans);color:var(--text);margin-bottom:7px;transition:all .15s;}
+  .qopt:hover:not(:disabled){background:var(--surface2);}
+  .qopt:disabled{cursor:default;opacity:1;}
+  .qopt.cor{background:var(--ok-bg);border-color:var(--ok-bd);color:var(--ok);font-weight:500;}
+  .qopt.wrg{background:var(--err-bg);border-color:var(--err-bd);color:var(--err);}
+  .mood .dcard::before,.mood .dcrd::before,.mood .qqc::before{background:var(--mood-ac);}
+  .anxiety .dcard::before,.anxiety .dcrd::before,.anxiety .qqc::before{background:var(--anx-ac);}
+  .trauma .dcard::before,.trauma .dcrd::before,.trauma .qqc::before{background:var(--trm-ac);}
+  .psychotic .dcard::before,.psychotic .dcrd::before,.psychotic .qqc::before{background:var(--psy-ac);}
+  .neuro .dcard::before,.neuro .dcrd::before,.neuro .qqc::before{background:var(--nro-ac);}
+  .behavior .dcard::before,.behavior .dcrd::before,.behavior .qqc::before{background:var(--beh-ac);}
+  .eating .dcard::before,.eating .dcrd::before,.eating .qqc::before{background:var(--eat-ac);}
+  .somatic .dcard::before,.somatic .dcrd::before,.somatic .qqc::before{background:var(--som-ac);}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <header>
+    <h1>Psych Mnemonics</h1>
+    <p>DSM-5 study tool — Overview · Flashcards · Letter drill · Criteria quiz</p>
+  </header>
+  <div id="app"></div>
+</div>
+<script>
+const CAT={
+  mood:     {label:'Mood',     bg:'var(--mood-bg)',tx:'var(--mood-tx)',ac:'var(--mood-ac)',bd:'var(--mood-bd)'},
+  anxiety:  {label:'Anxiety', bg:'var(--anx-bg)', tx:'var(--anx-tx)', ac:'var(--anx-ac)', bd:'var(--anx-bd)'},
+  trauma:   {label:'Trauma',  bg:'var(--trm-bg)', tx:'var(--trm-tx)', ac:'var(--trm-ac)', bd:'var(--trm-bd)'},
+  psychotic:{label:'Psychotic',bg:'var(--psy-bg)',tx:'var(--psy-tx)',ac:'var(--psy-ac)',bd:'var(--psy-bd)'},
+  neuro:    {label:'Neuro',   bg:'var(--nro-bg)', tx:'var(--nro-tx)', ac:'var(--nro-ac)', bd:'var(--nro-bd)'},
+  behavior: {label:'Behavior',bg:'var(--beh-bg)', tx:'var(--beh-tx)', ac:'var(--beh-ac)', bd:'var(--beh-bd)'},
+  eating:   {label:'Eating',  bg:'var(--eat-bg)', tx:'var(--eat-tx)', ac:'var(--eat-ac)', bd:'var(--eat-bd)'},
+  somatic:  {label:'Somatic', bg:'var(--som-bg)', tx:'var(--som-tx)', ac:'var(--som-ac)', bd:'var(--som-bd)'},
+};
+
+/* ── YOUR NOTES — document order (before "Race") ─── */
+const D_YOURS=[
+  {id:'dd',name:'Delusional D/O',full:'Delusional Disorder',cat:'psychotic',mn:'DOUBF',
+   dur:'1 month',cnt:'≥1 non-bizarre delusion; schizophrenia criteria never met',
+   ls:[{l:'D',m:'Delusion (≥1) — fixed delusion (persecutory / jealous / somatic / grandiose / erotomanic)'},{l:'O',m:'Only delusion — no other psychotic symptoms (hallucination OK if related to delusion content)'},{l:'U',m:'Unshakable belief — 100% convinced, no insight; evidence doesn\'t change belief'},{l:'B',m:'Believable (not bizarre) — content realistic/possible (被跟踪, 出轨…)'},{l:'F',m:'Function okay — ≈80% still functioning normally'}],
+   note:'Schizophrenia has never been met. MDD and manic episodes can coexist. 4 types: erotomanic, grandiose, persecutory, somatic.'},
+
+  {id:'scz',name:'Schizophrenia',full:'Schizophrenia',cat:'psychotic',mn:'S+S',
+   dur:'6 months total (incl. prodromal/residual); ≥1M active',cnt:'≥2 symptoms; ≥1 must be delusion / hallucination / disorganized speech',
+   ls:[{l:'S',m:'Schizo symptoms ≥2 — ≥1 must be: delusion / hallucination / disorganized speech; also includes: grossly disorganized or catatonic behavior; negative symptoms (flat affect 情感平淡, avolition 意志缺乏)'},{l:'S',m:'Social/occupational dysfunction — work / social decline from prior level'}],
+   note:'No schizoaffective / MDD / BD with psychotic features. Prodromal (前驱期, social withdrawal) → Active → Residual (后遗, 功能未完全恢复).'},
+
+  {id:'szaff',name:'Schizoaffective',full:'Schizoaffective Disorder',cat:'psychotic',mn:'STAMP',
+   dur:'≥2W psychosis WITHOUT mood; mood = majority of total illness',cnt:'Schizophrenia symptoms + major mood episode (MDD or Mania)',
+   ls:[{l:'S',m:'Schizo symptoms ≥2 — same criteria as schizophrenia'},{l:'T',m:'Two weeks psychosis only — ≥2W delusion/hallucination WITHOUT any mood episode (key differentiator from bipolar with psychosis)'},{l:'A',m:'Affective disorder — must have: MDD or Mania episode'},{l:'M',m:'Majority mood — mood episodes = majority of total illness time (≥50%+)'},{l:'P',m:'Psychosis present — always (reinforcing memory, not a new criterion)'}],
+   note:'MDD with psychosis: no MDD → no psychosis. Schizoaffective: psychosis CAN be independent (2W+ without mood). Key: ≥2W psychosis without mood.'},
+
+  {id:'gad',name:'GAD',full:'Generalized Anxiety Disorder',cat:'anxiety',mn:'TENSED',
+   dur:'6 months',cnt:'3 of 6 (excessive, uncontrollable worry)',
+   ls:[{l:'T',m:'Tension — muscle tightness (身体直接反映焦虑)'},{l:'E',m:'Easily fatigued — due to overwhelming worry (被担忧淹没)'},{l:'N',m:'Not concentrating — worry occupies all attention'},{l:'S',m:'Sleep disturbance — brain can\'t stop'},{l:'E',m:'Easily irritated — chronic tension lowers threshold'},{l:'D',m:'Dysregulated restlessness — can\'t sit still (坐立不安)'}],
+   note:'MDD = exhausted by nothing. GAD = overwhelmed by worry. 忘记SED.'},
+
+  {id:'mdd',name:'MDD',full:'Major Depressive Disorder',cat:'mood',mn:'SIGECAPS',
+   dur:'2 weeks',cnt:'5 of 9 (must include depressed mood OR anhedonia)',
+   ls:[{l:'S',m:'Sleep disturbance'},{l:'I',m:'Interest lost (anhedonia)'},{l:'G',m:'Guilt / worthlessness'},{l:'E',m:'Easily exhausted'},{l:'C',m:'Concentration issue'},{l:'A',m:'Appetite change'},{l:'P',m:'Psychomotor change'},{l:'S',m:'Suicidal ideation'},{l:'+M',m:'Depressed mood — anchor (must have this OR I/anhedonia)'}],
+   note:'PDD + MDD flare = Double Depression — 更难治疗, 病程更长.'},
+
+  {id:'cyclo',name:'Cyclothymia',full:'Cyclothymic Disorder',cat:'mood',mn:'CYC',
+   dur:'≥2 years continuous (child ≥1Y); no gap >2M',cnt:'Never reach full MDD or mania — sub-threshold only',
+   ls:[{l:'C',m:'Cycling mood — chronic highs and lows (忽高忽低持续2年+)'},{l:'Y',m:'Years long — ≥2 years, no symptom-free period >2 months'},{l:'C',m:'Can\'t reach full MDD or mania threshold (always sub-threshold)'}],
+   note:'Sub-threshold bipolar. Often missed. Same 2-year requirement as PDD.'},
+
+  {id:'bp2',name:'Bipolar II',full:'Bipolar II Disorder',cat:'mood',mn:'HYPO+MDD',
+   dur:'Hypomania ≥4 days + full MDD episode required',cnt:'No psychosis, no marked impairment, no hospitalization during hypomanic episode',
+   ls:[{l:'H',m:'Hypomania — elevated mood, still functional (睡少 + 精力爆 + 正常功能)'},{l:'Y',m:'Yes — full MDD episodes required (no MDD = not Bipolar II)'},{l:'P',m:'Productive — no marked impairment during hypomania'},{l:'O',m:'Out of character but not hospitalized (hospitalized → reclassify as Bipolar I)'}],
+   note:'Hypomania with psychosis or hospitalization → reclassify as Bipolar I. 睡少 + 精力爆 + 还能正常功能.'},
+
+  {id:'bp1',name:'Bipolar I',full:'Bipolar I Disorder',cat:'mood',mn:'MANIA',
+   dur:'≥7 days (or hospitalized / psychosis — even 5 days if hospitalized)',cnt:'3+ (4+ if irritable mood only)',
+   ls:[{l:'M',m:'Megalomaniac / grandiosity'},{l:'A',m:'Activity ↑ / goal-directed surge'},{l:'N',m:'Not sleeping — decreased need (不是insomnia; 睡少不累 is the key)'},{l:'I',m:'Impulsivity / risky behavior'},{l:'A',m:'All talk — racing thoughts, pressured speech'}],
+   note:'Mania: 睡少 + 失控 + 功能受损/住院/psychosis. Even 5-day hospitalization = Bipolar I.'},
+
+  {id:'panic',name:'Panic D/O',full:'Panic Disorder',cat:'anxiety',mn:'PANIC',
+   dur:'1 month (worry about future attacks OR behavior change)',cnt:'4 of 13 symptoms per attack; recurrent unexpected attacks',
+   ls:[{l:'P',m:'Palpitations (心跳爆 — heart pounding/racing)'},{l:'A',m:'Air hunger (呼吸不够 — shortness of breath)'},{l:'N',m:'Near death / losing control (快死/失控感)'},{l:'I',m:'Immediate onset (突然发作 — peaks within minutes)'},{l:'C',m:'Chest pain (胸痛)'}],
+   note:'Recurrent unexpected attacks + ≥1M worry about future attacks OR avoidance. 忘记IC.'},
+
+  {id:'asd_acute',name:'Acute Stress',full:'Acute Stress Disorder',cat:'trauma',mn:'TRADAM',
+   dur:'3 days to 1 month',cnt:'≥9 symptoms from any cluster (mix freely)',
+   ls:[{l:'T',m:'Trauma — must be severe (death / violence / sexual assault)'},{l:'R',m:'Re-experiencing (flashback / nightmare)'},{l:'A',m:'Avoidance (people / places / thoughts)'},{l:'D',m:'Dissociation — derealization (世界不真实), depersonalization (不像自己), amnesia'},{l:'A',m:'Arousal — hypervigilance, irritable, sleep disturbance, exaggerated startle (随时紧绷)'},{l:'M',m:'Mood negative — guilt / numb / detachment (认知+情绪系统整体负向化)'}],
+   note:'≥9 from any cluster. Persists >1 month → PTSD.'},
+
+  {id:'ptsd',name:'PTSD',full:'Post-Traumatic Stress Disorder',cat:'trauma',mn:'T+R+A+U/M²+A',
+   dur:'≥1 month',cnt:'All 4 clusters required; 忘记2MA',
+   ls:[{l:'T',m:'Trauma exposure — 经历/学/看/similar experience'},{l:'R¹',m:'Re-experiencing — intrusive thoughts / flashback / nightmare (像重新活一遍)'},{l:'A¹',m:'Avoidance — related stimuli (刻意躲人/地点/想法)'},{l:'U/M',m:'Unable to remember — trauma-related amnesia (记忆被封锁) + mood negative'},{l:'M²',m:'Mood negative — guilt / numb / detachment (对熟悉的人情感"断开")'},{l:'A²',m:'Arousal — hypervigilance, irritable, sleep disturbance, exaggerated startle'}],
+   note:'ASD <1M → PTSD ≥1M. All 4 clusters required. Can coexist with NCD due to TBI.'},
+
+  {id:'adj',name:'Adj. D/O',full:'Adjustment Disorder',cat:'trauma',mn:'SAD',
+   dur:'≥1 day, <6 months (clears within 6M after stressor ends)',cnt:'All 3 components',
+   ls:[{l:'S',m:'Stress — identifiable stressor (breakup / job loss / immigration); NOT death/violence'},{l:'A',m:'Affect / behavior changed (depressed / anxious / irritability)'},{l:'D',m:'Domain / Distress / Dysfunction — work ↓ / social ↓'}],
+   note:'Stressor NOT traumatic (被开除, spouse leaving). Clears within 6M after stressor. 忘记A跟D.'},
+
+  {id:'adhdi',name:'ADHD-I',full:'ADHD — Inattentive',cat:'neuro',mn:'2Dri2ft+2L',
+   dur:'6 months, onset before age 12',cnt:'6/9 (adult 5/9), ≥2 settings; Disorganized/Loses — 重点背!',
+   ls:[{l:'D',m:'Distracted easily (注意力被外界随便拉走)'},{l:'D',m:'Disorganized (混乱 — desk / files / time / tasks)'},{l:'R',m:'Restless mind (脑子飘, brain drifts away)'},{l:'I',m:'Ignores details (careless mistake — 粗心犯错)'},{l:'F',m:'Forgetful (deadline刚答应就忘)'},{l:'F',m:'Failed to finish (经常完成不了作业/任务)'},{l:'T',m:'Task avoidance (逃避需要持续专注的任务)'},{l:'L',m:'Loses things (丢东西)'},{l:'L',m:'Listens poorly — name needs repeating 2–3×'}],
+   note:'2Dri2ft + 2L = 9 symptoms. ≥2 settings required.'},
+
+  {id:'adhdh',name:'ADHD-H',full:'ADHD — Hyperactive/Impulsive',cat:'neuro',mn:'IMPULSIVE',
+   dur:'6 months, onset before age 12',cnt:'6/9 (adult 5/9), ≥2 settings; 忘记motor/talk/fidget',
+   ls:[{l:'I',m:'Interrupts others (打断别人说话，插嘴)'},{l:'M',m:'Motor driven (像装了马达，停不下来)'},{l:'P',m:'Physical restlessness (在不合适场合乱跑乱爬)'},{l:'U',m:'Unable to sit still (坐不住)'},{l:'L',m:'Loud and excessive talking (话太多，控制不了)'},{l:'S',m:'Squirms and fidgets (手脚停不下来)'},{l:'I',m:'Impulsive blurting (问题还没说完就抢答，脱口而出)'},{l:'V',m:'Very restless during quiet activities (无法安静玩耍)'},{l:'E',m:'Encroaches on others (侵入别人空间/对话)'}],
+   note:'Bipolar vs ADHD: Bipolar = 几天高精力+不睡不累 (sustained); ADHD = 一天忽高忽低+不睡会累 (daily fluctuation).'},
+
+  {id:'dmdd',name:'DMDD',full:'Disruptive Mood Dysregulation D/O',cat:'behavior',mn:'DMD 3/3',
+   dur:'1 year (no gap >3M); age 6–18, onset before age 10',cnt:'All 3 clusters + ≥3×/week outbursts + irritable baseline ≥2 settings',
+   ls:[{l:'D',m:'Disruptive outbursts ≥3×/week — verbal/behavioral, out of proportion (收手机 → 大哭+砸东西 20min)'},{l:'M',m:'Mood irritable baseline — almost every day in ≥2 settings (home / school)'},{l:'D',m:'Domains — 1 year (no gap >3M), ≥2 settings, at least 1 severe setting'}],
+   note:'Chronic — no super energy spikes (unlike Bipolar). 70% comorbid ODD. Escalation: ODD → CD → ASPD.'},
+
+  {id:'odd',name:'ODD',full:'Oppositional Defiant Disorder',cat:'behavior',mn:'ANGRY',
+   dur:'≥6 months',cnt:'4 of 8 (any category), functional impairment',
+   ls:[{l:'A',m:'Angry / irritable mood — loses temper / touchy / easily annoyed'},{l:'N',m:'Negative / defiant — argues / defies / refuses / deliberately annoys / blames others'},{l:'G',m:'Grudge / vindictive — spiteful (≥2× in 6M)'},{l:'R',m:'Rule: ≥4 symptoms (any category), ≥6M, functional impairment'},{l:'Y',m:'Yields to escalation path → CD → ASPD'}],
+   note:'DMDD 70% comorbid ODD. Escalation: ODD → CD → ASPD.'},
+
+  {id:'autism',name:'ASD (Autism)',full:'Autism Spectrum Disorder',cat:'neuro',mn:'SIR+2/4R',
+   dur:'Early developmental period (lifelong; may emerge when demands exceed capacity)',cnt:'Both domains impaired: all 3 SIR (social) + ≥2/4 R\'s (repetitive)',
+   ls:[{l:'S',m:'Social emotional reciprocity (社交互惠) — back-and-forth'},{l:'I',m:'Interaction signals (nonverbal cues) — eye contact, body language, facial expressions'},{l:'R',m:'Relationship (关系) — difficulty developing/maintaining relationships'},{l:'R¹',m:'Repeat — repetitive actions / language / behaviors'},{l:'R²',m:'Routine — fixed procedures / sameness (must walk same route; meltdown if routine changes)'},{l:'R³',m:'Restricted interest — narrow, intense focus (兴趣很窄)'},{l:'R⁴',m:'Sensory — sensory abnormalities (e.g., very sensitive to sound)'}],
+   note:'Need all 3 SIR + ≥2 of 4 R\'s. Spectrum — nonverbal to highly verbal. Sensory sensitivities very common.'},
+];
+
+/* ── CLAUDE'S ADDITIONS — PLEASE VERIFY ────────────── */
+const D_CLAUDE=[
+  {id:'bpsy',name:'Brief Psychotic',full:'Brief Psychotic Disorder',cat:'psychotic',mn:'BPsy',
+   dur:'≥1 day, <1 month; full recovery to baseline required',cnt:'1+ of: delusion / hallucination / disorganized speech or behavior',
+   ls:[{l:'B',m:'Brief — full episode <1 month, then complete recovery to prior baseline'},{l:'P',m:'Psychotic symptoms: delusion / hallucination / disorganized speech or behavior'},{l:'sy',m:'Sequence if longer: >1M → Schizophreniform; >6M → Schizophrenia'}],
+   note:'Often follows major stressor (postpartum, grief). No functional impairment required, better prognosis. Duration ladder: Brief <1M → Schizophreniform <6M → Schizophrenia ≥6M.'},
+
+  {id:'ocd',name:'OCD',full:'Obsessive-Compulsive Disorder',cat:'anxiety',mn:'OCD',
+   dur:'≥1 hour/day (no minimum illness duration)',cnt:'Obsessions AND/OR compulsions causing distress or impairment',
+   ls:[{l:'O',m:'Obsessions — intrusive, unwanted, ego-dystonic thoughts/urges/images'},{l:'C',m:'Compulsions — rituals to neutralize obsession (washing, checking, counting)'},{l:'D',m:'Distress — time-consuming ≥1hr/day or significant impairment'}],
+   note:'Ego-dystonic = knows it\'s irrational (unlike psychosis). OCPD is a personality trait (perfectionism), not OCD.'},
+
+  {id:'social_anx',name:'Social Anxiety',full:'Social Anxiety Disorder',cat:'anxiety',mn:'FEAR',
+   dur:'6 months',cnt:'All 4 features + avoidance or distress',
+   ls:[{l:'F',m:'Fear of scrutiny / embarrassment in social situations'},{l:'E',m:'Exposure → immediate anxiety (almost always)'},{l:'A',m:'Avoidance or endurance with intense distress'},{l:'R',m:'Recognition: fear is out of proportion (in adults)'}],
+   note:'Fear of being judged/humiliated. Distinguish from shyness (no impairment) and agoraphobia (fear of escape being impossible).'},
+
+  {id:'spec_phobia',name:'Specific Phobia',full:'Specific Phobia',cat:'anxiety',mn:'PEAR',
+   dur:'6 months',cnt:'All 4 features + ≥1 phobia type',
+   ls:[{l:'P',m:'Persistent, marked fear/anxiety about specific object or situation'},{l:'E',m:'Exposure → immediate fear response'},{l:'A',m:'Active avoidance or endurance with distress'},{l:'R',m:'Recognized as out of proportion (in adults)'}],
+   note:'Types: Animal, Natural environment, Blood-injection-injury, Situational, Other.'},
+
+  {id:'did',name:'DID',full:'Dissociative Identity Disorder',cat:'neuro',mn:'2+AM',
+   dur:'Chronic (no fixed duration; linked to severe childhood trauma)',cnt:'2+ distinct personality states + recurring amnesia gaps',
+   ls:[{l:'2+',m:'Two or more distinct personality/identity states (alters)'},{l:'A',m:'Amnesia — recurrent gaps in memory of events, not feigned'},{l:'M',m:'Major distress/dysfunction; strongly linked to severe early childhood trauma'}],
+   note:'Memory gaps are real. Alters may differ in name, age, gender. DSM-5 notes 6-month context for DD/DID.'},
+
+  {id:'ncd',name:'Major NCD',full:'Major Neurocognitive Disorder',cat:'neuro',mn:'DECLINE',
+   dur:'Insidious onset, gradual progression (Alzheimer\'s); varies by etiology',cnt:'Significant decline in ≥1 cognitive domain; interferes with independence',
+   ls:[{l:'D',m:'Decline — significant drop from prior performance'},{l:'E',m:'Executive function impaired (planning, judgment)'},{l:'C',m:'Complex attention decline'},{l:'L',m:'Learning and memory affected'},{l:'I',m:'Insidious onset — gradual (Alzheimer\'s)'},{l:'N',m:'Neurological basis (Alzheimer\'s / TBI / Lewy body / vascular / frontotemporal)'},{l:'E',m:'Effects on independence — needs help with daily activities (Major vs Minor NCD)'}],
+   note:'Probable Alzheimer\'s: genetic/biomarker confirmed. Major = impairs independence; Minor NCD = still independent.'},
+
+  {id:'cd',name:'Conduct D/O',full:'Conduct Disorder',cat:'behavior',mn:'ADDS',
+   dur:'12 months (≥1 criterion in last 6M)',cnt:'3+ behaviors across ≥1 of 4 categories',
+   ls:[{l:'A',m:'Aggression — bullying, fighting, weapon use, cruelty to people/animals, robbery'},{l:'D',m:'Destruction — fire-setting, property damage'},{l:'D',m:'Deceitfulness — lying, theft, breaking and entering'},{l:'S',m:'Serious rule violations — truancy, runaway, staying out at night before age 13'}],
+   note:'Childhood onset (<10) → worse prognosis. Adolescent onset (≥10) → better. Diagnosed only under 18. Escalation: ODD → CD → ASPD.'},
+
+  {id:'aspd',name:'ASPD',full:'Antisocial Personality Disorder',cat:'behavior',mn:'CRUEL',
+   dur:'Pervasive pattern; diagnosed ≥18 (with CD evidence before age 15)',cnt:'3+ symptoms',
+   ls:[{l:'C',m:'Callous disregard — no empathy, no remorse'},{l:'R',m:'Reckless disregard for safety of self or others'},{l:'U',m:'Unstable work/obligations consistently ignored'},{l:'E',m:'Exploitative — deceptive, manipulative, cons others for gain'},{l:'L',m:'Lies — pathological deceitfulness, aliases, criminal acts'}],
+   note:'Must have CD symptoms before age 15. Diagnosis ≥18. Most severe end of ODD → CD → ASPD.'},
+
+  {id:'anorexia',name:'Anorexia',full:'Anorexia Nervosa',cat:'eating',mn:'FAR',
+   dur:'No minimum duration in DSM-5',cnt:'All 3 features required',
+   ls:[{l:'F',m:'Fear of gaining weight — intense, persistent, even when significantly underweight'},{l:'A',m:'Avoidance / restricted intake → significantly low body weight'},{l:'R',m:'Reality distortion — distorted body image, undue influence of weight on self-worth'}],
+   note:'Subtypes: Restricting vs Binge-Purge. Highest mortality of any mental disorder. Severity by BMI: mild ≥17, moderate 16–16.99, severe 15–15.99, extreme <15.'},
+
+  {id:'bulimia',name:'Bulimia',full:'Bulimia Nervosa',cat:'eating',mn:'BEP',
+   dur:'3 months; ≥1×/week',cnt:'Binge + compensatory behavior ≥1×/week for 3 months',
+   ls:[{l:'B',m:'Binge episodes — large amount in ~2hrs, loss of control'},{l:'E',m:'Excessive compensatory behavior (purging / laxatives / fasting / over-exercise) — inappropriate prevent weight gain'},{l:'P',m:'Pattern persists ≥1×/week for 3 months'}],
+   note:'BMI often normal (unlike Anorexia). Key from BED: Bulimia HAS purge/compensation. Shame and secrecy hallmarks.'},
+
+  {id:'bed',name:'BED',full:'Binge Eating Disorder',cat:'eating',mn:'BLED',
+   dur:'3 months; ≥1×/week; NO purging',cnt:'≥1×/week for 3 months; no compensatory behaviors',
+   ls:[{l:'B',m:'Binge episodes — eating rapidly, large amounts, until uncomfortably full'},{l:'L',m:'Loss of control during episode'},{l:'E',m:'Embarrassment / guilt / distress afterward'},{l:'D',m:'Duration ≥1×/week for 3M; NO compensatory purging — key difference from Bulimia'}],
+   note:'Most common eating disorder. No purging = key difference from Bulimia.'},
+
+  {id:'ssd',name:'SSD',full:'Somatic Symptom Disorder',cat:'somatic',mn:'SAID',
+   dur:'6 months; ≥1 somatic symptom',cnt:'1+ somatic symptom + all 3 thought/feeling/behavior criteria',
+   ls:[{l:'S',m:'Somatic symptoms — 1+ physical complaints (may or may not have confirmed medical basis)'},{l:'A',m:'Anxiety — excessive thoughts/feelings/behaviors about symptoms'},{l:'I',m:'Interference — disproportionate concern / time devoted to symptoms'},{l:'D',m:'Duration ≥6 months'}],
+   note:'SSD = real symptoms + excessive anxiety. IAD = fear of getting sick, minimal symptoms. SSD > IAD in severity.'},
+
+  {id:'iad',name:'IAD',full:'Illness Anxiety Disorder',cat:'somatic',mn:'PIH',
+   dur:'6 months; minimal or no somatic symptoms',cnt:'Preoccupation + checking or avoidance behavior',
+   ls:[{l:'P',m:'Preoccupied with having or acquiring a serious illness'},{l:'I',m:'Illness checking (seeking reassurance) OR illness avoidance'},{l:'H',m:'High anxiety about health despite normal results / minimal symptoms'}],
+   note:'IAD = fear of GETTING sick (few/no symptoms). SSD = real symptoms + excessive worry. IAD milder.'},
+
+  {id:'insomnia',name:'Insomnia',full:'Insomnia Disorder',cat:'somatic',mn:'CRM',
+   dur:'3 months; ≥3 nights/week',cnt:'1+ sleep complaint; dissatisfaction with sleep quality',
+   ls:[{l:'C',m:'Can\'t initiate sleep — difficulty falling asleep'},{l:'R',m:'Return to sleep impaired — waking, can\'t fall back asleep'},{l:'M',m:'Maintain sleep failure — early morning awakening'}],
+   note:'Must cause distress or impairment. Not due to substance or medical condition.'},
+];
+
+const D_ALL=[...D_YOURS,...D_CLAUDE];
+let st={mode:'overview',filter:null,cardIdx:0,cardFlipped:false,knownIds:new Set(),expIds:new Set(),drillQs:[],drillIdx:0,drillRev:false,drillC:0,drillW:0,quizQs:[],quizIdx:0,quizAns:null,quizC:0,quizW:0};
+function sh(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b;}
+function filt(){return st.filter?D_ALL.filter(d=>d.cat===st.filter):D_ALL;}
+function gDrill(){const qs=[];filt().forEach(d=>d.ls.forEach((l,i)=>qs.push({d,i})));return sh(qs);}
+function gQuiz(){const qs=[];filt().forEach(d=>{const dw=sh(D_ALL.filter(x=>x.id!==d.id&&x.dur!==d.dur)).slice(0,3).map(x=>x.dur);if(dw.length===3)qs.push({d,q:'How long must symptoms persist for '+d.name+'?',ans:d.dur,opts:sh([d.dur,...dw])});const cw=sh(D_ALL.filter(x=>x.id!==d.id&&x.cnt!==d.cnt)).slice(0,3).map(x=>x.cnt);if(cw.length===3)qs.push({d,q:'Symptom threshold for '+d.name+'?',ans:d.cnt,opts:sh([d.cnt,...cw])});});return sh(qs);}
+function ctag(cat){const c=CAT[cat];return`<span class="ctag" style="background:${c.bg};color:${c.tx};border-color:${c.bd}">${c.label}</span>`;}
+function pills(d){return`<div class="pills"><span class="pill">⏱ ${d.dur}</span><span class="pill">✓ ${d.cnt}</span></div>`;}
+function mnSz(s){return s.length>10?'font-size:13px;letter-spacing:1px':s.length>7?'font-size:17px;letter-spacing:3px':'font-size:20px;letter-spacing:5px';}
+function rTabs(){const t=[['overview','Overview'],['cards','Flashcards'],['drill','Letter drill'],['quiz','Criteria quiz']];return`<div class="tabs">${t.map(([id,l])=>`<button class="tab${st.mode===id?' active':''}" onclick="sMode('${id}')">${l}</button>`).join('')}</div>`;}
+function rFbar(){const cats=[['all','All',null],...Object.entries(CAT).map(([k,v])=>[k,v.label,k])];return`<div class="fbar">${cats.map(([k,l,val])=>{const active=(val===null&&st.filter===null)||(val&&st.filter===val);const c=val?CAT[val]:null;const style=active&&c?`background:${c.bg};color:${c.tx};border-color:${c.ac};`:active?'background:var(--surface2);color:var(--text);border-color:var(--border2);':'';return`<button class="fb" style="${style}" onclick="sFilt(${val?`'${val}'`:'null'})">${l}</button>`;}).join('')}</div>`;}
+function rGroup(items,yours){if(!items.length)return'';const lbl=yours?`<div class="sec-div"><hr><span>Your notes (${items.length})</span><hr></div>`:`<div class="sec-div verify"><hr><span>Claude's additions — please verify (${items.length})</span><hr></div>`;const cards=items.map(d=>{const c=CAT[d.cat];const exp=st.expIds.has(d.id);return`<div class="${d.cat} dcard" onclick="tExp('${d.id}')"><div class="dh"><div><div class="dn" style="color:${c.ac}">${d.name}</div><div class="df">${d.full}</div></div>${ctag(d.cat)}</div><div class="mn" style="${mnSz(d.mn)};color:${c.ac}">${d.mn}</div>${pills(d)}${exp?`<div class="xbody">${d.ls.map(it=>`<div class="lrow"><span class="lk" style="color:${c.ac}">${it.l}</span><span class="lv">— ${it.m}</span></div>`).join('')}${d.note?`<div class="nb" style="color:${c.tx};background:${c.bg};border-color:${c.bd}">* ${d.note}</div>`:''}</div>`:''}<div class="xh">${exp?'▲ collapse':'▼ expand letters'}</div></div>`;}).join('');return lbl+`<div class="grid">${cards}</div>`;}
+function rOverview(){const f=filt();return rGroup(f.filter(d=>D_YOURS.find(x=>x.id===d.id)),true)+rGroup(f.filter(d=>D_CLAUDE.find(x=>x.id===d.id)),false);}
+function rCards(){const cards=filt();if(!cards.length)return'<p style="color:var(--text3)">No cards.</p>';const idx=Math.min(st.cardIdx,cards.length-1);const d=cards[idx];const c=CAT[d.cat];const isY=!!D_YOURS.find(x=>x.id===d.id);const sb=isY?`<span style="font-size:10px;padding:2px 8px;border-radius:100px;background:var(--surface2);color:var(--text3);border:1px solid var(--border)">your notes</span>`:`<span style="font-size:10px;padding:2px 8px;border-radius:100px;background:var(--som-bg);color:var(--som-tx);border:1px solid var(--som-bd)">claude — verify</span>`;return`<div class="card-wrap"><div class="cprow"><span>${idx+1} / ${cards.length}</span><span class="kct">✓ ${st.knownIds.size} known</span></div><div class="pbar"><div class="pbf" style="width:${Math.round(((idx+1)/cards.length)*100)}%;background:${c.ac}"></div></div><div class="flip-scene" onclick="flipCard()"><div class="flip-card${st.cardFlipped?' flipped':''}"><div class="face face-front"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center">${ctag(d.cat)}${sb}</div><div class="mn" style="${mnSz(d.mn)};color:${c.ac};margin:14px 0 5px">${d.mn}</div><div style="font-size:13px;font-weight:500;margin-bottom:3px">${d.name}</div><div style="font-size:11px;color:var(--text3);margin-bottom:16px">${d.full}</div>${pills(d)}${st.knownIds.has(d.id)?'<div class="kbadge">✓ marked as known</div>':''}<div class="chint">tap to reveal →</div></div><div class="face face-back"><div class="fbi"><div style="font-family:var(--mono);font-size:12px;font-weight:500;color:${c.ac};margin-bottom:10px">${d.mn} — ${d.name}</div>${pills(d)}<div style="margin-top:12px">${d.ls.map(it=>`<div class="lrow"><span class="lk" style="color:${c.ac}">${it.l}</span><span class="lv">— ${it.m}</span></div>`).join('')}</div>${d.note?`<div class="nb" style="color:${c.tx};background:${c.bg};border-color:${c.bd};margin-top:12px">* ${d.note}</div>`:''}</div></div></div></div><div class="cbtns"><button class="btn" onclick="prevCard()" ${idx===0?'disabled':''}>← Prev</button><button class="btn ok" onclick="markKnown()">✓ Got it</button><button class="btn" onclick="nextCard()" ${idx===cards.length-1?'disabled':''}>Next →</button></div><div style="text-align:center;margin-top:9px"><button class="btn sm" onclick="resetKnown()">Reset known</button></div></div>`;}
+function rDrill(){if(!st.drillQs.length)return'<p style="color:var(--text3)">No questions.</p>';const q=st.drillQs[st.drillIdx%st.drillQs.length];const c=CAT[q.d.cat];const tot=st.drillC+st.drillW;const acc=tot>0?Math.round(st.drillC/tot*100):null;const chips=q.d.ls.map((it,i)=>`<span class="chip" style="${i===q.i?`background:${c.bg};color:${c.tx};border-color:${c.ac};border-width:2px`:''}">${it.l}</span>`).join('');return`<div class="dw"><div class="srow"><span class="sr">✓ ${st.drillC}</span><span class="sw">✗ ${st.drillW}</span>${acc!==null?`<span class="sa">${acc}% accuracy</span>`:''}<span class="sp">Q ${(st.drillIdx%st.drillQs.length)+1}/${st.drillQs.length}</span></div><div class="${q.d.cat} dcrd">${ctag(q.d.cat)}<div style="font-family:var(--mono);font-size:13px;font-weight:500;color:${c.ac};margin:11px 0 2px">${q.d.name}</div><div style="font-size:11px;color:var(--text3);margin-bottom:2px">${q.d.full}</div><div class="chips">${chips}</div><div class="dq">What does <span class="dl" style="color:${c.ac}">${q.d.ls[q.i].l}</span> stand for?</div>${!st.drillRev?`<button class="btn" onclick="revDrill()" style="background:${c.bg};color:${c.tx};border-color:${c.bd}">Reveal</button>`:`<div class="ans">${q.d.ls[q.i].m}</div><div style="display:flex;gap:8px"><button class="btn err" onclick="nxDrill(false)">✗ Missed</button><button class="btn ok" onclick="nxDrill(true)">✓ Got it</button></div>`}</div><div style="text-align:center;margin-top:10px"><button class="btn sm" onclick="rstDrill()">Shuffle & restart</button></div></div>`;}
+function rQuiz(){if(!st.quizQs.length)return'<p style="color:var(--text3)">No questions.</p>';const q=st.quizQs[st.quizIdx%st.quizQs.length];const c=CAT[q.d.cat];const tot=st.quizC+st.quizW;const acc=tot>0?Math.round(st.quizC/tot*100):null;return`<div class="qw"><div class="srow"><span class="sr">✓ ${st.quizC}</span><span class="sw">✗ ${st.quizW}</span>${acc!==null?`<span class="sa">${acc}% accuracy</span>`:''}<span class="sp">Q ${(st.quizIdx%st.quizQs.length)+1}/${st.quizQs.length}</span></div><div class="${q.d.cat} qqc">${ctag(q.d.cat)}<div class="qqn" style="color:${c.ac}">${q.d.name}</div><div class="qqt">${q.q}</div></div><div>${q.opts.map((opt,i)=>{let cls='qopt';if(st.quizAns!==null){if(opt===q.ans)cls+=' cor';else if(i===st.quizAns)cls+=' wrg';}return`<button class="${cls}" onclick="ansQ(${i})" ${st.quizAns!==null?'disabled':''}>${opt}</button>`;}).join('')}</div>${st.quizAns!==null?`<div style="text-align:center;margin-top:12px"><button class="btn ok" onclick="nxQuiz()">Next →</button></div>`:''}<div style="text-align:center;margin-top:9px"><button class="btn sm" onclick="rstQuiz()">Shuffle & restart</button></div></div>`;}
+function render(){let c='';if(st.mode==='overview')c=rOverview();else if(st.mode==='cards')c=rCards();else if(st.mode==='drill')c=rDrill();else if(st.mode==='quiz')c=rQuiz();document.getElementById('app').innerHTML=rTabs()+rFbar()+c;}
+function sMode(m){st.mode=m;if(m==='drill'){st.drillQs=gDrill();st.drillIdx=0;st.drillRev=false;st.drillC=0;st.drillW=0;}if(m==='quiz'){st.quizQs=gQuiz();st.quizIdx=0;st.quizAns=null;st.quizC=0;st.quizW=0;}render();}
+function sFilt(v){st.filter=v;st.cardIdx=0;st.cardFlipped=false;if(st.mode==='drill'){st.drillQs=gDrill();st.drillIdx=0;st.drillRev=false;}if(st.mode==='quiz'){st.quizQs=gQuiz();st.quizIdx=0;st.quizAns=null;}render();}
+function tExp(id){if(st.expIds.has(id))st.expIds.delete(id);else st.expIds.add(id);render();}
+function flipCard(){st.cardFlipped=!st.cardFlipped;render();}
+function prevCard(){st.cardIdx=Math.max(0,st.cardIdx-1);st.cardFlipped=false;render();}
+function nextCard(){const c=filt();st.cardIdx=Math.min(c.length-1,st.cardIdx+1);st.cardFlipped=false;render();}
+function markKnown(){const c=filt();st.knownIds.add(c[st.cardIdx].id);nextCard();}
+function resetKnown(){st.knownIds=new Set();render();}
+function revDrill(){st.drillRev=true;render();}
+function nxDrill(ok){if(ok)st.drillC++;else st.drillW++;st.drillIdx++;st.drillRev=false;render();}
+function rstDrill(){st.drillQs=gDrill();st.drillIdx=0;st.drillRev=false;st.drillC=0;st.drillW=0;render();}
+function ansQ(i){if(st.quizAns!==null)return;const q=st.quizQs[st.quizIdx%st.quizQs.length];st.quizAns=i;if(q.opts[i]===q.ans)st.quizC++;else st.quizW++;render();}
+function nxQuiz(){st.quizIdx++;st.quizAns=null;render();}
+function rstQuiz(){st.quizQs=gQuiz();st.quizIdx=0;st.quizAns=null;st.quizC=0;st.quizW=0;render();}
+render();
+</script>
+</body>
+</html>
