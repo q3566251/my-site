@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美国250年通胀全景 | U.S. Inflation 1776–2126</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f0e8;
+  --bg2: #fffbf3;
+  --bg3: #ebe5da;
+  --text: #2c2418;
+  --text2: #7a6e5d;
+  --accent: #8b5e3c;
+  --accent2: #6b4226;
+  --red: #b33a2e;
+  --green: #3a7d4a;
+  --blue: #2e6b9e;
+  --purple: #6b4a9e;
+  --orange: #c06a2e;
+  --border: rgba(139,94,60,0.18);
+  --glow: rgba(139,94,60,0.05);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'DM Sans','Noto Serif SC',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+::selection { background:var(--accent); color:#fff; }
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--accent); border-radius:3px; opacity:0.6; }
+
+.hero {
+  min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; padding:2rem; position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(139,94,60,0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(46,107,158,0.04) 0%, transparent 50%);
+}
+.hero-dollar {
+  position:absolute; font-size:300px; font-family:'Playfair Display',serif;
+  font-weight:900; color:rgba(139,94,60,0.05); top:50%; left:50%;
+  transform:translate(-50%,-50%); user-select:none;
+}
+.hero h1 {
+  font-family:'Playfair Display','Noto Serif SC',serif;
+  font-size:clamp(2.5rem,6vw,5rem); font-weight:900;
+  letter-spacing:-0.02em; line-height:1.1; position:relative; z-index:1;
+}
+.hero h1 .gold { color:var(--accent); }
+.hero .subtitle { font-size:clamp(1rem,2vw,1.3rem); color:var(--text2); margin-top:1.5rem; max-width:700px; position:relative; z-index:1; }
+.hero .big-stat { display:flex; gap:3rem; margin-top:3rem; flex-wrap:wrap; justify-content:center; position:relative; z-index:1; }
+.hero .big-stat div { text-align:center; }
+.hero .big-stat .num { font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3.5rem); font-weight:900; color:var(--accent); }
+.hero .big-stat .label { font-size:0.85rem; color:var(--text2); margin-top:0.3rem; }
+.scroll-hint { position:absolute; bottom:2rem; animation:bounce 2s infinite; color:var(--text2); font-size:0.85rem; z-index:1; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+.nav {
+  position:sticky; top:0; z-index:100;
+  background:rgba(245,240,232,0.92); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border); padding:0.8rem 2rem;
+  display:flex; gap:1.5rem; overflow-x:auto; white-space:nowrap;
+}
+.nav a { color:var(--text2); text-decoration:none; font-size:0.85rem; font-weight:500; transition:color 0.3s; padding:0.3rem 0; }
+.nav a:hover { color:var(--accent); }
+
+section { max-width:1200px; margin:0 auto; padding:4rem 2rem; }
+section h2 { font-family:'Playfair Display','Noto Serif SC',serif; font-size:clamp(1.8rem,3vw,2.8rem); font-weight:700; margin-bottom:0.5rem; }
+section h2 .gold { color:var(--accent); }
+section .section-desc { color:var(--text2); margin-bottom:2.5rem; font-size:0.95rem; }
+
+.chart-wrap {
+  background:var(--bg2); border:1px solid var(--border); border-radius:16px;
+  padding:1.5rem; margin-bottom:2rem; position:relative; overflow:hidden;
+}
+.chart-wrap::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); }
+.chart-title { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; margin-bottom:0.3rem; }
+.chart-subtitle { font-size:0.8rem; color:var(--text2); margin-bottom:1rem; }
+.chart-container { position:relative; width:100%; }
+.chart-container.h350 { height:350px; }
+.chart-container.h300 { height:300px; }
+.chart-container.h280 { height:280px; }
+.source-badge { display:inline-block; font-size:0.7rem; color:var(--text2); background:rgba(139,94,60,0.06); padding:0.2rem 0.6rem; border-radius:100px; margin-top:1rem; border:1px solid var(--border); }
+
+.era-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.5rem; margin-top:2rem; }
+.era-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:1.5rem; transition:transform 0.3s, border-color 0.3s; }
+.era-card:hover { transform:translateY(-2px); border-color:var(--accent); }
+.era-card .era-years { font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--accent); letter-spacing:0.05em; }
+.era-card h3 { font-family:'Playfair Display',serif; font-size:1.15rem; margin:0.5rem 0; }
+.era-card .era-rate { font-family:'JetBrains Mono',monospace; font-size:1.8rem; font-weight:700; }
+.era-card .era-rate.positive { color:var(--red); }
+.era-card .era-rate.negative { color:var(--green); }
+.era-card p { font-size:0.85rem; color:var(--text2); margin-top:0.5rem; }
+
+.pp-table { width:100%; border-collapse:collapse; margin-top:1.5rem; }
+.pp-table th, .pp-table td { text-align:left; padding:0.8rem 1rem; border-bottom:1px solid var(--border); font-size:0.9rem; }
+.pp-table th { color:var(--accent); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; }
+.pp-table td:first-child { font-family:'JetBrains Mono',monospace; color:var(--accent2); }
+.pp-table tr:hover { background:rgba(139,94,60,0.04); }
+
+.cat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1.2rem; margin-top:2rem; }
+.cat-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:1.3rem; }
+.cat-card .cat-icon { font-size:1.5rem; margin-bottom:0.5rem; }
+.cat-card .cat-name { font-weight:700; font-size:0.95rem; margin-bottom:0.3rem; }
+.cat-card .cat-avg { font-family:'JetBrains Mono',monospace; font-size:1.5rem; font-weight:700; }
+.cat-card .cat-period { font-size:0.75rem; color:var(--text2); }
+.cat-card .cat-note { font-size:0.8rem; color:var(--text2); margin-top:0.5rem; }
+
+.future-note { background:rgba(212,133,75,0.1); border:1px solid rgba(212,133,75,0.3); border-radius:8px; padding:1rem 1.3rem; font-size:0.85rem; color:var(--orange); margin-bottom:2rem; }
+.future-note strong { color:#e8a05c; }
+.controls { display:flex; gap:0.8rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+.controls button { background:var(--bg3); color:var(--text2); border:1px solid var(--border); padding:0.5rem 1rem; border-radius:8px; cursor:pointer; font-size:0.85rem; font-family:inherit; transition:all 0.3s; }
+.controls button:hover, .controls button.active { background:rgba(139,94,60,0.12); color:var(--accent); border-color:var(--accent); }
+.record-row { display:flex; justify-content:space-between; align-items:center; padding:1rem; border-bottom:1px solid var(--border); }
+.record-row:last-child { border-bottom:none; }
+.record-year { font-family:'JetBrains Mono',monospace; color:var(--accent); font-size:0.9rem; min-width:60px; }
+.record-rate { font-family:'JetBrains Mono',monospace; font-size:1.3rem; font-weight:700; }
+.record-desc { flex:1; padding:0 1rem; font-size:0.85rem; color:var(--text2); }
+
+/* NEW: Stats section */
+.stat-box-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; margin:2rem 0; }
+.stat-box {
+  background:var(--bg2); border:1px solid var(--border); border-radius:12px;
+  padding:1.2rem; text-align:center;
+}
+.stat-box .stat-label { font-size:0.75rem; color:var(--text2); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.4rem; }
+.stat-box .stat-value { font-family:'JetBrains Mono',monospace; font-size:1.6rem; font-weight:700; color:var(--accent); }
+.stat-box .stat-sub { font-size:0.7rem; color:var(--text2); margin-top:0.3rem; }
+
+/* NEW: Savings comparison */
+.compare-row {
+  display:grid; grid-template-columns:1fr 1fr 1fr 1fr;
+  border-bottom:1px solid var(--border); padding:0.8rem 0;
+}
+.compare-row.header { font-weight:700; color:var(--accent); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; }
+.compare-row .cell { padding:0 0.5rem; font-size:0.9rem; }
+.compare-row .cell.mono { font-family:'JetBrains Mono',monospace; }
+.compare-row .cell.red { color:var(--red); }
+.compare-row .cell.green { color:var(--green); }
+
+/* Verdict box */
+.verdict-box {
+  background:linear-gradient(135deg, rgba(139,94,60,0.06), rgba(46,107,158,0.04));
+  border:1px solid var(--accent); border-radius:12px;
+  padding:2rem; margin:2rem 0;
+}
+.verdict-box h3 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--accent); margin-bottom:1rem; }
+.verdict-box p { color:var(--text); font-size:0.95rem; margin-bottom:0.8rem; }
+.verdict-box .verdict-highlight {
+  font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:700;
+  color:var(--accent2); margin:0.5rem 0;
+}
+
+footer { border-top:1px solid var(--border); padding:3rem 2rem; text-align:center; color:var(--text2); font-size:0.8rem; max-width:1200px; margin:0 auto; }
+footer a { color:var(--accent); text-decoration:none; }
+
+@media(max-width:768px) {
+  .hero .big-stat { gap:1.5rem; }
+  .era-grid, .cat-grid { grid-template-columns:1fr; }
+  .stat-box-grid { grid-template-columns:repeat(2,1fr); }
+  section { padding:3rem 1rem; }
+  .nav { padding:0.6rem 1rem; gap:1rem; }
+  .record-row { flex-direction:column; gap:0.3rem; text-align:center; }
+  .record-desc { padding:0; }
+  .pp-table { font-size:0.8rem; }
+  .pp-table th, .pp-table td { padding:0.5rem; }
+  .compare-row { grid-template-columns:1fr 1fr; gap:0.3rem; font-size:0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dollar">$</div>
+  <h1>美国 <span class="gold">250年</span> 通胀全景</h1>
+  <p class="subtitle">从1776年建国到2026年，追踪美元购买力的衰减。<br>基于明尼阿波利斯联储、BLS官方CPI数据。</p>
+  <div class="big-stat">
+    <div><div class="num">3,656%</div><div class="label">累计通胀 (1776–2026)</div></div>
+    <div><div class="num">$37.56</div><div class="label">1776年的$1 ≈ 今天</div></div>
+    <div><div class="num">1.46%</div><div class="label">250年平均年通胀率</div></div>
+  </div>
+  <div class="scroll-hint">↓ 向下滚动探索</div>
+</section>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#stats">统计分析</a>
+  <a href="#timeline">时间线</a>
+  <a href="#eras">历史时期</a>
+  <a href="#categories">分类通胀</a>
+  <a href="#savings">应对策略</a>
+  <a href="#future-strategy">未来操作</a>
+  <a href="#pe-analysis">PE估值</a>
+  <a href="#crashes">10次崩盘</a>
+  <a href="#purchasing">购买力</a>
+  <a href="#records">极值记录</a>
+  <a href="#future">未来预测</a>
+  <a href="#sources">数据来源</a>
+</nav>
+
+<!-- ==================== NEW: STATISTICS SECTION ==================== -->
+<section id="stats">
+  <h2>通胀<span class="gold">统计分析</span></h2>
+  <p class="section-desc">Mean / Median / 标准差 / 百分位数 — 从数据看通胀的真实面貌。不是"平均3%"这么简单。</p>
+
+  <div class="stat-box-grid">
+    <div class="stat-box"><div class="stat-label">Mean 平均值 (1801–2025)</div><div class="stat-value">1.46%</div><div class="stat-sub">225年算术平均</div></div>
+    <div class="stat-box"><div class="stat-label">Median 中位数 (1801–2025)</div><div class="stat-value">1.2%</div><div class="stat-sub">一半年份低于此值</div></div>
+    <div class="stat-box"><div class="stat-label">Std Dev 标准差</div><div class="stat-value">5.5%</div><div class="stat-sub">波动极大</div></div>
+    <div class="stat-box"><div class="stat-label">Mean 平均值 (1914–2025)</div><div class="stat-value" style="color:var(--red)">3.26%</div><div class="stat-sub">美联储时代 112年</div></div>
+    <div class="stat-box"><div class="stat-label">Median 中位数 (1914–2025)</div><div class="stat-value" style="color:var(--red)">2.73%</div><div class="stat-sub">美联储时代</div></div>
+    <div class="stat-box"><div class="stat-label">Mean 平均值 (1946–2025)</div><div class="stat-value" style="color:var(--orange)">3.71%</div><div class="stat-sub">战后80年</div></div>
+  </div>
+
+  <div class="verdict-box" style="margin-top:1.5rem">
+    <h3>💡 为什么Mean和Median差这么多？</h3>
+    <p><strong>全期Mean 1.46% vs Median 1.2%:</strong> 因为极端高通胀年份(27%/23%/17%)把平均值拉高了。中位数更能代表"普通年份"。</p>
+    <p style="margin-top:0.5rem"><strong>美联储时代Mean 3.26%:</strong> 这才是对你有意义的数字。你活在美联储时代，你的钱每年<strong>确定性</strong>贬值3%+。这不是偶然波动——这是制度设计。</p>
+    <p style="margin-top:0.5rem"><strong>标准差5.5%:</strong> 这意味着通胀在任何一年可能从-4%到+9%(1个标准差范围)。"平均3%"掩盖了巨大的年度波动——2022年是8%，2015年是0.1%，差距80倍。你不能用"平均"来规划任何一年的支出。</p>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">百分位数分布 Percentiles (1801–2025)</div>
+    <div class="chart-subtitle">P10=最低10%的年份通胀率, P90=最高10%的年份通胀率</div>
+    <div class="stat-box-grid" style="margin:1rem 0 0">
+      <div class="stat-box"><div class="stat-label">P10 (最低10%)</div><div class="stat-value" style="color:var(--green)">-5.0%</div></div>
+      <div class="stat-box"><div class="stat-label">P25 (下四分位)</div><div class="stat-value" style="color:var(--green)">0.0%</div></div>
+      <div class="stat-box"><div class="stat-label">P50 (中位数)</div><div class="stat-value">1.2%</div></div>
+      <div class="stat-box"><div class="stat-label">P75 (上四分位)</div><div class="stat-value" style="color:var(--orange)">3.6%</div></div>
+      <div class="stat-box"><div class="stat-label">P90 (最高10%)</div><div class="stat-value" style="color:var(--red)">7.6%</div></div>
+    </div>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text2)">
+      <strong style="color:var(--text)">怎么读这个表:</strong> 在225年中，有75%的年份通胀低于3.6%，有90%的年份低于7.6%。超过7.6%的通胀只在最极端的10%年份出现——2022年的8.0%就属于这个"极端区"。而通缩(负通胀)发生在25%的年份中。
+    </p>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">通胀年 vs 通缩年 (1801–2025)</div>
+    <div class="chart-subtitle">225年中哪些年份物价上涨，哪些下跌</div>
+    <div class="stat-box-grid" style="margin:1rem 0 0">
+      <div class="stat-box"><div class="stat-label">通胀年 (>0%)</div><div class="stat-value" style="color:var(--red)">126年</div><div class="stat-sub">56%的年份</div></div>
+      <div class="stat-box"><div class="stat-label">通缩年 (<0%)</div><div class="stat-value" style="color:var(--green)">54年</div><div class="stat-sub">24%的年份</div></div>
+      <div class="stat-box"><div class="stat-label">持平年 (=0%)</div><div class="stat-value">45年</div><div class="stat-sub">20%的年份</div></div>
+    </div>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text2)">
+      <strong style="color:var(--accent)">两个完全不同的时代:</strong><br>
+      <strong>1801-1913 (美联储之前):</strong> 112年中，通胀年48年(43%)，通缩年42年(38%)，持平22年(20%)。通缩几乎和通胀一样常见，物价围绕零波动。金本位限制了货币供给。<br>
+      <strong>1914-2025 (美联储之后):</strong> 112年中，通胀年98年(<strong>88%</strong>)，通缩年仅13年(12%)。通胀从"自然现象"变成了"系统默认值"。美联储成立+离开金本位=政府获得了"印钱权"=通胀成为常态。<br>
+      <strong>对你的含义: 在现代货币体系下，指望通缩来保护你的储蓄是不现实的。通胀是你必须主动对抗的敌人。</strong>
+    </p>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">各年代平均通胀率 Decade Averages</div>
+    <div class="chart-subtitle">从1800s到2020s，每10年的平均通胀率 — 可以清楚看到"两个时代"的分界线</div>
+    <div class="chart-container h280"><canvas id="decadeChart"></canvas></div>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text2)">
+      <strong style="color:var(--text)">年代分析:</strong><br>
+      • <strong>1800s-1900s:</strong> 平均在-1%到+1%之间波动。金本位时代的"正常"。1820s和1870s经历严重通缩(恐慌/萧条)。<br>
+      • <strong>1910s:</strong> 7.0% — 一战打破了一切。这是金本位时代向法币时代的转折点。<br>
+      • <strong>1940s:</strong> 5.6% — 二战再次推高通胀。但价格管制抑制了部分上涨。<br>
+      • <strong>1970s:</strong> 7.1% — 石油危机+宽松货币政策=失控。这是战后最痛苦的10年。<br>
+      • <strong>2010s:</strong> 1.8% — "低通胀焦虑"时期。联储甚至担心通胀太低。<br>
+      • <strong>2020s:</strong> 3.9% — 回到了"比你以为的高"的水平。后疫情+关税+能源。
+    </p>
+    <span class="source-badge">数据源: <a href="https://www.minneapolisfed.org/about-us/monetary-policy/inflation-calculator/consumer-price-index-1800-" target="_blank">Minneapolis Fed CPI 1800–</a></span>
+  </div>
+</section>
+
+<!-- ==================== STRATEGY: SAVINGS vs INFLATION + CRISIS PLAYBOOK ==================== -->
+<section id="savings">
+  <h2>通胀与通缩都是<span class="gold">敌人</span>：如何应对</h2>
+  <p class="section-desc">通胀侵蚀储蓄，通缩摧毁资产。历史上每一次危机都创造了巨大的财富转移。关键是：你站在哪一边？</p>
+
+  <!-- Part 1: The core problem -->
+  <div class="verdict-box" style="margin-bottom:2rem">
+    <h3>🔥 残酷现实：现金为王是一个谎言</h3>
+    <p>美联储时代（1914–2025）平均通胀 <strong>3.26%/年</strong>。这意味着：</p>
+    <div class="verdict-highlight">→ 银行存款1-2%利率 = 每年实际亏损1-2%</div>
+    <div class="verdict-highlight">→ 床底现金25年亏掉46.5%购买力</div>
+    <p>"现金为王"只在<strong>短期危机爆发的那几个月</strong>是对的 — 用来抄底。长期持有现金是慢性自杀。</p>
+    <p style="font-size:0.85rem;color:var(--text2);margin-top:0.5rem">
+      但通缩更可怕：1929-1933大萧条中，持有股票的人亏了89%，持有房产的人被foreclosure，
+      只有持有现金和国债的人保住了购买力。<strong>所以关键不是"总是做X"，而是"在对的时候做对的事"。</strong>
+    </p>
+  </div>
+
+  <!-- Part 2: $10k comparison chart -->
+  <div class="chart-wrap">
+    <div class="chart-title">$10,000 在2000→2025年的真实命运</div>
+    <div class="chart-subtitle">实际购买力（扣除通胀后）— 基于Minneapolis Fed CPI数据</div>
+    <div class="chart-container h300"><canvas id="savingsChart"></canvas></div>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-title">各策略25年回报对比 (2000–2025)</div>
+    <div class="compare-row header">
+      <div class="cell">策略</div>
+      <div class="cell">名义金额</div>
+      <div class="cell">实际购买力</div>
+      <div class="cell">结果</div>
+    </div>
+    <div class="compare-row">
+      <div class="cell">💰 床底现金 (0%)</div>
+      <div class="cell mono">$10,000</div>
+      <div class="cell mono red">$5,349</div>
+      <div class="cell red">亏损46.5%</div>
+    </div>
+    <div class="compare-row">
+      <div class="cell">🏦 普通储蓄 (1%)</div>
+      <div class="cell mono">$12,824</div>
+      <div class="cell mono red">$6,861</div>
+      <div class="cell red">亏损31.4%</div>
+    </div>
+    <div class="compare-row">
+      <div class="cell">💎 HYSA (4.5%)</div>
+      <div class="cell mono">$30,054</div>
+      <div class="cell mono green">$16,079</div>
+      <div class="cell green">跑赢通胀 +60.8%</div>
+    </div>
+    <div class="compare-row">
+      <div class="cell">📈 S&P 500 (~10%)</div>
+      <div class="cell mono">$108,347</div>
+      <div class="cell mono green">$57,959</div>
+      <div class="cell green">跑赢通胀 +479.6%</div>
+    </div>
+    <span class="source-badge">HYSA 4.5%为2023-2025高利率期，历史大部分时间远低于此。S&P 10%为长期历史均值，含剧烈波动。</span>
+  </div>
+
+  <!-- Part 3: CRISIS = OPPORTUNITY PLAYBOOK -->
+  <h2 style="margin-top:3rem">每一次危机都是<span class="gold">际遇</span></h2>
+  <p class="section-desc">历史上，懂得在不同经济周期配置资产的人，危机中反而积累了最多财富。以下是基于1875-2025历史数据的资产表现规律。</p>
+
+  <div class="chart-wrap">
+    <div class="chart-title">🔴 高通胀时期 (>5%): 什么涨？什么跌？</div>
+    <div class="chart-subtitle">代表时期: 1973-1982石油危机 / 2021-2022后疫情</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card" style="border-left:3px solid var(--green)">
+        <h3 style="color:var(--green)">✅ 通常上涨</h3>
+        <p><strong>大宗商品 (能源/金属/农产品)</strong> — 价格随通胀直接上涨。1973-82年大宗商品实际回报远超股票。2022年Bloomberg商品指数涨16.1%，同期股债双杀。</p>
+        <p style="margin-top:0.5rem"><strong>黄金</strong> — 1973-82滞胀期实际年回报约9%，是表现最好的资产类别。作为"反法币"资产，在货币贬值时价值上升。(Morningstar/CAIA)</p>
+        <p style="margin-top:0.5rem"><strong>房地产/REITs</strong> — 租金随通胀上调。1973-82年REITs名义年回报约13.2%，实际约4.5%。</p>
+        <p style="margin-top:0.5rem"><strong>能源股</strong> — 历史上74%的时间跑赢通胀，平均实际年回报12.9%。(Hartford Funds, 1973-2025数据)</p>
+        <p style="margin-top:0.5rem"><strong>TIPS (通胀保值国债)</strong> — 本金随CPI调整，直接对冲通胀。I Bonds 2026年利率4.03%。</p>
+      </div>
+      <div class="era-card" style="border-left:3px solid var(--red)">
+        <h3 style="color:var(--red)">❌ 通常下跌</h3>
+        <p><strong>长期固定利率债券</strong> — 利率上升→债券价格下跌。通胀侵蚀固定票息的实际价值。</p>
+        <p style="margin-top:0.5rem"><strong>成长股/科技股</strong> — 未来现金流折现率升高→估值压缩。2022年纳斯达克跌33%。</p>
+        <p style="margin-top:0.5rem"><strong>现金/银行存款</strong> — 实际利率为负（名义利率-通胀率<0）。</p>
+        <p style="margin-top:0.5rem"><strong>S&P 500整体</strong> — 通胀>3%且上升时，股票跑赢通胀的概率仅约50%。(Schroders, 1973-2025)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">🟢 通缩/衰退时期: 什么涨？什么跌？</div>
+    <div class="chart-subtitle">代表时期: 1930s大萧条 / 2008金融危机 / 2020年初COVID</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card" style="border-left:3px solid var(--green)">
+        <h3 style="color:var(--green)">✅ 通常上涨/保值</h3>
+        <p><strong>美国国债 (尤其长期)</strong> — 避险资金涌入+利率下降→价格上涨。2008年长期国债涨33%。通缩时名义收益+价格上涨=双赢。</p>
+        <p style="margin-top:0.5rem"><strong>现金/短期国库券</strong> — 通缩时物价下跌，现金购买力反而上升。1930-33年持现金者购买力增加约25%。</p>
+        <p style="margin-top:0.5rem"><strong>黄金</strong> — 恐慌时避险需求上升。2008-2011年金价从$800涨至$1,900。</p>
+        <p style="margin-top:0.5rem"><strong>高品质防御股</strong> — 必需消费品(P&G/沃尔玛)、医疗保健等刚需行业波动较小。</p>
+      </div>
+      <div class="era-card" style="border-left:3px solid var(--red)">
+        <h3 style="color:var(--red)">❌ 通常暴跌</h3>
+        <p><strong>股票整体</strong> — 2008年S&P 500跌37%，1929-32年跌89%。但这恰恰是历史上最佳的买入时机。</p>
+        <p style="margin-top:0.5rem"><strong>房地产</strong> — 需求萎缩+贷款收紧。2008年全美房价跌27%。但之后10年涨了一倍+。</p>
+        <p style="margin-top:0.5rem"><strong>大宗商品</strong> — 需求崩溃。2008年原油从$147跌至$32。</p>
+        <p style="margin-top:0.5rem"><strong>企业债/垃圾债</strong> — 违约风险飙升，价格暴跌。只有最强资产负债表的公司债相对安全。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">🟡 温和通胀时期 (1-3%): 最好的时代</div>
+    <div class="chart-subtitle">代表时期: 1990s / 2010s / 大部分"正常"年份</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card" style="border-left:3px solid var(--accent)">
+        <h3>几乎所有资产都赚钱的"Goldilocks"环境</h3>
+        <p><strong>股票</strong>表现最佳 — 低通胀+经济增长=企业盈利上升+估值扩张。S&P 500在低通胀且上升的环境中，90%的时间跑赢通胀。(Schroders)</p>
+        <p style="margin-top:0.5rem"><strong>债券</strong>稳定收益 — 利率温和，票息覆盖通胀。</p>
+        <p style="margin-top:0.5rem"><strong>房地产</strong>稳定增值 — 低利率降低贷款成本，推高房价。</p>
+        <p style="margin-top:0.5rem"><strong>这也是最危险的时期</strong> — 因为人们会忘记通胀的破坏力，过度加杠杆，为下一次危机埋下种子。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 4: ACTIONABLE FRAMEWORK -->
+  <div class="verdict-box" style="margin-top:2rem">
+    <h3>📋 不同人生阶段的通胀对抗框架</h3>
+    <p><strong>20-35岁 (积累期)</strong> — 时间是最大资产。历史上S&P 500任何20年窗口都是正回报。应最大化股票配置(70-90%)，不怕短期波动。<strong>每一次暴跌都是你的好朋友。</strong></p>
+    <p><strong>35-55岁 (增长期)</strong> — 开始分散。股票50-70%，加入房地产/REITs，少量黄金/商品作通胀对冲。建立6个月紧急储备金。</p>
+    <p><strong>55-70岁 (保护期)</strong> — 降低波动。增加TIPS/I Bonds和高品质债券，股票降至30-50%但不要全退出。通胀仍会在退休后侵蚀你30+年。</p>
+    <p><strong>任何年龄的铁律:</strong></p>
+    <div class="verdict-highlight">→ 永远不要把所有钱放在一个篮子里。分散是唯一免费的午餐。</div>
+    <div class="verdict-highlight">→ 危机时不要恐慌卖出。2008年最低点买入S&P的人，到2025年赚了6倍。</div>
+    <div class="verdict-highlight">→ "不投资"不是安全，而是确定亏损3-4%/年。</div>
+    <p style="font-size:0.85rem;color:var(--text2);margin-top:1rem">
+      以上为基于历史数据的一般性框架，不构成个人化投资建议。<br>
+      数据来源: Morningstar/CAIA (1973-82资产回报)、Schroders/Hartford Funds (通胀环境下板块表现, 1973-2025)、Fidelity (资产类别与通胀关系)、Robeco (1875-2021跨通胀周期研究)
+    </p>
+  </div>
+
+  <!-- Part 5: Rule of 72 -->
+  <div class="chart-wrap">
+    <div class="chart-title">⏰ Rule of 72: 你的钱多快被通胀吃掉一半？</div>
+    <div class="chart-subtitle">购买力减半年数 ≈ 72 ÷ 通胀率(%)</div>
+    <div class="stat-box-grid">
+      <div class="stat-box"><div class="stat-label">通胀2%</div><div class="stat-value">36年</div><div class="stat-sub">购买力减半</div></div>
+      <div class="stat-box"><div class="stat-label">通胀3%</div><div class="stat-value">24年</div><div class="stat-sub">购买力减半</div></div>
+      <div class="stat-box"><div class="stat-label">通胀4%</div><div class="stat-value">18年</div><div class="stat-sub">购买力减半</div></div>
+      <div class="stat-box"><div class="stat-label">通胀5%</div><div class="stat-value">14年</div><div class="stat-sub">购买力减半</div></div>
+      <div class="stat-box"><div class="stat-label">通胀8%</div><div class="stat-value">9年</div><div class="stat-sub">购买力减半</div></div>
+      <div class="stat-box"><div class="stat-label">通胀10%</div><div class="stat-value">7年</div><div class="stat-sub">购买力减半</div></div>
+    </div>
+  </div>
+
+  <!-- Part 6: SPECIFIC STOCKS AND SECTORS -->
+  <div class="chart-wrap">
+    <div class="chart-title">📊 具体什么板块/股票类型表现最好？</div>
+    <div class="chart-subtitle">基于Hartford Funds (1973-2025)、Schroders、Morningstar历史数据</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card">
+        <h3>🛢 高通胀赢家 #1: 能源板块</h3>
+        <p><strong>历史表现:</strong> 高通胀期74%概率跑赢CPI，平均实际年回报12.9% (Hartford Funds, 1973-2025)。1970s石油危机中油价涨1000%+。2022年能源板块是S&P 500中唯一上涨板块(+59%)。</p>
+        <p style="margin-top:0.5rem"><strong>逻辑:</strong> 能源价格本身就是CPI的关键组成部分。油气公司的收入直接挂钩通胀。</p>
+        <p style="margin-top:0.5rem"><strong>代表性标的:</strong> 石油巨头(ExxonMobil/Chevron/Shell)、上游开采商、能源ETF(XLE)。1970s中小油企回报更高但波动更大。</p>
+      </div>
+      <div class="era-card">
+        <h3>🥇 高通胀赢家 #2: 黄金与贵金属</h3>
+        <p><strong>历史表现:</strong> 1970s黄金从$35→$800 (+2200%)。1973-82滞胀期实际年回报~9%，所有资产类别中最高 (Morningstar/CAIA)。2022年在股债双杀时黄金保持正收益。</p>
+        <p style="margin-top:0.5rem"><strong>逻辑:</strong> 黄金是"反法币资产"，政府印钱→黄金涨。历史上每次美元购买力暴跌时黄金都大涨。</p>
+        <p style="margin-top:0.5rem"><strong>代表性标的:</strong> 实物黄金、黄金ETF(GLD/IAU)、金矿股(GDX)。金矿股杠杆效应更大(金价涨10%，金矿股可能涨30%)，但风险也更大。</p>
+      </div>
+      <div class="era-card">
+        <h3>🏠 高通胀赢家 #3: REITs/房地产</h3>
+        <p><strong>历史表现:</strong> 1973-82年REITs名义年回报13.2%，实际4.5%。高通胀期66%概率跑赢CPI (Hartford Funds)。农田价值1970s年涨14%。</p>
+        <p style="margin-top:0.5rem"><strong>逻辑:</strong> 租金合同可随通胀上调，把成本转嫁给租客。实物资产价值随货币贬值上升。</p>
+        <p style="margin-top:0.5rem"><strong>注意:</strong> 利率快速上升时REITs股价会短期承压(2022年REITs跌25%)，但长期租金收入仍跟上通胀。</p>
+      </div>
+      <div class="era-card">
+        <h3>🛡 高通胀赢家 #4: 价值股/防御板块</h3>
+        <p><strong>历史表现:</strong> 1970s低P/E价值股显著跑赢高P/E成长股。必需消费品和医疗保健板块在滞胀中跌幅最小。</p>
+        <p style="margin-top:0.5rem"><strong>逻辑:</strong> 具有"定价权"的公司(消费者不得不买) — 食品、日用品、药品、公用事业 — 能把成本转嫁给消费者。低估值股票对利率上升的敏感度更低。</p>
+        <p style="margin-top:0.5rem"><strong>代表性:</strong> 消费必需品(Procter & Gamble/Coca-Cola/沃尔玛)、医疗(Johnson & Johnson/UnitedHealth)、公用事业。这些公司在2022年也大幅跑赢纳斯达克。</p>
+      </div>
+      <div class="era-card">
+        <h3>🌾 高通胀赢家 #5: 大宗商品</h3>
+        <p><strong>历史表现:</strong> S&P GSCI商品指数1970-1979回报586%。2022年Bloomberg商品指数+16.1%，同期S&P 500 -19%。农产品、工业金属、能源在通胀上升期高度相关。</p>
+        <p style="margin-top:0.5rem"><strong>注意:</strong> 商品在通胀被控制后表现极差 — 1980s初同一指数年回报仅2%。时机判断至关重要。</p>
+      </div>
+      <div class="era-card">
+        <h3>📉 通缩/衰退中的赢家</h3>
+        <p><strong>长期美国国债</strong> — 2008年涨33%，利率下跌时债券价格飙升。</p>
+        <p style="margin-top:0.5rem"><strong>防御型蓝筹股</strong> — 高股息、强资产负债表。2008年P&G只跌13%(S&P跌37%)，沃尔玛逆势涨18%。</p>
+        <p style="margin-top:0.5rem"><strong>黄金</strong> — 2008-2011年$800→$1,900。恐慌中是终极避风港。</p>
+        <p style="margin-top:0.5rem"><strong>⚠ 最大机会:</strong> 危机底部买入被错杀的优质资产。2009年3月低点买S&P 500，到2025年赚6倍+。2020年3月COVID底部买入，到年底翻倍。"别人恐惧时我贪婪" — 但这需要现金储备和极大的心理纪律。</p>
+      </div>
+    </div>
+    <span class="source-badge">数据源: <a href="https://www.hartfordfunds.com/insights/market-perspectives/equity/which-equity-sectors-can-combat-higher-inflation.html" target="_blank">Hartford Funds</a> / <a href="https://wealthgenadvisor.com/navigating-stagflation-lessons-from-the-1970s-and-today/" target="_blank">Morningstar-CAIA via WealthGen</a> / <a href="https://www.robeco.com/en-int/insights/2022/08/investing-across-deflation-inflation-and-stagflation" target="_blank">Robeco 1875-2021</a> / <a href="https://www.fidelity.com/learning-center/trading-investing/inflation-proof-investments" target="_blank">Fidelity</a></span>
+  </div>
+</section>
+
+<!-- ==================== FUTURE 10/20/50/100 YEAR OUTLOOK ==================== -->
+<section id="future-strategy">
+  <h2>未来<span class="gold">10/20/50/100年</span>：如何具体操作</h2>
+  <p class="section-desc">结合AI、政治、战争、科技、移民、能源转型等当今变量，对未来通胀环境的分析与应对策略</p>
+
+  <div class="chart-wrap">
+    <div class="chart-title">🔮 影响未来通胀的六大变量</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card">
+        <h3>🤖 AI与自动化 → 通缩力量</h3>
+        <p><strong>短期(10年):</strong> AI替代白领工作→服务业成本下降。但AI芯片/数据中心的巨额投资短期推高资本支出通胀。科技公司利润暴涨，传统行业被压缩。</p>
+        <p style="margin-top:0.5rem"><strong>长期(50-100年):</strong> 如果AI实现广泛生产力革命，制造/服务成本可能大幅下降。历史参考：工业革命后100年，大量商品价格暴跌，但劳动者工资也调整了。通缩压力可能被央行印钱对冲(他们不允许持续通缩)。</p>
+        <p style="margin-top:0.5rem"><strong>投资含义:</strong> AI基础设施(芯片/云/能源)短期受益。长期看，能用AI提升效率的公司赢，被AI替代的行业输。持有算力和数据中心相关资产。</p>
+      </div>
+      <div class="era-card">
+        <h3>🏛 政治与财政赤字 → 通胀力量</h3>
+        <p><strong>现状:</strong> 美国国债超$36万亿(2025)，债务/GDP比约123%。两党都没有削减赤字的意愿 — 共和党减税，民主党增加支出。历史上，每次大规模政府债务扩张后都伴随通胀上升。</p>
+        <p style="margin-top:0.5rem"><strong>风险场景:</strong> 如果市场对美国偿债能力产生怀疑→国债收益率飙升→美联储被迫"印钱买债"→美元贬值→通胀加速。这就是1970s的翻版。</p>
+        <p style="margin-top:0.5rem"><strong>投资含义:</strong> 长期持有实物资产(房地产/黄金/商品)对冲政府贬值货币的风险。减少长期固定利率债券暴露。关注其他经济体的资产分散化。</p>
+      </div>
+      <div class="era-card">
+        <h3>⚔️ 地缘政治与战争 → 通胀冲击</h3>
+        <p><strong>现状:</strong> 俄乌战争、中东紧张、台海风险、关税贸易战。每一次地缘冲突都通过能源/粮食/供应链推高通胀。2022年俄乌战争直接推高欧洲天然气价格400%+。</p>
+        <p style="margin-top:0.5rem"><strong>长期趋势:</strong> 全球化退潮→"友岸外包"→供应链成本上升。二战后的自由贸易红利(降低通胀)正在反转。各国增加国防开支→政府支出增加→通胀压力。</p>
+        <p style="margin-top:0.5rem"><strong>投资含义:</strong> 国防/军工股在地缘紧张时表现优异。能源独立(美国页岩油/可再生能源)相关公司受益。分散持有全球资产，不把所有赌注押在一个国家。</p>
+      </div>
+      <div class="era-card">
+        <h3>🔋 能源转型 → 先涨后跌</h3>
+        <p><strong>短期(10-20年):</strong> 从化石燃料转向清洁能源的过程中，旧系统退役+新系统投资=巨额成本。电网升级、电池材料(锂/钴/镍)供应紧张→能源通胀。</p>
+        <p style="margin-top:0.5rem"><strong>长期(50-100年):</strong> 太阳能/风能的边际成本趋近于零。如果核聚变实现商业化，能源成本可能暴跌，带来广泛通缩。但这可能需要30-50年。</p>
+        <p style="margin-top:0.5rem"><strong>投资含义:</strong> 短期持有传统能源(仍然赚钱)+清洁能源基础设施。长期看，受益于廉价能源的行业(制造/运输/数据中心)将大幅降成本。</p>
+      </div>
+      <div class="era-card">
+        <h3>👥 人口与移民 → 双向影响</h3>
+        <p><strong>老龄化(通胀):</strong> 劳动力减少→工资上涨→服务业通胀。日本/欧洲已经在经历。美国婴儿潮一代退休→医疗支出暴增(医疗CPI持续跑赢总体)。</p>
+        <p style="margin-top:0.5rem"><strong>移民(通缩):</strong> 移民补充劳动力→压低工资→降低服务通胀。限制移民政策(如当前)→劳动力短缺加剧→工资和服务通胀上升。</p>
+        <p style="margin-top:0.5rem"><strong>投资含义:</strong> 医疗保健是确定性最高的长期增长板块(无论通胀环境)。老年护理/制药/医疗器械长期受益于老龄化趋势。</p>
+      </div>
+      <div class="era-card">
+        <h3>🏦 美联储独立性 → 最关键变量</h3>
+        <p><strong>核心问题:</strong> 如果美联储保持独立，通胀大概率维持在2-4%区间。如果政治干预美联储(如强制降息/印钱)，可能重演1970s失控通胀。</p>
+        <p style="margin-top:0.5rem"><strong>历史教训:</strong> 1970s Arthur Burns屈服于尼克松政治压力→通胀失控→需要Volcker把利率加到20%才止住。央行独立性是低通胀的基石。</p>
+        <p style="margin-top:0.5rem"><strong>投资含义:</strong> 如果出现政治化央行迹象→立即增加黄金/商品/海外资产配置。这是最大的尾部风险。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">📆 未来10 / 20 / 50 / 100年具体操作建议</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card">
+        <h3>未来10年 (2026–2036)</h3>
+        <p><strong>最可能的通胀环境:</strong> 2.5-4%/年 — 高于疫情前但不失控。关税/去全球化推高商品价格，AI部分对冲服务成本。</p>
+        <p style="margin-top:0.5rem"><strong>核心配置:</strong></p>
+        <p>• <strong>股票60-70%</strong> — 重仓AI/科技基础设施(数据中心/芯片/云)、医疗保健、有定价权的消费品牌。低P/E价值股在高通胀环境跑赢成长股。</p>
+        <p>• <strong>房地产/REITs 10-15%</strong> — 利率下降周期有利于房地产回暖。关注数据中心REIT(AI需求驱动)和物流仓储。</p>
+        <p>• <strong>黄金/商品 5-10%</strong> — 作为通胀和地缘风险的保险。黄金在财政赤字扩大时是对冲工具。</p>
+        <p>• <strong>TIPS/I Bonds 5-10%</strong> — 保底通胀保护。I Bonds当前利率4.03%，无风险。</p>
+        <p>• <strong>现金/短债 10%</strong> — 保持弹药，等待下一次危机抄底。</p>
+      </div>
+      <div class="era-card">
+        <h3>未来20年 (2026–2046)</h3>
+        <p><strong>最可能的通胀环境:</strong> 平均3-3.5%。能源转型成本+老龄化医疗支出推高通胀。AI生产力革命部分对冲。</p>
+        <p style="margin-top:0.5rem"><strong>核心配置:</strong></p>
+        <p>• <strong>全球股票50-60%</strong> — 不要只押美国。印度/东南亚等年轻人口国家的增长可能超过老龄化西方。分散全球配置。</p>
+        <p>• <strong>房地产15-20%</strong> — 包括自住房产。住房是最好的通胀对冲之一(你的按揭是固定的，但房价和租金随通胀涨)。</p>
+        <p>• <strong>医疗/养老相关10%</strong> — 确定性最高的长期趋势。全球老龄化不可逆转。</p>
+        <p>• <strong>黄金/实物资产5-10%</strong> — 应对债务危机风险。</p>
+        <p>• <strong>关键:</strong> 20年内大概率经历1-2次严重衰退。保持纪律，衰退中加仓而非抛售。S&P 500历史上任何20年滚动窗口都是正回报。</p>
+      </div>
+      <div class="era-card">
+        <h3>未来50年 (2026–2076)</h3>
+        <p><strong>最大的不确定性:</strong> AI是否引发类似工业革命的范式转变？如果是，50年后世界可能面目全非(自动驾驶/通用机器人/核聚变)。这些技术本质上是强大的通缩力量。</p>
+        <p style="margin-top:0.5rem"><strong>但央行不允许通缩</strong> — 历史告诉我们，生产力提升带来的价格下降会被政府"印钱花掉"。工业革命后100年，物价整体还是涨了。</p>
+        <p style="margin-top:0.5rem"><strong>策略:</strong></p>
+        <p>• <strong>持有全球股票指数基金</strong> — 不要猜哪个公司/行业会赢。50年后的赢家可能今天还不存在。买整个市场。</p>
+        <p>• <strong>持有房产</strong> — 土地是有限的。无论技术如何变化，人们总需要住的地方。</p>
+        <p>• <strong>黄金/比特币</strong> — 作为对抗政府滥发货币的"保险"。不超过10%。</p>
+        <p>• <strong>避免长期固定收益</strong> — 50年的通胀侵蚀将摧毁任何固定利率资产。</p>
+      </div>
+      <div class="era-card">
+        <h3>未来100年 (2026–2126)</h3>
+        <p><strong>唯一确定的事:</strong></p>
+        <p>1. 购买力会大幅缩水 — 即使温和通胀2.5%/年，$100在100年后只剩$8购买力。</p>
+        <p>2. 有些公司会消亡，有些会崛起 — 1926年道琼斯的原始成分股只剩通用电气，而它也已被踢出。</p>
+        <p>3. 科技会改变一切 — 100年前没有电视、计算机、互联网、手机。接下来的100年变化只会更大。</p>
+        <p style="margin-top:0.5rem"><strong>唯一的策略:</strong></p>
+        <p>• <strong>广泛分散的指数基金</strong> — 自动包含未来的赢家，淘汰输家。1926年至今S&P 500年均回报~10%，跑赢几乎所有其他策略。</p>
+        <p>• <strong>房地产与土地</strong> — 纽约/伦敦/东京的地价100年来只涨不跌。</p>
+        <p>• <strong>跨代际财富规划</strong> — 信托、遗产规划、教育基金。通胀最大的敌人是"什么都不做"。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict-box">
+    <h3>⚡ 2026年此刻你应该做什么？</h3>
+    <p>基于当前环境: 通胀~3.3%, 利率偏高, AI革命初期, 关税不确定性, 地缘紧张</p>
+    <div class="verdict-highlight">1. 不要全部持有现金。你正在以每年3%+的速度确定性亏钱。</div>
+    <div class="verdict-highlight">2. 如果还没投资，现在就开始。哪怕从一个简单的S&P 500指数基金开始。</div>
+    <div class="verdict-highlight">3. 保持6个月紧急储备金在HYSA(目前~4%)。其余的钱应该在工作。</div>
+    <div class="verdict-highlight">4. 分散配置。股票+房地产+少量黄金。不要押注单一赛道。</div>
+    <div class="verdict-highlight">5. 为下一次危机储备弹药。衰退一定会来，问题只是何时。那将是你人生中最好的买入机会。</div>
+    <p style="font-size:0.85rem;color:var(--text2);margin-top:1rem">
+      ⚠ 以上所有内容基于历史数据分析，不构成个人化投资建议。过去的表现不代表未来回报。
+      投资有风险，请根据个人风险承受能力、财务状况和投资目标做出独立决策。建议咨询持牌金融顾问。
+    </p>
+  </div>
+</section>
+
+<!-- ==================== PE RATIO ANALYSIS ==================== -->
+<section id="pe-analysis">
+  <h2>当前PE <span class="gold">20-30</span>：泡沫还是正常？</h2>
+  <p class="section-desc">S&P 500当前TTM PE约28，Forward PE约21。历史中位数18。不上不下 — 怎么理解？</p>
+
+  <div class="stat-box-grid">
+    <div class="stat-box"><div class="stat-label">当前 TTM PE</div><div class="stat-value" style="color:var(--orange)">~28</div><div class="stat-sub">2026年4月 (Multpl/Zacks)</div></div>
+    <div class="stat-box"><div class="stat-label">当前 Forward PE</div><div class="stat-value">~21</div><div class="stat-sub">基于未来12个月盈利预测</div></div>
+    <div class="stat-box"><div class="stat-label">历史均值</div><div class="stat-value">19.7</div><div class="stat-sub">1957年至今 (us500.com)</div></div>
+    <div class="stat-box"><div class="stat-label">历史中位数</div><div class="stat-value">18.0</div><div class="stat-sub">一半时间低于此值</div></div>
+    <div class="stat-box"><div class="stat-label">历史最低</div><div class="stat-value" style="color:var(--green)">7.4</div><div class="stat-sub">1979年 (滞胀)</div></div>
+    <div class="stat-box"><div class="stat-label">历史最高</div><div class="stat-value" style="color:var(--red)">~131</div><div class="stat-sub">2009年 (盈利崩溃)</div></div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">PE 28 到底意味着什么？</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card">
+        <h3>📊 说它"贵"的理由</h3>
+        <p>• TTM PE 28 高于历史均值19.7约<strong>42%</strong>。按历史标准确实偏贵。</p>
+        <p>• Shiller CAPE(经通胀调整的10年平均PE)也处于历史高位区间。</p>
+        <p>• 高PE意味着"为每一美元盈利付出更多"，如果盈利增长放缓，回报率会下降。</p>
+        <p>• 历史上PE>25时买入，未来10年平均年回报仅4-6%（远低于长期均值10%）。</p>
+      </div>
+      <div class="era-card">
+        <h3>📊 说它"不算泡沫"的理由</h3>
+        <p>• Forward PE ~21 只是比均值略高 — 因为市场在定价<strong>未来AI驱动的盈利增长</strong>。</p>
+        <p>• 2000年科技泡沫时PE>40, 1999年纳斯达克PE>200。当前远未到那个程度。</p>
+        <p>• 利率下降周期支持更高的PE（未来现金流折现率更低→估值更高）。</p>
+        <p>• 科技巨头(Magnificent 7)占S&P市值约30%，它们的盈利增长确实远超平均水平，拉高了整体PE。排除它们后PE约20。</p>
+      </div>
+    </div>
+    <div class="verdict-box" style="margin-top:1.5rem">
+      <h3>💡 高PE时代的正确策略</h3>
+      <p><strong>"PE高"不代表明天就会崩盘</strong> — 1990s中期PE就"偏高"了，但市场又涨了5年才见顶。时间可以解决估值问题：即使PE不扩张，只要盈利持续增长，股价仍然上涨。</p>
+      <div class="verdict-highlight">→ 高PE时期的关键：降低回报预期（可能是5-7%而非10%），但不要因此离场。</div>
+      <p><strong>具体做法:</strong></p>
+      <p>• <strong>定投(Dollar-Cost Averaging)</strong> — 不要一次性all-in。分12-24个月慢慢买入，平滑入场成本。</p>
+      <p>• <strong>偏向价值股/等权重指数</strong> — 去除科技巨头的集中度风险。等权重S&P 500(RSP) PE更合理。</p>
+      <p>• <strong>增加国际配置</strong> — 欧洲/新兴市场PE通常只有12-15，便宜很多。</p>
+      <p>• <strong>保持10-15%现金弹药</strong> — 为下一次回调准备"子弹"。</p>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">📊 历史上不同PE水平买入后的10年回报</div>
+    <div class="chart-subtitle">PE高不代表立即崩盘，但确实压缩未来回报</div>
+    <table class="pp-table">
+      <thead><tr><th>买入时PE区间</th><th>历史出现频率</th><th>未来10年平均年回报</th><th>代表时期</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--green)">PE < 12</td><td>~15%的时间</td><td style="color:var(--green)"><strong>~13%/年</strong></td><td>1979-82(滞胀后)、2009(金融危机后)</td></tr>
+        <tr><td>PE 12-17</td><td>~30%的时间</td><td><strong>~10%/年</strong></td><td>1950s、1980s初、2011-12</td></tr>
+        <tr><td style="color:var(--orange)">PE 17-22</td><td>~25%的时间</td><td><strong>~8%/年</strong></td><td>1960s、2013-16</td></tr>
+        <tr><td style="color:var(--red)">PE 22-28</td><td>~20%的时间</td><td style="color:var(--red)"><strong>~5-7%/年</strong></td><td>1990s末、2017-19 — <strong>我们现在在这里</strong></td></tr>
+        <tr><td style="color:var(--red)">PE > 28</td><td>~10%的时间</td><td style="color:var(--red)"><strong>~2-4%/年</strong></td><td>1929、1999-2000(泡沫顶部)</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text2)">
+      <strong style="color:var(--text)">怎么读这张表:</strong> 当前PE ~28，历史上在这个水平买入的投资者，接下来10年的平均年回报是5-7%——不是亏钱，但远低于历史均值10%。<strong>这不意味着"不该买"，而是"降低你的回报预期"。</strong><br>
+      来源: 基于Shiller CAPE与后续10年回报的历史关系。<a href="https://www.multpl.com/s-p-500-pe-ratio/table/by-year" target="_blank">PE历史数据: Multpl</a> / <a href="https://www.gurufocus.com/economic_indicators/57/sp-500-pe-ratio" target="_blank">GuruFocus</a> / <a href="https://us500.com/tools/data/sp500-pe-ratio" target="_blank">us500.com</a>
+    </p>
+  </div>
+</section>
+
+<!-- ==================== 10 HISTORICAL CRASHES ==================== -->
+<section id="crashes">
+  <h2>崩盘的<span class="gold">DNA</span>：10次危机，同一个剧本</h2>
+  <p class="section-desc">表面原因各不相同 — 战争、瘟疫、关税、泡沫。但拆开看，每次崩盘的内在机制惊人地一致。理解这个机制，就不会重蹈覆辙。</p>
+
+  <!-- The shared mechanism -->
+  <div class="verdict-box" style="margin-bottom:2rem">
+    <h3>🧬 每次崩盘的共同DNA — Minsky周期</h3>
+    <p>经济学家Hyman Minsky发现，所有金融危机都遵循同一个五阶段循环：</p>
+    <div class="verdict-highlight">① 置换 Displacement → ② 繁荣 Boom → ③ 狂热 Euphoria → ④ 获利了结 Profit-taking → ⑤ 恐慌 Panic</div>
+    <p><strong>① 置换:</strong> 新技术或政策变化创造真实的投资机会（铁路/互联网/AI/便宜信贷）。</p>
+    <p><strong>② 繁荣:</strong> 聪明钱进场，价格上涨开始吸引更多人。信贷扩张加杠杆。</p>
+    <p><strong>③ 狂热:</strong> 出租车司机开始聊股票。"这次不一样"成为共识。PE不再重要，"新范式"叙事流行。信贷标准放松。</p>
+    <p><strong>④ 获利了结:</strong> 内部人/聪明钱悄悄退场。市场仍在高位但动能减弱。</p>
+    <p><strong>⑤ 恐慌:</strong> 某个触发事件(可以很小)→信心崩塌→杠杆被迫平仓→价格暴跌→更多人被迫卖出→螺旋式下跌。</p>
+    <p style="margin-top:0.5rem"><strong>每一次都是这个循环。唯一不同的是"置换"事件和触发"恐慌"的导火索。</strong></p>
+  </div>
+
+  <!-- WHERE ARE WE NOW + WHERE IS THE MONEY -->
+  <div class="chart-wrap">
+    <div class="chart-title">📍 2026年4月：我们处于Minsky周期的哪个阶段？</div>
+    <div class="chart-subtitle">基于资金流向、市场行为、叙事变化的综合判断</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card" style="border-left:3px solid var(--accent)">
+        <h3>判断: 介于③狂热末期 和 ④获利了结 之间</h3>
+        <p><strong>③狂热的证据(已经发生):</strong></p>
+        <p>• AI叙事从2023年ChatGPT开始席卷市场，Mag 7涨幅巨大，"AI改变一切"成为共识</p>
+        <p>• S&P 500前10只股票占比从2015年的12%膨胀到2026年的40%+ — 历史最高集中度</p>
+        <p>• 2025年VOO(S&P 500 ETF)单年吸纳$1200亿资金 — 散户疯狂涌入</p>
+        <p style="margin-top:0.5rem"><strong>④获利了结的信号(正在发生):</strong></p>
+        <p>• <strong>美股基金连续9个月净流出</strong> — 2026年1月单月流出$340亿 (<a href="https://www.morningstar.com/funds/8-charts-us-fund-flows-strong-start-2026" target="_blank">Morningstar, 2026.2</a>)</p>
+        <p>• 科技ETF 2026年3月流出$33亿，10个月连续流入的趋势首次断裂 (<a href="https://www.ssga.com/library-content/pdfs/etf/us/monthly-flash-flows.pdf" target="_blank">State Street, 2026.3</a>)</p>
+        <p>• 内部人(CEO/高管)在2025年下半年大量减持自家股票(多家媒体报道)</p>
+        <p>• 私募信贷基金开始限制赎回(④阶段的典型特征: 出口变窄)</p>
+        <p style="margin-top:0.5rem"><strong>⑤恐慌还没到:</strong> VIX(恐慌指数)尚未持续突破40，信用利差虽在扩大但未达到危机水平。如果出现连锁违约事件(6月30日私募信贷估值日？台海冲突？)，可能快速进入⑤。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">💰 钱都流去哪里了？2026年资金大迁徙地图</div>
+    <div class="chart-subtitle">数据源: ICI / Morningstar / State Street / BlackRock — 全部为2026年1-3月数据</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card" style="border-left:3px solid var(--red)">
+        <h3 style="color:var(--red)">🚨 钱在离开这些地方</h3>
+        <p><strong>美国股票基金: 连续9个月净流出。</strong>2026年1月单月流出$340亿。投资者在"悄悄退场" — 不是恐慌性抛售，而是缓慢撤退。这正是Minsky④阶段的特征。(<a href="https://www.morningstar.com/funds/8-charts-us-fund-flows-strong-start-2026" target="_blank">Morningstar</a>)</p>
+        <p style="margin-top:0.5rem"><strong>科技/AI板块: 3月流出$33亿。</strong>10个月连续流入的趋势首次断裂。投资者开始质疑"AI投资什么时候能变现？" SaaS股因AI替代恐惧暴跌。(<a href="https://www.ssga.com/library-content/pdfs/etf/us/monthly-flash-flows.pdf" target="_blank">State Street Flash Flows</a>)</p>
+        <p style="margin-top:0.5rem"><strong>长期美国国债: 持续流出。</strong>投资者对长端利率不信任 — 担心财政赤字+通胀推高长期利率。滚动3个月流出处于历史第二低位。</p>
+        <p style="margin-top:0.5rem"><strong>高收益/垃圾债: 3月流出$50亿。</strong>信用风险偏好在下降。投资者从"追求收益"转向"保护本金"。</p>
+        <p style="margin-top:0.5rem"><strong>私募信贷基金: 赎回潮。</strong>Blackstone/Apollo/Ares纷纷限制赎回。投资者想出来但出不来(流动性陷阱)。</p>
+      </div>
+      <div class="era-card" style="border-left:3px solid var(--green)">
+        <h3 style="color:var(--green)">💵 钱在流向这些地方</h3>
+        <p><strong>货币市场基金(现金): $7.86万亿 — 历史最高。</strong>每周还在增加$300-400亿。BlackRock估计场外观望资金近$9.1万亿。这是一个巨大的"子弹库" — 一旦市场暴跌，这些钱会冲进来抄底，限制了下跌空间。(<a href="https://www.ici.org/research/stats/mmf" target="_blank">ICI</a> / <a href="https://www.ishares.com/us/insights/inside-the-market/2026-market-outlook-investment-directions" target="_blank">iShares Outlook</a>)</p>
+        <p style="margin-top:0.5rem"><strong>债券基金: 2026年1月流入$910亿</strong>(创近5年纪录)。投资者在锁定4-5%的"安全"收益。市政债突破$1万亿资产大关。核心债券(中期)是最受欢迎的选择。(<a href="https://www.morningstar.com/funds/8-charts-us-fund-flows-strong-start-2026" target="_blank">Morningstar</a>)</p>
+        <p style="margin-top:0.5rem"><strong>新兴市场股票: 1月流入$154亿 — 创纪录。</strong>2025年新兴市场涨30%+。投资者在分散美国风险+追逐更低估值(新兴市场PE 12-15 vs 美国28)。(<a href="https://www.morningstar.com/business/insights/blog/funds/us-fund-flows" target="_blank">Morningstar Fund Flows</a>)</p>
+        <p style="margin-top:0.5rem"><strong>大宗商品/黄金: 持续流入。</strong>黄金ETF 2025年12月流入$63亿(第5高月度)，白银创纪录$20亿。自然资源ETF 2026年1月流入$75亿 — 有史以来最大单月。稀土和铀需求暴增。(<a href="https://www.ssga.com/us/en/intermediary/insights/a-banner-year-for-markets-and-etfs" target="_blank">State Street</a>)</p>
+        <p style="margin-top:0.5rem"><strong>短期国债/通胀保值债券: 防御性配置。</strong>3月短期政府债ETF流入$280亿。通胀挂钩债券ETF流入$13亿。投资者在说: "给我安全+抗通胀"。</p>
+        <p style="margin-top:0.5rem"><strong>非美国发达市场: 国际分散化加速。</strong>2025年非美股票表现优于美股(2009年以来首次)。资金正在从美国向欧洲/日本转移。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict-box">
+    <h3>💡 资金流向告诉我们什么？</h3>
+    <p><strong>"聪明钱"正在做的事:</strong></p>
+    <div class="verdict-highlight">→ 从美股(特别是科技)慢慢撤出 — 不是恐慌卖出，是逐步减仓</div>
+    <div class="verdict-highlight">→ 囤积现金弹药($7.86万亿在货币市场) — 等待更好的入场价格</div>
+    <div class="verdict-highlight">→ 分散到美国以外(新兴市场/欧洲/日本) — 不再"all-in美国"</div>
+    <div class="verdict-highlight">→ 增加实物资产(黄金/商品/稀土) — 对冲通胀+地缘风险</div>
+    <div class="verdict-highlight">→ 锁定债券收益(4-5%) — "鸟在手中"</div>
+    <p style="margin-top:0.5rem"><strong>这不是"崩盘前的逃跑"，而是"风险偏好的系统性下降"。</strong>大资金没有全部撤离，但在重新分配。它们从"进攻模式"(all-in AI/科技/美股)转向"防守+机会模式"(现金+债券+国际+商品)。</p>
+    <p style="margin-top:0.5rem"><strong>$9万亿场外现金的含义:</strong> 如果市场跌20-30%，这些钱会涌入抄底。这意味着即使崩盘，<strong>底部不会像2008年那么深</strong> — 因为2008年没有这么多现金在等待。但也意味着，如果你现在手上没有现金弹药，到时候你就是被抄底的人而不是抄底的人。</p>
+    <p style="font-size:0.85rem;color:var(--text2);margin-top:1rem">
+      数据来源: <a href="https://www.ici.org/research/stats/mmf" target="_blank">ICI货币市场基金</a> / <a href="https://www.morningstar.com/funds/8-charts-us-fund-flows-strong-start-2026" target="_blank">Morningstar 2026.1资金流</a> / <a href="https://www.morningstar.com/business/insights/blog/funds/us-fund-flows" target="_blank">Morningstar月度报告</a> / <a href="https://www.ssga.com/library-content/pdfs/etf/us/monthly-flash-flows.pdf" target="_blank">State Street 2026.3 Flash Flows</a> / <a href="https://www.ssga.com/us/en/intermediary/insights/a-banner-year-for-markets-and-etfs" target="_blank">State Street 2025回顾</a> / <a href="https://www.ishares.com/us/insights/inside-the-market/2026-market-outlook-investment-directions" target="_blank">BlackRock iShares 2026展望</a> / <a href="https://www.lpl.com/research/blog/risk-on-appetite-strong-in-2026-fund-flows-recap.html" target="_blank">LPL 2026资金流回顾</a> / <a href="https://www.ici.org/research/stats/combined_flows" target="_blank">ICI综合资金流</a>
+    </p>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">10次崩盘的内在机制解剖</div>
+    <div class="chart-subtitle">每一列都是同一个剧本的不同版本 — 找到规律，你就不会害怕</div>
+
+    <div class="record-row" style="background:rgba(139,94,60,0.04);border-radius:8px;margin-bottom:0.5rem">
+      <div style="flex:1;padding:1rem">
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem">① 1929 大萧条 | 跌86% | 恢复25年</div>
+        <p style="font-size:0.85rem;color:var(--text2)"><strong style="color:var(--text)">置换:</strong> 1920s电力+汽车+收音机革命，真实的生产力飞跃。<br><strong style="color:var(--text)">狂热:</strong> 散户用10%保证金(10x杠杆)炒股。"人人都是股神"。厨师、鞋匠抵押房子买股票。<br><strong style="color:var(--text)">触发:</strong> 联储加息+信贷收紧。杠杆账户被强制平仓→抛售→银行挤兑→信贷冻结。<br><strong style="color:var(--text)">教训:</strong> <strong>杠杆是危机放大器。</strong>没有10x杠杆，回调可能只有30%而非86%。</p>
+      </div>
+    </div>
+
+    <div class="record-row" style="background:rgba(139,94,60,0.04);border-radius:8px;margin-bottom:0.5rem">
+      <div style="flex:1;padding:1rem">
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem">② 1973-74 石油危机 | 跌48% | 恢复7年</div>
+        <p style="font-size:0.85rem;color:var(--text2)"><strong style="color:var(--text)">置换:</strong> 越战支出+退出金本位→货币超发→通胀从2%→14%。<br><strong style="color:var(--text)">狂热:</strong> 1960s末"漂亮50"股票(Nifty Fifty)被追捧到PE 50-90。"这些蓝筹股永远只涨不跌"。<br><strong style="color:var(--text)">触发:</strong> OPEC石油禁运→油价4x→成本暴涨→企业盈利崩溃→高PE无法支撑。<br><strong style="color:var(--text)">教训:</strong> <strong>外部供给冲击+高估值=灾难。</strong>当PE很高时，任何负面冲击都会引发雪崩。跟今天AI股估值何其相似。</p>
+      </div>
+    </div>
+
+    <div class="record-row" style="background:rgba(139,94,60,0.04);border-radius:8px;margin-bottom:0.5rem">
+      <div style="flex:1;padding:1rem">
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem">③ 1980-82 Volcker衰退 | 跌27% | 恢复2年</div>
+        <p style="font-size:0.85rem;color:var(--text2)"><strong style="color:var(--text)">置换:</strong> 10年通胀失控，央行被迫"下猛药"。<br><strong style="color:var(--text)">机制:</strong> Volcker将利率加到20% — 故意制造衰退来杀死通胀。这是<strong>政策主动引发的崩盘</strong>。<br><strong style="color:var(--text)">触发:</strong> 利率从11%→20%。所有靠贷款运转的企业/消费者被压垮。失业率10.8%。<br><strong style="color:var(--text)">教训:</strong> <strong>央行有时会故意制造痛苦。</strong>2022年的525bp加息是同一剧本的温和版。这种崩盘恢复最快 — 因为一旦央行转向，市场立即反弹。</p>
+      </div>
+    </div>
+
+    <div class="record-row" style="background:rgba(139,94,60,0.04);border-radius:8px;margin-bottom:0.5rem">
+      <div style="flex:1;padding:1rem">
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem">④ 1987 黑色星期一 | 单日跌22.6% | 恢复19月</div>
+        <p style="font-size:0.85rem;color:var(--text2)"><strong style="color:var(--text)">置换:</strong> 1982-87年牛市，PE从7→22。程序化交易(portfolio insurance)兴起。<br><strong style="color:var(--text)">机制:</strong> <strong>技术+杠杆的反馈循环。</strong>电脑程序设定"跌X%就自动卖出"→卖出导致更多下跌→触发更多自动卖出→闪崩。<br><strong style="color:var(--text)">触发:</strong> 美元贬值恐慌+贸易赤字数据差。一个小火花引爆了系统性的算法踩踏。<br><strong style="color:var(--text)">教训:</strong> <strong>机器交易放大波动。</strong>2026年的量化交易/算法交易比1987年复杂100倍。闪崩风险永远存在。</p>
+      </div>
+    </div>
+
+    <div class="record-row" style="background:rgba(139,94,60,0.04);border-radius:8px;margin-bottom:0.5rem">
+      <div style="flex:1;padding:1rem">
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem">⑤ 1990 海湾战争 | 跌20% | 恢复4月</div>
+        <p style="font-size:0.85rem;color:var(--text2)"><strong style="color:var(--text)">置换:</strong> 经济已在放缓(储贷危机/S&L Crisis)，市场脆弱。<br><strong style="color:var(--text)">机制:</strong> <strong>地缘冲击作为最后一根稻草。</strong>伊拉克入侵科威特→油价翻倍→消费者恐慌。<br><strong style="color:var(--text)">触发:</strong> 战争本身。但经济基本面其实没那么差，战争迅速结束后信心恢复。<br><strong style="color:var(--text)">教训:</strong> <strong>地缘冲击型崩盘恢复最快</strong> — 因为冲击消退后基本面没变。2025年关税恐慌可能属于此类型。</p>
+      </div>
+    </div>
+
+    <div class="record-row" style="background:rgba(139,94,60,0.04);border-radius:8px;margin-bottom:0.5rem">
+      <div style="flex:1;padding:1rem">
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem">⑥ 2000 互联网泡沫 | 跌49% (纳斯达克-78%) | 恢复7-15年</div>
+        <p style="font-size:0.85rem;color:var(--text2)"><strong style="color:var(--text)">置换:</strong> 互联网 — 真实的技术革命。<br><strong style="color:var(--text)">狂热:</strong> 零收入公司IPO当天涨300%。PE>200。"盈利不重要，眼球/点击量才重要"。散户辞职做day trader。<br><strong style="color:var(--text)">触发:</strong> 联储加息5次+几个大公司财报造假曝光→信心崩塌→资金撤离→恶性循环。<br><strong style="color:var(--text)">教训:</strong> <strong>技术革命是真的，但大部分公司是假的。</strong>互联网改变了世界，但99%的.com公司死了。只有Amazon/Google存活。<strong>⚠ AI时代的镜像：AI革命是真的，但不是每个"AI概念股"都能活下来。</strong></p>
+      </div>
+    </div>
+
+    <div class="record-row" style="background:rgba(139,94,60,0.04);border-radius:8px;margin-bottom:0.5rem">
+      <div style="flex:1;padding:1rem">
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem">⑦ 2008 金融危机 | 跌57% | 恢复5.5年</div>
+        <p style="font-size:0.85rem;color:var(--text2)"><strong style="color:var(--text)">置换:</strong> 住房成为"永远只涨不跌"的资产。低利率+宽松信贷。<br><strong style="color:var(--text)">狂热:</strong> 无收入无资产的人拿到贷款买房(NINJA Loans)。银行把垃圾贷款包装成AAA债券卖给全世界。杠杆40:1。<br><strong style="color:var(--text)">触发:</strong> 房价开始跌→次贷违约→CDO暴雷→雷曼倒闭→全球信贷冻结→恐慌。<br><strong style="color:var(--text)">教训:</strong> <strong>当"金融创新"让你看不懂钱去了哪里时，危机就在酝酿。</strong>2008年没人真正理解CDO/CDS的风险。今天的问题：有谁完全理解AI估值、私募信贷、影子银行的真实风险？</p>
+      </div>
+    </div>
+
+    <div class="record-row" style="background:rgba(139,94,60,0.04);border-radius:8px;margin-bottom:0.5rem">
+      <div style="flex:1;padding:1rem">
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem">⑧ 2020 COVID | 跌34% (33天) | 恢复5个月</div>
+        <p style="font-size:0.85rem;color:var(--text2)"><strong style="color:var(--text)">置换:</strong> 全球瘟疫 — 无先例的经济停摆。<br><strong style="color:var(--text)">机制:</strong> <strong>纯粹的外部冲击 — 不是泡沫破裂。</strong>经济本身没有过热，是病毒强制按了暂停键。<br><strong style="color:var(--text)">恢复密码:</strong> 美联储无限QE+$5万亿财政刺激。政府选择"用通胀换复苏"。<br><strong style="color:var(--text)">教训:</strong> <strong>央行可以"印钱"阻止崩盘，但代价是未来的通胀。</strong>2020年的刺激→2022年的8%通胀。没有免费的午餐。</p>
+      </div>
+    </div>
+
+    <div class="record-row" style="background:rgba(139,94,60,0.04);border-radius:8px;margin-bottom:0.5rem">
+      <div style="flex:1;padding:1rem">
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem">⑨ 2022 通胀暴力加息 | 跌25% | 恢复18月</div>
+        <p style="font-size:0.85rem;color:var(--text2)"><strong style="color:var(--text)">置换:</strong> 2020年印的钱+供应链中断→通胀9%。<br><strong style="color:var(--text)">机制:</strong> <strong>1980年Volcker剧本的温和重演。</strong>联储加息525bp，故意收紧金融条件。高PE科技股首当其冲（折现率上升=估值压缩）。<br><strong style="color:var(--text)">触发:</strong> CPI数据持续超预期+俄乌战争推高能源。<br><strong style="color:var(--text)">教训:</strong> <strong>高估值股票对利率极度敏感。</strong>利率从0→5%时，PE 50的股票跌50%，PE 15的价值股几乎不跌。</p>
+      </div>
+    </div>
+
+    <div class="record-row" style="background:rgba(139,94,60,0.06);border-radius:8px;margin-bottom:0.5rem;border:1px solid var(--accent)">
+      <div style="flex:1;padding:1rem">
+        <div style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem">⑩ 2025–2026 当下 | 进行中</div>
+        <p style="font-size:0.85rem;color:var(--text2)"><strong style="color:var(--text)">置换:</strong> AI革命（真实的）+ 关税贸易战（政策冲击）。<br><strong style="color:var(--text)">当前阶段:</strong> 可能处于Minsky周期的②→③之间。AI投资确实创造了真实价值，但估值开始偏离基本面(Mag 7 PE>30)。同时叠加关税不确定性。<br><strong style="color:var(--text)">危险信号:</strong> 市场集中度极高(前7只股票占S&P 30%市值)。私募信贷膨胀。散户FOMO情绪上升。<br><strong style="color:var(--text)">缓冲因素:</strong> 杠杆率远低于1929/2008。银行监管更严。美联储有降息空间。企业盈利确实在增长。<br><strong style="color:var(--accent)">→ 这不像2000年(全面泡沫)也不像2008年(系统性杠杆)。更像1990年(地缘冲击)+1973年(供给冲击+高估值)的混合体。</strong></p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 2026 MAPPING: Historical errors → Today's exact form -->
+  <h2 style="margin-top:3rem">历史的错误在2026年<span class="gold">长什么样</span></h2>
+  <p class="section-desc">每次崩盘的核心错误并没有消失 — 它只是换了一张脸。以下是此刻正在发生的事情。</p>
+
+  <div class="chart-wrap">
+    <div class="chart-title">🔴 错误#1: 隐藏的杠杆 (1929散户保证金 → 2008 CDO → 2026私募信贷)</div>
+    <div class="chart-subtitle">1929年错误: 10倍杠杆炒股。2008年错误: 银行把垃圾贷包装成AAA。2026年的版本：</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card" style="border-left:3px solid var(--red)">
+        <h3 style="color:var(--red)">⚠ 正在发生: $3万亿私募信贷危机</h3>
+        <p><strong>规模:</strong> 私募信贷从2010年的$3000亿膨胀到2026年的<strong>$3万亿</strong> — 已超过整个垃圾债市场。(InvestorPlace, 2026.3)</p>
+        <p style="margin-top:0.5rem"><strong>问题本质:</strong> 2008后监管收紧银行，但贷款需求没消失 — 只是搬到了监管看不到的"影子银行"。跟2008年一模一样的逻辑：风险没有减少，只是转移了。</p>
+        <p style="margin-top:0.5rem"><strong>此刻的裂缝 (2026年3-4月):</strong></p>
+        <p>• 据报道，Blackstone旗舰基金BCRED遭大规模赎回请求，管理层注资稳定 (FinancialContent援引多方报道, 2026.3)</p>
+        <p>• Apollo、Ares、BlackRock纷纷限制赎回，上限仅5%/季度 (CNBC, 2026.3.25)</p>
+        <p>• 据Fitch，私募信贷违约率升至历史高位 (多家媒体报道)</p>
+        <p>• IMF报告(据FinancialContent转引): 约40%的私募信贷借款人自由现金流为负</p>
+        <p>• Jamie Dimon(JPMorgan CEO): "看到一只蟑螂，说明还有更多" (Bloomberg, 2026.3.27)</p>
+        <p>• Paul Krugman: "空气中有2008年的味道" (Substack, 2026.4)</p>
+        <p style="margin-top:0.5rem"><strong>Zombie公司详细数据 (全部有链接):</strong></p>
+        <p>• <a href="https://www.goldmansachs.com/insights/articles/the-invasion-of-zombie-companies-that-wasnt" target="_blank">Goldman Sachs (2022)</a>: 美国约<strong>13%</strong>的公司属于zombie(利息覆盖率<1连续3年)</p>
+        <p>• <a href="https://www.congress.gov/crs_external_products/IF/HTML/IF11673.web.html" target="_blank">美国国会研究处(CRS)</a>: Russell 3000中约<strong>15%</strong>为zombie。定义采用BIS标准(利息覆盖率<1连续3年+公司年龄>10年)</p>
+        <p>• <a href="https://www.capecapital.com/folio/an-undead-economic-cycle-and-its-zombie-firms-how-state-protection-brings-zombie-firms-and-a-bullish-market-together" target="_blank">Cape Capital (2024)</a>: Russell 3000中近<strong>1/3不盈利</strong>，超过<strong>1/4无法用经营利润覆盖利息支出</strong></p>
+        <p>• <a href="https://markets.financialcontent.com/stocks/article/marketminute-2026-3-24-small-cap-reversal-russell-2000-enters-correction-after-brief-rally" target="_blank">FinancialContent (2026.3.24)</a>: 分析师估计Russell 2000中<strong>41-46%</strong>现在是zombie — 无法用经营利润支付利息</p>
+        <p>• <a href="https://in.investing.com/analysis/russell-2000s-709-billion-test-finding-fortress-balance-sheets-before-crunch-200632483" target="_blank">Investing.com (2025.11)</a>: Russell 2000中<strong>40-46%不盈利</strong>(2025年，高于2008年的20%和2020 COVID的40%)。中位数公司自由现金流率仅<strong>0.06%</strong>(大盘Russell 1000为7.78%)</p>
+        <p>• Russell 2000面临<strong>$1.35万亿</strong>债务在2026-2027到期($3680亿在2026年，$3410亿在2027年)。很多是以1-2%利率借的，现在要以6.5-8%再融资。</p>
+        <p>• <a href="https://fortune.com/2024/06/07/zombie-company-numbers-soar-debt-loans/" target="_blank">Fortune/AP (2024.6)</a>: S&P 1500在2026年有<strong>$5,860亿</strong>到期债务 — Valens Securities: "如果利率不降，这是4-5级飓风"</p>
+        <p>• <a href="https://fortune.com/2022/10/01/zombie-companies-debt-reckoning-interest-rates-soar-david-trainer/" target="_blank">Fortune/New Constructs (2022)</a>: 追踪约300家美国上市zombie，包括AMC、GameStop、Peloton等高知名度公司</p>
+        <p>• <a href="https://www.federalreserve.gov/econres/notes/feds-notes/us-zombie-firms-how-many-and-how-consequential-20210730.html" target="_blank">美联储(2021)</a>: 联储研究确认zombie公司拖累生产率增长，锁住本可流向健康企业的资本和劳动力</p>
+        <p>• 私募信贷$3万亿中，约26%暴露于SaaS/软件行业 — AI颠覆正在侵蚀这些公司的护城河 (<a href="https://www.cnbc.com/2026/03/25/private-credit-defaults-loan-quality-debt-risk-systemic-ai-disruption.html" target="_blank">CNBC引用Morgan Stanley估算</a>)</p>
+        <p style="margin-top:0.5rem"><strong>踩踏风险评估:</strong> 这些zombie多数是小市值公司，直接冲击S&P 500有限(S&P 500的大公司现金充裕)。但间接传导链是: zombie违约→私募信贷基金亏损→赎回潮→基金被迫抛售所有资产(包括好资产)→信贷收紧→所有企业借贷成本上升→拖累整体经济。这就是"踩踏"的机制。</p>
+        <p style="margin-top:0.5rem"><strong>关键日期: 2026年6月30日</strong> — 大量私募信贷基金被迫更新资产估值。如果被"展期、修改条款"掩盖的坏账暴露，可能触发新一轮恐慌。(<a href="https://investorplace.com/2026/04/private-credit-squeeze-create-zombie-companies/" target="_blank">InvestorPlace, 2026.4</a>)</p>
+        <p style="margin-top:0.5rem"><strong>跟2008的区别:</strong> 私募信贷机构不是银行，杠杆率低于2008。不太可能引发"银行挤兑"式系统性崩溃。但$3万亿的违约潮会严重拖累整体信贷环境。</p>
+      </div>
+      <div class="era-card" style="border-left:3px solid var(--accent)">
+        <h3>🛡 你的练习: 如何对抗</h3>
+        <p><strong>检查你的持仓:</strong> 你的退休账户/基金里有多少私募信贷暴露？很多"高收益固定收益基金"实际持有大量私募贷款。查看基金持仓明细。</p>
+        <p style="margin-top:0.5rem"><strong>避开"僵尸公司":</strong> 靠借债维持的高负债、低利润公司在信贷收紧时最先死。关注企业的自由现金流(FCF)和利息覆盖率(Interest Coverage Ratio)。</p>
+        <p style="margin-top:0.5rem"><strong>向"堡垒"公司转移:</strong> 现金流强劲、低负债的公司(如Berkshire Hathaway, Apple, Google)不依赖外部融资，在信贷危机中反而获利 — 它们可以用低价收购陷入困境的竞争对手。</p>
+        <p style="margin-top:0.5rem"><strong>"秃鹫"机会:</strong> Goldman Sachs、Morgan Stanley等大机构正在准备以折价收购私募信贷资产。如果你有现金弹药，信贷危机反而是以折价买入优质资产的窗口。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">🔴 错误#2: 过度集中 (1973 Nifty Fifty → 2000 科技股 → 2026 Magnificent 7)</div>
+    <div class="chart-subtitle">1973年错误: 50只"永不跌"蓝筹PE 90。2000年错误: 任何.com都值钱。2026年的版本：</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card" style="border-left:3px solid var(--orange)">
+        <h3 style="color:var(--orange)">⚠ 正在发生: Mag 7占S&P 500约35-40%</h3>
+        <p><strong>规模:</strong> S&P 500前10只股票占指数市值超过<strong>40%</strong> — 1972年以来最高水平。10年前仅12%。(IndexBox/GHPIA, 2026)</p>
+        <p style="margin-top:0.5rem"><strong>问题本质:</strong> 你以为你买了"500只股票的分散组合"(S&P 500指数基金)。实际上你把40%的钱押在了10只科技股上。跟1973年"只买Nifty Fifty就够了"的心态一模一样。</p>
+        <p style="margin-top:0.5rem"><strong>估值差异:</strong> Mag 7平均Forward PE ~31，其余493只股票PE ~19.5。如果AI商业化进度不及预期(就像2000年互联网的"盈利在哪里"时刻)，这个估值差会暴力收窄。(GHPIA, 2025)</p>
+        <p style="margin-top:0.5rem"><strong>2000年的镜像:</strong> 互联网确实改变了世界 — 但99%的.com公司死了。AI确实会改变世界 — 但不是每个"AI概念股"都能活。2025年SaaS板块已经因为AI替代恐惧暴跌，拖累了大量私募信贷组合(SaaS占私募贷款的~26%)。</p>
+        <p style="margin-top:0.5rem"><strong>但与2000年的关键区别:</strong> Mag 7有真实盈利(不像Pets.com)。Forward PE 21(不是200)。它们的ROC(资本回报率)中位数73%，是其他490只股票的两倍+(Guinness, 2025)。所以这不是"泡沫"，但绝对是"过于拥挤的赌注"。</p>
+      </div>
+      <div class="era-card" style="border-left:3px solid var(--accent)">
+        <h3>🛡 你的练习: 如何对抗</h3>
+        <p><strong>检查你的真实暴露:</strong> 如果你持有VOO(S&P 500 ETF) + QQQ(纳斯达克) + 几只个股Mag 7 — 你的实际科技暴露可能高达60-70%。你以为你分散了，其实没有。</p>
+        <p style="margin-top:0.5rem"><strong>用等权重ETF(RSP)替代部分S&P 500持仓:</strong> 每只股票权重相同(0.2%)，前10名不再统治你的回报。2025年非Mag 7股票已贡献59%的S&P收益。(RankiaPro, 2025)</p>
+        <p style="margin-top:0.5rem"><strong>增加国际配置:</strong> 欧洲/新兴市场Forward PE仅12-15。如果美国科技回调30%，全球分散的组合只跌10-15%。</p>
+        <p style="margin-top:0.5rem"><strong>小盘价值股:</strong> Morningstar 2026年报告明确推荐美国小盘股优于大盘股 — 估值更低，上行空间更大。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">🔴 错误#3: 政策冲击 (1930 Smoot-Hawley关税 → 1980 Volcker加息 → 2026 全面关税+AI监管)</div>
+    <div class="chart-subtitle">1930年错误: 贸易战把衰退变成萧条。1980年错误: 利率加到20%。2026年的版本：</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card" style="border-left:3px solid var(--orange)">
+        <h3 style="color:var(--orange)">⚠ 正在发生: 关税不确定性 + 去监管双刃剑</h3>
+        <p><strong>关税:</strong> 2025年4月全面关税引发S&P 500接近熊市(-20%)。虽然部分关税已暂缓，但不确定性本身就在损害投资和消费信心。1930年Smoot-Hawley关税法是把1929年股灾变成10年大萧条的关键催化剂。</p>
+        <p style="margin-top:0.5rem"><strong>去监管的矛盾:</strong> FDIC/OCC在2025年底撤销了2013年杠杆贷款指引 — 允许银行更激进地放贷给私募信贷基金。目的是"让银行竞争"，但实际效果是把银行资产负债表暴露给私募信贷的尾部风险。(FinancialContent, 2026.4.10)</p>
+        <p style="margin-top:0.5rem"><strong>财政监控拆除:</strong> 财政部正在削弱金融研究办公室(OFR) — 这是2008年后专门设立来监控系统性风险的机构。在私募信贷危机酝酿的时刻拆除预警系统 — 跟2006年放松房贷监管如出一辙。(Krugman, 2026.4)</p>
+        <p style="margin-top:0.5rem"><strong>如果通胀因关税反弹到5%+:</strong> 美联储将被迫重新加息 → 2022年剧本重演 → 高估值科技股首当其冲 + 私募信贷违约潮加速。这是所有场景中最危险的组合。</p>
+      </div>
+      <div class="era-card" style="border-left:3px solid var(--accent)">
+        <h3>🛡 你的练习: 如何对抗</h3>
+        <p><strong>关注实际通胀数据:</strong> 2026年3月CPI 3.3%，汽油涨21.2%。如果CPI持续上升到4%+，立即降低久期暴露(卖长期债券)，增加TIPS/商品/能源。</p>
+        <p style="margin-top:0.5rem"><strong>贸易战对冲:</strong> 持有国内收入占比高的公司(不依赖进出口)。公用事业、医疗保健、本地REITs受关税影响最小。</p>
+        <p style="margin-top:0.5rem"><strong>不要满仓:</strong> 在政策高度不确定时期，保持15-20%现金或短期国债。不是因为"看空"，而是为了有弹药在恐慌时出手。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">🔴 错误#4: "这次不一样"的叙事 (每次都一样)</div>
+    <div class="chart-subtitle">1929: "新时代经济"。2000: "旧规则不适用互联网"。2026: "AI改变一切"。</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card" style="border-left:3px solid var(--purple)">
+        <h3>"AI改变一切"是真的 — 但估值逻辑没变</h3>
+        <p><strong>1920s:</strong> "电力+汽车+收音机开启新时代" — 确实如此。但PE 30的股票在利率上升时依然暴跌。</p>
+        <p style="margin-top:0.5rem"><strong>2000:</strong> "互联网改变一切" — 确实如此。但没有盈利的公司不值PE 200。Amazon活了下来，但从$107跌到$11再涨回来用了10年。</p>
+        <p style="margin-top:0.5rem"><strong>2026:</strong> "AI改变一切" — 大概率确实如此。Nvidia/Microsoft/Google的AI收入是真实的。但市场把"未来5年的增长"全部定价到了今天。如果实际AI变现速度慢于预期(就像5G/元宇宙/区块链之前那样)，估值回调30-40%完全可能。</p>
+        <p style="margin-top:0.5rem"><strong>2026年3月已经出现裂缝:</strong> AI正在颠覆SaaS公司的护城河 → SaaS股暴跌 → 拖累私募信贷(SaaS占贷款组合26%) → 基金赎回潮。技术革命<strong>自身</strong>成为了危机的催化剂，跟2000年.com公司自我毁灭如出一辙。</p>
+      </div>
+      <div class="era-card" style="border-left:3px solid var(--accent)">
+        <h3>🛡 你的练习: 如何对抗</h3>
+        <p><strong>区分"AI基础设施"和"AI概念":</strong> 卖铲子的(Nvidia/TSMC/数据中心REIT)风险远低于"用AI包装"的中小公司。2000年的教训: 卖服务器的Cisco活了，卖.com梦想的Pets.com死了。</p>
+        <p style="margin-top:0.5rem"><strong>测试你的每一个持仓:</strong> 如果AI盈利延迟2年才兑现，这只股票还值当前价格的70%以上吗？如果不是 — 减仓或设止损。</p>
+        <p style="margin-top:0.5rem"><strong>"技术是真的"不等于"这个价格是对的":</strong> 互联网确实改变了世界。但2000年买Cisco的人等了25年才回本。时间成本也是成本。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict-box">
+    <h3>📊 2026年的综合风险评估</h3>
+    <p>把四个错误叠在一起看 — 这不是某一个单独的炸弹，而是<strong>多条导火索同时在烧</strong>：</p>
+    <p style="margin-top:0.5rem">• 私募信贷$3万亿正在出血(杠杆风险 ✓)</p>
+    <p>• Mag 7占S&P 40%，估值偏高(集中度风险 ✓)</p>
+    <p>• 关税+去监管+通胀不确定(政策风险 ✓)</p>
+    <p>• "AI改变一切"叙事正在被SaaS崩盘挑战(叙事风险 ✓)</p>
+    <div class="verdict-highlight">→ 这不像2008(系统性银行杠杆40:1) — 银行本身目前是安全的。</div>
+    <div class="verdict-highlight">→ 这不像2000(PE>200+零盈利) — Mag 7有真实利润。</div>
+    <div class="verdict-highlight">→ 这更像1973年(高估值+外部冲击+通胀) 叠加 2008年的影子(隐藏的信贷风险)。中等强度，但足以造成20-35%回调。</div>
+    
+    <p style="margin-top:1.5rem"><strong style="color:var(--accent);font-size:1.1rem">这个结论具体意味着什么？逐条拆解：</strong></p>
+    
+    <p style="margin-top:1rem"><strong>"像1990年"的部分 — 地缘冲击型：</strong></p>
+    <p>1990年海湾战争模式: 伊拉克入侵科威特→油价从$15飙到$42(+180%)→S&P跌16-20%→战争迅速结束→油价崩回→市场4个月内恢复→然后开启1990s大牛市(S&P 500随后10年涨4倍)。</p>
+    <p style="margin-top:0.5rem"><strong>2026年的对应:</strong> 关税冲击/中东紧张/油价上涨 — 本质是"外部政策/地缘事件"造成的短期恐慌。如果冲击消退(关税谈判达成/冲突缓和)，市场会快速恢复。<strong>Wall Street目前正在参考这个剧本</strong> (<a href="https://247wallst.com/investing/2026/03/09/wall-street-is-pointing-to-the-1990-gulf-war-playbook-and-the-signal-is-unmistakable/" target="_blank">24/7 Wall St, 2026.3</a>)。</p>
+    <p style="margin-top:0.5rem"><strong>如果走1990剧本:</strong> 跌15-20%→冲击消退→6-12个月恢复→可能是很好的买入机会。<strong>这是最乐观的场景。</strong></p>
+    
+    <p style="margin-top:1.5rem"><strong>"像1973年"的部分 — 高估值+供给冲击+通胀：</strong></p>
+    <p>1973年模式: OPEC石油禁运→油价4x→通胀从3%飙到14%→"漂亮50"(Nifty Fifty)蓝筹股PE从50-90暴跌→S&P跌48%→恢复用了7年。关键区别: 1973年的冲击是<strong>持续的</strong>(石油禁运6个月+后续多年高油价)，不像1990年2个月就结束了。</p>
+    <p style="margin-top:0.5rem"><strong>2026年的对应:</strong> PE 28(偏高)+关税推高进口成本(类似供给冲击)+通胀3.3%且有反弹风险。如果关税不是"一次性冲击"而是变成<strong>长期结构性成本上升</strong>(全面脱钩/持久贸易战)，那就不是1990年剧本，而是1973年剧本。</p>
+    <p style="margin-top:0.5rem"><strong>如果走1973剧本:</strong> 跌30-45%→通胀持续上升→美联储被迫加息→恢复需要3-7年。高PE科技股(今天的Mag 7 = 当年的Nifty Fifty)首当其冲。<strong>这是中等悲观的场景。</strong></p>
+    <p style="margin-top:0.5rem">区分1990和1973的<strong>关键变量是时间</strong>: 冲击持续2个月(1990)还是2年(1973)？(<a href="https://realinvestmentadvice.com/resources/blog/oil-shocks-recessionary-outcomes/" target="_blank">Real Investment Advice, 2026.3</a> 详细分析了这个区别: "断肋骨和切动脉的区别是时间和严重程度")</p>
+
+    <p style="margin-top:1.5rem"><strong>"叠加2008年影子"的部分 — 隐藏的信贷风险：</strong></p>
+    <p>这是让人不安的部分。1990年和1973年都没有系统性信贷风险。2026年有: $3万亿私募信贷正在出血。如果外部冲击(关税/油价/AI估值回调)叠加信贷收紧，就会从"可控的回调"升级为"金融系统传染"。</p>
+    <p style="margin-top:0.5rem"><strong>具体传染路径:</strong> 外部冲击→企业盈利下降→zombie公司还不起债→私募信贷违约率飙升→基金赎回潮→基金被迫抛售好资产(fire sale)→资产价格进一步下跌→更多违约→银行暴露于私募信贷的部分开始计提损失→信贷全面收紧→企业借不到钱→裁员→消费下降→衰退。</p>
+    <p style="margin-top:0.5rem"><strong>这条路径是否会被触发，取决于:</strong> 私募信贷违约是否从"可控"(5-8%)升级到"失控"(15%+)。6月30日估值更新是第一个关键检查点。</p>
+    
+    <p style="margin-top:1.5rem"><strong style="color:var(--accent);font-size:1.05rem">综合起来 — 三种可能的剧情线：</strong></p>
+    <p><strong>剧情A (1990式): 50-60%概率</strong> — 冲击来了又走。跌15-20%。恢复6-12个月。如果你有现金弹药，这是绝佳买入机会。事后回看你会庆幸没卖。</p>
+    <p><strong>剧情B (1973式): 25-35%概率</strong> — 冲击持续。通胀反弹。美联储被迫收紧。高PE股票被估值重定。跌25-40%。恢复2-5年。需要重新配置: 减科技、加价值/商品/国际。你不会"赚大钱"但能保住购买力。</p>
+    <p><strong>剧情C (1973+2008复合): 5-15%概率</strong> — 外部冲击叠加信贷崩溃。跌40-55%。恢复5-7年。这是最坏场景，但概率最低(因为银行杠杆远低于2008，且有$9万亿场外现金等待抄底)。</p>
+    <p style="margin-top:1rem"><strong>你的行动清单 — 不是预测底部，而是准备好不管发生什么都能应对:</strong></p>
+    <p>1. <strong>审计你的真实暴露</strong> — 计算你的科技集中度、私募信贷暴露、杠杆比率</p>
+    <p>2. <strong>建立15-20%现金弹药</strong> — 不是空仓，是储备弹药等待机会</p>
+    <p>3. <strong>增加不相关资产</strong> — 黄金(5-10%)、短期国债(10%)、国际股票(15-20%)</p>
+    <p>4. <strong>关注6月30日</strong> — 私募信贷基金估值更新日。如果暴雷→可能是下半年最佳买入窗口</p>
+    <p>5. <strong>不要在恐慌中卖出核心持仓</strong> — $1在1926年投入S&P 500 → 经历全部10次危机 → 2026年≈$19,000 (含股息再投资)</p>
+    <p style="font-size:0.85rem;color:var(--text2);margin-top:1rem">
+      数据来源 (所有链接已验证):<br>
+      • <a href="https://www.cnbc.com/2026/03/25/private-credit-defaults-loan-quality-debt-risk-systemic-ai-disruption.html" target="_blank">CNBC 2026.3.25</a> — Ares/Apollo赎回限制<br>
+      • <a href="https://www.bloomberg.com/news/articles/2026-03-27/what-we-do-in-the-shadows-will-private-credit-take-down-the-economy" target="_blank">Bloomberg 2026.3.27</a> — Jamie Dimon蟑螂论/私募信贷风险<br>
+      • <a href="https://markets.financialcontent.com/stocks/article/marketminute-2026-3-16-the-shadow-banking-crack-up-private-credit-faces-its-moment-of-truth" target="_blank">FinancialContent 2026.3.16</a> — BCRED赎回(⚠聚合站,非一手)<br>
+      • <a href="https://markets.financialcontent.com/stocks/article/marketminute-2026-4-10-the-shadow-credit-conundrum-why-banks-11-trillion-bet-on-private-lending-faces-a-high-tech-reckoning" target="_blank">FinancialContent 2026.4.10</a> — 银行与私募信贷关联(⚠聚合站)<br>
+      • <a href="https://investorplace.com/hypergrowthinvesting/2026/03/the-private-credit-time-bomb-is-ticking/" target="_blank">InvestorPlace 2026.3</a> — 私募信贷$3万亿分析<br>
+      • <a href="https://investorplace.com/2026/04/private-credit-squeeze-create-zombie-companies/" target="_blank">InvestorPlace 2026.4</a> — Zombie公司/6月30日估值日<br>
+      • <a href="https://paulkrugman.substack.com/p/private-credit-and-the-new-world" target="_blank">Paul Krugman Substack 2026.4</a> — "空气中有2008年的味道"<br>
+      • <a href="https://www.indexbox.io/blog/sp-500-slumps-in-early-2026-highlighting-tech-concentration-risk/" target="_blank">IndexBox 2026</a> — S&P 500科技集中度<br>
+      • <a href="https://ghpia.com/sp-500-concentration-implications-for-investors/" target="_blank">GHPIA 2025</a> — 前10股占40%+市值<br>
+      • <a href="https://www.bloomberg.com/news/articles/2026-03-16/ai-hyperscalers-shadow-borrowing-bolsters-private-credit-risks" target="_blank">Bloomberg/BIS 2026.3.16</a> — AI基建影子借贷<br>
+      • <a href="https://www.morningstar.com/economy/what-weve-learned-150-years-stock-market-crashes" target="_blank">Morningstar</a> — 150年崩盘史<br>
+      • <a href="https://www.federalreservehistory.org/essays/stock-market-crash-of-1929" target="_blank">Federal Reserve History</a> — 1929分析<br>
+      • <a href="https://www.chicagofed.org/publications/chicago-fed-letter/2012/november-304" target="_blank">Chicago Fed</a> — 资产泡沫研究<br>
+      • <a href="https://www.goldmansachs.com/insights/articles/the-invasion-of-zombie-companies-that-wasnt" target="_blank">Goldman Sachs 2022</a> — 13% zombie公司<br>
+      • <a href="https://fortune.com/2024/06/07/zombie-company-numbers-soar-debt-loans/" target="_blank">Fortune/AP 2024.6</a> — $586B到期债务<br>
+      • <a href="https://www.congress.gov/crs_external_products/IF/HTML/IF11673.web.html" target="_blank">美国国会研究处(CRS)</a> — Russell 3000中15%为zombie<br>
+      • <a href="https://www.officialdata.org/us/stocks/s-p-500/1926" target="_blank">OfficialData.org</a> — $1在1926年→$19,301 (含股息再投资)<br>
+      ⚠ 以上为基于公开数据的风险分析，不构成市场预测或投资建议。
+    </p>
+  </div>
+
+  <!-- PROBABILITY SCENARIOS -->
+  <div class="chart-wrap">
+    <div class="chart-title">🎲 2026年后的概率场景：大概率 vs 小概率会发生什么</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card" style="border-left:3px solid var(--green)">
+        <h3 style="color:var(--green)">大概率 (50-60%): 温和调整后继续上行</h3>
+        <p><strong>剧本:</strong> 关税恐慌消退或被协商缓解。私募信贷违约潮被控制在可管理范围(类似2016年能源债危机 — 疼但不致命)。美联储在2026下半年开始降息。AI盈利逐步兑现。</p>
+        <p style="margin-top:0.5rem"><strong>S&P 500:</strong> 2026年全年回报0-10%。波动大但方向向上。PE从28缓慢消化到22-25(盈利增长追上估值)。</p>
+        <p style="margin-top:0.5rem"><strong>历史类比:</strong> 类似1990年海湾战争衰退(温和下跌→快速恢复)或2015-16年(中国恐慌+能源债→颠簸但没崩盘)。</p>
+        <p style="margin-top:0.5rem"><strong>如何应对:</strong> 保持正常配置。不需要大幅调整。定投继续。波动中小幅加仓。</p>
+      </div>
+      <div class="era-card" style="border-left:3px solid var(--orange)">
+        <h3 style="color:var(--orange)">中等概率 (25-35%): 显著回调 -20~35%</h3>
+        <p><strong>剧本:</strong> 关税升级→通胀反弹到4-5%→美联储被迫暂停降息甚至重新加息。私募信贷6月30日估值更新引发更大规模赎回潮。Mag 7中1-2家财报不及预期→科技板块连锁抛售。</p>
+        <p style="margin-top:0.5rem"><strong>S&P 500:</strong> 从高点跌20-35%。类似2022年(-25%)或2018年Q4(-20%)。恢复时间12-24个月。</p>
+        <p style="margin-top:0.5rem"><strong>历史类比:</strong> 2022年(通胀+加息)或1973年(高估值+供给冲击)。</p>
+        <p style="margin-top:0.5rem"><strong>如何应对:</strong> 现在就准备15-20%现金弹药。列好"跌到XX价我就买"的购物清单。恐慌时执行 — 不需要抄底最低点，跌25%以上开始分批买入。</p>
+      </div>
+      <div class="era-card" style="border-left:3px solid var(--red)">
+        <h3 style="color:var(--red)">小概率 (5-15%): 系统性危机 -40%+</h3>
+        <p><strong>剧本:</strong> 私募信贷违约潮蔓延到银行体系(通过"双重杠杆")→信贷冻结。或：台海军事冲突→全球供应链断裂→科技股暴跌+通胀飙升+衰退。或：美联储独立性被政治干预→美元信用危机。</p>
+        <p style="margin-top:0.5rem"><strong>S&P 500:</strong> 跌40-55%。类似2008(-57%)或2000-02(-49%)。恢复时间3-7年。</p>
+        <p style="margin-top:0.5rem"><strong>历史类比:</strong> 2008年(隐藏杠杆引爆系统性危机)。</p>
+        <p style="margin-top:0.5rem"><strong>如何应对:</strong> 黄金10%+短期国债15%+全球分散。如果有房贷确保是固定利率。不要用杠杆(margin)。在最深的恐慌中(VIX>50)开始买入 — 这种机会一代人遇到1-2次。</p>
+      </div>
+      <div class="era-card" style="border-left:3px solid var(--purple)">
+        <h3>极端尾部 (<5%): 范式转变</h3>
+        <p><strong>剧本:</strong> AI引发大规模失业→消费崩溃→长期通缩(日本Lost Decade翻版)。或：美元失去储备货币地位→恶性通胀。或：核冲突。</p>
+        <p style="margin-top:0.5rem"><strong>应对:</strong> 无法完全对冲。但黄金+全球分散+实物资产+技能投资(你自己的赚钱能力)是最后防线。在所有场景中，"拥有可以产生收入的技能"比任何金融资产都更可靠。</p>
+      </div>
+    </div>
+    <span class="source-badge">概率为主观评估，基于历史基率(1950年以来13次≥20%下跌)和当前条件。不同分析师的评估会有差异。</span>
+  </div>
+</section>
+
+<section id="timeline">
+  <h2>250年通胀<span class="gold">时间线</span></h2>
+  <p class="section-desc">年度通胀率 (%) — 1800年前数据为学者估算，1913年后为BLS官方CPI</p>
+  <div class="controls">
+    <button class="active" onclick="showRange('all',this)">全部 1800–2025</button>
+    <button onclick="showRange('early',this)">1800–1913</button>
+    <button onclick="showRange('modern',this)">1913–2025</button>
+    <button onclick="showRange('recent',this)">1970–2025</button>
+  </div>
+  <div class="chart-wrap">
+    <div class="chart-container h350"><canvas id="timelineChart"></canvas></div>
+    <span class="source-badge">数据源: 明尼阿波利斯联储 CPI 1800– / BLS CPI-U</span>
+  </div>
+</section>
+
+<!-- ERAS -->
+<section id="eras">
+  <h2>关键历史<span class="gold">时期</span></h2>
+  <p class="section-desc">不同时期的平均通胀率反映了货币政策、战争和经济结构的深刻变化</p>
+  <div class="era-grid">
+    <div class="era-card">
+      <div class="era-years">1776–1783</div>
+      <h3>独立战争 Revolutionary War</h3>
+      <div class="era-rate positive">~30%/年</div>
+      <p>大陆币(Continental Currency)大量印刷导致恶性通胀，"Not worth a Continental"成为俚语</p>
+    </div>
+    <div class="era-card">
+      <div class="era-years">1800–1860</div>
+      <h3>金本位早期 Early Gold Standard</h3>
+      <div class="era-rate negative">≈ 0%/年</div>
+      <p>价格围绕零通胀波动，通胀与通缩交替出现，物价整体稳定</p>
+    </div>
+    <div class="era-card">
+      <div class="era-years">1861–1865</div>
+      <h3>南北战争 Civil War</h3>
+      <div class="era-rate positive">+11.9%/年</div>
+      <p>联邦政府发行"绿背纸币"(Greenbacks)为战争融资，1864年通胀达27%</p>
+    </div>
+    <div class="era-card">
+      <div class="era-years">1873–1896</div>
+      <h3>长期通缩 Long Deflation</h3>
+      <div class="era-rate negative">-1.5%/年</div>
+      <p>金本位收紧后最长的持续通缩期，农民和债务人遭受严重打击</p>
+    </div>
+    <div class="era-card">
+      <div class="era-years">1914–1920</div>
+      <h3>一战通胀 WWI Inflation</h3>
+      <div class="era-rate positive">+10.8%/年</div>
+      <p>战争支出推高物价，1917-1920年连续四年通胀超15%</p>
+    </div>
+    <div class="era-card">
+      <div class="era-years">1930–1933</div>
+      <h3>大萧条 Great Depression</h3>
+      <div class="era-rate negative">-6.8%/年</div>
+      <p>需求崩溃导致严重通缩，1932年通胀率-10.3%</p>
+    </div>
+    <div class="era-card">
+      <div class="era-years">1941–1945</div>
+      <h3>二战 World War II</h3>
+      <div class="era-rate positive">+5.2%/年</div>
+      <p>价格管制抑制了通胀，战后(1946-47)管制取消，通胀飙升至14.4%</p>
+    </div>
+    <div class="era-card">
+      <div class="era-years">1965–1982</div>
+      <h3>大通胀时代 Great Inflation</h3>
+      <div class="era-rate positive">+6.6%/年</div>
+      <p>越战支出+石油危机+宽松货币政策，1980年通胀达13.5%，Volcker加息至20%才终结</p>
+    </div>
+    <div class="era-card">
+      <div class="era-years">1983–2020</div>
+      <h3>大缓和 Great Moderation</h3>
+      <div class="era-rate positive">+2.6%/年</div>
+      <p>央行独立性+通胀目标制，通胀总体温和，2009年甚至出现-0.4%</p>
+    </div>
+    <div class="era-card">
+      <div class="era-years">2021–2025</div>
+      <h3>后疫情通胀 Post-COVID</h3>
+      <div class="era-rate positive">+4.5%/年</div>
+      <p>疫情刺激+供应链中断，2022年通胀达8.0%，为40年最高</p>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES - EXPANDED -->
+<section id="categories">
+  <h2>分类<span class="gold">通胀</span>深度对比</h2>
+  <p class="section-desc">BLS对不同消费类别分别追踪CPI。以下不仅有平均数据，还有真实的商品价格演变——让你直观感受通胀如何吃掉你的钱。</p>
+
+  <!-- Real price comparison table -->
+  <div class="chart-wrap">
+    <div class="chart-title">🛒 一篮子日常商品的真实价格变迁</div>
+    <div class="chart-subtitle">数据源: BLS CPI Average Prices / FRED / University of Missouri Library / USDA / Daily Meal</div>
+    <table class="pp-table">
+      <thead><tr><th>商品</th><th>1940</th><th>1970</th><th>2000</th><th>2026年3月</th><th>86年涨幅</th></tr></thead>
+      <tbody>
+        <tr><td>🥚 鸡蛋 (一打)</td><td>$0.33</td><td>$0.60</td><td>$0.96</td><td>$2.35</td><td>612%</td></tr>
+        <tr><td>🥛 牛奶 (一加仑)</td><td>$0.52</td><td>$1.32</td><td>$2.78</td><td>$4.07</td><td>683%</td></tr>
+        <tr><td>⛽ 汽油 (一加仑)</td><td>$0.18</td><td>$0.35</td><td>$1.51</td><td>~$3.50</td><td>1,844%</td></tr>
+        <tr><td>🏠 中位数房价</td><td>$2,938</td><td>$23,000</td><td>$119,600</td><td>~$420,000</td><td>14,197%</td></tr>
+        <tr><td>🏥 人均年医疗支出</td><td>~$30</td><td>$297</td><td>$4,845</td><td>~$14,500</td><td>~48,233%</td></tr>
+        <tr><td>🎓 四年公立大学(学费+食宿/年)</td><td>~$300</td><td>$1,542</td><td>$8,439</td><td>~$24,000</td><td>~7,900%</td></tr>
+        <tr><td>💰 平均年收入</td><td>$1,368</td><td>$9,350</td><td>$32,154</td><td>~$63,000</td><td>4,505%</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text2)">
+      <strong style="color:var(--text)">关键发现:</strong> 如果所有东西都以相同速度涨价，通胀就只是"数字变大"而已。但现实是<strong>医疗(48,233%)和房价(14,197%)远远跑赢工资(4,505%)</strong>。这就是为什么人们"感觉"越来越穷——虽然名义工资在涨，但最大的支出项涨得更快。<br>
+      鸡蛋和牛奶反而是通胀的"模范生"——涨幅低于工资涨幅，因为农业工业化大幅提高了产量。<br>
+      来源: BLS CPI / <a href="https://libraryguides.missouri.edu/pricesandwages/quotable-facts" target="_blank">密苏里大学物价与工资数据库</a> / <a href="https://fred.stlouisfed.org/series/APU0000709112" target="_blank">FRED牛奶价格</a> / <a href="https://fred.stlouisfed.org/data/APU0000708111" target="_blank">FRED鸡蛋价格</a> / <a href="https://www.usinflationcalculator.com/inflation/egg-prices-adjusted-for-inflation/" target="_blank">USInflationCalculator鸡蛋</a> / <a href="https://www.usinflationcalculator.com/inflation/milk-prices-adjusted-for-inflation/" target="_blank">USInflationCalculator牛奶</a>
+    </p>
+  </div>
+
+  <!-- Category cards with more detail -->
+  <div class="cat-grid">
+    <div class="cat-card">
+      <div class="cat-icon">🍞</div>
+      <div class="cat-name">食品 Food</div>
+      <div class="cat-avg" style="color:var(--orange)">3.9%/年</div>
+      <div class="cat-period">BLS追踪: 1913年起 (均值为1968-2026)</div>
+      <div class="cat-note">
+        2022年食品通胀达11.4%，为1979年以来最高。2024年回落至2.3%。2026年预测3.6%(<a href="https://www.ers.usda.gov/data-products/food-price-outlook/summary-findings" target="_blank">USDA</a>)。<br>
+        食品中波动最大的子类: 鸡蛋(2024年+65%因禽流感)、牛肉(2026年2月+14.4%)。<br>
+        真实价格: 一打鸡蛋1940年$0.33→2026年$2.35。一加仑牛奶1970年$1.32→2026年$4.07。
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon">🏥</div>
+      <div class="cat-name">医疗 Medical Care</div>
+      <div class="cat-avg" style="color:var(--red)">5.2%/年</div>
+      <div class="cat-period">BLS追踪: 1947年起 (<a href="https://fred.stlouisfed.org/series/CPIMEDSL" target="_blank">FRED</a>)</div>
+      <div class="cat-note">
+        <strong>通胀最凶猛的类别。</strong>1970年人均医疗支出$297→2026年约$14,500。涨幅远超工资。<br>
+        1980s医疗通胀连续超过10%/年。即使近年"温和"的3.1%(2025)也高于总体CPI。<br>
+        原因: 老龄化+新药/新技术昂贵+保险体系低效+医疗行业定价不透明。<br>
+        <strong>这是"隐形通胀"最强的领域——年轻时感觉不到，退休后致命。</strong>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon">🏠</div>
+      <div class="cat-name">住房 Shelter</div>
+      <div class="cat-avg" style="color:var(--purple)">4.1%/年</div>
+      <div class="cat-period">BLS追踪: 1967年起 | CPI权重约36%</div>
+      <div class="cat-note">
+        美国中位数房价: 1940年$2,938→1970年$23,000→2000年$119,600→2026年约$420,000。<br>
+        房价涨幅(14,197%)远超工资涨幅(4,505%)。1970年中位数房价=2.5倍年收入。2026年=6.7倍年收入。<br>
+        <strong>房贷是普通人最好的通胀对冲工具</strong>——你借的是"今天的贵钱"，用"未来的便宜钱"还。固定利率房贷=做空美元。
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon">⛽</div>
+      <div class="cat-name">能源 Energy</div>
+      <div class="cat-avg" style="color:var(--blue)">4.6%/年</div>
+      <div class="cat-period">BLS追踪: 1957年起</div>
+      <div class="cat-note">
+        汽油: 1940年$0.18→1970年$0.35→2008年峰值$4.11→2020年低点$2.17→2026年约$3.50。<br>
+        <strong>波动最大:</strong> 1974年+29.6%, 1986年-13.2%, 2008年+13.8%, 2009年-18.1%, 2021年+29.3%。<br>
+        2026年3月能源CPI+10.9%，其中汽油+21.2%(<a href="https://www.bls.gov/news.release/cpi.nr0.htm" target="_blank">BLS</a>)。<br>
+        能源是CPI中"噪音最大"的成分——所以"核心CPI"会剥离能源来看真实趋势。
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon">🎓</div>
+      <div class="cat-name">教育 Education</div>
+      <div class="cat-avg" style="color:var(--accent)">5.9%/年</div>
+      <div class="cat-period">BLS追踪: 1978年起</div>
+      <div class="cat-note">
+        四年公立大学学费+食宿: 1970年$1,542/年→2026年约$24,000/年。私立大学超过$60,000/年。<br>
+        1978年以来累计涨幅超1,400%。同期总体CPI仅涨约340%。<br>
+        <strong>教育通胀是中产阶级最大的财富杀手之一。</strong>2026年美国学生贷款总额超$1.7万亿。<br>
+        但有趣的是：大学教育的"回报率"也在下降——因为更多人拥有学位，学位的溢价在缩小。
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon">🥛</div>
+      <div class="cat-name">乳制品/鸡蛋 Dairy/Eggs</div>
+      <div class="cat-avg" style="color:var(--green)">3.3%/年</div>
+      <div class="cat-period">BLS追踪: 1913年起</div>
+      <div class="cat-note">
+        鸡蛋是最戏剧化的食品: 2022年因禽流感从$1.79飙至$4.82(+170%)。2024年再次暴涨65%。<br>
+        但长期看，农业工业化使鸡蛋和牛奶<strong>相对于工资</strong>变得更便宜了: 1940年买一打鸡蛋需要工作14分钟，2026年只需约2分钟。<br>
+        来源: <a href="https://www.usinflationcalculator.com/inflation/egg-prices-adjusted-for-inflation/" target="_blank">USInflationCalculator</a> / <a href="https://www.macrotrends.net/3052/us-egg-prices" target="_blank">Macrotrends鸡蛋</a> / <a href="https://www.macrotrends.net/3228/us-milk-prices" target="_blank">Macrotrends牛奶</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict-box" style="margin-top:2rem">
+    <h3>💡 最重要的发现：不是所有东西都以相同速度涨价</h3>
+    <p>通胀不是一个均匀的力量。它是一个<strong>不平等制造机</strong>:</p>
+    <div class="verdict-highlight">→ 你必须花的钱(医疗+住房+教育)涨得最快——远超工资。</div>
+    <div class="verdict-highlight">→ 你可以选择的消费(食品+电子产品+服装)涨得最慢甚至下跌。</div>
+    <div class="verdict-highlight">→ 这意味着: CPI说通胀3%，但你的"个人通胀率"可能是5-7%——取决于你花钱的结构。</div>
+    <p><strong>对抗策略:</strong> 尽早买房(锁定固定利率)、投资医疗保健板块(它在吃你的钱，至少让它也帮你赚钱)、降低教育债务(选择ROI高的专业/学校)。</p>
+  </div>
+
+  <div class="chart-wrap" style="margin-top:2rem">
+    <div class="chart-title">分类CPI年通胀率对比 (1970–2025)</div>
+    <div class="chart-subtitle">数据源: BLS CPI-U 各分类指数</div>
+    <div class="chart-container h300"><canvas id="categoryChart"></canvas></div>
+    <span class="source-badge">Food CPI 1913– / Medical Care CPI 1947– / Energy CPI 1957–</span>
+  </div>
+</section>
+
+<!-- PURCHASING POWER -->
+<section id="purchasing">
+  <h2><span class="gold">购买力</span>变迁：钱越来越不值钱的225年</h2>
+  <p class="section-desc">$100在不同年代的等价购买力（基于Minneapolis Fed CPI指数换算）。这不是抽象数字——是你口袋里的钱真实地在缩水。</p>
+  
+  <div class="chart-wrap">
+    <div class="chart-title">$1美元的实际购买力衰减 (1800=100%)</div>
+    <div class="chart-subtitle">以1800年为基准100，显示每年$1能买到的东西相对减少多少</div>
+    <div class="chart-container h280"><canvas id="ppChart"></canvas></div>
+  </div>
+  
+  <div class="chart-wrap">
+    <div class="chart-title">里程碑年份购买力换算表</div>
+    <div class="chart-subtitle">$100在那一年等于今天(2025)的多少钱？今天的$100在当年能买多少？</div>
+    <table class="pp-table">
+      <thead><tr><th>年份</th><th>CPI指数 (1967=100)</th><th>$100当年 ≈ 今天</th><th>今天$100 ≈ 当年</th><th>关键背景</th></tr></thead>
+      <tbody id="ppTableBody"></tbody>
+    </table>
+  </div>
+
+  <div class="verdict-box">
+    <h3>💡 购买力衰减的人生含义</h3>
+    <p><strong>如果你今年30岁，存了$100万准备60岁退休:</strong></p>
+    <div class="verdict-highlight">→ 通胀3%/年: 30年后你的$100万只有今天的$41万购买力</div>
+    <div class="verdict-highlight">→ 通胀4%/年: 30年后只有$31万购买力</div>
+    <p>你以为你存够了，但通胀已经偷走了60-70%。这就是为什么纯存款等于慢性亏损。</p>
+    <p style="margin-top:0.5rem"><strong>如果你今年60岁，退休后还有30年寿命:</strong></p>
+    <p>你需要的不是"够花30年的钱"，而是"够花30年且每年多3-4%的钱"。$5万/年的生活费在30年后等价于$12万/年(3%通胀)。退休规划必须考虑通胀，否则你的后半段人生会越来越穷。</p>
+    <p style="margin-top:0.5rem"><strong>跨代际的惊人对比:</strong></p>
+    <p>• 你爷爷1960年赚$5,000/年算中产 → 今天等价于$54,000/年</p>
+    <p>• 你爸爸1990年买房$120,000 → 今天同样的房子$420,000+</p>
+    <p>• 你存的$100万到你孙子那一代(60年后) → 只剩$17万购买力(3%通胀)</p>
+  </div>
+</section>
+
+<!-- RECORDS - EXPANDED -->
+<section id="records">
+  <h2>通胀<span class="gold">极值</span>记录与背后的故事</h2>
+  <p class="section-desc">1800年以来的通胀/通缩极端年份 — 不仅仅是数字，每个极端值背后都有一个改变国家命运的事件</p>
+  
+  <div class="chart-wrap">
+    <div class="chart-title" style="color:var(--red)">🔺 最高通胀年份 TOP 10</div>
+    <div class="chart-subtitle">每一次高通胀的背后都是战争、石油、或者政府印钱</div>
+    <div id="highRecords"></div>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text2)">
+      <strong style="color:var(--text)">规律:</strong> 10次最高通胀中，8次与战争相关(独立战争/1812年/南北战争/一战/二战)，2次与石油危机相关(1974/1979)。<strong>战争是通胀之母</strong>——政府需要钱打仗，就印钱或借钱，物价就飙升。2022年的8%通胀也有俄乌战争的因素。
+    </p>
+  </div>
+  
+  <div class="chart-wrap">
+    <div class="chart-title" style="color:var(--green)">🔻 最大通缩年份 TOP 10</div>
+    <div class="chart-subtitle">通缩听起来好(东西便宜了!)，但实际上比通胀更可怕</div>
+    <div id="lowRecords"></div>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text2)">
+      <strong style="color:var(--text)">规律:</strong> 通缩几乎总是伴随经济衰退或萧条。1802年(-14%)是革命后调整，1930s是大萧条(-10.3%)。通缩意味着: 企业收入下降→裁员→消费减少→更多企业倒闭→恶性循环。<br>
+      <strong>日本1990-2020年的"失落的30年"就是长期通缩的活教材:</strong> 物价持续下跌→消费者推迟消费("明天更便宜")→企业不投资→经济停滞→一代人的财富增长被冻结。<br>
+      <strong>这就是为什么美联储宁可通胀2-3%也绝不允许通缩 —— 温和通胀是"经济的润滑油"，通缩是"经济的冰冻"。</strong>
+    </p>
+  </div>
+
+  <div class="verdict-box">
+    <h3>📊 为什么美联储目标是2%而不是0%？</h3>
+    <p>很多人问: "如果通胀是坏事，为什么央行不追求0%通胀？"</p>
+    <p style="margin-top:0.5rem"><strong>答案在历史里:</strong> 1800-1913年(金本位时期)，通胀确实在0%附近波动。结果是极端不稳定 — 经济在通胀和通缩之间剧烈摇摆，银行危机频发(1837/1857/1873/1893/1907年恐慌)。</p>
+    <p style="margin-top:0.5rem"><strong>2%的逻辑:</strong></p>
+    <p>• 给工资下降留"缓冲" — 雇主可以不加薪(实际降薪2%)而不用裁员</p>
+    <p>• 鼓励消费和投资 — "今天的钱比明天的钱值钱"推动你花钱/投资</p>
+    <p>• 给央行降息留空间 — 如果通胀0%且利率0%，央行在衰退时无牌可打</p>
+    <p>• <strong>代价:</strong> 每一代人的储蓄都被稀释。这是一个有意的政策选择——牺牲储蓄者来稳定经济。</p>
+  </div>
+</section>
+
+<!-- FUTURE - EXPANDED -->
+<section id="future">
+  <h2>未来<span class="gold">100年</span>展望：你的钱会变成什么</h2>
+  <p class="section-desc">没有人能预测未来。但数学不会说谎——复利衰减告诉你，如果不对抗通胀，你的财富注定缩水。</p>
+  
+  <div class="future-note">
+    <strong>⚠ 免责声明:</strong> 以下预测基于历史趋势的数学外推，不构成投资建议。
+    实际通胀受货币政策、技术革新、地缘政治、能源转型等多重不可预测因素影响。
+    预测使用三种情景模型: 低(1.5%/年)、中(2.5%/年)、高(4%/年)。
+  </div>
+  
+  <div class="chart-wrap">
+    <div class="chart-title">$100美元在未来100年的购买力预测</div>
+    <div class="chart-subtitle">三种情景：低通胀1.5%/年 · 中等2.5%/年 · 高通胀4%/年</div>
+    <div class="chart-container h300"><canvas id="futureChart"></canvas></div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">📊 不同人生场景下的购买力衰减</div>
+    <table class="pp-table">
+      <thead><tr><th>年份</th><th>低情景 (1.5%)</th><th>中情景 (2.5%)</th><th>高情景 (4.0%)</th><th>这对你意味着什么</th></tr></thead>
+      <tbody>
+        <tr><td>2026</td><td>$100</td><td>$100</td><td>$100</td><td>基准年——你今天的$100</td></tr>
+        <tr><td>2031</td><td>$93</td><td>$88</td><td>$82</td><td>5年后。你感觉不到，但已经缩水了。</td></tr>
+        <tr><td>2036</td><td>$86</td><td>$78</td><td>$68</td><td>10年后。孩子上大学时，学费比现在贵了22-32%。</td></tr>
+        <tr><td>2046</td><td>$74</td><td>$61</td><td>$46</td><td>20年后。今天的$100万退休金，实际只剩$46-74万。</td></tr>
+        <tr><td>2056</td><td>$64</td><td>$48</td><td>$31</td><td>30年后。如果你现在30岁，退休时你存的钱已经缩水一半+。</td></tr>
+        <tr><td>2076</td><td>$48</td><td>$29</td><td>$14</td><td>50年后。你的孙子面对的物价是你今天的2-7倍。</td></tr>
+        <tr><td>2096</td><td>$35</td><td>$18</td><td>$6</td><td>70年后。</td></tr>
+        <tr><td>2126</td><td>$23</td><td>$8</td><td>$2</td><td>100年后。今天的$100在那时只能买一杯咖啡(中情景)。</td></tr>
+      </tbody>
+    </table>
+    <span class="source-badge">模型: 复利衰减 = 100 × (1/(1+r))^n，r=年通胀率。<a href="https://www.officialdata.org/us/inflation/1776?amount=1" target="_blank">验证工具: OfficialData.org</a></span>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">🔮 历史上的通胀"时代"与未来类比</div>
+    <div class="chart-subtitle">过去250年出现过4种通胀环境，未来最可能的是哪种？</div>
+    <div class="era-grid" style="margin-top:1rem">
+      <div class="era-card">
+        <h3>时代1: 金本位稳定期 (1800-1913)</h3>
+        <p>平均0%通胀，但极端波动。通胀和通缩交替出现。银行危机频发。<br><strong>未来重现概率: 极低。</strong>没有国家会回到金本位。</p>
+      </div>
+      <div class="era-card">
+        <h3>时代2: 战争通胀期 (1914-1945)</h3>
+        <p>两次世界大战驱动极端通胀(一战17%+)和大萧条通缩(-10%)。<br><strong>未来重现概率: 低-中。</strong>大规模全面战争概率低，但区域冲突(台海/中东)可能引发局部供给冲击。</p>
+      </div>
+      <div class="era-card">
+        <h3>时代3: 大通胀+大缓和 (1946-2019)</h3>
+        <p>战后通胀→石油危机→Volcker加息→40年大缓和(2-3%)。这是我们最熟悉的环境。<br><strong>未来重现概率: 中-高。</strong>如果美联储保持独立性，2-4%的"新常态"最可能持续。</p>
+      </div>
+      <div class="era-card">
+        <h3>时代4: 后疫情新纪元 (2020-?)</h3>
+        <p>货币大放水→通胀飙升→暴力加息→关税/去全球化。可能是一个<strong>结构性更高通胀(3-4%)</strong>的新时代。<br><strong>驱动力:</strong> 财政赤字膨胀 + 去全球化成本 + 能源转型 + 老龄化 — 全部是推高通胀的力量。AI可能对冲一部分。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict-box">
+    <h3>🏦 未来通胀的三个确定性</h3>
+    <p>虽然具体数字不可预测，但有三件事几乎确定:</p>
+    <div class="verdict-highlight">1. 通胀不会消失。只要有央行和政府，就会有通胀。250年来唯一的例外是金本位时期的间歇性通缩——但那伴随着更多的经济危机。</div>
+    <div class="verdict-highlight">2. 医疗和教育通胀会持续跑赢工资。老龄化+技术成本+制度低效是结构性问题，短期无解。</div>
+    <div class="verdict-highlight">3. 持有纯现金将确定性亏损。在任何合理的通胀假设下(1.5-4%)，现金的购买力每20-30年都会减半。唯一的问题是减半的速度。</div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section id="sources">
+  <h2>数据<span class="gold">来源</span>全表</h2>
+  <p class="section-desc">本网站引用的每一条数据都有可点击的链接。标注⚠的为二手/聚合来源。</p>
+  <div class="era-grid">
+    <div class="era-card">
+      <h3>核心CPI数据</h3>
+      <p>• <a href="https://www.minneapolisfed.org/about-us/monetary-policy/inflation-calculator/consumer-price-index-1800-" target="_blank">Minneapolis Fed CPI 1800–2025</a><br>
+      • <a href="https://www.bls.gov/cpi/" target="_blank">BLS CPI官方</a><br>
+      • <a href="https://www.bls.gov/news.release/cpi.nr0.htm" target="_blank">BLS 2026年3月CPI报告</a><br>
+      • <a href="https://www.officialdata.org/us/inflation/1776?amount=1" target="_blank">OfficialData.org 1776通胀计算</a><br>
+      • <a href="https://www.officialdata.org/us/stocks/s-p-500/1926" target="_blank">OfficialData.org S&P 500 1926→2026</a> ($1→$19,301)<br>
+      • <a href="https://fred.stlouisfed.org/series/CPIMEDSL" target="_blank">FRED 医疗CPI 1947–</a><br>
+      • <a href="https://www.ers.usda.gov/data-products/food-price-outlook/summary-findings" target="_blank">USDA 食品价格展望</a></p>
+    </div>
+    <div class="era-card">
+      <h3>PE估值与市场集中度</h3>
+      <p>• <a href="https://www.gurufocus.com/economic_indicators/57/sp-500-pe-ratio" target="_blank">GuruFocus S&P 500 PE</a> (24.5, April 2026)<br>
+      • <a href="https://www.multpl.com/s-p-500-pe-ratio/table/by-year" target="_blank">Multpl S&P 500 PE</a> (29.26)<br>
+      • <a href="https://us500.com/tools/data/sp500-pe-ratio" target="_blank">us500.com PE</a> (28.21, 均值19.69)<br>
+      • <a href="https://ghpia.com/sp-500-concentration-implications-for-investors/" target="_blank">GHPIA 集中度分析</a> (前10占40%+)<br>
+      • <a href="https://www.indexbox.io/blog/sp-500-slumps-in-early-2026-highlighting-tech-concentration-risk/" target="_blank">IndexBox 2026科技集中度</a><br>
+      • <a href="https://www.guinnessgi.com/insights/sp-500-concentration-risk" target="_blank">Guinness 集中度风险</a> (ROC中位73%)<br>
+      • <a href="https://www.cnbc.com/2025/12/12/stocks-market-risks-investors-portfolios-2026.html" target="_blank">CNBC 2025.12 Mag 7风险</a><br>
+      • <a href="https://rankiapro.com/en/insights/market-concentration-in-three-charts/" target="_blank">RankiaPro 市场广度</a></p>
+    </div>
+    <div class="era-card">
+      <h3>私募信贷危机 (2026)</h3>
+      <p>• <a href="https://www.cnbc.com/2026/03/25/private-credit-defaults-loan-quality-debt-risk-systemic-ai-disruption.html" target="_blank">CNBC 2026.3.25</a> Ares/Apollo赎回<br>
+      • <a href="https://www.bloomberg.com/news/articles/2026-03-27/what-we-do-in-the-shadows-will-private-credit-take-down-the-economy" target="_blank">Bloomberg 2026.3.27</a> Dimon蟑螂论<br>
+      • <a href="https://investorplace.com/hypergrowthinvesting/2026/03/the-private-credit-time-bomb-is-ticking/" target="_blank">InvestorPlace 2026.3</a> $3T分析<br>
+      • <a href="https://investorplace.com/2026/04/private-credit-squeeze-create-zombie-companies/" target="_blank">InvestorPlace 2026.4</a> Zombie/6月30日<br>
+      • <a href="https://paulkrugman.substack.com/p/private-credit-and-the-new-world" target="_blank">Krugman 2026.4</a> "2008味道"<br>
+      • <a href="https://www.bloomberg.com/news/articles/2026-03-16/ai-hyperscalers-shadow-borrowing-bolsters-private-credit-risks" target="_blank">Bloomberg/BIS 2026.3</a> AI影子借贷<br>
+      • ⚠ <a href="https://markets.financialcontent.com/stocks/article/marketminute-2026-3-16-the-shadow-banking-crack-up-private-credit-faces-its-moment-of-truth" target="_blank">FinancialContent 2026.3.16</a> (聚合站)<br>
+      • ⚠ <a href="https://markets.financialcontent.com/stocks/article/marketminute-2026-4-10-the-shadow-credit-conundrum-why-banks-11-trillion-bet-on-private-lending-faces-a-high-tech-reckoning" target="_blank">FinancialContent 2026.4.10</a> (聚合站)</p>
+    </div>
+    <div class="era-card">
+      <h3>Zombie公司数据</h3>
+      <p>• <a href="https://www.goldmansachs.com/insights/articles/the-invasion-of-zombie-companies-that-wasnt" target="_blank">Goldman Sachs 2022</a> — 13%<br>
+      • <a href="https://www.congress.gov/crs_external_products/IF/HTML/IF11673.web.html" target="_blank">美国国会研究处(CRS)</a> — 15%<br>
+      • <a href="https://www.capecapital.com/folio/an-undead-economic-cycle-and-its-zombie-firms-how-state-protection-brings-zombie-firms-and-a-bullish-market-together" target="_blank">Cape Capital 2024</a> — R3000 1/3不盈利<br>
+      • <a href="https://in.investing.com/analysis/russell-2000s-709-billion-test-finding-fortress-balance-sheets-before-crunch-200632483" target="_blank">Investing.com 2025</a> — R2000 43%不盈利<br>
+      • <a href="https://fortune.com/2024/06/07/zombie-company-numbers-soar-debt-loans/" target="_blank">Fortune/AP 2024.6</a> — $586B到期债务<br>
+      • <a href="https://fortune.com/2022/10/01/zombie-companies-debt-reckoning-interest-rates-soar-david-trainer/" target="_blank">Fortune/New Constructs 2022</a> — 300家zombie<br>
+      • <a href="https://www.federalreserve.gov/econres/notes/feds-notes/us-zombie-firms-how-many-and-how-consequential-20210730.html" target="_blank">美联储研究 2021</a><br>
+      • <a href="https://cepr.org/voxeu/columns/counting-undead-new-metric-identifying-zombie-firms" target="_blank">CEPR 2024</a> — 严格定义3-4%</p>
+    </div>
+    <div class="era-card">
+      <h3>崩盘历史与资产表现</h3>
+      <p>• <a href="https://www.morningstar.com/economy/what-weve-learned-150-years-stock-market-crashes" target="_blank">Morningstar 150年崩盘史</a><br>
+      • <a href="https://www.visualcapitalist.com/sp-500-market-crashes/" target="_blank">Visual Capitalist 崩盘对比</a><br>
+      • <a href="https://www.hartfordfunds.com/practice-management/client-conversations/managing-volatility/top-10-stock-market-drops-recoveries.html" target="_blank">Hartford Funds 10大单日跌幅</a><br>
+      • <a href="https://www.hartfordfunds.com/insights/market-perspectives/equity/which-equity-sectors-can-combat-higher-inflation.html" target="_blank">Hartford Funds 板块vs通胀</a><br>
+      • <a href="https://www.fool.com/research/stock-performance-recessions/" target="_blank">Motley Fool 衰退中股市表现</a><br>
+      • <a href="https://www.covenantwealthadvisors.com/post/understanding-stock-market-corrections-and-crashes" target="_blank">Covenant Wealth 崩盘指南</a><br>
+      • <a href="https://www.federalreservehistory.org/essays/stock-market-crash-of-1929" target="_blank">Federal Reserve History 1929</a><br>
+      • <a href="https://www.chicagofed.org/publications/chicago-fed-letter/2012/november-304" target="_blank">Chicago Fed 泡沫研究</a><br>
+      • <a href="https://www.robeco.com/en-int/insights/2022/08/investing-across-deflation-inflation-and-stagflation" target="_blank">Robeco 1875-2021跨通胀周期</a><br>
+      • <a href="https://www.fidelity.com/learning-center/trading-investing/inflation-proof-investments" target="_blank">Fidelity 通胀对冲</a><br>
+      • <a href="https://wealthgenadvisor.com/navigating-stagflation-lessons-from-the-1970s-and-today/" target="_blank">WealthGen/CAIA 滞胀资产表现</a></p>
+    </div>
+    <div class="era-card">
+      <h3>⚠ 来源可靠度说明</h3>
+      <p><strong>一手权威来源:</strong> Minneapolis Fed, BLS, Federal Reserve, 美国国会(CRS), Goldman Sachs, CNBC, Bloomberg, Morningstar — 数据直接可信。</p>
+      <p style="margin-top:0.5rem"><strong>二手分析来源:</strong> InvestorPlace (投资博客, Louis Navellier有销售动机), FinancialContent (新闻聚合站, 非原创报道) — 具体数字应视为"据报道"而非确定事实。</p>
+      <p style="margin-top:0.5rem"><strong>IMF 40%负现金流数据</strong>: 通过FinancialContent间接引用，未直接找到IMF原始报告。已在正文中标注为"据报道"。</p>
+      <p style="margin-top:0.5rem"><strong>PE数据差异:</strong> 不同来源的S&P 500 PE数值不同(24-29)是因为计算方法不同(TTM vs Forward, 含/不含亏损公司)。本站标注了每个数字的来源。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>美国250年通胀全景 · 数据截至2026年3月</p>
+  <p style="margin-top:0.5rem">CPI数据: <a href="https://www.minneapolisfed.org/about-us/monetary-policy/inflation-calculator/consumer-price-index-1800-" target="_blank">Minneapolis Fed</a> · <a href="https://www.bls.gov/cpi/" target="_blank">BLS CPI</a> · <a href="https://www.officialdata.org/us/inflation/1776" target="_blank">OfficialData.org</a></p>
+  <p style="margin-top:0.5rem;font-size:0.7rem;color:#a09585">1913年前数据为历史学者估算值，仅供参考 · 未来预测基于数学模型，不构成任何投资建议</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// ========== HIGH-DPI FIX FOR SHARP TEXT ==========
+// Override Chart.js default to render at device pixel ratio
+Chart.defaults.devicePixelRatio = window.devicePixelRatio || 2;
+
+// ========== REAL DATA from Minneapolis Fed CPI 1800- ==========
+const cpiData = {
+  1800:51,1801:50,1802:43,1803:45,1804:45,1805:45,1806:47,1807:44,1808:48,1809:47,
+  1810:47,1811:50,1812:51,1813:58,1814:63,1815:55,1816:51,1817:48,1818:46,1819:46,
+  1820:42,1821:40,1822:40,1823:36,1824:33,1825:34,1826:34,1827:34,1828:33,1829:32,
+  1830:32,1831:32,1832:30,1833:29,1834:30,1835:31,1836:33,1837:34,1838:32,1839:32,
+  1840:30,1841:31,1842:29,1843:28,1844:28,1845:28,1846:27,1847:28,1848:26,1849:25,
+  1850:25,1851:25,1852:25,1853:25,1854:27,1855:28,1856:27,1857:28,1858:26,1859:27,
+  1860:27,1861:27,1862:30,1863:37,1864:47,1865:46,1866:44,1867:42,1868:40,1869:40,
+  1870:38,1871:36,1872:36,1873:36,1874:34,1875:33,1876:32,1877:32,1878:29,1879:28,
+  1880:29,1881:29,1882:29,1883:28,1884:27,1885:27,1886:27,1887:27,1888:27,1889:27,
+  1890:27,1891:27,1892:27,1893:27,1894:26,1895:25,1896:25,1897:25,1898:25,1899:25,
+  1900:25,1901:25,1902:26,1903:27,1904:27,1905:27,1906:27,1907:28,1908:27,1909:27,
+  1910:28,1911:28,1912:29,
+  1913:29.7,1914:30.1,1915:30.4,1916:32.7,1917:38.5,1918:45.2,1919:52.1,1920:60.2,
+  1921:53.6,1922:50.3,1923:51.2,1924:51.5,1925:52.7,1926:53.2,1927:52.2,1928:51.6,
+  1929:51.6,1930:50.2,1931:45.7,1932:41.0,1933:38.9,1934:40.2,1935:41.2,1936:41.7,
+  1937:43.2,1938:42.3,1939:41.8,1940:42.1,1941:44.2,1942:49.1,1943:52.0,1944:52.9,
+  1945:54.1,1946:58.6,1947:67.1,1948:72.2,1949:71.5,1950:72.3,1951:78.0,1952:79.8,
+  1953:80.4,1954:80.7,1955:80.5,1956:81.7,1957:84.4,1958:86.7,1959:87.6,1960:88.9,
+  1961:89.8,1962:90.9,1963:92.0,1964:93.2,1965:94.7,1966:97.5,1967:100.2,1968:104.5,
+  1969:110.2,1970:116.7,1971:121.7,1972:125.7,1973:133.4,1974:148.2,1975:161.7,
+  1976:171.0,1977:182.1,1978:196.0,1979:218.1,1980:247.6,1981:273.2,1982:290.0,
+  1983:299.3,1984:312.2,1985:323.2,1986:329.4,1987:341.4,1988:355.4,1989:372.5,
+  1990:392.6,1991:409.3,1992:421.7,1993:434.1,1994:445.4,1995:457.9,1996:471.3,
+  1997:482.4,1998:489.8,1999:500.6,2000:517.5,2001:532.1,2002:540.5,2003:552.8,
+  2004:567.6,2005:586.9,2006:605.8,2007:623.1,2008:647.0,2009:644.7,2010:655.3,
+  2011:676.0,2012:689.9,2013:700.0,2014:711.4,2015:712.3,2016:721.2,2017:736.6,
+  2018:754.6,2019:768.3,2020:777.7,2021:814.3,2022:879.4,2023:915.6,2024:942.7,
+  2025:967.5
+};
+
+const years = Object.keys(cpiData).map(Number).sort((a,b)=>a-b);
+const inflationRates = {};
+for(let i=1;i<years.length;i++){
+  const y=years[i], prev=cpiData[years[i-1]], curr=cpiData[y];
+  inflationRates[y]=((curr-prev)/prev)*100;
+}
+
+// Category data (BLS representative values)
+const foodInflation={1970:5.5,1971:3.0,1972:4.3,1973:14.5,1974:14.4,1975:8.5,1976:3.1,1977:6.3,1978:10.0,1979:11.0,1980:8.6,1981:7.8,1982:4.1,1983:2.1,1984:3.8,1985:2.3,1986:3.2,1987:4.1,1988:4.1,1989:5.8,1990:5.8,1991:2.9,1992:1.2,1993:2.2,1994:2.4,1995:2.8,1996:3.3,1997:2.6,1998:2.2,1999:2.1,2000:2.3,2001:3.1,2002:1.8,2003:2.2,2004:3.4,2005:2.4,2006:2.4,2007:4.0,2008:5.5,2009:1.8,2010:0.8,2011:3.7,2012:2.6,2013:1.4,2014:2.4,2015:1.9,2016:0.3,2017:0.9,2018:1.4,2019:1.8,2020:3.9,2021:3.4,2022:11.4,2023:5.0,2024:2.3,2025:2.9};
+const medicalInflation={1970:6.3,1971:6.5,1972:3.1,1973:3.9,1974:9.3,1975:12.0,1976:10.0,1977:9.6,1978:8.4,1979:9.2,1980:10.9,1981:10.7,1982:11.6,1983:8.7,1984:6.2,1985:6.3,1986:7.5,1987:6.6,1988:6.5,1989:7.7,1990:9.0,1991:8.7,1992:7.4,1993:5.9,1994:4.8,1995:4.5,1996:3.5,1997:2.8,1998:3.2,1999:3.5,2000:4.1,2001:4.6,2002:5.0,2003:4.0,2004:4.4,2005:4.2,2006:4.0,2007:4.4,2008:3.7,2009:3.2,2010:3.4,2011:3.0,2012:3.7,2013:2.5,2014:2.4,2015:2.6,2016:3.8,2017:1.8,2018:2.0,2019:4.6,2020:2.0,2021:2.0,2022:4.0,2023:2.1,2024:3.3,2025:3.1};
+const energyInflation={1970:2.8,1971:3.9,1972:3.3,1973:8.1,1974:29.6,1975:10.5,1976:7.1,1977:9.5,1978:6.3,1979:25.1,1980:30.9,1981:13.6,1982:-1.4,1983:-0.5,1984:0.2,1985:0.7,1986:-13.2,1987:0.5,1988:-0.5,1989:5.2,1990:8.3,1991:-0.5,1992:-0.2,1993:-1.4,1994:-0.1,1995:-0.7,1996:6.4,1997:-1.4,1998:-8.2,1999:3.6,2000:16.9,2001:-13.0,2002:-5.9,2003:12.2,2004:10.9,2005:17.1,2006:2.9,2007:5.6,2008:13.8,2009:-18.1,2010:3.8,2011:15.4,2012:0.9,2013:-0.7,2014:-3.2,2015:-12.6,2016:-3.5,2017:6.9,2018:5.3,2019:-2.0,2020:-7.7,2021:29.3,2022:13.1,2023:-4.8,2024:0.5,2025:1.3};
+
+// Chart.js defaults - SHARP TEXT + CREAM THEME
+Chart.defaults.color='#7a6e5d';
+Chart.defaults.borderColor='rgba(139,94,60,0.1)';
+Chart.defaults.font.family="'DM Sans','Noto Serif SC',sans-serif";
+Chart.defaults.font.size=13;
+
+// ========== DECADE CHART ==========
+(function(){
+  const decades=['1800s','1810s','1820s','1830s','1840s','1850s','1860s','1870s','1880s','1890s','1900s','1910s','1920s','1930s','1940s','1950s','1960s','1970s','1980s','1990s','2000s','2010s','2020s'];
+  const avgs=[-0.7,0.1,-3.5,0.1,-2.4,0.9,4.6,-3.5,-0.3,-0.8,0.8,7.0,0.1,-2.0,5.6,2.1,2.3,7.1,5.6,3.0,2.6,1.8,3.9];
+  const colors=avgs.map(v=>v>=0?'rgba(179,58,46,0.75)':'rgba(58,125,74,0.75)');
+  const ctx=document.getElementById('decadeChart').getContext('2d');
+  new Chart(ctx,{type:'bar',data:{labels:decades,datasets:[{data:avgs,backgroundColor:colors,borderWidth:0,barPercentage:0.7}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>i[0].label,label:i=>`平均: ${i.raw>0?'+':''}${i.raw}%/年`}}},scales:{x:{grid:{display:false}},y:{ticks:{callback:v=>v+'%'},grid:{color:'rgba(139,94,60,0.08)'}}}}});
+})();
+
+// ========== SAVINGS COMPARISON CHART ==========
+(function(){
+  const saveYears=[];for(let y=2000;y<=2025;y++)saveYears.push(y);
+  // Calculate actual CPI-adjusted purchasing power for each strategy
+  function calcPath(annualRate){
+    const path=[10000];
+    for(let y=2001;y<=2025;y++){path.push(path[path.length-1]*(1+annualRate));}
+    return path;
+  }
+  function calcRealPP(){
+    // $10k cash, purchasing power declines with actual CPI
+    const path=[10000];
+    for(let y=2001;y<=2025;y++){
+      const r=(cpiData[y]-cpiData[y-1])/cpiData[y-1];
+      path.push(path[path.length-1]/(1+r));
+    }
+    return path;
+  }
+  const cash=calcRealPP();
+  const savings1=calcPath(0.01).map((v,i)=>v/(cpiData[2000+i]/cpiData[2000]));
+  const hysa=calcPath(0.045).map((v,i)=>v/(cpiData[2000+i]/cpiData[2000]));
+  const sp500=calcPath(0.10).map((v,i)=>v/(cpiData[2000+i]/cpiData[2000]));
+
+  const ctx=document.getElementById('savingsChart').getContext('2d');
+  new Chart(ctx,{type:'line',data:{labels:saveYears.map(String),datasets:[
+    {label:'💰 床底现金',data:cash.map(v=>Math.round(v)),borderColor:'rgba(122,110,93,0.9)',borderWidth:2,pointRadius:0,tension:0.3,borderDash:[5,5]},
+    {label:'🏦 普通储蓄 1%',data:savings1.map(v=>Math.round(v)),borderColor:'rgba(179,58,46,0.9)',borderWidth:2,pointRadius:0,tension:0.3},
+    {label:'💎 HYSA 4.5%',data:hysa.map(v=>Math.round(v)),borderColor:'rgba(139,94,60,0.9)',borderWidth:2,pointRadius:0,tension:0.3},
+    {label:'📈 S&P 500 ~10%',data:sp500.map(v=>Math.round(v)),borderColor:'rgba(58,125,74,0.9)',borderWidth:2,pointRadius:0,tension:0.3}
+  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'line',padding:12,font:{size:12}}},tooltip:{callbacks:{label:item=>`${item.dataset.label}: $${item.raw.toLocaleString()} 实际购买力`}}},scales:{x:{ticks:{maxTicksLimit:10},grid:{display:false}},y:{ticks:{callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(139,94,60,0.08)'}}}}});
+})();
+
+// ========== TIMELINE CHART ==========
+let timelineChart;
+function buildTimeline(startY,endY){
+  const f=years.filter(y=>y>=startY&&y<=endY&&inflationRates[y]!==undefined);
+  const labels=f.map(String), data=f.map(y=>Math.round(inflationRates[y]*10)/10);
+  const colors=data.map(v=>v>=0?'rgba(179,58,46,0.75)':'rgba(58,125,74,0.75)');
+  if(timelineChart)timelineChart.destroy();
+  const ctx=document.getElementById('timelineChart').getContext('2d');
+  timelineChart=new Chart(ctx,{type:'bar',data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:0,barPercentage:startY<1913?0.7:0.8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>i[0].label+'年',label:i=>`通胀率: ${i.raw>0?'+':''}${i.raw}%`}}},scales:{x:{ticks:{maxTicksLimit:20,maxRotation:45},grid:{display:false}},y:{ticks:{callback:v=>v+'%'},grid:{color:'rgba(139,94,60,0.08)'}}}}});
+}
+function showRange(range,btn){
+  document.querySelectorAll('.controls button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  switch(range){case'all':buildTimeline(1801,2025);break;case'early':buildTimeline(1801,1913);break;case'modern':buildTimeline(1913,2025);break;case'recent':buildTimeline(1970,2025);break;}
+}
+buildTimeline(1801,2025);
+
+// ========== CATEGORY CHART ==========
+(function(){
+  const cy=[];for(let y=1970;y<=2025;y++)cy.push(y);
+  const ctx=document.getElementById('categoryChart').getContext('2d');
+  new Chart(ctx,{type:'line',data:{labels:cy.map(String),datasets:[
+    {label:'总体CPI',data:cy.map(y=>inflationRates[y]?Math.round(inflationRates[y]*10)/10:null),borderColor:'rgba(139,94,60,0.9)',backgroundColor:'rgba(139,94,60,0.1)',borderWidth:2,pointRadius:0,tension:0.3},
+    {label:'食品 Food',data:cy.map(y=>foodInflation[y]||null),borderColor:'rgba(192,106,46,0.9)',borderWidth:1.5,pointRadius:0,tension:0.3},
+    {label:'医疗 Medical',data:cy.map(y=>medicalInflation[y]||null),borderColor:'rgba(179,58,46,0.9)',borderWidth:1.5,pointRadius:0,tension:0.3},
+    {label:'能源 Energy',data:cy.map(y=>energyInflation[y]||null),borderColor:'rgba(46,107,158,0.9)',borderWidth:1.5,pointRadius:0,tension:0.3}
+  ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'line',padding:15}},tooltip:{callbacks:{label:i=>`${i.dataset.label}: ${i.raw>0?'+':''}${i.raw}%`}}},scales:{x:{ticks:{maxTicksLimit:15},grid:{display:false}},y:{ticks:{callback:v=>v+'%'},grid:{color:'rgba(139,94,60,0.08)'}}}}});
+})();
+
+// ========== PURCHASING POWER CHART ==========
+(function(){
+  const py=years.filter(y=>y>=1800), base=cpiData[1800];
+  const ppd=py.map(y=>Math.round((base/cpiData[y])*10000)/100);
+  const ctx=document.getElementById('ppChart').getContext('2d');
+  new Chart(ctx,{type:'line',data:{labels:py.map(String),datasets:[{label:'$1购买力 (1800=100%)',data:ppd,borderColor:'rgba(139,94,60,0.9)',backgroundColor:'rgba(139,94,60,0.08)',fill:true,borderWidth:2,pointRadius:0,tension:0.2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>i[0].label+'年',label:i=>`购买力: ${i.raw}% (相对1800年)`}}},scales:{x:{ticks:{maxTicksLimit:15},grid:{display:false}},y:{ticks:{callback:v=>v+'%'},grid:{color:'rgba(139,94,60,0.08)'},min:0}}}});
+})();
+
+// ========== PP TABLE ==========
+(function(){
+  const ms=[[1800,51,'金本位早期'],[1820,42,'门罗主义时期'],[1850,25,'淘金热前夕'],[1865,46,'南北战争结束'],[1900,25,'金本位巅峰'],[1913,29.7,'美联储成立'],[1920,60.2,'一战后通胀高点'],[1933,38.9,'大萧条谷底'],[1945,54.1,'二战结束'],[1960,88.9,'战后繁荣'],[1970,116.7,'越战/通胀开始'],[1980,247.6,'大通胀高峰'],[1990,392.6,'大缓和开始'],[2000,517.5,'互联网泡沫'],[2008,647.0,'金融危机'],[2015,712.3,'低通胀时代'],[2020,777.7,'COVID开始'],[2025,967.5,'后疫情通胀']];
+  const c25=967.5,tb=document.getElementById('ppTableBody');
+  ms.forEach(([y,c,n])=>{
+    const eq=Math.round((c25/c)*100),rv=Math.round((c/c25)*10000)/100;
+    tb.innerHTML+=`<tr><td>${y}</td><td>${c}</td><td>$${eq.toLocaleString()}</td><td>$${rv}</td><td>${n}</td></tr>`;
+  });
+})();
+
+// ========== RECORDS ==========
+(function(){
+  const sorted=Object.entries(inflationRates).map(([y,r])=>[Number(y),r]).sort((a,b)=>b[1]-a[1]);
+  const hd={1864:'南北战争高峰',1863:'南北战争军费暴增',1917:'一战参战',1918:'一战+流感大流行',1920:'战后需求释放',1919:'一战结束后通胀惯性',1813:'1812年战争',1947:'二战价格管制取消',1974:'第一次石油危机',1979:'第二次石油危机',1980:'石油危机+宽松货币叠加',1814:'1812年战争',1862:'南北战争开始',1916:'一战前军备',2022:'后疫情+供应链+俄乌战争',1942:'二战军事支出'};
+  const ld={1802:'革命后经济调整',1921:'一战后紧缩',1932:'大萧条最严重时期',1878:'长期通缩时期',1931:'大萧条银行危机',1820:'1819年恐慌后果',1823:'后战争经济调整',1815:'战争结束需求暴跌',1822:'经济收缩',1933:'大萧条延续',1842:'经济收缩',1848:'经济调整',1807:'杰斐逊禁运前夕',1838:'1837年恐慌后果',1840:'经济持续低迷',1832:'杰克逊时代银行之争'};
+  const he=document.getElementById('highRecords');
+  sorted.slice(0,10).forEach(([y,r])=>{he.innerHTML+=`<div class="record-row"><div class="record-year">${y}</div><div class="record-rate" style="color:var(--red)">+${r.toFixed(1)}%</div><div class="record-desc">${hd[y]||''}</div></div>`;});
+  const le=document.getElementById('lowRecords');
+  sorted.slice(-10).reverse().forEach(([y,r])=>{le.innerHTML+=`<div class="record-row"><div class="record-year">${y}</div><div class="record-rate" style="color:var(--green)">${r.toFixed(1)}%</div><div class="record-desc">${ld[y]||''}</div></div>`;});
+})();
+
+// ========== FUTURE CHART ==========
+(function(){
+  const fy=[];for(let y=2026;y<=2126;y+=5)fy.push(y);
+  const low=fy.map(y=>Math.round(100*Math.pow(1/(1+0.015),y-2026)*100)/100);
+  const mid=fy.map(y=>Math.round(100*Math.pow(1/(1+0.025),y-2026)*100)/100);
+  const high=fy.map(y=>Math.round(100*Math.pow(1/(1+0.04),y-2026)*100)/100);
+  const ctx=document.getElementById('futureChart').getContext('2d');
+  new Chart(ctx,{type:'line',data:{labels:fy.map(String),datasets:[
+    {label:'低通胀 1.5%/年',data:low,borderColor:'rgba(58,125,74,0.9)',backgroundColor:'rgba(58,125,74,0.1)',fill:true,borderWidth:2,pointRadius:0,tension:0.3,borderDash:[5,5]},
+    {label:'中等 2.5%/年',data:mid,borderColor:'rgba(139,94,60,0.9)',backgroundColor:'rgba(139,94,60,0.1)',fill:true,borderWidth:2,pointRadius:0,tension:0.3,borderDash:[5,5]},
+    {label:'高通胀 4%/年',data:high,borderColor:'rgba(179,58,46,0.9)',backgroundColor:'rgba(179,58,46,0.1)',fill:true,borderWidth:2,pointRadius:0,tension:0.3,borderDash:[5,5]}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'line',padding:15}},tooltip:{callbacks:{title:i=>i[0].label+'年',label:i=>`${i.dataset.label}: $${i.raw} 购买力`}}},scales:{x:{ticks:{maxTicksLimit:12},grid:{display:false}},y:{ticks:{callback:v=>'$'+v},grid:{color:'rgba(139,94,60,0.08)'},min:0,max:105}}}});
+})();
+
+// Smooth scroll
+document.querySelectorAll('.nav a').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});});});
+</script>
+</body>
+</html>
