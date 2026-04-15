@@ -77,6 +77,8 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--page-bg);color:var(-
 /* COACH REC */
 .coach-rec{font-size:.76em;margin-top:6px;padding:6px 10px;border-radius:8px;line-height:1.5;background:var(--yellow-bg);border:1px solid var(--yellow-border);color:#6a5a10;}
 .coach-rec strong{color:#4a3e08;}
+.coach-trim{font-size:.76em;margin-top:6px;padding:6px 10px;border-radius:8px;line-height:1.5;background:var(--red-bg);border:1px solid var(--red-border);color:#8a4040;}
+.coach-trim strong{color:#6a2020;}
 
 /* WEIGHT TRACKER */
 .wt{margin-top:8px;}
@@ -121,6 +123,10 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--page-bg);color:var(-
 .add-more-content{flex:1;}
 .add-more-content strong{font-size:.92em;}
 .add-more-content .sub{font-size:.78em;color:var(--text-muted);margin-top:3px;}
+.rec-tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:.68em;font-weight:700;margin-left:6px;vertical-align:middle;}
+.rec-tag.must{background:#e8f0e8;color:#3a7a3a;border:1px solid #b0d0b0;}
+.rec-tag.good{background:#e8e0f0;color:#6a5a8a;border:1px solid #c0b0d8;}
+.rec-tag.opt{background:var(--soft-bg);color:var(--text-muted);border:1px solid var(--border);}
 
 .add-more.tricep{background:var(--purple-bg);border:1px solid var(--purple-border);}
 .add-more.tricep .add-more-title{color:var(--purple);}
@@ -165,7 +171,7 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--page-bg);color:var(-
   <div class="nav-tab" onclick="switchTab('day2')"><span class="tab-icon">🦵</span>Day2 腿</div>
   <div class="nav-tab" onclick="switchTab('day4')"><span class="tab-icon">🔵</span>Day4 背</div>
   <div class="nav-tab" onclick="switchTab('day5')"><span class="tab-icon">🩷</span>Day5 臀链</div>
-  <div class="nav-tab" onclick="switchTab('day6')"><span class="tab-icon">💪</span>Day6 手臂</div>
+  <div class="nav-tab" onclick="switchTab('day6')"><span class="tab-icon">💪</span>Day6 肩臂</div>
 </div>
 
 <!-- 动态分析 -->
@@ -175,13 +181,13 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--page-bg);color:var(-
     <strong>Day1</strong> 胸 → <strong>Day2</strong> 腿 → <strong>Day3 休息</strong> → <strong>Day4</strong> 背 → <strong>Day5</strong> 臀链 → <strong>Day6</strong> 手臂+腹肌 → <strong>Day7 休息</strong>
     <div style="font-size:.82em;color:var(--text-muted);margin-top:4px;">Day1推+Day2腿连续高强度后必须休。Day4拉跟Day1/2不冲突。手臂Day6放最后，Day1/4已预热三头二头。每肌群间隔48-72h恢复。</div>
   </div></div>
-  <div class="card"><div class="card-title">每周组数分布</div><div class="volume-chart"><div class="volume-bar-wrapper"><div class="volume-bar-value">13</div><div class="volume-bar" style="height:65%;background:linear-gradient(180deg,#e08060,#d4633b);"></div><div class="volume-bar-label">胸</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">13</div><div class="volume-bar" style="height:65%;background:linear-gradient(180deg,#7aade0,#5a7ec4);"></div><div class="volume-bar-label">背</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">15</div><div class="volume-bar" style="height:75%;background:linear-gradient(180deg,#7ec47e,#5a9e5a);"></div><div class="volume-bar-label">腿</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">0</div><div class="volume-bar" style="height:3%;background:linear-gradient(180deg,#d4c460,#a09030);"></div><div class="volume-bar-label">肩</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">8</div><div class="volume-bar" style="height:40%;background:linear-gradient(180deg,#e0a860,#c4873a);"></div><div class="volume-bar-label">二头</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">6</div><div class="volume-bar" style="height:30%;background:linear-gradient(180deg,#b08cd0,#8a6aae);"></div><div class="volume-bar-label">三头</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">9+</div><div class="volume-bar" style="height:45%;background:linear-gradient(180deg,#c090d0,#9060a0);"></div><div class="volume-bar-label">腹肌</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">6</div><div class="volume-bar" style="height:30%;background:linear-gradient(180deg,#e090b0,#c46a8a);"></div><div class="volume-bar-label">臀</div></div></div><div style="font-size:.73em;color:var(--text-dim);text-align:center;">Israetel建议每肌群10-20组/周 · Schoenfeld甜蜜区12-20组</div></div>
+  <div class="card"><div class="card-title">每周组数分布</div><div class="volume-chart"><div class="volume-bar-wrapper"><div class="volume-bar-value">13</div><div class="volume-bar" style="height:65%;background:linear-gradient(180deg,#e08060,#d4633b);"></div><div class="volume-bar-label">胸</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">13</div><div class="volume-bar" style="height:65%;background:linear-gradient(180deg,#7aade0,#5a7ec4);"></div><div class="volume-bar-label">背</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">15</div><div class="volume-bar" style="height:75%;background:linear-gradient(180deg,#7ec47e,#5a9e5a);"></div><div class="volume-bar-label">腿</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">6</div><div class="volume-bar" style="height:30%;background:linear-gradient(180deg,#d4c460,#a09030);"></div><div class="volume-bar-label">肩</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">8</div><div class="volume-bar" style="height:40%;background:linear-gradient(180deg,#e0a860,#c4873a);"></div><div class="volume-bar-label">二头</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">6</div><div class="volume-bar" style="height:30%;background:linear-gradient(180deg,#b08cd0,#8a6aae);"></div><div class="volume-bar-label">三头</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">9+</div><div class="volume-bar" style="height:45%;background:linear-gradient(180deg,#c090d0,#9060a0);"></div><div class="volume-bar-label">腹肌</div></div><div class="volume-bar-wrapper"><div class="volume-bar-value">6</div><div class="volume-bar" style="height:30%;background:linear-gradient(180deg,#e090b0,#c46a8a);"></div><div class="volume-bar-label">臀</div></div></div><div style="font-size:.73em;color:var(--text-dim);text-align:center;">Israetel建议每肌群10-20组/周 · Schoenfeld甜蜜区12-20组</div></div>
 
   <div class="card"><div class="card-title">📈 肌群充足度</div>
     <div class="analysis-bar"><div class="analysis-bar-label"><span>胸 13组/周</span><span style="color:var(--green)">✓ 充足</span></div><div class="analysis-bar-track"><div class="analysis-bar-fill" style="width:90%;background:var(--green);"></div></div></div>
     <div class="analysis-bar"><div class="analysis-bar-label"><span>背 13组/周</span><span style="color:var(--green)">✓ 充足</span></div><div class="analysis-bar-track"><div class="analysis-bar-fill" style="width:87%;background:var(--green);"></div></div></div>
     <div class="analysis-bar"><div class="analysis-bar-label"><span>腿 15组/周</span><span style="color:var(--green)">✓ 充足</span></div><div class="analysis-bar-track"><div class="analysis-bar-fill" style="width:95%;background:var(--green);"></div></div></div>
-    <div class="analysis-bar"><div class="analysis-bar-label"><span>肩 0组/周</span><span style="color:var(--red)">✗ 缺失</span></div><div class="analysis-bar-track"><div class="analysis-bar-fill" style="width:3%;background:var(--red);"></div></div></div>
+    <div class="analysis-bar"><div class="analysis-bar-label"><span>肩 6组/周</span><span style="color:var(--green)">✓ Day1+6补齐</span></div><div class="analysis-bar-track"><div class="analysis-bar-fill" style="width:55%;background:var(--green);"></div></div></div>
     <div class="analysis-bar"><div class="analysis-bar-label"><span>腹肌 9+组/周</span><span style="color:var(--green)">✓ Day4/5/6</span></div><div class="analysis-bar-track"><div class="analysis-bar-fill" style="width:75%;background:var(--green);"></div></div></div>
     <div class="analysis-bar"><div class="analysis-bar-label"><span>二头 8组/周</span><span style="color:var(--green)">✓ Day4+6</span></div><div class="analysis-bar-track"><div class="analysis-bar-fill" style="width:70%;background:var(--green);"></div></div></div>
     <div class="analysis-bar"><div class="analysis-bar-label"><span>三头 6组/周</span><span style="color:var(--blue)">○ 还可加</span></div><div class="analysis-bar-track"><div class="analysis-bar-fill" style="width:55%;background:var(--blue);"></div></div></div>
@@ -193,16 +199,20 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--page-bg);color:var(-
 
 <!-- Day 1 -->
 <div id="day1" class="section">
-  <div class="section-header"><h2><span class="day-num d1-color">DAY 1</span> 上肢 — 胸主导</h2></div>
+  <div class="section-header"><h2><span class="day-num d1-color">DAY 1</span> 上肢 — 胸主导 + 肩补强</h2></div>
   <div class="card" style="margin-bottom:12px;"><div style="font-size:.85em;font-weight:700;color:var(--accent-dark);margin-bottom:8px;">🔋 训练前（每天都做）</div><div class="warmup-steps"><div class="warmup-step"><span class="num">1</span>香蕉+开心果</div><div class="warmup-step"><span class="num">2</span>运动饮料</div><div class="warmup-step"><span class="num">3</span>深呼吸×3</div><div class="warmup-step"><span class="num">4</span>波比跳 3×12</div></div></div>
   <div class="card">
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">1️⃣ 哑铃卧推 <span class="muscle-tag chest">胸</span></div><div class="exercise-sets">4×6-8</div></div><div class="exercise-detail">胸增肌核心≈35%刺激。辅助卧推机器最好。</div><div class="wt" data-id="d1_bench" data-default="40"></div><div class="exercise-tip">后背两肌肉发力练胸部。放下来慢。</div><div class="coach-rec"><strong>🎯 教练建议目标：65lb</strong>（当前偏保守，150lb体重时应能做55-65lb）</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">2️⃣ 上斜胸推机 <span class="muscle-tag chest">上胸</span></div><div class="exercise-sets">3×8-10</div></div><div class="exercise-detail">Iso-Lateral Super Incline Press。位置4(不行5)。锁骨手机持平。</div><div class="wt" data-id="d1_incline" data-default="15"></div><div class="exercise-tip">握靠胸口把手边边。挺腰感受胸。腿放后面固定核心。</div><div class="coach-rec"><strong>🎯 建议加到20-25lb</strong> — 上胸是视觉冲击最大部位，10-15lb太保守了</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">3️⃣ 杠片式胸推机 <span class="muscle-tag chest">胸</span></div><div class="exercise-sets">3×10-12</div></div><div class="exercise-detail">Plate-Loaded Chest Press。把手乳头线水平。座椅6.5。</div><div class="wt" data-id="d1_chestpress" data-default="35"></div><div class="exercise-tip">手肘45-60度夹腋下。推时夹住回时张开。可以滑下去推。</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">4️⃣ 夹胸机 <span class="muscle-tag chest">中缝</span></div><div class="exercise-sets">3×12-15</div></div><div class="exercise-detail">Pec Deck。不是推是"抱"。</div><div class="wt" data-id="d1_pec" data-default="60"></div><div class="exercise-tip">手肘和乳头同水平线。座位5-6。⚠️ 不再加推。</div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">1️⃣ 哑铃卧推 <span class="muscle-tag chest">胸</span></div><div class="exercise-sets">4×6-8</div></div><div class="exercise-detail">胸增肌核心≈35%刺激。重型主力推。</div><div class="wt" data-id="d1_bench" data-default="40"></div><div class="exercise-tip">后背两肌肉发力练胸部。放下来慢。</div><div class="coach-rec"><strong>🎯 目标：65lb</strong></div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">2️⃣ 上斜胸推机 <span class="muscle-tag chest">上胸</span></div><div class="exercise-sets">3×8-10</div></div><div class="exercise-detail">Iso-Lateral Super Incline Press。位置4(不行5)。锁骨手机持平。</div><div class="wt" data-id="d1_incline" data-default="15"></div><div class="exercise-tip">握靠胸口把手边边。挺腰感受胸。腿放后面固定核心。</div><div class="coach-rec"><strong>🎯 建议加到20-25lb</strong> — 上胸视觉冲击最大，当前偏保守</div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">3️⃣ 杠片式胸推机 <span class="muscle-tag chest">胸</span></div><div class="exercise-sets">3×10-12</div></div><div class="exercise-detail">Plate-Loaded Chest Press。把手乳头线水平。座椅6.5。</div><div class="wt" data-id="d1_chestpress" data-default="35"></div><div class="exercise-tip">手肘45-60度夹腋下。推时夹住回时张开。</div><div class="coach-trim"><strong>⚠️ 考虑删减</strong> — 已有哑铃卧推+上斜推，三种推举堆叠感重。保留一个重型主力推+一个上胸推+一个孤立(夹胸)更干净。如果状态好可以保留，状态一般建议跳过直接做夹胸。</div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">4️⃣ 夹胸机 <span class="muscle-tag chest">中缝</span></div><div class="exercise-sets">3×12-15</div></div><div class="exercise-detail">Pec Deck。不是推是"抱"。胸孤立动作。</div><div class="wt" data-id="d1_pec" data-default="60"></div><div class="exercise-tip">手肘和乳头同水平线。座位5-6。</div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">5️⃣ 哑铃侧平举 <span class="muscle-tag shoulder">肩中束</span></div><div class="exercise-sets">3×15</div></div><div class="exercise-detail">肩膀变宽最关键动作。轻重量高次数。正式纳入主计划，不是可选。</div><div class="wt" data-id="d1_lateral" data-default="10"></div><div class="coach-rec"><strong>🎯 肩部目前0组/周，这个必须做</strong></div></div>
   </div>
-  <div class="add-more tricep"><div class="add-more-title">💜 ADD MORE · 三头肌</div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>绳索下压</strong> · 3×12<div class="sub">手肘固定身体两侧。</div><div class="wt" data-id="d1_pushdown" data-default="20"></div></div></div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>头顶臂屈伸</strong> · 3×10<div class="sub">三头长头，手臂变粗最关键。</div><div class="wt" data-id="d1_overhead" data-default="15"></div></div></div></div>
-  <div class="add-more shoulder-add"><div class="add-more-title">🟡 ADD MORE · 肩部（目前缺失！）</div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>哑铃侧平举 Lateral Raise</strong> · 3×15<div class="sub">肩膀变宽最关键的动作。轻重量高次数。</div><div class="wt" data-id="d1_lateral" data-default="10"></div></div></div></div>
+  <div class="add-more tricep"><div class="add-more-title">可选做 · 三头（胸推已带到三头，少量高质量即可）</div>
+    <div class="add-more-item"><div class="add-more-icon">1</div><div class="add-more-content"><strong>绳索下压</strong> · 2-3×12 <span class="rec-tag must">⭐ 非常推荐</span><div class="sub">手肘固定身体两侧。Day6三头量不够时这里补。</div><div class="wt" data-id="d1_pushdown" data-default="20"></div></div></div>
+    <div class="add-more-item"><div class="add-more-icon">2</div><div class="add-more-content"><strong>头顶臂屈伸</strong> · 2×10 <span class="rec-tag good">✅ 推荐</span><div class="sub">三头长头。Day6还有专项，这里不需要太多。</div><div class="wt" data-id="d1_overhead" data-default="15"></div></div></div>
+    <div class="add-more-item"><div class="add-more-icon">3</div><div class="add-more-content"><strong>侧平举泵感组</strong> · 1-2×20 <span class="rec-tag opt">可选</span><div class="sub">状态好再加。超轻重量高次数收尾，让肩膀充血。</div></div></div>
+  </div>
 </div>
 
 <!-- Day 2 -->
@@ -210,12 +220,16 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--page-bg);color:var(-
   <div class="section-header"><h2><span class="day-num d2-color">DAY 2</span> 下肢 — 股四头</h2></div>
   <div class="warmup-reminder">🔋 训练前别忘：香蕉+开心果 → 运动饮料 → 深呼吸×3 → 波比跳 3×12</div>
   <div class="card">
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">1️⃣ 坐姿腿举机 <span class="muscle-tag legs">股四头</span></div><div class="exercise-sets">4×10</div></div><div class="exercise-detail">Seated Leg Press。脚低+窄=股四头主导。</div><div class="wt" data-id="d2_legpress" data-default="180"></div><div class="exercise-tip">全掌贴死。膝盖别内夹(偷25%)。脚"压"板(泄力15%)。不锁死。</div><div class="coach-rec"><strong>🎯 教练建议目标：275lb</strong>（腿举是你进步最快的动作，180→225太保守）</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">2️⃣ 腿屈伸机 <span class="muscle-tag legs">股四头</span></div><div class="exercise-sets">4×8</div></div><div class="exercise-detail">Leg Extension，大腿上侧用力。</div><div class="wt" data-id="d2_legext" data-default="85"></div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">3️⃣ 坐姿腿弯举 <span class="muscle-tag legs">腘绳肌</span></div><div class="exercise-sets">3×15-17</div></div><div class="exercise-detail">三步：1调速 2座椅最前 3夹倒数第二低。</div><div class="wt" data-id="d2_legcurl" data-default="55"></div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">1️⃣ 坐姿腿举机 <span class="muscle-tag legs">股四头</span></div><div class="exercise-sets">4×10</div></div><div class="exercise-detail">Seated Leg Press。脚低+窄=股四头主导。</div><div class="wt" data-id="d2_legpress" data-default="180"></div><div class="exercise-tip">全掌贴死。膝盖别内夹(偷25%)。脚"压"板(泄力15%)。不锁死。</div><div class="coach-rec"><strong>🎯 目标：275lb</strong></div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">2️⃣ 腿屈伸机 <span class="muscle-tag legs">股四头</span></div><div class="exercise-sets">4×8</div></div><div class="exercise-detail">Leg Extension，大腿上侧用力。明确作用：孤立股四头，弥补腿举复合动作的不足。</div><div class="wt" data-id="d2_legext" data-default="85"></div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">3️⃣ 坐姿腿弯举 <span class="muscle-tag legs">腘绳肌</span></div><div class="exercise-sets">3×15-17</div></div><div class="exercise-detail">三步：1调速 2座椅最前 3夹倒数第二低。明确作用：Day2用坐姿版（缩短位），Day5用俯卧版（伸展位），角度区分。</div><div class="wt" data-id="d2_legcurl" data-default="55"></div></div>
     <div class="exercise"><div class="exercise-header"><div class="exercise-name">4️⃣ 坐姿提踵 <span class="muscle-tag legs">小腿</span></div><div class="exercise-sets">4×12-15</div></div><div class="exercise-detail">Seated Calf Raise，骑马姿势。</div><div class="wt" data-id="d2_calf" data-default="35"></div></div>
   </div>
-  <div class="add-more glute-add"><div class="add-more-title">💗 ADD MORE · 臀+腘绳补充</div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>腿举机(宽站高脚)</strong> · 2×12<div class="sub">脚高+宽=臀+腘绳。补Day2的后链不足。</div><div class="wt" data-id="d2_widepress" data-default="120"></div></div></div></div>
+  <div class="add-more glute-add"><div class="add-more-title">可选做 · 补充</div>
+    <div class="add-more-item"><div class="add-more-icon">1</div><div class="add-more-content"><strong>腿举机(宽站高脚)</strong> · 2×12 <span class="rec-tag must">⭐ 非常推荐</span><div class="sub">脚高+宽=臀+腘绳。补Day2的后链不足。</div><div class="wt" data-id="d2_widepress" data-default="120"></div></div></div>
+    <div class="add-more-item"><div class="add-more-icon">2</div><div class="add-more-content"><strong>臀外展机 / Hip Abduction</strong> · 2-3×15 <span class="rec-tag good">✅ 推荐</span><div class="sub">臀中肌+稳定性。对下肢平衡很重要。</div><div class="wt" data-id="d2_abduction" data-default="40"></div></div></div>
+    <div class="add-more-item"><div class="add-more-icon">3</div><div class="add-more-content"><strong>保加利亚分腿蹲 / 单腿腿举</strong> · 2×10每侧 <span class="rec-tag opt">可选</span><div class="sub">单腿动作补稳定性。可用体重或轻哑铃。</div></div></div>
+  </div>
 </div>
 
 <!-- Day 4 -->
@@ -224,203 +238,187 @@ body{font-family:'Noto Sans SC',sans-serif;background:var(--page-bg);color:var(-
   <div class="warmup-reminder">🔋 训练前别忘：香蕉+开心果 → 运动饮料 → 深呼吸×3 → 波比跳 3×12</div>
   <div class="card">
     <div class="exercise"><div class="exercise-header"><div class="exercise-name">🔥 背部伸展椅 <span class="muscle-tag back">热身</span></div><div class="exercise-sets">热身</div></div><div class="wt" data-id="d4_hyper" data-default="20"></div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">1️⃣ 高位下拉 <span class="muscle-tag back">背阔宽度</span></div><div class="exercise-sets">4×8-10</div></div><div class="exercise-detail">Lat Pulldown。≈40%背阔刺激。</div><div class="wt" data-id="d4_lat" data-default="70"></div><div class="exercise-tip">肩膀后+下压。握拳位置往外。</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">2️⃣ MTS Row <span class="muscle-tag back">背厚度</span></div><div class="exercise-sets">3×8-10</div></div><div class="exercise-detail">座椅5.5。拿平面最外端。</div><div class="wt" data-id="d4_row" data-default="40"></div><div class="exercise-tip">肩膀往下按。手肘尽力往后不往胸口靠。</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">3️⃣ 辅助引体向上 <span class="muscle-tag back">背阔</span></div><div class="exercise-sets">3×6-8</div></div><div class="wt" data-id="d4_pullup" data-default="55"></div><div class="coach-rec"><strong>🎯 每两周减5lb辅助</strong> — 55lb辅助=你只拉75lb。目标：自重引体(130lb)。</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">4️⃣ 直臂下压 <span class="muscle-tag back">背阔孤立</span></div><div class="exercise-sets">3×12-15</div></div><div class="wt" data-id="d4_straight" data-default="25"></div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">5️⃣ 二头弯举机 <span class="muscle-tag arms">二头</span></div><div class="exercise-sets">2×12</div></div><div class="exercise-detail">辅助。座位4。</div><div class="wt" data-id="d4_bicep" data-default="50"></div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">6️⃣ 机器卷腹 <span class="muscle-tag core">腹肌</span></div><div class="exercise-sets">3×10-12</div></div><div class="exercise-detail">MTS Abdominal Crunch。座椅7可到6。</div><div class="wt" data-id="d4_crunch" data-default="20"></div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">1️⃣ 高位下拉 <span class="muscle-tag back">背阔宽度</span></div><div class="exercise-sets">4×8-10</div></div><div class="exercise-detail">Lat Pulldown。≈40%背阔刺激。背阔宽度主线。</div><div class="wt" data-id="d4_lat" data-default="70"></div><div class="exercise-tip">肩膀后+下压。握拳位置往外。</div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">2️⃣ MTS Row <span class="muscle-tag back">背厚度</span></div><div class="exercise-sets">3×8-10</div></div><div class="exercise-detail">座椅5.5。拿平面最外端。背部厚度主线。</div><div class="wt" data-id="d4_row" data-default="40"></div><div class="exercise-tip">肩膀往下按。手肘尽力往后不往胸口靠。</div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">3️⃣ 辅助引体向上 <span class="muscle-tag back">背阔</span></div><div class="exercise-sets">3×6-8</div></div><div class="wt" data-id="d4_pullup" data-default="55"></div><div class="coach-rec"><strong>🎯 每两周减5lb辅助 → 目标自重引体</strong>。这是进步动作，认真对待每组。</div></div>
+
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">4️⃣ 二头弯举机 <span class="muscle-tag arms">二头</span></div><div class="exercise-sets">2×12</div></div><div class="exercise-detail">辅助。座位4。Day6还有整天手臂，这里只做最必要剂量。</div><div class="wt" data-id="d4_bicep" data-default="50"></div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">5️⃣ 机器卷腹 <span class="muscle-tag core">腹肌</span></div><div class="exercise-sets">2×10-12</div></div><div class="exercise-detail">MTS Abdominal Crunch。座椅7可到6。精简到最低必要量(2组够了)。</div><div class="wt" data-id="d4_crunch" data-default="20"></div></div>
   </div>
-  <div class="add-more bicep"><div class="add-more-title">🧡 ADD MORE · 二头</div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>锤式弯举</strong> · 3×10<div class="sub">二头外侧+前臂。</div><div class="wt" data-id="d4_hammer" data-default="15"></div></div></div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>集中弯举</strong> · 2×12<div class="sub">孤立二头峰。</div><div class="wt" data-id="d4_conc" data-default="10"></div></div></div></div>
-  <div class="add-more back-add"><div class="add-more-title">💙 ADD MORE · 背更猛</div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>单臂哑铃划船</strong> · 3×8-10<div class="sub">3/14你说可以练更猛。加厚度最直接。</div><div class="wt" data-id="d4_dbrow" data-default="20"></div></div></div></div>
+  <div class="add-more back-add"><div class="add-more-title">可选做</div>
+    <div class="add-more-item"><div class="add-more-icon">1</div><div class="add-more-content"><strong>单臂哑铃划船</strong> · 2-3×8-10 <span class="rec-tag must">⭐ 非常推荐</span><div class="sub">对左右侧差异和背厚很有价值。建议升级为正式轮换动作。</div><div class="wt" data-id="d4_dbrow" data-default="20"></div></div></div>
+    <div class="add-more-item"><div class="add-more-icon">2</div><div class="add-more-content"><strong>锤式弯举</strong> · 2×10 <span class="rec-tag opt">可选</span><div class="sub">二头外侧+前臂。背日二头只做最必要。</div><div class="wt" data-id="d4_hammer" data-default="15"></div></div></div>
+    <div class="add-more-item"><div class="add-more-icon">3</div><div class="add-more-content"><strong>辅助引体额外1组</strong> <span class="rec-tag good">✅ 状态好时推荐</span><div class="sub">引体是核心进步动作，状态好多做一组比加杂项有价值。</div></div></div>
+  </div>
 </div>
 
 <!-- Day 5 -->
 <div id="day5" class="section">
-  <div class="section-header"><h2><span class="day-num d5-color">DAY 5</span> 下肢 — 臀+后链</h2></div>
+  <div class="section-header"><h2><span class="day-num d5-color">DAY 5</span> 下肢 — 臀+后链（增长日）</h2></div>
   <div class="warmup-reminder">🔋 训练前别忘：香蕉+开心果 → 运动饮料 → 深呼吸×3 → 波比跳 3×12</div>
   <div class="card">
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">1️⃣ 臀桥机 <span class="muscle-tag glute">臀</span></div><div class="exercise-sets">4×8-10</div></div><div class="exercise-detail">Glute Bridge Machine。踩中间V靠内。安全带拉下。</div><div class="wt" data-id="d5_glute" data-default="75"></div><div class="exercise-tip">尾骨"卷起来"。安全带松一拳。收下巴(夹鸡蛋)。</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">2️⃣ RDL 罗马尼亚硬拉 <span class="muscle-tag legs">腘绳</span><span class="muscle-tag glute">臀</span></div><div class="exercise-sets">4×8-10</div></div><div class="exercise-detail">后链肌肥大。膝微屈，脊柱中立。休息2-3分。</div><div class="wt" data-id="d5_rdl" data-default="10"></div><div class="exercise-tip">髋向后推→"顶髋"起身。上去看前面下去看下面。脚肩宽脚尖微外15°。</div><div class="coach-rec"><strong>🎯 建议加到2×20-25lb起步，目标2×35-45lb</strong> — 这是增重最关键的复合动作，10lb几乎无效刺激。130lb体重用10lb哑铃后链不会有足够张力。</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">3️⃣ 坐姿腿弯举 <span class="muscle-tag legs">腘绳肌</span></div><div class="exercise-sets">3×10-12</div></div><div class="wt" data-id="d5_legcurl" data-default="40"></div><div class="coach-rec"><strong>🎯 建议换俯卧腿弯举(Lying Leg Curl)</strong> — Day2已做坐姿版，同一动作同角度一周两次不够全面。俯卧版在伸展位刺激更大。</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">4️⃣ 腿举机(宽站高脚) <span class="muscle-tag glute">臀</span><span class="muscle-tag legs">腘绳</span></div><div class="exercise-sets">2×12</div></div><div class="exercise-detail">脚高+宽=臀+腘绳。越宽越辛苦。</div><div class="wt" data-id="d5_legpress" data-default="130"></div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">1️⃣ 臀桥机 <span class="muscle-tag glute">臀</span></div><div class="exercise-sets">4×8-10（重）</div></div><div class="exercise-detail">Glute Bridge Machine。踩中间V靠内。安全带拉下。臀桥定位：重型主力。</div><div class="wt" data-id="d5_glute" data-default="75"></div><div class="exercise-tip">尾骨"卷起来"。安全带松一拳。收下巴(夹鸡蛋)。</div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">2️⃣ RDL 罗马尼亚硬拉 <span class="muscle-tag legs">腘绳</span><span class="muscle-tag glute">臀</span></div><div class="exercise-sets">4×8-10（核心进步动作）</div></div><div class="exercise-detail">后链肌肥大。膝微屈，脊柱中立。休息2-3分。RDL定位：中重量递增，这是全周最重要的复合动作之一。</div><div class="wt" data-id="d5_rdl" data-default="10"></div><div class="exercise-tip">髋向后推→"顶髋"起身。上去看前面下去看下面。脚肩宽脚尖微外15°。</div><div class="coach-rec"><strong>🎯 起步2×20-25lb，目标2×35-45lb</strong> — 加重条件：当前重量能做4×10完整ROM时+5lb。10lb无效刺激。</div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">3️⃣ 俯卧腿弯举 <span class="muscle-tag legs">腘绳肌</span></div><div class="exercise-sets">3×10-12</div></div><div class="exercise-detail">Lying Leg Curl（不是坐姿版）。Day2用坐姿(缩短位)，Day5用俯卧(伸展位)，角度区分更全面。</div><div class="wt" data-id="d5_legcurl" data-default="40"></div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">4️⃣ 腿举机(宽站高脚) <span class="muscle-tag glute">臀</span><span class="muscle-tag legs">腘绳</span></div><div class="exercise-sets">2×12</div></div><div class="exercise-detail">脚高+宽=臀+腘绳。补血流收尾，不是主练。</div><div class="wt" data-id="d5_legpress" data-default="130"></div></div>
   </div>
-  <div class="add-more core-add"><div class="add-more-title">💜 ADD MORE · 腹肌</div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>悬垂举腿</strong> · 3×10-12<div class="sub">下腹专项。</div></div></div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>Russian Twist</strong> · 3×20(每侧10)<div class="sub">练侧腹。</div><div class="wt" data-id="d5_twist" data-default="5"></div></div></div></div>
+  <div class="add-more core-add"><div class="add-more-title">可选做</div>
+    <div class="add-more-item"><div class="add-more-icon">1</div><div class="add-more-content"><strong>悬垂举腿</strong> · 2-3×10-12 <span class="rec-tag must">⭐ 非常推荐</span><div class="sub">下腹专项。你说腹肌弱，这个每次都做。</div></div></div>
+    <div class="add-more-item"><div class="add-more-icon">2</div><div class="add-more-content"><strong>Russian Twist</strong> · 2×20(每侧10) <span class="rec-tag good">✅ 推荐</span><div class="sub">练侧腹，补左右不对称。</div><div class="wt" data-id="d5_twist" data-default="5"></div></div></div>
+    <div class="add-more-item"><div class="add-more-icon">3</div><div class="add-more-content"><strong>臀外展 / 臀中肌</strong> · 2-3×15 <span class="rec-tag opt">可选</span><div class="sub">补臀中肌稳定性。</div></div></div>
+  </div>
 </div>
 
 <!-- Day 6 -->
 <div id="day6" class="section">
-  <div class="section-header"><h2><span class="day-num d6-color">DAY 6</span> 手臂+腹肌 专项</h2></div>
+  <div class="section-header"><h2><span class="day-num d6-color">DAY 6</span> 肩补强 + 手臂 + 腹肌</h2></div>
   <div class="warmup-reminder">🔋 训练前别忘：香蕉+开心果 → 运动饮料 → 深呼吸×3 → 波比跳 3×12</div>
-  <div class="day6-intro">Day3休息后精力最满。专补二头、三头、腹肌。</div>
-  <div class="card"><div class="card-title" style="color:var(--orange);">🧡 二头肌</div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">1️⃣ 哑铃弯举 <span class="muscle-tag arms">二头</span></div><div class="exercise-sets">3×10</div></div><div class="wt" data-id="d6_curl" data-default="15"></div><div class="exercise-tip">手肘固定不晃，顶峰挤压1秒，放下3秒。</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">2️⃣ 锤式弯举 <span class="muscle-tag arms">二头外侧</span></div><div class="exercise-sets">3×10</div></div><div class="wt" data-id="d6_hammer" data-default="15"></div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">3️⃣ 集中弯举 <span class="muscle-tag arms">二头峰</span></div><div class="exercise-sets">2×12</div></div><div class="wt" data-id="d6_conc" data-default="10"></div></div>
+  <div class="day6-intro">Day3休息后精力最满。定位：肩部补强 + 手臂专练 + 精简腹肌。</div>
+
+  <div class="card"><div class="card-title" style="color:#8a7a20;">🟡 肩部（正式纳入主计划）</div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">1️⃣ Face Pull 面拉 <span class="muscle-tag shoulder">后束</span></div><div class="exercise-sets">3×15</div></div><div class="exercise-detail">后束+肩健康。几乎所有教练都推荐。从ADD MORE升级为正式动作。</div><div class="wt" data-id="d6_facepull" data-default="15"></div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">2️⃣ 哑铃侧平举 <span class="muscle-tag shoulder">中束</span></div><div class="exercise-sets">3×15</div></div><div class="exercise-detail">Day1已有3组，这里补第二次频率。肩膀变宽靠的就是中束。</div><div class="wt" data-id="d6_lateral" data-default="10"></div></div>
   </div>
-  <div class="card"><div class="card-title" style="color:var(--purple);">💜 三头肌</div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">4️⃣ 绳索下压 <span class="muscle-tag arms">三头</span></div><div class="exercise-sets">3×12</div></div><div class="wt" data-id="d6_pushdown" data-default="25"></div><div class="exercise-tip">手肘紧贴不动，只有前臂动。</div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">5️⃣ 头顶臂屈伸 <span class="muscle-tag arms">三头长头</span></div><div class="exercise-sets">3×10</div></div><div class="exercise-detail">长头占60%体积。</div><div class="wt" data-id="d6_overhead" data-default="15"></div></div>
+
+  <div class="card"><div class="card-title" style="color:var(--orange);">🧡 二头肌（2个动作够了）</div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">3️⃣ 哑铃弯举 <span class="muscle-tag arms">二头</span></div><div class="exercise-sets">3×10</div></div><div class="wt" data-id="d6_curl" data-default="15"></div><div class="exercise-tip">手肘固定不晃，顶峰挤压1秒，放下3秒。</div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">4️⃣ 锤式弯举 <span class="muscle-tag arms">二头外侧</span></div><div class="exercise-sets">3×10</div></div><div class="wt" data-id="d6_hammer" data-default="15"></div></div>
   </div>
-  <div class="card"><div class="card-title" style="color:var(--purple);">🟣 腹肌</div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">6️⃣ 机器卷腹 <span class="muscle-tag core">上腹</span></div><div class="exercise-sets">3×12-15</div></div><div class="wt" data-id="d6_crunch" data-default="20"></div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">7️⃣ 悬垂举腿 <span class="muscle-tag core">下腹</span></div><div class="exercise-sets">3×10-12</div></div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">8️⃣ Russian Twist <span class="muscle-tag core">侧腹</span></div><div class="exercise-sets">3×20(每侧10)</div></div><div class="wt" data-id="d6_twist" data-default="5"></div></div>
-    <div class="exercise"><div class="exercise-header"><div class="exercise-name">9️⃣ Cable侧弯 <span class="muscle-tag core">侧腹</span></div><div class="exercise-sets">每侧3×12</div></div><div class="wt" data-id="d6_sidebend" data-default="15"></div></div>
+
+  <div class="card"><div class="card-title" style="color:var(--purple);">💜 三头肌（2个动作够了）</div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">5️⃣ 绳索下压 <span class="muscle-tag arms">三头</span></div><div class="exercise-sets">3×12</div></div><div class="wt" data-id="d6_pushdown" data-default="25"></div><div class="exercise-tip">手肘紧贴不动，只有前臂动。</div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">6️⃣ 头顶臂屈伸 <span class="muscle-tag arms">三头长头</span></div><div class="exercise-sets">3×10</div></div><div class="exercise-detail">长头占60%体积。</div><div class="wt" data-id="d6_overhead" data-default="15"></div></div>
   </div>
-  <div class="add-more shoulder-add"><div class="add-more-title">🟡 ADD MORE · 肩部（目前缺失！）</div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>面拉 Face Pull</strong> · 3×15<div class="sub">后束+肩健康。几乎所有教练都推荐。</div><div class="wt" data-id="d6_facepull" data-default="15"></div></div></div><div class="add-more-item"><div class="add-more-icon">+</div><div class="add-more-content"><strong>反握弯举 Reverse Curl</strong> · 2×12<div class="sub">前臂是穿短袖最明显的部位。</div><div class="wt" data-id="d6_reverse" data-default="10"></div></div></div></div>
+
+  <div class="card"><div class="card-title" style="color:var(--purple);">🟣 腹肌（精简版，Day4也有）</div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">7️⃣ 机器卷腹 <span class="muscle-tag core">上腹</span></div><div class="exercise-sets">2×12-15</div></div><div class="wt" data-id="d6_crunch" data-default="20"></div></div>
+    <div class="exercise"><div class="exercise-header"><div class="exercise-name">8️⃣ 悬垂举腿 <span class="muscle-tag core">下腹</span></div><div class="exercise-sets">2×10-12</div></div></div>
+  </div>
+
+  <div class="add-more tricep"><div class="add-more-title">可选做</div>
+    <div class="add-more-item"><div class="add-more-icon">1</div><div class="add-more-content"><strong>反握弯举 Reverse Curl</strong> · 2×12 <span class="rec-tag good">✅ 推荐</span><div class="sub">前臂是穿短袖最明显的部位。</div><div class="wt" data-id="d6_reverse" data-default="10"></div></div></div>
+    <div class="add-more-item"><div class="add-more-icon">2</div><div class="add-more-content"><strong>Cable侧弯</strong> · 2×12每侧 <span class="rec-tag opt">可选</span><div class="sub">侧腹补充。</div><div class="wt" data-id="d6_sidebend" data-default="15"></div></div></div>
+    <div class="add-more-item"><div class="add-more-icon">3</div><div class="add-more-content"><strong>再补2组侧平举</strong> <span class="rec-tag good">✅ 本周肩不足时推荐</span><div class="sub">如果Day1那天跳过了侧平举，这里补回来。</div></div></div>
+  </div>
   <button class="reset-btn" onclick="resetAll()">🔄 重置所有重量</button>
 </div>
 
-<script type="module">
+<script>
 function switchTab(tab){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active')});
+  document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active')});
   document.getElementById(tab).classList.add('active');
   event.target.closest('.nav-tab').classList.add('active');
 }
-window.switchTab = switchTab;
-// Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD30R8zHPGVTLTUG7ALc0fZRXc6rr4lZkI",
-  authDomain: "gymm-3e090.firebaseapp.com",
-  projectId: "gymm-3e090",
-  storageBucket: "gymm-3e090.firebasestorage.app",
-  messagingSenderId: "144440799525",
-  appId: "1:144440799525:web:be71435cce024a5cbe2acc",
-  measurementId: "G-MWVM88BZND",
-  databaseURL: "https://gymm-3e090-default-rtdb.firebaseio.com"
-};
+var D = {};
+var LOCAL_KEY = 'gym_w';
+try { D = JSON.parse(localStorage.getItem(LOCAL_KEY) || '{}'); } catch(e) {}
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const DB_REF = 'gym_weights';
-
-// Data layer: Firebase primary, localStorage fallback
-let D = {};
-let firebaseReady = false;
-
-// Load from localStorage first (instant), then override with Firebase
-const LOCAL_KEY = 'gym_w';
-try { D = JSON.parse(localStorage.getItem(LOCAL_KEY) || '{}'); } catch {}
-
-async function loadFromFirebase() {
-  try {
-    const snapshot = await get(ref(db, DB_REF));
-    if (snapshot.exists()) {
-      D = snapshot.val();
-      localStorage.setItem(LOCAL_KEY, JSON.stringify(D));
-    }
-    firebaseReady = true;
-    // Re-render with firebase data
-    document.querySelectorAll('.wt[data-id]').forEach(el => renderOne(el));
-    updateMilestones();
-    showSyncStatus('☁️ 已同步');
-  } catch (e) {
-    console.warn('Firebase load failed, using localStorage', e);
-    showSyncStatus('📱 本地模式');
-  }
-}
-
-function save() {
-  localStorage.setItem(LOCAL_KEY, JSON.stringify(D));
-  // Fire-and-forget write to Firebase
-  set(ref(db, DB_REF), D).then(() => {
-    showSyncStatus('☁️ 已同步');
-  }).catch(e => {
-    console.warn('Firebase save failed', e);
-    showSyncStatus('⚠️ 同步失败，已本地保存');
-  });
-}
-
-function showSyncStatus(msg) {
-  let el = document.getElementById('sync-status');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'sync-status';
-    el.style.cssText = 'position:fixed;bottom:16px;right:16px;padding:6px 14px;border-radius:20px;font-size:.72em;font-weight:600;background:var(--card-bg);border:1px solid var(--border);color:var(--text-muted);box-shadow:var(--shadow);z-index:200;transition:opacity .5s;';
-    document.body.appendChild(el);
-  }
-  el.textContent = msg;
-  el.style.opacity = '1';
-  clearTimeout(el._t);
-  el._t = setTimeout(() => { el.style.opacity = '0'; }, 3000);
-}
-
-function getEntry(id, def) {
-  if (!D[id]) D[id] = { current: def, history: [] };
-  return D[id];
-}
-
-function today() {
-  const d = new Date();
-  return (d.getMonth() + 1) + '/' + d.getDate();
-}
+function saveLocal() { localStorage.setItem(LOCAL_KEY, JSON.stringify(D)); }
+function getEntry(id, def) { if (!D[id]) D[id] = { current: def, history: [] }; return D[id]; }
+function today() { var d = new Date(); return (d.getMonth()+1) + '/' + d.getDate(); }
 
 function changeW(id, delta) {
-  const el = document.querySelector(`.wt[data-id="${id}"]`);
-  if (!el) return;
-  const def = parseInt(el.dataset.default);
-  const entry = getEntry(id, def);
-  const old = entry.current;
+  var el = document.querySelector('.wt[data-id="'+id+'"]'); if (!el) return;
+  var def = parseInt(el.dataset.default);
+  var entry = getEntry(id, def);
+  var old = entry.current;
   entry.current = Math.max(0, old + delta);
   entry.history.push({ from: old, to: entry.current, date: today() });
   if (entry.history.length > 5) entry.history = entry.history.slice(-5);
-  save();
-  renderOne(el);
-  updateMilestones();
+  saveLocal();
+  if (window._fbSave) window._fbSave();
+  renderOne(el); updateMilestones();
 }
-// Make changeW globally accessible
-window.changeW = changeW;
 
 function renderOne(el) {
-  const id = el.dataset.id, def = parseInt(el.dataset.default), entry = getEntry(id, def), cur = entry.current, hist = entry.history || [];
-  let histHtml = '';
+  var id = el.dataset.id, def = parseInt(el.dataset.default), entry = getEntry(id, def), cur = entry.current, hist = entry.history || [];
+  var hh = '';
   if (hist.length > 0) {
-    histHtml = '<div class="wt-history">' + hist.slice().reverse().map(h => {
-      const up = h.to >= h.from;
-      return `<span class="wt-log ${up ? '' : 'down'}"><span class="wt-date">${h.date}</span> <span class="wt-arrow">${up ? '↑' : '↓'}</span> ${h.from}→${h.to}</span>`;
-    }).join('') + '</div>';
+    hh = '<div class="wt-history">';
+    var rev = hist.slice().reverse();
+    for (var i = 0; i < rev.length; i++) {
+      var h = rev[i], up = h.to >= h.from;
+      hh += '<span class="wt-log ' + (up ? '' : 'down') + '"><span class="wt-date">' + h.date + '</span> <span class="wt-arrow">' + (up ? "\u2191" : "\u2193") + '</span> ' + h.from + "\u2192" + h.to + '</span>';
+    }
+    hh += '</div>';
   }
-  el.innerHTML = `<div class="wt-controls"><button class="wt-btn minus" onclick="changeW('${id}',-5)">-5</button><div class="wt-display"><span>${cur}</span> lb</div><button class="wt-btn" onclick="changeW('${id}',5)">+5</button><button class="wt-btn" onclick="changeW('${id}',10)">+10</button></div>${histHtml}`;
+  var btns = '<div class="wt-controls">'
+    + '<button class="wt-btn minus" onclick="changeW(\'' + id + '\',-5)">-5</button>'
+    + '<div class="wt-display"><span>' + cur + '</span> lb</div>'
+    + '<button class="wt-btn" onclick="changeW(\'' + id + '\',5)">+5</button>'
+    + '<button class="wt-btn" onclick="changeW(\'' + id + '\',10)">+10</button>'
+    + '</div>';
+  el.innerHTML = btns + hh;
 }
 
 function updateMilestones() {
-  const ms = [
-    { name: '哑铃卧推', id: 'd1_bench', def: 40, start: 30, target: 65, color: 'var(--fire)' },
-    { name: '坐姿腿举', id: 'd2_legpress', def: 180, start: 80, target: 275, color: 'var(--green)' },
-    { name: '高位下拉', id: 'd4_lat', def: 70, start: 50, target: 100, color: 'var(--blue)' },
-    { name: 'MTS Row', id: 'd4_row', def: 40, start: 20, target: 60, color: 'var(--blue)' },
-    { name: '夹胸机', id: 'd1_pec', def: 60, start: 40, target: 80, color: 'var(--fire)' },
-    { name: '臀桥机', id: 'd5_glute', def: 75, start: 40, target: 110, color: 'var(--pink)' },
-    { name: 'RDL', id: 'd5_rdl', def: 10, start: 10, target: 45, color: 'var(--green)' },
+  var ms = [
+    { name:"\u54d1\u94c3\u5367\u63a8",id:'d1_bench',def:40,start:30,target:65,color:'var(--fire)' },
+    { name:"\u5750\u59ff\u817f\u4e3e",id:'d2_legpress',def:180,start:80,target:275,color:'var(--green)' },
+    { name:"\u9ad8\u4f4d\u4e0b\u62c9",id:'d4_lat',def:70,start:50,target:100,color:'var(--blue)' },
+    { name:'MTS Row',id:'d4_row',def:40,start:20,target:60,color:'var(--blue)' },
+    { name:"\u5939\u80f8\u673a",id:'d1_pec',def:60,start:40,target:80,color:'var(--fire)' },
+    { name:"\u81c0\u6865\u673a",id:'d5_glute',def:75,start:40,target:110,color:'var(--pink)' },
+    { name:'RDL',id:'d5_rdl',def:10,start:10,target:45,color:'var(--green)' }
   ];
-  const el = document.getElementById('milestones');
-  if (!el) return;
-  el.innerHTML = ms.map(m => {
-    const cur = getEntry(m.id, m.def).current;
-    const pct = Math.min(100, Math.max(0, Math.round(((cur - m.start) / (m.target - m.start)) * 100)));
-    return `<div class="analysis-bar"><div class="analysis-bar-label"><span><strong>${m.name}</strong> ${cur}lb</span><span style="color:var(--text-muted)">→${m.target}lb (${pct}%)</span></div><div class="analysis-bar-track"><div class="analysis-bar-fill" style="width:${pct}%;background:linear-gradient(90deg,var(--accent),${m.color});"></div></div></div>`;
-  }).join('');
+  var el = document.getElementById('milestones'); if (!el) return;
+  var html = '';
+  for (var i = 0; i < ms.length; i++) {
+    var m = ms[i];
+    var cur = getEntry(m.id, m.def).current;
+    var pct = Math.min(100, Math.max(0, Math.round(((cur - m.start) / (m.target - m.start)) * 100)));
+    html += '<div class="analysis-bar"><div class="analysis-bar-label"><span><strong>' + m.name + '</strong> ' + cur + 'lb</span><span style="color:var(--text-muted)">\u2192' + m.target + 'lb (' + pct + '%)</span></div><div class="analysis-bar-track"><div class="analysis-bar-fill" style="width:' + pct + '%;background:linear-gradient(90deg,var(--accent),' + m.color + ');"></div></div></div>';
+  }
+  el.innerHTML = html;
 }
 
-// Reset handler
-window.resetAll = function() {
-  if (confirm('确定清除所有重量记录？（本地+云端）')) {
-    D = {};
-    localStorage.removeItem(LOCAL_KEY);
-    set(ref(db, DB_REF), null).catch(() => {});
-    location.reload();
-  }
-};
+function showSync(msg) {
+  var el = document.getElementById('sync-status');
+  if (!el) { el = document.createElement('div'); el.id = 'sync-status'; el.style.cssText = 'position:fixed;bottom:16px;right:16px;padding:6px 14px;border-radius:20px;font-size:.72em;font-weight:600;background:var(--card-bg);border:1px solid var(--border);color:var(--text-muted);box-shadow:var(--shadow);z-index:200;transition:opacity .5s;'; document.body.appendChild(el); }
+  el.textContent = msg; el.style.opacity = '1';
+  clearTimeout(el._t); el._t = setTimeout(function(){ el.style.opacity = '0'; }, 3000);
+}
 
-// Init: render with localStorage first, then load Firebase
-document.querySelectorAll('.wt[data-id]').forEach(el => renderOne(el));
+function resetAll() {
+  if (!confirm('\u786e\u5b9a\u6e05\u9664\u6240\u6709\u91cd\u91cf\u8bb0\u5f55\uff1f')) return;
+  D = {}; localStorage.removeItem(LOCAL_KEY);
+  if (window._fbReset) window._fbReset();
+  location.reload();
+}
+
+// Render with localStorage first
+document.querySelectorAll('.wt[data-id]').forEach(function(el){ renderOne(el); });
 updateMilestones();
-loadFromFirebase();
+
+// Firebase async
+(async function(){
+  try {
+    var fb = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js');
+    var dbm = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js');
+    var app = fb.initializeApp({
+      apiKey:'AIzaSyD30R8zHPGVTLTUG7ALc0fZRXc6rr4lZkI',
+      authDomain:'gymm-3e090.firebaseapp.com',
+      projectId:'gymm-3e090',
+      storageBucket:'gymm-3e090.firebasestorage.app',
+      messagingSenderId:'144440799525',
+      appId:'1:144440799525:web:be71435cce024a5cbe2acc',
+      databaseURL:'https://gymm-3e090-default-rtdb.firebaseio.com'
+    });
+    var database = dbm.getDatabase(app);
+    var dbRef = dbm.ref(database, 'gym_weights');
+    var snap = await dbm.get(dbRef);
+    if (snap.exists()) {
+      D = snap.val(); saveLocal();
+      document.querySelectorAll('.wt[data-id]').forEach(function(el){ renderOne(el); });
+      updateMilestones();
+    }
+    showSync('\u2601\ufe0f \u5df2\u540c\u6b65');
+    window._fbSave = function(){ dbm.set(dbRef, D).then(function(){ showSync('\u2601\ufe0f \u5df2\u540c\u6b65'); }).catch(function(){ showSync('\u26a0\ufe0f \u540c\u6b65\u5931\u8d25'); }); };
+    window._fbReset = function(){ dbm.set(dbRef, null).catch(function(){}); };
+  } catch(e) { console.warn('Firebase failed', e); showSync('\ud83d\udcf1 \u672c\u5730\u6a21\u5f0f'); }
+})();
 </script>
 </body>
 </html>
