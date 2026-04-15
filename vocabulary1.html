@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSM-5 Mnemonics 朗读记忆</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@400;600&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --page-bg: #f7f1e8;
+    --soft-bg: #f2e7d9;
+    --card-bg: #fdf9f4;
+    --text: #3a3228;
+    --text-light: #7a6e5f;
+    --accent: #c0785a;
+    --accent-hover: #a8623f;
+    --border: #e5d9c9;
+    --highlight: #fff8ed;
+    --playing: #eae0d0;
+    --mono: 'DM Mono', monospace;
+
+    --mood-ac:#c94f28; --mood-bg:#fff3ee; --mood-bd:#f0b89e;
+    --anx-ac:#3068d4;  --anx-bg:#eef4ff;  --anx-bd:#a0bcee;
+    --trm-ac:#6b5bd4;  --trm-bg:#f0eeff;  --trm-bd:#b4aaec;
+    --psy-ac:#bf3a7a;  --psy-bg:#fff0f5;  --psy-bd:#f0a8c8;
+    --nro-ac:#1a9470;  --nro-bg:#eefaf4;  --nro-bd:#7ed4b4;
+    --beh-ac:#d43a3a;  --beh-bg:#fff0f0;  --beh-bd:#f0a0a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--page-bg);
+    color: var(--text);
+    line-height: 1.8;
+    min-height: 100vh;
+  }
+
+  .header {
+    text-align: center;
+    padding: 44px 20px 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--soft-bg);
+  }
+
+  .header h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .header p { color: var(--text-light); font-size: 13px; }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 20px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    background: var(--soft-bg);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+
+  .btn {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px;
+    padding: 8px 20px;
+    border: 1.5px solid var(--accent);
+    border-radius: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--card-bg);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .btn:hover { background: var(--accent); color: #fff; }
+  .btn.active { background: var(--accent); color: #fff; }
+  .btn.stop { border-color: #b44; color: #b44; }
+  .btn.stop:hover { background: #b44; color: #fff; }
+
+  .mode-btns {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 20px 6px;
+    background: var(--soft-bg);
+    flex-wrap: wrap;
+  }
+
+  .mbtn {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 12px;
+    padding: 5px 14px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--card-bg);
+    color: var(--text-light);
+    transition: all 0.15s;
+  }
+  .mbtn:hover { border-color: var(--accent); color: var(--accent); }
+  .mbtn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .speed-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-light);
+  }
+  .speed-control input[type="range"] { width: 70px; accent-color: var(--accent); }
+
+  .container { max-width: 720px; margin: 0 auto; padding: 12px 20px 80px; }
+
+  .section { margin-bottom: 28px; }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px 0;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title .cat-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .disorder-block {
+    margin-bottom: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+  }
+
+  .disorder-header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .disorder-header:hover { background: var(--highlight); }
+  .disorder-header.playing { background: var(--playing); }
+
+  .dh-bar {
+    width: 3px;
+    align-self: stretch;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .dh-info { flex: 1; }
+
+  .dh-name {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .dh-full {
+    font-size: 12px;
+    color: var(--text-light);
+  }
+
+  .dh-mn {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 2px;
+    flex-shrink: 0;
+  }
+
+  .dh-meta {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  .letter-items { padding: 0 16px 12px; }
+
+  .letter-item {
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 3px;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .letter-item:hover { background: var(--highlight); }
+  .letter-item.playing { background: var(--playing); border-left: 3px solid var(--accent); }
+
+  .li-letter {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    width: 36px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  .li-meaning {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .note-block {
+    margin: 4px 16px 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.6;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .note-block:hover { opacity: 0.85; }
+  .note-block.playing { outline: 2px solid var(--accent); }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 0 16px 8px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s;
+    width: 0%;
+  }
+
+  .status-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--soft-bg);
+    border-top: 1px solid var(--border);
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-light);
+    z-index: 100;
+  }
+
+  .filter-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 20px;
+    flex-wrap: wrap;
+    background: var(--soft-bg);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🧠 DSM-5 Mnemonics 朗读</h1>
+  <p>17 个 Disorder · 点击朗读 · 自动播放全部记忆法</p>
+</div>
+
+<div class="controls">
+  <button class="btn" id="playAllBtn" onclick="playAll()">▶ 全部朗读</button>
+  <button class="btn" id="playLettersBtn" onclick="playAll('letters')">🔤 只读字母+含义</button>
+  <button class="btn stop" id="stopBtn" onclick="stopAll()">⏹ 停止</button>
+  <div class="speed-control">
+    <span>语速</span>
+    <input type="range" id="speedRange" min="0.5" max="1.5" step="0.1" value="0.8">
+    <span id="speedLabel">0.8x</span>
+  </div>
+</div>
+
+<div class="mode-btns">
+  <button class="mbtn active" onclick="setFilter('all',this)">全部</button>
+  <button class="mbtn" onclick="setFilter('psychotic',this)">Psychotic</button>
+  <button class="mbtn" onclick="setFilter('anxiety',this)">Anxiety</button>
+  <button class="mbtn" onclick="setFilter('mood',this)">Mood</button>
+  <button class="mbtn" onclick="setFilter('trauma',this)">Trauma</button>
+  <button class="mbtn" onclick="setFilter('neuro',this)">Neuro</button>
+  <button class="mbtn" onclick="setFilter('behavior',this)">Behavior</button>
+</div>
+
+<div class="container" id="content"></div>
+<div class="status-bar" id="statusBar">就绪 · 点击任意条目或按「全部朗读」开始</div>
+
+<script>
+const CATS = {
+  psychotic: { label: 'Psychotic Disorders', ac: 'var(--psy-ac)', bg: 'var(--psy-bg)', bd: 'var(--psy-bd)' },
+  anxiety:   { label: 'Anxiety Disorders',   ac: 'var(--anx-ac)', bg: 'var(--anx-bg)', bd: 'var(--anx-bd)' },
+  mood:      { label: 'Mood Disorders',      ac: 'var(--mood-ac)',bg: 'var(--mood-bg)',bd: 'var(--mood-bd)' },
+  trauma:    { label: 'Trauma & Stress',     ac: 'var(--trm-ac)', bg: 'var(--trm-bg)', bd: 'var(--trm-bd)' },
+  neuro:     { label: 'Neurodevelopmental',  ac: 'var(--nro-ac)', bg: 'var(--nro-bg)', bd: 'var(--nro-bd)' },
+  behavior:  { label: 'Behavior Disorders',  ac: 'var(--beh-ac)', bg: 'var(--beh-bg)', bd: 'var(--beh-bd)' },
+};
+
+const DISORDERS = [
+  {id:'dd',name:'Delusional D/O',full:'Delusional Disorder',cat:'psychotic',mn:'DOUBF',
+   dur:'1 month',cnt:'1 or more non-bizarre delusion',
+   ls:[{l:'D',m:'Delusion, 1 or more|persecutory, jealous, somatic, grandiose, or erotomanic'},{l:'O',m:'Only delusion|no other psychotic symptoms. Schizophrenia never met'},{l:'U',m:'Unshakable belief|100% convinced, no insight'},{l:'B',m:'Believable, not bizarre|content could happen in real life'},{l:'F',m:'Function okay|approximately 80% still functional'}],
+   note:'MDD and manic can coexist. Somatic type 区分: DD = 100%确信; IAD = 担心得病 has insight; SSD = 症状放大 has insight'},
+
+  {id:'scz',name:'Schizophrenia',full:'Schizophrenia',cat:'psychotic',mn:'S+S',
+   dur:'6 months total, at least 1 month active',cnt:'2 or more symptoms, at least 1 must be delusion, hallucination, or disorganized speech',
+   ls:[{l:'S',m:'Schizo symptoms, 2 or more|delusion, hallucination, disorganized speech, disorganized behavior, negative symptoms'},{l:'S',m:'Social and occupational dysfunction|work and social functioning declined'}],
+   note:'Prodromal → Active → Residual. No schizoaffective or mood disorder with psychotic features'},
+
+  {id:'szaff',name:'Schizoaffective',full:'Schizoaffective Disorder',cat:'psychotic',mn:'STAMP',
+   dur:'2 or more weeks psychosis without mood',cnt:'Schizophrenia symptoms plus major mood episode',
+   ls:[{l:'S',m:'Schizo symptoms, 2 or more|same as schizophrenia'},{l:'T',m:'Two weeks psychosis only|2 or more weeks without mood episode'},{l:'A',m:'Affective disorder|must have MDD or Mania'},{l:'M',m:'Majority mood|mood present majority of total illness, about 50% or more'},{l:'P',m:'Psychosis present|reinforcement, not new criterion'}],
+   note:'MDD with psychosis: 没了MDD就不会有psychosis. Schizoaffective: psychosis可以独立存在'},
+
+  {id:'gad',name:'GAD',full:'Generalized Anxiety Disorder',cat:'anxiety',mn:'TENSED',
+   dur:'6 months',cnt:'3 of 6 symptoms',
+   ls:[{l:'T',m:'Tension|muscle tightness, body reflects anxiety'},{l:'E',m:'Easily fatigued|overwhelmed by worry, exhausted quickly'},{l:'N',m:'Not concentrating|attention consumed by worry'},{l:'S',m:'Sleep disturbance|mind cannot stop, poor sleep'},{l:'E',m:'Easily irritated|low emotional threshold from chronic tension'},{l:'D',m:'Dysregulated restlessness|cannot sit still, always on edge'}],
+   note:'MDD是累; GAD是被担忧overwhelmed淹没'},
+
+  {id:'panic',name:'Panic D/O',full:'Panic Disorder',cat:'anxiety',mn:'PANIC',
+   dur:'1 month recurrent unexpected attacks',cnt:'4 of 13 symptoms per attack',
+   ls:[{l:'P',m:'Palpitations|heart pounding'},{l:'A',m:'Air hunger|shortness of breath'},{l:'N',m:'Near death or losing control|feeling of dying'},{l:'I',m:'Immediate onset|sudden attack'},{l:'C',m:'Chest pain'}],
+   note:'Recurrent unexpected attacks plus worry or behavior change. 忘记IC'},
+
+  {id:'mdd',name:'MDD',full:'Major Depressive Disorder',cat:'mood',mn:'SIGECAPS',
+   dur:'2 weeks',cnt:'5 of 9, must include depressed mood or anhedonia',
+   ls:[{l:'S',m:'Sleep disturbance'},{l:'I',m:'Interest lost|anhedonia'},{l:'G',m:'Guilt|excessive or inappropriate'},{l:'E',m:'Easily exhausted|energy loss'},{l:'C',m:'Concentration difficulty'},{l:'A',m:'Appetite change|increase or decrease'},{l:'P',m:'Psychomotor change|agitation or retardation'},{l:'S',m:'Suicidal ideation'},{l:'+M',m:'Depressed mood|anchor, must have this or Interest lost'}],
+   note:'PDD plus MDD equals Double Depression, more chronic, harder to treat'},
+
+  {id:'cyclo',name:'Cyclothymia',full:'Cyclothymic Disorder',cat:'mood',mn:'CYC',
+   dur:'2 or more years, no gap over 2 months',cnt:'Never reach full MDD or mania',
+   ls:[{l:'C',m:'Cycling mood|highs and lows for 2 plus years'},{l:'Y',m:'Years long|at least 2 years continuous'},{l:'C',m:'Cannot have full MDD or Mania episodes'}],
+   note:'Sub-threshold Bipolar. Often missed clinically'},
+
+  {id:'bp2',name:'Bipolar II',full:'Bipolar II Disorder',cat:'mood',mn:'HYPO+MDD',
+   dur:'Hypomania 4 or more days plus full MDD',cnt:'No psychosis, no marked impairment during hypomania',
+   ls:[{l:'H',m:'Hypomania|elevated mood, still functional'},{l:'Y',m:'Yes|full MDD episodes required'},{l:'P',m:'Productive|no marked impairment'},{l:'O',m:'Out of character but not hospitalized'}],
+   note:'Psychosis or hospitalization during hypo, reclassify as Bipolar I'},
+
+  {id:'bp1',name:'Bipolar I',full:'Bipolar I Disorder',cat:'mood',mn:'MANIA',
+   dur:'7 or more days, or hospitalized',cnt:'3 or more symptoms, 4 or more if irritable mood only',
+   ls:[{l:'M',m:'Megalomaniac|grandiosity'},{l:'A',m:'Activity increased|goal-directed energy'},{l:'N',m:'Not sleeping|decreased need, not insomnia'},{l:'I',m:'Impulsivity|risky behavior'},{l:'A',m:'All talk|racing thoughts, pressured speech'}],
+   note:'Mania核心: 睡少+失控+功能受损, 住院, or psychosis. Marked impairment or hospitalization required'},
+
+  {id:'asd_acute',name:'Acute Stress',full:'Acute Stress Disorder',cat:'trauma',mn:'TRADAM',
+   dur:'3 days to 1 month',cnt:'9 or more symptoms from any cluster',
+   ls:[{l:'T',m:'Trauma|must be severe, such as death, violence, or sexual assault'},{l:'R',m:'Re-experiencing|flashback, nightmare'},{l:'A',m:'Avoidance|avoid people, places, thoughts'},{l:'D',m:'Dissociation|derealization, depersonalization, amnesia'},{l:'A',m:'Arousal|hypervigilance, irritable, exaggerated startle'},{l:'M',m:'Mood negative|guilt, numb, detachment'}],
+   note:'9 or more from any cluster. Persists over 1 month becomes PTSD'},
+
+  {id:'ptsd',name:'PTSD',full:'Post-Traumatic Stress Disorder',cat:'trauma',mn:'TRAUMA',
+   dur:'1 or more months',cnt:'All 4 clusters required',
+   ls:[{l:'T',m:'Trauma exposure|witnessed or experienced death, injury, or sexual violence'},{l:'R',m:'Re-experiencing intrusive|flashback, nightmare, reliving'},{l:'A',m:'Avoidance|deliberately avoiding stimuli'},{l:'U',m:'Unable to remember|trauma-related amnesia, memory blocked'},{l:'M',m:'Mood negative|guilt, numb, detachment, cognitive distortion'},{l:'A',m:'Arousal|hypervigilance, irritable, sleep disturbance, startle'}],
+   note:'ASD under 1 month becomes PTSD at 1 month or more. All 4 clusters required. 忘记2MA'},
+
+  {id:'adj',name:'Adj. D/O',full:'Adjustment Disorder',cat:'trauma',mn:'SAD',
+   dur:'under 6 months after stressor ends',cnt:'All 3 components',
+   ls:[{l:'S',m:'Stress|must have identifiable stressor, such as breakup, job loss, or immigration'},{l:'A',m:'Affect or behavior changed|depressed, anxious, irritable'},{l:'D',m:'Distress and dysfunction|work or social impairment'}],
+   note:'Stressor not death-level, unlike PTSD. Stressor ends, symptoms gone in 6 months. 忘记A跟D'},
+
+  {id:'adhdi',name:'ADHD-I',full:'ADHD Inattentive',cat:'neuro',mn:'2Dri2ft+2L',
+   dur:'6 months, onset before age 12',cnt:'6 of 9, adult 5 of 9, 2 or more settings',
+   ls:[{l:'D',m:'Distracted easily|attention pulled away by surroundings'},{l:'D',m:'Disorganized|messy desk, scattered schedule'},{l:'R',m:'Restless mind|drifting, cannot sustain focus'},{l:'I',m:'Ignores details|careless mistakes'},{l:'F',m:'Forgetful|forgets deadlines, appointments'},{l:'F',m:'Failed to finish|cannot complete tasks'},{l:'T',m:'Task avoidance|avoids sustained mental effort'},{l:'L',m:'Loses things|keys, phone, documents'},{l:'L',m:'Listens poorly|needs name repeated 2 to 3 times'}],
+   note:'2Dri2ft plus 2L equals 9 symptoms. 2 or more settings required'},
+
+  {id:'adhdh',name:'ADHD-H',full:'ADHD Hyperactive Impulsive',cat:'neuro',mn:'IMPULSIVE',
+   dur:'6 months, onset before age 12',cnt:'6 of 9, adult 5 of 9, 2 or more settings',
+   ls:[{l:'I',m:'Interrupts others|cuts into conversations'},{l:'M',m:'Motor driven|like a motor that cannot stop'},{l:'P',m:'Physical restlessness|runs or climbs inappropriately'},{l:'U',m:'Unable to sit still|constantly wants to stand'},{l:'L',m:'Loud excessive talking|talks too much'},{l:'S',m:'Squirms and fidgets|hands and feet always moving'},{l:'I',m:'Impulsive blurting|answers before question is finished'},{l:'V',m:'Very restless during quiet activities'},{l:'E',m:'Easily encroaches on others|invades space or conversation'}],
+   note:'Bipolar vs ADHD: Bipolar equals days of high energy without needing sleep. ADHD equals energy up and down within a day, gets tired without sleep'},
+
+  {id:'dmdd',name:'DMDD',full:'Disruptive Mood Dysregulation Disorder',cat:'behavior',mn:'DMD 3/3',
+   dur:'1 year, no gap over 3 months, age 6 to 18',cnt:'3 or more outbursts per week plus irritable baseline in 2 or more settings',
+   ls:[{l:'D',m:'Disruptive outbursts, 3 or more per week|verbal or behavioral, out of proportion'},{l:'M',m:'Mood irritable|baseline nearly every day'},{l:'D',m:'Domains|1 year, 2 or more settings, at least 1 setting severe'}],
+   note:'DMDD Chronic vs Bipolar: no super energy episodes. 70% comorbid ODD'},
+
+  {id:'odd',name:'ODD',full:'Oppositional Defiant Disorder',cat:'behavior',mn:'ANGRY',
+   dur:'6 or more months',cnt:'4 of 8 symptoms',
+   ls:[{l:'A',m:'Angry irritable mood|loses temper, touchy, easily annoyed'},{l:'N',m:'Negative defiant behavior|argues, defies, refuses, deliberately annoys'},{l:'G',m:'Grudge vindictive|spiteful, 2 or more times per 6 months'},{l:'R',m:'Rule, impairment and frequency|4 or more symptoms for 6 or more months'},{l:'Y',m:'Yields to escalation path|ODD to CD to ASPD'}],
+   note:'DMDD 70% comorbid ODD. Escalation: ODD to CD to ASPD'},
+
+  {id:'autism',name:'ASD Autism',full:'Autism Spectrum Disorder',cat:'neuro',mn:'SIR+2/4R',
+   dur:'Early developmental period',cnt:'All 3 SIR plus 2 or more of 4 Rs',
+   ls:[{l:'S',m:'Social emotional reciprocity|difficulty with social give-and-take'},{l:'I',m:'Interaction signals|nonverbal cues impaired'},{l:'R',m:'Relationship|difficulty developing and maintaining relationships'},{l:'R1',m:'Repeat|repetitive movements, speech, or behavior'},{l:'R2',m:'Routine|rigid adherence, meltdown if changed'},{l:'R3',m:'Restricted interest|narrow intense focus on one topic'},{l:'R4',m:'Sensory|hyper or hypo reactivity to sensory input'}],
+   note:'Need all 3 SIR plus 2 or more of 4 Rs. Spectrum from nonverbal to highly verbal'},
+];
+
+const CAT_ORDER = ['psychotic','anxiety','mood','trauma','neuro','behavior'];
+let synth = window.speechSynthesis;
+let isPlaying = false;
+let currentFilter = 'all';
+
+const speedRange = document.getElementById('speedRange');
+const speedLabel = document.getElementById('speedLabel');
+speedRange.addEventListener('input', () => { speedLabel.textContent = speedRange.value + 'x'; });
+
+function getRate() { return parseFloat(speedRange.value); }
+function setStatus(t) { document.getElementById('statusBar').textContent = t; }
+
+function filtered() {
+  if (currentFilter === 'all') return DISORDERS;
+  return DISORDERS.filter(d => d.cat === currentFilter);
+}
+
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.mbtn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderContent();
+}
+
+function renderContent() {
+  const ds = filtered();
+  const grouped = {};
+  ds.forEach(d => {
+    if (!grouped[d.cat]) grouped[d.cat] = [];
+    grouped[d.cat].push(d);
+  });
+
+  let html = '';
+  let globalIdx = 0;
+  const catKeys = CAT_ORDER.filter(k => grouped[k]);
+
+  catKeys.forEach(catKey => {
+    const cat = CATS[catKey];
+    html += `<div class="section">
+      <div class="section-title">
+        <span class="cat-dot" style="background:${cat.ac}"></span>
+        ${cat.label}
+      </div>`;
+
+    grouped[catKey].forEach(d => {
+      const dIdx = globalIdx;
+      html += `<div class="disorder-block" id="dblock-${d.id}">
+        <div class="disorder-header" id="dhead-${d.id}" onclick="playDisorder('${d.id}')">
+          <div class="dh-bar" style="background:${cat.ac}"></div>
+          <div class="dh-info">
+            <div class="dh-name" style="color:${cat.ac}">${d.name}</div>
+            <div class="dh-full">${d.full}</div>
+            <div class="dh-meta">⏱ ${d.dur} · ✓ ${d.cnt}</div>
+          </div>
+          <div class="dh-mn" style="color:${cat.ac}">${d.mn}</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="prog-${d.id}" style="background:${cat.ac}"></div></div>
+        <div class="letter-items">`;
+
+      d.ls.forEach((item, li) => {
+        html += `<div class="letter-item" id="li-${d.id}-${li}" onclick="playLetter('${d.id}',${li})">
+          <span class="li-letter" style="color:${cat.ac}">${item.l}</span>
+          <span class="li-meaning">${item.m.replace(/\|/g, ' — ')}</span>
+        </div>`;
+        globalIdx++;
+      });
+
+      html += `</div>`;
+
+      if (d.note) {
+        html += `<div class="note-block" id="note-${d.id}" style="background:${cat.bg};color:${cat.ac};border:1px solid ${cat.bd}" onclick="playNote('${d.id}')">📌 ${d.note}</div>`;
+      }
+
+      html += `</div>`;
+    });
+
+    html += `</div>`;
+  });
+
+  document.getElementById('content').innerHTML = html;
+}
+
+function clearHighlights() {
+  document.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
+}
+
+function speak(text, lang) {
+  return new Promise(resolve => {
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = lang;
+    utt.rate = getRate();
+    utt.onend = () => resolve();
+    utt.onerror = () => resolve();
+    synth.speak(utt);
+  });
+}
+
+function pause(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function speakMeaning(text) {
+  // Split on | for pause between key term and explanation
+  const parts = text.split('|').map(s => s.trim()).filter(Boolean);
+  for (let pi = 0; pi < parts.length; pi++) {
+    if (!isPlaying) break;
+    const part = parts[pi];
+    // Split on commas to add 0.5s between listed items
+    const chunks = part.split(/,\s*/).filter(Boolean);
+    for (let ci = 0; ci < chunks.length; ci++) {
+      if (!isPlaying) break;
+      const chunk = chunks[ci].trim();
+      if (!chunk) continue;
+      const hasChinese = /[\u4e00-\u9fff]/.test(chunk);
+      if (hasChinese) {
+        const segments = chunk.split(/([\u4e00-\u9fff，。、！？：；（）\u3000-\u303f]+)/g).filter(Boolean);
+        for (const seg of segments) {
+          if (!isPlaying) break;
+          const isCn = /[\u4e00-\u9fff]/.test(seg);
+          const trimmed = seg.trim();
+          if (trimmed) await speak(trimmed, isCn ? 'zh-CN' : 'en-US');
+        }
+      } else {
+        await speak(chunk, 'en-US');
+      }
+      // 0.5s pause between comma-separated items
+      if (ci < chunks.length - 1 && isPlaying) await pause(500);
+    }
+    // 1 second pause between | parts (after key term, before explanation)
+    if (pi < parts.length - 1 && isPlaying) await pause(1000);
+  }
+}
+
+async function playLetter(did, li) {
+  stopAll();
+  isPlaying = true;
+  const d = DISORDERS.find(x => x.id === did);
+  const item = d.ls[li];
+  const el = document.getElementById(`li-${did}-${li}`);
+  if (el) { el.classList.add('playing'); el.scrollIntoView({ behavior:'smooth', block:'center' }); }
+  setStatus(`${d.name} — ${item.l}`);
+
+  // Read letter then short gap before meaning
+  await speak(item.l.replace(/[¹²₁₂₃₄+\/]/g, ' '), 'en-US');
+  if (!isPlaying) return;
+  await pause(300);
+
+  // Read meaning with pauses
+  await speakMeaning(item.m);
+
+  if (isPlaying) { clearHighlights(); setStatus('就绪'); isPlaying = false; }
+}
+
+async function playNote(did) {
+  stopAll();
+  isPlaying = true;
+  const d = DISORDERS.find(x => x.id === did);
+  const el = document.getElementById(`note-${did}`);
+  if (el) { el.classList.add('playing'); el.scrollIntoView({ behavior:'smooth', block:'center' }); }
+  setStatus(`${d.name} — Note`);
+
+  const segments = d.note.split(/([\u4e00-\u9fff，。、！？：；（）\u3000-\u303f]+)/g).filter(Boolean);
+  for (const seg of segments) {
+    if (!isPlaying) break;
+    const isCn = /[\u4e00-\u9fff]/.test(seg);
+    const trimmed = seg.trim();
+    if (trimmed) await speak(trimmed, isCn ? 'zh-CN' : 'en-US');
+  }
+
+  if (isPlaying) { clearHighlights(); setStatus('就绪'); isPlaying = false; }
+}
+
+async function playDisorder(did) {
+  stopAll();
+  isPlaying = true;
+  const d = DISORDERS.find(x => x.id === did);
+  const cat = CATS[d.cat];
+  const headEl = document.getElementById(`dhead-${d.id}`);
+  if (headEl) { headEl.classList.add('playing'); headEl.scrollIntoView({ behavior:'smooth', block:'center' }); }
+
+  // Disorder name
+  setStatus(`${d.name} — ${d.mn}`);
+  await speak(d.full, 'en-US');
+  if (!isPlaying) return;
+  await pause(1000);
+
+  // Mnemonic letters only
+  await speak(d.mn.replace(/[+\/²¹₁₂₃₄]/g, ' ').split('').join(', '), 'en-US');
+  if (!isPlaying) return;
+  await pause(500);
+  clearHighlights();
+
+  // Each letter
+  for (let i = 0; i < d.ls.length; i++) {
+    if (!isPlaying) break;
+    const item = d.ls[i];
+    const el = document.getElementById(`li-${d.id}-${i}`);
+    if (el) { el.classList.add('playing'); el.scrollIntoView({ behavior:'smooth', block:'center' }); }
+
+    // Update progress
+    const prog = document.getElementById(`prog-${d.id}`);
+    if (prog) prog.style.width = `${((i + 1) / d.ls.length) * 100}%`;
+
+    setStatus(`${d.name} — ${item.l}`);
+    await speak(item.l.replace(/[¹²₁₂₃₄+\/]/g, ' '), 'en-US');
+    if (!isPlaying) break;
+    await pause(300);
+
+    // Read meaning with pauses at |
+    await speakMeaning(item.m);
+
+    if (!isPlaying) break;
+    await pause(500);
+    clearHighlights();
+  }
+
+  if (isPlaying) { clearHighlights(); setStatus('就绪'); isPlaying = false; }
+}
+
+async function playAll(mode) {
+  stopAll();
+  isPlaying = true;
+  const ds = filtered();
+  const btnId = mode === 'letters' ? 'playLettersBtn' : 'playAllBtn';
+  document.getElementById(btnId).classList.add('active');
+
+  for (let di = 0; di < ds.length; di++) {
+    if (!isPlaying) break;
+    const d = ds[di];
+    const headEl = document.getElementById(`dhead-${d.id}`);
+    if (headEl) { headEl.classList.add('playing'); headEl.scrollIntoView({ behavior:'smooth', block:'center' }); }
+
+    setStatus(`[${di+1}/${ds.length}] ${d.name} — ${d.mn}`);
+
+    if (mode !== 'letters') {
+      await speak(d.full, 'en-US');
+      if (!isPlaying) break;
+      await pause(1000);
+      await speak(d.mn.replace(/[+\/²¹₁₂₃₄]/g, ' ').split('').join(', '), 'en-US');
+      if (!isPlaying) break;
+      await pause(500);
+    }
+
+    clearHighlights();
+
+    for (let i = 0; i < d.ls.length; i++) {
+      if (!isPlaying) break;
+      const item = d.ls[i];
+      const el = document.getElementById(`li-${d.id}-${i}`);
+      if (el) { el.classList.add('playing'); el.scrollIntoView({ behavior:'smooth', block:'center' }); }
+
+      const prog = document.getElementById(`prog-${d.id}`);
+      if (prog) prog.style.width = `${((i + 1) / d.ls.length) * 100}%`;
+
+      setStatus(`[${di+1}/${ds.length}] ${d.name} — ${item.l}`);
+      await speak(item.l.replace(/[¹²₁₂₃₄+\/]/g, ' '), 'en-US');
+      if (!isPlaying) break;
+      await pause(300);
+
+      // Read meaning with pauses at |
+      await speakMeaning(item.m);
+
+      if (!isPlaying) break;
+      await pause(500);
+      clearHighlights();
+    }
+
+    if (!isPlaying) break;
+    await pause(600);
+    clearHighlights();
+  }
+
+  document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+  if (isPlaying) setStatus('全部朗读完毕 ✓');
+  isPlaying = false;
+}
+
+function stopAll() {
+  isPlaying = false;
+  synth.cancel();
+  clearHighlights();
+  document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+  setStatus('已停止');
+}
+
+renderContent();
+</script>
+</body>
+</html>
