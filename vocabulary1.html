@@ -348,8 +348,19 @@ const DISORDERS = [
 
 const CAT_ORDER = ['psychotic','anxiety','mood','trauma','neuro','behavior'];
 let synth = window.speechSynthesis;
-let isPlaying = false;
 let currentFilter = 'all';
+
+// ─── PLAYBACK ENGINE (session token pattern) ───
+// Every playback session has a unique token. Any `speak`/`wait` that sees a
+// different current token aborts immediately. Click handlers just set next
+// state and bump the token — the engine loop handles everything else.
+let sessionToken = 0;
+let engineRunning = false;
+let engineMode = null;     // 'all' | 'letters' | 'single-disorder' | 'single-letter' | 'single-note'
+let engineTargetIdx = 0;   // current disorder index in the filtered list
+let engineItemArg = null;  // for single-letter: [did,li], for single-note: did
+let engineRequestedIdx = null; // set by click; loop picks it up at disorder boundary
+let engineAbortSignal = false; // immediate: abort current item (jump)
 
 document.getElementById('speedRange').addEventListener('input', function() {
   document.getElementById('speedLabel').textContent = this.value + 'x';
@@ -358,31 +369,40 @@ document.getElementById('speedRange').addEventListener('input', function() {
 function getRate() { return parseFloat(document.getElementById('speedRange').value); }
 function setStatus(t) { document.getElementById('statusBar').textContent = t; }
 function filtered() { return currentFilter === 'all' ? DISORDERS : DISORDERS.filter(d => d.cat === currentFilter); }
-function setFilter(f, el) { currentFilter = f; document.querySelectorAll('.mbtn').forEach(b => b.classList.remove('active')); if (el) el.classList.add('active'); renderContent(); }
+function setFilter(f, el) {
+  stopAll();
+  currentFilter = f;
+  document.querySelectorAll('.mbtn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderContent();
+}
 function clearHL() { document.querySelectorAll('.playing').forEach(el => el.classList.remove('playing')); }
+function letterForTTS(l) { return l.replace(/[+]/g,'').replace(/[0-9₁₂₃₄¹²]/g,'').trim(); }
 
-function say(text) {
+// Speak — resolves on end/error. If token changes during speech, we cancel synth
+// so it resolves fast. Returns `true` if finished normally, `false` if aborted.
+function speak(text, token) {
   return new Promise(resolve => {
+    if (token !== sessionToken) return resolve(false);
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'en-US';
     u.rate = getRate();
-    u.onend = () => resolve();
-    u.onerror = () => resolve();
+    u.onend = () => resolve(token === sessionToken && !engineAbortSignal);
+    u.onerror = () => resolve(false);
     synth.speak(u);
   });
 }
-function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// Clean letter for TTS: "+M" → "M", "R1" → "R", etc.
-function letterForTTS(l) { return l.replace(/[+]/g,'').replace(/[0-9₁₂₃₄¹²]/g,'').trim(); }
-
-// Read an array of phrases, 0.5s between each
-async function sayPhrases(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    if (!isPlaying) break;
-    await say(arr[i]);
-    if (i < arr.length - 1 && isPlaying) await wait(500);
-  }
+// Wait ms — polls every 40ms, aborts if token changes or abort flag set
+function nap(ms, token) {
+  return new Promise(resolve => {
+    const start = Date.now();
+    (function tick() {
+      if (token !== sessionToken || engineAbortSignal) return resolve(false);
+      if (Date.now() - start >= ms) return resolve(true);
+      setTimeout(tick, 40);
+    })();
+  });
 }
 
 function renderContent() {
@@ -394,13 +414,13 @@ function renderContent() {
     const cat = CATS[ck];
     html += `<div class="section"><div class="section-title"><span class="cat-dot" style="background:${cat.ac}"></span>${cat.label}</div>`;
     grouped[ck].forEach(d => {
-      html += `<div class="disorder-block"><div class="disorder-header" id="dh-${d.id}" onclick="playD('${d.id}')"><div class="dh-bar" style="background:${cat.ac}"></div><div class="dh-info"><div class="dh-name" style="color:${cat.ac}">${d.name}</div><div class="dh-full">${d.full}</div><div class="dh-meta">⏱ ${d.dur} · ✓ ${d.cnt}</div></div><div class="dh-mn" style="color:${cat.ac}">${d.mn}</div></div>`;
+      html += `<div class="disorder-block"><div class="disorder-header" id="dh-${d.id}" onclick="onClickDisorder('${d.id}')"><div class="dh-bar" style="background:${cat.ac}"></div><div class="dh-info"><div class="dh-name" style="color:${cat.ac}">${d.name}</div><div class="dh-full">${d.full}</div><div class="dh-meta">⏱ ${d.dur} · ✓ ${d.cnt}</div></div><div class="dh-mn" style="color:${cat.ac}">${d.mn}</div></div>`;
       html += `<div class="progress-bar"><div class="progress-fill" id="pg-${d.id}" style="background:${cat.ac}"></div></div><div class="letter-items">`;
       d.ls.forEach((it, i) => {
-        html += `<div class="letter-item" id="li-${d.id}-${i}" onclick="playL('${d.id}',${i})"><span class="li-letter" style="color:${cat.ac}">${it.l}</span><span class="li-meaning">${it.display}</span></div>`;
+        html += `<div class="letter-item" id="li-${d.id}-${i}" onclick="onClickLetter('${d.id}',${i})"><span class="li-letter" style="color:${cat.ac}">${it.l}</span><span class="li-meaning">${it.display}</span></div>`;
       });
       html += '</div>';
-      if (d.note) html += `<div class="note-block" id="nt-${d.id}" style="background:${cat.bg};color:${cat.ac};border:1px solid ${cat.bd}" onclick="playN('${d.id}')">📌 ${d.note}</div>`;
+      if (d.note) html += `<div class="note-block" id="nt-${d.id}" style="background:${cat.bg};color:${cat.ac};border:1px solid ${cat.bd}" onclick="onClickNote('${d.id}')">📌 ${d.note}</div>`;
       html += '</div>';
     });
     html += '</div>';
@@ -408,110 +428,226 @@ function renderContent() {
   document.getElementById('content').innerHTML = html;
 }
 
-// Play single letter
-async function playL(did, li) {
-  stopAll(); isPlaying = true;
-  const d = DISORDERS.find(x => x.id === did), it = d.ls[li];
-  const el = document.getElementById(`li-${did}-${li}`);
-  if (el) { el.classList.add('playing'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
-  setStatus(`${d.name} — ${it.l}`);
-  await say(letterForTTS(it.l));
-  if (!isPlaying) return;
-  await wait(300);
-  await sayPhrases(it.tts);
-  if (isPlaying) { clearHL(); setStatus('就绪'); isPlaying = false; }
-}
-
-// Play note
-async function playN(did) {
-  stopAll(); isPlaying = true;
-  const d = DISORDERS.find(x => x.id === did);
-  const el = document.getElementById(`nt-${did}`);
-  if (el) { el.classList.add('playing'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
-  setStatus(`${d.name} — Note`);
-  if (d.noteTTS) await sayPhrases(d.noteTTS);
-  if (isPlaying) { clearHL(); setStatus('就绪'); isPlaying = false; }
-}
-
-// Play whole disorder
-async function playD(did) {
-  stopAll(); isPlaying = true;
-  const d = DISORDERS.find(x => x.id === did);
+// ─── READER FUNCTIONS (take a session token, abort on mismatch) ───
+async function readDisorder(d, prefix, keywordOnly, token) {
+  if (token !== sessionToken) return;
   const hd = document.getElementById(`dh-${d.id}`);
-  if (hd) { hd.classList.add('playing'); hd.scrollIntoView({behavior:'smooth',block:'center'}); }
-  setStatus(`${d.name} — ${d.mn}`);
-  await say(d.full);
-  if (!isPlaying) return;
-  await wait(1000);
-  await say(d.mnTTS);
-  if (!isPlaying) return;
-  await wait(500);
+  if (hd) { hd.classList.add('playing'); hd.scrollIntoView({behavior:'auto',block:'center'}); }
+  setStatus(`${prefix}${d.name}`);
+  if (!(await speak(d.full, token))) return;
+  if (!(await nap(800, token))) return;
+  if (!(await speak(d.mnTTS, token))) return;
+  if (!(await nap(500, token))) return;
   clearHL();
   for (let i = 0; i < d.ls.length; i++) {
-    if (!isPlaying) break;
+    if (token !== sessionToken || engineAbortSignal) return;
     const it = d.ls[i];
     const el = document.getElementById(`li-${d.id}-${i}`);
-    if (el) { el.classList.add('playing'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
+    if (el) { el.classList.add('playing'); el.scrollIntoView({behavior:'auto',block:'center'}); }
     const pg = document.getElementById(`pg-${d.id}`);
     if (pg) pg.style.width = `${((i+1)/d.ls.length)*100}%`;
-    setStatus(`${d.name} — ${it.l}`);
-    await say(letterForTTS(it.l));
-    if (!isPlaying) break;
-    await wait(300);
-    await sayPhrases(it.tts);
-    if (!isPlaying) break;
-    await wait(500);
+    setStatus(`${prefix}${d.name} — ${it.l}`);
+    if (!(await speak(letterForTTS(it.l), token))) return;
+    if (!(await nap(250, token))) return;
+    if (keywordOnly) {
+      // Only the keyword (first tts phrase)
+      if (!(await speak(it.tts[0], token))) return;
+    } else {
+      // Full content: all tts phrases with 500ms between
+      for (let p = 0; p < it.tts.length; p++) {
+        if (!(await speak(it.tts[p], token))) return;
+        if (p < it.tts.length - 1) { if (!(await nap(500, token))) return; }
+      }
+    }
+    if (!(await nap(400, token))) return;
     clearHL();
   }
-  if (isPlaying) { clearHL(); setStatus('就绪'); isPlaying = false; }
 }
 
-// Play all
-async function playAll(mode) {
-  stopAll(); isPlaying = true;
+async function readDisorderLettersOnly(d, prefix, token) {
+  if (token !== sessionToken) return;
+  const hd = document.getElementById(`dh-${d.id}`);
+  if (hd) { hd.classList.add('playing'); hd.scrollIntoView({behavior:'auto',block:'center'}); }
+  setStatus(`${prefix}${d.name}`);
+  if (!(await speak(d.mnTTS, token))) return;
+  if (!(await nap(500, token))) return;
+  clearHL();
+  for (let i = 0; i < d.ls.length; i++) {
+    if (token !== sessionToken || engineAbortSignal) return;
+    const it = d.ls[i];
+    const el = document.getElementById(`li-${d.id}-${i}`);
+    if (el) { el.classList.add('playing'); el.scrollIntoView({behavior:'auto',block:'center'}); }
+    setStatus(`${prefix}${d.name} — ${it.l}`);
+    if (!(await speak(it.tts[0], token))) return;
+    if (!(await nap(400, token))) return;
+    clearHL();
+  }
+}
+
+async function readNoteFull(d, token) {
+  if (token !== sessionToken || !d.noteTTS) return;
+  const el = document.getElementById(`nt-${d.id}`);
+  if (el) { el.classList.add('playing'); el.scrollIntoView({behavior:'auto',block:'center'}); }
+  setStatus(`${d.name} — Note`);
+  for (let p = 0; p < d.noteTTS.length; p++) {
+    if (!(await speak(d.noteTTS[p], token))) return;
+    if (p < d.noteTTS.length - 1) { if (!(await nap(500, token))) return; }
+  }
+}
+
+async function readLetterFull(did, li, token) {
+  if (token !== sessionToken) return;
+  const d = DISORDERS.find(x => x.id === did), it = d.ls[li];
+  const el = document.getElementById(`li-${did}-${li}`);
+  if (el) { el.classList.add('playing'); el.scrollIntoView({behavior:'auto',block:'center'}); }
+  setStatus(`${d.name} — ${it.l}`);
+  if (!(await speak(letterForTTS(it.l), token))) return;
+  if (!(await nap(300, token))) return;
+  for (let p = 0; p < it.tts.length; p++) {
+    if (!(await speak(it.tts[p], token))) return;
+    if (p < it.tts.length - 1) { if (!(await nap(500, token))) return; }
+  }
+}
+
+// ─── MAIN ENGINE LOOP ───
+// Reads the engineMode + engineTargetIdx and plays accordingly.
+// Reads engineRequestedIdx between disorders to handle jumps.
+async function engineLoop(token) {
+  engineRunning = true;
   const ds = filtered();
-  document.getElementById(mode==='letters'?'playLettersBtn':'playAllBtn').classList.add('active');
-  for (let di = 0; di < ds.length; di++) {
-    if (!isPlaying) break;
-    const d = ds[di];
-    const hd = document.getElementById(`dh-${d.id}`);
-    if (hd) { hd.classList.add('playing'); hd.scrollIntoView({behavior:'smooth',block:'center'}); }
-    setStatus(`[${di+1}/${ds.length}] ${d.name}`);
-    if (mode !== 'letters') {
-      await say(d.full);
-      if (!isPlaying) break;
-      await wait(1000);
-      await say(d.mnTTS);
-      if (!isPlaying) break;
-      await wait(500);
+
+  try {
+    if (engineMode === 'single-letter') {
+      const [did, li] = engineItemArg;
+      await readLetterFull(did, li, token);
+      return;
     }
-    clearHL();
-    for (let i = 0; i < d.ls.length; i++) {
-      if (!isPlaying) break;
-      const it = d.ls[i];
-      const el = document.getElementById(`li-${d.id}-${i}`);
-      if (el) { el.classList.add('playing'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
-      const pg = document.getElementById(`pg-${d.id}`);
-      if (pg) pg.style.width = `${((i+1)/d.ls.length)*100}%`;
-      setStatus(`[${di+1}/${ds.length}] ${d.name} — ${it.l}`);
-      await say(letterForTTS(it.l));
-      if (!isPlaying) break;
-      await wait(300);
-      await sayPhrases(it.tts);
-      if (!isPlaying) break;
-      await wait(500);
+    if (engineMode === 'single-note') {
+      const d = DISORDERS.find(x => x.id === engineItemArg);
+      if (d) await readNoteFull(d, token);
+      return;
+    }
+    if (engineMode === 'single-disorder') {
+      const d = ds[engineTargetIdx];
+      if (d) await readDisorder(d, '', true, token);
+      return;
+    }
+    // 'all' or 'letters'
+    while (engineTargetIdx < ds.length) {
+      if (token !== sessionToken) return;
+      engineRequestedIdx = null;
+      engineAbortSignal = false;
+      const d = ds[engineTargetIdx];
+      const prefix = `[${engineTargetIdx+1}/${ds.length}] `;
+      if (engineMode === 'letters') {
+        await readDisorderLettersOnly(d, prefix, token);
+      } else {
+        await readDisorder(d, prefix, true, token);
+      }
+      if (token !== sessionToken) return;
+      // Jump requested?
+      if (engineRequestedIdx !== null) {
+        const idx = ds.findIndex(x => x.id === engineRequestedIdx);
+        engineRequestedIdx = null;
+        engineAbortSignal = false;
+        clearHL();
+        if (idx >= 0) { engineTargetIdx = idx; continue; }
+      }
+      await nap(500, token);
       clearHL();
+      engineTargetIdx++;
     }
-    if (!isPlaying) break;
-    await wait(800);
-    clearHL();
+  } finally {
+    if (token === sessionToken) {
+      engineRunning = false;
+      document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+      clearHL();
+      if (engineMode === 'all' || engineMode === 'letters') {
+        setStatus('全部朗读完毕 ✓');
+      } else {
+        setStatus('就绪');
+      }
+    }
   }
-  document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
-  if (isPlaying) setStatus('全部朗读完毕 ✓');
-  isPlaying = false;
 }
 
-function stopAll() { isPlaying = false; synth.cancel(); clearHL(); document.querySelectorAll('.btn').forEach(b => b.classList.remove('active')); setStatus('已停止'); }
+// ─── STARTERS: bump token, set mode, launch engine ───
+function startEngine(mode, targetIdx, itemArg) {
+  sessionToken++;                    // invalidate any previous session
+  synth.cancel();                     // stop any current speech
+  engineAbortSignal = false;
+  engineRequestedIdx = null;
+  engineMode = mode;
+  engineTargetIdx = targetIdx || 0;
+  engineItemArg = itemArg || null;
+  const token = sessionToken;
+  // Clear highlights after current microtask so new ones set correctly
+  setTimeout(() => {
+    clearHL();
+    engineLoop(token);
+  }, 20);
+}
+
+function playAll(mode) {
+  const btn = mode === 'letters' ? 'playLettersBtn' : 'playAllBtn';
+  document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(btn).classList.add('active');
+  startEngine(mode === 'letters' ? 'letters' : 'all', 0, null);
+}
+
+// ─── CLICK HANDLERS ───
+// Clicking during an engine run only JUMPS, doesn't restart.
+// Clicking when nothing running, starts a single-disorder/letter/note read.
+function onClickDisorder(did) {
+  const ds = filtered();
+  const idx = ds.findIndex(x => x.id === did);
+  if (idx < 0) return;
+  if (engineRunning && (engineMode === 'all' || engineMode === 'letters')) {
+    // JUMP — signal the engine loop to pick up this new index
+    engineRequestedIdx = did;
+    engineAbortSignal = true;     // abort current readDisorder immediately
+    synth.cancel();
+    return;
+  }
+  // Not in batch play — start a single-disorder read
+  startEngine('single-disorder', idx, null);
+}
+
+function onClickLetter(did, li) {
+  if (engineRunning && (engineMode === 'all' || engineMode === 'letters')) {
+    // During batch play, clicking letter jumps to that letter's disorder
+    const ds = filtered();
+    const idx = ds.findIndex(x => x.id === did);
+    if (idx >= 0) {
+      engineRequestedIdx = did;
+      engineAbortSignal = true;
+      synth.cancel();
+    }
+    return;
+  }
+  // Not playing: single letter full read
+  startEngine('single-letter', 0, [did, li]);
+}
+
+function onClickNote(did) {
+  if (engineRunning && (engineMode === 'all' || engineMode === 'letters')) {
+    // Clicking note during batch play is a no-op (don't break flow)
+    return;
+  }
+  startEngine('single-note', 0, did);
+}
+
+function stopAll() {
+  sessionToken++;
+  engineRunning = false;
+  engineMode = null;
+  engineAbortSignal = true;
+  engineRequestedIdx = null;
+  synth.cancel();
+  clearHL();
+  document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+  setStatus('已停止');
+}
 
 renderContent();
 </script>
