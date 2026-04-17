@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>给你的一封信 · 关于睡眠</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page-bg:#f7f1e8;
+  --soft-bg:#f2e7d9;
+  --card-bg:#fdf9f4;
+  --ink:#2d241a;
+  --ink-soft:#5a4a3a;
+  --ink-mute:#8a7a68;
+  --accent:#a8503a;
+  --accent-soft:#c77a5f;
+  --warn:#b85a3d;
+  --good:#6b8157;
+  --line:#d9c9b0;
+  --line-soft:#e8dcc7;
+  --shadow:0 1px 3px rgba(80,60,40,.06), 0 10px 40px rgba(80,60,40,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Serif SC',serif;
+  background:var(--page-bg);
+  color:var(--ink);
+  line-height:1.85;
+  font-weight:400;
+  font-feature-settings:"palt";
+  overflow-x:hidden;
+}
+.sans{font-family:'Noto Sans SC',sans-serif}
+.display{font-family:'DM Serif Display',serif;letter-spacing:-.02em}
+
+/* Decorative paper texture */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(168,80,58,.025) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(107,129,87,.02) 0%, transparent 40%);
+  mix-blend-mode:multiply;
+}
+
+.wrap{max-width:780px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
+.wrap-wide{max-width:1080px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
+
+/* ====== HERO ====== */
+.hero{
+  min-height:90vh;
+  display:flex;align-items:center;
+  padding:80px 0 60px;
+  position:relative;
+}
+.hero-inner{max-width:680px;margin:0 auto;padding:0 28px;text-align:center}
+.tag{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:12px;letter-spacing:.3em;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:32px;
+  display:inline-flex;align-items:center;gap:12px;
+}
+.tag::before,.tag::after{content:'';width:28px;height:1px;background:var(--accent);opacity:.6}
+h1.title{
+  font-family:'Noto Serif SC',serif;
+  font-weight:500;
+  font-size:clamp(38px,6vw,62px);
+  line-height:1.25;
+  margin-bottom:32px;
+  letter-spacing:.02em;
+}
+h1.title em{font-style:normal;color:var(--accent);font-weight:600}
+.lede{
+  font-size:18px;line-height:2;color:var(--ink-soft);
+  max-width:560px;margin:0 auto 48px;
+}
+.lede-sig{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:13px;color:var(--ink-mute);
+  letter-spacing:.15em;
+}
+.scroll-hint{
+  margin-top:64px;
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:12px;letter-spacing:.25em;color:var(--ink-mute);
+  animation:bob 2.4s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(6px);opacity:1}}
+
+/* ====== CHAPTER HEADERS ====== */
+.chapter{padding:90px 0 40px}
+.chapter-num{
+  font-family:'DM Serif Display',serif;
+  font-size:14px;color:var(--accent);
+  letter-spacing:.3em;margin-bottom:16px;
+}
+.chapter h2{
+  font-family:'Noto Serif SC',serif;
+  font-weight:500;
+  font-size:clamp(28px,4vw,42px);
+  line-height:1.35;
+  margin-bottom:24px;
+  letter-spacing:.01em;
+}
+.chapter-sub{
+  font-size:17px;color:var(--ink-soft);
+  margin-bottom:48px;max-width:620px;
+}
+
+/* ====== BODY TEXT ====== */
+.prose p{font-size:17px;line-height:2;margin-bottom:24px;color:var(--ink-soft)}
+.prose p strong{color:var(--ink);font-weight:600}
+.prose .pull{
+  font-family:'Noto Serif SC',serif;
+  font-size:22px;line-height:1.85;
+  color:var(--ink);
+  padding:32px 0 32px 28px;
+  border-left:3px solid var(--accent);
+  margin:40px 0;
+  font-weight:500;
+}
+
+/* ====== DAILY LOOP (Section 1) ====== */
+.loop-card{
+  background:var(--card-bg);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding:48px 44px;
+  margin:40px 0;
+  box-shadow:var(--shadow);
+}
+.loop-time{
+  display:grid;
+  grid-template-columns:110px 1fr;
+  gap:24px;
+  padding:20px 0;
+  border-bottom:1px dashed var(--line-soft);
+}
+.loop-time:last-child{border-bottom:none}
+.loop-clock{
+  font-family:'DM Serif Display',serif;
+  font-size:24px;color:var(--accent);
+  line-height:1.2;
+}
+.loop-clock small{display:block;font-family:'Noto Sans SC',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--ink-mute);margin-top:4px;font-weight:400}
+.loop-desc{font-size:16px;line-height:1.9;color:var(--ink-soft)}
+.loop-desc b{color:var(--ink);font-weight:600}
+
+/* ====== BODY SYSTEMS (Section 2) ====== */
+.systems{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:2px;
+  background:var(--line);
+  border:1px solid var(--line);
+  margin:40px 0;
+}
+.system{
+  background:var(--card-bg);
+  padding:36px 32px;
+  min-height:220px;
+}
+.system-head{
+  display:flex;align-items:baseline;gap:14px;
+  margin-bottom:16px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--line-soft);
+}
+.system-icon{
+  font-family:'DM Serif Display',serif;
+  font-size:32px;color:var(--accent);
+  line-height:1;
+}
+.system-name{
+  font-family:'Noto Serif SC',serif;
+  font-size:18px;font-weight:600;color:var(--ink);
+}
+.system-sub{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:11px;color:var(--ink-mute);
+  letter-spacing:.15em;margin-top:2px;
+}
+.system-body{font-size:15px;line-height:1.85;color:var(--ink-soft)}
+.system-body b{color:var(--ink)}
+@media(max-width:640px){.systems{grid-template-columns:1fr}}
+
+/* ====== MYTH BOX (Section 3) ====== */
+.myth{
+  background:linear-gradient(180deg,#ede0cc 0%,#e6d5bc 100%);
+  border:1px solid var(--line);
+  padding:52px 44px;
+  margin:48px 0;
+  position:relative;
+  border-radius:4px;
+}
+.myth-label{
+  position:absolute;top:-12px;left:40px;
+  background:var(--accent);color:#fff;
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:11px;letter-spacing:.25em;
+  padding:5px 14px;
+}
+.myth-q{
+  font-family:'Noto Serif SC',serif;
+  font-size:22px;line-height:1.7;color:var(--ink);
+  margin-bottom:20px;font-weight:500;
+}
+.myth-a{font-size:16px;line-height:2;color:var(--ink-soft)}
+.myth-a b{color:var(--ink)}
+
+/* ====== TIMELINE (Section 4) ====== */
+.timeline{position:relative;padding:20px 0;margin:40px 0}
+.timeline::before{
+  content:'';position:absolute;left:72px;top:40px;bottom:40px;
+  width:1px;background:linear-gradient(180deg,var(--line),var(--accent),var(--warn));
+}
+.era{
+  display:grid;
+  grid-template-columns:100px 1fr;
+  gap:36px;
+  padding:24px 0 40px;
+  position:relative;
+}
+.era::before{
+  content:'';position:absolute;left:68px;top:32px;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--card-bg);border:2px solid var(--accent);
+}
+.era-when{
+  font-family:'DM Serif Display',serif;
+  font-size:28px;color:var(--accent);
+  line-height:1.1;padding-top:18px;
+}
+.era-when small{display:block;font-family:'Noto Sans SC',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--ink-mute);margin-top:6px;font-weight:400}
+.era-content{
+  background:var(--card-bg);
+  border:1px solid var(--line);
+  padding:28px 32px;
+  border-radius:4px;
+}
+.era-title{
+  font-family:'Noto Serif SC',serif;
+  font-size:19px;font-weight:600;color:var(--ink);
+  margin-bottom:14px;
+}
+.era-body{font-size:15px;line-height:1.9;color:var(--ink-soft)}
+.era-body b{color:var(--ink)}
+@media(max-width:640px){
+  .timeline::before{left:0}
+  .era{grid-template-columns:1fr;gap:8px}
+  .era::before{left:-4px;top:8px}
+  .era-when{padding-top:0;font-size:22px}
+}
+
+/* ====== DATA CARDS (Section 5) ====== */
+.data-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;margin:48px 0;
+}
+.data-card{
+  background:var(--card-bg);
+  border:1px solid var(--line);
+  padding:28px 24px;
+  border-radius:4px;
+  position:relative;
+}
+.data-num{
+  font-family:'DM Serif Display',serif;
+  font-size:46px;color:var(--accent);
+  line-height:1;margin-bottom:12px;
+  display:flex;align-items:baseline;gap:4px;
+}
+.data-num small{font-size:18px;color:var(--ink-soft)}
+.data-claim{
+  font-size:14px;line-height:1.7;color:var(--ink);
+  font-weight:500;margin-bottom:10px;
+}
+.data-src{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:11px;color:var(--ink-mute);
+  letter-spacing:.05em;
+}
+@media(max-width:768px){.data-grid{grid-template-columns:1fr}}
+
+/* ====== PLAN (Section 6) ====== */
+.plan{
+  background:linear-gradient(180deg,#fdf9f4 0%,#f7ede0 100%);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding:56px 48px;
+  margin:48px 0;
+}
+.plan h3{
+  font-family:'Noto Serif SC',serif;
+  font-size:24px;font-weight:500;
+  margin-bottom:8px;color:var(--ink);
+}
+.plan-sub{font-size:15px;color:var(--ink-mute);margin-bottom:36px}
+.step{
+  display:grid;
+  grid-template-columns:48px 1fr;
+  gap:20px;
+  padding:18px 0;
+  border-top:1px solid var(--line-soft);
+}
+.step:first-of-type{border-top:none}
+.step-n{
+  font-family:'DM Serif Display',serif;
+  font-size:22px;color:var(--accent);
+  line-height:1;
+}
+.step-body{font-size:15px;line-height:1.85;color:var(--ink-soft)}
+.step-body b{color:var(--ink);font-weight:600}
+
+/* ====== CLOSING ====== */
+.closing{
+  text-align:center;
+  padding:90px 0 60px;
+  border-top:1px solid var(--line-soft);
+  margin-top:60px;
+}
+.closing-text{
+  font-family:'Noto Serif SC',serif;
+  font-size:20px;line-height:2;color:var(--ink);
+  max-width:520px;margin:0 auto 40px;
+}
+.closing-sig{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:12px;letter-spacing:.3em;color:var(--ink-mute);
+}
+
+/* ====== CITATIONS ====== */
+.sources{
+  background:var(--soft-bg);
+  padding:56px 0;
+  margin-top:60px;
+  border-top:1px solid var(--line);
+}
+.sources h3{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:13px;letter-spacing:.25em;
+  color:var(--ink-mute);
+  margin-bottom:28px;
+}
+.src-list{list-style:none}
+.src-list li{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:12.5px;line-height:1.75;color:var(--ink-mute);
+  padding:10px 0;
+  border-bottom:1px solid var(--line-soft);
+}
+.src-list li b{color:var(--ink-soft);font-weight:500}
+.src-list li a{color:var(--accent-soft);text-decoration:none}
+.src-list li a:hover{text-decoration:underline}
+
+/* Drop cap */
+.dropcap::first-letter{
+  font-family:'DM Serif Display',serif;
+  font-size:3.5em;
+  float:left;
+  line-height:.9;
+  margin:.05em .12em 0 0;
+  color:var(--accent);
+}
+
+/* Animations */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .8s ease, transform .8s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="tag sans">一封关于睡眠的信</div>
+    <h1 class="title">我没办法<em>眼睁睁</em>看着你<br>慢慢被自己消耗掉</h1>
+    <p class="lede">所以我做了这一页给你。<br>里面的每一句话都有来源，每一个数字都是真实研究的结果。<br>我不是在说教，我只是想让你看见——<br>你现在正在用未来五年、十年的自己，换现在几个小时的手机。</p>
+    <div class="lede-sig">请用五分钟读完 · 一次就好</div>
+    <div class="scroll-hint">向 下 滚 动</div>
+  </div>
+</section>
+
+<!-- CHAPTER 1: THE LOOP -->
+<section class="chapter">
+  <div class="wrap">
+    <div class="chapter-num sans">01 · 你的一天</div>
+    <h2>这是你最近一个月，身体经历的事</h2>
+    <p class="chapter-sub">我不是凭感觉写的。这是我看着的、陪着的。</p>
+
+    <div class="loop-card">
+      <div class="loop-time">
+        <div class="loop-clock">01:00<small>凌晨</small></div>
+        <div class="loop-desc">你应该入睡已经 <b>三个小时</b>。但你还趴在床上刷手机，屏幕的蓝光正在<b>强力抑制你大脑的褪黑素分泌</b>——这是让你困的荷尔蒙。你越刷越清醒，不是因为你不累，是因为生理上已经被"骗醒"了。</div>
+      </div>
+      <div class="loop-time">
+        <div class="loop-clock">03:30<small>深夜</small></div>
+        <div class="loop-desc">你终于睡着。但是这个时间睡，<b>错过了整晚深度睡眠最黄金的两个窗口</b>（22:00–02:00 的生长激素分泌 + 01:00–03:00 的皮肤修复 + 大脑的淋巴清洁系统启动）。</div>
+      </div>
+      <div class="loop-time">
+        <div class="loop-clock">07:00<small>早晨</small></div>
+        <div class="loop-desc">闹钟响，你起床。<b>只睡了 3.5 小时</b>。皮质醇（压力荷尔蒙）已经飙高。你今天一整天大脑里都会有一种<b>像蒙了一层纱</b>的感觉——这不是错觉，是大脑没有完成代谢废物清理。</div>
+      </div>
+      <div class="loop-time">
+        <div class="loop-clock">14:00<small>下午</small></div>
+        <div class="loop-desc">你回家倒头就睡 2–4 小时。你以为<b>"补回来了"</b>。</div>
+      </div>
+      <div class="loop-time">
+        <div class="loop-clock">19:00<small>傍晚</small></div>
+        <div class="loop-desc">你醒来。但此时生理节律（circadian rhythm）已经被<b>彻底打乱</b>——身体搞不清"现在是白天还是晚上"。所以到了午夜，你又不困。循环开始。</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p class="pull">"我补觉了，应该没事吧？"<br>——这是你跟我说过的话。<br>下一章，我告诉你为什么这句话是错的。</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 2: CURRENT BODY STATE -->
+<section class="chapter">
+  <div class="wrap">
+    <div class="chapter-num sans">02 · 此刻</div>
+    <h2>你身体里，现在正在发生这些事</h2>
+    <p class="chapter-sub">不是未来，是<b>现在、这一周、这个月</b>已经在你身体里发生的变化。</p>
+
+    <div class="systems">
+      <div class="system">
+        <div class="system-head">
+          <div class="system-icon">✦</div>
+          <div>
+            <div class="system-name">大脑 · 清洁系统停摆</div>
+            <div class="system-sub sans">GLYMPHATIC SYSTEM</div>
+          </div>
+        </div>
+        <div class="system-body">
+          大脑在深度睡眠时会启动"淋巴清洁"，把<b>β-淀粉样蛋白</b>（老年痴呆的元凶之一）冲洗出去。研究显示：<b>仅一晚睡眠剥夺，海马体的 β-淀粉样蛋白就显著累积</b>。你已经累积了一个月。
+        </div>
+      </div>
+
+      <div class="system">
+        <div class="system-head">
+          <div class="system-icon">✦</div>
+          <div>
+            <div class="system-name">皮肤 · 加速老化</div>
+            <div class="system-sub sans">INTRINSIC AGING</div>
+          </div>
+        </div>
+        <div class="system-body">
+          临床研究对比 60 位女性：睡眠差的那一组，<b>皮肤老化评分是睡眠好的两倍</b>（4.4 vs 2.2），皮肤屏障修复慢，晒伤后发红消退慢。细纹、暗沉、松弛——<b>不是"最近气色不好"，是已经在发生。</b>
+        </div>
+      </div>
+
+      <div class="system">
+        <div class="system-head">
+          <div class="system-icon">✦</div>
+          <div>
+            <div class="system-name">荷尔蒙 · 全面紊乱</div>
+            <div class="system-sub sans">HPA & HPG AXIS</div>
+          </div>
+        </div>
+        <div class="system-body">
+          睡眠剥夺激活 HPA 轴（压力轴），皮质醇升高，同时<b>抑制 HPG 轴（生殖轴）</b>。直接后果：月经紊乱、排卵异常、雌激素波动失常、更易长痘、情绪波动大。你有感觉了吗？
+        </div>
+      </div>
+
+      <div class="system">
+        <div class="system-head">
+          <div class="system-icon">✦</div>
+          <div>
+            <div class="system-name">代谢 · 正在往糖尿病靠</div>
+            <div class="system-sub sans">INSULIN RESISTANCE</div>
+          </div>
+        </div>
+        <div class="system-body">
+          睡眠不足降低葡萄糖耐量、导致胰岛素抵抗。同时瘦素（Leptin）下降、饥饿素（Ghrelin）上升——<b>你会莫名其妙想吃甜的</b>、吃完还饿。这不是你"没自控力"，是你的激素被改写了。
+        </div>
+      </div>
+
+      <div class="system">
+        <div class="system-head">
+          <div class="system-icon">✦</div>
+          <div>
+            <div class="system-name">心血管 · 血压已经在升</div>
+            <div class="system-sub sans">CARDIOVASCULAR</div>
+          </div>
+        </div>
+        <div class="system-body">
+          70 万人的流行病学分析显示：<b>每晚睡 ≤4 小时的人，高血压发生率是睡 7 小时的 2 倍</b>。这个关联在<b>年轻人和女性身上更强</b>。你现在 20 多岁不代表不发生。
+        </div>
+      </div>
+
+      <div class="system">
+        <div class="system-head">
+          <div class="system-icon">✦</div>
+          <div>
+            <div class="system-name">情绪 · 放大镜</div>
+            <div class="system-sub sans">EMOTIONAL REGULATION</div>
+          </div>
+        </div>
+        <div class="system-body">
+          睡眠不足时杏仁核（情绪中枢）活性上升 60%，前额叶（理性控制）活性下降。结果：<b>小事会觉得天塌了，朋友一句话会觉得被攻击</b>。你以为你性格变了，其实是你大脑被临时改装了。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 3: THE NAP MYTH -->
+<section class="chapter">
+  <div class="wrap">
+    <div class="chapter-num sans">03 · 那个误会</div>
+    <h2>下午睡 2–4 小时，补不回来</h2>
+    <p class="chapter-sub">这可能是整封信里，你最需要看见的一页。</p>
+
+    <div class="myth">
+      <div class="myth-label sans">最大的误会</div>
+      <div class="myth-q">"我白天补了觉，和晚上睡够了应该差不多吧？"</div>
+      <div class="myth-a">
+        <b>不是的，亲爱的。从生理学上不是。</b><br><br>
+        科学把睡眠调节分成两套系统：<b>Process S</b>（睡眠压力，醒着越久越困）和 <b>Process C</b>（生理节律，身体的 24 小时钟）。
+        <br><br>
+        晚上睡觉之所以有用，是因为<b>两套系统同时到位</b>——困意 + 黑暗环境 + 褪黑素 + 核心体温下降 + 生长激素 + 大脑清洁系统启动 + 皮肤修复 + 深度睡眠 + REM 记忆整合。这是一个精密的编舞。
+        <br><br>
+        下午补觉只补了"困意"这<b>一项</b>。其他所有的东西——褪黑素、生长激素、深度睡眠比例、大脑清洁——<b>都是按照生理节律（C 系统）在特定时间段才会发生的，白天不会再来一次。</b>
+        <br><br>
+        更严重的是：下午睡 2–4 小时会<b>彻底削平晚上的睡眠压力</b>，让你晚上更睡不着。然后你又得刷手机等困——<b>这就是你陷进去的循环</b>。
+        <br><br>
+        研究早就证实：<b>"持续的注意力、重要细节的辨认能力，主要依赖于完整的夜间睡眠，不是白天补觉的总时长。"</b>（News-Medical 综述）
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 4: TIMELINE -->
+<section class="chapter">
+  <div class="wrap">
+    <div class="chapter-num sans">04 · 如果继续</div>
+    <h2>这是你的未来，如果保持现在这样</h2>
+    <p class="chapter-sub">每一条都来自长期研究，不是恐吓。</p>
+
+    <div class="timeline">
+      <div class="era">
+        <div class="era-when">1 年后<small>短期</small></div>
+        <div class="era-content">
+          <div class="era-title">你会先看见的：皮肤与情绪</div>
+          <div class="era-body">
+            细纹提前出现、黑眼圈变成<b>永久性色素沉着</b>（不是睡一晚能消的那种）、皮肤暗沉、毛孔变粗。同时焦虑基线升高、耐性变差、对压力的承受窗口变窄。体重开始悄悄涨——<b>不是你吃多了，是瘦素/饥饿素已经改了</b>。
+          </div>
+        </div>
+      </div>
+
+      <div class="era">
+        <div class="era-when">3–5 年<small>中期</small></div>
+        <div class="era-content">
+          <div class="era-title">月经、生育力、代谢开始报警</div>
+          <div class="era-body">
+            月经周期紊乱、<b>多囊卵巢综合征（PCOS）风险上升</b>、经期疼痛加剧。如果这时候想要孩子，<b>会比同龄睡眠正常的女性更难怀</b>（已有队列研究证实：女性睡眠障碍 >50% 时间的夫妻，受孕率下降）。空腹血糖开始异常，属于"糖尿病前期"的那种。
+          </div>
+        </div>
+      </div>
+
+      <div class="era">
+        <div class="era-when">10 年<small>长期</small></div>
+        <div class="era-content">
+          <div class="era-title">心血管 · 2 型糖尿病 · 免疫系统</div>
+          <div class="era-body">
+            根据 2021 年《内分泌杂志》综述：<b>长期每晚睡 5–6 小时的人，2 型糖尿病风险是睡 7–8 小时的 2 倍</b>。高血压风险同样翻倍。免疫系统长期低水平慢性炎症——你会发现自己更容易感冒、皮肤小问题总不好、伤口愈合变慢。
+          </div>
+        </div>
+      </div>
+
+      <div class="era">
+        <div class="era-when">20–30 年<small>决定性</small></div>
+        <div class="era-content">
+          <div class="era-title">大脑：无法回头的那一步</div>
+          <div class="era-body">
+            发表于 Nature 旗下期刊的长期研究显示：<b>50–60 岁阶段每晚睡眠 <6 小时的人，老年痴呆发病率显著高于睡 ≥7 小时者。</b>原因就是第 02 章说的——大脑的 β-淀粉样蛋白清洁系统，只在深度睡眠时运行。你现在每一个"没睡够"的晚上，都是在给未来的大脑<b>积累一点点清不掉的垃圾</b>。这个账，会在你 60 岁的时候一次性结算。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 5: HARD DATA -->
+<section class="chapter">
+  <div class="wrap-wide">
+    <div class="chapter-num sans">05 · 数字</div>
+    <h2>这些数字都是真的</h2>
+    <p class="chapter-sub">每一条都来自同行评审的研究，不是自媒体。</p>
+
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="data-num">2<small>×</small></div>
+        <div class="data-claim">每晚睡 5–6 小时的人，<b>2 型糖尿病风险翻倍</b>（对比睡 7–8 小时）</div>
+        <div class="data-src sans">2021 Journal of Endocrinology Review · 哈佛医学院引用</div>
+      </div>
+      <div class="data-card">
+        <div class="data-num">2<small>×</small></div>
+        <div class="data-claim">每晚睡 ≤4 小时的人，<b>高血压发生率是睡 7 小时的 2 倍</b>，<b>女性/年轻人关联更强</b></div>
+        <div class="data-src sans">70 万人全国健康调查分析</div>
+      </div>
+      <div class="data-card">
+        <div class="data-num">4.4<small>/2.2</small></div>
+        <div class="data-claim">皮肤老化评分：睡眠差的女性组 4.4 分，睡眠好的女性组 2.2 分（<b>两倍差异</b>）</div>
+        <div class="data-src sans">UH Case Medical Center Skin Study · 60 位女性临床</div>
+      </div>
+      <div class="data-card">
+        <div class="data-num">1<small>晚</small></div>
+        <div class="data-claim">PET 扫描证实：<b>仅一晚睡眠剥夺</b>，海马体和丘脑的 β-淀粉样蛋白就显著增加</div>
+        <div class="data-src sans">Shokri-Kojori et al., PNAS 2018</div>
+      </div>
+      <div class="data-card">
+        <div class="data-num">60<small>%</small></div>
+        <div class="data-claim">动物研究：睡眠时脑细胞间隙扩大 60%，<b>废物清除率大幅提升</b>——这是白天做不到的</div>
+        <div class="data-src sans">Xie et al., Science; Nedergaard lab</div>
+      </div>
+      <div class="data-card">
+        <div class="data-num">3+</div>
+        <div class="data-claim">连续 3 晚每晚睡 4 小时，<b>葡萄糖代谢已经接近糖尿病前期</b>水平（健康年轻男性）</div>
+        <div class="data-src sans">Spiegel, Leproult, Van Cauter · Lancet 1999</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 6: PLAN -->
+<section class="chapter">
+  <div class="wrap">
+    <div class="chapter-num sans">06 · 我陪你</div>
+    <h2>不是要你今晚就 22:00 睡</h2>
+    <p class="chapter-sub">我知道那不现实。但这些是真的有用、也真的能做到的。</p>
+
+    <div class="plan">
+      <h3>从这周开始，我们一起</h3>
+      <div class="plan-sub sans">一次改一个，不要全部。</div>
+
+      <div class="step">
+        <div class="step-n">1</div>
+        <div class="step-body"><b>先砍下午的觉</b>，不是晚上的手机。<br>下午的长觉是问题的<b>核心</b>——它让你晚上不困。先把下午的补觉从 2–4 小时缩到 <b>20–30 分钟</b>（午休可以，别睡深），你会发现晚上 11–12 点真的开始困了。</div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">2</div>
+        <div class="step-body"><b>手机留在卧室外</b>，不是"不玩手机"。<br>意志力对抗手机永远会输。把充电器放在客厅／另一个房间。卧室买一个实体闹钟。这一步比任何"戒手机 App"都有效。</div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">3</div>
+        <div class="step-body"><b>趴着玩手机这件事必须停</b>。<br>不是睡眠问题，是<b>颈椎问题</b>。你现在感觉的肩颈僵硬，20 多岁就开始有颈椎曲度变直，40 岁会疼到睡不着——一个新的失眠原因叠加进来。</div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">4</div>
+        <div class="step-body"><b>早上固定时间起床，哪怕前一晚没睡够</b>。<br>生理节律是<b>"醒来时间"锚定的</b>，不是睡着时间。每天 9:00 起，晒 10 分钟太阳——一周后身体会自动在 23:30 左右有困意。这是最硬核的一条，也是最有效的。</div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">5</div>
+        <div class="step-body"><b>想崩的时候，告诉我</b>。<br>不是每天都能做到。做不到也没关系。你告诉我，我们一起调整。我不会骂你，也不会放弃。这不是我在要求你，这是<b>我想和你一起活到 80 岁、而且两个人都还记得彼此</b>。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="wrap">
+    <p class="closing-text">
+      我不是在要求你完美。<br>
+      我只是不想在 10 年后，<br>
+      站在某个诊室门口握着你的手，<br>
+      想起今天的这一页，<br>
+      然后后悔我当时没说得更清楚。
+    </p>
+    <div class="closing-sig">— 爱你的我 · 真的爱你</div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section class="sources">
+  <div class="wrap">
+    <h3>参 考 来 源 · SOURCES</h3>
+    <ul class="src-list">
+      <li><b>[1]</b> Harvard Medical School, Division of Sleep Medicine — "Why Sleep Matters: Consequences of Sleep Deficiency"</li>
+      <li><b>[2]</b> Harvard Health Publishing (2025) — "How sleep deprivation can harm your health"（引用 2021 Journal of Endocrinology 综述：5–6 小时睡眠与糖尿病风险翻倍的关联）</li>
+      <li><b>[3]</b> Shokri-Kojori E, et al. (2018) "β-Amyloid accumulation in the human brain after one night of sleep deprivation." <i>PNAS</i> 115(17):4483-4488</li>
+      <li><b>[4]</b> Xie L, et al. (2013) "Sleep drives metabolite clearance from the adult brain." <i>Science</i> · Nedergaard 实验室 Glymphatic 系统研究</li>
+      <li><b>[5]</b> Oyetakin-White P, Baron ED, et al. (2015) "Does poor sleep quality affect skin ageing?" — UH Case Medical Center SCINEXA 临床研究（60 位女性）</li>
+      <li><b>[6]</b> Kloss JD, et al. "Sleep, Sleep Disturbance, and Fertility in Women." <i>Sleep Medicine Reviews</i> · PMC4402098</li>
+      <li><b>[7]</b> Caetano G, et al. (2022) "Impact of sleep patterns upon female neuroendocrinology and reproductive outcomes: a comprehensive review." <i>Reproductive Biology and Endocrinology</i></li>
+      <li><b>[8]</b> Spiegel K, Leproult R, Van Cauter E (1999) "Impact of sleep debt on metabolic and endocrine function." <i>The Lancet</i> 354:1435-1439</li>
+      <li><b>[9]</b> Ramar K, Malhotra RK, et al. — National Sleep Foundation & AASM 关于蓝光、褪黑素抑制与睡眠的综合指南</li>
+      <li><b>[10]</b> Borbély AA — Two-Process Model of Sleep Regulation（Process S + Process C 理论基础）</li>
+      <li><b>[11]</b> Nedergaard M, Goldman SA (2020) "Glymphatic failure as a final common pathway to dementia." <i>Science</i> 370:50-56</li>
+      <li><b>[12]</b> Sabia S, et al. (2021) "Association of sleep duration in middle and old age with incidence of dementia." <i>Nature Communications</i> — 50/60 岁阶段 &lt;6 小时睡眠与老年痴呆风险关联</li>
+    </ul>
+  </div>
+</section>
+
+<script>
+// Fade in on scroll
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+},{threshold:.1});
+document.querySelectorAll('.chapter, .closing').forEach(el=>{
+  el.classList.add('fade-in');
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
