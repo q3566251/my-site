@@ -1,0 +1,2585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Europe vs China · 著名景点全玩 | 🇺🇸 NYC 出发 · 一人自由行 30天</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page-bg:#f7f1e8;
+  --soft-bg:#f2e7d9;
+  --card-bg:#fdf9f4;
+  --ink:#2a2420;
+  --ink-soft:#6b5d52;
+  --ink-muted:#a59688;
+  --eu:#a8473a;
+  --eu-soft:#e8c9c4;
+  --cn:#c8913d;
+  --cn-soft:#eed9b5;
+  --accent:#3a6b52;
+  --line:#e6d9c4;
+  --shadow:0 2px 10px rgba(120,88,52,0.07);
+  --shadow-lg:0 6px 24px rgba(120,88,52,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans SC',-apple-system,sans-serif;
+  background:var(--page-bg);
+  color:var(--ink);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  font-weight:400;
+}
+.serif{font-family:'Noto Serif SC',serif}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* HERO */
+.hero{padding:80px 0 60px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 600px 300px at 20% 20%,rgba(168,71,58,0.08),transparent),
+    radial-gradient(ellipse 600px 300px at 80% 30%,rgba(200,145,61,0.10),transparent);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:3px;
+  color:var(--ink-soft);margin-bottom:18px;padding:6px 16px;
+  background:var(--soft-bg);border:1px solid var(--line);border-radius:20px;
+}
+.hero-eyebrow .passport{
+  background:var(--accent);color:white;padding:2px 8px;border-radius:10px;
+  font-size:11px;letter-spacing:1px;font-weight:500;
+}
+h1.hero-title{
+  font-family:'Noto Serif SC',serif;font-weight:900;
+  font-size:clamp(36px,6vw,64px);line-height:1.15;letter-spacing:-0.5px;
+  margin-bottom:20px;position:relative;
+}
+h1.hero-title .eu-word{color:var(--eu)}
+h1.hero-title .cn-word{color:var(--cn)}
+h1.hero-title .vs{
+  display:inline-block;font-family:'DM Serif Display',serif;font-weight:400;
+  font-size:0.55em;color:var(--ink-muted);padding:0 12px;vertical-align:middle;font-style:italic;
+}
+.hero-sub{font-size:17px;color:var(--ink-soft);max-width:640px;margin:0 auto 12px;position:relative;}
+.hero-meta{font-size:13px;color:var(--ink-muted);position:relative;margin-top:8px;}
+.hero-meta code{background:var(--soft-bg);padding:2px 8px;border-radius:4px;font-size:12px;font-family:ui-monospace,monospace;}
+
+/* VISA PILLS */
+.visa-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:780px;margin:32px auto 0;position:relative;}
+.visa-pill{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--card-bg);border:1px solid var(--line);border-radius:12px;text-align:left;}
+.visa-pill .flag{font-size:28px}
+.visa-pill .info{flex:1}
+.visa-pill .lbl{font-size:11px;letter-spacing:2px;color:var(--ink-muted);text-transform:uppercase;}
+.visa-pill .val{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;margin-top:2px;}
+.visa-pill.good{border-left:3px solid var(--accent)}
+.visa-pill.good .val{color:var(--accent)}
+.visa-pill.meh{border-left:3px solid var(--cn)}
+.visa-pill.meh .val{color:var(--cn)}
+
+/* TIER */
+.tier-bar{display:flex;justify-content:center;gap:8px;margin:40px 0 16px;flex-wrap:wrap;}
+.tier-btn{font-family:inherit;font-size:15px;font-weight:500;padding:12px 24px;border:1.5px solid var(--line);background:var(--card-bg);color:var(--ink-soft);border-radius:30px;cursor:pointer;transition:all 0.25s ease;}
+.tier-btn:hover{border-color:var(--ink-muted);color:var(--ink)}
+.tier-btn.active{background:var(--ink);border-color:var(--ink);color:var(--page-bg);box-shadow:var(--shadow);}
+.tier-desc{text-align:center;font-size:13px;color:var(--ink-muted);margin-bottom:40px;font-style:italic;}
+
+/* TOTALS */
+.totals{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;}
+.total-card{background:var(--card-bg);border:1px solid var(--line);border-radius:16px;padding:36px 32px;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:transform 0.3s ease;}
+.total-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.total-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+.total-card.eu::before{background:var(--eu)}
+.total-card.cn::before{background:var(--cn)}
+.total-flag{font-size:13px;letter-spacing:2px;font-weight:500;margin-bottom:8px;text-transform:uppercase;}
+.total-card.eu .total-flag{color:var(--eu)}
+.total-card.cn .total-flag{color:var(--cn)}
+.total-place{font-family:'Noto Serif SC',serif;font-size:26px;font-weight:700;margin-bottom:16px;}
+.total-num{font-family:'DM Serif Display',serif;font-size:56px;font-weight:400;line-height:1;letter-spacing:-1.5px;color:var(--ink);}
+.total-num .sign{font-size:30px;font-weight:400;color:var(--ink-soft);margin-right:4px;vertical-align:12px;}
+.total-daily{margin-top:16px;font-size:14px;color:var(--ink-soft);}
+.total-daily b{color:var(--ink);font-weight:600;font-family:'Noto Serif SC',serif}
+.total-split{margin-top:16px;border-top:1px solid var(--line);padding-top:12px;}
+.split-line{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:13px;color:var(--ink-soft);}
+.split-line.final{border-top:1px dashed var(--line);margin-top:4px;padding-top:8px;font-weight:600;color:var(--ink);}
+.split-line .sl-lbl{font-size:13px;}
+.split-line .sl-amt{font-family:'DM Serif Display',serif;font-size:15px;font-weight:400;letter-spacing:-0.3px;}
+.split-line .sl-amt.eu{color:var(--eu)}
+.split-line .sl-amt.cn{color:var(--cn)}
+.split-line.final .sl-amt{font-size:17px;color:var(--accent);}
+.total-foot{margin-top:8px;font-size:12px;color:var(--ink-muted);}
+
+/* RATIO */
+.ratio-box{text-align:center;padding:28px;background:linear-gradient(135deg,var(--soft-bg),var(--card-bg));border:1px solid var(--line);border-radius:14px;margin-bottom:64px;box-shadow:var(--shadow);}
+.ratio-num{font-family:'DM Serif Display',serif;font-size:54px;font-weight:400;color:var(--eu);line-height:1;}
+.ratio-text{font-size:15px;color:var(--ink-soft);margin-top:8px;}
+
+/* SECTION */
+section{padding:60px 0}
+section.alt{background:var(--soft-bg)}
+.section-label{font-size:12px;letter-spacing:3px;color:var(--ink-muted);margin-bottom:10px;text-transform:uppercase;}
+h2.section-title{font-family:'Noto Serif SC',serif;font-size:clamp(28px,4vw,40px);font-weight:700;margin-bottom:12px;letter-spacing:-0.3px;}
+.section-intro{color:var(--ink-soft);font-size:16px;margin-bottom:40px;max-width:680px;}
+
+/* BARS */
+.bars{display:flex;flex-direction:column;gap:22px;}
+.bar-row{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:22px 24px;box-shadow:var(--shadow);}
+.bar-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.bar-name{font-family:'Noto Serif SC',serif;font-size:19px;font-weight:600;color:var(--ink);}
+.bar-name .emoji{margin-right:8px;font-size:20px;}
+.bar-note{font-size:13px;color:var(--ink-muted);}
+.bar-track{display:grid;grid-template-columns:60px 1fr 110px;align-items:center;gap:12px;margin-bottom:8px;}
+.bar-track:last-child{margin-bottom:0}
+.bar-label{font-size:13px;font-weight:500;color:var(--ink-soft);}
+.bar-label.eu{color:var(--eu)}
+.bar-label.cn{color:var(--cn)}
+.bar-visual{height:26px;background:var(--soft-bg);border-radius:6px;position:relative;overflow:hidden;}
+.bar-fill{height:100%;border-radius:6px;transition:width 0.6s cubic-bezier(0.4,0,0.2,1);}
+.bar-fill.eu{background:linear-gradient(90deg,#8a3a30,var(--eu))}
+.bar-fill.cn{background:linear-gradient(90deg,#a87729,var(--cn))}
+.bar-value{font-family:'DM Serif Display',serif;font-size:18px;font-weight:400;text-align:right;}
+.bar-value.eu{color:var(--eu)}
+.bar-value.cn{color:var(--cn)}
+.bar-pct{font-size:11px;color:var(--ink-muted);text-align:right;margin:4px 0;}
+
+/* PASSPORT */
+.passport-wrap{background:var(--card-bg);border:1px solid var(--line);border-radius:16px;padding:36px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.passport-wrap::before{content:'🇺🇸';position:absolute;right:-20px;top:-20px;font-size:180px;opacity:0.05;}
+.passport-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;position:relative;}
+.passport-col h4{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.passport-col.eu h4{color:var(--eu)}
+.passport-col.cn h4{color:var(--cn)}
+.p-list{list-style:none}
+.p-item{padding:10px 0;border-bottom:1px dashed var(--line);display:flex;gap:14px;align-items:flex-start;}
+.p-item:last-child{border-bottom:none}
+.p-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
+.p-content .p-title{font-size:14px;font-weight:600;color:var(--ink);}
+.p-content .p-desc{font-size:13px;color:var(--ink-soft);margin-top:2px;line-height:1.5;}
+
+/* ROUTES */
+.routes{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+.route-col{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:28px 26px;box-shadow:var(--shadow);}
+.route-head{padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:18px;}
+.route-flag{font-size:12px;letter-spacing:2px;font-weight:500;}
+.route-col.eu .route-flag{color:var(--eu)}
+.route-col.cn .route-flag{color:var(--cn)}
+.route-title{font-family:'Noto Serif SC',serif;font-size:24px;font-weight:700;margin-top:4px;}
+.route-entry{margin-top:6px;font-size:12px;color:var(--ink-muted);font-style:italic;}
+.city-list{list-style:none}
+.city{display:grid;grid-template-columns:38px 1fr auto;gap:12px;padding:13px 0;border-bottom:1px dashed var(--line);align-items:baseline;}
+.city:last-child{border-bottom:none}
+.city-day{font-family:'Noto Serif SC',serif;font-weight:700;font-size:14px;color:var(--ink-muted);text-align:right;}
+.route-col.eu .city-day{color:var(--eu)}
+.route-col.cn .city-day{color:var(--cn)}
+.city-name{font-weight:500;font-size:15px;color:var(--ink);}
+.city-detail{font-size:12px;color:var(--ink-soft);margin-top:2px;display:block;}
+.city-nights{font-size:12px;color:var(--ink-muted);white-space:nowrap;}
+
+/* DAILY */
+.daily-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.daily-card{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);transition:transform 0.25s ease;}
+.daily-card:hover{transform:translateY(-2px)}
+.daily-icon{font-size:28px;margin-bottom:10px;display:block;}
+.daily-label{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:600;margin-bottom:12px;color:var(--ink);}
+.daily-line{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px dashed var(--line);align-items:baseline;}
+.daily-line:last-child{border-bottom:none}
+.daily-line .tag{color:var(--ink-soft);font-size:12px}
+.daily-line .val{font-weight:600;font-family:'DM Serif Display',serif;font-size:15px;letter-spacing:-0.3px;}
+.daily-line.eu .val{color:var(--eu)}
+.daily-line.cn .val{color:var(--cn)}
+
+/* SEASON */
+.season-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.season-col{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:24px 26px;box-shadow:var(--shadow);}
+.season-col.eu{border-top:4px solid var(--eu)}
+.season-col.cn{border-top:4px solid var(--cn)}
+.season-col h4{font-family:'Noto Serif SC',serif;font-size:19px;font-weight:700;margin-bottom:16px;}
+.season-col.eu h4{color:var(--eu)}
+.season-col.cn h4{color:var(--cn)}
+.months{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px;}
+.month{text-align:center;padding:8px 4px;border-radius:6px;font-size:12px;font-weight:500;background:var(--soft-bg);color:var(--ink-soft);}
+.month.best{background:#c4d9c6;color:#2a5a36;font-weight:700}
+.month.good{background:#e4e8c4;color:#5a5625}
+.month.bad{background:#e8c4c4;color:#723a30}
+.season-note{font-size:13px;color:var(--ink-soft);line-height:1.6;}
+.season-legend{display:flex;gap:14px;font-size:11px;color:var(--ink-muted);margin-bottom:14px;flex-wrap:wrap;}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle;}
+
+/* FRICTION */
+.friction-table{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+.fr-row{display:grid;grid-template-columns:170px 1fr 1fr;border-bottom:1px solid var(--line);}
+.fr-row:last-child{border-bottom:none}
+.fr-row.head{background:var(--soft-bg);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-muted);font-weight:600;}
+.fr-cell{padding:16px 20px;border-right:1px solid var(--line);font-size:14px;line-height:1.55;}
+.fr-cell:last-child{border-right:none}
+.fr-cell.topic{font-family:'Noto Serif SC',serif;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:10px;}
+.fr-cell.eu,.fr-cell.cn{color:var(--ink-soft)}
+.fr-cell strong{color:var(--ink)}
+.fr-cell .good-tag{color:var(--accent);font-weight:600;font-size:12px}
+.fr-cell .bad-tag{color:var(--eu);font-weight:600;font-size:12px}
+
+/* SOLO */
+.solo-wrap{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:32px;box-shadow:var(--shadow);}
+.solo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:18px;}
+.solo-item{padding:18px 20px;background:var(--soft-bg);border-radius:10px;border-left:3px solid var(--eu);}
+.solo-item.mild{border-left-color:var(--cn)}
+.solo-item h4{font-family:'Noto Serif SC',serif;font-size:16px;margin-bottom:6px;font-weight:600;}
+.solo-item p{font-size:14px;color:var(--ink-soft);line-height:1.6}
+
+/* VERDICT */
+.verdict-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:32px;}
+.verdict-card{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:26px 26px 28px;box-shadow:var(--shadow);position:relative;}
+.verdict-card .quote-mark{font-family:'DM Serif Display',serif;font-size:58px;line-height:1;color:var(--cn);position:absolute;top:14px;right:20px;opacity:0.3;}
+.verdict-card h3{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:700;margin-bottom:10px;padding-right:40px;}
+.verdict-card p{font-size:14.5px;color:var(--ink-soft);line-height:1.7;}
+
+/* UPDATE LOG */
+.update-log{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin-top:32px;box-shadow:var(--shadow);}
+.update-log h4{font-family:'Noto Serif SC',serif;font-size:15px;margin-bottom:12px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.update-log .badge{background:var(--accent);color:white;font-size:11px;padding:2px 8px;border-radius:10px;letter-spacing:0.5px;}
+.update-log ol{list-style:none;counter-reset:log;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:6px 20px;}
+.update-log ol li{counter-increment:log;font-size:13px;color:var(--ink-soft);padding:5px 0 5px 26px;position:relative;line-height:1.5;}
+.update-log ol li::before{content:counter(log);position:absolute;left:0;top:5px;width:20px;height:20px;background:var(--soft-bg);color:var(--ink);border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;}
+
+/* PLAN B */
+.plan-block{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:28px 32px;margin-top:24px;box-shadow:var(--shadow);}
+.plan-block:first-of-type{margin-top:0}
+.plan-h3{font-size:22px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:12px;color:var(--ink);}
+.plan-icon{font-size:24px}
+.plan-sub{color:var(--ink-soft);font-size:14px;margin-bottom:18px;}
+.plan-dual,.swap-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.plan-side-title,.swap-side-title{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line);}
+.plan-side.eu .plan-side-title,.swap-side-title.eu{color:var(--eu)}
+.plan-side.cn .plan-side-title,.swap-side-title.cn{color:var(--cn)}
+.ext-list{display:flex;flex-direction:column;gap:10px;}
+.ext-item{display:flex;gap:14px;padding:10px 12px;background:var(--soft-bg);border-radius:8px;align-items:flex-start;}
+.ext-days{font-family:'DM Serif Display',serif;font-size:22px;color:var(--accent);font-weight:700;min-width:46px;text-align:center;line-height:1;padding-top:2px;}
+.ext-info{flex:1}
+.ext-where{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:2px;}
+.ext-why{font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
+.swap-row{display:grid;grid-template-columns:1fr 24px 1fr;gap:10px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:13px;align-items:center;}
+.swap-row:last-child{border-bottom:none}
+.swap-from{color:var(--ink);font-weight:500;}
+.swap-issue{display:block;font-size:11px;color:var(--eu);font-weight:400;margin-top:2px;font-style:italic;}
+.swap-arrow{color:var(--ink-muted);text-align:center;font-size:16px;}
+.swap-to{color:var(--accent);font-weight:500;line-height:1.4}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;}
+.theme-card{background:var(--soft-bg);border-radius:10px;padding:18px 20px;border-left:3px solid transparent;}
+.theme-card.eu{border-left-color:var(--eu)}
+.theme-card.cn{border-left-color:var(--cn)}
+.theme-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.theme-emoji{font-size:22px}
+.theme-title{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:700;color:var(--ink);}
+.theme-route{font-size:12.5px;color:var(--ink-soft);font-style:italic;margin-bottom:8px;letter-spacing:0.2px;}
+.theme-desc{font-size:13px;color:var(--ink-soft);line-height:1.6;}
+.hainan-badge{background:var(--accent);color:white;font-size:10px;padding:1px 6px;border-radius:4px;margin-left:6px;letter-spacing:0.5px;font-weight:500;}
+
+/* PHRASEBOOK */
+.phrase-wrap{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:28px;box-shadow:var(--shadow);}
+.phrase-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid var(--line);}
+.phrase-tab{font-family:inherit;font-size:13px;padding:8px 14px;background:var(--soft-bg);color:var(--ink-soft);border:1px solid transparent;border-radius:20px;cursor:pointer;transition:all 0.2s;}
+.phrase-tab:hover{border-color:var(--line);color:var(--ink)}
+.phrase-tab.active{background:var(--ink);color:var(--page-bg);font-weight:600;}
+.phrase-tab .flag{margin-right:6px}
+.phrase-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px;}
+.phrase-item{padding:12px 16px;background:var(--soft-bg);border-radius:8px;display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;}
+.phrase-num{font-family:'DM Serif Display',serif;color:var(--ink-muted);font-size:14px;text-align:center;line-height:1.4;}
+.phrase-en{font-size:12px;color:var(--ink-muted);margin-bottom:3px;font-style:italic;}
+.phrase-local{font-size:15px;color:var(--ink);font-weight:500;line-height:1.35;}
+.phrase-pron{font-size:12px;color:var(--ink-soft);margin-top:2px;font-family:ui-monospace,monospace;}
+
+/* DAY ITINERARY */
+.day-switcher{display:flex;gap:8px;margin-bottom:24px;justify-content:center;flex-wrap:wrap;}
+.day-btn{font-family:inherit;font-size:14px;padding:10px 20px;border:1.5px solid var(--line);background:var(--card-bg);color:var(--ink-soft);border-radius:25px;cursor:pointer;transition:all 0.2s;}
+.day-btn.active{background:var(--ink);color:var(--page-bg);border-color:var(--ink);}
+.day-list{display:flex;flex-direction:column;gap:12px;}
+.day-card{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:20px 24px;box-shadow:var(--shadow);display:grid;grid-template-columns:80px 1fr;gap:20px;align-items:start;}
+.day-card.transit{background:var(--soft-bg);border-style:dashed;}
+.day-num{font-family:'DM Serif Display',serif;font-size:28px;color:var(--eu);line-height:1;}
+.day-num.cn{color:var(--cn)}
+.day-num .label{display:block;font-size:11px;color:var(--ink-muted);letter-spacing:2px;margin-top:4px;font-family:'Noto Sans SC',sans-serif;}
+.day-city{font-family:'Noto Serif SC',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.day-city .cost{font-family:'DM Serif Display',serif;font-size:14px;color:var(--accent);margin-left:auto;}
+.day-blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.day-block{padding:10px 12px;background:var(--soft-bg);border-radius:6px;}
+.day-block .time{font-size:11px;letter-spacing:2px;color:var(--ink-muted);font-weight:600;text-transform:uppercase;}
+.day-block .act{font-size:13px;color:var(--ink);margin-top:4px;line-height:1.5;}
+
+.transport-info{background:linear-gradient(135deg,#fdf4e3,#fdf9f4);border:1px solid #e8d5a8;border-left:4px solid var(--accent);border-radius:8px;padding:12px 16px;margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:center;}
+.transport-info .ti-mode{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;color:var(--ink);}
+.transport-info .ti-meta{display:flex;flex-direction:column;gap:3px;font-size:12px;}
+.transport-info .ti-meta .ti-dur{color:var(--ink);font-weight:600;}
+.transport-info .ti-meta .ti-price{color:var(--accent);font-family:'DM Serif Display',serif;font-size:14px;}
+.transport-info .ti-why{font-size:11.5px;color:var(--ink-soft);line-height:1.4;font-style:italic;padding-left:12px;border-left:1px dashed var(--ink-muted);}
+@media(max-width:720px){
+  .transport-info{grid-template-columns:1fr;gap:8px;}
+  .transport-info .ti-why{padding-left:0;border-left:none;border-top:1px dashed var(--ink-muted);padding-top:6px;}
+}
+
+/* CITY DEEP DIVE */
+.city-dive-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px;}
+.city-dive{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:22px 24px;box-shadow:var(--shadow);border-top:3px solid var(--eu);}
+.city-dive.cn{border-top-color:var(--cn)}
+.city-dive-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line);}
+.city-dive-name{font-family:'Noto Serif SC',serif;font-size:19px;font-weight:700;color:var(--ink);}
+.city-dive-stay{font-size:11px;color:var(--ink-muted);letter-spacing:1px;}
+.cd-row{display:grid;grid-template-columns:72px 1fr;gap:10px;padding:8px 0;font-size:13px;line-height:1.55;}
+.cd-label{color:var(--ink-muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding-top:2px;font-weight:600;}
+.cd-value{color:var(--ink-soft);}
+.cd-value strong{color:var(--ink);font-weight:600;}
+
+/* SCAM WATCH */
+.scam-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;}
+.scam-card{background:var(--card-bg);border:1px solid var(--line);border-left:4px solid #c84a3a;border-radius:10px;padding:18px 22px;box-shadow:var(--shadow);}
+.scam-head{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;color:#c84a3a;margin-bottom:4px;}
+.scam-city{font-size:12px;color:var(--ink-muted);margin-bottom:10px;}
+.scam-how{font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:10px;}
+.scam-do{font-size:12.5px;color:var(--accent);background:#eaf0e7;padding:8px 12px;border-radius:6px;line-height:1.5;}
+.scam-do strong{color:var(--accent);}
+
+/* APPS */
+.app-countries{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+.app-col{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);}
+.app-col h4{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.app-list{list-style:none}
+.app-list li{padding:7px 0;border-bottom:1px dashed var(--line);font-size:13px;display:flex;gap:10px;align-items:baseline;}
+.app-list li:last-child{border-bottom:none}
+.app-list .app-name{font-weight:600;color:var(--ink);min-width:95px;}
+.app-list .app-desc{color:var(--ink-soft);flex:1;font-size:12.5px;line-height:1.5;}
+.app-must{background:#c84a3a;color:white;font-size:9px;padding:1px 5px;border-radius:3px;letter-spacing:0.5px;margin-left:4px;}
+
+/* ETIQUETTE */
+.etiq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;}
+.etiq-card{background:var(--card-bg);border:1px solid var(--line);border-radius:10px;padding:18px 20px;box-shadow:var(--shadow);}
+.etiq-flag{font-size:26px;margin-bottom:4px;display:block;}
+.etiq-country{font-family:'Noto Serif SC',serif;font-weight:700;font-size:15px;color:var(--ink);margin-bottom:10px;}
+.etiq-line{padding:5px 0;font-size:13px;line-height:1.5;display:flex;gap:8px;align-items:start;}
+.etiq-line .tick{color:var(--accent);font-weight:700;flex-shrink:0;}
+.etiq-line .cross{color:#c84a3a;font-weight:700;flex-shrink:0;}
+
+/* FOOD */
+.food-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+.food-card{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);border-top:3px solid var(--cn-soft);}
+.food-card.eu{border-top-color:var(--eu-soft)}
+.food-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line);}
+.food-flag{font-size:24px}
+.food-country{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:700;color:var(--ink);}
+.food-dish{padding:6px 0;font-size:13px;border-bottom:1px dashed var(--line);line-height:1.55;}
+.food-dish:last-child{border-bottom:none}
+.food-dish .name{font-weight:600;color:var(--ink);}
+.food-dish .desc{color:var(--ink-soft);display:block;font-size:12.5px;margin-top:2px;}
+
+/* AIRPORTS */
+.airport-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;}
+.airport-card{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:22px;box-shadow:var(--shadow);}
+.airport-code{font-family:'DM Serif Display',serif;font-size:30px;color:var(--eu);letter-spacing:1px;line-height:1;}
+.airport-code.cn{color:var(--cn)}
+.airport-city{font-family:'Noto Serif SC',serif;font-size:15px;color:var(--ink-soft);margin-bottom:14px;}
+.ap-row{padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px;line-height:1.5;}
+.ap-row:last-child{border-bottom:none}
+.ap-row .ap-label{font-size:11px;letter-spacing:1.5px;color:var(--ink-muted);text-transform:uppercase;margin-bottom:3px;font-weight:600;}
+.ap-row .ap-val{color:var(--ink);}
+
+/* BUDGET CALC */
+.calc-wrap{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:32px;box-shadow:var(--shadow);}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+.calc-controls{display:flex;flex-direction:column;gap:18px;}
+.calc-group label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:8px;}
+.calc-group .hint{color:var(--ink-muted);font-weight:400;font-size:11px;margin-left:6px;}
+.calc-group input[type=range]{width:100%;accent-color:var(--accent);}
+.calc-group .val-label{display:flex;justify-content:space-between;align-items:baseline;}
+.calc-group .val-num{font-family:'DM Serif Display',serif;color:var(--accent);font-size:18px;}
+.calc-radios{display:flex;gap:8px;flex-wrap:wrap;}
+.calc-radios label{display:flex;align-items:center;gap:6px;font-size:13px;padding:6px 12px;background:var(--soft-bg);border-radius:20px;cursor:pointer;font-weight:500;color:var(--ink-soft);}
+.calc-radios input{display:none}
+.calc-radios input:checked + span{color:var(--accent);font-weight:700;}
+.calc-radios label:has(input:checked){background:#eaf0e7;border:1px solid var(--accent);}
+.calc-output{background:linear-gradient(135deg,var(--soft-bg),var(--card-bg));border-radius:12px;padding:24px;display:flex;flex-direction:column;justify-content:center;}
+.calc-total{font-family:'DM Serif Display',serif;font-size:52px;color:var(--ink);line-height:1;margin-bottom:4px;}
+.calc-total .sign{font-size:28px;vertical-align:10px;color:var(--ink-soft);margin-right:4px;}
+.calc-daily{font-size:14px;color:var(--ink-soft);margin-bottom:18px;}
+.calc-daily b{color:var(--ink);font-family:'Noto Serif SC',serif;}
+.calc-bars{display:flex;flex-direction:column;gap:8px;}
+.calc-bar{font-size:12px;}
+.calc-bar-label{display:flex;justify-content:space-between;margin-bottom:3px;color:var(--ink-soft);}
+.calc-bar-label b{color:var(--ink);font-weight:600;}
+.calc-bar-track{height:8px;background:var(--soft-bg);border-radius:4px;overflow:hidden;}
+.calc-bar-fill{height:100%;background:var(--accent);border-radius:4px;transition:width 0.4s;}
+
+/* PACKING */
+.pack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+.pack-col{background:var(--card-bg);border:1px solid var(--line);border-radius:10px;padding:18px 20px;box-shadow:var(--shadow);}
+.pack-col h4{font-family:'Noto Serif SC',serif;font-size:14px;font-weight:700;margin-bottom:10px;color:var(--ink);display:flex;gap:8px;align-items:center;}
+.pack-col ul{list-style:none}
+.pack-col li{font-size:12.5px;padding:4px 0;color:var(--ink-soft);line-height:1.5;display:flex;gap:6px;}
+.pack-col li::before{content:'□';color:var(--ink-muted);flex-shrink:0;}
+
+/* EMERGENCY */
+.emerg-table{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);}
+.emerg-row{display:grid;grid-template-columns:110px 120px 1fr 1fr;border-bottom:1px solid var(--line);font-size:13px;}
+.emerg-row:last-child{border-bottom:none}
+.emerg-row.head{background:var(--soft-bg);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-muted);font-weight:600;}
+.emerg-cell{padding:12px 16px;border-right:1px solid var(--line);line-height:1.5;}
+.emerg-cell:last-child{border-right:none}
+.emerg-cell.country{font-family:'Noto Serif SC',serif;font-weight:600;color:var(--ink);}
+.emerg-cell .num{font-family:'DM Serif Display',serif;font-size:18px;color:#c84a3a;}
+.emerg-cell small{display:block;color:var(--ink-muted);font-size:11px;margin-top:2px;}
+
+/* PAYMENT */
+.pay-table{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);}
+.pay-row{display:grid;grid-template-columns:140px 1fr 1fr 1fr;border-bottom:1px solid var(--line);}
+.pay-row:last-child{border-bottom:none}
+.pay-row.head{background:var(--soft-bg);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-muted);font-weight:600;}
+.pay-cell{padding:14px 16px;border-right:1px solid var(--line);font-size:12.5px;line-height:1.55;}
+.pay-cell:last-child{border-right:none}
+.pay-cell.country{font-family:'Noto Serif SC',serif;font-weight:600;color:var(--ink);font-size:13px;}
+.pay-cell .tag{font-size:10px;padding:1px 5px;border-radius:3px;background:var(--accent);color:white;margin-left:4px;font-weight:600;letter-spacing:0.3px;}
+.pay-cell .tag.warn{background:#c84a3a}
+
+/* VERIFIED DATA MODULE */
+.verify-banner{background:linear-gradient(135deg,#fef3e0,#fdf9f4);border:1px solid #e6c88c;border-left:4px solid var(--cn);border-radius:12px;padding:20px 24px;margin:28px 0;box-shadow:var(--shadow);}
+.verify-banner h4{font-family:'Noto Serif SC',serif;font-size:16px;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.verify-banner h4 .vtag{background:#a86b2a;color:white;font-size:10px;padding:2px 8px;border-radius:10px;letter-spacing:0.5px;font-weight:500;}
+.verify-banner p{font-size:13.5px;color:var(--ink-soft);line-height:1.65;}
+.verify-banner ul{list-style:none;margin-top:8px;}
+.verify-banner li{font-size:13px;color:var(--ink-soft);padding:4px 0 4px 18px;position:relative;}
+.verify-banner li::before{content:'✓';position:absolute;left:0;color:var(--accent);font-weight:700;}
+.verify-banner li del{color:var(--ink-muted);}
+
+/* CITY PRICE TABLE */
+.price-table{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+.price-row{display:grid;grid-template-columns:200px 1fr 100px 120px;border-bottom:1px solid var(--line);align-items:center;}
+.price-row:last-child{border-bottom:none}
+.price-row.head{background:var(--soft-bg);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-muted);font-weight:600;}
+.price-cell{padding:13px 18px;font-size:13.5px;border-right:1px solid var(--line);}
+.price-cell:last-child{border-right:none}
+.price-cell.site{font-family:'Noto Serif SC',serif;font-weight:600;color:var(--ink);}
+.price-cell.desc{color:var(--ink-soft);font-size:12.5px;line-height:1.45;}
+.price-cell.local{font-family:'DM Serif Display',serif;font-size:15px;text-align:right;}
+.price-cell.usd{font-family:'DM Serif Display',serif;font-size:15px;text-align:right;color:var(--accent);font-weight:700;}
+.price-cell.eu{color:var(--eu)}
+.price-cell.cn{color:var(--cn)}
+.price-subtle{font-size:11px;color:var(--ink-muted);display:block;margin-top:2px;}
+
+/* SOURCES */
+.sources-block{background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin-top:24px;box-shadow:var(--shadow);}
+.sources-block h4{font-family:'Noto Serif SC',serif;font-size:15px;margin-bottom:12px;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.sources-block h4 .badge{background:var(--accent);color:white;font-size:11px;padding:2px 8px;border-radius:10px;letter-spacing:0.5px;}
+.sources-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:6px 20px;list-style:none;}
+.sources-list li{font-size:13px;color:var(--ink-soft);padding:5px 0 5px 22px;position:relative;line-height:1.5;}
+.sources-list li::before{content:'→';position:absolute;left:0;color:var(--ink-muted);}
+.sources-list strong{color:var(--ink);font-weight:600}
+
+/* CITY CARDS */
+.city-cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+.city-card{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow);transition:transform 0.25s ease, box-shadow 0.25s ease;position:relative;overflow:hidden;}
+.city-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.city-card.eu::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--eu);}
+.city-card.cn::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--cn);}
+.city-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+.city-name-group .city-title{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;line-height:1.1;}
+.city-name-group .city-country{font-size:11px;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+.city-daily-badge{font-family:'DM Serif Display',serif;font-size:22px;color:var(--accent);font-weight:700;letter-spacing:-0.5px;}
+.city-daily-label{font-size:10px;color:var(--ink-muted);letter-spacing:1px;display:block;text-align:right;}
+.city-lines{display:flex;flex-direction:column;gap:8px;font-size:13px;}
+.city-line{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;}
+.city-line .lbl{color:var(--ink-soft);display:flex;align-items:center;gap:8px;}
+.city-line .lbl .em{font-size:14px}
+.city-line .amt{font-family:'DM Serif Display',serif;font-weight:400;color:var(--ink);font-size:14px;}
+.city-tip{margin-top:12px;padding:10px 12px;background:var(--soft-bg);border-radius:8px;font-size:12px;color:var(--ink-soft);line-height:1.5;font-style:italic;}
+.city-tip::before{content:'💡';margin-right:6px;font-style:normal;}
+
+/* BUDGET CALCULATOR */
+.calc-wrap{background:linear-gradient(135deg,var(--card-bg),var(--soft-bg));border:1px solid var(--line);border-radius:16px;padding:34px;box-shadow:var(--shadow-lg);}
+.calc-input-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+.calc-field{background:var(--card-bg);border:1px solid var(--line);border-radius:10px;padding:14px 18px;}
+.calc-field label{font-size:11px;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:8px;}
+.calc-field input,.calc-field select{font-family:inherit;font-size:22px;font-weight:700;color:var(--ink);background:transparent;border:none;outline:none;width:100%;font-family:'DM Serif Display',serif;letter-spacing:-0.5px;}
+.calc-field input:focus{color:var(--accent)}
+.calc-field .helper{font-size:11px;color:var(--ink-muted);margin-top:2px;}
+.calc-results{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;}
+.calc-result{background:var(--card-bg);border:1px solid var(--line);border-radius:10px;padding:18px;text-align:center;}
+.calc-result.eu{border-top:3px solid var(--eu)}
+.calc-result.cn{border-top:3px solid var(--cn)}
+.calc-result .rlabel{font-size:11px;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.calc-result .rvalue{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;line-height:1.1;letter-spacing:-1px;}
+.calc-result.eu .rvalue{color:var(--eu)}
+.calc-result.cn .rvalue{color:var(--cn)}
+.calc-result .rsub{font-size:12px;color:var(--ink-soft);margin-top:4px;}
+.calc-verdict{margin-top:18px;padding:16px;background:var(--page-bg);border:1px dashed var(--line);border-radius:10px;text-align:center;font-size:14px;color:var(--ink);line-height:1.6;}
+.calc-verdict b{color:var(--accent);font-family:'Noto Serif SC',serif;}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:36px;}
+.timeline::before{content:'';position:absolute;left:12px;top:10px;bottom:10px;width:2px;background:linear-gradient(to bottom,var(--eu),var(--cn));}
+.timeline-item{position:relative;padding:14px 0 14px 16px;border-bottom:1px dashed var(--line);}
+.timeline-item:last-child{border-bottom:none}
+.timeline-item::before{content:'';position:absolute;left:-30px;top:20px;width:14px;height:14px;background:var(--card-bg);border:3px solid var(--accent);border-radius:50%;box-shadow:var(--shadow);}
+.timeline-when{font-family:'Noto Serif SC',serif;font-weight:700;font-size:15px;color:var(--ink);margin-bottom:4px;}
+.timeline-when .tag{background:var(--eu);color:white;font-size:10px;padding:2px 7px;border-radius:4px;letter-spacing:0.5px;margin-left:8px;font-weight:500;font-family:inherit;}
+.timeline-when .tag.cn{background:var(--cn)}
+.timeline-when .tag.both{background:var(--accent)}
+.timeline-what{font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+.timeline-what strong{color:var(--ink);font-weight:600}
+
+footer{padding:50px 0 60px;text-align:center;border-top:1px solid var(--line);margin-top:40px;}
+footer p{font-size:13px;color:var(--ink-muted);margin:4px 0}
+footer .disclaimer{max-width:680px;margin:16px auto 0;font-size:12px;color:var(--ink-muted);font-style:italic;line-height:1.7;}
+
+@media (max-width:720px){
+  .hero{padding:60px 0 40px}
+  .totals,.routes,.passport-grid,.season-grid,.visa-row,.plan-dual,.swap-grid,.calc-input-row,.calc-results{grid-template-columns:1fr}
+  .plan-block{padding:22px 20px}
+  .calc-wrap{padding:22px}
+  .calc-result .rvalue{font-size:28px}
+  .price-row{grid-template-columns:1fr 1fr;gap:0}
+  .price-cell{border-right:none;border-bottom:1px solid var(--line);padding:10px 16px}
+  .price-cell.site{grid-column:span 2}
+  .price-cell.desc{grid-column:span 2}
+  .price-row.head{display:none}
+  .sources-list{grid-template-columns:1fr}
+  .bar-track{grid-template-columns:50px 1fr 80px;gap:8px}
+  .bar-value{font-size:15px}
+  h1.hero-title .vs{display:block;font-size:0.4em;padding:4px 0}
+  .tier-btn{padding:10px 18px;font-size:14px}
+  .total-num{font-size:44px}
+  .total-num .sign{font-size:24px}
+  .ratio-num{font-size:42px}
+  section{padding:44px 0}
+  .fr-row{grid-template-columns:1fr}
+  .fr-cell{border-right:none;border-bottom:1px solid var(--line)}
+  .fr-cell:last-child{border-bottom:none}
+  .fr-row.head .fr-cell{padding:10px 20px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="hero-eyebrow">
+      <span class="passport">🇺🇸 US PASSPORT</span>
+      · JFK 出发 · 一人自由行 · 30 天
+    </span>
+    <h1 class="hero-title serif">
+      <span class="eu-word">Europe</span>
+      <span class="vs">vs</span>
+      <span class="cn-word">China</span>
+      <br>真实花费对比
+    </h1>
+    <p class="hero-sub">同样 30 天、同样打卡经典名胜 —— 拿着蓝色小本本,两边分别要花多少?</p>
+    <p class="hero-meta">2026 年 4 月 18 日实时汇率 · <code>1 EUR = $1.18</code> · <code>1 CNY = $0.147</code>(6.82 CNY/USD)</p>
+
+    <div class="visa-row">
+      <div class="visa-pill good">
+        <span class="flag">🇪🇺</span>
+        <div class="info">
+          <div class="lbl">Schengen · 签证</div>
+          <div class="val">免签 90 天 · $0</div>
+        </div>
+      </div>
+      <div class="visa-pill meh">
+        <span class="flag">🇨🇳</span>
+        <div class="info">
+          <div class="lbl">China · L 签证 · 官方价</div>
+          <div class="val">$140 · CVASC 总 ~$170-252</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section style="padding-top:20px;padding-bottom:0">
+  <div class="wrap">
+    <div class="verify-banner">
+      <h4><span class="vtag">v12 核实版</span>上一版几处数据错误,这版已核对官方来源修正</h4>
+      <ul>
+        <li><del>中国 L 签证 $185</del> → <strong>$140</strong>(中国驻美大使馆官网 2025-12-29 公告 · 减免政策延至 2026-12-31)</li>
+        <li><del>汇率 1 EUR = $1.10</del> → <strong>1 EUR = $1.18</strong>(2026-04-18 实时)</li>
+        <li><del>汇率 1 CNY = $0.14</del> → <strong>1 CNY = $0.147</strong>(USD/CNY = 6.82)</li>
+        <li><del>2026 起欧洲要交 ETIAS €20</del> → <strong>Q4 2026 才上线</strong>,目前美国护照零签证费</li>
+        <li>新增:<strong>海南 30 天免签美国护照可用</strong>(岛内限定)· <strong>卢浮宫 2026-01-14 起非欧盟 €32</strong></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="tier-bar">
+      <button class="tier-btn active" data-tier="eco">Budget · 穷游</button>
+      <button class="tier-btn" data-tier="mid">Comfort · 舒适</button>
+      <button class="tier-btn" data-tier="lux">Luxury · 轻奢</button>
+    </div>
+    <p class="tier-desc" id="tierDesc">青旅/民宿 · 公共交通 · 街边小吃+平价餐馆</p>
+
+    <div class="totals">
+      <div class="total-card eu">
+        <div class="total-flag">EUROPE · 欧洲</div>
+        <div class="total-place serif">11 国 13 城 · 30 天</div>
+        <div class="total-num"><span class="sign">$</span><span id="euTotal">3,770</span></div>
+        <div class="total-split">
+          <div class="split-line"><span class="sl-lbl">✈️ JFK 往返机票</span><span class="sl-amt eu">$<span id="euFlight">650</span></span></div>
+          <div class="split-line"><span class="sl-lbl">🌍 当地 30 天所有开销</span><span class="sl-amt eu">$<span id="euLocal">3,120</span></span></div>
+          <div class="split-line final"><span class="sl-lbl">当地日均</span><span class="sl-amt">$<span id="euDaily">104</span></span></div>
+        </div>
+        <div class="total-foot">JFK ↔ LHR / CDG / FCO · 免签入境</div>
+      </div>
+      <div class="total-card cn">
+        <div class="total-flag">CHINA · 中国</div>
+        <div class="total-place serif">12 省 14 地 · 30 天</div>
+        <div class="total-num"><span class="sign">$</span><span id="cnTotal">3,090</span></div>
+        <div class="total-split">
+          <div class="split-line"><span class="sl-lbl">✈️ JFK 往返机票</span><span class="sl-amt cn">$<span id="cnFlight">900</span></span></div>
+          <div class="split-line"><span class="sl-lbl">🌍 当地 30 天所有开销</span><span class="sl-amt cn">$<span id="cnLocal">2,190</span></span></div>
+          <div class="split-line final"><span class="sl-lbl">当地日均</span><span class="sl-amt">$<span id="cnDaily">73</span></span></div>
+        </div>
+        <div class="total-foot">JFK ↔ PEK / PVG · 需 L 签证 $140</div>
+      </div>
+    </div>
+
+    <div class="ratio-box">
+      <div class="ratio-num"><span id="ratio">1.22</span>×</div>
+      <div class="ratio-text">同档位下,欧洲约为中国的 <span id="ratioText">1.22 倍</span> —— 比想象中近,因为机票成本相近 + 美国护照中国签证费不高</div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="section-label">BREAKDOWN · 钱都花到哪</div>
+    <h2 class="section-title serif">分项对比 · 每一块钱的去处</h2>
+    <p class="section-intro">持美国护照 2026 年 4 月实况:① 欧洲申根 90 天免签,零签证费(ETIAS 要 Q4 2026 才上线,届时 €20);② 中国 L 签证官方 $140,通过 CVASC 服务中心代办含服务费共 $170-252。当地物价差才是主要差距。</p>
+
+    <div class="bars" id="barsBox"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-label">🇺🇸 PASSPORT POWER · 护照红利</div>
+    <h2 class="section-title serif">拿美国护照,两边分别享受什么?</h2>
+    <p class="section-intro">签证只是冰山一角。下面这些是美国公民在两边的实际体验差别,有些是优势,有些是摩擦。</p>
+
+    <div class="passport-wrap">
+      <div class="passport-grid">
+        <div class="passport-col eu">
+          <h4>🇪🇺 在欧洲 · 顺风局</h4>
+          <ul class="p-list">
+            <li class="p-item"><span class="p-icon">✅</span><div class="p-content"><div class="p-title">Schengen 免签 90 天</div><div class="p-desc">26 国随便进出。英国免签 180 天,爱尔兰 90 天。目前零签证费。</div></div></li>
+            <li class="p-item"><span class="p-icon">💳</span><div class="p-content"><div class="p-title">Visa/Mastercard 几乎全能刷</div><div class="p-desc">Chase Sapphire Reserve 一路吃,零外币手续费,ATM 取现也 OK。</div></div></li>
+            <li class="p-item"><span class="p-icon">📱</span><div class="p-content"><div class="p-title">Google Maps / Uber 原生可用</div><div class="p-desc">不用 VPN,app 生态和美国一样。Bolt/FreeNow 补充打车。</div></div></li>
+            <li class="p-item"><span class="p-icon">⚠️</span><div class="p-content"><div class="p-title">ETIAS Q4 2026 才上线</div><div class="p-desc">官方最新时间表:2026 年第四季度启用,届时需交 €20(~$23,3 年有效)。现在去还不需要。</div></div></li>
+            <li class="p-item"><span class="p-icon">💸</span><div class="p-content"><div class="p-title">⚡ 卢浮宫 +45% 涨价</div><div class="p-desc">2026 年 1 月 14 日起非欧盟游客门票 €22 → €32(~$38)。针对美国人的明确涨价。</div></div></li>
+          </ul>
+        </div>
+        <div class="passport-col cn">
+          <h4>🇨🇳 在中国 · 逆风局</h4>
+          <ul class="p-list">
+            <li class="p-item"><span class="p-icon">📝</span><div class="p-content"><div class="p-title">L 签证官方 $140 · 4 工作日</div><div class="p-desc">单次入境,停留 30 天。CVASC 代办总价 ~$170-252(含服务费)。</div></div></li>
+            <li class="p-item"><span class="p-icon">🏝️</span><div class="p-content"><div class="p-title">海南 30 天免签(loophole)</div><div class="p-desc">美国护照持有者可直飞三亚/海口,免签入境海南 30 天,只限岛内。想省签证费+看热带海岛走这条。</div></div></li>
+            <li class="p-item"><span class="p-icon">🎫</span><div class="p-content"><div class="p-title">240 小时过境免签不适用全景游</div><div class="p-desc">过境免签只 10 天,且必须飞往第三国。30 天大环线用不了这个。</div></div></li>
+            <li class="p-item"><span class="p-icon">💸</span><div class="p-content"><div class="p-title">支付一开始很痛</div><div class="p-desc">Visa/MC 多数地方拒收。提前绑 WeChat Pay / Alipay Tour Pass(可用美国信用卡),现金备用。</div></div></li>
+            <li class="p-item"><span class="p-icon">🚧</span><div class="p-content"><div class="p-title">墙 · 需要 VPN 提前装好</div><div class="p-desc">Google/Gmail/IG/Maps/YouTube/ChatGPT 全不可用。必须在美国先装好。</div></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="section-label">EVERYDAY · 日常体感</div>
+    <h2 class="section-title serif">一件小事,两边差几倍</h2>
+    <p class="section-intro">总数抽象,一杯咖啡直观。下面这些是每天都要花钱的东西,差距直接决定日均预算。</p>
+
+    <div class="daily-grid">
+      <div class="daily-card"><span class="daily-icon">☕</span><div class="daily-label">一杯拿铁</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$4–6</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$2–4</span></div></div>
+      <div class="daily-card"><span class="daily-icon">🛏️</span><div class="daily-label">青旅床位 / 晚</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$30–55</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$8–17</span></div></div>
+      <div class="daily-card"><span class="daily-icon">🏨</span><div class="daily-label">3星单人房 / 晚</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$90–140</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$35–65</span></div></div>
+      <div class="daily-card"><span class="daily-icon">🚇</span><div class="daily-label">地铁单程票</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$2–4</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$0.4–1</span></div></div>
+      <div class="daily-card"><span class="daily-icon">🍜</span><div class="daily-label">一顿正餐</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$18–35</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$6–14</span></div></div>
+      <div class="daily-card"><span class="daily-icon">🎫</span><div class="daily-label">主要景点门票</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$15–30</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$8–25</span></div></div>
+      <div class="daily-card"><span class="daily-icon">🚆</span><div class="daily-label">城际交通(400km)</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$55–125</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$28–55</span></div></div>
+      <div class="daily-card"><span class="daily-icon">💧</span><div class="daily-label">500ml 矿泉水</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$2–3</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$0.3–0.6</span></div></div>
+      <div class="daily-card"><span class="daily-icon">🍺</span><div class="daily-label">酒吧啤酒 · 500ml</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$5–9</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$3–6</span></div></div>
+      <div class="daily-card"><span class="daily-icon">🚕</span><div class="daily-label">打车 · 每公里</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$2–3</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$0.4–0.7</span></div></div>
+      <div class="daily-card"><span class="daily-icon">📶</span><div class="daily-label">eSIM · 30天</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">$20–35</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">$25–40</span></div></div>
+      <div class="daily-card"><span class="daily-icon">💵</span><div class="daily-label">小费习惯</div><div class="daily-line eu"><span class="tag">Europe</span><span class="val">5–10%</span></div><div class="daily-line cn"><span class="tag">China</span><span class="val">0%</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-label">WHEN TO GO · 季节与价格</div>
+    <h2 class="section-title serif">什么月份出发最划算?</h2>
+    <p class="section-intro">旺季和淡季的差价可达 40-60%,选错月份等于多花几千美金。</p>
+
+    <div class="season-legend">
+      <span><span class="legend-dot" style="background:#c4d9c6"></span>最佳(便宜+好天气)</span>
+      <span><span class="legend-dot" style="background:#e4e8c4"></span>尚可</span>
+      <span><span class="legend-dot" style="background:#e8c4c4"></span>避开(贵或难玩)</span>
+    </div>
+
+    <div class="season-grid">
+      <div class="season-col eu">
+        <h4>🇪🇺 Europe · 最佳:4-5月 & 9-10月</h4>
+        <div class="months">
+          <div class="month bad">1月</div><div class="month bad">2月</div><div class="month good">3月</div><div class="month best">4月</div>
+          <div class="month best">5月</div><div class="month bad">6月</div><div class="month bad">7月</div><div class="month bad">8月</div>
+          <div class="month best">9月</div><div class="month best">10月</div><div class="month good">11月</div><div class="month bad">12月</div>
+        </div>
+        <p class="season-note"><strong>夏季(6-8月)人挤人 + 价翻倍</strong>,罗马凡尔赛排队 3 小时起。<strong>9 月是甜蜜点</strong>:机票均价全年最低,气温宜人,旅游团开始散。<strong>圣诞市场</strong>是 12 月唯一亮点,但天气差天黑早。</p>
+      </div>
+      <div class="season-col cn">
+        <h4>🇨🇳 China · 最佳:4-5月 & 9-10月(避开假期)</h4>
+        <div class="months">
+          <div class="month good">1月</div><div class="month bad">2月</div><div class="month good">3月</div><div class="month best">4月</div>
+          <div class="month best">5月</div><div class="month bad">6月</div><div class="month bad">7月</div><div class="month bad">8月</div>
+          <div class="month best">9月</div><div class="month good">10月</div><div class="month good">11月</div><div class="month bad">12月</div>
+        </div>
+        <p class="season-note"><strong>一定避开春节 + 国庆黄金周</strong>:价格翻 2-3 倍,景点容量 200%。<strong>4-5 月</strong>是南方最好时节(桂林/九寨)。<strong>西藏</strong>限 5-9 月。<strong>6-8 月</strong>长江以南湿热劝退。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="section-label">ITINERARY · 经典路线</div>
+    <h2 class="section-title serif">30 天都去哪儿?</h2>
+    <p class="section-intro">挑出两边大众公认的经典大环线。JFK 为起点 / 终点,中间段用火车 / 廉航 / 高铁串联。</p>
+
+    <div class="routes">
+      <div class="route-col eu">
+        <div class="route-head">
+          <div class="route-flag">EUROPE 欧洲大环线</div>
+          <div class="route-title serif">11 国 13 城</div>
+          <div class="route-entry">JFK→LHR 进 · ATH→JFK 回</div>
+        </div>
+        <ul class="city-list">
+          <li class="city"><span class="city-day">D1-3</span><span><span class="city-name">London 伦敦 🇬🇧</span><span class="city-detail">大本钟 · 大英博物馆 · 塔桥 · 白金汉宫</span></span><span class="city-nights">3 晚</span></li>
+          <li class="city"><span class="city-day">D4-7</span><span><span class="city-name">Paris 巴黎 🇫🇷</span><span class="city-detail">埃菲尔铁塔 · 卢浮宫 · 凡尔赛宫 · 奥赛</span></span><span class="city-nights">4 晚</span></li>
+          <li class="city"><span class="city-day">D8-9</span><span><span class="city-name">Amsterdam 阿姆斯特丹 🇳🇱</span><span class="city-detail">运河 · 梵高博物馆 · 风车村 · 安妮之家</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D10</span><span><span class="city-name">Brussels 布鲁塞尔 🇧🇪</span><span class="city-detail">大广场 · 原子球塔 · 撒尿小童</span></span><span class="city-nights">1 晚</span></li>
+          <li class="city"><span class="city-day">D11-12</span><span><span class="city-name">Berlin 柏林 🇩🇪</span><span class="city-detail">勃兰登堡门 · 柏林墙 · 博物馆岛 · 国会大厦</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D13-14</span><span><span class="city-name">Prague 布拉格 🇨🇿</span><span class="city-detail">老城广场 · 查理大桥 · 布拉格城堡 · 天文钟</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D15-16</span><span><span class="city-name">Vienna 维也纳 🇦🇹</span><span class="city-detail">美泉宫 · 霍夫堡 · 金色大厅 · 圣斯特凡大教堂</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D17-18</span><span><span class="city-name">Interlaken 因特拉肯 🇨🇭</span><span class="city-detail">少女峰 · 劳特布龙嫩瀑布 · 雪朗峰</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D19-20</span><span><span class="city-name">Venice 威尼斯 🇮🇹</span><span class="city-detail">圣马可广场 · 贡多拉 · 彩虹岛 · 玻璃岛</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D21</span><span><span class="city-name">Florence 佛罗伦萨</span><span class="city-detail">乌菲兹美术馆 · 圣母百花大教堂 · 老桥</span></span><span class="city-nights">1 晚</span></li>
+          <li class="city"><span class="city-day">D22-24</span><span><span class="city-name">Rome 罗马</span><span class="city-detail">斗兽场 · 梵蒂冈 · 许愿池 · 万神殿</span></span><span class="city-nights">3 晚</span></li>
+          <li class="city"><span class="city-day">D25-27</span><span><span class="city-name">Barcelona 巴塞罗那 🇪🇸</span><span class="city-detail">圣家堂 · 古埃尔公园 · 兰布拉大街 · 海滩</span></span><span class="city-nights">3 晚</span></li>
+          <li class="city"><span class="city-day">D28-30</span><span><span class="city-name">Athens+Santorini 雅典+圣托里尼 🇬🇷</span><span class="city-detail">雅典卫城 · 帕特农神庙 · 爱琴海日落</span></span><span class="city-nights">3 晚</span></li>
+        </ul>
+      </div>
+
+      <div class="route-col cn">
+        <div class="route-head">
+          <div class="route-flag">CHINA 中国大环线</div>
+          <div class="route-title serif">12 省 14 地</div>
+          <div class="route-entry">JFK→PEK 进 · PVG→JFK 回</div>
+        </div>
+        <ul class="city-list">
+          <li class="city"><span class="city-day">D1-4</span><span><span class="city-name">Beijing 北京</span><span class="city-detail">故宫 · 长城 · 颐和园 · 天坛 · 王府井</span></span><span class="city-nights">4 晚</span></li>
+          <li class="city"><span class="city-day">D5-6</span><span><span class="city-name">Xi'an 西安</span><span class="city-detail">兵马俑 · 古城墙 · 大雁塔 · 回民街</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D7-8</span><span><span class="city-name">Chengdu 成都</span><span class="city-detail">大熊猫基地 · 宽窄巷子 · 武侯祠 · 火锅</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D9-11</span><span><span class="city-name">Jiuzhaigou 九寨沟</span><span class="city-detail">五彩池 · 诺日朗瀑布 · 黄龙钙华池</span></span><span class="city-nights">3 晚</span></li>
+          <li class="city"><span class="city-day">D12-14</span><span><span class="city-name">Zhangjiajie 张家界</span><span class="city-detail">阿凡达悬浮山 · 天门山 · 玻璃桥 · 凤凰古城</span></span><span class="city-nights">3 晚</span></li>
+          <li class="city"><span class="city-day">D15-17</span><span><span class="city-name">Guilin+Yangshuo 桂林阳朔</span><span class="city-detail">漓江竹筏 · 龙脊梯田 · 遇龙河 · 西街</span></span><span class="city-nights">3 晚</span></li>
+          <li class="city"><span class="city-day">D18</span><span><span class="city-name">Kunming 昆明</span><span class="city-detail">石林 · 滇池 · 过桥米线</span></span><span class="city-nights">1 晚</span></li>
+          <li class="city"><span class="city-day">D19-20</span><span><span class="city-name">Dali+Lijiang 大理丽江</span><span class="city-detail">洱海 · 玉龙雪山 · 古城 · 蓝月谷</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D21-23</span><span><span class="city-name">Lhasa 拉萨</span><span class="city-detail">布达拉宫 · 大昭寺 · 八廓街 · 纳木错(需 TTP)</span></span><span class="city-nights">3 晚</span></li>
+          <li class="city"><span class="city-day">D24-25</span><span><span class="city-name">Huangshan 黄山</span><span class="city-detail">云海日出 · 迎客松 · 宏村 · 西递</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D26</span><span><span class="city-name">Suzhou 苏州</span><span class="city-detail">拙政园 · 平江路 · 寒山寺 · 评弹</span></span><span class="city-nights">1 晚</span></li>
+          <li class="city"><span class="city-day">D27-28</span><span><span class="city-name">Hangzhou 杭州</span><span class="city-detail">西湖 · 灵隐寺 · 雷峰塔 · 龙井茶园</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">D29-30</span><span><span class="city-name">Shanghai 上海</span><span class="city-detail">外滩 · 豫园 · 田子坊 · 新天地 · 东方明珠</span></span><span class="city-nights">2 晚</span></li>
+          <li class="city"><span class="city-day">—</span><span><span class="city-name">(备选)</span><span class="city-detail">青海湖 · 敦煌莫高窟 · 哈尔滨冰雪 视季节</span></span><span class="city-nights"></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="section-label">REAL PRICES · 实地核实价格</div>
+    <h2 class="section-title serif">每个名胜具体多少钱?</h2>
+    <p class="section-intro">以下门票都是 2026 年官方或官方授权渠道的真实价格。中国侧用 USD/CNY = 6.82 换算,欧洲侧用 EUR/USD = 1.18。</p>
+
+    <h3 class="serif" style="font-size:20px;margin-bottom:14px;color:var(--eu);font-weight:700">🇪🇺 Europe · 2026 官方门票</h3>
+    <div class="price-table" style="margin-bottom:28px">
+      <div class="price-row head">
+        <div class="price-cell">景点</div>
+        <div class="price-cell">说明</div>
+        <div class="price-cell">本地价</div>
+        <div class="price-cell">USD 约</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site eu">卢浮宫 Louvre 🆕</div>
+        <div class="price-cell desc">2026-01-14 起非欧盟价上调 45%<span class="price-subtle">在线需 +€5 预约费</span></div>
+        <div class="price-cell local">€32</div>
+        <div class="price-cell usd">$38</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site eu">梵蒂冈博物馆</div>
+        <div class="price-cell desc">含西斯廷礼拜堂 · 在线预约 +€5</div>
+        <div class="price-cell local">€20</div>
+        <div class="price-cell usd">$24</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site eu">罗马斗兽场</div>
+        <div class="price-cell desc">含罗马广场+帕拉蒂尼山<span class="price-subtle">Arena Floor 加 €4</span></div>
+        <div class="price-cell local">€18</div>
+        <div class="price-cell usd">$21</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site eu">圣家堂 Sagrada Família</div>
+        <div class="price-cell desc">基本入场含语音导览<span class="price-subtle">登塔 +€10</span></div>
+        <div class="price-cell local">€26</div>
+        <div class="price-cell usd">$31</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site eu">凡尔赛宫</div>
+        <div class="price-cell desc">全区通票 Passport</div>
+        <div class="price-cell local">€24</div>
+        <div class="price-cell usd">$28</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site eu">埃菲尔铁塔(顶层电梯)</div>
+        <div class="price-cell desc">顶层 Summit 电梯票</div>
+        <div class="price-cell local">€29.40</div>
+        <div class="price-cell usd">$35</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site eu">雅典卫城</div>
+        <div class="price-cell desc">含博物馆 · 旺季价</div>
+        <div class="price-cell local">€20</div>
+        <div class="price-cell usd">$24</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site eu">阿姆斯特丹梵高博物馆</div>
+        <div class="price-cell desc">必须在线预约时间段</div>
+        <div class="price-cell local">€22</div>
+        <div class="price-cell usd">$26</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site eu">Eurail Global 1 月无限</div>
+        <div class="price-cell desc">二等座 · 全 33 国通用<span class="price-subtle">15 日 flexi: €459 / ~$542</span></div>
+        <div class="price-cell local">€624</div>
+        <div class="price-cell usd">$737</div>
+      </div>
+    </div>
+
+    <h3 class="serif" style="font-size:20px;margin-bottom:14px;color:var(--cn);font-weight:700">🇨🇳 China · 2026 官方门票</h3>
+    <div class="price-table">
+      <div class="price-row head">
+        <div class="price-cell">景点</div>
+        <div class="price-cell">说明</div>
+        <div class="price-cell">本地价</div>
+        <div class="price-cell">USD 约</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">故宫 Forbidden City</div>
+        <div class="price-cell desc">旺季价 · 必须提前 7 天实名预约<span class="price-subtle">外国人用护照号</span></div>
+        <div class="price-cell local">¥60</div>
+        <div class="price-cell usd">$8.80</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">慕田峪长城</div>
+        <div class="price-cell desc">含门票+往返摆渡+缆车</div>
+        <div class="price-cell local">¥200</div>
+        <div class="price-cell usd">$29</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">兵马俑(西安)</div>
+        <div class="price-cell desc">含秦始皇陵+摆渡车<span class="price-subtle">每日限量 65,000 票</span></div>
+        <div class="price-cell local">¥120</div>
+        <div class="price-cell usd">$17.60</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">九寨沟(旺季)</div>
+        <div class="price-cell desc">3-11 月旺季门票+观光车<span class="price-subtle">淡季 ¥140</span></div>
+        <div class="price-cell local">¥225</div>
+        <div class="price-cell usd">$33</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">张家界国家森林公园</div>
+        <div class="price-cell desc">4 日通票含 7 个景区+环保车<span class="price-subtle">外国人不享半价</span></div>
+        <div class="price-cell local">¥225</div>
+        <div class="price-cell usd">$33</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">天门山(张家界)</div>
+        <div class="price-cell desc">含往返大索道 · 旺季</div>
+        <div class="price-cell local">¥258</div>
+        <div class="price-cell usd">$38</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">黄山</div>
+        <div class="price-cell desc">旺季 · 不含索道 ¥90/程</div>
+        <div class="price-cell local">¥190</div>
+        <div class="price-cell usd">$28</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">桂林漓江竹筏</div>
+        <div class="price-cell desc">全程 · 杨堤→兴坪段</div>
+        <div class="price-cell local">¥216</div>
+        <div class="price-cell usd">$32</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">布达拉宫(拉萨)</div>
+        <div class="price-cell desc">门票仅 ¥200 · <strong>但外国人必须跟团</strong><span class="price-subtle">Lhasa 4 日团总价 ~$486</span></div>
+        <div class="price-cell local">¥200</div>
+        <div class="price-cell usd">$29</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">北京→上海高铁 G 字头二等</div>
+        <div class="price-cell desc">1,318 公里 · 4.5 小时</div>
+        <div class="price-cell local">¥553</div>
+        <div class="price-cell usd">$81</div>
+      </div>
+      <div class="price-row">
+        <div class="price-cell site cn">北京→西安高铁二等</div>
+        <div class="price-cell desc">4-5 小时 · 每天 37 趟</div>
+        <div class="price-cell local">¥515</div>
+        <div class="price-cell usd">$75</div>
+      </div>
+    </div>
+
+    <p style="font-size:12px;color:var(--ink-muted);margin-top:16px;font-style:italic;line-height:1.6">
+      价格来源:卢浮宫官网(louvre.fr · 2026 tariff PDF)· 梵蒂冈博物馆官网 · Wanted in Rome · 圣家堂官方 · Eurail/Trainline · 中国驻美大使馆 · TravelChinaGuide · TripAdvisor · Seat61 · 张家界旅游局官网。中国景点多数限流,必须微信小程序 7 天前实名预约。
+    </p>
+  </div>
+</section>
+
+<!-- ===== PER-CITY COST CARDS ===== -->
+<section>
+  <div class="wrap">
+    <div class="section-label">CITY BY CITY · 逐城日均账</div>
+    <h2 class="section-title serif">每座城市到底多少钱一天?</h2>
+    <p class="section-intro">同样是"欧洲",巴黎和布达佩斯差 2 倍;同样是"中国",上海和桂林也差 2 倍。下面是一个中等档位单人的日均花费实测。</p>
+
+    <h3 class="serif" style="font-size:19px;margin-bottom:14px;color:var(--eu);font-weight:700;margin-top:10px">🇪🇺 Europe · 按城日均(含住宿)</h3>
+    <div class="city-cards-grid" style="margin-bottom:36px">
+
+      <div class="city-card eu">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">London</div>
+            <div class="city-country">🇬🇧 United Kingdom</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$195</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>3星单间</span><span class="amt">$130</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>一日三餐</span><span class="amt">$40</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚇</span>地铁+走路</span><span class="amt">$10</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>1 博物馆</span><span class="amt">$15</span></div>
+        </div>
+        <div class="city-tip">大英博物馆 / 国家美术馆 / 泰特现代全部免费。省掉入场费能多吃一顿酒吧晚餐。</div>
+      </div>
+
+      <div class="city-card eu">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Paris</div>
+            <div class="city-country">🇫🇷 France</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$210</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>3星单间</span><span class="amt">$140</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>一日三餐</span><span class="amt">$45</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚇</span>Metro 一日票</span><span class="amt">$10</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>卢浮宫/Versailles</span><span class="amt">$35</span></div>
+        </div>
+        <div class="city-tip">每月第一个星期五 18:00 后卢浮宫免费(非 7-8 月)。周日上午去协和广场有街头早市,性价比爆表。</div>
+      </div>
+
+      <div class="city-card eu">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Zurich / Interlaken</div>
+            <div class="city-country">🇨🇭 Switzerland</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$280</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>3星单间</span><span class="amt">$180</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>一日三餐</span><span class="amt">$60</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚆</span>区间火车</span><span class="amt">$15</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>缆车/登山</span><span class="amt">$25</span></div>
+        </div>
+        <div class="city-tip">瑞士是全欧最贵,少女峰缆车 Jungfraujoch 单程 €220。超市 Coop/Migros 买三明治能救命。</div>
+      </div>
+
+      <div class="city-card eu">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Rome</div>
+            <div class="city-country">🇮🇹 Italy</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$170</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>3星单间</span><span class="amt">$100</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>一日三餐</span><span class="amt">$40</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚇</span>地铁</span><span class="amt">$8</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>斗兽场+梵蒂冈</span><span class="amt">$22</span></div>
+        </div>
+        <div class="city-tip">站着吃咖啡 €2,坐着 €5;就餐 coperto 服务费 €2-3 一定要看菜单下方。Trastevere 区比中心便宜 30%。</div>
+      </div>
+
+      <div class="city-card eu">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Barcelona</div>
+            <div class="city-country">🇪🇸 Spain</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$160</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>3星单间</span><span class="amt">$95</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>一日三餐</span><span class="amt">$35</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚇</span>T-Casual 10程</span><span class="amt">$4</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>圣家堂+Park Güell</span><span class="amt">$26</span></div>
+        </div>
+        <div class="city-tip">Menú del día(13:30-16:00)€12-18 含前菜+主菜+酒+甜点,下午 3 点后的晚餐价格涨 40%。</div>
+      </div>
+
+      <div class="city-card eu">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Prague</div>
+            <div class="city-country">🇨🇿 Czech Republic</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$105</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>3星单间</span><span class="amt">$60</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>一日三餐</span><span class="amt">$25</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚇</span>24小时票</span><span class="amt">$5</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>Prague Castle</span><span class="amt">$15</span></div>
+        </div>
+        <div class="city-tip">整条欧洲线上最便宜的大城市。捷克啤酒 €1.5-2,随便一家非游客餐厅吃饱 €8-10。</div>
+      </div>
+
+      <div class="city-card eu">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Amsterdam</div>
+            <div class="city-country">🇳🇱 Netherlands</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$195</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>3星单间</span><span class="amt">$130</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>一日三餐</span><span class="amt">$40</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚲</span>租车一天</span><span class="amt">$15</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>梵高博物馆</span><span class="amt">$26</span></div>
+        </div>
+        <div class="city-tip">骑车是王道,租车一天 €12-15,Uber/taxi 贵到离谱。安妮之家必须每月第一周二 10:00 CET 抢下月票。</div>
+      </div>
+
+      <div class="city-card eu">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Athens / Santorini</div>
+            <div class="city-country">🇬🇷 Greece</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$175</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>岛上单间(旺)</span><span class="amt">$115</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>一日三餐</span><span class="amt">$35</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">⛴️</span>渡轮+岛内车</span><span class="amt">$15</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>卫城通票</span><span class="amt">$22</span></div>
+        </div>
+        <div class="city-tip">雅典本身便宜,Santorini 旺季(6-9月)酒店价翻 2-3 倍,想省钱住 Ios 或 Naxos,风景相近。</div>
+      </div>
+
+    </div>
+
+    <h3 class="serif" style="font-size:19px;margin-bottom:14px;color:var(--cn);font-weight:700;margin-top:10px">🇨🇳 China · 按城日均(含住宿)</h3>
+    <div class="city-cards-grid">
+
+      <div class="city-card cn">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Beijing 北京</div>
+            <div class="city-country">🇨🇳 首都 · 华北</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$95</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>全季/汉庭单间</span><span class="amt">$50</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>一日三餐</span><span class="amt">$18</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚇</span>地铁+滴滴</span><span class="amt">$5</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>故宫+长城</span><span class="amt">$22</span></div>
+        </div>
+        <div class="city-tip">故宫门票只 ¥60 但必须提前 7 天微信小程序抢票。慕田峪比八达岭清净一倍,外国人多走这里。</div>
+      </div>
+
+      <div class="city-card cn">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Shanghai 上海</div>
+            <div class="city-country">🇨🇳 华东 · 长江口</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$110</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>精品单间</span><span class="amt">$65</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>一日三餐</span><span class="amt">$25</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚇</span>地铁+打车</span><span class="amt">$8</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>东方明珠/博物馆</span><span class="amt">$12</span></div>
+        </div>
+        <div class="city-tip">全国最贵的一线,但外滩/南京路/豫园全部免费逛。吃 dim sum 人均 ¥50,米其林人均 ¥800+。</div>
+      </div>
+
+      <div class="city-card cn">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Xi'an 西安</div>
+            <div class="city-country">🇨🇳 陕西 · 古都</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$70</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>古城内单间</span><span class="amt">$38</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>回民街+正餐</span><span class="amt">$14</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚇</span>地铁+兵马俑班车</span><span class="amt">$3</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>兵马俑+城墙</span><span class="amt">$24</span></div>
+        </div>
+        <div class="city-tip">肉夹馍 ¥10,凉皮 ¥8,biangbiang 面 ¥20。回民街贵且一般,走两个街区找本地店。兵马俑 65,000 票上限。</div>
+      </div>
+
+      <div class="city-card cn">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Chengdu 成都</div>
+            <div class="city-country">🇨🇳 四川 · 天府之国</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$75</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>春熙路单间</span><span class="amt">$42</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>火锅+小吃</span><span class="amt">$18</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚇</span>地铁+打车</span><span class="amt">$4</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>熊猫基地</span><span class="amt">$10</span></div>
+        </div>
+        <div class="city-tip">熊猫 08:00 前到,10:00 后全在睡觉。火锅人均 ¥100-150,不辣选"鸳鸯锅"。夜宵串串才是灵魂。</div>
+      </div>
+
+      <div class="city-card cn">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Guilin 桂林 · 阳朔</div>
+            <div class="city-country">🇨🇳 广西 · 喀斯特</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$65</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>阳朔山景民宿</span><span class="amt">$35</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>桂林米粉+啤酒鱼</span><span class="amt">$12</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚴</span>租车/电驴</span><span class="amt">$5</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>漓江竹筏</span><span class="amt">$32</span></div>
+        </div>
+        <div class="city-tip">住阳朔不住桂林,西街夜晚非常热闹。漓江竹筏选"杨堤→兴坪"段 20 元人民币纸币背面的风景。</div>
+      </div>
+
+      <div class="city-card cn">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Jiuzhaigou 九寨沟</div>
+            <div class="city-country">🇨🇳 四川 · 高原湖群</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$120</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>景区外民宿</span><span class="amt">$55</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>藏族餐</span><span class="amt">$22</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚌</span>机场班车</span><span class="amt">$10</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>九寨沟旺季门票</span><span class="amt">$33</span></div>
+        </div>
+        <div class="city-tip">日均限流 41,000 人,旺季(4-11月)必须 7 天前微信预约。住景区外黑水寨 10 分钟车程便宜一半。</div>
+      </div>
+
+      <div class="city-card cn">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Zhangjiajie 张家界</div>
+            <div class="city-country">🇨🇳 湖南 · 阿凡达悬崖</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$90</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>武陵源单间</span><span class="amt">$40</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>湘菜</span><span class="amt">$14</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚐</span>景区内摆渡</span><span class="amt">$3</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>森林公园+天门山</span><span class="amt">$71</span></div>
+        </div>
+        <div class="city-tip">4 日通票 ¥225,第 2 天开始相当于送 3 天。外国人不享半价。玻璃桥 ¥138 单独另付。</div>
+      </div>
+
+      <div class="city-card cn">
+        <div class="city-head">
+          <div class="city-name-group">
+            <div class="city-title">Lhasa 拉萨</div>
+            <div class="city-country">🇨🇳 西藏 · 需 TTP</div>
+          </div>
+          <div>
+            <div class="city-daily-badge">$165</div>
+            <span class="city-daily-label">PER DAY</span>
+          </div>
+        </div>
+        <div class="city-lines">
+          <div class="city-line"><span class="lbl"><span class="em">🛏️</span>跟团含酒店</span><span class="amt">$80</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🍽️</span>藏餐+尼泊尔</span><span class="amt">$20</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🚐</span>团内包车</span><span class="amt">$35</span></div>
+          <div class="city-line"><span class="lbl"><span class="em">🎫</span>布达拉宫+大昭寺</span><span class="amt">$30</span></div>
+        </div>
+        <div class="city-tip">美国护照<strong>必须跟团</strong>,4 日 Lhasa 团 $486 起含一切。独自进藏不合法。高反预留 2 天适应。</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== BUDGET CALCULATOR ===== -->
+<section class="alt">
+  <div class="wrap">
+    <div class="section-label">CALCULATOR · 预算计算器</div>
+    <h2 class="section-title serif">你有多少预算?能玩多少天?</h2>
+    <p class="section-intro">输入你实际能拿出的总预算,以及你偏好的档位。算法会扣掉往返机票和签证,按档位日均算你能在两地各玩多少天。</p>
+
+    <div class="calc-wrap">
+      <div class="calc-input-row">
+        <div class="calc-field">
+          <label>💰 总预算(不含零花)</label>
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <span style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink-muted)">$</span>
+            <input type="number" id="budgetInput" value="5000" min="1000" max="50000" step="100">
+          </div>
+          <div class="helper">建议 $2,000-15,000</div>
+        </div>
+        <div class="calc-field">
+          <label>🎯 档位</label>
+          <select id="tierSelect" style="width:100%">
+            <option value="eco">Budget · 穷游</option>
+            <option value="mid" selected>Comfort · 舒适</option>
+            <option value="lux">Luxury · 轻奢</option>
+          </select>
+          <div class="helper" id="tierHelper">3-4星酒店 + 正餐</div>
+        </div>
+      </div>
+
+      <div class="calc-results">
+        <div class="calc-result eu">
+          <div class="rlabel">🇪🇺 EUROPE 可玩</div>
+          <div class="rvalue"><span id="euDays">—</span> 天</div>
+          <div class="rsub" id="euSub">—</div>
+        </div>
+        <div class="calc-result cn">
+          <div class="rlabel">🇨🇳 CHINA 可玩</div>
+          <div class="rvalue"><span id="cnDays">—</span> 天</div>
+          <div class="rsub" id="cnSub">—</div>
+        </div>
+      </div>
+
+      <div class="calc-verdict" id="calcVerdict">
+        调整上方数字看看 · <b>同样的钱,中国大约能多玩 25-35%</b>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BOOKING TIMELINE ===== -->
+<section>
+  <div class="wrap">
+    <div class="section-label">PLAYBOOK · 订票时间表</div>
+    <h2 class="section-title serif">什么时候该订什么?</h2>
+    <p class="section-intro">30 天的自由行牵扯几十个预订节点。下面这个时间表帮你分清"现在就得订"和"到了再说"。</p>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-when">T-90 天 · 出发前 3 个月 <span class="tag both">两边</span></div>
+        <div class="timeline-what">
+          <strong>订国际机票。</strong> NYC 到欧洲/中国的经济舱 3 个月前价格通常最低,往返 $500-900(欧洲)/ $900-1,300(中国)。用 Google Flights 设价格提醒,Skyscanner 看灵活日期。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-when">T-60 天 <span class="tag cn">🇨🇳 China</span></div>
+        <div class="timeline-what">
+          <strong>送 L 签证申请。</strong> 官方 $140,CVASC 总价 $170-252(含服务费 $75-110)。处理 4 工作日,急件 +$25 / 2-3 工作日。同时把 VPN 装好、WeChat Pay 用美国卡绑好、Alipay Tour Pass 开通。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-when">T-45 天 <span class="tag cn">🇨🇳 China</span></div>
+        <div class="timeline-what">
+          <strong>如果要去西藏,立刻定旅行社。</strong> TTP 处理需 10-15 天,且必须由 Lhasa 当地授权旅行社申请。拉萨 4 日团 ~$486 起,珠峰 8 日 ~$900-950。不接受独立自由行。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-when">T-30 天 <span class="tag">🇪🇺 Europe</span></div>
+        <div class="timeline-what">
+          <strong>订欧洲境内交通。</strong> 廉航(Ryanair/EasyJet/Vueling)30 天前订通常最便宜。如果走 4+ 个国家,对比 Eurail Global 1 月通票 $737 是否划算 — 通常 5+ 段长距离火车才划算。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-when">T-30 天 <span class="tag both">两边</span></div>
+        <div class="timeline-what">
+          <strong>订热门城市酒店 / 民宿。</strong> 旺季(7-8 月欧洲 / 九寨沟旺季 / 圣托里尼)价格会指数上涨。Booking.com / Agoda 都有免费取消款。中国境内用携程 Trip.com 英文版最顺。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-when">T-14 天 <span class="tag">🇪🇺 Europe</span></div>
+        <div class="timeline-what">
+          <strong>订必要景点 skip-the-line 票。</strong> 卢浮宫时段票、凡尔赛、梵蒂冈早入场、斗兽场 Arena Floor、圣家堂登塔 — 旺季提前 2 周订,不然只能买 2 倍价的第三方票。<strong>安妮之家</strong>每月第一个周二 10:00 CET 放下月票,几分钟抢完。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-when">T-7 天 <span class="tag cn">🇨🇳 China</span></div>
+        <div class="timeline-what">
+          <strong>微信小程序抢景点预约。</strong> 故宫 / 兵马俑 / 九寨沟 / 张家界每天限流,必须 7 天内实名预约。外国人用护照号。建议早上 8 点放票时准时抢热门时段。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-when">T-7 天 <span class="tag both">两边</span></div>
+        <div class="timeline-what">
+          <strong>办 eSIM + 取现金。</strong> Airalo/Holafly 欧洲 30 天 $20-35,中国 $25-40(确认是"免 VPN"类型,否则废)。中国需准备 ¥500-1000 现金应急(小店/寺庙山区还在用)。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-when">T-3 天 <span class="tag both">两边</span></div>
+        <div class="timeline-what">
+          <strong>通知银行 + 买旅行险。</strong> Chase / AmEx / Capital One 打电话报备出境,避免刷卡被锁。World Nomads / SafetyWing 30 天险 $50-100,进藏建议买涵盖高海拔和紧急撤离的。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-when">当天落地 <span class="tag">🇪🇺 Europe</span></div>
+        <div class="timeline-what">
+          <strong>进关很快。</strong> Global Entry 在 CDG/LHR/AMS 等大部分枢纽可用,10 分钟过关。申请 Paris Museum Pass(2 天 €62 / 4 天 €77)覆盖卢浮宫+凡尔赛+奥赛等 50+ 馆。
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-when">当天落地 <span class="tag cn">🇨🇳 China</span></div>
+        <div class="timeline-what">
+          <strong>第一件事:酒店登记。</strong> 外国人入境后 24 小时内必须在当地派出所登记,住酒店的话酒店前台会帮你办。填"临时住宿登记单",拿到回执拍照存证。入境处会采集指纹。
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-label">FRICTION · 看不见的成本</div>
+    <h2 class="section-title serif">语言 / 支付 / 网络 · 隐形体力账</h2>
+    <p class="section-intro">钱以外还有"精力成本"。对一个 NYC 出发的美国护照持有者而言,两地的操作难度差很多。</p>
+
+    <div class="friction-table">
+      <div class="fr-row head">
+        <div class="fr-cell">维度</div>
+        <div class="fr-cell">🇪🇺 Europe</div>
+        <div class="fr-cell">🇨🇳 China</div>
+      </div>
+      <div class="fr-row">
+        <div class="fr-cell topic">🗣️ 英语沟通</div>
+        <div class="fr-cell eu"><span class="good-tag">几乎无障碍</span> · 西欧/北欧酒店景点服务员普遍流利。南欧略弱但菜单双语。</div>
+        <div class="fr-cell cn"><span class="bad-tag">出北上广即吃力</span> · 一线英语勉强,景区/餐厅极少。翻译 app + 地图图标是生存工具。</div>
+      </div>
+      <div class="fr-row">
+        <div class="fr-cell topic">💳 刷卡/支付</div>
+        <div class="fr-cell eu"><span class="good-tag">美国习惯直接通用</span> · Visa/Mastercard/Apple Pay 全境吃。Sapphire Reserve 零外币费。</div>
+        <div class="fr-cell cn"><span class="bad-tag">需 WeChat Pay / Alipay Tour Pass</span> · 绑美国卡即可用。现金 plan B,Visa 只在高档酒店吃。</div>
+      </div>
+      <div class="fr-row">
+        <div class="fr-cell topic">📱 网络/VPN</div>
+        <div class="fr-cell eu">Airalo / Holafly eSIM 直接用。Google Maps, Uber, WhatsApp, IG 全部原生。</div>
+        <div class="fr-cell cn"><span class="bad-tag">必须在美国先装 VPN</span>(Astrill/Let's VPN)。否则 Google/Gmail/IG/YouTube/ChatGPT 全废。</div>
+      </div>
+      <div class="fr-row">
+        <div class="fr-cell topic">🚖 打车/导航</div>
+        <div class="fr-cell eu">Uber / Bolt / FreeNow · 信用卡直接绑定。</div>
+        <div class="fr-cell cn">滴滴英文版 / 高德地图 · 部分城市需本地号。打车价极低。</div>
+      </div>
+      <div class="fr-row">
+        <div class="fr-cell topic">🎫 景点预约</div>
+        <div class="fr-cell eu">官网或 GetYourGuide/Tiqets。排队常态,skip-the-line 票值。</div>
+        <div class="fr-cell cn"><span class="bad-tag">多数景点只能微信小程序实名预约</span> · 提前 7 天,护照号即身份证。故宫/兵马俑每天限流。</div>
+      </div>
+      <div class="fr-row">
+        <div class="fr-cell topic">🛂 入境</div>
+        <div class="fr-cell eu">Global Entry 部分机场可用。多数 ePassport gate,10 分钟搞定。</div>
+        <div class="fr-cell cn">外国人通道 + 指纹采集。入境卡 + 落地 24 小时酒店登记(酒店代办)。</div>
+      </div>
+      <div class="fr-row">
+        <div class="fr-cell topic">🗺️ 西藏特殊</div>
+        <div class="fr-cell eu">不适用</div>
+        <div class="fr-cell cn"><span class="bad-tag">外国护照去西藏必须 TTP · 强制跟团</span> · TTP 本身免费,但必须通过授权旅行社申请。拉萨 4 日团 ~$486,珠峰 8 日 ~$950。自由行禁止。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="section-label">SOLO TAX · 一个人的隐藏成本</div>
+    <h2 class="section-title serif">一个人出门,哪些钱躲不掉?</h2>
+    <p class="section-intro">情侣/闺蜜能均摊房费,一个人独吞。这笔"单人税"在欧洲尤其明显。</p>
+
+    <div class="solo-wrap">
+      <div class="solo-grid">
+        <div class="solo-item"><h4>🇪🇺 住宿 +40~60%</h4><p>欧洲单间 vs 双人间差价不大,一人住等于承担整房费用。青旅混住 dorm 便宜但要接受 6-10 人同间。</p></div>
+        <div class="solo-item"><h4>🇪🇺 餐饮 +15~25%</h4><p>餐厅多 prix fixe(前菜+主菜+酒),一人吃比两人分开点多浪费。Boulangerie/tapas/markets 是解法。</p></div>
+        <div class="solo-item"><h4>🇪🇺 游船/私人团 +50%</h4><p>贡多拉、私人小团、机场出租,两人分摊更划算。用 free walking tours + 公共交通。</p></div>
+        <div class="solo-item mild"><h4>🇨🇳 住宿 +20~30%</h4><p>国内快捷酒店都有单床房价格,汉庭/全季/如家一人也 OK,不会被强收双人价。</p></div>
+        <div class="solo-item mild"><h4>🇨🇳 餐饮 +30~40%</h4><p>中餐合菜制对一个人最不友好,火锅/川菜一人很贵或吃不全。小面/盖饭/便利店/外卖是主力。</p></div>
+        <div class="solo-item mild"><h4>🇨🇳 包车/藏区团 +50%+</h4><p>九寨/张家界/稻城偏远景区内的包车,一人全价。西藏强制跟团,单人反而摊得贵。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHRASEBOOK -->
+<section>
+  <div class="wrap">
+    <div class="section-label">PHRASEBOOK · 多语言短语手册</div>
+    <h2 class="section-title serif">12 种语言 · 15 个救命短语</h2>
+    <p class="section-intro">到了当地,英语未必通。下面每种语言挑了 15 个使用频率最高的短语 —— 问路、买单、过敏、喊救命。发音用拼音/拉丁化标注,张口就能念。</p>
+
+    <div class="phrase-wrap">
+      <div class="phrase-tabs" id="phraseTabs"></div>
+      <div class="phrase-grid" id="phraseGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- DETAILED DAILY ITINERARY -->
+<section class="alt">
+  <div class="wrap">
+    <div class="section-label">DAILY · 每天干啥</div>
+    <h2 class="section-title serif">30 天 · 每一天的安排</h2>
+    <p class="section-intro">主线完整展开到"今天上午/下午/晚上分别在哪"的颗粒度。日均花费(不含住宿 + 跨城交通)按舒适型估算。</p>
+
+    <div class="day-switcher">
+      <button class="day-btn active" data-route="eu">🇪🇺 Europe 30 天</button>
+      <button class="day-btn" data-route="cn">🇨🇳 China 30 天</button>
+    </div>
+
+    <div class="day-list" id="dayList"></div>
+  </div>
+</section>
+
+<!-- CITY DEEP DIVE -->
+<section>
+  <div class="wrap">
+    <div class="section-label">CITY PROFILES · 27 城深度</div>
+    <h2 class="section-title serif">每个城市的灵魂是什么?</h2>
+    <p class="section-intro">维基式介绍太空洞。下面是每座城的实用切片:招牌景点、必吃、住哪、内行 tip、要提防什么。</p>
+
+    <div class="city-dive-grid">
+      <!-- EU -->
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">London 🇬🇧</div><div class="city-dive-stay">3 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">大英博物馆(免费+3h)· 国家美术馆(免费)· 塔桥夜景 · 泰晤士河游船</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Borough Market 市集小吃 · Pub 周末 Sunday Roast · Brick Lane 印度咖喱</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>King's Cross / Bloomsbury</strong>交通中心,<strong>Shoreditch</strong>年轻酷,<strong>Kensington</strong>安静体面</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">Oyster Card 或 contactless 直接刷地铁 · 博物馆全免费 · 找 Wetherspoons 吃便宜 pub</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">Leicester Sq 附近餐馆全是游客陷阱 · Camden 扒手 · 黑出租比 Uber 贵 3 倍</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Paris 🇫🇷</div><div class="city-dive-stay">4 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">卢浮宫(官网预约,每月第一个周五夜间免费)· 奥赛(印象派)· 铁塔夜灯(整点亮 5 分钟)· 凡尔赛宫</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Boulangerie(法棍+可颂)· Bistro 套餐 €25-35 · Marché Bastille 周日市集 · L'As du Fallafel(犹太区)</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Le Marais(4区)</strong>文艺古典,<strong>Saint-Germain(6区)</strong>左岸浪漫,避开 Montmartre 山上(陡+扒手)</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">Navigo Découverte 周票 €30 · Paris Museum Pass 2 日 €55 回本容易 · 铁塔看夜景,白天拍照</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">铁塔/卢浮宫门口签名乞讨陷阱 · "金戒指"骗局 · 18/19 区晚上别去 · Gare du Nord 周围</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Amsterdam 🇳🇱</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">梵高博物馆(必预约)· 安妮之家(60天前抢票)· 运河夜游 · Zaanse Schans 风车村(+半日)</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Stroopwafel 华夫饼(Albert Cuyp 市集)· Haring 生鲱鱼三明治 · Bitterballen 炸肉丸配啤酒</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Jordaan</strong>运河最美街区,<strong>De Pijp</strong>年轻多元。避开 Centrum 通宵吵。</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">租自行车才是本地人视角 · I Amsterdam City Card 3 天 · OV-chipkaart 公交卡</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">红灯区禁止拍照 · 自行车道不是人行道,新手上路危险 · 咖啡店 ≠ 普通咖啡馆</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Brussels 🇧🇪</div><div class="city-dive-stay">1 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">大广场(夜晚灯光)· 撒尿小童(小到让人失望)· 漫画壁画之旅(免费地图)· 原子球塔</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Moules-frites 贻贝薯条 · 华夫饼 · 巧克力(Pierre Marcolini/Neuhaus)· 比利时啤酒 500+ 种</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">Grand Place 周围走路可达一切 · Ixelles 更本地</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">一天够用,可当布鲁日 day trip 基地 · 欧盟总部区周末冷清</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">游客区华夫饼和巧克力价格离谱 · 北站(Gare du Nord)周边夜晚勿单行</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Berlin 🇩🇪</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">勃兰登堡门 · 东区画廊(柏林墙艺术)· 博物馆岛(5 馆)· Checkpoint Charlie · 国会大厦玻璃穹顶(免费预约)</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Currywurst 咖喱肠 · Döner Kebab(土耳其移民发明)· 柏林啤酒花园</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Mitte</strong>中心,<strong>Kreuzberg</strong>多元嬉皮,<strong>Prenzlauer Berg</strong>家庭文艺</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">Berlin WelcomeCard 含交通+折扣 · 冷战/纳粹主题 walking tour 很深入 · U-Bahn/S-Bahn 荣誉体制(偶尔查票)</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">Alexanderplatz 夜晚治安一般 · 逃票罚 €60 没余地</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Prague 🇨🇿</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">老城广场 + 天文钟(整点人偶)· 查理大桥(清晨无人)· 布拉格城堡 · 列侬墙 · 跳舞的房子</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Svíčková 酸奶烤牛肉 · Trdelník 烟囱卷(旅游陷阱,但好吃)· Pilsner Urquell 原产地 € 2 一大杯</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Old Town</strong>一切步行可达,<strong>Vinohrady</strong>本地文艺</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">欧洲最便宜啤酒比水便宜 · 天文钟整点表演 5 分钟其实很平 · 上城堡爬楼不如 Petřín 塔</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">换汇店 90% 是陷阱(用 ATM/Revolut)· 老城广场餐厅小哥主动拉客几乎都坑 · "Help the blind"抢钱</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Vienna 🇦🇹</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">美泉宫(茜茜公主)· 霍夫堡皇宫 · 圣斯蒂芬大教堂 · 艺术史博物馆(Vermeer)· 歌剧院站票 €4</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Wiener Schnitzel 炸牛排 · Sachertorte 萨赫蛋糕(Sacher 酒店)· Wurstelstand 街边香肠 · 咖啡馆文化(Central/Sperl)</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>1 区(Innere Stadt)</strong>老城内,<strong>7 区(Neubau)</strong>文艺设计</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">Vienna Pass 值 · 音乐会廊外排队买站票可看国家歌剧院正版演出</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">街头"莫扎特"拉客音乐会 90% 是游客陷阱 · 美泉宫进内需 skip-line</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Interlaken 🇨🇭</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">少女峰 Top of Europe(CHF 200+)· Lauterbrunnen 瀑布谷 · Grindelwald First 观景 · Schilthorn 007 取景地</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Fondue 奶酪火锅 · Rösti 瑞士土豆饼 · Raclette · 超市买三明治上山吃(省一半)</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Interlaken Ost</strong>交通枢纽,<strong>Lauterbrunnen 村</strong>更美但贵</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">Swiss Travel Pass vs Jungfrau Pass 自己算 · 去少女峰天气要清早查 · Half Fare Card 月卡 CHF 120 很多人能值回</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">餐厅随便一顿 CHF 40 起 · 少女峰上餐厅 90% 是团餐</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Venice 🇮🇹</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">圣马可广场 + 大教堂 · 总督府 + 叹息桥 · 贡多拉(€80 / 30 分)· Burano 彩虹岛 · Murano 玻璃岛</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Cicchetti(威尼斯小吃吧)· Squid ink risotto 墨鱼饭 · Bacari 酒吧 spritz 一杯 €3</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Cannaregio</strong>本地气息,<strong>Dorsoduro</strong>艺术年轻。避免住 Mestre(便宜但要坐火车进)</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">Vaporetto 24h 票 €25 回本 · 清晨 7 点圣马可无人拍照 · 城市税 €5-10/晚</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">圣马可周边 café 咖啡 €15 · 贡多拉讨价 · "Get in the gondola" 先拍照的托 · 餐厅面包费 coperto 是合法的</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Florence</div><div class="city-dive-stay">1 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">乌菲兹美术馆(必预约)· 圣母百花大教堂 + 圆顶攀登 · 学院美术馆(大卫)· 皮蒂宫 · 老桥</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Bistecca Fiorentina 丁骨牛排 · Lampredotto 牛肚三明治(Nerbone 市场)· Gelato(Vivoli/Perché No!)</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">老城内任何地方都好走 · Oltrarno(河对岸)更安静</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">Firenze Card €85/72h 值 · 米开朗基罗广场看日落免费 · 爬 duomo 圆顶要提前 3 周预约</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">中央市场外围价翻倍 · 乌菲兹/大卫 walk-in 排队 4h</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Rome</div><div class="city-dive-stay">3 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">斗兽场 + 罗马广场(联票 €18)· 梵蒂冈圣彼得 + 博物馆(清晨/周三免费)· 许愿池 · 万神殿(免费)· 西班牙台阶</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Cacio e Pepe · Carbonara(经典版不是奶油)· Supplì 炸饭团 · Trastevere 区地道 trattoria · Gelato Fatamorgana</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Monti</strong>罗马市中心文艺,<strong>Trastevere</strong>夜生活好吃,避开 Termini 站周边</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">Roma Pass 2 馆 + 交通 €32 · 斗兽场 + 地下通道票要提前 30 天抢 · 周日梵蒂冈博物馆关</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">扒手集中在 64 路公交 · 许愿池周边餐厅都坑 · "angel with rose"送花要钱 · 斗兽场门口扮罗马士兵要合影费</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Barcelona 🇪🇸</div><div class="city-dive-stay">3 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">圣家堂(日落黄金光)· 古埃尔公园 · 巴特罗之家 · 毕加索美术馆 · Barceloneta 海滩 · 兰布拉大道</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Tapas bar(Cal Pep/Paco Meralgo)· Paella(正宗在 Valencia,巴塞吃 fideuà)· Jamón ibérico · Cava 汽泡</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Gothic Quarter</strong>老城精华,<strong>Eixample</strong>高迪建筑区 wider,<strong>Gràcia</strong>本地波西米亚</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">Hola Barcelona 交通票 · 圣家堂 sunset 时刻彩色玻璃神光 · 周日上午 La Boqueria 市集最活</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">Las Ramblas 扒手天堂 · "签名""问路"都是搭讪偷钱 · 海滩旁贩卖 mojito 非法酒精</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">Athens + Santorini 🇬🇷</div><div class="city-dive-stay">3 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">雅典卫城 + 帕特农 · 卫城博物馆 · Plaka 老城 · Santorini: Oia 日落 · 伊亚蓝顶教堂 · Fira 缆车</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Gyros 希腊烤肉卷(€3-4)· Moussaka 茄子千层 · Fava 黄豆泥 · 希腊酸奶 + 蜂蜜 · Ouzo 茴香酒</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">Athens: Plaka/Monastiraki · Santorini: Oia 贵景美 / Fira 热闹 / Imerovigli 安静</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">卫城 + 6 站联票 €30 · Oia 日落提前 2h 占位 · 渡轮 Blue Star 舒服,Seajets 快但晕船</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">Omonia 站周围夜晚治安差 · Santorini 驴子驮客上山虐待 · 八月游客量爆炸,避开</div></div>
+      </div>
+
+      <!-- CN -->
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Beijing 北京</div><div class="city-dive-stay">4 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">故宫(提前 10 天微信预约)· 长城(金山岭/慕田峪避八达岭人潮)· 颐和园 · 天坛 · 南锣鼓巷 + 什刹海</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">全聚德 vs 大董烤鸭(大董更现代)· 炸酱面 · 铜锅涮肉(东来顺)· 豆汁儿焦圈(勇气挑战)</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>王府井/东四</strong>故宫步行,<strong>鼓楼/什刹海</strong>胡同文艺,<strong>三里屯</strong>夜生活国际化</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">故宫预约用护照号 · 长城打滴滴往返约 ¥400 · 地铁用 WeChat/Alipay 扫码 · 北京通卡已过时</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">主动搭讪"茶艺/艺术展"宰客陷阱 · 故宫外"黑导" · 前门大街商铺 90% 是游客店</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Xi'an 西安</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">兵马俑(1 号坑最震撼)· 华清池 · 西安城墙(骑车)· 大雁塔 · 大唐不夜城 · 碑林</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Biangbiang 面 · 肉夹馍(樊记/秦豫)· 羊肉泡馍(老孙家)· 凉皮 · 回民街小吃(避游客陷阱,去洒金桥)</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>钟楼/鼓楼</strong>一步走遍老城</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">兵马俑官方高铁旅游巴士 ¥20 · 城墙 4 小时骑行回原点 · 华山当天往返高铁 40 分钟</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">兵马俑私人讲解员漫天要价 · 回民街清真寺旁"宰客小店"</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Chengdu 成都</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">大熊猫基地(清晨 8:30 最活)· 宽窄巷子 · 锦里 · 武侯祠 · 青城山都江堰(day trip)</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">火锅(小龙坎/蜀九香)· 串串香 · 担担面 · 龙抄手 · 麻婆豆腐 · 钟水饺 · 夫妻肺片</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>春熙路/太古里</strong>商业繁华,<strong>宽窄巷子附近</strong>古韵</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">熊猫基地门票官方小程序抢 · 茶馆泡一下午看人掏耳朵 · 跟本地 walking food tour 值</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">宽窄巷子内的火锅店游客陷阱 · 锦里小吃没几家正宗</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Jiuzhaigou 九寨沟</div><div class="city-dive-stay">3 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">九寨沟(五花海/诺日朗/五彩池)· 黄龙钙华池 · 甲蕃古城</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">藏式烤羊 · 酥油茶 · 糌粑 · 平价选则汉式快餐(景区内一律贵)</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">九寨沟口(漳扎镇)交通最方便</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">九寨必须官方小程序实名预约 · 10 月红叶黄金季 · 高反注意,带点红景天</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">沟口各种"九寨一日游包车"陷阱 · 黄龙海拔 3600m,老人慎去</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Zhangjiajie 张家界</div><div class="city-dive-stay">3 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">武陵源(袁家界 = 阿凡达悬浮山)· 天门山(玻璃栈道 + 999 阶天梯)· 凤凰古城(夜景河灯)· 大峡谷玻璃桥</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">湘西腊肉 · 土家三下锅 · 辣椒炒肉 · 凤凰血粑鸭</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">核心景区:<strong>武陵源镇</strong> · 天门山:<strong>市区</strong> · 凤凰:<strong>古城内沱江边</strong></div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">景区大,至少 2 天 · 百龙电梯排队狠,早去 · 天门山索道提前订 · 凤凰夜游真正核心</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">火车站/机场"免费接送"90% 是陷阱 · 凤凰白天平淡,晚上才值</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Guilin + Yangshuo 桂林</div><div class="city-dive-stay">3 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">漓江游船(桂林→阳朔)· 遇龙河竹筏 · 阳朔西街 · 龙脊梯田 · 象鼻山 · 印象刘三姐(张艺谋实景)</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">桂林米粉(石记/又益轩)· 啤酒鱼(阳朔)· 荔浦芋扣肉 · 油茶 · 螺蛳粉</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">首日桂林市,第 2-3 日转<strong>阳朔</strong>更精华</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">20 元人民币背面就是漓江兴坪段 · 阳朔骑车 + 竹筏是精华 · 龙脊梯田春夏秋各不同</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">漓江游船有普通船 vs 四星船,别被"升级"套路 · 西街都是假银饰和义乌货</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Dali + Lijiang 大理丽江</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">大理古城 · 洱海环湖(电瓶车/自驾)· 双廊 · 丽江古城(夜景)· 束河古镇 · 玉龙雪山</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">过桥米线 · 鲜花饼 · 白族三道茶 · 酸辣鱼 · 丽江粑粑</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">大理:<strong>才村码头</strong>洱海边 · 丽江:<strong>大研/束河</strong>古城内客栈</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">大理 → 丽江动车 2h · 玉龙雪山大索道需抢票 · 高反注意</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">丽江古城夜酒吧消费陷阱 · "艳遇"文化滋生诈骗 · 客栈绑架式拉客</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Lhasa 拉萨</div><div class="city-dive-stay">3 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">布达拉宫(需提前预约 + 实名)· 大昭寺 + 八廓街 · 罗布林卡 · 纳木错(day trip)· 色拉寺辩经</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">酥油茶 · 藏面 · 青稞酒 · 甜茶馆(拉萨特色文化)· 牦牛肉干</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">八廓街 / 大昭寺附近(注意海拔,首夜别喝酒)</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value"><strong>外国护照必须 TTP 许可证</strong> + 跟团 · 提前 1 个月办 · 首日落地慢慢走防高反 · 带红景天/氧气瓶</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">藏药店 90% 宰客 · 未授权旅行社不能办 TTP · 寺庙内禁止拍照</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Huangshan 黄山</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">黄山(迎客松 + 云海 + 日出)· 宏村 · 西递 · 徽州古城 · 屯溪老街</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">臭鳜鱼 · 毛豆腐 · 徽州烧饼 · 黄山烧饼 · 石头馃</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">山上住酒店看日出(北海/狮林)· 山下屯溪老街 / 宏村民宿</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">前山上后山下(或相反)避免走回头路 · 山上酒店贵但值得 · 宏村就是《卧虎藏龙》取景</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">山下"汤泉景区"水淡无聊 · 挑山工合影需付费</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Suzhou 苏州</div><div class="city-dive-stay">1 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">拙政园 · 留园 · 狮子林 · 平江路历史街区 · 苏州博物馆(贝聿铭)· 寒山寺</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">松鼠鳜鱼 · 苏式汤面(朱鸿兴/同得兴)· 阳澄湖大闸蟹(秋季)· 生煎 · 小笼</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">平江路/观前街附近步行方便</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">拙政园必须官方平台实名预约 · 苏博预约紧 · 园林早上 8 点最清净</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">观前街太商业 · 寒山寺一般,可跳</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Hangzhou 杭州</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">西湖(苏堤 + 雷峰塔 + 断桥)· 灵隐寺 + 飞来峰 · 龙井茶园 · 宋城 · 河坊街</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">东坡肉 · 西湖醋鱼 · 龙井虾仁 · 叫花鸡 · 片儿川 · 桂花糖藕</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value">西湖边(贵)或<strong>湖滨商圈</strong>(步行)</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">租自行车环西湖 · 龙井村喝新茶(4月)· 灵隐寺上午人少</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">河坊街是义乌货 · "茶艺骗局"西湖边常见(女孩邀喝茶,结账天价)</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">Shanghai 上海</div><div class="city-dive-stay">2 晚</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">外滩夜景 + 东方明珠 · 豫园 · 田子坊 · 武康路梧桐区 · 新天地 · 迪士尼(full day)· 上海博物馆</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">小笼包(南翔/鼎泰丰)· 生煎包 · 蟹粉汤包 · 本帮菜(老正兴/老吉士)· 咖啡文化(Manner/% Arabica)</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>外滩/南京东路</strong>观光王道 · <strong>徐汇衡复</strong>文艺 · <strong>陆家嘴</strong>现代</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">地铁 App 扫码进闸 · 外滩对岸看日落最佳角度 · 武康路 walking tour 是精华 · 夜景外白渡桥灯光秀</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">南京东路拉客"按摩"陷阱 · 田子坊 90% 假文创店 · 豫园小吃贵且一般</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SCAM WATCH -->
+<section class="alt">
+  <div class="wrap">
+    <div class="section-label">SCAM WATCH · 骗局地图</div>
+    <h2 class="section-title serif">每个旅游大城的专属陷阱</h2>
+    <p class="section-intro">旅游目的地都有当地最流行的骗术。知道名字和套路,就能提前警觉,比任何"防盗腰包"都管用。</p>
+
+    <div class="scam-grid">
+      <div class="scam-card">
+        <div class="scam-head">🪡 友谊手链骗局</div>
+        <div class="scam-city">巴黎 Sacré-Cœur · 罗马西班牙台阶 · 巴塞罗那 Las Ramblas</div>
+        <div class="scam-how">搭讪的人热情地抓住你手腕,快速编一条手链,一旦编完就索要 €10-20,不给就让你难看。</div>
+        <div class="scam-do"><strong>对策:</strong>看到人靠近就手插口袋、摆手说 No、转身走。绝不伸手。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">💍 金戒指骗局</div>
+        <div class="scam-city">巴黎塞纳河 · 布拉格 · 佛罗伦萨</div>
+        <div class="scam-how">有人弯腰"捡到"金戒指,问是不是你的,然后坚持送给你,接着索要"答谢费"。金戒指是假的。</div>
+        <div class="scam-do"><strong>对策:</strong>摇头快走,"Not mine"。别碰别拿。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">🌹 玫瑰/小纪念品骗局</div>
+        <div class="scam-city">罗马许愿池 · 威尼斯圣马可 · 巴塞罗那海滩</div>
+        <div class="scam-how">"送"你一朵玫瑰或手绳,塞进手里,然后收 €5-10。拒绝就大声责怪。</div>
+        <div class="scam-do"><strong>对策:</strong>双手插口袋、全程 No Thanks,加速离开。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">📋 签名请愿骗局</div>
+        <div class="scam-city">巴黎卢浮宫 · 罗马斗兽场 · 米兰大教堂</div>
+        <div class="scam-how">"聋哑儿童基金"请你签名,签完索要捐款,拒绝时同伙在周围扒窃。团伙作案。</div>
+        <div class="scam-do"><strong>对策:</strong>绝不停步、绝不签字。看到一群人围过来立即离开。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">🚕 假出租车</div>
+        <div class="scam-city">罗马 Termini · 布拉格火车站 · 巴黎 CDG 机场</div>
+        <div class="scam-how">无牌或改装车伪装出租,机场/车站门口"主动招客",中途改路线或讹高价。</div>
+        <div class="scam-do"><strong>对策:</strong>只用官方出租等候区 / Uber / Bolt / 布拉格 AAA / 罗马机场 fixed €50。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">💱 换汇陷阱</div>
+        <div class="scam-city">布拉格 · 伊斯坦布尔 · 巴塞罗那</div>
+        <div class="scam-how">橱窗大字写"0% commission",实际用恶劣汇率,1 欧只给你 60% 应得金额。</div>
+        <div class="scam-do"><strong>对策:</strong>全程用 ATM 取现 + Chase Sapphire 刷卡 · Revolut/Wise 线上换汇。绝不进街边换汇店。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">🎟️ 假 skip-the-line 票</div>
+        <div class="scam-city">罗马斗兽场 · 梵蒂冈 · 埃菲尔铁塔</div>
+        <div class="scam-how">景点入口外有人兜售"免排队票",通常是假的或普通票加价。</div>
+        <div class="scam-do"><strong>对策:</strong>只从官网 / Tiqets / GetYourGuide 买。不买门口任何人手中的票。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">🍺 酒吧/按摩宰客</div>
+        <div class="scam-city">上海南京东路 · 北京三里屯 · 伊斯坦布尔老城</div>
+        <div class="scam-how">搭讪的"友好本地人"邀你去"传统茶馆/酒吧/按摩",结账天价 ¥2000+。</div>
+        <div class="scam-do"><strong>对策:</strong>不跟陌生人去任何他推荐的场所。真要去,自己点评网搜评分。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">🎨 艺术展骗局</div>
+        <div class="scam-city">北京王府井 · 故宫周边 · 西湖苏堤</div>
+        <div class="scam-how">美女/学生搭讪说自己是艺术系学生,邀你看画展、品茶,结账数千元。</div>
+        <div class="scam-do"><strong>对策:</strong>礼貌婉拒。中国景点任何主动搭讪练英语/邀请的几乎都是陷阱。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">📸 打扮奇装合影费</div>
+        <div class="scam-city">罗马斗兽场 · 巴黎 Montmartre · 威尼斯圣马可</div>
+        <div class="scam-how">扮罗马士兵/艺术家/卡通人物靠近,合影后索要 €10-20。</div>
+        <div class="scam-do"><strong>对策:</strong>不合影就不拍。硬要拍,远距离拍他即可,别进入他的"场"。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">🚇 地铁人群扒手</div>
+        <div class="scam-city">巴黎 1/4 号线 · 罗马 A 线 · 巴塞罗那 L3</div>
+        <div class="scam-how">上下车瞬间团伙制造拥挤,多人协作,钱包/手机消失。</div>
+        <div class="scam-do"><strong>对策:</strong>手机钱包放前口袋 + 手按住 · 背包背前面 · 人多别玩手机。</div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-head">🍴 餐厅 Coperto / 额外费用</div>
+        <div class="scam-city">威尼斯圣马可 · 罗马许愿池 · 雅典 Plaka</div>
+        <div class="scam-how">菜单不标 coperto(座位费)/面包费/服务费,结账加 €5-20 一人。</div>
+        <div class="scam-do"><strong>对策:</strong>坐下前先问或查菜单最底小字。coperto 合法但应先告知。避开景点 50m 内餐厅。</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- PLAN B -->
+<section class="alt">
+  <div class="wrap">
+    <div class="section-label">PLAN B · 备用方案</div>
+    <h2 class="section-title serif">有额外时间?不喜欢某地?—— 换条路</h2>
+    <p class="section-intro">主线只是起点。如果你多出几天、某地踩雷、或想换个主题重玩,下面是三套替代方案,任意组合。</p>
+
+    <div class="plan-block">
+      <h3 class="plan-h3 serif"><span class="plan-icon">🗓️</span>Extend · 如果你有更多时间</h3>
+      <div class="plan-dual">
+        <div class="plan-side eu">
+          <div class="plan-side-title">🇪🇺 Europe 延长线</div>
+          <div class="ext-list">
+            <div class="ext-item"><div class="ext-days">+7</div><div class="ext-info"><div class="ext-where">葡萄牙 · Portugal</div><div class="ext-why">Lisbon + Porto + Sintra · 西欧最便宜,海鲜+蛋挞</div></div></div>
+            <div class="ext-item"><div class="ext-days">+10</div><div class="ext-info"><div class="ext-where">北欧 · Iceland / Norway</div><div class="ext-why">冰岛环岛 / 挪威峡湾 · 贵但独一无二</div></div></div>
+            <div class="ext-item"><div class="ext-days">+7</div><div class="ext-info"><div class="ext-where">巴尔干 · Balkans</div><div class="ext-why">Dubrovnik + Split + Bled · 性价比神高</div></div></div>
+            <div class="ext-item"><div class="ext-days">+5</div><div class="ext-info"><div class="ext-where">土耳其 · Türkiye</div><div class="ext-why">Istanbul + Cappadocia 热气球</div></div></div>
+            <div class="ext-item"><div class="ext-days">+5</div><div class="ext-info"><div class="ext-where">摩洛哥 · Morocco</div><div class="ext-why">从西班牙跳过去 · Marrakech + 撒哈拉</div></div></div>
+            <div class="ext-item"><div class="ext-days">+7</div><div class="ext-info"><div class="ext-where">极光线 · Lapland</div><div class="ext-why">Tromsø / Rovaniemi(限 11-2 月)</div></div></div>
+          </div>
+        </div>
+        <div class="plan-side cn">
+          <div class="plan-side-title">🇨🇳 China 延长线</div>
+          <div class="ext-list">
+            <div class="ext-item"><div class="ext-days">+5</div><div class="ext-info"><div class="ext-where">海南 · Hainan<span class="hainan-badge">免签30天</span></div><div class="ext-why">三亚 + 万宁 · 美国护照直接免签进,省 L 签证费</div></div></div>
+            <div class="ext-item"><div class="ext-days">+7</div><div class="ext-info"><div class="ext-where">新疆 · Xinjiang</div><div class="ext-why">喀什古城 + 天山 + 伊犁花海 · 最异域</div></div></div>
+            <div class="ext-item"><div class="ext-days">+5</div><div class="ext-info"><div class="ext-where">甘肃 · Silk Road</div><div class="ext-why">敦煌莫高窟 + 张掖丹霞 + 嘉峪关</div></div></div>
+            <div class="ext-item"><div class="ext-days">+7</div><div class="ext-info"><div class="ext-where">贵州 · Guizhou</div><div class="ext-why">西江千户苗寨 + 荔波小七孔 · 少数民族</div></div></div>
+            <div class="ext-item"><div class="ext-days">+5</div><div class="ext-info"><div class="ext-where">东北 · Harbin</div><div class="ext-why">冰雪大世界 + 长白山(限 12-2 月)</div></div></div>
+            <div class="ext-item"><div class="ext-days">+4</div><div class="ext-info"><div class="ext-where">青海 · Qinghai</div><div class="ext-why">青海湖 + 茶卡盐湖 · 天空之镜</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plan-block">
+      <h3 class="plan-h3 serif"><span class="plan-icon">🔄</span>Swap · 不喜欢就换</h3>
+      <p class="plan-sub">主线城市如果踩雷,下面是更小众或更本地的替代。通常便宜 30%+,游客少一半。</p>
+      <div class="swap-grid">
+        <div class="swap-side">
+          <div class="swap-side-title eu">🇪🇺 Europe 替换</div>
+          <div class="swap-row"><div class="swap-from">Paris<span class="swap-issue">人多+贵</span></div><div class="swap-arrow">→</div><div class="swap-to">Lyon(美食)<br>Bordeaux(酒乡)</div></div>
+          <div class="swap-row"><div class="swap-from">Venice<span class="swap-issue">白天挤爆</span></div><div class="swap-arrow">→</div><div class="swap-to">Verona · Bologna<br>(年轻+美食)</div></div>
+          <div class="swap-row"><div class="swap-from">Santorini<span class="swap-issue">网红打卡点</span></div><div class="swap-arrow">→</div><div class="swap-to">Naxos · Milos · Paros<br>(真正海岛)</div></div>
+          <div class="swap-row"><div class="swap-from">Amsterdam<span class="swap-issue">脏乱+红灯区</span></div><div class="swap-arrow">→</div><div class="swap-to">Utrecht · Delft<br>(更本地)</div></div>
+          <div class="swap-row"><div class="swap-from">London<span class="swap-issue">太贵</span></div><div class="swap-arrow">→</div><div class="swap-to">Edinburgh · Manchester</div></div>
+          <div class="swap-row"><div class="swap-from">Rome<span class="swap-issue">乱+排队</span></div><div class="swap-arrow">→</div><div class="swap-to">Florence · Naples<br>(地道披萨)</div></div>
+        </div>
+        <div class="swap-side">
+          <div class="swap-side-title cn">🇨🇳 China 替换</div>
+          <div class="swap-row"><div class="swap-from">拉萨<span class="swap-issue">TTP麻烦+高反</span></div><div class="swap-arrow">→</div><div class="swap-to">香格里拉<br>稻城亚丁 · 甘南</div></div>
+          <div class="swap-row"><div class="swap-from">八达岭长城<span class="swap-issue">人山人海</span></div><div class="swap-arrow">→</div><div class="swap-to">金山岭 · 慕田峪<br>司马台(夜爬)</div></div>
+          <div class="swap-row"><div class="swap-from">丽江古城<span class="swap-issue">商业化</span></div><div class="swap-arrow">→</div><div class="swap-to">沙溪 · 束河<br>和顺古镇</div></div>
+          <div class="swap-row"><div class="swap-from">西湖<span class="swap-issue">游客爆</span></div><div class="swap-arrow">→</div><div class="swap-to">乌镇 · 西塘 · 绍兴</div></div>
+          <div class="swap-row"><div class="swap-from">兵马俑<span class="swap-issue">拥挤+排队</span></div><div class="swap-arrow">→</div><div class="swap-to">汉阳陵 · 法门寺<br>华山脚下</div></div>
+          <div class="swap-row"><div class="swap-from">桂林漓江<span class="swap-issue">商业化</span></div><div class="swap-arrow">→</div><div class="swap-to">阳朔骑行<br>遇龙河竹筏</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plan-block">
+      <h3 class="plan-h3 serif"><span class="plan-icon">🎨</span>Theme · 整条换主题</h3>
+      <p class="plan-sub">如果博物馆看腻了,或本来就冲着某个主题来 —— 下面几条完全不同的玩法,按兴趣组合。</p>
+      <div class="theme-grid">
+        <div class="theme-card eu">
+          <div class="theme-head"><span class="theme-emoji">🍷</span><div class="theme-title">Foodie 美食环线</div></div>
+          <div class="theme-route">Lyon → Bologna → Modena → San Sebastián → Porto</div>
+          <div class="theme-desc">法意西葡四国吃到扶墙。Modena balsamic 醋庄、San Sebastián pintxos bar、Porto 波特酒窖。</div>
+        </div>
+        <div class="theme-card cn">
+          <div class="theme-head"><span class="theme-emoji">🍲</span><div class="theme-title">吃遍中国菜系</div></div>
+          <div class="theme-route">成都 → 重庆 → 广州 → 潮汕 → 扬州 → 西安</div>
+          <div class="theme-desc">川粤淮扬西,每城停 2-3 天。潮汕牛肉火锅、成都苍蝇馆、广州早茶。米其林黑珍珠挨个打卡。</div>
+        </div>
+        <div class="theme-card eu">
+          <div class="theme-head"><span class="theme-emoji">⚔️</span><div class="theme-title">古文明线</div></div>
+          <div class="theme-route">Athens → Santorini → Pompeii → Rome → Istanbul</div>
+          <div class="theme-desc">希腊-罗马-拜占庭三大古文明走一遍。Pompeii 遗址 + 索菲亚大教堂 + 卫城博物馆。</div>
+        </div>
+        <div class="theme-card cn">
+          <div class="theme-head"><span class="theme-emoji">🏜️</span><div class="theme-title">丝绸之路</div></div>
+          <div class="theme-route">西安 → 天水 → 兰州 → 张掖 → 嘉峪关 → 敦煌</div>
+          <div class="theme-desc">从长安一路西出玉门。麦积山石窟 → 七彩丹霞 → 莫高窟。建议租车或报西北专线。</div>
+        </div>
+        <div class="theme-card eu">
+          <div class="theme-head"><span class="theme-emoji">🏔️</span><div class="theme-title">自然狂野</div></div>
+          <div class="theme-route">Iceland → Norway Lofoten → Swiss Alps → Slovenia Bled</div>
+          <div class="theme-desc">冰岛环岛自驾 + 挪威极北 + 瑞士少女峰 + 斯洛文尼亚。景点≈零,纯看天地。</div>
+        </div>
+        <div class="theme-card cn">
+          <div class="theme-head"><span class="theme-emoji">🍵</span><div class="theme-title">茶马古道</div></div>
+          <div class="theme-route">普洱 → 大理 → 丽江 → 香格里拉 → 康定</div>
+          <div class="theme-desc">茶山-白族-纳西-藏族,从热带一路到高原。适合慢行,深度感受少数民族文化。</div>
+        </div>
+        <div class="theme-card eu">
+          <div class="theme-head"><span class="theme-emoji">🎨</span><div class="theme-title">艺术馆控</div></div>
+          <div class="theme-route">Paris(Louvre) → Madrid(Prado) → Florence(Uffizi) → Amsterdam(Rijksmuseum)</div>
+          <div class="theme-desc">四大顶级博物馆 + 梵高 + 维米尔 + 文艺复兴三杰。每馆至少安排 1 整天。</div>
+        </div>
+        <div class="theme-card cn">
+          <div class="theme-head"><span class="theme-emoji">🏯</span><div class="theme-title">古镇古村</div></div>
+          <div class="theme-route">平遥 → 凤凰 → 乌镇 → 婺源 → 宏村</div>
+          <div class="theme-desc">晋商大院 + 苗汉古城 + 江南水乡 + 徽派民居。全是《国家地理》级画面。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-label">VERDICT · 小结</div>
+    <h2 class="section-title serif">给美国护照持有者的三条结论</h2>
+
+    <div class="verdict-grid">
+      <div class="verdict-card">
+        <span class="quote-mark">1</span>
+        <h3>欧洲反而出乎意料地顺</h3>
+        <p>美国护照在欧洲就是顺风局:Schengen 免签 90 天,ETIAS 要 Q4 2026 才上线,目前零签证费。从 NYC 出发穷游 30 天总花费 ~$3,770,比很多人想象中便宜。</p>
+      </div>
+      <div class="verdict-card">
+        <span class="quote-mark">2</span>
+        <h3>中国物价便宜,但"设置税"高</h3>
+        <p>当地物价是欧洲的 1/3–1/2,但 $140 L 签证 + VPN + 微信支付 + 西藏必须跟团,这些是出发前的一次性成本。配置好之后体验极丝滑。</p>
+      </div>
+      <div class="verdict-card">
+        <span class="quote-mark">3</span>
+        <h3>档位越高,两边差距越小</h3>
+        <p>穷游 1.22×,舒适型 1.28×,轻奢只剩 1.15×。五星酒店、米其林在全球接轨定价,上海北京高端价和巴黎罗马已经基本一致。</p>
+      </div>
+    </div>
+
+    <div class="update-log">
+      <h4><span class="badge">v13</span>本轮新增 · 数据核实 + 交互功能</h4>
+      <ol>
+        <li><strong>核实修正</strong> · L 签证 $140(非 $185)· 汇率 1 EUR=$1.18</li>
+        <li><strong>ETIAS 澄清</strong> · Q4 2026 才上线,目前零签证费</li>
+        <li><strong>海南免签 loophole</strong> · 美国护照岛内 30 天免签</li>
+        <li><strong>Real Prices 表</strong> · 22 个景点官方价 + USD 换算</li>
+        <li><strong>卢浮宫涨价警告</strong> · 2026-01-14 起非欧盟 €32</li>
+        <li><strong>按城日均卡</strong> · 16 个城市各自成本</li>
+        <li><strong>预算计算器</strong> · 输入钱算能玩几天</li>
+        <li><strong>订票时间表</strong> · T-90 到当天的 11 个节点</li>
+        <li><strong>TTP 真实成本</strong> · 拉萨 $486,珠峰 $950</li>
+        <li><strong>数据来源脚注</strong> · 每个数字可追溯</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="serif" style="font-size:15px;color:var(--ink-soft);margin-bottom:10px">一个人的价格,不只是数字 —— 是时间、语言、护照、体力的综合账。</p>
+    <p class="disclaimer">数据综合 2026 年 4 月官方来源:中国驻美大使馆(L 签证 $140)· 卢浮宫官网 2026 tariff PDF(€32 非欧盟)· EU ETIAS 官方(Q4 2026 上线 €20)· Momondo/Kayak 机票实时价 · TradingEconomics 汇率(1 EUR = $1.18 / USD/CNY = 6.82)· 景点门票官网。所有数字为"区间中位估算",因季节/航线/个人消费习惯会显著波动。出发前请再次核实。</p>
+  </div>
+</footer>
+
+<script>
+const tiers = {
+  eco: {
+    desc: '青旅/民宿 · 公共交通 · 街边小吃+平价餐馆',
+    eu: { flight: 650, lodging: 900, transit: 870, food: 800, ticket: 450, misc: 100 },
+    cn: { flight: 900, lodging: 500, transit: 700, food: 500, ticket: 250, misc: 240 }
+  },
+  mid: {
+    desc: '3-4星酒店 · 火车经济/二等座 · 正餐 + 偶尔 fine dining',
+    eu: { flight: 900, lodging: 2400, transit: 1200, food: 1500, ticket: 650, misc: 200 },
+    cn: { flight: 1200, lodging: 1800, transit: 900, food: 800, ticket: 450, misc: 240 }
+  },
+  lux: {
+    desc: '4-5星酒店 · 头等/一等座 · 正餐 + 米其林/黑珍珠',
+    eu: { flight: 1800, lodging: 5400, transit: 1800, food: 2700, ticket: 1200, misc: 350 },
+    cn: { flight: 2500, lodging: 4500, transit: 1500, food: 2000, ticket: 800, misc: 240 }
+  }
+};
+
+const categories = [
+  {key:'flight', emoji:'✈️', name:'JFK 往返机票', note:'经济舱 · 欧洲直飞 7-8h · 中国 14h+'},
+  {key:'lodging', emoji:'🛏️', name:'住宿(30晚)', note:'一个人单间或青旅床位'},
+  {key:'transit', emoji:'🚆', name:'城际 + 市内交通', note:'含火车/廉航/高铁/地铁/打车'},
+  {key:'food', emoji:'🍽️', name:'餐饮(30天)', note:'一日三餐 + 咖啡/饮水'},
+  {key:'ticket', emoji:'🎫', name:'景点门票 + 活动', note:'含卢浮宫 €32/故宫 ¥60 等实际价'},
+  {key:'misc', emoji:'🛂', name:'签证/保险/杂费', note:'EU:保险(ETIAS 未启) · CN:L签证 $140 + 保险'}
+];
+
+function render(tier){
+  const data = tiers[tier];
+  const euTotal = Object.values(data.eu).reduce((a,b)=>a+b,0);
+  const cnTotal = Object.values(data.cn).reduce((a,b)=>a+b,0);
+
+  document.getElementById('euTotal').textContent = euTotal.toLocaleString();
+  document.getElementById('cnTotal').textContent = cnTotal.toLocaleString();
+  document.getElementById('euFlight').textContent = data.eu.flight.toLocaleString();
+  document.getElementById('cnFlight').textContent = data.cn.flight.toLocaleString();
+  document.getElementById('euLocal').textContent = (euTotal - data.eu.flight).toLocaleString();
+  document.getElementById('cnLocal').textContent = (cnTotal - data.cn.flight).toLocaleString();
+  document.getElementById('euDaily').textContent = Math.round((euTotal - data.eu.flight) / 30).toLocaleString();
+  document.getElementById('cnDaily').textContent = Math.round((cnTotal - data.cn.flight) / 30).toLocaleString();
+
+  const ratio = (euTotal / cnTotal).toFixed(2);
+  document.getElementById('ratio').textContent = ratio;
+  document.getElementById('ratioText').textContent = ratio + ' 倍';
+  document.getElementById('tierDesc').textContent = data.desc;
+
+  const box = document.getElementById('barsBox');
+  let maxVal = 0;
+  categories.forEach(c => { maxVal = Math.max(maxVal, data.eu[c.key], data.cn[c.key]); });
+
+  box.innerHTML = categories.map(c => {
+    const euVal = data.eu[c.key], cnVal = data.cn[c.key];
+    const euPct = maxVal ? (euVal/maxVal)*100 : 0;
+    const cnPct = maxVal ? (cnVal/maxVal)*100 : 0;
+    const euShare = ((euVal/euTotal)*100).toFixed(0);
+    const cnShare = ((cnVal/cnTotal)*100).toFixed(0);
+    return `
+      <div class="bar-row">
+        <div class="bar-head">
+          <div class="bar-name"><span class="emoji">${c.emoji}</span>${c.name}</div>
+          <div class="bar-note">${c.note}</div>
+        </div>
+        <div class="bar-track">
+          <div class="bar-label eu">Europe</div>
+          <div class="bar-visual"><div class="bar-fill eu" style="width:${euPct}%"></div></div>
+          <div class="bar-value eu">$${euVal.toLocaleString()}</div>
+        </div>
+        <div class="bar-pct">占总额 Europe ${euShare}% · China ${cnShare}%</div>
+        <div class="bar-track">
+          <div class="bar-label cn">China</div>
+          <div class="bar-visual"><div class="bar-fill cn" style="width:${cnPct}%"></div></div>
+          <div class="bar-value cn">$${cnVal.toLocaleString()}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+document.querySelectorAll('.tier-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(btn.dataset.tier);
+  });
+});
+
+window.addEventListener('DOMContentLoaded', () => { render('eco'); initCalc(); });
+
+// ===== BUDGET CALCULATOR =====
+function initCalc(){
+  const tierDaily = {
+    eco: { eu: {daily:110, fixed:770}, cn: {daily:75, fixed:1150} },
+    mid: { eu: {daily:190, fixed:1100}, cn: {daily:125, fixed:1450} },
+    lux: { eu: {daily:380, fixed:2150}, cn: {daily:290, fixed:2750} }
+  };
+  const tierLabels = {
+    eco: '青旅/民宿 + 小吃 + 公共交通',
+    mid: '3-4星酒店 + 正餐 + 火车二等座',
+    lux: '4-5星酒店 + 米其林 + 头等座'
+  };
+
+  function compute(){
+    const budget = parseFloat(document.getElementById('budgetInput').value) || 0;
+    const tier = document.getElementById('tierSelect').value;
+    const d = tierDaily[tier];
+
+    document.getElementById('tierHelper').textContent = tierLabels[tier];
+
+    const euAvail = budget - d.eu.fixed;
+    const cnAvail = budget - d.cn.fixed;
+    const euDays = euAvail > 0 ? Math.floor(euAvail / d.eu.daily) : 0;
+    const cnDays = cnAvail > 0 ? Math.floor(cnAvail / d.cn.daily) : 0;
+
+    document.getElementById('euDays').textContent = euDays;
+    document.getElementById('cnDays').textContent = cnDays;
+    document.getElementById('euSub').textContent = euDays > 0
+      ? `扣机票 $${d.eu.fixed} · 日均 $${d.eu.daily}`
+      : '预算不足以覆盖机票';
+    document.getElementById('cnSub').textContent = cnDays > 0
+      ? `扣机票+签证 $${d.cn.fixed} · 日均 $${d.cn.daily}`
+      : '预算不足以覆盖机票+签证';
+
+    let verdict = '';
+    if(euDays <= 0 && cnDays <= 0){
+      verdict = '❌ 预算不够往返机票,建议至少 <b>$2,500+</b>';
+    } else if(euDays <= 0){
+      verdict = `🇨🇳 欧洲预算不够,但中国能玩 <b>${cnDays} 天</b>`;
+    } else if(cnDays <= 0){
+      verdict = `🇪🇺 欧洲能玩 <b>${euDays} 天</b>,中国预算不够`;
+    } else {
+      const diff = cnDays - euDays;
+      const pct = Math.round((diff/euDays)*100);
+      if(diff > 0){
+        verdict = `同样的钱,<b>中国比欧洲多玩 ${diff} 天(+${pct}%)</b>`;
+      } else if(diff < 0){
+        verdict = `同样的钱,<b>欧洲比中国多玩 ${Math.abs(diff)} 天</b>`;
+      } else {
+        verdict = `两地差不多能玩 <b>${euDays} 天</b>`;
+      }
+    }
+    document.getElementById('calcVerdict').innerHTML = verdict;
+  }
+
+  document.getElementById('budgetInput').addEventListener('input', compute);
+  document.getElementById('tierSelect').addEventListener('change', compute);
+  compute();
+}
+
+// ===== DAILY ITINERARY =====
+const dayData = {
+  eu: [
+    {d:1, city:'JFK → London 伦敦', cost:'—', tag:'transit',
+      transport:{mode:'✈️ 跨洋飞',dur:'7h 直飞',price:'$500-900 往返',why:'BA / Delta / Virgin / AA 均有直达 LHR'},
+      am:'JFK T7 起飞', pm:'LHR 落地 · Heathrow Express 15 分钟到 Paddington 或地铁 1h', pn:'King\'s Cross 酒店入住 · 倒时差'},
+    {d:2, city:'London 伦敦', cost:'$180', am:'大英博物馆(免费 · 3h)', pm:'塔桥 + 伦敦塔 · 泰晤士河游船', pn:'Soho 晚餐 · 西区音乐剧'},
+    {d:3, city:'London 伦敦', cost:'$170', am:'威斯敏斯特 + 大本钟', pm:'国家美术馆(免费) + 特拉法加广场', pn:'Borough Market 市集晚餐'},
+    {d:4, city:'London → Paris 巴黎', cost:'$120', tag:'transit',
+      transport:{mode:'🚄 Eurostar 欧洲之星',dur:'2h 16m',price:'€60-150 提前 2 月订',why:'唯一直达 · 市中心到市中心,不用去机场,免安检 · 比飞总时间少 2h'},
+      am:'St Pancras Int\'l 出发', pm:'Gare du Nord 到达 · 地铁到 Marais 酒店', pn:'塞纳河畔晚餐'},
+    {d:5, city:'Paris 巴黎', cost:'$210', am:'卢浮宫(€32 · 需预约时段)', pm:'杜乐丽花园 · 协和广场 · 香榭丽舍', pn:'铁塔整点灯光秀'},
+    {d:6, city:'Paris 巴黎', cost:'$200', am:'奥赛美术馆(印象派)', pm:'圣母院外观 + 圣礼拜堂', pn:'蒙马特夜景 · 红磨坊'},
+    {d:7, city:'Paris · Versailles 凡尔赛', cost:'$195', am:'RER C 线 → 凡尔赛宫(€24)', pm:'花园 + 小特里亚侬宫', pn:'返巴黎 · 拉丁区晚餐'},
+    {d:8, city:'Paris → Amsterdam 阿姆斯特丹', cost:'$150', tag:'transit',
+      transport:{mode:'🚄 Eurostar(原 Thalys)',dur:'3h 20m',price:'€60-120 提前订',why:'直达不换乘 · 比飞机含安检总时间快 · 2024 年 Eurostar 统一运营'},
+      am:'Gare du Nord 出发', pm:'Amsterdam Centraal 到达 · Jordaan 运河区', pn:'Albert Cuyp 市场夜市'},
+    {d:9, city:'Amsterdam 阿姆斯特丹', cost:'$195', am:'梵高博物馆(必预约)', pm:'安妮之家(需 30 天前抢票)', pn:'运河 1.5h 夜游'},
+    {d:10, city:'Amsterdam → Brussels 布鲁塞尔', cost:'$130', tag:'transit',
+      transport:{mode:'🚄 Eurostar',dur:'1h 52m',price:'€40-80',why:'直达,非常频繁 · 一天多班'},
+      am:'Amsterdam Centraal 出发', pm:'Brussels Midi 到达 · 大广场', pn:'Moules-frites 贻贝薯条 + 比利时啤酒'},
+    {d:11, city:'Brussels → Berlin 柏林', cost:'$140', tag:'transit',
+      transport:{mode:'✈️ 廉航优先',dur:'1h 20m + 机场 2h = 3.5h',price:'$80-150(Ryanair / Brussels Airlines)',why:'直达火车要 7h 且需换乘 · 飞比火车省半天'},
+      am:'BRU 或 CRL 机场起飞', pm:'BER 到达 · Mitte 区入住', pn:'菩提树下大街夜散步'},
+    {d:12, city:'Berlin 柏林', cost:'$155', am:'勃兰登堡门 + 国会大厦(免费预约)', pm:'柏林墙东区画廊', pn:'Kreuzberg 区夜生活'},
+    {d:13, city:'Berlin → Prague 布拉格', cost:'$90', tag:'transit',
+      transport:{mode:'🚄 EC 欧城特快',dur:'4h 15m',price:'€30-60',why:'直达 · 途经易北河峡谷,风景线 · 比飞机算上机场时间更快'},
+      am:'Berlin Hbf 出发', pm:'Praha hl.n. 到达 · 老城广场 + 天文钟', pn:'Kolkovna 捷克家常菜 + 捷克啤酒'},
+    {d:14, city:'Prague 布拉格', cost:'$105', am:'布拉格城堡(¥250 全套)', pm:'查理大桥 · Malá Strana 小城区', pn:'Strahov 修道院啤酒屋'},
+    {d:15, city:'Prague → Vienna 维也纳', cost:'$100', tag:'transit',
+      transport:{mode:'🚄 RailJet 或 RegioJet',dur:'4h',price:'€20-50 · RegioJet 最便宜',why:'直达 · 每 2h 一班 · RegioJet 双层车厢舒适,免费咖啡'},
+      am:'Praha hl.n. 出发', pm:'Wien Hbf 到达 · Hofburg 霍夫堡', pn:'Café Central 维也纳咖啡 + 甜点'},
+    {d:16, city:'Vienna 维也纳', cost:'$165', am:'美泉宫 Schönbrunn', pm:'Albertina + Belvedere(克里姆特《吻》)', pn:'金色大厅 or 维也纳国家歌剧院'},
+    {d:17, city:'Vienna → Interlaken 因特拉肯', cost:'$240', tag:'transit',
+      transport:{mode:'🛌 ÖBB Nightjet 夜车 → SBB',dur:'夜车到 Zurich 约 10h + 2h 小火车',price:'€90-180 卧铺 · 省一晚酒店',why:'白天车要 10h 累人 · 睡一觉醒来就到 · 省住宿费'},
+      am:'醒来已在 Zurich · 换 SBB 到 Interlaken Ost', pm:'Jungfrau 地区酒店入住', pn:'Höheweg 主街漫步'},
+    {d:18, city:'Interlaken 因特拉肯', cost:'$310', am:'少女峰 Jungfraujoch(€220 往返缆车)', pm:'雪朗峰 007 观景台 or 格林德瓦滑翔', pn:'Lauterbrunnen 72 瀑布镇'},
+    {d:19, city:'Interlaken → Venice 威尼斯', cost:'$160', tag:'transit',
+      transport:{mode:'🚄 SBB + Trenitalia',dur:'7h 总 · Zurich 换乘',price:'€80-140',why:'阿尔卑斯风景线 · 没有直飞航线 · 车上看瑞士→意大利地貌变化'},
+      am:'Interlaken Ost 早发', pm:'Santa Lucia 车站 · Dorsoduro 区入住', pn:'Cannaregio 本地酒吧'},
+    {d:20, city:'Venice 威尼斯', cost:'$175', am:'圣马可广场 + 钟楼登顶', pm:'彩虹岛 Burano + 玻璃岛 Murano', pn:'Rialto 桥夜景'},
+    {d:21, city:'Venice → Florence 佛罗伦萨', cost:'$105', tag:'transit',
+      transport:{mode:'🚄 Frecciarossa 红箭',dur:'2h 5m',price:'€30-50 提前订 · 门票价 €80',why:'300 km/h 意大利高铁最快线 · 每小时一班'},
+      am:'Venezia S. Lucia 出发', pm:'Firenze S.M.N. 到达 · 圣母百花大教堂 + 登顶(€30)', pn:'老桥 Ponte Vecchio 日落'},
+    {d:22, city:'Florence → Rome 罗马', cost:'$140', tag:'transit',
+      transport:{mode:'🚄 Frecciarossa 红箭',dur:'1h 30m',price:'€30-50',why:'最快最顺 · 乌菲兹看完上午直接下午到罗马'},
+      am:'乌菲兹美术馆(€25)', pm:'Firenze → Roma Termini 高铁 · 入住', pn:'Trastevere 本地家常菜'},
+    {d:23, city:'Rome 罗马', cost:'$195', am:'斗兽场 + Arena Floor(€22 含古罗马广场)', pm:'帕拉蒂尼山 + 威尼斯广场', pn:'万神殿 + 许愿池夜景'},
+    {d:24, city:'Rome · Vatican 梵蒂冈', cost:'$180', am:'梵蒂冈博物馆(€20 + €5 预约)', pm:'西斯廷 + 圣彼得大教堂', pn:'Campo de\' Fiori 晚餐'},
+    {d:25, city:'Rome → Barcelona 巴塞罗那', cost:'$160', tag:'transit',
+      transport:{mode:'✈️ 廉航(Vueling / Ryanair)',dur:'2h 飞行 + 机场 2h = 4h',price:'$60-150',why:'没有直达火车 · 廉航最合理 · Vueling 比 Ryanair 少行李陷阱'},
+      am:'FCO 起飞', pm:'BCN 到达 · 哥特区 + Born 区', pn:'Tapas bar + Sangria'},
+    {d:26, city:'Barcelona 巴塞罗那', cost:'$165', am:'圣家堂(€26 · 强烈建议登塔 +€10)', pm:'古埃尔公园(€10)', pn:'Camp Nou 球场(有赛季) or Flamenco 表演'},
+    {d:27, city:'Barcelona 巴塞罗那', cost:'$145', am:'毕加索博物馆 + Born 区', pm:'巴塞罗那塔 + 海鲜饭', pn:'Bunkers del Carmel 山顶日落'},
+    {d:28, city:'Barcelona → Athens 雅典', cost:'$200', tag:'transit',
+      transport:{mode:'✈️ 直飞',dur:'3h 10m',price:'$100-200 · Aegean / Ryanair',why:'地中海两端唯一合理选择'},
+      am:'BCN 起飞', pm:'ATH 到达 · 雅典卫城(€20)', pn:'Plaka 区希腊烤肉'},
+    {d:29, city:'Athens → Santorini 圣托里尼', cost:'$170', tag:'transit',
+      transport:{mode:'⛴️ Blue Star 快船 or 飞机',dur:'快船 5h / 飞机 45m + 机场 1.5h',price:'船 €60 / 飞 $100-180',why:'船体验爱琴海跳岛 · 飞更快但失去浪漫 · 夏季船票必须 1 月前订'},
+      am:'Piraeus 港出发', pm:'Thira 港到达 · Oia 镇入住', pn:'悬崖餐厅看日落'},
+    {d:30, city:'Santorini → JFK', cost:'$100', tag:'transit',
+      transport:{mode:'✈️ 飞雅典转跨洋',dur:'45m + 转机 3h + 10.5h 跨洋',price:'含往返机票里',why:'ATH 直飞 JFK 仅 Delta/Emirates 等,或伦敦转'},
+      am:'岛内火山 + 温泉一日', pm:'JTR 起飞到 ATH 转机', pn:'夜航返美 JFK'}
+  ],
+  cn: [
+    {d:1, city:'JFK → Beijing 北京', cost:'—', tag:'transit',
+      transport:{mode:'✈️ 跨洋直飞',dur:'14h 直飞',price:'$700-1200 往返',why:'Air China / 国航 / United 均有直达 PEK · 国航 JFK-PEK 往返最便宜'},
+      am:'JFK 起飞', pm:'PEK T3 落地 · 机场线 → 东直门换地铁', pn:'东城区酒店 · 24h 内酒店代办登记'},
+    {d:2, city:'Beijing 北京', cost:'$85', am:'故宫(¥60 · 微信 7 天前抢票)', pm:'天安门 + 景山公园俯瞰', pn:'王府井小吃街'},
+    {d:3, city:'Beijing 北京', cost:'$120', am:'慕田峪长城(¥200 含摆渡+缆车)', pm:'下午回城 · 颐和园', pn:'南锣鼓巷胡同酒吧'},
+    {d:4, city:'Beijing 北京', cost:'$80', am:'天坛 + 大栅栏', pm:'798 艺术区', pn:'全聚德烤鸭 or 胡同私房菜'},
+    {d:5, city:'Beijing → Xi\'an 西安', cost:'$85', tag:'transit',
+      transport:{mode:'🚄 G 字头高铁',dur:'4h 30m',price:'¥515(~$75)二等座',why:'每天 37 班 · 最快 4h 20m(G87/G88)· 比飞机省机场时间'},
+      am:'北京西站 G 字头出发', pm:'西安北站到达 · 入住古城', pn:'古城墙夜骑 + 夜景'},
+    {d:6, city:'Xi\'an 西安', cost:'$75', am:'兵马俑(¥120 · 限流 65,000 票/日)', pm:'华清池 + 唐华清宫', pn:'大唐不夜城灯光秀'},
+    {d:7, city:'Xi\'an → Chengdu 成都', cost:'$95', tag:'transit',
+      transport:{mode:'🚄 G 字头高铁(西成高铁)',dur:'3h',price:'¥263(~$38)二等座',why:'2017 年通车 · 过秦岭穿隧道无数 · 比飞机便宜且市中心直达'},
+      am:'西安北 → 成都东站', pm:'宽窄巷子 + 锦里', pn:'老妈蹄花 + 玉林串串'},
+    {d:8, city:'Chengdu 成都', cost:'$70', am:'大熊猫基地(8 点前必到,10 点后全睡)', pm:'武侯祠 + 人民公园喝盖碗茶', pn:'火锅 · 大龙燚 or 小龙坎'},
+    {d:9, city:'Chengdu → Jiuzhaigou 九寨沟', cost:'$150', tag:'transit',
+      transport:{mode:'✈️ 高原航班',dur:'50 分钟 + 机场到景区 2h 巴士',price:'$80-180 单程',why:'高速铁路尚未直达 · 飞机是最快 · 黄龙机场海拔 3,400m,降落有压迫感'},
+      am:'双流 TFU / 天府 CTU 起飞 → JZH 九黄机场', pm:'九寨县城入住 · 低海拔过夜', pn:'藏餐 + 高反适应'},
+    {d:10, city:'Jiuzhaigou 九寨沟', cost:'$120', am:'树正沟 + 诺日朗瀑布(¥225 旺季)', pm:'日则沟 + 长海 + 五彩池', pn:'慢步酒店 · 不做剧烈活动'},
+    {d:11, city:'Jiuzhaigou → Zhangjiajie 张家界', cost:'$220', tag:'transit',
+      transport:{mode:'✈️ 经重庆/长沙转机',dur:'5-6h 全程',price:'$200-280',why:'两地无直飞无直达高铁 · 重庆转最快 · 长沙转更便宜'},
+      am:'JZH 起飞', pm:'DYG 张家界荷花机场落地 · 武陵源入住', pn:'湘菜 · 早睡'},
+    {d:12, city:'Zhangjiajie 张家界', cost:'$95', am:'国家森林公园(¥225 · 4 日通票)', pm:'袁家界 + 阿凡达悬浮山', pn:'金鞭溪栈道'},
+    {d:13, city:'Zhangjiajie 张家界', cost:'$115', am:'天门山(¥258 · 大索道)', pm:'99 弯盘山路 + 玻璃栈道(¥138 额外)', pn:'魅力湘西表演'},
+    {d:14, city:'Zhangjiajie → Guilin 桂林', cost:'$140', tag:'transit',
+      transport:{mode:'✈️ 直飞 or 高铁转',dur:'飞 1.5h / 高铁约 7h 需转',price:'飞 $100-160 / 高铁 ¥400',why:'直飞唯一好选择 · 高铁要长沙转且长'},
+      am:'DYG 起飞', pm:'KWL 桂林两江机场 · 大巴 1h 到阳朔', pn:'啤酒鱼 + 西街夜'},
+    {d:15, city:'Guilin · Yangshuo 阳朔', cost:'$75', am:'漓江竹筏 杨堤 → 兴坪(¥216)', pm:'20 元人民币背面取景点', pn:'印象刘三姐山水实景演出'},
+    {d:16, city:'Yangshuo 阳朔', cost:'$60', am:'遇龙河漂流', pm:'十里画廊骑行 · 月亮山', pn:'阳朔大榕树'},
+    {d:17, city:'Guilin → Kunming 昆明', cost:'$110', tag:'transit',
+      transport:{mode:'🚄 G 字头高铁(贵昆高铁)',dur:'5h',price:'¥300(~$44)二等座',why:'2016 年全线通车 · 穿云贵高原 · 比飞机算上机场总时间近'},
+      am:'桂林西 → 昆明南', pm:'石林一日(¥120)', pn:'过桥米线正宗店'},
+    {d:18, city:'Kunming → Dali 大理', cost:'$80', tag:'transit',
+      transport:{mode:'🚄 D 字头动车',dur:'2h',price:'¥150(~$22)',why:'大丽铁路 · 大理古城站下车即古城'},
+      am:'昆明站 → 大理站', pm:'崇圣寺三塔 + 古城漫步', pn:'白族三道茶'},
+    {d:19, city:'Dali → Lijiang 丽江', cost:'$100', tag:'transit',
+      transport:{mode:'🚄 D 字头动车',dur:'1h 45m',price:'¥75(~$11)',why:'短途动车 · 风景线过苍山'},
+      am:'环洱海骑行半日', pm:'大理 → 丽江动车 · 古城入住', pn:'四方街夜市'},
+    {d:20, city:'Lijiang 丽江', cost:'$130', am:'玉龙雪山(¥140 + 大索道 ¥180)', pm:'蓝月谷 + 甘海子', pn:'纳西古乐表演'},
+    {d:21, city:'Lijiang → Lhasa 拉萨', cost:'$310', tag:'transit',
+      transport:{mode:'✈️ 只能飞(TTP 强制)',dur:'1h 40m',price:'$150-280 · 旅行社统一订',why:'美国护照必须跟团 · 旅行社提前安排 · 火车 Z21 虽便宜但手续更繁'},
+      am:'LJG → LXA 贡嘎机场', pm:'酒店休息 · 与导游会合', pn:'高反预防 · 不洗热水澡 · 不剧烈活动'},
+    {d:22, city:'Lhasa 拉萨', cost:'$140', am:'布达拉宫(¥200 · 必须导游带入)', pm:'大昭寺 + 八廓街转经', pn:'藏餐 + 酥油茶'},
+    {d:23, city:'Lhasa 拉萨', cost:'$150', am:'色拉寺辩经 + 哲蚌寺', pm:'纳木错(+1 日选配 $80)', pn:'返拉萨'},
+    {d:24, city:'Lhasa → Huangshan 黄山', cost:'$280', tag:'transit',
+      transport:{mode:'✈️ 成都 or 重庆转机',dur:'全程 8-10h',price:'$250-350',why:'两地无直飞 · 成都转最常见 · 长日子早起'},
+      am:'LXA 起飞', pm:'TXN 黄山屯溪机场落地 · 汤口镇入住', pn:'早睡 · 养精神爬山'},
+    {d:25, city:'Huangshan 黄山', cost:'$105', am:'缆车上山(¥90 单程)· 迎客松', pm:'光明顶 + 西海大峡谷', pn:'山上酒店看云海日出'},
+    {d:26, city:'Huangshan → Hongcun 宏村', cost:'$90', am:'下山 + 汽车到宏村(¥104 门票)', pm:'南湖 + 月沼 · 徽派民居', pn:'屯溪老街徽菜'},
+    {d:27, city:'Huangshan → Hangzhou 杭州', cost:'$95', tag:'transit',
+      transport:{mode:'🚄 G 字头高铁(杭黄高铁)',dur:'2h 20m',price:'¥240(~$35)二等座',why:'2018 年通车 · 直达 · 风景线穿新安江千岛湖'},
+      am:'黄山北 → 杭州东', pm:'西湖 + 雷峰塔', pn:'西湖夜游 + 龙井茶'},
+    {d:28, city:'Hangzhou → Suzhou 苏州', cost:'$75', tag:'transit',
+      transport:{mode:'🚄 G 字头高铁(经上海虹桥)',dur:'1h 30m 含换乘',price:'¥200(~$29)',why:'无直达高铁 · 上海虹桥中转最顺 · 也可选绕杭州湾动车'},
+      am:'灵隐寺早访', pm:'杭东 → 苏州(上海虹桥转)· 拙政园(¥70) + 平江路', pn:'苏州评弹 + 太湖三白'},
+    {d:29, city:'Suzhou → Shanghai 上海', cost:'$100', tag:'transit',
+      transport:{mode:'🚄 G 字头高铁',dur:'25 分钟',price:'¥40(~$6)二等座',why:'全中国最密集班次之一 · 10 分钟一班 · 磁悬浮式便捷'},
+      am:'苏州 → 上海虹桥', pm:'外滩 + 陆家嘴夜景', pn:'新天地 or Found 158'},
+    {d:30, city:'Shanghai → JFK', cost:'$110', tag:'transit',
+      transport:{mode:'✈️ 跨洋直飞',dur:'14h',price:'含往返机票里',why:'国航 / United / Delta 均有 PVG-JFK 直达 · 省旧金山转'},
+      am:'豫园 + 田子坊', pm:'磁悬浮 7 分钟到浦东机场', pn:'JFK 跨日飞回 (赚回一天)'}
+  ]
+};
+
+function renderDays(route){
+  const days = dayData[route];
+  const list = document.getElementById('dayList');
+  if(!list) return;
+  list.innerHTML = days.map(d => {
+    const transportBlock = d.transport ? `
+      <div class="transport-info">
+        <div class="ti-mode">${d.transport.mode}</div>
+        <div class="ti-meta">
+          <div class="ti-dur">⏱️ ${d.transport.dur}</div>
+          <div class="ti-price">💰 ${d.transport.price}</div>
+        </div>
+        <div class="ti-why">💡 ${d.transport.why}</div>
+      </div>
+    ` : '';
+    return `
+      <div class="day-card${d.tag === 'transit' ? ' transit' : ''}">
+        <div class="day-num${route === 'cn' ? ' cn' : ''}">${d.d}<span class="label">DAY</span></div>
+        <div>
+          <div class="day-city">${d.city}<span class="cost">${d.cost}</span></div>
+          ${transportBlock}
+          <div class="day-blocks">
+            <div class="day-block"><div class="time">AM</div><div class="act">${d.am}</div></div>
+            <div class="day-block"><div class="time">PM</div><div class="act">${d.pm}</div></div>
+            <div class="day-block"><div class="time">PN</div><div class="act">${d.pn}</div></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// day button event
+document.querySelectorAll('.day-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDays(btn.dataset.route);
+  });
+});
+
+// ===== PHRASEBOOK =====
+const phrases = {
+  fr: {name:'French', flag:'🇫🇷', items:[
+    ['Hello','Bonjour','bon-ZHOOR'],
+    ['Thank you','Merci','mair-SEE'],
+    ['Yes / No','Oui / Non','WEE / NOH'],
+    ['Excuse me','Excusez-moi','ex-koo-zay-MWAH'],
+    ['How much?','C\'est combien?','say kom-BYEN'],
+    ['Where is...?','Où est...?','oo AY'],
+    ['The bill please','L\'addition, s\'il vous plaît','lah-dee-SYON seel-voo-PLAY'],
+    ['Water','De l\'eau','duh LOH'],
+    ['I don\'t understand','Je ne comprends pas','zhuh nuh kom-PRAHN pah'],
+    ['I\'m allergic to...','Je suis allergique à...','zhuh swee al-air-ZHEEK ah'],
+    ['Do you speak English?','Parlez-vous anglais?','par-lay-voo ahn-GLAY'],
+    ['Help!','Au secours!','oh suh-KOOR'],
+    ['Police','Police','po-LEES'],
+    ['Metro station','Station de métro','sta-SYON duh may-TROH'],
+    ['Good / Very good','Bien / Très bien','bee-EN / tray bee-EN']
+  ]},
+  it: {name:'Italian', flag:'🇮🇹', items:[
+    ['Hello','Ciao / Buongiorno','CHOW / bwon-JOR-no'],
+    ['Thank you','Grazie','GRAH-tsyeh'],
+    ['Yes / No','Sì / No','SEE / NO'],
+    ['Excuse me','Mi scusi','mee SKOO-zee'],
+    ['How much?','Quanto costa?','KWAN-to KOS-ta'],
+    ['Where is...?','Dov\'è...?','doh-VEH'],
+    ['The bill please','Il conto, per favore','eel KON-toh pair fah-VOR-eh'],
+    ['Water','Acqua','AH-kwa'],
+    ['I don\'t understand','Non capisco','non ka-PEES-ko'],
+    ['Is there coperto?','C\'è coperto?','CHEH ko-PAIR-to'],
+    ['Do you speak English?','Parla inglese?','PAR-la een-GLAY-zeh'],
+    ['Help!','Aiuto!','ah-YOO-to'],
+    ['Train station','Stazione','sta-TSYOH-neh'],
+    ['Delicious','Buonissimo','bwo-NEES-see-mo'],
+    ['Goodbye','Arrivederci','ah-ree-veh-DAIR-chee']
+  ]},
+  es: {name:'Spanish', flag:'🇪🇸', items:[
+    ['Hello','Hola','OH-la'],
+    ['Thank you','Gracias','GRAH-syas'],
+    ['Yes / No','Sí / No','SEE / NO'],
+    ['Excuse me','Perdón / Disculpe','pair-DON / dees-KOOL-peh'],
+    ['How much?','¿Cuánto cuesta?','KWAN-toh KWES-ta'],
+    ['Where is...?','¿Dónde está...?','DON-deh es-TAH'],
+    ['The bill please','La cuenta, por favor','la KWEN-ta por fah-VOR'],
+    ['Water','Agua','AH-gwa'],
+    ['I don\'t understand','No entiendo','no en-TYEN-do'],
+    ['Menu of the day','Menú del día','meh-NOO del DEE-a'],
+    ['Do you speak English?','¿Habla inglés?','AH-bla een-GLAYS'],
+    ['Help!','¡Ayuda!','ah-YOO-da'],
+    ['Metro','Metro','MEH-tro'],
+    ['Cheers!','¡Salud!','sa-LOOD'],
+    ['Goodbye','Adiós','ah-DYOS']
+  ]},
+  de: {name:'German', flag:'🇩🇪', items:[
+    ['Hello','Hallo / Guten Tag','HAH-loh / GOO-ten TAHK'],
+    ['Thank you','Danke','DAHN-keh'],
+    ['Yes / No','Ja / Nein','YAH / NINE'],
+    ['Excuse me','Entschuldigung','ent-SHOOL-dee-goong'],
+    ['How much?','Wie viel kostet das?','vee FEEL KOS-tet das'],
+    ['Where is...?','Wo ist...?','VO ist'],
+    ['The bill please','Die Rechnung, bitte','dee REKH-noong BIT-teh'],
+    ['Water','Wasser','VAHS-ser'],
+    ['I don\'t understand','Ich verstehe nicht','ikh fer-SHTAY-eh nikht'],
+    ['Do you speak English?','Sprechen Sie Englisch?','SHPREH-khen zee ENG-lish'],
+    ['Help!','Hilfe!','HIL-feh'],
+    ['Station','Bahnhof','BAHN-hoff'],
+    ['Cheers','Prost','PROHST'],
+    ['One beer please','Ein Bier, bitte','ine beer BIT-teh'],
+    ['Goodbye','Auf Wiedersehen','owf VEE-der-zayn']
+  ]},
+  nl: {name:'Dutch', flag:'🇳🇱', items:[
+    ['Hello','Hallo','HAH-lo'],
+    ['Thank you','Dank je','DAHNK yuh'],
+    ['Yes / No','Ja / Nee','YAH / NAY'],
+    ['Excuse me','Pardon','par-DON'],
+    ['How much?','Hoeveel kost het?','hoo-FAYL kost het'],
+    ['Where is...?','Waar is...?','VAHR is'],
+    ['The bill please','De rekening, graag','duh RAY-ken-ing khraakh'],
+    ['Water','Water','VAH-ter'],
+    ['I don\'t understand','Ik begrijp het niet','ik buh-GRIPE het neet'],
+    ['Do you speak English?','Spreek je Engels?','SPRAYK yuh ENG-els'],
+    ['Help!','Help!','HELP'],
+    ['Bike','Fiets','FEETS'],
+    ['Canal','Gracht','khrakht'],
+    ['Delicious','Lekker','LEK-ker'],
+    ['Goodbye','Tot ziens','tot ZEENS']
+  ]},
+  cs: {name:'Czech', flag:'🇨🇿', items:[
+    ['Hello','Ahoj / Dobrý den','AH-hoy / DOB-ree den'],
+    ['Thank you','Děkuji','DYEH-koo-yee'],
+    ['Yes / No','Ano / Ne','AH-no / NEH'],
+    ['Excuse me','Promiňte','PRO-meen-teh'],
+    ['How much?','Kolik to stojí?','KO-lick to STO-yee'],
+    ['Where is...?','Kde je...?','g-DEH yeh'],
+    ['The bill please','Účet, prosím','OO-chet PRO-seem'],
+    ['Water','Voda','VO-da'],
+    ['I don\'t understand','Nerozumím','NEH-ro-zoo-meem'],
+    ['Do you speak English?','Mluvíte anglicky?','MLOO-vee-teh AHNG-litz-ki'],
+    ['Help!','Pomoc!','PO-mots'],
+    ['Cheers!','Na zdraví!','naz-DRAH-vee'],
+    ['Beer','Pivo','PEE-vo'],
+    ['Metro','Metro','MEH-tro'],
+    ['Goodbye','Na shledanou','nas-KLE-da-no']
+  ]},
+  el: {name:'Greek', flag:'🇬🇷', items:[
+    ['Hello','Γειά σας','YAH sas'],
+    ['Thank you','Ευχαριστώ','ef-khah-ree-STOH'],
+    ['Yes / No','Ναι / Όχι','NEH / OH-khee'],
+    ['Excuse me','Συγγνώμη','see-NYOH-mee'],
+    ['How much?','Πόσο κάνει;','PO-so KAH-nee'],
+    ['Where is...?','Πού είναι...?','POO EE-neh'],
+    ['The bill please','Τον λογαριασμό','ton lo-gah-ree-az-MOH'],
+    ['Water','Νερό','neh-ROH'],
+    ['I don\'t understand','Δεν καταλαβαίνω','then ka-ta-la-VAI-no'],
+    ['Do you speak English?','Μιλάτε αγγλικά?','mee-LAH-teh ahn-glee-KAH'],
+    ['Help!','Βοήθεια!','vo-EE-thee-ah'],
+    ['Cheers!','Γειά μας!','YAH mas'],
+    ['Beach','Παραλία','pa-ra-LEE-a'],
+    ['Ferry','Φεριμπότ','FEH-ree-bot'],
+    ['Goodbye','Αντίο','ahn-DEE-oh']
+  ]},
+  zh: {name:'Mandarin', flag:'🇨🇳', items:[
+    ['Hello','你好','nǐ hǎo'],
+    ['Thank you','谢谢','xiè xiè'],
+    ['Yes / No','是 / 不是','shì / bú shì'],
+    ['Excuse me','不好意思','bù hǎo yì si'],
+    ['How much?','多少钱?','duō shǎo qián'],
+    ['Where is...?','...在哪里?','zài nǎ lǐ'],
+    ['The bill please','买单 / 结账','mǎi dān / jié zhàng'],
+    ['Water','水','shuǐ'],
+    ['I don\'t understand','我听不懂','wǒ tīng bù dǒng'],
+    ['I\'m allergic to...','我对...过敏','wǒ duì ... guò mǐn'],
+    ['Do you speak English?','你会说英语吗?','nǐ huì shuō yīng yǔ ma'],
+    ['Help!','救命!','jiù mìng'],
+    ['Train station','火车站','huǒ chē zhàn'],
+    ['Too expensive','太贵了','tài guì le'],
+    ['Goodbye','再见','zài jiàn']
+  ]},
+  yue: {name:'Cantonese(粤语)', flag:'🇨🇳', items:[
+    ['Hello','你好','nei5 hou2'],
+    ['Thank you','唔該','m4 goi1'],
+    ['Yes / No','係 / 唔係','hai6 / m4 hai6'],
+    ['How much?','幾多錢?','gei2 do1 cin2'],
+    ['Where is...?','...喺邊度?','hai2 bin1 dou6'],
+    ['Water','水','seoi2'],
+    ['The bill please','埋單','maai4 daan1'],
+    ['Delicious','好食','hou2 sik6'],
+    ['Help!','救命!','gau3 meng6'],
+    ['Goodbye','拜拜','baai1 baai3'],
+    ['One beer','一杯啤酒','jat1 bui1 be1 zau2'],
+    ['MTR station','地鐵站','dei6 tit3 zaam6'],
+    ['Too expensive','太貴喇','taai3 gwai3 laa3'],
+    ['Cheers','飲勝','jam2 sing3'],
+    ['Sorry','對唔住','deoi3 m4 zyu6']
+  ]},
+  ti: {name:'Tibetan', flag:'🏔️', items:[
+    ['Hello','བཀྲ་ཤིས་བདེ་ལེགས་ (Tashi Delek)','TA-shi de-LEK'],
+    ['Thank you','ཐུགས་རྗེ་ཆེ་ (Thukjeche)','tu-je-CHEH'],
+    ['Yes / No','Yö / Mindug','YUH / min-DOOK'],
+    ['How much?','Gongtse katsö re?','gong-tsay ka-TSUR ray'],
+    ['Water','Chu','CHOO'],
+    ['Butter tea','Po cha','po CHAH'],
+    ['Goodbye','Kalé Pheb','ka-LAY fayb'],
+    ['Where is...?','...kaba yöre?','KA-ba yur-ay'],
+    ['I don\'t understand','Ha gomani','ha GO-ma-ni'],
+    ['Pilgrim','Nékhor','nay-KOR'],
+    ['Monastery','Gönpa','GOHN-pa'],
+    ['Temple','Lhakhang','LHA-khang'],
+    ['Delicious','Shimpo du','SHIM-po doo'],
+    ['Altitude sickness','La tsik','la TSEEK'],
+    ['Cheers','Lu!','LOO']
+  ]},
+  en: {name:'English', flag:'🇬🇧', items:[
+    ['Hello','Hello','heh-LOH'],
+    ['Thank you','Thank you','thank-YOO'],
+    ['Yes / No','Yes / No','yes / noh'],
+    ['Excuse me','Excuse me','ek-SKYOOZ mee'],
+    ['How much?','How much is it?','how MUCH iz it'],
+    ['Where is...?','Where is the...?','WEHR iz the'],
+    ['The bill please','Check please','chek PLEEZ'],
+    ['Water','Still or sparkling?','--'],
+    ['Goodbye','Goodbye / Cheers','good-BYE'],
+    ['Sorry','Sorry','SOR-ree'],
+    ['Pardon?','Sorry, could you repeat?','--'],
+    ['Underground','Tube / Metro','TYOOB'],
+    ['Great','Brilliant / Lovely','--'],
+    ['Can I have...?','Could I please have...?','--'],
+    ['See you','Cheers, mate','CHEERZ mayt']
+  ]}
+};
+
+function renderPhrases(lang){
+  const data = phrases[lang];
+  if(!data) return;
+  const grid = document.getElementById('phraseGrid');
+  if(!grid) return;
+  grid.innerHTML = data.items.map((it, i) => `
+    <div class="phrase-item">
+      <div class="phrase-num">${String(i+1).padStart(2,'0')}</div>
+      <div>
+        <div class="phrase-en">${it[0]}</div>
+        <div class="phrase-local">${it[1]}</div>
+        <div class="phrase-pron">/ ${it[2]} /</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function initPhrases(){
+  const tabs = document.getElementById('phraseTabs');
+  if(!tabs) return;
+  tabs.innerHTML = Object.entries(phrases).map(([code, data], i) => `
+    <button class="phrase-tab${i === 0 ? ' active' : ''}" data-lang="${code}">
+      <span class="flag">${data.flag}</span>${data.name}
+    </button>
+  `).join('');
+  tabs.querySelectorAll('.phrase-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.querySelectorAll('.phrase-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPhrases(btn.dataset.lang);
+    });
+  });
+  renderPhrases('fr');
+}
+
+// init everything on load
+window.addEventListener('DOMContentLoaded', () => {
+  renderDays('eu');
+  initPhrases();
+});
+</script>
+
+</body>
+</html>
