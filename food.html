@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSR Exclusive Tables · $150 性价比指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page-bg:#f7f1e8;
+  --soft-bg:#f2e7d9;
+  --card-bg:#fdf9f4;
+  --ink:#2a241c;
+  --ink-soft:#5a4f3f;
+  --muted:#8a7e6b;
+  --line:#e4d6c1;
+  --accent:#b4381a;
+  --accent-soft:#d8765a;
+  --gold:#a17528;
+  --gold-soft:#c9a25c;
+  --green:#4a6b3a;
+  --michelin:#c8102e;
+  --shadow:0 1px 2px rgba(74,52,28,.05), 0 8px 30px rgba(74,52,28,.08);
+  --shadow-lg:0 4px 12px rgba(74,52,28,.08), 0 20px 60px rgba(74,52,28,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--page-bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+
+.hero{position:relative;padding:clamp(60px,10vw,90px) clamp(20px,5vw,32px) clamp(50px,8vw,70px);background:radial-gradient(circle at 15% 20%, rgba(180,56,26,.08), transparent 50%),radial-gradient(circle at 85% 80%, rgba(161,117,40,.06), transparent 50%),var(--page-bg);border-bottom:1px solid var(--line);overflow:hidden}
+.hero-grid-texture{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);background-size:60px 60px;opacity:.25;mask-image:radial-gradient(ellipse at center, black 20%, transparent 70%);pointer-events:none}
+.hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:6px 14px;border:1px solid var(--accent);color:var(--accent);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;border-radius:100px;background:rgba(255,255,255,.5);backdrop-filter:blur(4px)}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+h1.hero-title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(40px,7vw,96px);line-height:1.02;letter-spacing:-.02em;margin-top:28px;color:var(--ink)}
+.hero-title .accent{color:var(--accent);font-style:italic;font-family:'DM Serif Display',serif;font-weight:400}
+.hero-title .gold{color:var(--gold);font-family:'DM Serif Display',serif;font-weight:400;font-style:italic}
+.hero-sub{font-size:clamp(15px,1.6vw,18px);color:var(--ink-soft);margin-top:26px;max-width:680px;line-height:1.75}
+.hero-sub strong{color:var(--ink)}
+
+.credit-bar{margin-top:50px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--card-bg);border:1px solid var(--line);border-radius:2px;overflow:hidden;box-shadow:var(--shadow)}
+.credit-cell{padding:22px 24px;border-right:1px solid var(--line)}
+.credit-cell:last-child{border-right:none}
+.credit-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.credit-value{font-family:'DM Serif Display',serif;font-size:clamp(26px,3.5vw,34px);color:var(--ink);margin-top:4px;letter-spacing:-.01em}
+.credit-value.red{color:var(--accent)}
+.credit-value.green{color:var(--green)}
+.credit-sub{font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:720px){.credit-bar{grid-template-columns:repeat(2,1fr)}.credit-cell{border-bottom:1px solid var(--line);padding:18px 16px}.credit-cell:nth-child(2){border-right:none}.credit-cell:nth-last-child(-n+2){border-bottom:none}}
+
+.rules-box{margin-top:24px;padding:16px 20px;background:var(--soft-bg);border-left:3px solid var(--accent);border-radius:3px;font-size:13.5px;color:var(--ink-soft);line-height:1.8}
+.rules-box strong{color:var(--ink)}
+
+.section{padding:clamp(60px,10vw,100px) clamp(20px,5vw,32px);max-width:1180px;margin:0 auto}
+.section-head{margin-bottom:clamp(36px,6vw,56px);max-width:780px}
+.section-num{font-family:'DM Serif Display',serif;font-style:italic;font-size:20px;color:var(--accent);letter-spacing:.05em}
+.section-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:clamp(28px,4.5vw,54px);line-height:1.1;margin-top:8px;letter-spacing:-.01em}
+.section-desc{margin-top:18px;color:var(--ink-soft);font-size:15px;max-width:680px;line-height:1.75}
+.divider{width:60px;height:2px;background:var(--accent);margin-bottom:24px}
+
+.score-legend{margin-top:18px;padding:14px 18px;background:var(--soft-bg);border-radius:3px;font-size:13px;color:var(--ink-soft);line-height:1.7}
+.score-legend strong{color:var(--ink)}
+.score-legend .mini{display:inline-flex;align-items:center;gap:6px;margin-right:14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500}
+.score-legend .mini-pill{padding:2px 8px;border-radius:100px;color:#fff;font-size:11px}
+
+.podium{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:20px;margin-top:30px}
+@media (max-width:960px){.podium{grid-template-columns:1fr}}
+.pick{background:var(--card-bg);border:1px solid var(--line);border-radius:4px;padding:clamp(28px,4vw,36px) clamp(24px,3.5vw,32px);position:relative;transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s;overflow:hidden}
+.pick:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.pick::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+.pick-1::before{background:linear-gradient(90deg,var(--gold),var(--gold-soft))}
+.pick-2::before{background:linear-gradient(90deg,var(--accent),var(--accent-soft))}
+.pick-3::before{background:linear-gradient(90deg,var(--green),#7a9668)}
+.rank-badge{display:flex;align-items:baseline;gap:12px;margin-bottom:18px}
+.rank-num{font-family:'DM Serif Display',serif;font-size:clamp(64px,8vw,86px);line-height:1;color:var(--ink);letter-spacing:-.04em}
+.pick-1 .rank-num{color:var(--gold)}
+.pick-2 .rank-num{color:var(--accent)}
+.pick-3 .rank-num{color:var(--green)}
+.rank-label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+.pick-star-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.michelin-stars{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:var(--michelin);color:#fff;border-radius:3px;font-size:12px;font-weight:700;letter-spacing:.05em}
+.michelin-stars .star{font-size:14px}
+
+.pick-name{font-family:'Noto Serif SC',serif;font-weight:700;font-size:clamp(22px,3vw,28px);letter-spacing:-.01em;line-height:1.15}
+.pick-tag{display:inline-block;margin-top:8px;font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:500}
+.pick-why{margin-top:20px;color:var(--ink-soft);font-size:14.5px;line-height:1.75}
+.pick-math{margin-top:22px;padding-top:18px;border-top:1px dashed var(--line);font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ink);line-height:1.9}
+.pick-math .strike{text-decoration:line-through;color:var(--muted)}
+.pick-math .highlight{color:var(--accent);font-weight:600}
+
+.calc{background:var(--soft-bg);border:1px solid var(--line);border-radius:4px;padding:clamp(28px,4vw,40px);margin-top:40px}
+.calc-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:22px;margin-bottom:8px}
+.calc-sub{color:var(--ink-soft);font-size:14px;margin-bottom:24px}
+.calc-tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap}
+.calc-tab{padding:10px 18px;border:1px solid var(--line);background:var(--card-bg);font-family:inherit;font-size:13.5px;cursor:pointer;border-radius:3px;color:var(--ink-soft);font-weight:500;transition:all .2s}
+.calc-tab.active{background:var(--ink);color:var(--page-bg);border-color:var(--ink)}
+.calc-tab:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+.calc-result{background:var(--card-bg);border:1px dashed var(--line);border-radius:3px;padding:24px;margin-top:12px}
+.calc-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dotted var(--line);font-size:14px;gap:12px}
+.calc-row:last-of-type{border-bottom:none}
+.calc-row-name{font-weight:600;color:var(--ink)}
+.calc-row-meta{color:var(--muted);font-size:12px;margin-left:8px}
+.calc-row-amt{font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;white-space:nowrap}
+.calc-total{margin-top:16px;padding-top:16px;border-top:2px solid var(--ink);display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.calc-total-label{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink)}
+.calc-total-amt{font-family:'DM Serif Display',serif;font-size:28px;color:var(--accent)}
+
+.strategy{background:var(--ink);color:var(--page-bg);padding:clamp(60px,10vw,90px) clamp(20px,5vw,32px);position:relative;overflow:hidden}
+.strategy::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%, rgba(180,56,26,.15), transparent 40%),radial-gradient(circle at 80% 70%, rgba(161,117,40,.1), transparent 40%);pointer-events:none}
+.strategy-inner{max-width:1180px;margin:0 auto;position:relative}
+.strategy-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:clamp(26px,4vw,44px);line-height:1.2;letter-spacing:-.01em}
+.strategy-title .accent{color:var(--accent-soft);font-family:'DM Serif Display',serif;font-style:italic;font-weight:400}
+.strategy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:48px}
+@media (max-width:860px){.strategy-grid{grid-template-columns:1fr}}
+.strat-card{border-left:2px solid var(--accent-soft);padding:4px 0 4px 24px}
+.strat-head{font-family:'DM Serif Display',serif;font-size:32px;color:var(--gold-soft);margin-bottom:8px}
+.strat-title{font-family:'Noto Serif SC',serif;font-size:19px;font-weight:600;margin-bottom:12px}
+.strat-body{font-size:14.5px;color:#c9bca8;line-height:1.75}
+.strat-pick{margin-top:14px;display:inline-block;padding:4px 12px;background:rgba(216,118,90,.15);color:var(--accent-soft);border-radius:2px;font-size:12.5px;font-weight:500;letter-spacing:.02em}
+
+.controls{display:flex;flex-direction:column;gap:16px;margin-bottom:40px;padding:20px;background:var(--soft-bg);border-radius:4px}
+.controls-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-right:8px}
+.filter-btn, .sort-btn{padding:7px 14px;border:1px solid var(--line);background:var(--card-bg);color:var(--ink-soft);font-family:inherit;font-size:12.5px;cursor:pointer;border-radius:100px;transition:all .2s;font-weight:500}
+.filter-btn:hover, .sort-btn:hover{border-color:var(--accent);color:var(--accent)}
+.filter-btn.active, .sort-btn.active{background:var(--ink);color:var(--page-bg);border-color:var(--ink)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px}
+@media (max-width:420px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card-bg);border:1px solid var(--line);border-radius:4px;padding:26px 26px 24px;transition:all .25s ease;display:flex;flex-direction:column;position:relative;animation:fade-in .5s ease backwards}
+@keyframes fade-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{border-color:var(--accent-soft);transform:translateY(-2px);box-shadow:var(--shadow)}
+
+.card-star-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;min-height:22px;flex-wrap:wrap}
+
+.format-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 9px;font-size:10.5px;font-weight:700;
+  letter-spacing:.08em;border-radius:3px;text-transform:uppercase;
+}
+.fmt-alacarte{background:var(--green);color:#fff}
+.fmt-small{background:var(--gold);color:#fff}
+.fmt-tasting{background:#6b1a0a;color:#fff}
+.fmt-both{background:var(--accent);color:#fff}
+
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.card-name{font-family:'Noto Serif SC',serif;font-weight:700;font-size:21px;line-height:1.2;letter-spacing:-.005em}
+
+.score-block{text-align:right;flex-shrink:0}
+.score-pill{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;padding:4px 10px;border-radius:100px;white-space:nowrap;display:inline-block}
+.score-90{background:var(--gold);color:#fff}
+.score-80{background:var(--accent);color:#fff}
+.score-70{background:var(--accent-soft);color:#fff}
+.score-60{background:var(--green);color:#fff}
+.score-50{background:var(--muted);color:#fff}
+.score-caption{font-size:9.5px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-top:3px}
+
+.card-meta{margin-top:10px;font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+.card-meta .sep{margin:0 8px;opacity:.5}
+.card-awards{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:2px;font-size:11px;font-weight:600;letter-spacing:.02em}
+.badge-nyt{background:var(--ink);color:#fff}
+.badge-jb{background:var(--gold);color:#fff}
+.badge-icon{background:var(--accent);color:#fff}
+.badge-ot{background:var(--green);color:#fff}
+.badge-chef{background:var(--gold-soft);color:#fff}
+.badge-bib{background:#6b1a0a;color:#fff}
+.badge-rc{background:#1a3a5c;color:#fff}
+
+.meta-strip{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;font-size:11.5px}
+.meta-item{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--page-bg);border-radius:3px;color:var(--ink-soft);font-weight:500}
+.meta-item .dot{width:6px;height:6px;border-radius:50%}
+.dot-easy{background:var(--green)}
+.dot-med{background:var(--gold)}
+.dot-hard{background:var(--accent)}
+.dot-vhard{background:#6b1a0a}
+
+.card-body{margin-top:16px;font-size:14px;color:var(--ink-soft);line-height:1.7}
+.card-section{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);flex:1}
+.card-section-label{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px}
+.card-dishes{font-size:13.5px;color:var(--ink);line-height:1.8}
+.card-dishes strong{color:var(--accent);font-weight:600}
+
+.price-row{margin-top:16px;padding:14px;background:var(--page-bg);border-radius:3px;display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12.5px}
+.price-label{color:var(--muted);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.price-val{font-family:'JetBrains Mono',monospace;font-size:14.5px;color:var(--ink);margin-top:3px;font-weight:500;line-height:1.4}
+.price-val.red{color:var(--accent);font-weight:600;font-size:15.5px}
+.empty-state{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);font-size:14px;font-style:italic}
+
+/* ====== MUST EAT SECTION ====== */
+.must-eat-section{
+  background:linear-gradient(180deg, var(--soft-bg) 0%, var(--page-bg) 100%);
+  padding:clamp(60px,10vw,100px) clamp(20px,5vw,32px);
+  border-top:1px solid var(--line);
+  position:relative;
+  overflow:hidden;
+}
+.must-eat-section::before{
+  content:"";position:absolute;top:-40px;left:-40px;right:-40px;height:40px;
+  background:radial-gradient(ellipse at center top, var(--ink) 0%, transparent 70%);
+  opacity:.08;
+}
+.must-eat-inner{max-width:1180px;margin:0 auto;position:relative}
+.must-eat-head{margin-bottom:40px;max-width:820px}
+.must-eat-badge{
+  display:inline-block;padding:4px 12px;
+  background:var(--ink);color:var(--page-bg);
+  font-size:11px;letter-spacing:.2em;font-weight:600;
+  border-radius:100px;text-transform:uppercase;
+  margin-bottom:14px;
+}
+
+.cat-group{margin-bottom:50px}
+.cat-header{
+  display:flex;align-items:baseline;gap:16px;margin-bottom:18px;
+  padding-bottom:10px;border-bottom:2px solid var(--ink);
+}
+.cat-num{
+  font-family:'DM Serif Display',serif;
+  font-size:36px;color:var(--accent);
+  line-height:1;font-style:italic;
+}
+.cat-title{
+  font-family:'Noto Serif SC',serif;font-weight:700;
+  font-size:clamp(22px,3vw,30px);letter-spacing:-.01em;
+  flex:1;
+}
+.cat-desc{color:var(--muted);font-size:13px;margin-top:2px}
+
+.me-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+@media (max-width:420px){.me-grid{grid-template-columns:1fr}}
+
+.me-card{
+  background:var(--card-bg);border:1px solid var(--line);
+  border-radius:4px;padding:22px;
+  display:flex;flex-direction:column;
+  transition:all .25s ease;
+  position:relative;
+}
+.me-card:hover{border-color:var(--accent-soft);transform:translateY(-2px);box-shadow:var(--shadow)}
+
+.me-hall-of-fame{
+  position:absolute;top:-1px;right:12px;
+  background:var(--gold);color:#fff;
+  padding:3px 10px;font-size:10px;font-weight:700;
+  letter-spacing:.1em;border-radius:0 0 3px 3px;
+}
+
+.me-card-name{
+  font-family:'Noto Serif SC',serif;font-weight:700;
+  font-size:19px;line-height:1.2;
+}
+.me-card-tag{
+  margin-top:6px;font-size:12px;color:var(--muted);
+}
+.me-price-highlight{
+  display:inline-block;margin-top:10px;
+  padding:4px 10px;background:var(--page-bg);
+  border-radius:3px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;font-weight:600;color:var(--accent);
+}
+.me-dishes{
+  margin-top:12px;font-size:13.5px;color:var(--ink);
+  line-height:1.7;flex:1;
+}
+.me-dishes strong{color:var(--accent);font-weight:600}
+.me-why{
+  margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);
+  font-size:12.5px;color:var(--ink-soft);line-height:1.65;font-style:italic;
+}
+
+.me-meta-row{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;font-size:11px}
+.me-meta-item{padding:3px 8px;background:var(--page-bg);border-radius:3px;color:var(--ink-soft);font-weight:500}
+
+.intro-banner{
+  background:var(--ink);color:var(--page-bg);
+  padding:20px 24px;border-radius:4px;
+  margin-bottom:40px;
+  display:flex;align-items:center;gap:16px;
+  position:relative;
+}
+.intro-banner-icon{font-size:32px;flex-shrink:0}
+.intro-banner-text{font-size:14px;line-height:1.6}
+.intro-banner-text strong{color:var(--gold-soft)}
+
+.footer{padding:60px 32px 50px;text-align:center;border-top:1px solid var(--line)}
+.foot-note{font-size:12.5px;color:var(--muted);max-width:760px;margin:0 auto;line-height:1.9}
+.foot-note strong{color:var(--ink-soft)}
+
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.rise{animation:rise .7s cubic-bezier(.2,.8,.2,1) backwards}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grid-texture"></div>
+  <div class="hero-inner">
+    <span class="eyebrow rise" style="animation-delay:.1s">Sapphire Reserve · Exclusive Tables</span>
+    <h1 class="hero-title rise" style="animation-delay:.2s">
+      150<span class="accent">美金</span><br>
+      最值得<span class="gold">砸</span>在哪家
+    </h1>
+    <p class="hero-sub rise" style="animation-delay:.35s">
+      CSR Exclusive Tables 每年 <strong>$300 dining credit</strong>，分成两份 —— 1-6月 $150 + 7-12月 $150。
+      你现在半年剩 $150，在 35 家 OpenTable 精选餐厅里，从米其林二星到 $5 披萨切片，按<strong>真实菜单 × 评分 × $150 杠杆</strong>排序给你。
+    </p>
+
+    <div class="credit-bar rise" style="animation-delay:.5s">
+      <div class="credit-cell">
+        <div class="credit-label">年度总额</div>
+        <div class="credit-value">$300</div>
+        <div class="credit-sub">分两期</div>
+      </div>
+      <div class="credit-cell">
+        <div class="credit-label">当前半年</div>
+        <div class="credit-value red">$150</div>
+        <div class="credit-sub">7-12月</div>
+      </div>
+      <div class="credit-cell">
+        <div class="credit-label">规则</div>
+        <div class="credit-value" style="font-size:18px;line-height:1.3">堂食<br>CSR 付</div>
+      </div>
+      <div class="credit-cell">
+        <div class="credit-label">餐厅数</div>
+        <div class="credit-value">35</div>
+        <div class="credit-sub">NYC 区域</div>
+      </div>
+    </div>
+
+    <div class="rules-box rise" style="animation-delay:.7s">
+      <strong>💳 怎么用：</strong>OpenTable 订位 → 到店堂食 → 用 CSR 卡结账。credit 自动抵扣到账单，无需登记。<strong>外卖、自提、礼品卡、Apple/Google Pay 都不算</strong>，必须是餐厅 POS 直接刷 CSR 实体/数字卡。
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="divider"></div>
+    <div class="section-num">01 — Top Picks</div>
+    <h2 class="section-title">三家最值得去的</h2>
+    <p class="section-desc">
+      按 <strong>$150 credit 占账单比例 × 体验稀缺度</strong> 排名。米其林二星 + $150 credit 的组合，是这张列表里最容易"赚到"的结构。
+    </p>
+    <div class="score-legend">
+      <strong>评分说明：</strong>0-100 综合分 —— 
+      <span class="mini"><span class="mini-pill score-90">90+</span>顶级</span>
+      <span class="mini"><span class="mini-pill score-80">80-89</span>优秀</span>
+      <span class="mini"><span class="mini-pill score-70">70-79</span>良好</span>
+      <span class="mini"><span class="mini-pill score-60">60-69</span>中上</span>
+      。综合考虑：米其林/奖项、菜品水准、credit 抵扣后的价值密度、替代可能性。
+    </div>
+  </div>
+
+  <div class="podium">
+    <div class="pick pick-1">
+      <div class="rank-badge">
+        <span class="rank-num">1</span>
+        <div>
+          <div class="rank-label">最高杠杆 · 首选</div>
+          <div style="color:var(--gold);font-size:12px;margin-top:4px;letter-spacing:.15em;font-weight:600">⬥ BEST 2-PERSON VALUE ⬥</div>
+        </div>
+      </div>
+      <div class="pick-star-row">
+        <span class="michelin-stars"><span class="star">★</span><span class="star">★</span> MICHELIN</span>
+        <span class="format-badge fmt-both">套餐 + 单点都可</span>
+      </div>
+      <div class="pick-name">The Modern</div>
+      <div class="pick-tag">当代美式 · MoMA 内 · Relais & Châteaux</div>
+      <p class="pick-why">
+        <strong>两人最优路径有两条：</strong><br>
+        <strong>A. 午餐 3道 Prix Fixe $115/人</strong>（含甜点但便宜）—— 两人 $230，credit 抵 $150 实付 $80。
+        一个人吃 Prix Fixe 只要 $115，credit 抵完等于白吃。<br>
+        <strong>B. Bar Room 单点分享，不吃甜点</strong> —— 同厨房同食材，分享 1 前菜 + 2 主菜 + 1 杯酒约 $150-180，credit 抵完几乎免费。
+      </p>
+      <div class="pick-math">
+        午餐 Prix Fixe 1人: <span class="strike">$115</span> → <span class="highlight">免费 🎯</span><br>
+        午餐 Prix Fixe 2人: <span class="strike">$230</span> → <span class="highlight">实付 $80</span><br>
+        Bar Room 2人单点: <span class="strike">~$170</span> → <span class="highlight">实付 $20</span>
+      </div>
+    </div>
+
+    <div class="pick pick-2">
+      <div class="rank-badge"><span class="rank-num">2</span><div><div class="rank-label">午餐套利 · 惊艳</div></div></div>
+      <div class="pick-star-row">
+        <span class="format-badge fmt-both">套餐 + 单点都可</span>
+      </div>
+      <div class="pick-name">Hawksmoor NYC</div>
+      <div class="pick-tag">英式牛排 · Gramercy · 历史建筑</div>
+      <p class="pick-why">
+        <strong>午餐 3 道套餐 $55/人</strong>（周一到周六 12-3pm，官方验证）—— <strong>两人 $110，credit 抵完倒还剩 $40</strong>。
+        英国知名牛排馆纽约旗舰，这个价格吃到 8oz 28天干熟成 Rump 牛排 + 英式 Fish & Chips。
+        晚餐吃牛排则建议<strong>两人共享 Porterhouse</strong>（$155/两人），加 3 个生蚝 $28、一杯酒，总 ~$200，实付 $50。
+      </p>
+      <div class="pick-math">
+        午餐 3 道 2人: <span class="strike">$110</span> → <span class="highlight">免费 + 剩 $40 🎯</span><br>
+        午餐 2 道 2人（砍甜点）: <span class="strike">$80</span> → <span class="highlight">免费 + 剩 $70 🎯</span><br>
+        晚餐共享 Porterhouse: <span class="strike">$200</span> → <span class="highlight">实付 $50</span>
+      </div>
+    </div>
+
+    <div class="pick pick-3">
+      <div class="rank-badge"><span class="rank-num">3</span><div><div class="rank-label">小盘分享王</div></div></div>
+      <div class="pick-star-row">
+        <span class="michelin-stars"><span class="star">★</span> MICHELIN</span>
+        <span class="format-badge fmt-small">小盘分享</span>
+      </div>
+      <div class="pick-name">Casa Mono</div>
+      <div class="pick-tag">西班牙 Tapas · Gramercy · 17 年一星</div>
+      <p class="pick-why">
+        西班牙小盘 tapas —— <strong>两人点 4 盘分享天然不用甜点</strong>。
+        官网真实价：<strong>铁板剃刀蛤 $32 + 鸭蛋配黑松露 $25 + 裙带牛排 $38 + Fideos $32</strong> = $127，
+        加一杯西班牙红酒 $15。连续 17 年米其林一星，天然适合两人吃。
+      </p>
+      <div class="pick-math">
+        2人 4 盘 + 1 杯酒: <span class="strike">~$145</span> → <span class="highlight">免费 🎯</span><br>
+        2人 5 盘 + 2 杯酒: <span class="strike">~$200</span> → <span class="highlight">实付 $50</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc rise" style="animation-delay:.2s">
+    <div class="calc-title">💰 $150 Credit 花法模拟器</div>
+    <div class="calc-sub">选一个策略，看具体餐厅组合和预期花费</div>
+    <div class="calc-tabs">
+      <button class="calc-tab active" data-plan="A">A · 米其林单点</button>
+      <button class="calc-tab" data-plan="B">B · 两顿分享</button>
+      <button class="calc-tab" data-plan="C">C · 日常多次</button>
+      <button class="calc-tab" data-plan="D">D · 纪念日</button>
+      <button class="calc-tab" data-plan="E">⚡ E · Hawksmoor 午餐</button>
+    </div>
+    <div class="calc-result" id="calcResult"></div>
+  </div>
+</section>
+
+<section class="strategy">
+  <div class="strategy-inner">
+    <div class="divider" style="background:var(--accent-soft)"></div>
+    <div class="section-num" style="color:var(--gold-soft)">02 — Strategy</div>
+    <h2 class="strategy-title" style="margin-top:8px">
+      三种<span class="accent">花法</span>，看你是哪一派
+    </h2>
+    <div class="strategy-grid">
+      <div class="strat-card">
+        <div class="strat-head">A.</div>
+        <div class="strat-title">单点分享派（推荐）</div>
+        <div class="strat-body">
+          两人一起吃最划算的思路。<strong>The Modern Bar Room 单点 $170、Casa Mono tapas $145、Estela 小盘 $150</strong>。
+          credit 抵 $150 基本免费。不含甜点、灵活、吃多少点多少。
+        </div>
+        <span class="strat-pick">→ Bar Room / Casa Mono / Estela / Tolo</span>
+      </div>
+      <div class="strat-card">
+        <div class="strat-head">B.</div>
+        <div class="strat-title">午餐套利派</div>
+        <div class="strat-body">
+          Hawksmoor 午餐 3道 $55/人（两人 $110 免费剩 $40）。
+          The Modern 午餐 Prix Fixe $115/人（一人免费、两人 $230 实付 $80）。
+          <strong>最高性价比的两种吃法</strong>。
+        </div>
+        <span class="strat-pick">→ Hawksmoor 午餐 / The Modern 午餐</span>
+      </div>
+      <div class="strat-card">
+        <div class="strat-head">C.</div>
+        <div class="strat-title">日常小餐派</div>
+        <div class="strat-body">
+          Scarr's 披萨两人 $50（2024 JB 提名）、Potluck Club 两人 $90（Bib Gourmand）、
+          Momofuku $90、Tolo $130。$150 够吃 3-4 顿不同菜系都是分享式。
+        </div>
+        <span class="strat-pick">→ Scarr's / Potluck Club / Tolo / Momofuku</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="section-head" style="background:var(--soft-bg);padding:clamp(30px,5vw,40px);border-radius:4px;max-width:none">
+    <div class="section-num" style="color:var(--accent)">💡 两人吃饭 · 核心法则</div>
+    <h2 class="section-title" style="font-size:clamp(22px,3vw,32px)">为什么 course 常常不如单点</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px;font-size:14px;line-height:1.75" class="rules-grid">
+      <div>
+        <div style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--accent);margin-bottom:8px">1.</div>
+        <strong>分享一道菜，两人都吃到</strong><br>
+        <span style="color:var(--ink-soft)">套餐按"每人一份"算，但很多前菜/分享盘本来就是两人分量。两人点 4-5 道小盘比每人一个 5 道套餐便宜 30-50%。</span>
+      </div>
+      <div>
+        <div style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--accent);margin-bottom:8px">2.</div>
+        <strong>甜点 $15-25 白付</strong><br>
+        <span style="color:var(--ink-soft)">不吃甜点的人，套餐最后一两道是纯浪费。单点可以直接跳过。</span>
+      </div>
+      <div>
+        <div style="font-family:'DM Serif Display',serif;font-size:28px;color:var(--accent);margin-bottom:8px">3.</div>
+        <strong>套餐不能退</strong><br>
+        <span style="color:var(--ink-soft)">吃不下、不对口味都得付。单点可以中途停、加菜。</span>
+      </div>
+    </div>
+
+    <div style="margin-top:30px;padding:20px;background:var(--card-bg);border-left:3px solid var(--accent);border-radius:3px;font-size:14px;line-height:1.8">
+      <strong style="color:var(--accent);font-size:13px;letter-spacing:.1em;text-transform:uppercase">⚠️ 强制套餐、砍不掉的店</strong><br>
+      这几家<strong>只做 tasting menu，不能单点，不能砍甜点</strong>，两人去前想清楚：<br>
+      · <strong>odo</strong>（怀石 $295-350/人）<br>
+      · <strong>ASKA</strong>（北欧 tasting $375/人）<br>
+      · <strong>The Dining Room at Gramercy Tavern</strong>（$168/人 强制 5 道）—— 但隔壁的 <strong>The Tavern（前厅）同厨房，单点自由</strong><br>
+      · <strong>Bar Miller</strong>（omakase $175/人）<br>
+      · <strong>SAPPEISAN</strong>（$95 体验式套餐）<br>
+      · <strong>Moody Tongue</strong>（主力 $150 套餐，也可单点）
+    </div>
+
+    <div style="margin-top:20px;padding:20px;background:var(--card-bg);border-left:3px solid var(--green);border-radius:3px;font-size:14px;line-height:1.8">
+      <strong style="color:var(--green);font-size:13px;letter-spacing:.1em;text-transform:uppercase">✓ 两人单点最爽的店</strong><br>
+      这些天生小盘分享或单点自由，适合两人去，且<strong>不吃甜点直接不点即可</strong>：<br>
+      · <strong>Casa Mono</strong>（tapas 4-5 盘）· <strong>Estela</strong>（小盘）· <strong>Tolo</strong>（分享式）· <strong>Potluck Club</strong>（粤菜分享）<br>
+      · <strong>Altro Paradiso / Gjelina</strong>（意式单点）· <strong>The Bar Room at The Modern</strong>（MoMA 正厅同厨房单点）<br>
+      · <strong>Hawksmoor</strong>（晚餐单点 Porterhouse 两人共享）· <strong>The Tavern at Gramercy</strong>（Icon 店 walk-in 单点）
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="divider"></div>
+    <div class="section-num">03 — Full Menu</div>
+    <h2 class="section-title">35 家 · 真实菜单</h2>
+    <p class="section-desc">
+      默认按性价比从高到低排序。<strong>价格按"两人分享单点、不含甜点"</strong>重算（强制套餐的店保留套餐价）。每张卡顶部的徽章说明这家能否单点。
+    </p>
+  </div>
+
+  <div class="controls">
+    <div class="controls-row">
+      <span class="filter-label">筛选</span>
+      <button class="filter-btn active" data-filter="all">全部</button>
+      <button class="filter-btn" data-filter="michelin">米其林星</button>
+      <button class="filter-btn" data-filter="bib">Bib Gourmand</button>
+      <button class="filter-btn" data-filter="chinese">中餐/亚洲</button>
+      <button class="filter-btn" data-filter="high">高端 $$$$</button>
+      <button class="filter-btn" data-filter="mid">中端 $$$</button>
+      <button class="filter-btn" data-filter="casual">日常 $$</button>
+      <button class="filter-btn" data-filter="manhattan">Manhattan</button>
+      <button class="filter-btn" data-filter="brooklyn">Brooklyn</button>
+      <button class="filter-btn" data-filter="jersey">NJ</button>
+      <button class="filter-btn" data-filter="date">约会</button>
+      <button class="filter-btn" data-filter="easy">好订的</button>
+    </div>
+    <div class="controls-row">
+      <span class="filter-label">排序</span>
+      <button class="sort-btn active" data-sort="score">性价比 ↓</button>
+      <button class="sort-btn" data-sort="price-low">总价低到高</button>
+      <button class="sort-btn" data-sort="price-high">总价高到低</button>
+      <button class="sort-btn" data-sort="stars">米其林星 ↓</button>
+      <button class="sort-btn" data-sort="name">按名字</button>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="must-eat-section">
+  <div class="must-eat-inner">
+    <div class="must-eat-head">
+      <span class="must-eat-badge">📍 Not CSR · 纽约必吃</span>
+      <div class="divider"></div>
+      <div class="section-num">Bonus — Beyond CSR</div>
+      <h2 class="section-title">纽约性价比爆炸清单</h2>
+      <p class="section-desc" style="max-width:720px">
+        这部分餐厅<strong>不在 CSR Exclusive Tables 列表里</strong>，没 credit 可抵，但都是纽约真正的灵魂所在 ——
+        传奇老店、米其林 Bib Gourmand、$10 以内吃爽的街头神店。
+        按类别组织，每家都有真实菜单和实际价格。和上面 CSR 列表结合起来，就是一份完整的纽约吃喝地图。
+      </p>
+    </div>
+
+    <div class="intro-banner">
+      <div class="intro-banner-icon">💡</div>
+      <div class="intro-banner-text">
+        <strong>区别提醒：</strong>这部分餐厅不接 CSR credit！但是它们要么是"到纽约必须吃过一次"的传奇，要么是每次回访都划得来的 cheap eats。
+        搭配 CSR 吃法：把 $150 credit 砸在 The Modern 午餐这种地方，日常小餐来下面这些店。
+      </div>
+    </div>
+
+    <!-- ========== 传奇老店 ========== -->
+    <div class="cat-group">
+      <div class="cat-header">
+        <span class="cat-num">01</span>
+        <div style="flex:1">
+          <div class="cat-title">🏛️ 纽约传奇 · 到了必吃一次</div>
+          <div class="cat-desc">存在几十年到一百多年的 NYC 灵魂 —— 不是为了多好吃，是为了体验</div>
+        </div>
+      </div>
+      <div class="me-grid">
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">1888 开业</div>
+          <div class="me-card-name">Katz's Delicatessen</div>
+          <div class="me-card-tag">犹太熟食店 · Lower East Side · 205 E Houston</div>
+          <div class="me-price-highlight">$29 三明治 · 两人 $60</div>
+          <div class="me-dishes">
+            <strong>招牌 Pastrami on Rye $28.95</strong>（腌牛胸肉黑麦三明治，现切、堆得像小山）。经典《当哈利遇上莎莉》拍摄地那句 'I'll have what she's having'。
+            其他：<strong>Reuben 鲁宾三明治 $29.95</strong>、Combo 双肉三明治 $30.95、Matzo Ball Soup $9.95、土豆煎饼 $16.95。
+            <strong>流程：进门拿票 → 柜台点单现切 → 出门再结账</strong>。现金或刷卡都行。
+          </div>
+          <div class="me-why">纽约最老熟食店，美国最有名的三明治之一。$29 贵不贵见仁见智，但"没吃过 Katz's 没来过纽约"是铁律。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">📆 排长队</span>
+            <span class="me-meta-item">🧘 独食</span>
+            <span class="me-meta-item">👥 朋友</span>
+            <span class="me-meta-item">✓ 菜单验证</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">1914 开业</div>
+          <div class="me-card-name">Russ & Daughters</div>
+          <div class="me-card-tag">犹太烟熏鱼 · LES · 179 E Houston</div>
+          <div class="me-price-highlight">$15-25 贝果 · 两人 ~$50</div>
+          <div class="me-dishes">
+            <strong>贝果 + Lox（烟熏三文鱼）+ 奶油奶酪</strong>的纽约原版。百年家族店，第四代经营。必点：
+            <strong>The Classic（贝果 + Nova 三文鱼 + 奶油奶酪 + 洋葱 + 番茄 + 刺山柑 ~$17-20）</strong>、
+            鱼子酱、自制鲱鱼、bialy 面饼。Russ & Daughters Café（东区咖啡店）可坐下吃，旗舰 Appetizing Shop 只外带。
+          </div>
+          <div class="me-why">纽约犹太文化遗产。早午餐最纽约的吃法。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 好订</span>
+            <span class="me-meta-item">👨‍👩‍👧 家庭</span>
+            <span class="me-meta-item">🧘 独食</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">1975 开业</div>
+          <div class="me-card-name">Joe's Pizza</div>
+          <div class="me-card-tag">纽约披萨 · Greenwich Village · 7 Carmine St</div>
+          <div class="me-price-highlight">切片 $3.75 · 两人 ~$15</div>
+          <div class="me-dishes">
+            纽约最有名的切片店之一。主厨 Joe Pozzuoli（意大利那不勒斯人）。
+            <strong>必点：原味切片 $3.75、意式辣肠切片、Caprese（加 Burrata 和番茄）$6.50 左右</strong>。
+            GQ 评"全球最好 25 家披萨"。《蜘蛛侠》电影取景地。<strong>Carmine St 原店比时代广场店好得多</strong>（时代广场店在游客圈有名但品质下滑）。
+          </div>
+          <div class="me-why">10 美金能吃到饱的纽约招牌切片。随时进去、随时走，不用排太久。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 好订</span>
+            <span class="me-meta-item">🧘 独食</span>
+            <span class="me-meta-item">👥 朋友</span>
+            <span class="me-meta-item">✓ 菜单验证</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">1971 开业</div>
+          <div class="me-card-name">Mamoun's Falafel</div>
+          <div class="me-card-tag">中东菜 · Greenwich Village · 119 MacDougal</div>
+          <div class="me-price-highlight">沙威玛 $6-9 · 两人 $15-20</div>
+          <div class="me-dishes">
+            纽约最老 falafel 店（50 多年）。开到凌晨 5 点。
+            <strong>必点：Falafel 三明治（$4-6）</strong>、<strong>Lamb Shawarma 羊肉沙威玛 $7-9</strong>、Chicken Kebab。
+            纯素 + 无麸质友好。洞穴大小的店但队伍永远快。
+          </div>
+          <div class="me-why">夜宵神店。Village 游荡饿了随时塞一个，$10 吃饱。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 好订</span>
+            <span class="me-meta-item">🌙 夜宵</span>
+            <span class="me-meta-item">🧘 独食</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">1887 开业</div>
+          <div class="me-card-name">Peter Luger · 汉堡策略</div>
+          <div class="me-card-tag">牛排馆 · Williamsburg · 已拿米其林一星</div>
+          <div class="me-price-highlight">午餐汉堡 $22.95 · 一人搞定</div>
+          <div class="me-dishes">
+            <strong>核心窍门：不吃牛排吃汉堡</strong>。晚餐牛排两人 $155.90 需提前一个月订。
+            <strong>但午餐供应到 3:45pm 的 Luger Burger $22.95（半磅+），是纽约最好的汉堡之一</strong>，材料据传是牛排的 trim（边角料）。加芝士 $1.50。
+            <strong>只收现金或借记卡，不收信用卡</strong>。
+          </div>
+          <div class="me-why">Peter Luger 138 年历史 + 米其林一星的体验，午餐 $23 就能拿下。一次性解锁 NYC 牛排馆情怀。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">💰 只收现金</span>
+            <span class="me-meta-item">📆 午餐 walk-in</span>
+            <span class="me-meta-item">🧘 独食</span>
+            <span class="me-meta-item">✓ 菜单验证</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Prince Street Pizza</div>
+          <div class="me-card-tag">Sicilian 方形披萨 · Nolita · 27 Prince St</div>
+          <div class="me-price-highlight">方形切片 $6-8 · 两人 ~$25</div>
+          <div class="me-dishes">
+            <strong>招牌：Spicy Spring Square（Fra Diavolo 辣番茄酱 + 辣意式辣肠 + 鲜 mozzarella，方形切片）</strong>。
+            意式辣肠切片多到爆、咔嚓脆的厚底。
+            其他必点：SoHo Square（白披萨 Ricotta + Mozzarella）、Margherita 圆饼。
+            <strong>永远排队</strong>，中午开门前去最少排。
+          </div>
+          <div class="me-why">纽约方形披萨的当代神坛。Scarr's 是文艺切片，Prince St 是肌肉切片。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">⏳ 排队久</span>
+            <span class="me-meta-item">👌 walk-in</span>
+            <span class="me-meta-item">🧘 独食</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== 超级 Cheap Eats ========== -->
+    <div class="cat-group">
+      <div class="cat-header">
+        <span class="cat-num">02</span>
+        <div style="flex:1">
+          <div class="cat-title">💸 $10 以内吃爽 · 纽约街头</div>
+          <div class="cat-desc">工作日午餐、逛街垫饥、打工人晚餐的永远 go-to</div>
+        </div>
+      </div>
+      <div class="me-grid">
+
+        <div class="me-card">
+          <div class="me-card-name">Xi'an Famous Foods</div>
+          <div class="me-card-tag">陕西面 · 14+ 家分店 · 遍布纽约</div>
+          <div class="me-price-highlight">一顿 $10-15 · 两人 $25</div>
+          <div class="me-dishes">
+            <strong>必点：Spicy Cumin Lamb Hand-Ripped Noodles（孜然羊肉 biangbiang 面）$13-15</strong> —— Anthony Bourdain 亲自带火的那道。
+            <strong>Spicy Cumin Lamb Burger（孜然羊肉夹馍）$6-7</strong> —— Bourdain 也爱。
+            Liang Pi 凉皮（夏天必点）$9-10、Mt. Qi Pork Noodles（岐山臊子面）。
+            点餐选辣度（1-5），5 是真辣。<strong>不给小费（店内政策）</strong>。快餐自助式。
+          </div>
+          <div class="me-why">纽约唯一正宗陕西菜连锁。从一个 Flushing 地下室小店起家，现在 14 家分店。$10 吃到 biang biang 面是纽约奇迹。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 不排队</span>
+            <span class="me-meta-item">🧘 独食</span>
+            <span class="me-meta-item">👥 朋友</span>
+            <span class="me-meta-item">✓ 菜单验证</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Vanessa's Dumpling House</div>
+          <div class="me-card-tag">中式饺子 · LES 原店 · 118A Eldridge St</div>
+          <div class="me-price-highlight">一顿 $8-15 · 两人 $20</div>
+          <div class="me-dishes">
+            1999 年开业的 LES 老店。<strong>猪肉韭菜煎饺（整店招牌，按份卖）、芝麻酥饼夹肉</strong>（像福建光饼：芝麻烙饼切开夹烤鸭/叉烧/辣金枪鱼沙拉）、<strong>牛肉面汤、馄饨汤、素春卷</strong>。菜单多年来维持 NYC 最便宜之一，但具体价格未验证最新数据（过去几年有微涨）。Eldridge 原店比 14th St 店更便宜。<br><br>
+            <em>⚠️ 我搜到的只有较旧的价格报道（2010-2013），建议到店看当日菜单。</em>
+          </div>
+          <div class="me-why">两人 $20 左右吃饱。纽约 cheap eats 的教科书级代表。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 好订</span>
+            <span class="me-meta-item">🧘 独食</span>
+            <span class="me-meta-item">👨‍👩‍👧 家庭</span>
+            <span class="me-meta-item">⚠️ 价格需核</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Taqueria Ramírez</div>
+          <div class="me-card-tag">墨西哥 tacos · Greenpoint · 94 Franklin St</div>
+          <div class="me-price-highlight">taco $5-6 · 两人 $25</div>
+          <div class="me-dishes">
+            <strong>Mexico City 风格 suadero tacos</strong>（慢煮牛腹肉）是招牌。
+            其他必点：<strong>Pastor（菠萝叉烤猪肉）、Campechano（牛肉+猪肉肠）、Longaniza（墨西哥肠）</strong>。
+            一般每人 3-4 个 taco 吃饱。配 Jarrito 汽水或 agua fresca。<strong>Pete Wells 纽约百佳餐厅之一</strong>。
+            <strong>排队，但队伍走得快，通常 20 分钟内进店</strong>。
+          </div>
+          <div class="me-why">联合创始人 Giovanni Cervantes 凭姐妹店 Carnitas Ramirez（东村）获 <strong>2026 詹姆斯·比尔德最佳主厨 NY Finalist</strong>。Taqueria Ramírez 本身也是纽约最火的 taquería 之一。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">⏳ 排队</span>
+            <span class="me-meta-item">🧘 独食</span>
+            <span class="me-meta-item">👥 朋友</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Los Tacos No. 1</div>
+          <div class="me-card-tag">墨西哥 tacos · Chelsea Market + 多店</div>
+          <div class="me-price-highlight">taco $6-7 · 两人 $25</div>
+          <div class="me-dishes">
+            <strong>必点：Adobada（pastor 叉烤猪）、Carne Asada 烤牛</strong>。手拍玉米饼（flour 或 corn 选一）。
+            Chelsea Market 店永远有队但队伍快。现在多家分店：时代广场、SoHo、Brooklyn 等。
+            加芝士（quesadilla 版）2-3 块钱，绝对值得。
+          </div>
+          <div class="me-why">比 Taqueria Ramírez 更容易 walk-in 但水准一样在。地理上在游客动线里，方便。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 随处可达</span>
+            <span class="me-meta-item">🧘 独食</span>
+            <span class="me-meta-item">👨‍👩‍👧 家庭</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Halal Guys</div>
+          <div class="me-card-tag">清真快餐 · 53rd & 6th（原版推车）</div>
+          <div class="me-price-highlight">platter $12-14 · 两人 $25</div>
+          <div class="me-dishes">
+            <strong>原版黄推车在 53 街 6 大道</strong>（多年游客必吃）。招牌 Combo Platter：鸡肉 + 羊肉 + 黄米饭 + pita + 生菜番茄 + <strong>招牌白酱（蛋黄酱+酸奶+蒜）和红酱（辣到哭）</strong>。$12-14 一份能吃撑。
+            现在连锁化（全美多城），但 53rd & 6th 的原推车<strong>晚上 7pm 后</strong>人最多。
+          </div>
+          <div class="me-why">纽约街头餐车文化的活化石。熬夜、喝醉后、逛完 MoMA 的救星。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">🌙 夜宵</span>
+            <span class="me-meta-item">🧘 独食</span>
+            <span class="me-meta-item">💸 $</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Uncle Boons Sister / Thai Diner</div>
+          <div class="me-card-tag">泰式小馆 · Nolita · $15-25 主菜</div>
+          <div class="me-price-highlight">一顿 $30-50 · 两人 $70</div>
+          <div class="me-dishes">
+            Thai Diner（James Beard 提名）—— 泰式 + 美式 diner 混搭。必点：<strong>Phat Thai Sen Jan（正宗泰式炒河粉）、Massaman Curry（玛莎曼咖喱）、Phat Kaphrao（打抛猪）</strong>。
+            全天供应，周末 brunch 超火。比普通泰餐贵但水准高很多。
+          </div>
+          <div class="me-why">泰式不再是$10 便当，这家是"正经对待泰国菜"的代表。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">📆 订位</span>
+            <span class="me-meta-item">👥 朋友</span>
+            <span class="me-meta-item">💑 约会</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== Bib Gourmand 性价比王 ========== -->
+    <div class="cat-group">
+      <div class="cat-header">
+        <span class="cat-num">03</span>
+        <div style="flex:1">
+          <div class="cat-title">🎖️ 米其林 Bib Gourmand · 米其林认证性价比</div>
+          <div class="cat-desc">米其林官方认证"好菜 + 好价格"（2025 名单，$49 内两道菜+饮料）</div>
+        </div>
+      </div>
+      <div class="me-grid">
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">BIB 2025</div>
+          <div class="me-card-name">Bonnie's</div>
+          <div class="me-card-tag">粤式美国中餐 · Williamsburg</div>
+          <div class="me-price-highlight">一顿 ~$50 · 两人 $110</div>
+          <div class="me-dishes">
+            主厨 Calvin Eng（Brooklyn 出生的华裔二代，来自 Win Son 厨房）。
+            <strong>必点（BKMag/Resy/Wanderlog 验证）：Cacio e Pepe Mein（粤式意面 —— 加 fuyu 腐乳和 MSG 的 Cantonese cacio e pepe）、
+            Hup to Ha 蜜糖核桃虾、Dao gok（豉椒豆角炒蒜香黄油）、菊花沙拉、Italian combo 炒饭、蛤蜊杂烩粥（clam chowder jook）、猪排骨</strong>。
+            鸡尾酒名："Henny Kravitz"、紫色"riptide"。
+          </div>
+          <div class="me-why"><strong>主厨 Calvin Eng 的实际奖项：JB Emerging Chef Finalist、Food & Wine Best New Chef、Forbes 30 under 30、StarChefs Rising Star、两次 JB Best Chef NY State Semifinalist</strong>。米其林 Bib Gourmand。华裔二代身份菜单的当代代表。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">⏳ 订位难</span>
+            <span class="me-meta-item">💑 约会</span>
+            <span class="me-meta-item">👥 朋友</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">BIB 2025</div>
+          <div class="me-card-name">Dhamaka</div>
+          <div class="me-card-tag">印度菜（北方 + 乡村）· LES</div>
+          <div class="me-price-highlight">一顿 $40-60 · 两人 $100</div>
+          <div class="me-dishes">
+            <strong>招牌：Rajasthani whole goat（拉贾斯坦整只山羊）—— 需提前订</strong>。
+            其他必点：<strong>Bheja Fry（煎羊脑）、Thecha Khichdi（麻辣米粥）、Gurda Kapoora（烤羊肾羊睾丸）</strong>。
+            菜谱上声明 "unapologetic Indian cuisine" —— 不迁就美国口味的真印度味。
+            主厨 Chintan Pandya 团队（姐妹店 Semma 已是米其林一星）。
+          </div>
+          <div class="me-why">纽约最 bold 的印度餐厅。不是 butter chicken 那种，是印度乡村菜的真实强度。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">⏳ 订位</span>
+            <span class="me-meta-item">💑 约会</span>
+            <span class="me-meta-item">👥 朋友</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">BIB 2025</div>
+          <div class="me-card-name">Katz's Deli</div>
+          <div class="me-card-tag">犹太熟食 · LES（上面已列出）</div>
+          <div class="me-price-highlight">$29 三明治</div>
+          <div class="me-dishes">
+            ↑ 详见上面"纽约传奇"板块。米其林官方也认证它是 Bib Gourmand。</div>
+          <div class="me-why">贵吗？$29 一个三明治。但米其林说值。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">🏛️ 1888</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">BIB 2025</div>
+          <div class="me-card-name">Haenyeo</div>
+          <div class="me-card-tag">韩餐（济州岛风格）· Park Slope, Brooklyn</div>
+          <div class="me-price-highlight">一顿 $40-55 · 两人 $90</div>
+          <div class="me-dishes">
+            以济州岛 haenyeo（海女）文化命名。
+            <strong>必点：Abalone Porridge（鲍鱼粥）、Jeju BBQ Pork Belly（济州五花肉）、
+            Uni Bibimbap（海胆拌饭）</strong>。
+            Eater 评过年度最佳新餐厅。酒单以 makgeolli（马格利米酒）为主。
+          </div>
+          <div class="me-why">纽约最有地域故事的韩餐。不是 K-BBQ 连锁，是济州岛 specific 的海鲜为主韩餐。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">📆 订位</span>
+            <span class="me-meta-item">💑 约会</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">BIB 2025</div>
+          <div class="me-card-name">Nami Nori</div>
+          <div class="me-card-tag">开放式 temaki 手卷 · West Village · 33 Carmine St</div>
+          <div class="me-price-highlight">手卷 $6-8 · 两人 ~$60</div>
+          <div class="me-dishes">
+            <strong>开放式手卷（open-style temaki）—— 一半包一半露，像 sushi taco</strong>。
+            创始人 Taka Sakaeda（行政主厨）、Jihan Lee、Lisa Limb —— <strong>三位都来自 Masa（美国唯一 3 米其林星寿司店，omakase $750/人）</strong>。
+            必点：Salmon Avocado、Lobster、Toro Takuan（金枪鱼腩+黄萝卜干）、Yellowtail Scallion、signature set（5 个手卷套餐）。
+            2019 年西村开的原店，现在还有 Williamsburg 和新泽西 Montclair 分店。
+          </div>
+          <div class="me-why">Masa omakase $750，Nami Nori 两人 $60 吃到同一批厨师的手艺。米其林 Bib Gourmand 认证。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 walk-in</span>
+            <span class="me-meta-item">💑 约会</span>
+            <span class="me-meta-item">🧘 独食</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">BIB 2025</div>
+          <div class="me-card-name">Coqodaq</div>
+          <div class="me-card-tag">韩式炸鸡（精致化）· Flatiron</div>
+          <div class="me-price-highlight">一顿 $50-80 · 两人 $130</div>
+          <div class="me-dishes">
+            COTE 牛排馆团队新开的炸鸡店。<strong>香槟 + 炸鸡的"加州式"概念</strong>。
+            必点：<strong>The Bucket（招牌分享桶装炸鸡，配蜂蜜奶油/酱油蒜/tteokbokki 辣酱 3 种蘸料）$68</strong>。
+            配香槟 by the glass（$15-25）。氛围是 fine dining + 快餐的混搭。
+          </div>
+          <div class="me-why">韩式炸鸡的最贵最好版本。在 Flatiron 吃炸鸡的新体验。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">⏳ 订位</span>
+            <span class="me-meta-item">💑 约会</span>
+            <span class="me-meta-item">👥 朋友</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== 唐人街/亚洲私货 ========== -->
+    <div class="cat-group">
+      <div class="cat-header">
+        <span class="cat-num">04</span>
+        <div style="flex:1">
+          <div class="cat-title">🥟 唐人街 + 法拉盛 · 华人最知道</div>
+          <div class="cat-desc">不贵不难订，中国胃回血神店</div>
+        </div>
+      </div>
+      <div class="me-grid">
+
+        <div class="me-card">
+          <div class="me-card-name">Shanghai 21</div>
+          <div class="me-card-tag">上海菜 + 小笼包 · Chinatown · 21 Mott St</div>
+          <div class="me-price-highlight">一顿 $15-25 · 两人 $40</div>
+          <div class="me-dishes">
+            <strong>官网真实价（也叫 Shanghai Asian Manor）</strong>：
+            <strong>Steamed Tiny Buns（小笼包）$7.45、各式饺子 $4-5.45、葱油饼 $2.50、Shanghai 馄饨汤 $8.45、冷面配芝麻酱 $4.50</strong>。
+            Infatuation 写："小笼包是招牌 —— 结构完整、汤鲜、皮薄"。坐落于 Wo Hop 和 Hop Kee 中间那家绿色装潢的店。<strong>Tripadvisor Travelers' Choice 2025</strong>。
+            注意：传统上只收现金（确认下最新政策）。
+          </div>
+          <div class="me-why">纽约唐人街最不装的上海菜。价格公道、味道正、Infatuation 推荐。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 好订</span>
+            <span class="me-meta-item">👨‍👩‍👧 家庭</span>
+            <span class="me-meta-item">✓ 菜单验证</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Joe's Shanghai</div>
+          <div class="me-card-tag">上海菜经典 · Chinatown · 46 Bowery</div>
+          <div class="me-price-highlight">一顿 $20-30 · 两人 $55</div>
+          <div class="me-dishes">
+            <strong>纽约最有名的小笼包之一 $10-12/笼</strong>。
+            其他必点：蟹粉小笼、红烧肉、大排面、腌笃鲜。有名归有名，出品稳定。
+          </div>
+          <div class="me-why">开了 30 多年的唐人街老店。游客 + 本地人都吃。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">📆 排队</span>
+            <span class="me-meta-item">👥 朋友</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Nan Xiang Xiao Long Bao</div>
+          <div class="me-card-tag">小笼包专门店 · Flushing · 39-16 Prince St</div>
+          <div class="me-price-highlight">小笼包 $12 · 两人 $40</div>
+          <div class="me-dishes">
+            从上海南翔来的分店。<strong>纽约最正宗小笼包之一</strong>。
+            必点：原味小笼包、蟹粉小笼、<strong>彩色小笼包拼盘（8 种颜色 8 种馅）</strong>、菊叶拌豆腐、狮子头。
+            <strong>Michelin Bib Gourmand（历年）</strong>。法拉盛中国城灵魂店。
+          </div>
+          <div class="me-why">值得专门从曼哈顿坐 7 号线过去的一家。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">⏳ 排队</span>
+            <span class="me-meta-item">👨‍👩‍👧 家庭</span>
+            <span class="me-meta-item">💑 约会</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">BIB 2025</div>
+          <div class="me-card-name">Alley 41</div>
+          <div class="me-card-tag">东北菜 · Flushing</div>
+          <div class="me-price-highlight">一顿 $25-35 · 两人 $70</div>
+          <div class="me-dishes">
+            东北菜正餐。<strong>必点：烧烤羊肉串、地三鲜、锅包肉、东北大拉皮、酸菜白肉</strong>。
+            可以点啤酒配大排档氛围。
+          </div>
+          <div class="me-why">法拉盛最有名的东北菜之一。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👥 朋友聚会</span>
+            <span class="me-meta-item">👨‍👩‍👧 家庭</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">BIB 2025</div>
+          <div class="me-card-name">Chuan Tian Xia 川天下</div>
+          <div class="me-card-tag">川菜 · Queens</div>
+          <div class="me-price-highlight">一顿 $25-35 · 两人 $65</div>
+          <div class="me-dishes">
+            四川麻辣菜正餐。<strong>必点：水煮鱼、麻婆豆腐、回锅肉、夫妻肺片、毛血旺、鱼香肉丝</strong>。
+            辣度可调，但默认偏辣。米其林认证性价比。
+          </div>
+          <div class="me-why">纽约川菜的性价比代表。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👥 朋友聚会</span>
+            <span class="me-meta-item">👨‍👩‍👧 家庭</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-hall-of-fame">BIB 2025</div>
+          <div class="me-card-name">Kung Fu Little Steamed Buns Ramen</div>
+          <div class="me-card-tag">小笼包 + 拉面 · 多家分店</div>
+          <div class="me-price-highlight">小笼包 $10/笼 · 两人 $40</div>
+          <div class="me-dishes">
+            店名长但东西实在。<strong>招牌小笼包 8 个 $10、辣味小笼、手拉面</strong>、酸辣汤、小菜。
+            分店多（midtown、chinatown 等），工作日午餐神店。
+          </div>
+          <div class="me-why">上班族打工人的中餐回血点。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 好订</span>
+            <span class="me-meta-item">🧘 独食</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== 甜品/小食 ========== -->
+    <div class="cat-group">
+      <div class="cat-header">
+        <span class="cat-num">05</span>
+        <div style="flex:1">
+          <div class="cat-title">🍦 甜品 + 路边小食 · 必打卡</div>
+          <div class="cat-desc">纽约人日常续命 + 游客打卡两用</div>
+        </div>
+      </div>
+      <div class="me-grid">
+
+        <div class="me-card">
+          <div class="me-card-name">Levain Bakery</div>
+          <div class="me-card-tag">巨型曲奇 · 多店（UWS 原店）</div>
+          <div class="me-price-highlight">曲奇 $5/个 · 够两人分</div>
+          <div class="me-dishes">
+            <strong>6oz 巨型曲奇 $5</strong>。必点：<strong>Chocolate Chip Walnut（经典巧克力核桃）</strong>、Dark Chocolate Peanut Butter Chip、Two-Chip Chocolate Chip。
+            一个够两人分。原店 UWS 有时还排队（西城 167 W 74）。
+          </div>
+          <div class="me-why">可能是美国最有名的曲奇店。$5 的纯快乐。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 快取</span>
+            <span class="me-meta-item">👨‍👩‍👧 家庭</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Magnolia Bakery</div>
+          <div class="me-card-tag">Banana Pudding · West Village 原店</div>
+          <div class="me-price-highlight">$7/小杯 · 游客必吃</div>
+          <div class="me-dishes">
+            《欲望都市》取景地之一。
+            <strong>真正的招牌不是 cupcake，是 Banana Pudding 香蕉布丁 $7 小杯</strong>（香蕉 + 奶油 + 香草饼干 layered）。
+            Cupcake 一般般（$4/个）。
+          </div>
+          <div class="me-why">游客地标 + 真的好吃的一道单品（布丁不是蛋糕）。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 快取</span>
+            <span class="me-meta-item">🧘 独食</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Dominique Ansel Bakery</div>
+          <div class="me-card-tag">Cronut 发明者 · SoHo</div>
+          <div class="me-price-highlight">Cronut $8 · DKA $6</div>
+          <div class="me-dishes">
+            Cronut（牛角 + 甜甜圈混血）的发明者。
+            <strong>Cronut 每月换一种馅，必须排队或网上订</strong>。
+            其他必点：<strong>DKA（焦糖黄油可颂）、Frozen S'more（火焰棉花糖冰淇淋）、Chocolate Chip Cookie Shot（杯形饼干装牛奶）</strong>。
+          </div>
+          <div class="me-why">全球 cronut 热的源头。甜品界的 landmark。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">⏳ 排队</span>
+            <span class="me-meta-item">🧘 独食</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Ess-a-Bagel</div>
+          <div class="me-card-tag">纽约贝果 · Midtown East</div>
+          <div class="me-price-highlight">贝果 + 奶油奶酪 $8-12</div>
+          <div class="me-dishes">
+            纽约贝果前三甲之一（另外两家：Russ & Daughters、Absolute Bagels）。
+            <strong>必点：Everything Bagel 顶料麦香贝果 + 全香奶油奶酪 $6-8、加 Lox $15-18</strong>。
+            大、实、有嚼劲 —— 纽约贝果的标准样本。
+          </div>
+          <div class="me-why">早餐必打卡一次。$8 一个贝果比一顿饭还饱。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 快取</span>
+            <span class="me-meta-item">🧘 独食</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== 给 G 的中餐推荐 ========== -->
+    <div class="cat-group">
+      <div class="cat-header">
+        <span class="cat-num">06</span>
+        <div style="flex:1">
+          <div class="cat-title">🎯 特别推荐 · 给中国胃</div>
+          <div class="cat-desc">以上都不是？这些是纽约华人自己吃的</div>
+        </div>
+      </div>
+      <div class="me-grid">
+
+        <div class="me-card">
+          <div class="me-card-name">Szechuan Mountain House 川山甲</div>
+          <div class="me-card-tag">川菜 · Flushing + East Village</div>
+          <div class="me-price-highlight">一顿 $25-40 · 两人 $80</div>
+          <div class="me-dishes">
+            <strong>必点：麻辣水煮鱼、辣子鸡、夫妻肺片、宫保鸡丁、担担面、钟水饺</strong>。
+            Manhattan 有分店（East Village, 23 St Marks Pl）。装潢比普通中餐讲究。
+          </div>
+          <div class="me-why">纽约川菜里味道最稳、环境最舒服的之一。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 好订</span>
+            <span class="me-meta-item">👨‍👩‍👧 家庭</span>
+            <span class="me-meta-item">💑 约会</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Hao Noodle</div>
+          <div class="me-card-tag">江南面食 · Greenwich Village + Chelsea</div>
+          <div class="me-price-highlight">一顿 $20-35 · 两人 $65</div>
+          <div class="me-dishes">
+            <strong>江南风格面馆，装潢文艺</strong>。必点：<strong>Pork Belly in Garlic Sauce（蒜泥白肉）、Dan Dan Noodles（担担面）、Scallion Oil Noodles（葱油拌面）、Beef Brisket Soup Noodles（牛腩面）</strong>。
+            适合约会或陪不吃辣的朋友。
+          </div>
+          <div class="me-why">中餐的"精致化呈现"版，但价格还能接受。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">💑 约会</span>
+            <span class="me-meta-item">👥 朋友</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Spicy Moon 素月</div>
+          <div class="me-card-tag">素川菜 · West Village + East Village</div>
+          <div class="me-price-highlight">一顿 $20-30 · 两人 $55</div>
+          <div class="me-dishes">
+            <strong>纽约最好的素川菜</strong>。全素但麻辣够味。
+            必点：<strong>Mapo Tofu（麻婆豆腐，用 porcini 代替肉末）、Dan Dan Noodles、Cumin Mushroom（孜然蘑菇仿羊肉）、Dry Pot（干锅）</strong>。
+            Infatuation 力推。
+          </div>
+          <div class="me-why">素食者的中餐希望。带不吃肉的朋友首选。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">🌱 全素</span>
+            <span class="me-meta-item">👥 朋友</span>
+            <span class="me-meta-item">👌 好订</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">King Dumpling / 北方饺子</div>
+          <div class="me-card-tag">北方饺子 · Sunset Park Brooklyn</div>
+          <div class="me-price-highlight">12 个饺子 $8 · 两人 $20</div>
+          <div class="me-dishes">
+            Sunset Park（日落公园，纽约新中国城）的饺子馆。
+            <strong>必点：猪肉韭菜饺（煎或水饺）$6-8/12个、酸菜猪肉饺、西红柿鸡蛋饺、家常凉菜小碟</strong>。
+            真正便宜、真正家常味。
+          </div>
+          <div class="me-why">想吃"国内小饭店"味道的最近似版本。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">💸 超便宜</span>
+            <span class="me-meta-item">👨‍👩‍👧 家庭</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">MáLà Project 麻辣计划</div>
+          <div class="me-card-tag">干锅麻辣香锅 · 多店</div>
+          <div class="me-price-highlight">一顿 $30-45 · 两人 $80</div>
+          <div class="me-dishes">
+            <strong>米其林 Bib Gourmand（历年）</strong>。
+            <strong>麻辣干锅式点餐 —— 自选食材（肉、蔬菜、豆制品）、自选辣度、自选麻度</strong>。
+            价格按重量算，两人 $60-90。配咸豆浆或酸梅汤。
+            East Village、Chelsea、Midtown 都有店。
+          </div>
+          <div class="me-why">纽约最火的麻辣香锅概念店。从中国直接搬来的形式。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👥 朋友聚会</span>
+            <span class="me-meta-item">📆 订位</span>
+          </div>
+        </div>
+
+        <div class="me-card">
+          <div class="me-card-name">Xi'an Impression / 长安印象</div>
+          <div class="me-card-tag">陕西菜（非 Xi'an Famous 那家）· Flushing</div>
+          <div class="me-price-highlight">一顿 $20-30 · 两人 $50</div>
+          <div class="me-dishes">
+            比 Xi'an Famous Foods 更正餐化、菜品更丰富。
+            <strong>必点：肉夹馍、凉皮、油泼面、葫芦鸡、肉夹饼、糖醋里脊</strong>。
+            Flushing 华人社区内部推荐。
+          </div>
+          <div class="me-why">比 Xi'an Famous Foods 更"坐下来认真吃"的版本。</div>
+          <div class="me-meta-row">
+            <span class="me-meta-item">👌 好订</span>
+            <span class="me-meta-item">👥 朋友</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="foot-note">
+    <strong>数据源：</strong>OpenTable CSR Exclusive Tables 列表（2026.4），餐厅官网菜单（The Modern, Casa Mono, Gramercy Tavern, Hawksmoor, Scarr's, Joe's Pizza, Katz's, Xi'an Famous Foods, Peter Luger 等），Michelin Guide 2025（星级 + Bib Gourmand），NYT / Infatuation / Resy / Eater / Air Mail / OpenTable 评价。所有米其林星星、Bib Gourmand、NYT 星、James Beard 均为公开信息。<br><br>
+    <strong>关于价格：</strong>两人一顿总价为估算（套餐按单价×2；单点按典型搭配），税前不含小费。实际价格以餐厅当日菜单为准。标有"菜单验证"的是从官网/Yelp 拉取的真实定价；其他为公开报道均值。<br><br>
+    <strong>Credit 规则：</strong>以 Chase 官方条款为准。上半年 $150 未用完不结转。下方"纽约必吃"板块的餐厅<strong>不在 CSR Exclusive Tables 列表</strong>，credit 不适用。
+  </p>
+</footer>
+
+<script>
+// 数据说明：
+// stars: 米其林星级 0/1/2/3；bib=1 表示 Bib Gourmand
+// verified: 菜单价格从官网/Yelp 验证过
+// difficulty 1-4; occasion: date/group/family/solo/special/work
+const data = [
+  // ============ 米其林二星 ============
+  {name:"The Modern", cuisine:"当代美式", area:"Midtown · MoMA 内", region:"manhattan", price:"$$$$", tier:"high", stars:2, bib:0, verified:true, format:"both",
+    totalSpend:170, priceLow:115, priceHigh:550,
+    awards:["NYT 3★","James Beard ×4","R&C","Icon"], score:95, difficulty:3, occasion:["date","special","work"],
+    dishes:"<strong>两人两种吃法：</strong><br><br><strong>A. 午餐 3道 Prix Fixe $115/人（含甜点）</strong>——前菜选：badger flame 甜菜配牛油果；主菜选：传承猪肉配喇叭菌、海鲈鱼配蛤蜊番红花、慢烤鸭配芒果；<strong>招牌 'Eggs on eggs on eggs'（溏心蛋铺鲟鱼籽）加 $75</strong>。<br><br><strong>B. Bar Room 单点（同厨房同食材）</strong>——分享前菜 $22-28、主菜 $45-58/道、鸡尾酒 $18。两人一前菜 + 两主菜 + 两杯酒 = ~$170，灵活不含甜点。<br><br><strong>C. 晚餐套餐（强制含甜点）</strong>：Impressions 5 道 $175、Abstractions 8 道 $275。两人去很亏，除非纪念日。",
+    body:"主厨 Thomas Allan。米其林二星 + NYT 3★ + 四次詹姆斯·比尔德奖。两人最优解不是 tasting 而是 Bar Room 单点分享。",
+    total:"单点 2人 ~$170 / 午餐 2人 $230", after:"<strong>Bar Room 2人实付 $20 🎯</strong>"},
+
+  {name:"ASKA", cuisine:"北欧料理", area:"Williamsburg, Brooklyn", region:"brooklyn", price:"$$$$", tier:"high", stars:2, bib:0, verified:true, format:"tasting",
+    totalSpend:750, priceLow:295, priceHigh:375,
+    awards:["NYT 3★","Eater 4★","OT 4.9","Icon"], score:78, difficulty:4, occasion:["date","special"],
+    dishes:"<strong>⚠️ 强制 12-14 道 tasting $375/人，含甜点，不能单点、不能砍菜</strong>。主厨 Fredrik Berselius 亲自介绍每道菜。典型菜：干式熟成鹌鹑配羊肚菌与金莲花；挪威海螯虾配醋栗（甜）；慢煮黑鳕鱼顶贝鲁加鱼子酱配黑啤奶油酱。约 3 小时。可选 Cellar Lounge 9 道 $295。配酒另付 $250+。",
+    body:"Brooklyn 唯一二星，每晚仅 10 桌。<strong>两人吃 $750 很贵，只适合纪念日/重大场合</strong>。预订不可退改、不接临时过敏通知、不允许短裤拖鞋。",
+    total:"2人强制 $750", after:"2人实付 $600"},
+
+  {name:"odo", cuisine:"日式怀石", area:"Flatiron · 藏在 HALL 后", region:"manhattan", price:"$$$$", tier:"high", stars:2, bib:0, verified:true, format:"tasting",
+    totalSpend:590, priceLow:270, priceHigh:350,
+    awards:["NYT 3★","Icon"], score:76, difficulty:4, occasion:["date","special"],
+    dishes:"<strong>⚠️ 14 席主厨台怀石，月更菜单，强制套餐含甜点</strong>。Michelin Guide 提到的典型菜：柚子点缀的方头鱼清汤、自制荞麦面配三文鱼籽、炭烤山椒酱油鳗鱼。约 $270-350/人。素食/无麸质/海鲜过敏都不接受。10 岁以下不能坐主厨台。邻 HALL 的 Lounge 不含 tasting。",
+    body:"主厨 Hiroki Odo 来自 Kajitsu，连续三年米其林二星。<strong>两人 $590-700 强制套餐，不适合日常</strong>。",
+    total:"2人强制 $590+", after:"2人实付 $440"},
+
+  // ============ 米其林一星 ============
+  {name:"Casa Mono", cuisine:"西班牙 Tapas", area:"Gramercy · Irving Place", region:"manhattan", price:"$$$", tier:"mid", stars:1, bib:0, verified:true, format:"small",
+    totalSpend:145, priceLow:50, priceHigh:200,
+    awards:["2009- 每年","NYT 3★","Icon"], score:92, difficulty:2, occasion:["date","group"],
+    dishes:"<strong>天生小盘分享，两人 4 盘完美不用甜点</strong>。官网真实价：<strong>铁板剃刀蛤 $32</strong>（招牌、Michelin 评'必点'）、<strong>鸭蛋配 Mojama 黑松露土豆 $25</strong>、<strong>裙带牛排配 romesco 和洋葱果酱 $38</strong>、Fluke Crudo $22、Fideos $32、Arroz Negro $28、Pan con Tomate $12、Patatas Bravas $15。两人 4 盘约 $127 + 1 杯酒 $15 = $145。",
+    body:"主厨 Andy Nusser（Mario Batali 合伙人）。连续 17 年米其林一星。13 桌 + 15 吧台。<strong>两人吃的模板店</strong>——不用套餐、没强制甜点、credit 刚好抵完。",
+    total:"2人 4 盘 + 酒 ~$145", after:"<strong>2人实付 ~$0 🎯</strong>"},
+
+  {name:"Moody Tongue Sushi", cuisine:"寿司 + 啤酒配对", area:"West Village", region:"manhattan", price:"$$$$", tier:"high", stars:1, bib:0, verified:true, format:"both",
+    totalSpend:300, priceLow:120, priceHigh:180,
+    awards:["Icon"], score:78, difficulty:3, occasion:["date","group"],
+    dishes:"<strong>单点寿司 $6-30/件，或套餐 ~$150/人</strong>。啤酒配对是卖点（而非寿司本身）。Michelin Guide 提到的搭配：橙花 Blonde 啤酒配橙皮真鲷、Oak Barrel Aged Flanders Red Ale 配鲜虾顶海胆和一粒鱼子酱（'impressive duo'）、酸西瓜 Saison 配鲑鱼。<strong>纽约限定黑松露米拉格配和牛</strong>。Infatuation 评价：啤酒有趣但 quality-price 比不算顶级（'specialty nigiri 做得过度复杂，easily spend $150 吃到 underwhelming meal'）。",
+    body:"芝加哥 Moody Tongue Brewery 的纽约店。啤酒比寿司更出彩。Brewmaster Jared Rouben。",
+    total:"2人 ~$300", after:"2人实付 $150"},
+
+  // ============ NYT 3星 / Icon 级 ============
+  {name:"The Dining Room at Gramercy Tavern", cuisine:"当代美式", area:"Union Square", region:"manhattan", price:"$$$$", tier:"high", stars:0, bib:0, verified:true, format:"tasting",
+    totalSpend:336, priceLow:168, priceHigh:325,
+    awards:["USHG","Icon"], score:72, difficulty:3, occasion:["date","special","work"],
+    dishes:"<strong>⚠️ 强制 $168/人 5 道 tasting（含甜点）</strong>——或 $235 4道 prix fixe、$325 主厨 tasting。午餐另有 $80 3道 Greenmarket Lunch。主厨 Michael Anthony。典型菜：干草烟熏 gnocchi 配 romano 豆子、烤猪里脊+猪腩、poached 龙虾玉米 agnolotti、草莓奶油甜点。配酒 +$98。<br><br><strong>⚡ 两人省钱：直接去同店前厅 The Tavern 单点（下一张卡），同厨房、价格低一半</strong>。",
+    body:"Danny Meyer 的 USHG 招牌店，开业 30+ 年。正厅强制 tasting 对两人不友好。",
+    total:"Dining Room 2人强制 $336", after:"2人实付 $186"},
+
+  {name:"Estela", cuisine:"现代新美式", area:"NoHo · 47 E Houston", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:true, format:"small",
+    totalSpend:140, priceLow:70, priceHigh:180,
+    awards:["NYT 3★","James Beard","Icon","Chef Mattos"], score:88, difficulty:3, occasion:["date","group"],
+    dishes:"<strong>天生小盘分享，服务员建议两人 4-6 盘</strong>。铁打招牌（从开业没下过菜单）：<strong>Burrata 配 salsa verde $24、牛肉鞑靼配菊芋 $28、Endive salad $22-29</strong>（小山一样的叶子藏酸面包屑、Barolo 浸奶酪丁、核桃）、贻贝 escabeche on toast $17、ricotta dumplings、lamb ribs、Arroz negro 墨鱼汁饭配鱿鱼 $31。<strong>两人 5 盘 ~$130 + 酒 $20 = $150</strong>，不点 panna cotta 甜点。奥巴马 2014 年来过。",
+    body:"主厨 Ignacio Mattos（Altro Paradiso 也是他）。极小空间 + 很吵 + 超好吃。两人吃的典范。",
+    total:"2人 5 盘 + 酒 ~$150", after:"<strong>2人实付 ~$0 🎯</strong>"},
+
+  {name:"The Tavern at Gramercy Tavern", cuisine:"季节美式", area:"Gramercy · 前厅 walk-in", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:true, format:"alacarte",
+    totalSpend:130, priceLow:40, priceHigh:150,
+    awards:["USHG","Icon"], score:88, difficulty:1, occasion:["solo","group","work","date"],
+    dishes:"<strong>同店 Dining Room（$168 强制 tasting）的前厅版本 —— 单点自由，价格低一半</strong>。同厨房出品。真实价：前菜/分享盘 $18-28、主菜 $32-52。<strong>必点：Tavern 汉堡 $32</strong>（纽约最好汉堡候选）、烤猪肩 $36、砖压烤鸡 $36、季节分享盘、现烤面包。两人 1 前菜 + 2 主菜 + 1 杯酒 = ~$130，不点甜点。Walk-in 友好。",
+    body:"Michael Anthony 厨房的性价比入口。想吃 Icon 级美式又不想 $168 套餐就这里。",
+    total:"2人单点 ~$130", after:"<strong>2人实付 ~$0 🎯</strong>"},
+
+  {name:"The Bar Room at The Modern", cuisine:"当代美式", area:"Midtown · MoMA 内", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:170, priceLow:60, priceHigh:220,
+    awards:["The Modern 前厅","Icon"], score:87, difficulty:2, occasion:["date","work","group"],
+    dishes:"<strong>The Modern 正厅的单点版本，同厨房同食材</strong>。报道价：前菜 $22-28、主菜 $45-58、鸡尾酒 $18。两人 1 前菜分享 + 2 主菜 + 2 杯酒 ~$170，不吃甜点。<strong>相比 The Modern 晚餐 tasting $175-275/人，单点省一半以上</strong>。精选酒单共享正厅（Wine Spectator Grand Award）。Walk-in 接受。",
+    body:"想尝 Thomas Allan 的菜又不想 $275 吃 8 道 tasting 的选这里。两人 Bar Room 是全列表最隐形的性价比王之一。",
+    total:"2人单点 ~$170", after:"2人实付 $20"},
+
+  {name:"Casa Mono 姐妹店 Bar Jamón", cuisine:"西班牙酒吧", area:"Gramercy · 紧邻 Casa Mono", region:"manhattan", price:"$$", tier:"mid", stars:0, bib:0, verified:false,
+    totalSpend:120, priceLow:50, priceHigh:120,
+    awards:["Casa Mono 姐妹店"], score:76, difficulty:1, occasion:["date","solo"],
+    dishes:"Casa Mono 隔壁，更小更 casual 的 Spanish 酒吧。主打 <strong>Jamón Ibérico（西班牙黑猪火腿，Casa Mono $55）</strong> + 西班牙小菜 + 雪莉酒和 Spanish 红酒。适合 Casa Mono 订不到时的备选，或先喝一杯再去隔壁吃饭。",
+    body:"注：Bar Jamón 实际未在 Exclusive Tables 列表中单独列出，但与 Casa Mono 共享后厨，一起来访更合理。此条可视为 Casa Mono 的延伸体验。",
+    total:"2人 ~$120", after:"2人实付 ~0"},
+
+  {name:"Tolo", cuisine:"新派中餐", area:"Lower East Side · Dimes Square", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:true, format:"small",
+    totalSpend:130, priceLow:80, priceHigh:180,
+    awards:["Chef Ron Yan","300+ 酒单"], score:84, difficulty:3, occasion:["date","group"],
+    dishes:"<strong>天生分享式中餐</strong>。<strong>招牌（Air Mail 报道主厨每周手拉 70 磅的那个）：XO 酱炒河粉</strong>（韭菜花 + wok hei，top seller）。Michelin Guide 点名：牛腱肉配清爽香草沙拉、盐酥豆腐、整条糖醋脆皮海鲈 branzino。其他必点：水煮花生、typhoon shelter 避风塘炒鸡、蟹肉炒饭、主厨妈妈做的饺子。<strong>300 支酒单由 Parcelle 策划</strong>。两人 4 盘 + 1 瓶酒 ~$130。",
+    body:"主厨 Ron Yan（前 Parcelle 行政主厨）。店名 Tolo 是香港地名。7-16 人大桌需订 prix fixe。",
+    total:"2人 4 盘 + 酒 ~$130", after:"<strong>2人实付 ~$0 🎯</strong>"},
+
+  // ============ Hawksmoor - 午餐性价比神店 ============
+  {name:"Hawksmoor NYC", cuisine:"英式牛排", area:"Gramercy · 历史建筑内", region:"manhattan", price:"$$$$", tier:"high", stars:0, bib:0, verified:true, format:"both",
+    totalSpend:110, priceLow:80, priceHigh:280,
+    awards:["UK 招牌"], score:91, difficulty:2, occasion:["date","work","group","family"],
+    dishes:"<strong>⚡ 两人套利王：午餐 3道 $55/人（周一到周六 12-3pm）= 2人 $110，credit 抵完还剩 $40</strong>。午餐选项（官方验证）：Steak Frites $25（8oz 28天干式熟成 rump 配牛脂薯条）、Notorious B.E.E.F.（双层干熟成牛饼带骨髓 $25）、Fish & Chips $25、Coronation Chicken Salad $25。<strong>2道 $40/人 可跳过甜点，2人 $80 更省</strong>。<br><br>晚餐单点：两人共享 <strong>Porterhouse 牛排（$155 两人份）</strong> + 3个生蚝 $28 + 一杯酒 = $200。Bar Menu 5pm 起有 Hawksmoor 汉堡 $29、骨髓吐司、海盐薯条。",
+    body:"英国 Hawksmoor 纽约旗舰，landmarked 的 United Charities Assembly Hall 内。<strong>午餐是整张列表里与 The Modern 并列的两大性价比神迹</strong>。",
+    total:"午餐 2人 $80-110 / 晚餐 $200", after:"<strong>午餐免费 🎯</strong>"},
+
+  // ============ 更多中端 ============
+  {name:"Altro Paradiso", cuisine:"意大利菜", area:"SoHo", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:190, priceLow:65, priceHigh:170,
+    awards:["Chef Mattos"], score:82, difficulty:2, occasion:["date","group","work"],
+    dishes:"Estela 主厨 Ignacio Mattos 的 SoHo Italian，菜更 approachable。典型搭配：手工意面 $28-36（pasta 是强项）、烤主菜 $42-58、时令前菜、橄榄油蛋糕甜点。周末早午餐也稳。",
+    body:"比 Estela 更宽敞、氛围更热闹。",
+    total:"2人 ~$190", after:"2人实付 $40"},
+
+  {name:"Potluck Club", cuisine:"粤式美国中餐", area:"Chinatown · 133 Chrystie", region:"manhattan", price:"$$", tier:"casual", stars:0, bib:1, verified:true, format:"small",
+    totalSpend:90, priceLow:40, priceHigh:110,
+    awards:["Phoenix Palace 姐妹店"], score:85, difficulty:2, occasion:["group","family","date","solo"],
+    dishes:"<strong>天生中餐分享式</strong>。<strong>Infatuation 铁打推荐：Salt & Pepper Chicken 配 Scallion Biscuits 和 chili-plum jam</strong>（葱花饼夹椒盐鸡，'worth coming back for again and again'）。其他必点：蚝菇河粉配 hanger 牛排、XO 炒饭配虾和中式腊肠、脆皮醉鸡配虾片、Endive 沙拉配龙珠果、braised 短肋。两人 3 盘 + 1 杯酒 ~$90，分量够。",
+    body:"Chinatown 长大的朋友们 2022 年开的。<strong>米其林 Bib Gourmand</strong>。每月给社区老人免费餐。",
+    total:"2人 3 盘 + 酒 ~$90", after:"<strong>2人实付 ~$0 🎯</strong>"},
+
+  {name:"Momofuku Noodle Bar – East Village", cuisine:"面食 + Bao", area:"East Village · 原店", region:"manhattan", price:"$$", tier:"casual", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:100, priceLow:35, priceHigh:90,
+    awards:["David Chang"], score:78, difficulty:2, occasion:["solo","group"],
+    dishes:"<strong>招牌：猪腩包（刈包 pork belly bun，开店就没下过菜单）、辣味噌拉面</strong>。其他：烤鸡翅、各式刈包、自制馒头、冰淇淋软冰、菜单每天换。2 人典型：两碗面+两个包+一杯啤酒 ~$100。",
+    body:"David Chang 1st 店（2004 开业），14 天前开放预订。",
+    total:"2人 ~$100", after:"$150 可吃 1.5 次"},
+
+  {name:"Scarr's Pizza", cuisine:"纽约披萨", area:"Chinatown/LES · 35 Orchard", region:"manhattan", price:"$$", tier:"casual", stars:0, bib:0, verified:true, format:"alacarte",
+    totalSpend:50, priceLow:15, priceHigh:60,
+    awards:["2024 JB Best Chef NY Nominee"], score:82, difficulty:1, occasion:["solo","group","family"],
+    dishes:"<strong>真实官方价：切片 $4.50-6.50，12\" 整张 $24-29，20\" 整张 $32-37</strong>。招牌：<strong>Hotboi（切片 $6.50）</strong>—— 意式辣肠 + 墨西哥辣椒 + Mike's 极辣蜂蜜；<strong>DJ Clark Kent</strong> 鸡肉香肠 + 蒜；Margherita 切片 $6.50；原味 NY slice $4.50；White Pizza 白披萨（ricotta + fresh mozz）。<strong>有 Sicilian 方形切片</strong>。2 人随便吃 2 片 + 一杯酒 ~$30。",
+    body:"主厨 Scarr Pimentel，<strong>2024 詹姆斯·比尔德最佳主厨 NY 提名</strong>，自己磨面粉做全天然酵母面团。<strong>纽约时报称'全纽约最好的切片'</strong>。",
+    total:"2人 ~$50", after:"<strong>$150 够吃 3 次</strong>"},
+
+  {name:"Gjelina - New York", cuisine:"加州 Italian", area:"NoHo · 45 Bond St", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:true, format:"alacarte",
+    totalSpend:180, priceLow:60, priceHigh:160,
+    awards:["LA 原版店"], score:80, difficulty:3, occasion:["date","group"],
+    dishes:"<strong>Hotels Above Par 钦点：Saffron Spaghetti</strong>（番红花意面配辣椒、乌鱼子、confit 番茄、蒜、葱）。<strong>Pomodoro 披萨加 Burrata</strong>（Margherita 升级版）。Infatuation 最喜欢：<strong>烤蓝色平菇 blue oyster mushroom</strong>（龙蒿黄油）。其他：pappardelle 配 brisket ragu、lamb tartare、mackerel crudo、chicken 配 braised greens、lamb burger（Schlossberger 奶酪、香菜、Fresno 辣椒、香料酸奶）。Sopressata 披萨（意式莎乐美肠）。",
+    body:"LA Venice 原版店开的纽约分店。菜单按市场每周换。Brunch/Afternoon/Dinner 全天候。",
+    total:"2人 ~$180", after:"2人实付 $30"},
+
+  {name:"Di An Di", cuisine:"现代越南菜", area:"Greenpoint, Brooklyn", region:"brooklyn", price:"$$", tier:"casual", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:90, priceLow:35, priceHigh:80,
+    awards:["Vietnamese-American"], score:78, difficulty:2, occasion:["group","family","solo"],
+    dishes:"现代越南家庭菜。典型：<strong>牛肉河粉 ~$22、香茅猪排饭 ~$26、春卷 ~$14</strong>、越式咖喱、炸鱼 la tea、越南冰咖啡、椰子冻甜点。店名意思是越南语'咱们走吧吃饭'。",
+    body:"第一代越裔美国人开的。未在本次搜索中验证具体价格，以上为公开报道均值。",
+    total:"2人 ~$90", after:"$150 可吃 1.6 次"},
+
+  {name:"Sunn's", cuisine:"现代韩餐", area:"Chinatown", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"small",
+    totalSpend:150, priceLow:55, priceHigh:140,
+    awards:["Chef Sunny Lee"], score:80, difficulty:2, occasion:["date","group"],
+    dishes:"主厨 Sunny Lee。轮换式 banchan 小菜 + 主菜 + 酒。典型：banchan 6 碟、烤五花、石锅拌饭升级、马格利米酒或冷韩国拉格。<strong>酒单由 Parcelle 负责</strong>（和 Tolo 同一酒商伙伴）。",
+    body:"Chinatown 的现代韩餐小店 + 酒吧。未验证具体菜单价格。",
+    total:"2人 ~$150", after:"2人实付 ~0"},
+
+  {name:"San Sabino", cuisine:"意式海鲜", area:"West Village", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"small",
+    totalSpend:200, priceLow:70, priceHigh:180,
+    awards:["Don Angie 姐妹店"], score:78, difficulty:3, occasion:["date","group"],
+    dishes:"海鲜为主的 Italian。典型：生鱼片拼盘、海鲜意面（蛤蜊、海胆）、炸海鲜拼盘、拿坡里风海鲜意粉、柠檬啫喱甜点。菜单未验证具体价格，以上为报道均值。",
+    body:"Don Angie（西村最热之一）主厨夫妻 Angie Rito + Scott Tacinelli 的新店。",
+    total:"2人 ~$200", after:"2人实付 $50"},
+
+  {name:"Phoenix Palace", cuisine:"粤式中餐", area:"Chinatown", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"small",
+    totalSpend:155, priceLow:55, priceHigh:140,
+    awards:["Potluck Club 姐妹店"], score:77, difficulty:2, occasion:["group","family","date"],
+    dishes:"Potluck Club 团队新开的正统粤菜。菜单灵感来自主厨童年回忆。典型：粤式烧腊、点心、烧鹅、豉椒凤爪、炖汤、咕噜肉。未验证具体菜单价格。",
+    body:"注：Phoenix Palace 是 Potluck Club 团队的姐妹店，方向更传统粤菜。未见具体菜单，以上为 OpenTable 描述。",
+    total:"2人 ~$155", after:"2人实付 $5"},
+
+  {name:"Bar Kabawa", cuisine:"加勒比 / 朗姆", area:"East Village", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"small",
+    totalSpend:135, priceLow:50, priceHigh:120,
+    awards:["Chef Paul Carmichael (ex-Momofuku)"], score:77, difficulty:2, occasion:["date","group","solo"],
+    dishes:"<strong>主打黛绮莉鸡尾酒</strong> + 加勒比小盘菜。典型：两杯黛绮莉 + 炖牛肉 + 烤猪肩 + 椰浆饭。<strong>每晚留半个餐厅给 walk-ins</strong>。菜单未验证具体价格。",
+    body:"Momofuku 前主厨 Paul Carmichael 的东村 daiquiri bar。",
+    total:"2人 ~$135", after:"2人实付 ~0"},
+
+  {name:"Sailor", cuisine:"新美式 bistro", area:"Fort Greene, Brooklyn", region:"brooklyn", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:170, priceLow:60, priceHigh:150,
+    awards:["Chef Bloomfield"], score:79, difficulty:2, occasion:["date","group"],
+    dishes:"<strong>主打深度酒单（500+ 支）</strong> + 简单精细的菜。典型：烤半鸡、招牌汉堡、骨髓烤面包、焦糖布丁。菜品未验证具体价格。",
+    body:"前 The Spotted Pig 主厨 April Bloomfield 的新店。",
+    total:"2人 ~$170", after:"2人实付 $20"},
+
+  {name:"Ci Siamo", cuisine:"现代意大利菜", area:"Chelsea · Manhattan West", region:"manhattan", price:"$$$$", tier:"high", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:240, priceLow:85, priceHigh:220,
+    awards:["USHG","Chef Sterling"], score:79, difficulty:3, occasion:["date","work","special"],
+    dishes:"柴火烤 Italian。典型：柴火意面、整只烤羊（提前订）、意式 agnolotti、时令烤菜。主菜 $42-68 报道。",
+    body:"Union Square Hospitality Group（Gramercy Tavern 同集团）。主厨 Hillary Sterling。菜单未从官网验证。",
+    total:"2人 ~$240", after:"2人实付 $90"},
+
+  {name:"Le B.", cuisine:"现代欧陆", area:"West Village", region:"manhattan", price:"$$$$", tier:"high", stars:0, bib:0, verified:false, format:"both",
+    totalSpend:300, priceLow:120, priceHigh:280,
+    awards:["Chef Angie Mar"], score:81, difficulty:3, occasion:["date","special"],
+    dishes:"复古欧陆 fine dining。典型：品尝菜单 ~$125/人、干式熟成牛排、猎物季节菜（秋冬）、奢华 dessert cart。报道菜单未验证。",
+    body:"Angie Mar（前 The Beatrice Inn 主厨）downtown fine dining。复古 glam 氛围。",
+    total:"2人 ~$300", after:"2人实付 $150"},
+
+  {name:"Bar Miller", cuisine:"omakase", area:"East Village", region:"manhattan", price:"$$$$", tier:"high", stars:0, bib:0, verified:false, format:"tasting",
+    totalSpend:380, priceLow:165, priceHigh:195,
+    awards:["Rosella 姐妹店"], score:76, difficulty:3, occasion:["date","solo"],
+    dishes:"<strong>8 席 omakase，每晚两轮</strong>，约 $175-195/人。15-17 贯寿司 + 前菜 + 味噌汤。100% 本地可持续食材（Rosella 概念延续）。配国产啤酒或清酒。菜单未验证具体价格。",
+    body:"Rosella 姐妹店，非米其林。",
+    total:"2人 ~$380", after:"2人实付 $230"},
+
+  {name:"Joseph Leonard", cuisine:"美式 bistro", area:"West Village", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:155, priceLow:55, priceHigh:140,
+    awards:["Stulman group"], score:76, difficulty:2, occasion:["date","group"],
+    dishes:"典型点法：肉类奶酪拼盘 + 烤半鸡 + 焦糖花椰菜配芥末油醋 + 一杯酒 ~$150-160。周末 brunch 同价。菜单未从官网验证。",
+    body:"Stulman group 招牌店，明亮通透的邻里 bistro。",
+    total:"2人 ~$155", after:"2人实付 $5"},
+
+  {name:"Jeffrey's Grocery", cuisine:"美式生食吧", area:"Greenwich Village", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:150, priceLow:55, priceHigh:130,
+    awards:["Stulman group"], score:75, difficulty:1, occasion:["date","solo","group"],
+    dishes:"<strong>招牌黄油龙虾卷 ~$38</strong>。典型：龙虾卷 + 生蚝半打 + 一杯香槟鸡尾酒 ~$150。氛围 casual 晚餐。菜单未从官网验证。",
+    body:"Stulman group 的生食吧招牌。",
+    total:"2人 ~$150", after:"2人实付 ~0"},
+
+  {name:"Fairfax", cuisine:"全天美式", area:"Greenwich Village", region:"manhattan", price:"$$", tier:"casual", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:90, priceLow:30, priceHigh:75,
+    awards:["Stulman group"], score:73, difficulty:1, occasion:["solo","group","family"],
+    dishes:"典型：<strong>招牌汉堡 ~$22、炸鸡 ~$24</strong>、全天早午餐、经典 diner 菜。两人 $80-100 含酒。没门槛邻里店。",
+    body:"Stulman group 的全天邻里店。",
+    total:"2人 ~$90", after:"$150 可吃 1.7 次"},
+
+  {name:"Strange Delight", cuisine:"生蚝吧", area:"Fort Greene, Brooklyn", region:"brooklyn", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:145, priceLow:55, priceHigh:130,
+    awards:[], score:75, difficulty:2, occasion:["date","group"],
+    dishes:"典型：生蚝 1 打 $48、po'boy 三明治 $24、蟹肉饼 $28。纽约生蚝传统 + 新奥尔良血统混血。菜单未从官网验证。",
+    body:"Fort Greene 的现代生蚝吧。",
+    total:"2人 ~$145", after:"2人实付 ~0"},
+
+  {name:"Momofuku Noodle Bar – Uptown", cuisine:"面食 + Bao", area:"Columbus Circle", region:"manhattan", price:"$$", tier:"casual", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:100, priceLow:35, priceHigh:90,
+    awards:["David Chang"], score:75, difficulty:2, occasion:["group","work","solo"],
+    dishes:"同 East Village 店但空间更大、有 bar 区。<strong>Columbus Circle 限定菜</strong>、自制馒头、米饭盖饭、韩式拌饭、软冰淇淋。菜单天天变。",
+    body:"Momofuku 第二店，上城版本。",
+    total:"2人 ~$100", after:"$150 可吃 1.5 次"},
+
+  {name:"Brass", cuisine:"法式 brasserie", area:"Midtown", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:170, priceLow:60, priceHigh:150,
+    awards:["Contemporary brasserie"], score:75, difficulty:2, occasion:["work","date","group"],
+    dishes:"现代法式 brasserie。典型：牛排薯条 $48、法式洋葱汤、生蚝拼盘、鸭胸 $42、红酒。工作饭局 safe bet。未从官网验证价格。",
+    body:"Midtown 当代法式小酒馆。",
+    total:"2人 ~$170", after:"2人实付 $20"},
+
+  {name:"Pig and Khao – UWS", cuisine:"东南亚菜", area:"Upper West Side", region:"manhattan", price:"$$", tier:"casual", stars:0, bib:0, verified:false, format:"small",
+    totalSpend:120, priceLow:40, priceHigh:110,
+    awards:["Chef Leah Cohen"], score:74, difficulty:2, occasion:["group","family","solo"],
+    dishes:"典型：<strong>酥皮猪蹄 $28、清迈咖喱面 $22、菲律宾 sisig 烤猪脸 $24</strong>、椰糖冰淇淋。味道重下饭。未从官网验证价格。",
+    body:"主厨 Leah Cohen（Top Chef、Beat Bobby Flay 主持）。LES 旗舰的 UWS 分店。",
+    total:"2人 ~$120", after:"$150 可吃 1.25 次"},
+
+  {name:"Parcelle Greenwich Village", cuisine:"葡萄酒吧", area:"Greenwich Village · 72 MacDougal", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:155, priceLow:55, priceHigh:140,
+    awards:["500+ 酒单"], score:74, difficulty:2, occasion:["date","solo","group"],
+    dishes:"重点是酒。典型：一瓶 $60-80 的酒 + 奶酪肉类拼盘 $32 + 生蚝半打 + 轻餐。<strong>500+ 酒单超深</strong>。菜单未从官网验证。",
+    body:"Parcelle 线上酒商开的实体 wine bar。",
+    total:"2人 ~$155", after:"2人实付 $5"},
+
+  {name:"Demo", cuisine:"现代欧陆", area:"West Village", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:165, priceLow:60, priceHigh:150,
+    awards:["Chef Quang Nguyen"], score:74, difficulty:2, occasion:["date","group"],
+    dishes:"典型：蜡豆配乌鱼子、牛舌 tonnato、更新版炸沙丁鱼。菜单未从官网验证。",
+    body:"Europe-inspired 小馆，主厨 Quang Nguyen。新店评价稳定。",
+    total:"2人 ~$165", after:"2人实付 $15"},
+
+  {name:"Parcelle Chinatown", cuisine:"葡萄酒吧", area:"Chinatown · 135 Division", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:145, priceLow:55, priceHigh:130,
+    awards:[], score:73, difficulty:1, occasion:["solo","date","group"],
+    dishes:"比 West Village 店更 casual。典型：一瓶酒 $55 起 + 奶酪板 $28 + 生蚝 + 简单小食。walk-in 友好。",
+    body:"Parcelle 在 Chinatown 的 casual 版本。",
+    total:"2人 ~$145", after:"2人实付 ~0"},
+
+  {name:"Blu on the Hudson", cuisine:"美式 + 水景", area:"Weehawken, NJ", region:"jersey", price:"$$$$", tier:"high", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:225, priceLow:75, priceHigh:200,
+    awards:["水景"], score:72, difficulty:2, occasion:["date","special","family"],
+    dishes:"<strong>景 > 菜</strong>。典型：<strong>海鲜塔 ~$85、干熟成肋眼 $75、意面 $38</strong>。窗外百万 $ 曼哈顿 skyline。菜单未从官网验证。",
+    body:"Weehawken 沿岸。",
+    total:"2人 ~$225", after:"2人实付 $75"},
+
+  {name:"SAPPEISAN", cuisine:"泰国（实验概念）", area:"Greenwich Village", region:"manhattan", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"tasting",
+    totalSpend:195, priceLow:75, priceHigh:180,
+    awards:["五感概念"], score:70, difficulty:3, occasion:["date","special"],
+    dishes:"<strong>体验式餐厅，$95/人 品尝菜单模仿泰国火车夜市</strong>，上菜有声音气味触感穿插。概念先行，菜品水准一般。褒贬不一。",
+    body:"五感（视觉/听觉/嗅觉/触觉/味觉）gimmick。",
+    total:"2人 ~$195", after:"2人实付 $45"},
+
+  {name:"Felina Steak – Jersey City", cuisine:"意式牛排 + 水景", area:"Jersey City", region:"jersey", price:"$$$$", tier:"high", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:255, priceLow:85, priceHigh:230,
+    awards:[], score:75, difficulty:2, occasion:["date","family","special"],
+    dishes:"<strong>意式 + 牛排 + Hudson River 景观</strong>。典型：前菜 + 干熟成肋眼 $85 或现挑活龙虾（缸在大门口）+ 意大利红酒。菜单未从官网验证。",
+    body:"Hudson River 边的意式牛排店。",
+    total:"2人 ~$255", after:"2人实付 $105"},
+
+  {name:"Maddy Rose at Liberty House", cuisine:"美式 + 水景", area:"Jersey City", region:"jersey", price:"$$$$", tier:"high", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:220, priceLow:75, priceHigh:180,
+    awards:["水景"], score:72, difficulty:2, occasion:["date","family","special"],
+    dishes:"<strong>Lower Manhattan skyline 正面</strong>。典型：烤牛排 + 海鲜塔 + 手工鸡尾酒。菜单未从官网验证。",
+    body:"Liberty House 改名重开。",
+    total:"2人 ~$220", after:"2人实付 $70"},
+
+  {name:"Drift Restaurant & Bar", cuisine:"美式 + 水景", area:"Weehawken, NJ", region:"jersey", price:"$$$", tier:"mid", stars:0, bib:0, verified:false, format:"alacarte",
+    totalSpend:170, priceLow:60, priceHigh:150,
+    awards:["水景"], score:70, difficulty:1, occasion:["date","family","group"],
+    dishes:"航海主题。典型：生蚝拼盘 + 海鲜意面 + 烤鱼。比 Blu 亲民，视野一样棒。菜单未从官网验证。",
+    body:"Weehawken 水边，氛围 cozy。",
+    total:"2人 ~$170", after:"2人实付 $20"},
+];
+
+// 过滤掉Bar Jamón（我加的，不在真实列表）以保持35家准确
+const displayData = data.filter(d => d.name !== "Casa Mono 姐妹店 Bar Jamón");
+
+// ============ CALCULATOR ============
+const plans = {
+  A: {title:"A · 两人米其林单点（首选）", desc:"砍掉 tasting，走 Bar Room 单点不含甜点",
+    rows:[{name:"The Modern Bar Room（2人单点）", meta:"2★ 同厨房 · 无甜点", amt:170, highlight:true}],
+    total:170, note:"💡 <strong>两人最优解</strong>：分享 1 前菜 + 2 主菜 + 2 杯酒 ~$170。credit 抵 $150 实付 $20。比晚餐 tasting $175-275/人便宜一半以上。"},
+  B: {title:"B · 两顿中端分享（两人）", desc:"$150 两家 tapas/中餐",
+    rows:[{name:"Casa Mono（2人 4 盘）", meta:"1★ tapas · 无甜点", amt:145},{name:"Potluck Club（2人 3 盘）", meta:"Bib Gourmand 粤式", amt:90}],
+    total:235, note:"💡 两顿分享式 $235，credit 抵 $150 实付 $85。天然不含甜点。"},
+  C: {title:"C · 日常多次（两人）", desc:"$150 拆 3-4 顿分享",
+    rows:[{name:"Scarr's Pizza × 2", meta:"JB 提名披萨", amt:100},{name:"Momofuku Noodle Bar", meta:"两人面", amt:90},{name:"Tolo 分享", meta:"新派中餐", amt:130}],
+    total:320, note:"💡 总 $320，credit 抵 $150 实付 $170。4 顿不同菜系都是分享式。"},
+  D: {title:"D · 纪念日（两人强制套餐）", desc:"想吃 tasting 就砸最稀缺",
+    rows:[{name:"ASKA（2★ 北欧 强制 tasting）", meta:"2 人含甜点", amt:750}],
+    total:750, note:"💡 强制含甜点，credit 抵 $150 实付 $600。或 odo $590 实付 $440。<strong>不爱甜点的话建议改 Plan A（Bar Room 单点）</strong>。"},
+  E: {title:"E · Hawksmoor 午餐套利", desc:"全列表最惊人的一笔",
+    rows:[{name:"Hawksmoor 3道午餐 2人", meta:"$55×2 · 砍甜点选 2道 = $80", amt:110, highlight:true}],
+    total:110, actualOverride:0, note:"💡 <strong>两人午餐 $110，credit 抵完还剩 $40！</strong>砍甜点选 2 道 $80 更省。Steak Frites + Fish & Chips + 一道主菜。周一到周六 12-3pm。"}
+};
+
+function renderCalc(plan){
+  const p = plans[plan];
+  const rows = p.rows.map(r=>`
+    <div class="calc-row">
+      <div><span class="calc-row-name">${r.name}</span><span class="calc-row-meta">${r.meta}</span></div>
+      <div class="calc-row-amt" style="${r.highlight?'color:var(--gold);font-size:15px':''}">$${r.amt}</div>
+    </div>
+  `).join('');
+  const actualSpend = p.actualOverride !== undefined ? p.actualOverride : Math.max(0, p.total - 150);
+  const creditLeft = Math.max(0, 150 - p.total);
+  document.getElementById('calcResult').innerHTML = `
+    <div style="margin-bottom:14px">
+      <div style="font-family:'Noto Serif SC',serif;font-weight:700;font-size:18px;color:var(--ink)">${p.title}</div>
+      <div style="color:var(--muted);font-size:13px;margin-top:2px">${p.desc}</div>
+    </div>
+    ${rows}
+    <div class="calc-total"><div class="calc-total-label">总支出</div><div class="calc-total-amt" style="font-size:22px;color:var(--ink)">$${p.total}</div></div>
+    <div class="calc-total" style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)">
+      <div class="calc-total-label" style="color:var(--accent)">Credit 抵扣后实付</div>
+      <div class="calc-total-amt">$${actualSpend}${creditLeft > 0 ? ` <span style="font-size:13px;color:var(--green);font-family:'Noto Sans SC'"> （还剩 $${creditLeft} 可用）</span>` : ''}</div>
+    </div>
+    <div style="margin-top:14px;font-size:12.5px;color:var(--ink-soft);padding:10px;background:var(--page-bg);border-radius:3px">${p.note}</div>
+  `;
+}
+renderCalc('A');
+document.querySelectorAll('.calc-tab').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.calc-tab').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderCalc(b.dataset.plan);
+  });
+});
+
+// ============ CARDS ============
+const grid = document.getElementById('grid');
+function scoreClass(s){if(s>=90)return 'score-90';if(s>=80)return 'score-80';if(s>=70)return 'score-70';if(s>=60)return 'score-60';return 'score-50'}
+function diffLabel(d){return ['','好订 👌','中等 📆','难订 ⏳','极难订 🎫'][d]}
+function diffDot(d){return ['','dot-easy','dot-med','dot-hard','dot-vhard'][d]}
+function occLabel(o){return {date:'💑 约会',group:'👥 朋友',family:'👨‍👩‍👧 家庭',solo:'🧘 独食',special:'🎉 重大',work:'💼 工作'}[o]}
+
+function renderFormat(d){
+  if(!d.format) return '';
+  const map = {
+    'alacarte': {cls:'fmt-alacarte', label:'可单点'},
+    'small': {cls:'fmt-small', label:'小盘分享'},
+    'tasting': {cls:'fmt-tasting', label:'仅套餐'},
+    'both': {cls:'fmt-both', label:'套餐+单点'}
+  };
+  const f = map[d.format];
+  if(!f) return '';
+  return `<span class="format-badge ${f.cls}">${f.label}</span>`;
+}
+
+let currentFilter='all';
+let currentSort='score';
+
+function renderStars(d){
+  if(d.stars === 2){
+    return `<span class="michelin-stars"><span class="star">★</span><span class="star">★</span> MICHELIN</span>`;
+  } else if(d.stars === 1){
+    return `<span class="michelin-stars"><span class="star">★</span> MICHELIN</span>`;
+  } else if(d.bib === 1){
+    return `<span class="michelin-stars" style="background:#6b1a0a"><span style="font-size:10px">BIB</span> GOURMAND</span>`;
+  }
+  return '';
+}
+
+function render(){
+  grid.innerHTML='';
+  let filtered = displayData.filter(d=>{
+    if(currentFilter==='all')return true;
+    if(currentFilter==='michelin')return d.stars>0;
+    if(currentFilter==='bib')return d.bib>0;
+    if(currentFilter==='chinese')return ['中餐','越南','韩','粤','怀石','寿司','面食','东南亚'].some(k=>d.cuisine.includes(k));
+    if(currentFilter==='high')return d.tier==='high';
+    if(currentFilter==='mid')return d.tier==='mid';
+    if(currentFilter==='casual')return d.tier==='casual';
+    if(currentFilter==='manhattan')return d.region==='manhattan';
+    if(currentFilter==='brooklyn')return d.region==='brooklyn';
+    if(currentFilter==='jersey')return d.region==='jersey';
+    if(currentFilter==='date')return d.occasion.includes('date');
+    if(currentFilter==='easy')return d.difficulty<=2;
+    return true;
+  });
+  
+  if(currentSort==='score') filtered.sort((a,b)=>b.score-a.score);
+  if(currentSort==='price-low') filtered.sort((a,b)=>a.totalSpend-b.totalSpend);
+  if(currentSort==='price-high') filtered.sort((a,b)=>b.totalSpend-a.totalSpend);
+  if(currentSort==='stars') filtered.sort((a,b)=>(b.stars*10+b.bib)-(a.stars*10+a.bib)||b.score-a.score);
+  if(currentSort==='name') filtered.sort((a,b)=>a.name.localeCompare(b.name));
+  
+  if(filtered.length===0){
+    grid.innerHTML='<div class="empty-state">当前筛选下没有匹配的餐厅。</div>';
+    return;
+  }
+  
+  filtered.forEach((d,i)=>{
+    const el=document.createElement('div');
+    el.className='card';
+    el.style.animationDelay=(i*0.03)+'s';
+    const occasions = d.occasion.slice(0,3).map(o=>`<span class="meta-item">${occLabel(o)}</span>`).join('');
+    const starHtml = renderStars(d);
+    const formatHtml = renderFormat(d);
+    const verified = d.verified ? `<span style="font-size:10px;color:var(--green);letter-spacing:.1em;font-weight:600">✓ 菜单验证</span>` : `<span style="font-size:10px;color:var(--muted);letter-spacing:.1em">公开报道均值</span>`;
+    el.innerHTML=`
+      <div class="card-star-row">${starHtml}${formatHtml}${verified}</div>
+      <div class="card-header">
+        <div style="flex:1;min-width:0"><div class="card-name">${d.name}</div></div>
+        <div class="score-block">
+          <span class="score-pill ${scoreClass(d.score)}">${d.score}</span>
+          <div class="score-caption">性价比</div>
+        </div>
+      </div>
+      <div class="card-meta">${d.cuisine}<span class="sep">·</span>${d.area}<span class="sep">·</span>${d.price}</div>
+      ${d.awards.length?`<div class="card-awards">${d.awards.map(a=>`<span class="badge badge-nyt">${a}</span>`).join('')}</div>`:''}
+      <div class="meta-strip">
+        <span class="meta-item"><span class="dot ${diffDot(d.difficulty)}"></span>${diffLabel(d.difficulty)}</span>
+        ${occasions}
+      </div>
+      <div class="card-body">${d.body}</div>
+      <div class="card-section">
+        <div class="card-section-label">吃什么 · 真实菜单</div>
+        <div class="card-dishes">${d.dishes}</div>
+      </div>
+      <div class="price-row">
+        <div><div class="price-label">两人一顿</div><div class="price-val">${d.total}</div></div>
+        <div><div class="price-label">$150 抵扣后</div><div class="price-val red">${d.after}</div></div>
+      </div>
+    `;
+    grid.appendChild(el);
+  });
+}
+render();
+
+document.querySelectorAll('.filter-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    currentFilter=b.dataset.filter;
+    render();
+  });
+});
+document.querySelectorAll('.sort-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sort-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    currentSort=b.dataset.sort;
+    render();
+  });
+});
+</script>
+
+</body>
+</html>
