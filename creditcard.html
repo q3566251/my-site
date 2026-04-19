@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信用卡福利汇总</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --page-bg: #f7f1e8;
+  --soft-bg: #f2e7d9;
+  --card-bg: #fdf9f4;
+  --ink: #2d2418;
+  --ink-dim: #6b5d4d;
+  --ink-muted: #9a8b78;
+  --border: #e5d9c5;
+  --accent: #c47d3e;
+  --accent-deep: #8b5a2b;
+  --red: #c44a3e;
+  --aspire: #9c3e5f;
+  --marriott: #2c5282;
+  --ihg: #b8860b;
+  --hilton: #1a4d7a;
+  --choice: #5a6b3e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: var(--page-bg);
+  color: var(--ink);
+  line-height: 1.7;
+  padding: 32px 16px 80px;
+}
+.wrap { max-width: 860px; margin: 0 auto; }
+h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 26px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+.flag {
+  background: #fff4e6;
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+.flag strong { color: var(--red); }
+h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  color: var(--accent-deep);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+h2 .hint { font-size: 11px; color: var(--ink-muted); font-weight: 400; font-family: 'Noto Sans SC', sans-serif; letter-spacing: 0; }
+.block {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 18px;
+}
+.row {
+  display: grid;
+  grid-template-columns: 72px 72px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 14px;
+}
+.row:last-child { border-bottom: none; }
+.row .tag {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+.row .date { color: var(--red); font-weight: 700; font-size: 13px; font-variant-numeric: tabular-nums; text-align: center; }
+.row .amount { color: var(--accent-deep); font-weight: 700; font-size: 13px; white-space: nowrap; }
+.t-aspire { background: var(--aspire); }
+.t-marriott { background: var(--marriott); }
+.t-ihg { background: var(--ihg); }
+.t-hilton { background: var(--hilton); }
+.t-choice { background: var(--choice); }
+.note {
+  background: var(--soft-bg);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--ink-dim);
+  margin-top: 24px;
+  line-height: 1.7;
+}
+.note strong { color: var(--red); }
+@media (max-width: 560px) {
+  .row { grid-template-columns: 60px 64px 1fr; gap: 8px; }
+  .row .amount { grid-column: 1 / -1; text-align: right; padding-top: 2px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>信用卡福利汇总</h1>
+
+<div class="flag">
+<strong>⚠ 待确认：</strong> 08/02 那张 Hilton 是哪张？(Surpass / Honors / Business) —— 决定免房券是<strong>刷满才送</strong>还是<strong>续卡自动送</strong>
+</div>
+
+<h2>🎁 固定日期 <span class="hint">免房券 / 点数</span></h2>
+<div class="block">
+  <div class="row"><span class="date">02/09</span><span class="tag t-marriott">Marriott</span><span>免房券</span><span class="amount">35k</span></div>
+  <div class="row"><span class="date">05/01</span><span class="tag t-choice">Choice</span><span>积分发放（不过期）</span><span class="amount">30,000 点</span></div>
+  <div class="row"><span class="date">05/20</span><span class="tag t-ihg">IHG</span><span>免房券（可加点突破 40k）</span><span class="amount">40k</span></div>
+  <div class="row"><span class="date">08/02</span><span class="tag t-hilton">Hilton?</span><span>免房券（条件待确认）</span><span class="amount">—</span></div>
+  <div class="row"><span class="date">年度</span><span class="tag t-aspire">Aspire</span><span>免房券（任一 Hilton，无积分上限）</span><span class="amount">无上限</span></div>
+</div>
+
+<h2>✈️ 每 3 个月 <span class="hint">3 / 6 / 9 / 12 月底过期作废</span></h2>
+<div class="block">
+  <div class="row"><span class="date">季度</span><span class="tag t-aspire">Aspire</span><span>航空 credit（任意航司机票/升舱/座位/行李，直接从航司或 amextravel 订）</span><span class="amount">$50 × 4</span></div>
+</div>
+
+<h2>🏖️ 每半年 <span class="hint">6 月底 / 12 月底过期</span></h2>
+<div class="block">
+  <div class="row"><span class="date">半年</span><span class="tag t-aspire">Aspire</span><span>Hilton 度假村刷卡（合资格 resort，非 prepaid）</span><span class="amount">$200 × 2</span></div>
+</div>
+
+<h2>📆 每年任意时间</h2>
+<div class="block">
+  <div class="row"><span class="date">年度</span><span class="tag t-aspire">Aspire</span><span>CLEAR+ 会员报销</span><span class="amount">$209</span></div>
+  <div class="row"><span class="date">每次订</span><span class="tag t-aspire">Aspire</span><span>Waldorf / Conrad 物业 credit（2 晚+ 从 HiltonHonorsAspireCard.com 订）</span><span class="amount">$100</span></div>
+  <div class="row"><span class="date">年度</span><span class="tag t-ihg">IHG</span><span>United TravelBank（需先用 IHG 卡绑 MileagePlus）</span><span class="amount">$50</span></div>
+  <div class="row"><span class="date">积分住</span><span class="tag t-ihg">IHG</span><span>4 晚连住积分 → 第 4 晚免费</span><span class="amount">—</span></div>
+</div>
+
+<h2>🗓️ 每 4 年</h2>
+<div class="block">
+  <div class="row"><span class="date">4 年</span><span class="tag t-ihg">IHG</span><span>Global Entry / TSA PreCheck / NEXUS 申请费</span><span class="amount">$120</span></div>
+</div>
+
+<div class="note">
+<strong>提醒：</strong> Aspire 航空 $50 <strong>按季度重置、过期作废</strong>——3/6/9/12 月底前刷掉；Hilton 度假村 $200 半年重置，6 月和 12 月是关门窗口；IHG 年度福利按<strong>自然年</strong>（1/1–12/31）而不是卡周年。
+</div>
+
+</div>
+</body>
+</html>
