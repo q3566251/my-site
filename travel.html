@@ -526,6 +526,38 @@ h2.section-title{font-family:'Noto Serif SC',serif;font-size:clamp(28px,4vw,40px
 .timeline-what{font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
 .timeline-what strong{color:var(--ink);font-weight:600}
 
+/* HIDDEN GEMS */
+.gems-intro{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;}
+.gem-box{padding:20px 24px;border-radius:12px;border:1px solid var(--line);background:var(--card-bg);box-shadow:var(--shadow);}
+.gem-box.eu{border-top:3px solid var(--eu)}
+.gem-box.cn{border-top:3px solid var(--cn)}
+.gem-box h4{font-family:'Noto Serif SC',serif;font-size:17px;margin-bottom:8px;}
+.gem-box p{font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+.gem-box .gem-stat{display:inline-block;background:var(--soft-bg);padding:3px 10px;border-radius:4px;font-size:12px;color:var(--accent);font-weight:600;margin-top:8px;font-family:'DM Serif Display',serif;}
+
+.gems-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;}
+.gem-card{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:24px 26px;box-shadow:var(--shadow);position:relative;transition:transform 0.25s;}
+.gem-card:hover{transform:translateY(-3px)}
+.gem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0;}
+.gem-card.eu::before{background:var(--eu)}
+.gem-card.cn::before{background:var(--cn)}
+.gem-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+.gem-name{font-family:'Noto Serif SC',serif;font-size:22px;font-weight:700;line-height:1.1;}
+.gem-name .gem-flag{font-size:18px;margin-left:4px;}
+.gem-name .gem-sub{display:block;font-size:11px;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px;font-weight:400;font-family:'Noto Sans SC',sans-serif;}
+.gem-save{text-align:right;}
+.gem-save .gem-pct{font-family:'DM Serif Display',serif;font-size:24px;color:var(--accent);font-weight:700;line-height:1;letter-spacing:-0.5px;}
+.gem-save .gem-pct-lbl{font-size:10px;color:var(--ink-muted);letter-spacing:1px;display:block;margin-top:2px;}
+.gem-why{font-size:13.5px;color:var(--ink-soft);line-height:1.65;margin-bottom:14px;}
+.gem-why strong{color:var(--ink);font-weight:600}
+.gem-prices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.gem-price-item{padding:8px 12px;background:var(--soft-bg);border-radius:6px;font-size:12px;}
+.gem-price-item .gp-lbl{color:var(--ink-muted);display:block;margin-bottom:2px;font-size:11px;}
+.gem-price-item .gp-val{font-family:'DM Serif Display',serif;font-size:15px;color:var(--ink);font-weight:400;}
+.gem-highlights{font-size:12.5px;color:var(--ink-soft);line-height:1.5;padding-top:10px;border-top:1px dashed var(--line);font-style:italic;}
+.gem-highlights::before{content:'✨ ';font-style:normal;}
+@media(max-width:720px){.gems-intro{grid-template-columns:1fr}}
+
 footer{padding:50px 0 60px;text-align:center;border-top:1px solid var(--line);margin-top:40px;}
 footer p{font-size:13px;color:var(--ink-muted);margin:4px 0}
 footer .disclaimer{max-width:680px;margin:16px auto 0;font-size:12px;color:var(--ink-muted);font-style:italic;line-height:1.7;}
@@ -1545,7 +1577,8 @@ footer .disclaimer{max-width:680px;margin:16px auto 0;font-size:12px;color:var(-
     <h2 class="section-title serif">每个城市的灵魂是什么?</h2>
     <p class="section-intro">维基式介绍太空洞。下面是每座城的实用切片:招牌景点、必吃、住哪、内行 tip、要提防什么。</p>
 
-    <div class="city-dive-grid">
+    <h3 class="serif" style="font-size:20px;margin-bottom:14px;color:var(--eu);font-weight:700;margin-top:10px">🇪🇺 Europe · 13 城深度</h3>
+    <div class="city-dive-grid" style="margin-bottom:36px">
       <!-- EU -->
       <div class="city-dive">
         <div class="city-dive-head"><div class="city-dive-name">London 🇬🇧</div><div class="city-dive-stay">3 晚</div></div>
@@ -1664,6 +1697,10 @@ footer .disclaimer{max-width:680px;margin:16px auto 0;font-size:12px;color:var(-
         <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">Omonia 站周围夜晚治安差 · Santorini 驴子驮客上山虐待 · 八月游客量爆炸,避开</div></div>
       </div>
 
+    </div>
+
+    <h3 class="serif" style="font-size:20px;margin-bottom:14px;color:var(--cn);font-weight:700;margin-top:20px">🇨🇳 China · 14 地深度</h3>
+    <div class="city-dive-grid">
       <!-- CN -->
       <div class="city-dive cn">
         <div class="city-dive-head"><div class="city-dive-name">Beijing 北京</div><div class="city-dive-stay">4 晚</div></div>
@@ -1874,109 +1911,367 @@ footer .disclaimer{max-width:680px;margin:16px auto 0;font-size:12px;color:var(-
 <!-- PLAN B -->
 <section class="alt">
   <div class="wrap">
-    <div class="section-label">PLAN B · 备用方案</div>
-    <h2 class="section-title serif">有额外时间?不喜欢某地?—— 换条路</h2>
-    <p class="section-intro">主线只是起点。如果你多出几天、某地踩雷、或想换个主题重玩,下面是三套替代方案,任意组合。</p>
+    <div class="section-label">EXTEND · 如果还有更多时间</div>
+    <h2 class="section-title serif">主线之外 · 值得再加几天的地方</h2>
+    <p class="section-intro">30 天只是一个起点。如果你想把假期延长到 37 / 40 / 50 天,下面是最值得加入的延长线 —— 每个都写清了具体玩什么、必吃、住哪、内行 tip、避雷。</p>
 
-    <div class="plan-block">
-      <h3 class="plan-h3 serif"><span class="plan-icon">🗓️</span>Extend · 如果你有更多时间</h3>
-      <div class="plan-dual">
-        <div class="plan-side eu">
-          <div class="plan-side-title">🇪🇺 Europe 延长线</div>
-          <div class="ext-list">
-            <div class="ext-item"><div class="ext-days">+7</div><div class="ext-info"><div class="ext-where">葡萄牙 · Portugal</div><div class="ext-why">Lisbon + Porto + Sintra · 西欧最便宜,海鲜+蛋挞</div></div></div>
-            <div class="ext-item"><div class="ext-days">+10</div><div class="ext-info"><div class="ext-where">北欧 · Iceland / Norway</div><div class="ext-why">冰岛环岛 / 挪威峡湾 · 贵但独一无二</div></div></div>
-            <div class="ext-item"><div class="ext-days">+7</div><div class="ext-info"><div class="ext-where">巴尔干 · Balkans</div><div class="ext-why">Dubrovnik + Split + Bled · 性价比神高</div></div></div>
-            <div class="ext-item"><div class="ext-days">+5</div><div class="ext-info"><div class="ext-where">土耳其 · Türkiye</div><div class="ext-why">Istanbul + Cappadocia 热气球</div></div></div>
-            <div class="ext-item"><div class="ext-days">+5</div><div class="ext-info"><div class="ext-where">摩洛哥 · Morocco</div><div class="ext-why">从西班牙跳过去 · Marrakech + 撒哈拉</div></div></div>
-            <div class="ext-item"><div class="ext-days">+7</div><div class="ext-info"><div class="ext-where">极光线 · Lapland</div><div class="ext-why">Tromsø / Rovaniemi(限 11-2 月)</div></div></div>
+    <h3 class="serif" style="font-size:20px;margin-bottom:14px;color:var(--eu);font-weight:700;margin-top:10px">🇪🇺 Europe 延长线</h3>
+    <div class="city-dive-grid" style="margin-bottom:36px">
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">🇵🇹 葡萄牙 Portugal</div><div class="city-dive-stay">+7 天</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">里斯本 Alfama 老城 · 贝伦塔 · 辛特拉宫 · 波尔图杜罗河 · Livraria Lello 最美书店 · Nazaré 巨浪冲浪</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Pastéis de Belém 蛋挞(€1.40/个)· Bacalhau 马介休鳕鱼 · Francesinha 波尔图三明治 · 波特酒 · Ginja 樱桃酒</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>里斯本 Alfama</strong>老城文艺,<strong>Bairro Alto</strong>夜生活,<strong>波尔图 Ribeira</strong>河岸 UNESCO</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">西欧最便宜首都之一 · 阳光 300+ 天 · 28 路黄色电车早 8 点前人少 · 辛特拉一日往返 · 波特酒窖免费品酒</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">里斯本爬坡累,穿好鞋 · Rossio 附近兜售毒品的 · 辛特拉周末人爆满,建议工作日</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">🇭🇷 巴尔干 Balkans</div><div class="city-dive-stay">+7 天</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">Dubrovnik 君临城(《权游》取景)· Split 戴克里先宫 · Plitvice 十六湖 · Bled 湖(斯洛文尼亚)· Kotor 湾(黑山)</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Čevapi 烤肉肠 · Crni rižot 墨鱼饭 · Peka 罩烤肉 · Rakija 水果烈酒 · Burek 千层饼</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Split 老城</strong>(住在罗马宫殿里)· <strong>Dubrovnik 城墙外</strong>便宜,<strong>Hvar 岛</strong>派对</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">Split 飞机/大巴进 · 跳岛一日 €50-80 · Plitvice 必须 6-9 月以外(淡季人少一半)· 亚得里亚海比地中海清澈</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">Dubrovnik 7-8 月邮轮靠港拥挤到走不动 · 餐厅门口拉客的 80% 宰客 · 跨国换汇巨亏</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">🇮🇸 冰岛 Iceland</div><div class="city-dive-stay">+10 天</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">金圈(间歇泉+辛格维利尔裂谷)· 1 号公路环岛(1,332km)· 黄金瀑布 · 瓦特纳冰川 · 南岸黑沙滩 · 极光(10-3 月)</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Pylsur 热狗(Bæjarins Beztu)· 发酵鲨鱼(一次就够)· 羊肉汤 · Skyr 冰岛酸奶 · Reykjavík 咖啡馆文化</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Reykjavík 101</strong>市中心 · 环岛租车住<strong>Vík</strong>黑沙镇 · <strong>Höfn</strong>龙虾小镇 · <strong>Akureyri</strong>北方</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">租 4WD 车环岛是体验核心 · 蓝湖温泉必提前 3 月订 · 每天 6 点 Aurora 预报 · 没信号地区备离线地图</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">物价北欧最贵,外食一餐 €30+ · 天气极端,夏季冰岛不冰岛 · 冬季单人自驾暴风雪危险</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">🇹🇷 土耳其 Türkiye</div><div class="city-dive-stay">+5 天</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">伊斯坦布尔索菲亚+蓝色清真寺+托普卡帕宫 · Cappadocia 卡帕多奇亚热气球 · Pamukkale 棉花堡 · Ephesus 古城遗迹</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Kebab(Adana/Iskender)· Baklava 开心果千层 · 土耳其早餐大拼盘 · Manti 饺子 · Ayran 咸酸奶 · 土耳其咖啡</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>伊斯坦布尔 Sultanahmet</strong>古城 · <strong>Cappadocia Göreme</strong>洞穴酒店 · <strong>Kaş</strong>海边度假</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">美国护照 e-Visa 官网 $50 秒批 · 热气球必提前 1 月订(€180-250)· 里拉汇率波动大,小额多次换 · Turkish Airlines 免费长程转机</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">大巴扎 (Grand Bazaar) 90% 是游客陷阱 · "擦鞋掉刷子"经典骗局 · 伊斯坦布尔出租黑车</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">🇲🇦 摩洛哥 Morocco</div><div class="city-dive-stay">+5 天</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">Marrakech 麦地那老城+Jardin Majorelle · Fes 皮革染坊 · Chefchaouen 蓝城 · 撒哈拉沙漠 Merzouga 驼队看日落 · Casablanca</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">Tajine 塔吉锅 · Couscous 周五家常 · Mint Tea 薄荷茶 · Pastilla 肉馅酥饼 · Harira 斋月汤</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Marrakech Riad</strong>传统庭院房 · <strong>Fes 麦地那内 Dar</strong> · <strong>Merzouga 沙漠帐篷</strong></div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">从西班牙 Tarifa 船过来 1h · 美国护照免签 90 天 · 讨价还价砍到对半 · 沙漠 3 日团 €150-200 含驼队+帐篷</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">麦地那里"免费"带路人最后索钱 · 街头合影要钱 · 单女严重骚扰,穿着保守 · 腹泻高发,只喝瓶装水</div></div>
+      </div>
+
+      <div class="city-dive">
+        <div class="city-dive-head"><div class="city-dive-name">❄️ 极光线 Lapland</div><div class="city-dive-stay">+7 天(11-3 月)</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">Tromsø 挪威极北 · Rovaniemi 圣诞老人村 · Abisko 瑞典(极光最清概率最高)· 狗拉雪橇 · 驯鹿牧场</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">驯鹿肉(Poronkäristys)· 三文鱼 · Lakka 云莓利口酒 · Lohikeitto 鲑鱼汤 · 圣诞老人村姜饼</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>Rovaniemi 玻璃屋</strong>(能躺床看极光)· <strong>Tromsø</strong>市区方便 · <strong>Saariselkä</strong>滑雪胜地</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">极光 APP(Aurora / My Aurora)看 KP 指数 · KP 3+ 可见 · Tromsø 城里看不清,需出城 30min · 零下 20°C 装备必须</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">3 天不一定见 · 月圆期间极光弱 · 夏季去什么都没有(只有午夜太阳)· 玻璃屋房价旺季 €400+/晚</div></div>
+      </div>
+
+    </div>
+
+    <h3 class="serif" style="font-size:20px;margin-bottom:14px;color:var(--cn);font-weight:700;margin-top:10px">🇨🇳 China 延长线</h3>
+    <div class="city-dive-grid">
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">🏝️ 海南 Hainan</div><div class="city-dive-stay">+5 天 · 免签进</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">三亚亚龙湾/蜈支洲岛 · 分界洲岛 · 南山寺 · 万宁冲浪 · 海口骑楼老街 · 呀诺达热带雨林</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">海南鸡饭 · 椰子鸡火锅 · 抱罗粉 · 海鲜大排档(第一市场)· 椰子冻 · 文昌鸡</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>三亚湾</strong>性价比,<strong>亚龙湾</strong>五星扎堆,<strong>海棠湾</strong>度假村最顶,<strong>万宁日月湾</strong>冲浪</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">美国护照 30 天免签(不需 L 签证!)· 避开春节/国庆黄金周 · 打车用滴滴 · 冲浪旺季 11-3 月东海岸</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">海鲜市场称秤骗局(去第一市场挑并自己复秤)· 亚龙湾外各种"免费赠"自费项目 · 雨季 9-10 月台风多</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">🕌 新疆 Xinjiang</div><div class="city-dive-stay">+7-10 天</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">喀什古城(活态千年)· 伊犁杏花沟(4月)· 那拉提草原 · 赛里木湖 · 独库公路 · 天山天池 · 库木塔格沙漠</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">大盘鸡 · 手抓饭 · 烤馕(现烤最香)· 烤包子 · 羊肉串(现烤)· 喀什老城的茶馆和酸奶</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>喀什老城民宿</strong>(体验维吾尔庭院)· <strong>伊犁那拉提毡房</strong> · <strong>乌鲁木齐二道桥</strong>民族市场附近</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">外国护照可能多几道安检,耐心 · 4 月杏花、6 月薰衣草、7-8 月草原、10 月胡杨 · 距离远,预留 7 天起步 · 独库公路 6-10 月通</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">公安检查频繁准备好护照 + L 签证 · 各景区间开车距离远 · 夜市价格事先谈好 · 清真饭馆避酒</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">🐫 甘肃丝路</div><div class="city-dive-stay">+5-7 天</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">敦煌莫高窟(UNESCO 壁画)· 鸣沙山月牙泉 · 张掖七彩丹霞 · 嘉峪关长城西起点 · 麦积山石窟 · 雅丹魔鬼城</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">兰州牛肉面(清晨 7-9 点最地道)· 驴肉黄面 · 胡杨焖饼 · 敦煌蜜瓜 · 手抓羊肉 · 甜胚子</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>敦煌市区</strong>便宜,<strong>鸣沙山沙漠星空帐篷</strong>体验,<strong>张掖丹霞镇</strong>看日出方便</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">莫高窟需提前官网预约 · 数字展不能跳(夏季只看复制品的概率高)· 丹霞日出日落光线最好 · 鸣沙山 4 点日落前骑骆驼</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">莫高窟高峰只能看复制窟,想看真迹要淡季 + 提前 · 沙漠午间暴晒 · 嘉峪关城楼拍照要钱的"模特"</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">🏘️ 贵州 Guizhou</div><div class="city-dive-stay">+7 天</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">西江千户苗寨(夜景灯火)· 肇兴侗寨 · 荔波小七孔 · 黄果树瀑布 · 梵净山 UNESCO · 青岩古镇 · 加榜梯田</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">酸汤鱼 · 丝娃娃 · 肠旺面 · 折耳根(鱼腥草)· 苗族长桌宴 · 侗族油茶 · 贵州茅台</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>西江观景台吊脚楼</strong>(看夜景)· <strong>肇兴侗寨鼓楼旁</strong>安静,<strong>贵阳花溪</strong>性价比</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">比云南便宜 40% 游客一半 · 苗族节日(4 月姊妹节/11 月苗年)最 · 贵阳北动车到各景点方便</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">西江苗寨天天有"长桌宴表演",游客专供,不是真的 · 瀑布群雨季危险 · 梵净山排队上索道 4h</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">❄️ 东北冰雪</div><div class="city-dive-stay">+5 天(12-2 月)</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">哈尔滨冰雪大世界(夜景)· 索菲亚大教堂 · 雪乡双峰林场 · 长白山 · 亚布力滑雪 · 俄式建筑中央大街</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">锅包肉 · 猪肉炖粉条 · 红肠(秋林)· 马迭尔冰棍(-30°C 边走边吃)· 俄罗斯大列巴 · 烤冷面</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>哈尔滨中央大街</strong>俄式老建筑,<strong>雪乡木屋</strong>(被动消费多),<strong>长白山松江河</strong>滑雪方便</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">12 月底冰雪大世界开园最盛 · 夜场比日场美 10 倍 · 极地馆看白鲸是隐藏 · -25°C 装备齐全(冲锋衣+雪地靴)</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">雪乡各种"免费"接待费超贵 · 冰雪大世界票近年涨 · 哈尔滨出租不打表,用滴滴 · 相机电池冻死</div></div>
+      </div>
+
+      <div class="city-dive cn">
+        <div class="city-dive-head"><div class="city-dive-name">🏔️ 青海环线</div><div class="city-dive-stay">+4-6 天(5-10 月)</div></div>
+        <div class="cd-row"><div class="cd-label">招牌</div><div class="cd-value">青海湖 360km 环线 · 茶卡盐湖(天空之镜)· 塔尔寺 · 门源油菜花(7月)· 祁连山草原 · 张掖七彩丹霞</div></div>
+        <div class="cd-row"><div class="cd-label">必吃</div><div class="cd-value">手抓羊肉 · 酿皮 · 酥油茶 · 牦牛肉干 · 尕面片 · 青稞酒 · 老爸茶(清晨 5 点的餐馆)</div></div>
+        <div class="cd-row"><div class="cd-label">住哪</div><div class="cd-value"><strong>西宁市中心</strong>基地 · <strong>青海湖二郎剑</strong>景区内贵但方便,<strong>茶卡镇</strong>看星空酒店</div></div>
+        <div class="cd-row"><div class="cd-label">内行</div><div class="cd-value">不用 TTP 的高原体验!· 环湖包车 4 日 ¥2,500-3,000 含司机 · 7 月门源油菜花盛开 · 茶卡盐湖清晨 6 点无人最美</div></div>
+        <div class="cd-row"><div class="cd-label">避雷</div><div class="cd-value">海拔 3,000m 高反预警 · 茶卡盐湖热天人爆 + 鞋套骗局 · 青海湖某些私设"拦路费"景点</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== HIDDEN GEMS ===== -->
+<section class="alt">
+  <div class="wrap">
+    <div class="section-label">HIDDEN GEMS · 被忽略的性价比之选</div>
+    <h2 class="section-title serif">主线没收录,但值得单独写一条</h2>
+    <p class="section-intro">前面 13 城+14 地是经典大环线。下面这些地方便宜得离谱、好玩程度不输,适合"替换主线某地"或"加入延长线"。数据都是 2026 年实测。</p>
+
+    <div class="gems-intro">
+      <div class="gem-box eu">
+        <h4>🇪🇺 欧洲性价比带</h4>
+        <p>整个中欧+南欧外围带 —— 匈牙利、波兰、葡萄牙、巴尔干 —— 比巴黎/伦敦/苏黎世便宜 <strong>40-60%</strong>,而历史古迹、美食、风景一样精彩。适合背包党和穷游。</p>
+        <div class="gem-stat">省 40-60%</div>
+      </div>
+      <div class="gem-box cn">
+        <h4>🇨🇳 中国性价比带</h4>
+        <p>二三线省份(甘肃、贵州、福建、新疆)和东南亚边境城市(西双版纳、东兴)消费水平只有北上广的 <strong>一半</strong>,而且游客少、原生态保留完整,体验甚至更好。</p>
+        <div class="gem-stat">省 50%+</div>
+      </div>
+    </div>
+
+    <h3 class="serif" style="font-size:19px;margin-bottom:14px;color:var(--eu);font-weight:700;margin-top:16px">🇪🇺 Europe · 性价比神级</h3>
+    <div class="gems-grid" style="margin-bottom:36px">
+
+      <div class="gem-card eu">
+        <div class="gem-header">
+          <div class="gem-name">Budapest 布达佩斯<span class="gem-flag">🇭🇺</span>
+            <span class="gem-sub">Hungary · 匈牙利首都</span>
           </div>
+          <div class="gem-save"><span class="gem-pct">$70</span><span class="gem-pct-lbl">/ 日</span></div>
         </div>
-        <div class="plan-side cn">
-          <div class="plan-side-title">🇨🇳 China 延长线</div>
-          <div class="ext-list">
-            <div class="ext-item"><div class="ext-days">+5</div><div class="ext-info"><div class="ext-where">海南 · Hainan<span class="hainan-badge">免签30天</span></div><div class="ext-why">三亚 + 万宁 · 美国护照直接免签进,省 L 签证费</div></div></div>
-            <div class="ext-item"><div class="ext-days">+7</div><div class="ext-info"><div class="ext-where">新疆 · Xinjiang</div><div class="ext-why">喀什古城 + 天山 + 伊犁花海 · 最异域</div></div></div>
-            <div class="ext-item"><div class="ext-days">+5</div><div class="ext-info"><div class="ext-where">甘肃 · Silk Road</div><div class="ext-why">敦煌莫高窟 + 张掖丹霞 + 嘉峪关</div></div></div>
-            <div class="ext-item"><div class="ext-days">+7</div><div class="ext-info"><div class="ext-where">贵州 · Guizhou</div><div class="ext-why">西江千户苗寨 + 荔波小七孔 · 少数民族</div></div></div>
-            <div class="ext-item"><div class="ext-days">+5</div><div class="ext-info"><div class="ext-where">东北 · Harbin</div><div class="ext-why">冰雪大世界 + 长白山(限 12-2 月)</div></div></div>
-            <div class="ext-item"><div class="ext-days">+4</div><div class="ext-info"><div class="ext-where">青海 · Qinghai</div><div class="ext-why">青海湖 + 茶卡盐湖 · 天空之镜</div></div></div>
+        <div class="gem-why">被称为"东欧巴黎"—— 多瑙河贯穿、城堡区 UNESCO、国会大厦夜景比巴黎还壮观。<strong>比维也纳便宜 40%</strong>,且只有 2.5h 火车距离。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">青旅床位</span><span class="gp-val">$22-40</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">本地餐一顿</span><span class="gp-val">$4-8</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">72 小时交通卡</span><span class="gp-val">$15</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">Széchenyi 温泉</span><span class="gp-val">$37-48</span></div>
+        </div>
+        <div class="gem-highlights">必看:Széchenyi 温泉(露天泡汤看雪)· Ruin Bars 废墟酒吧 · 城堡山夜景 · 匈牙利牛肉汤 Gulyás · 渔人堡</div>
+      </div>
+
+      <div class="gem-card eu">
+        <div class="gem-header">
+          <div class="gem-name">Kraków 克拉科夫<span class="gem-flag">🇵🇱</span>
+            <span class="gem-sub">Poland · 波兰古都</span>
           </div>
+          <div class="gem-save"><span class="gem-pct">$60</span><span class="gem-pct-lbl">/ 日</span></div>
         </div>
+        <div class="gem-why">波兰的精神首都,老城 UNESCO 完整保留,规模比布拉格更大更震撼。<strong>比布拉格便宜 30%</strong>,且是探访奥斯维辛的基地。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">Milk Bar 一餐</span><span class="gp-val">$5-7</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">中档酒店</span><span class="gp-val">$50-90</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">Wawel 城堡</span><span class="gp-val">$8-14</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">地铁单程</span><span class="gp-val">$1</span></div>
+        </div>
+        <div class="gem-highlights">必看:Wawel 皇家城堡 · 老城中央集市广场(全欧最大)· 奥斯维辛集中营(半日)· 维利奇卡盐矿 · Milk Bar 平民食堂</div>
       </div>
+
+      <div class="gem-card eu">
+        <div class="gem-header">
+          <div class="gem-name">Lisbon 里斯本<span class="gem-flag">🇵🇹</span>
+            <span class="gem-sub">Portugal · 大西洋之门</span>
+          </div>
+          <div class="gem-save"><span class="gem-pct">$90</span><span class="gem-pct-lbl">/ 日</span></div>
+        </div>
+        <div class="gem-why">西欧最便宜的首都之一 · 阳光 300+ 天 · 7 座山丘 + 黄色电车 + 法朵音乐 + 顶级海鲜。<strong>比马德里便宜 25%</strong>,比巴黎便宜 45%。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">中档酒店</span><span class="gp-val">€70-150</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">Tasca 一餐</span><span class="gp-val">€10-15</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">28 路电车</span><span class="gp-val">€3</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">Belém 蛋挞</span><span class="gp-val">€1.40</span></div>
+        </div>
+        <div class="gem-highlights">必看:Alfama 老城区 · 贝伦区 + 贝伦塔 · 辛特拉宫(半日)· 28 路黄色电车 · 蛋挞起源店 Pastéis de Belém · 法朵 Fado 之夜</div>
+      </div>
+
+      <div class="gem-card eu">
+        <div class="gem-header">
+          <div class="gem-name">Porto 波尔图<span class="gem-flag">🇵🇹</span>
+            <span class="gem-sub">Portugal · 波特酒之城</span>
+          </div>
+          <div class="gem-save"><span class="gem-pct">$75</span><span class="gem-pct-lbl">/ 日</span></div>
+        </div>
+        <div class="gem-why">杜罗河谷+彩色山城+波特酒窖三合一。<strong>比里斯本还便宜 20%</strong>,游客更少,蓝白瓷砖教堂让你拍到手软。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">青旅床位</span><span class="gp-val">€18-30</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">海鲜餐</span><span class="gp-val">€12-20</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">酒窖品酒</span><span class="gp-val">€15-25</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">杜罗河游船</span><span class="gp-val">€15</span></div>
+        </div>
+        <div class="gem-highlights">必看:Livraria Lello 最美书店(哈利波特灵感)· 杜罗河对岸酒窖 · São Bento 蓝瓷火车站 · Clérigos 钟楼 · 杜罗河谷酒乡一日游</div>
+      </div>
+
+      <div class="gem-card eu">
+        <div class="gem-header">
+          <div class="gem-name">Split + Dubrovnik<span class="gem-flag">🇭🇷</span>
+            <span class="gem-sub">Croatia · 亚得里亚海岸</span>
+          </div>
+          <div class="gem-save"><span class="gem-pct">$95</span><span class="gem-pct-lbl">/ 日</span></div>
+        </div>
+        <div class="gem-why">《权游》君临城取景地。罗马皇帝宫殿 + 中世纪城墙 + 地中海海岸。<strong>比意大利南部便宜 30%</strong>,海水比 Santorini 清澈。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">海景民宿</span><span class="gp-val">€50-100</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">海鲜意面</span><span class="gp-val">€15-22</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">Dubrovnik 城墙</span><span class="gp-val">€35</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">跳岛游</span><span class="gp-val">€50-80</span></div>
+        </div>
+        <div class="gem-highlights">必看:Diocletian 宫殿(Split 全城建在罗马皇宫上)· Dubrovnik 城墙环岛 · Hvar 岛 · Plitvice 十六湖 · Brac 岛</div>
+      </div>
+
+      <div class="gem-card eu">
+        <div class="gem-header">
+          <div class="gem-name">Tallinn 塔林<span class="gem-flag">🇪🇪</span>
+            <span class="gem-sub">Estonia · 中世纪活化石</span>
+          </div>
+          <div class="gem-save"><span class="gem-pct">$70</span><span class="gem-pct-lbl">/ 日</span></div>
+        </div>
+        <div class="gem-why">北欧最便宜首都 · 全欧保存最完整的中世纪老城之一 · 数字化程度吊打西欧。<strong>比赫尔辛基便宜 50%</strong>,一趟轮渡 2h 就过去。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">中档酒店</span><span class="gp-val">€45-80</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">一顿饭</span><span class="gp-val">€10-15</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">老城漫步</span><span class="gp-val">免费</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">Helsinki 渡轮</span><span class="gp-val">€25-40</span></div>
+        </div>
+        <div class="gem-highlights">必看:Raekoja Plats 中世纪市政厅广场 · Toompea 上城(城墙+观景台)· Telliskivi 文创区 · KGB 博物馆 · 本地人均有 e-Residency</div>
+      </div>
+
     </div>
 
-    <div class="plan-block">
-      <h3 class="plan-h3 serif"><span class="plan-icon">🔄</span>Swap · 不喜欢就换</h3>
-      <p class="plan-sub">主线城市如果踩雷,下面是更小众或更本地的替代。通常便宜 30%+,游客少一半。</p>
-      <div class="swap-grid">
-        <div class="swap-side">
-          <div class="swap-side-title eu">🇪🇺 Europe 替换</div>
-          <div class="swap-row"><div class="swap-from">Paris<span class="swap-issue">人多+贵</span></div><div class="swap-arrow">→</div><div class="swap-to">Lyon(美食)<br>Bordeaux(酒乡)</div></div>
-          <div class="swap-row"><div class="swap-from">Venice<span class="swap-issue">白天挤爆</span></div><div class="swap-arrow">→</div><div class="swap-to">Verona · Bologna<br>(年轻+美食)</div></div>
-          <div class="swap-row"><div class="swap-from">Santorini<span class="swap-issue">网红打卡点</span></div><div class="swap-arrow">→</div><div class="swap-to">Naxos · Milos · Paros<br>(真正海岛)</div></div>
-          <div class="swap-row"><div class="swap-from">Amsterdam<span class="swap-issue">脏乱+红灯区</span></div><div class="swap-arrow">→</div><div class="swap-to">Utrecht · Delft<br>(更本地)</div></div>
-          <div class="swap-row"><div class="swap-from">London<span class="swap-issue">太贵</span></div><div class="swap-arrow">→</div><div class="swap-to">Edinburgh · Manchester</div></div>
-          <div class="swap-row"><div class="swap-from">Rome<span class="swap-issue">乱+排队</span></div><div class="swap-arrow">→</div><div class="swap-to">Florence · Naples<br>(地道披萨)</div></div>
+    <h3 class="serif" style="font-size:19px;margin-bottom:14px;color:var(--cn);font-weight:700;margin-top:16px">🇨🇳 China · 被低估的小众路线</h3>
+    <div class="gems-grid">
+
+      <div class="gem-card cn">
+        <div class="gem-header">
+          <div class="gem-name">厦门 鼓浪屿
+            <span class="gem-sub">Fujian · 南方最文艺</span>
+          </div>
+          <div class="gem-save"><span class="gem-pct">$55</span><span class="gem-pct-lbl">/ 日</span></div>
         </div>
-        <div class="swap-side">
-          <div class="swap-side-title cn">🇨🇳 China 替换</div>
-          <div class="swap-row"><div class="swap-from">拉萨<span class="swap-issue">TTP麻烦+高反</span></div><div class="swap-arrow">→</div><div class="swap-to">香格里拉<br>稻城亚丁 · 甘南</div></div>
-          <div class="swap-row"><div class="swap-from">八达岭长城<span class="swap-issue">人山人海</span></div><div class="swap-arrow">→</div><div class="swap-to">金山岭 · 慕田峪<br>司马台(夜爬)</div></div>
-          <div class="swap-row"><div class="swap-from">丽江古城<span class="swap-issue">商业化</span></div><div class="swap-arrow">→</div><div class="swap-to">沙溪 · 束河<br>和顺古镇</div></div>
-          <div class="swap-row"><div class="swap-from">西湖<span class="swap-issue">游客爆</span></div><div class="swap-arrow">→</div><div class="swap-to">乌镇 · 西塘 · 绍兴</div></div>
-          <div class="swap-row"><div class="swap-from">兵马俑<span class="swap-issue">拥挤+排队</span></div><div class="swap-arrow">→</div><div class="swap-to">汉阳陵 · 法门寺<br>华山脚下</div></div>
-          <div class="swap-row"><div class="swap-from">桂林漓江<span class="swap-issue">商业化</span></div><div class="swap-arrow">→</div><div class="swap-to">阳朔骑行<br>遇龙河竹筏</div></div>
+        <div class="gem-why">气候四季温和 · 鼓浪屿 UNESCO 琴岛 · 闽南语系美食 · 海边大学城文艺范十足。<strong>比上海便宜 50%</strong>,比青岛更精致。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">海景民宿</span><span class="gp-val">¥200-400</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">沙茶面</span><span class="gp-val">¥20</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">轮渡到鼓浪屿</span><span class="gp-val">¥50</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">土楼一日</span><span class="gp-val">¥150</span></div>
         </div>
+        <div class="gem-highlights">必看:鼓浪屿万国建筑 · 厦大白城海滩 · 南普陀寺 · 曾厝垵文艺村 · 福建土楼(永定) · 沙茶面 + 海蛎煎</div>
       </div>
+
+      <div class="gem-card cn">
+        <div class="gem-header">
+          <div class="gem-name">贵州 黔东南
+            <span class="gem-sub">Guizhou · 少数民族天堂</span>
+          </div>
+          <div class="gem-save"><span class="gem-pct">$45</span><span class="gem-pct-lbl">/ 日</span></div>
+        </div>
+        <div class="gem-why">西江千户苗寨 · 肇兴侗寨 · 黄果树瀑布 · 全中国最被低估的省份。<strong>比云南便宜 40%</strong>,游客少一半,民族文化更原生。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">民宿</span><span class="gp-val">¥150-250</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">苗寨长桌宴</span><span class="gp-val">¥80/人</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">千户苗寨门票</span><span class="gp-val">¥100</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">黄果树</span><span class="gp-val">¥160</span></div>
+        </div>
+        <div class="gem-highlights">必看:西江千户苗寨(夜景)· 肇兴侗寨 · 荔波小七孔 · 黄果树瀑布 · 梵净山 UNESCO · 酸汤鱼</div>
+      </div>
+
+      <div class="gem-card cn">
+        <div class="gem-header">
+          <div class="gem-name">甘肃 丝路走廊
+            <span class="gem-sub">Silk Road · 敦煌+张掖</span>
+          </div>
+          <div class="gem-save"><span class="gem-pct">$80</span><span class="gem-pct-lbl">/ 日</span></div>
+        </div>
+        <div class="gem-why">莫高窟 + 七彩丹霞 + 嘉峪关 + 鸣沙山月牙泉 · 一条线串起丝绸之路 1,700 公里精华。<strong>独特体验无替代品</strong>。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">莫高窟门票</span><span class="gp-val">¥238</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">鸣沙山月牙泉</span><span class="gp-val">¥100</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">七彩丹霞</span><span class="gp-val">¥74</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">兰州 → 敦煌卧铺</span><span class="gp-val">¥160</span></div>
+        </div>
+        <div class="gem-highlights">必看:莫高窟(敦煌研究院数字展)· 鸣沙山月牙泉骑骆驼 · 张掖丹霞 · 嘉峪关城楼 · 麦积山石窟 · 兰州牛肉面</div>
+      </div>
+
+      <div class="gem-card cn">
+        <div class="gem-header">
+          <div class="gem-name">西双版纳
+            <span class="gem-sub">Yunnan · 中国的东南亚</span>
+          </div>
+          <div class="gem-save"><span class="gem-pct">$50</span><span class="gem-pct-lbl">/ 日</span></div>
+        </div>
+        <div class="gem-why">热带雨林 + 傣族文化 + 中老铁路可过境老挝琅勃拉邦 · 冬季避寒首选。<strong>比泰国清迈更便宜</strong>,同样热带风情。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">民宿</span><span class="gp-val">¥180-300</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">傣味宴</span><span class="gp-val">¥60/人</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">野象谷</span><span class="gp-val">¥75</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">昆明→景洪高铁</span><span class="gp-val">¥245</span></div>
+        </div>
+        <div class="gem-highlights">必看:告庄西双景夜市(东南亚最大)· 中科院热带植物园 · 野象谷 · 傣族泼水节(4月)· 中老铁路(可经昆明直达万象)</div>
+      </div>
+
+      <div class="gem-card cn">
+        <div class="gem-header">
+          <div class="gem-name">新疆 喀什+伊犁
+            <span class="gem-sub">Xinjiang · 最西北</span>
+          </div>
+          <div class="gem-save"><span class="gem-pct">$90</span><span class="gem-pct-lbl">/ 日</span></div>
+        </div>
+        <div class="gem-why">中亚风情 · 喀什老城 · 伊犁花海 · 天山 · 中国最异域的省份。<strong>独特性 max</strong>,但距离远需预留 7+ 天。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">民宿</span><span class="gp-val">¥250-400</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">大盘鸡</span><span class="gp-val">¥80/盘</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">喀什古城</span><span class="gp-val">免费</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">天山天池</span><span class="gp-val">¥155</span></div>
+        </div>
+        <div class="gem-highlights">必看:喀什老城(中国最后一个活的千年古城)· 伊犁杏花沟(4月)· 赛里木湖 · 那拉提草原 · 独库公路 · 新疆烤馕羊肉串</div>
+      </div>
+
+      <div class="gem-card cn">
+        <div class="gem-header">
+          <div class="gem-name">青海 环湖
+            <span class="gem-sub">Qinghai · 天空之镜</span>
+          </div>
+          <div class="gem-save"><span class="gem-pct">$85</span><span class="gem-pct-lbl">/ 日</span></div>
+        </div>
+        <div class="gem-why">青海湖环线 + 茶卡盐湖(天空之镜) + 塔尔寺。<strong>不用 TTP 就能体验高原风景</strong>,比西藏简单太多。夏季 7-8 月最佳。</div>
+        <div class="gem-prices">
+          <div class="gem-price-item"><span class="gp-lbl">民宿</span><span class="gp-val">¥200-400</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">环湖包车/日</span><span class="gp-val">¥600-800</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">茶卡盐湖</span><span class="gp-val">¥60</span></div>
+          <div class="gem-price-item"><span class="gp-lbl">塔尔寺</span><span class="gp-val">¥70</span></div>
+        </div>
+        <div class="gem-highlights">必看:青海湖环线 360km(骑行 or 包车)· 茶卡盐湖(天空之镜)· 塔尔寺(格鲁派六大寺)· 门源油菜花(7 月)· 老爸茶</div>
+      </div>
+
     </div>
 
-    <div class="plan-block">
-      <h3 class="plan-h3 serif"><span class="plan-icon">🎨</span>Theme · 整条换主题</h3>
-      <p class="plan-sub">如果博物馆看腻了,或本来就冲着某个主题来 —— 下面几条完全不同的玩法,按兴趣组合。</p>
-      <div class="theme-grid">
-        <div class="theme-card eu">
-          <div class="theme-head"><span class="theme-emoji">🍷</span><div class="theme-title">Foodie 美食环线</div></div>
-          <div class="theme-route">Lyon → Bologna → Modena → San Sebastián → Porto</div>
-          <div class="theme-desc">法意西葡四国吃到扶墙。Modena balsamic 醋庄、San Sebastián pintxos bar、Porto 波特酒窖。</div>
-        </div>
-        <div class="theme-card cn">
-          <div class="theme-head"><span class="theme-emoji">🍲</span><div class="theme-title">吃遍中国菜系</div></div>
-          <div class="theme-route">成都 → 重庆 → 广州 → 潮汕 → 扬州 → 西安</div>
-          <div class="theme-desc">川粤淮扬西,每城停 2-3 天。潮汕牛肉火锅、成都苍蝇馆、广州早茶。米其林黑珍珠挨个打卡。</div>
-        </div>
-        <div class="theme-card eu">
-          <div class="theme-head"><span class="theme-emoji">⚔️</span><div class="theme-title">古文明线</div></div>
-          <div class="theme-route">Athens → Santorini → Pompeii → Rome → Istanbul</div>
-          <div class="theme-desc">希腊-罗马-拜占庭三大古文明走一遍。Pompeii 遗址 + 索菲亚大教堂 + 卫城博物馆。</div>
-        </div>
-        <div class="theme-card cn">
-          <div class="theme-head"><span class="theme-emoji">🏜️</span><div class="theme-title">丝绸之路</div></div>
-          <div class="theme-route">西安 → 天水 → 兰州 → 张掖 → 嘉峪关 → 敦煌</div>
-          <div class="theme-desc">从长安一路西出玉门。麦积山石窟 → 七彩丹霞 → 莫高窟。建议租车或报西北专线。</div>
-        </div>
-        <div class="theme-card eu">
-          <div class="theme-head"><span class="theme-emoji">🏔️</span><div class="theme-title">自然狂野</div></div>
-          <div class="theme-route">Iceland → Norway Lofoten → Swiss Alps → Slovenia Bled</div>
-          <div class="theme-desc">冰岛环岛自驾 + 挪威极北 + 瑞士少女峰 + 斯洛文尼亚。景点≈零,纯看天地。</div>
-        </div>
-        <div class="theme-card cn">
-          <div class="theme-head"><span class="theme-emoji">🍵</span><div class="theme-title">茶马古道</div></div>
-          <div class="theme-route">普洱 → 大理 → 丽江 → 香格里拉 → 康定</div>
-          <div class="theme-desc">茶山-白族-纳西-藏族,从热带一路到高原。适合慢行,深度感受少数民族文化。</div>
-        </div>
-        <div class="theme-card eu">
-          <div class="theme-head"><span class="theme-emoji">🎨</span><div class="theme-title">艺术馆控</div></div>
-          <div class="theme-route">Paris(Louvre) → Madrid(Prado) → Florence(Uffizi) → Amsterdam(Rijksmuseum)</div>
-          <div class="theme-desc">四大顶级博物馆 + 梵高 + 维米尔 + 文艺复兴三杰。每馆至少安排 1 整天。</div>
-        </div>
-        <div class="theme-card cn">
-          <div class="theme-head"><span class="theme-emoji">🏯</span><div class="theme-title">古镇古村</div></div>
-          <div class="theme-route">平遥 → 凤凰 → 乌镇 → 婺源 → 宏村</div>
-          <div class="theme-desc">晋商大院 + 苗汉古城 + 江南水乡 + 徽派民居。全是《国家地理》级画面。</div>
-        </div>
-      </div>
-    </div>
+    <p style="font-size:12.5px;color:var(--ink-muted);margin-top:20px;font-style:italic;line-height:1.7">
+      这些地方都刻意避开了主线 —— 不是主线不好,而是很多人去欧洲只看巴黎/罗马、去中国只打卡北上广,错过了真正的性价比甜点。<strong>如果是二刷欧洲/中国,建议全走 Hidden Gems 路线</strong>。
+    </p>
   </div>
 </section>
 
