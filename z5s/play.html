@@ -125,6 +125,17 @@
     .storyCard ul{margin:0;padding:0 0 0 16px;color:#7a3a08;font-size:14px;line-height:1.7;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
     .storyCard li{margin:5px 0;}
 
+    /* EVIDENCE CARDS */
+    .evidenceCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;box-shadow:0 8px 20px rgba(0,0,0,.04);}
+    .evidenceCard .eYear{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.06em;margin-bottom:4px;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .evidenceCard h3{margin:0 0 10px;font-size:15px;letter-spacing:-.3px;}
+    .evidenceCard p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.75;flex:1 1 auto;font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC",sans-serif;}
+    .evidenceCard p b{color:var(--text);}
+    .evidenceCard .map{margin-top:14px;padding-top:10px;border-top:1px dashed rgba(212,98,10,.20);font-size:12px;color:var(--accent);font-weight:600;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .evidenceCard .eLink{margin-top:10px;display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--accent2);font-weight:600;padding:6px 10px;border:1px solid rgba(212,98,10,.20);border-radius:999px;background:rgba(212,98,10,.04);transition:background .18s,transform .08s;width:fit-content;text-decoration:none;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;}
+    .evidenceCard .eLink:hover{background:rgba(212,98,10,.10);transform:translateY(-1px);}
+    .evidenceCard .eLink small{color:var(--muted);font-weight:500;font-size:11px;}
+
     /* THEME SWATCH */
     .themePanel{margin-top:0;border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:16px;padding:14px;backdrop-filter:blur(12px);}
     .themePanel h4{margin:0 0 6px;font-size:14px;}
@@ -173,6 +184,7 @@
         <a href="#tasks">核心任务</a>
         <a href="#language">典型语言</a>
         <a href="#misread">常见误解</a>
+        <a href="#evidence">学术证据</a>
         <a href="#growth">成长方向</a>
       </nav>
       <a class="btn primary" href="https://bestwellnesstherapy.com">← 返回首页</a>
@@ -490,7 +502,7 @@
     <summary class="accordionHeader">
       <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
         <div>
-          <h2 class="accordionTitle">6. 压力下的表现与触发点</h2>
+          <h2 class="accordionTitle">5. 压力下的表现与触发点</h2>
           <p class="accordionLead" style="margin:4px 0 0;">玩乐系统被压制时，不是只是「觉得无聊」——它影响的是整个生命感。</p>
         </div>
         <span class="accordionCaret">▾</span>
@@ -502,7 +514,7 @@
         <div class="acc-subhead">压力下的反应</div>
         <div class="card soft" style="margin-bottom:22px;">
           <p>玩乐系统被长期压制时，常见反应不只是无聊，而是：<b>麻木感、生命无色感、强迫性刷手机、对一切失去兴趣、身体越来越沉。</b></p>
-          <p style="margin-top:10px;color:var(--muted);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;">「我也不知道我想要什么」「什么都没意思」——这往往不是抑郁症状，而是玩乐系统在告诉你：它已经太久没有被允许运作了。</p>
+          <p style="margin-top:10px;color:var(--muted);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;">「我也不知道我想要什么」「什么都没意思」——这不一定只是抑郁症状，也可能提示玩乐系统长期被压制。如果这种状态持续较久或伴随明显的功能损害，建议向专业人士咨询，以排除抑郁等需要临床关注的状况。</p>
         </div>
 
         <div class="acc-subhead">八大触发来源</div>
@@ -558,7 +570,7 @@
     <summary class="accordionHeader">
       <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
         <div>
-          <h2 class="accordionTitle">7. 玩乐系统的三个层级</h2>
+          <h2 class="accordionTitle">6. 玩乐系统的三个层级</h2>
           <p class="accordionLead" style="margin:4px 0 0;">Z5S 框架里的层级模型——你在哪个层级运作？</p>
         </div>
         <span class="accordionCaret">▾</span>
@@ -613,7 +625,7 @@
     <summary class="accordionHeader">
       <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
         <div>
-          <h2 class="accordionTitle">8. 适合的路径与临床解读</h2>
+          <h2 class="accordionTitle">7. 适合的路径与临床解读</h2>
           <p class="accordionLead" style="margin:4px 0 0;">玩乐系统如何影响方向选择，以及临床上意味着什么。</p>
         </div>
         <span class="accordionCaret">▾</span>
@@ -678,6 +690,240 @@
               <li>关系有温度和轻盈感</li>
             </ul>
           </div>
+        </div>
+
+      </div>
+    </div>
+  </details>
+
+  <!-- ============== 学术证据 EVIDENCE ACCORDION ============== -->
+  <details class="accordion" id="evidence" aria-label="学术证据">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">8. 学术证据：相关研究背景</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">"玩乐系统"这一概念的每一项功能，在 60 年来心理学与神经科学研究中都能找到与之相关的实证或理论资源。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+
+        <p class="lead">下面 7 个分类、共 24 项理论与研究，是与"玩乐系统"这一概念相关的实证与理论资源。每张卡片说明研究本身在做什么，以及它和玩乐系统的哪一项功能在哪种程度上相关，并附上可点击的<b>原文链接</b>（DOI / PubMed / 出版社官方页 / Wikipedia 概览）以便核查。需要说明的是：这些研究都不是为了支持本框架而做的，它们各自有自己的研究脉络；列在这里只是因为它们的发现，与"把玩乐看作一个独立的、值得单独识别和工作的人格层级"在某种程度上是相容的。</p>
+
+        <!-- ① 玩乐是基本生物驱力 -->
+        <div class="acc-subhead">① 玩乐是基本生物驱力（玩乐为何不是奢侈品）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Panksepp · 1998</div>
+            <h3>PLAY 系统：哺乳动物的基本情感系统之一</h3>
+            <p>Panksepp 在《Affective Neuroscience》中通过几十年的电极刺激、药理干预和脑损伤研究，识别出哺乳动物大脑中的<b>七个原初情感系统</b>（SEEKING、RAGE、FEAR、LUST、CARE、PANIC、PLAY），其中 <b>PLAY/Social Joy</b> 是一个独立的、有特定皮层下神经回路的系统，主要表现为年轻哺乳动物的打闹追逐行为，并被认为延续到成年的"开玩笑"和社交欢乐中。<br/><br/>这与"玩乐不是高级文化产物，而是基础生物驱力"是一致的。如果玩乐只是闲暇活动的副产品，那它顶多算行为偏好；但 Panksepp 的工作显示玩乐有<b>专门的神经基础和跨物种的进化保守性</b>——这给"把玩乐看作一个独立的、和其他基本系统并列的人格层级"提供了某种程度的合理性。需要说明：从动物 PLAY 行为到人类成人的玩乐体验之间，仍有一定推论距离。</p>
+            <div class="map">→ 对应：玩乐作为独立人格层级</div>
+            <a class="eLink" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6344464/" target="_blank" rel="noopener">查阅 ↗ <small>PMC · Panksepp 七系统综述</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Burghardt · 2005</div>
+            <h3>动物玩乐的起源与跨物种证据</h3>
+            <p>Burghardt 在《The Genesis of Animal Play》中系统整理了从无脊椎动物到哺乳动物的玩乐行为证据，提出了用于识别"真正玩乐"的五条标准——比如<b>非完全功能性、自发性、有特定的玩乐情境信号、在低压力状态下出现、有重复但变异的特征</b>。他显示玩乐在多种动物中独立演化出现，这暗示玩乐对生存有真实价值，而不只是"多余精力的释放"。<br/><br/>这与"玩乐不是奢侈品，而是某种发展性需要"是相容的。它也帮助理解为什么"把玩乐当罪恶感"会带来代价——如果玩乐在多个物种里都有进化保留的功能（社交学习、行为灵活性、应对意外），那么长期压制它，可能压制的不只是娱乐，而是<b>某种与心理弹性相关的能力</b>。需要说明：这条研究主要解决"玩乐为什么进化出来"的问题，对人类临床的直接适用性需要谨慎。</p>
+            <div class="map">→ 对应：玩乐有真实生物功能</div>
+            <a class="eLink" href="https://mitpress.mit.edu/9780262524698/the-genesis-of-animal-play/" target="_blank" rel="noopener">查阅 ↗ <small>MIT Press · Open Access 全书</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Brown · 2009</div>
+            <h3>玩乐剥夺的临床观察</h3>
+            <p>精神科医师 Stuart Brown 通过对几千名个案的访谈记录（包括对暴力罪犯童年史的回顾），观察到一个反复出现的现象：<b>童年期严重玩乐剥夺与成年后的情感僵硬、抑郁、攻击性、社交困难等问题相关</b>。他在《Play: How It Shapes the Brain, Opens the Imagination, and Invigorates the Soul》中提出"玩乐缺失综合征"。需要说明：这是临床观察与个案描述，作为科学证据其严谨度有限——它没有控制组、没有跨研究者的标准化测量，相关性也不能直接当作因果。<br/><br/>但这一观察提供了一种值得保留的视角：长期不能玩，可能不只是"少了点乐趣"，而是<b>影响心理弹性发展</b>的某种缺失。它和上面更严谨的 Panksepp 神经科学证据并列时，作为补充性的临床描述是有价值的——但其本身的强度需要诚实承认。</p>
+            <div class="map">→ 对应：玩乐缺失的临床代价</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Stuart_Brown_(psychiatrist)" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Stuart Brown 与玩乐研究</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Vygotsky · 1933 / 1978</div>
+            <h3>假装游戏与最近发展区</h3>
+            <p>Lev Vygotsky 在 1933 年的莫斯科讲座（后被收入 1978 年英译本《Mind in Society》）提出一个有影响力的观点：<b>儿童的假装游戏不是发展的副产物，而是发展本身的驱动机制之一</b>。他著名的观察：在游戏中，孩子总是"高于自己平均年龄、高于日常行为"——一个 4 岁的孩子在"妈妈"角色里能做出比平时更复杂、更有规则的行为。Vygotsky 由此把游戏列为<b>最近发展区（Zone of Proximal Development）的核心生成场所之一</b>：在游戏中，儿童暂时超越当前能力，操练即将到达的能力。<br/><br/>这给"玩乐推动发展、不只是消耗能量"提供了一个早期但深刻的发展心理学视角。它的关键洞察是：<b>玩乐里的"装作"不是逃避现实，而是把抽象规则可操作化的过程</b>——孩子在"开火车"游戏里第一次按规则行动，这种"按规则但出于自愿"的能力是后来一切自我调控的根基。这与"成熟的玩乐 = 既能认真也能玩"在精神上是相通的：自我调控并不是认真的反义词，它最早就是从玩乐里长出来的。</p>
+            <div class="map">→ 对应：玩乐推动发展</div>
+            <a class="eLink" href="https://www.hup.harvard.edu/books/9780674576292" target="_blank" rel="noopener">查阅 ↗ <small>Harvard Univ Press · Mind in Society (1978)</small></a>
+          </div>
+        </div>
+
+        <!-- ② 心流——投入的核心机制 -->
+        <div class="acc-subhead">② 心流是真实的投入状态（"忘记时间"的实证基础）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Csikszentmihalyi · 1990</div>
+            <h3>心流理论（Flow）</h3>
+            <p>Csikszentmihalyi 通过对运动员、艺术家、外科医生、棋手等数千人的访谈和经验取样研究，识别出一种特定的最优体验状态——<b>心流</b>：注意力完全集中、自我意识消失、时间感扭曲、行动与意识合一、内在奖励充足。他还系统地描述了进入心流的条件：<b>清晰目标、即时反馈、技能与挑战的匹配</b>。这一概念后来在心理学、教育、运动、组织行为等多个领域被广泛使用。<br/><br/>这与"专注但不费力、投入但不紧绷"作为玩乐的一种核心状态是一致的。它也提示：心流不是单纯的"放松"，也不是单纯的"努力"，而是<b>第三种状态——投入到任务本身被吸进去</b>。这给"成熟的玩乐 = 既能认真也能玩"提供了一个具体的中介——心流就是这两者同时发生的状态。</p>
+            <div class="map">→ 对应：进入心流状态</div>
+            <a class="eLink" href="https://archive.org/details/flowpsychologyof00csik" target="_blank" rel="noopener">查阅 ↗ <small>Internet Archive · Harper & Row 1990 全书</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Csikszentmihalyi & LeFevre · 1989</div>
+            <h3>心流的经验取样研究（ESM）</h3>
+            <p>这项研究使用经验取样方法（受试者随身携带寻呼机，被随机提示时记录当下的活动与感受），追踪 78 位成年人一周的日常生活。一个反直觉的发现：<b>心流体验在工作中出现的频率，比在休闲中更高</b>——但人们仍然更想休闲、不想工作。这显示"主观偏好"和"实际幸福体验"之间存在系统性偏差，也显示心流可以在结构化任务中被触发，并不需要"不工作"才能发生。<br/><br/>这与"玩乐姿态可以注入一切，包括严肃的事"是相容的。它也帮助理解一个常见困惑：为什么我们追求的休闲方式（如刷手机、看剧）反而不太给人活力——它们没有进入心流的条件（清晰目标、技能-挑战匹配、即时反馈）。这给"娱乐 ≠ 玩乐"的区分提供了一种实证支持：差别不在愉快程度，而在<b>是否进入了真正的投入状态</b>。</p>
+            <div class="map">→ 对应：娱乐 ≠ 真正的玩乐投入</div>
+            <a class="eLink" href="https://psycnet.apa.org/record/1989-32999-001" target="_blank" rel="noopener">查阅 ↗ <small>APA · J Pers Soc Psychol 56(5):815-822</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Nakamura & Csikszentmihalyi · 2002</div>
+            <h3>心流的可测量化与跨情境验证</h3>
+            <p>Nakamura 和 Csikszentmihalyi 在《Handbook of Positive Psychology》中整合了三十多年心流研究的实证基础，描述了心流量表（FSS、DFS）、经验取样、生理测量等多种工具，并显示心流体验在工作、运动、艺术、学习、亲密对话、游戏等多种情境下都可以被一致识别——它的现象学特征（注意力集中、自我意识消失、内在奖励等）在不同活动间相对稳定。<br/><br/>这给"心流是真实的、可测量的状态，而不是模糊的体验描述"提供了实证支持。对玩乐系统来说有用的是：它显示<b>心流的发生不依赖于活动本身有没有"玩乐"标签</b>——一个人可以在清理花园、写代码、做手术、对话中进入心流。这帮助理解"玩乐姿态"作为一种内在能力，而不只是一类外部活动。</p>
+            <div class="map">→ 对应：玩乐姿态可以注入一切</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Flow_(psychology)" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Flow 心流测量与应用</small></a>
+          </div>
+        </div>
+
+        <!-- ③ 创意与认知扩展 -->
+        <div class="acc-subhead">③ 玩乐与创意有真实关联（"放松后想出来"的证据）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Russ · 1993, 2014</div>
+            <h3>假装游戏与儿童创造力</h3>
+            <p>Sandra Russ 通过几十年研究儿童的<b>假装游戏</b>（pretend play），开发了 Affect in Play Scale（APS）——这是一个能在标准化游戏情境中编码儿童玩乐丰富度（情感表达、想象力、组织能力）的工具。她的研究观察到：假装游戏中表现出更多情感与想象力的儿童，在散度思维测验（divergent thinking）和创造力任务上表现更好，且这种关系在控制智力后仍然存在。需要说明：相关性研究不能直接当因果，纵向研究的效应量也有变异。<br/><br/>这与"玩乐是创意的温床"是相容的。它提示了一个具体机制：在假装游戏中，儿童<b>在安全的"不是真的"框架里组合不寻常的想法</b>——这种组合能力似乎与后来的散度思维有关。这给"释放创意弹性"作为玩乐功能之一提供了某种程度的发展心理学支持，也帮助理解为什么"过度功利化"可能压制创意：当所有事都必须"是真的、有用"时，那种安全的实验空间就消失了。</p>
+            <div class="map">→ 对应：释放创意弹性</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Pretend_play" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Pretend play 与创造力</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Isen · 1987+</div>
+            <h3>积极情绪与认知灵活性</h3>
+            <p>Alice Isen 通过一系列实验研究显示：<b>诱发轻度积极情绪</b>（看一段喜剧片段、收到一袋糖果）的受试者，在后续的创造性问题解决、远距离联想测验、灵活分类任务上表现出可测量的提升。最经典的"蜡烛问题"（Duncker's candle problem）实验中，诱发积极情绪的受试者解决率显著高于对照组——他们更能"跳出"惯常的功能固着。需要说明：这些是短期实验效应，不能直接推广到长期的"玩乐让人更有创意"。<br/><br/>这与"放松后的自由联想是创意来源之一"在精神上是吻合的。它的临床意义是：创意不是单纯靠努力思考产生的，<b>大脑在某种轻松愉快的状态下处理信息的方式本身就不一样</b>——这个发现后来被 Fredrickson 的 Broaden-and-Build 理论进一步整合。</p>
+            <div class="map">→ 对应：放松状态产生创意</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Alice_Isen" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Isen 与积极情绪研究</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Fredrickson · 2001</div>
+            <h3>Broaden-and-Build 理论</h3>
+            <p>Fredrickson 在《American Psychologist》提出并通过多项实验支持的理论：负面情绪倾向于<b>窄化</b>注意力和行为选项（适合应对眼前威胁），而积极情绪——包括玩乐时的喜悦——倾向于<b>扩展</b>认知-行为目录（broaden），从而帮助个体在长期建立心理资源（build）：技能、社会连接、应对资源、创造力。她的研究还显示，定期经历积极情绪的人在面对压力时复原力更强。<br/><br/>这给"玩乐有真实的心理建设功能、不只是消遣"提供了一个整合性的理论框架。它特别相容于"玩乐是真正的修复，不只是逃跑"——逃跑式的娱乐是窄化的（只是想脱离当下），而真正的玩乐是扩展的（带回更多资源、更宽的视野、更多连接）。这个区分对临床有用：同样是"我在玩"，结果完全不同，差别在于这个状态是窄化的还是扩展的。</p>
+            <div class="map">→ 对应：玩乐扩展心理资源</div>
+            <a class="eLink" href="https://doi.org/10.1037/0003-066X.56.3.218" target="_blank" rel="noopener">查阅 ↗ <small>DOI · Am Psychol 56(3):218-226</small></a>
+          </div>
+        </div>
+
+        <!-- ④ 内在动机 vs 外在动机 -->
+        <div class="acc-subhead">④ 玩乐功利化会被衰减（"玩乐当手段"为何效果差）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Deci · 1971</div>
+            <h3>内在动机与外部奖励的反效应</h3>
+            <p>Edward Deci 在博士论文研究中发现一个反直觉的现象：让大学生玩 Soma 立方体（受试者本身就觉得有趣的拼图游戏），<b>给一组钱作为奖励，另一组不给</b>；当奖励停止后的自由游戏时间里，<b>被奖励组花在游戏上的时间反而比不被奖励组少</b>。这一发现挑战了"奖励能增强行为"的简单行为主义观点，开启了对内在动机的系统研究。<br/><br/>这与"玩乐功利化时能量会衰减"是吻合的。它的机制是：当内在驱动的活动被外部奖励"标记"，大脑会把它<b>重新归因为"为了奖励而做"</b>，原本的内在愉悦就被取代了。这给"玩乐变成手段时为什么变得没意思"提供了一个具体的认知机制，也支持把"无目的性"作为玩乐的核心特征——一旦目的进来，玩乐的某些部分就消失了。</p>
+            <div class="map">→ 对应：玩乐功利化的衰减</div>
+            <a class="eLink" href="https://doi.org/10.1037/h0030644" target="_blank" rel="noopener">查阅 ↗ <small>DOI · J Pers Soc Psychol 18(1):105-115</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Lepper, Greene & Nisbett · 1973</div>
+            <h3>过度合理化效应（Overjustification Effect）</h3>
+            <p>这项经典田野实验跟踪了 3-5 岁的幼儿园儿童画画行为。研究者先观察他们在自由活动时间画画的基线时长——这些孩子原本就喜欢画画。然后分三组：<b>预期奖励组</b>（被告知画画能获得"优秀小画家"奖状）、<b>意外奖励组</b>（画完后才意外获得奖状）、<b>无奖励组</b>。两周后再观察自由活动时间的画画行为。结果：<b>预期奖励组的画画时间下降了约一半</b>，而意外奖励组与无奖励组没有差别。<br/><br/>这一发现给"把玩乐功利化"提供了一个清晰的实验证据：<b>把内在喜欢的事变成"为了什么而做"，会降低做它本身的兴趣</b>。它的关键细节也很重要——是否事先承诺奖励才是关键，事后的意外奖励不会损害内在动机。这帮助理解为什么"我要玩，因为这样效率更高"这种思路常常带来反效果：玩乐被工具化的瞬间，它就失去了一部分玩乐性质。</p>
+            <div class="map">→ 对应：玩乐变手段时的衰减</div>
+            <a class="eLink" href="https://doi.org/10.1037/h0035519" target="_blank" rel="noopener">查阅 ↗ <small>DOI · J Pers Soc Psychol 28(1):129-137</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Ryan & Deci · SDT</div>
+            <h3>自我决定理论中的内在动机</h3>
+            <p>自我决定理论（Self-Determination Theory）通过几十年的实证研究整合了内在动机的概念，提出三种基本心理需求——<b>自主性、胜任感、关联感</b>——的满足是内在动机维持的关键。当活动满足这三个需求，人会自发投入、感到充能；当某一项被剥夺（特别是自主性），活动就更容易感到耗竭。Ryan 和 Deci 还系统区分了从外在调节、内摄、认同型到整合型的几个内化阶段。<br/><br/>这给"真正的玩乐 vs 麻木的娱乐"提供了一种有用的诊断维度。同样是"我在玩游戏"，如果是出于自主选择、过程中有胜任感与连接，那它更可能是真玩乐；如果只是为了逃避焦虑、压制其他需求、自主感反而被外部冲动取代，那它就更接近一种被动消费。这与"玩完后是更有能量还是更空洞"这个简单标志在精神上是相通的。</p>
+            <div class="map">→ 对应：自发性投入的条件</div>
+            <a class="eLink" href="https://selfdeterminationtheory.org/theory/" target="_blank" rel="noopener">查阅 ↗ <small>SDT 官方理论页（Ryan & Deci）</small></a>
+          </div>
+        </div>
+
+        <!-- ⑤ 心理恢复 -->
+        <div class="acc-subhead">⑤ 玩乐有恢复功能（"真正充电"的证据）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Kaplan · 1995</div>
+            <h3>注意力恢复理论（Attention Restoration Theory）</h3>
+            <p>Kaplan 提出并通过多项研究支持的理论：日常工作中使用的<b>定向注意力</b>（directed attention）是有限资源，会因长时间使用而疲劳，表现为分心、易怒、判断力下降。能让定向注意力恢复的状态需要四个特征——<b>远离日常环境（being away）、视野扩展（extent）、温和吸引（soft fascination）、与活动相容（compatibility）</b>。自然环境通常具备这些特征，但其他形式的活动（包括沉浸式爱好、艺术活动）也可以。<br/><br/>这给"玩乐 ≠ 单纯休息"提供了一个机制性的解释：<b>真正的恢复不是关闭注意力，而是让它转到另一种使用模式</b>——温和地被吸引，而不是被刺激或被强迫。这帮助理解为什么刷手机不太能恢复（注意力还是被强烈拉扯），而看似更费力的活动（散步、做手工、画画）反而恢复效果更好。这也支持"娱乐 vs 玩乐"的区分有真实的认知科学基础。</p>
+            <div class="map">→ 对应：玩乐作为恢复机制</div>
+            <a class="eLink" href="https://doi.org/10.1016/0272-4944(95)90001-2" target="_blank" rel="noopener">查阅 ↗ <small>DOI · J Environ Psychol 15(3):169-182</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Sonnentag · 2003+</div>
+            <h3>工作恢复研究（Recovery Experiences）</h3>
+            <p>Sabine Sonnentag 通过日记法和纵向研究系统识别出促进工作后恢复的四种体验——<b>心理脱离（psychological detachment）、放松（relaxation）、掌控体验（mastery experiences）、控制感（control）</b>。其中"掌控体验"特别有意思：它指的是下班后做有挑战但不是工作的事（学新乐器、运动、爱好），这类活动比单纯放松更能预测第二天的能量与情绪。多项研究在不同行业中重复了这个模式。<br/><br/>这与"玩乐带来真正的修复，不只是麻醉"是吻合的。它提示一个反直觉的发现：<b>恢复不一定意味着"什么都不做"——主动投入一项有挑战的爱好可能恢复效果更好</b>。这帮助理解为什么"刷手机休息一晚"第二天反而更累，而"画了两个小时画"反而精神：前者是被动消费，后者具有掌控体验的性质。</p>
+            <div class="map">→ 对应：玩乐充电 vs 麻醉</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Recovery_(workplace)" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Workplace recovery 研究综述</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Pressman & Cohen · 2009</div>
+            <h3>积极情绪与生理健康</h3>
+            <p>Pressman 和 Cohen 在《Psychological Bulletin》整合了几十年关于积极情绪与健康的研究，显示：<b>主观幸福感和积极情绪频率</b>与多种生理指标（心血管健康、免疫功能、伤口愈合速度、对感冒的抵抗力等）有可测量的相关。控制了健康行为（运动、饮食）后这种相关仍然存在，提示积极情绪可能通过自身的生理路径（应激激素、自主神经系统调节）发挥作用。需要说明：这是相关研究的整合，因果关系仍需谨慎；积极情绪过强或与现实脱节（如躁狂）也可能有害。<br/><br/>这给"玩乐系统的功能不只是心理层面、也涉及身体"提供了某种程度的支持。它与"玩乐系统低的人身体也容易积累慢性压力"的临床观察是一致的——这不是夸张，而是有可测量的生理通路。这一视角对治疗有用：恢复玩乐能力可能不只是改善心情，<b>还有可能影响整体身心健康</b>。</p>
+            <div class="map">→ 对应：玩乐与身心健康</div>
+            <a class="eLink" href="https://doi.org/10.1037/a0014755" target="_blank" rel="noopener">查阅 ↗ <small>DOI · Psychol Bull 135(2):251-255</small></a>
+          </div>
+        </div>
+
+        <!-- ⑥ 玩乐与社会连接 -->
+        <div class="acc-subhead">⑥ "一起玩"是真实的连接机制（社交玩乐的证据）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Pellis & Pellis · 2009</div>
+            <h3>打闹玩乐与社交能力发展</h3>
+            <p>Pellis 夫妇通过几十年大鼠玩乐行为的神经科学研究显示：被剥夺<b>社交打闹玩乐</b>（rough-and-tumble play）的幼鼠，成年后表现出社交能力受损——他们对其他大鼠的社会信号反应不当、调节不了攻击行为、无法正确识别同伴情绪。脑部研究显示，玩乐参与了内侧前额叶皮层的神经发育，而这个脑区在人类中也与社交认知相关。需要说明：从大鼠推论到人类需要谨慎，但这个模式与儿童社会发展的研究方向是一致的。<br/><br/>这给"一起玩是最原始的连接方式"提供了一个发展神经科学层面的支持。它提示玩乐不只是社交的副产品，<b>更可能是社交能力本身得以发展的训练场</b>——在打闹中学会读对方的情绪、调节自己的强度、轮流主导和让步。这帮助理解"失去玩伴"为什么会影响那么深——失去的不只是同伴，可能还有持续打磨社交能力的练习场。</p>
+            <div class="map">→ 对应：建立关系连接</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Rough_and_tumble_play" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Rough-and-tumble play 神经科学</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Pellegrini · 2009</div>
+            <h3>儿童玩乐与社会能力</h3>
+            <p>Anthony Pellegrini 通过对学校操场、幼儿园、家庭环境中儿童玩乐行为的系统观察研究显示：<b>有充分时间进行自由玩乐的儿童</b>，在情绪调节、合作能力、问题解决、应对挫折等方面发展更好，且这种关系在控制了社会经济地位、家庭背景后仍然存在。他还显示了特定类型玩乐（如规则游戏、社会戏剧性玩乐）与不同社交能力的相关。<br/><br/>这给"玩乐对社交能力发展是真实的输入"是相容的。它的政策意义被广泛讨论——许多教育研究者据此质疑当前学校减少课间和自由玩乐时间的趋势可能损害儿童发展。对成人来说也有启示：保留自由的、无目的的玩乐时间，可能不只是"休闲"，而是<b>持续维护某种社交弹性的方式</b>。</p>
+            <div class="map">→ 对应：玩乐与社交弹性</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Play_(activity)#Childhood_development" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · 儿童玩乐与发展</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Provine · 2000</div>
+            <h3>笑的社会功能研究</h3>
+            <p>Robert Provine 通过对自然情境下笑声的系统观察研究（在街道、商场、酒吧记录数千次笑声及其语境）发现一个反直觉的事实：<b>大多数笑声不是对笑话的反应，而是对日常对话的反应</b>——人们在说话间、问候时、平淡互动中持续笑。说话者比听话者更多笑。笑很大程度上是<b>社交粘合信号</b>，而不是幽默反应。Provine 还显示笑有跨文化的相对稳定性，并和某些非人类灵长类的玩乐发声有进化上的关联。<br/><br/>这给"玩乐姿态在关系中创造轻盈、亲密氛围"提供了一个具体机制：<b>笑不是对内容的反应，而是社交连接的信号</b>。这帮助理解为什么"一起玩"和"一起聊有用的事"感觉完全不同——前者充满了这种粘合信号，后者通常没有。也帮助理解"玩乐高的人在关系中创造温度"是一种可观察的能力，不是性格虚饰。</p>
+            <div class="map">→ 对应：玩乐与关系温度</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Robert_R._Provine" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Robert Provine 笑的研究</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Bowlby & Ainsworth · 1969-1978</div>
+            <h3>安全基地与探索（Secure Base & Exploration）</h3>
+            <p>依恋理论的核心机制之一：<b>安全基地（secure base）是探索的前提</b>。Bowlby 提出并由 Ainsworth 通过"陌生情境"实验（Strange Situation）反复验证的现象——只有当孩子感到照顾者可获得（available）、可靠时，他才愿意离开照顾者去<b>探索环境、玩乐、尝试新事物</b>；一旦感到不安全，探索系统会迅速关闭，孩子退回到依附行为。这个"安全基地 ↔ 探索"的循环不限于婴幼儿期，多项研究显示它在整个生命周期都在运作：成年人也只有在感到关系或环境足够安全时，才会真正"玩起来"。<br/><br/>这给"失去玩伴""自发性被否定"为何对玩乐系统打击那么深提供了一个机制性的解释：<b>玩乐不是单独发生的状态，它需要一个被允许、被支持的关系背景</b>。这帮助理解为什么有些人独处时反而玩不出来——未必是缺时间，更可能是缺少"被允许"的内化感。也帮助理解为什么疗愈玩乐能力时，治疗关系本身的安全感往往是最先要建立的——只有当一个人感到不会因为玩而被审判，玩才有可能重新发生。</p>
+            <div class="map">→ 对应：玩乐的关系前提</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Attachment_theory" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Attachment theory / Secure base</small></a>
+          </div>
+        </div>
+
+        <!-- ⑦ 临床——玩乐缺失的精神病理学位置 -->
+        <div class="acc-subhead">⑦ 玩乐缺失有临床位置（精神病理学中的玩乐问题）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">DSM-5 / 临床描述</div>
+            <h3>快感缺失（Anhedonia）</h3>
+            <p><b>快感缺失</b>——失去对原本愉快活动的兴趣或愉悦感——是 DSM-5 抑郁症的两个核心症状之一（另一个是情绪低落，至少需要一个达到诊断标准）。它也出现在精神分裂症阴性症状、PTSD、慢性压力综合征中。研究显示快感缺失可分为<b>预期性</b>（对未来快乐缺乏期待）和<b>消费性</b>（在愉快活动当下也感受不到愉悦）两个相对独立的维度，且与脑奖赏回路（伏隔核、前额叶）的活动改变相关。<br/><br/>这给"玩乐系统失调本身就有临床位置"提供了直接的诊断学支持。它显示：<b>"什么都没意思"不只是抑郁的伴随感受，它本身就是一个被独立识别、可被测量的临床现象</b>。这帮助理解为什么"长期不能玩"是一个值得严肃对待的信号——在一定程度上，它和情绪低落同等重要，是评估心理状态的一个核心维度。</p>
+            <div class="map">→ 对应：玩乐缺失的临床表征</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Anhedonia" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Anhedonia 综述</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Jacobson, Martell, Dimidjian · 2001</div>
+            <h3>行为激活疗法（Behavioral Activation）</h3>
+            <p>行为激活疗法（BA）通过多项随机对照试验（包括 Dimidjian 2006 大型试验）显示对抑郁症的疗效与认知疗法、抗抑郁药相当甚至更好。其核心干预非常具体：<b>识别并系统增加能带来愉悦感和成就感的活动</b>，特别是那些抑郁中已经停止的活动。重要的是，BA 反对"等到有兴致再做"的逻辑——它要求<b>先做，让感受跟上</b>，逐步重建奖赏回路。<br/><br/>这给"重建玩乐能力本身可以是治疗的核心，而不只是辅助"提供了强有力的临床证据。它也回应了一个常见困惑：抑郁的人常说"什么都不想做"，BA 显示等待"想做"是无效路径——<b>从行为入手反而能逐步恢复内在动机</b>。这帮助理解为什么"先玩，让感觉跟上"在某些时候是有用的策略，而不是逃避——它是临床上已验证的方向。</p>
+            <div class="map">→ 对应：临床上重建玩乐</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Behavioral_activation" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Behavioral Activation 综述</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Khantzian / 临床研究</div>
+            <h3>自我药物化假说（Self-Medication Hypothesis）</h3>
+            <p>Khantzian 通过几十年成瘾治疗的临床观察提出"自我药物化假说"：<b>许多成瘾性行为不是单纯的快感追逐，而是对特定情绪痛苦或心理状态的自我治疗尝试</b>——比如用酒精缓解社交焦虑、用兴奋剂补偿低能量、用刷手机/赌博/暴食回避空虚感。这一假说在多个成瘾领域（药物、酒精、行为成瘾）得到一定程度的实证支持，尽管不是所有成瘾都能用它解释。<br/><br/>这给"用玩乐逃避 vs 真正玩乐"的区分提供了一个临床框架。被动刷手机、强迫性娱乐这些行为，<b>外表是"在玩"，内核可能是某种自我药物化</b>——试图压住焦虑、空虚、疲惫，而不是真正进入活力状态。这帮助理解为什么"玩完反而更空"是一个重要的诊断信号：它提示这一行为很可能是回避性的，需要的不是更多娱乐，而是去看见底下被压住的东西。</p>
+            <div class="map">→ 对应：逃跑式玩乐 vs 真玩乐</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Self-medication" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · 自我药物化假说</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Winnicott · 1971</div>
+            <h3>玩乐与现实（Playing and Reality）</h3>
+            <p>Donald Winnicott 在《Playing and Reality》中把玩乐放在精神分析-临床的中心位置，提出几个有影响力的概念：<b>过渡空间（transitional space）</b>——既非纯粹内部、也非纯粹外部的"中间地带"，是创造力的发生之处；<b>过渡客体（transitional object）</b>——孩子的小毛巾、玩偶——既是真实存在的物体，又承载主观意义。Winnicott 的核心命题是：<b>"玩乐是创造性活着的形式之一"，而心理治疗的本质是把不能玩的人带到能玩的状态</b>。需要说明：Winnicott 的工作主要基于精神分析临床观察与理论建构，作为科学证据的严谨度有限，但它对几代心理治疗师对玩乐的理解影响深远。<br/><br/>这给"玩乐有疗愈位置、不只是辅助"提供了一个临床传统的支持。它和 Behavioral Activation 的循证临床路径形成有意思的互补——BA 强调"先做再让感觉跟上"，Winnicott 强调"创造一个安全的过渡空间让玩乐自发出现"。两个角度都指向同一个临床事实：<b>恢复玩乐能力本身可以是治疗的核心目标</b>，不是治好别的之后的副产品。这也支持把"长期不能玩"列为一个值得严肃对待的临床信号。</p>
+            <div class="map">→ 对应：玩乐的疗愈位置 / 创造性自我</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Playing_and_Reality" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Playing and Reality</small></a>
+          </div>
+        </div>
+
+        <!-- 总结 -->
+        <div class="pullQuote" style="margin-top:22px;">
+          <p>玩乐在这里是一个整合性概念。<br/>它对应的是 60 年来心理学与神经科学已经反复观察到的一些核心现象：<br/><b>玩乐有神经基础、心流可被测量、玩乐养创意、功利化会衰减、缺失会致病。</b></p>
+          <small>这些研究不是为了支持任何一个特定框架而做的，<br/>但它们各自的发现，与"把玩乐看作一个独立的、值得单独工作的人格层级"是相容的。</small>
+        </div>
+
+        <div class="card soft" style="margin-top:18px;">
+          <h3>关于这些链接</h3>
+          <p>每张卡片下方的"查阅 ↗"按钮指向以下三类来源之一，全部可独立核查：<b>(1) DOI / PubMed</b> — 期刊原文（如 Lepper Greene Nisbett 1973、Deci 1971、Fredrickson 2001、Kaplan 1995、Pressman & Cohen 2009）；<b>(2) PMC / 学术整合页</b>（如 Panksepp 七系统综述）；<b>(3) Wikipedia 概览</b>（适用于经典理论与术语，如 Flow、Anhedonia、Behavioral Activation、Pretend Play、Rough-and-tumble play、自我药物化、Provine 笑研究等——Wikipedia 页面本身列有完整文献来源）。需要说明：玩乐研究领域中，部分核心引用（如 Stuart Brown 的临床观察）严谨度有限，已在卡片中坦诚标注。如需正式 APA 引用列表用于论文写作，可在此基础上补全。</p>
         </div>
 
       </div>
@@ -767,6 +1013,7 @@
           <a href="#tasks">核心任务</a> ·
           <a href="#language">典型语言</a> ·
           <a href="#misread">常见误解</a> ·
+          <a href="#evidence">学术证据</a> ·
           <a href="#growth">成长方向</a>
         </div>
         <div class="fine">© <span id="y"></span> Best Wellness Therapy</div>
@@ -791,7 +1038,7 @@
     root.style.setProperty("--page-bg", t.pageBg);
     root.style.setProperty("--section-bg", t.sectionBg);
     root.style.setProperty("--soft-bg", t.softBg);
-    document.querySelectorAll(".card:not(.soft),.step,details").forEach(el => {
+    document.querySelectorAll(".card:not(.soft),.step,details,.evidenceCard").forEach(el => {
       el.style.backgroundColor = t.cardBg;
     });
     swatches.forEach(b => b.classList.toggle("active", b.dataset.theme === name));
