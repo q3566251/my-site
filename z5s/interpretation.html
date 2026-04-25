@@ -25,7 +25,6 @@
     }
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
-
     /* NAV */
     .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line);}
     .navin{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:18px;}
@@ -38,7 +37,6 @@
     .btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(0,0,0,.06);}
     .btn.primary{background:linear-gradient(180deg,var(--accent2),var(--accent));color:#fff;border-color:transparent;box-shadow:0 12px 24px rgba(11,94,168,.22);}
     .btn.primary:hover{box-shadow:0 16px 30px rgba(11,94,168,.30);}
-
     /* HERO */
     .hero{padding:64px 0 44px;background:var(--section-bg);}
     .heroGrid{display:grid;gap:22px;grid-template-columns:1.25fr .75fr;align-items:stretch;}
@@ -49,14 +47,12 @@
     .chips{display:flex;flex-wrap:wrap;gap:10px;margin:0}
     .chip{padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:#2b2f38;font-size:13px;}
     .chip.accent{background:rgba(11,94,168,.08);border-color:rgba(11,94,168,.20);color:var(--accent);}
-
     /* HERO CARD */
     .heroCard{border:1px solid var(--line);background:linear-gradient(160deg,#f4f9ff,#e8f2ff);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:260px;}
     .heroCard .eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
     .heroCard h3{margin:0 0 10px;letter-spacing:-.35px;font-size:18px;}
     .heroCard p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;}
     .quote{font-size:15px;font-style:italic;line-height:1.7;color:#0a3566;border-left:3px solid var(--accent);padding-left:14px;margin:16px 0 0;}
-
     /* SECTIONS */
     section{padding:52px 0;border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
     h2{margin:0 0 10px;font-size:30px;letter-spacing:-.7px;}
@@ -71,13 +67,11 @@
     .card ul{margin:10px 0 0;padding:0 0 0 18px;color:var(--muted);font-size:14px;}
     .card li{margin:6px 0;}
     .card .num{font-size:26px;font-weight:800;color:var(--accent);opacity:.25;margin-bottom:6px;line-height:1;}
-
     /* STORY BLOCK */
     .storyCard{border:1px solid rgba(11,94,168,.18);background:rgba(11,94,168,.04);border-radius:var(--radius);padding:20px;}
     .storyCard h4{margin:0 0 12px;letter-spacing:-.3px;color:var(--accent);}
     .storyCard ul{margin:0;padding:0 0 0 16px;color:#0a3566;font-size:14px;line-height:1.7;}
     .storyCard li{margin:5px 0;}
-
     /* BADGE ROW */
     .badgeRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
     .badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:#2b2f38;}
@@ -85,26 +79,22 @@
     .dot3{width:8px;height:8px;border-radius:999px;background:#38b6ff;}
     .dot4{width:8px;height:8px;border-radius:999px;background:#34c759;}
     .dot5{width:8px;height:8px;border-radius:999px;background:#ff375f;}
-
     /* COMPARISON TABLE */
     .compareGrid{display:grid;gap:14px;grid-template-columns:1fr 1fr 1fr;}
     .compareCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius2);padding:16px;}
     .compareCard .tag{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
     .compareCard h4{margin:0 0 6px;font-size:15px;letter-spacing:-.3px;}
     .compareCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;}
-
     /* QUOTE PULL */
     .pullQuote{border:1px solid rgba(11,94,168,.20);background:linear-gradient(135deg,rgba(11,94,168,.06),rgba(56,182,255,.04));border-radius:var(--radius);padding:28px 32px;text-align:center;}
     .pullQuote p{margin:0;font-size:20px;line-height:1.6;letter-spacing:-.3px;color:#0a2a50;font-style:italic;}
     .pullQuote small{display:block;margin-top:12px;font-size:13px;color:var(--muted);font-style:normal;}
-
     /* GROWTH STEPS */
     .stepList{display:grid;gap:10px;}
     .step{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:var(--radius2);border:1px solid var(--line);background:#fff;}
     .stepNum{width:32px;height:32px;border-radius:999px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:0 0 auto;}
     .stepText b{display:block;margin-bottom:4px;font-size:15px;letter-spacing:-.2px;}
     .stepText span{color:var(--muted);font-size:14px;}
-
     /* SUBHEAD inside accordion */
     .acc-subhead{font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
     .triggerGrid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);}
@@ -119,7 +109,16 @@
     .levelCard p{margin:0 0 10px;font-size:14px;line-height:1.65;}
     .levelCard ul{margin:0;padding:0 0 0 16px;font-size:13px;line-height:1.7;}
     @media(max-width:780px){.triggerGrid{grid-template-columns:1fr}.levelGrid{grid-template-columns:1fr}}
-
+    /* EVIDENCE CARDS */
+    .evidenceCard{border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;box-shadow:0 8px 20px rgba(0,0,0,.04);}
+    .evidenceCard .eYear{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.06em;margin-bottom:4px;}
+    .evidenceCard h3{margin:0 0 10px;font-size:15px;letter-spacing:-.3px;}
+    .evidenceCard p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.75;flex:1 1 auto;}
+    .evidenceCard p b{color:var(--text);}
+    .evidenceCard .map{margin-top:14px;padding-top:10px;border-top:1px dashed rgba(11,94,168,.20);font-size:12px;color:var(--accent);font-weight:600;}
+    .evidenceCard .eLink{margin-top:10px;display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--accent2);font-weight:600;padding:6px 10px;border:1px solid rgba(11,94,168,.20);border-radius:999px;background:rgba(11,94,168,.04);transition:background .18s,transform .08s;width:fit-content;text-decoration:none;}
+    .evidenceCard .eLink:hover{background:rgba(11,94,168,.10);transform:translateY(-1px);}
+    .evidenceCard .eLink small{color:var(--muted);font-weight:500;font-size:11px;}
     /* THEME SWATCH */
     .themePanel{margin-top:0;border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:16px;padding:14px;backdrop-filter:blur(12px);}
     .themePanel h4{margin:0 0 6px;font-size:14px;}
@@ -128,12 +127,10 @@
     .swatch{width:30px;height:30px;border-radius:999px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:transform .08s,box-shadow .18s;}
     .swatch:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.10);}
     .swatch.active{box-shadow:0 0 0 3px rgba(11,94,168,.25);border-color:rgba(11,94,168,.5);}
-
     /* FOOTER */
     footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px;background:var(--section-bg);}
     .footGrid{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
     .fine{font-size:12px;color:#7b808c;margin-top:8px;}
-
     /* ACCORDION */
     .accordion{border-top:1px solid var(--line);background:var(--section-bg);transition:background-color .28s ease;}
     .accordionHeader{cursor:pointer;padding:32px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;user-select:none;list-style:none;}
@@ -145,14 +142,12 @@
     details[open] .accordionCaret{transform:rotate(180deg);background:rgba(11,94,168,.10);border-color:rgba(11,94,168,.25);}
     .accordionBody{padding-bottom:44px;}
     .accordionBody .lead{margin-top:0;}
-
     @keyframes rainbow{to{background-position:300% center}}
     @media(max-width:920px){.heroGrid{grid-template-columns:1fr}.hTitle{font-size:38px}}
     @media(max-width:780px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.compareGrid{grid-template-columns:1fr}.hTitle{font-size:32px}}
   </style>
 </head>
 <body>
-
 <header class="nav" role="banner">
   <div class="wrap">
     <div class="navin">
@@ -165,15 +160,14 @@
         <a href="#tasks">核心任务</a>
         <a href="#language">典型语言</a>
         <a href="#misread">常见误解</a>
+        <a href="#evidence">学术证据</a>
         <a href="#growth">成长方向</a>
       </nav>
       <a class="btn primary" href="https://bestwellnesstherapy.com">← 返回首页</a>
     </div>
   </div>
 </header>
-
 <main role="main">
-
   <!-- HERO -->
   <section class="hero" aria-label="解释系统介绍">
     <div class="wrap">
@@ -203,7 +197,6 @@
       </div>
     </div>
   </section>
-
   <!-- 定义 -->
   <section id="definition" aria-label="定义">
     <div class="wrap">
@@ -237,7 +230,6 @@
       </div>
     </div>
   </section>
-
   <!-- 核心任务 -->
   <section id="tasks" aria-label="核心任务">
     <div class="wrap">
@@ -271,7 +263,6 @@
       </div>
     </div>
   </section>
-
   <!-- 高低对比 ACCORDION -->
   <details class="accordion" aria-label="高低解释系统的样子">
     <summary class="accordionHeader">
@@ -314,7 +305,6 @@
           <span class="badge"><span class="dot4"></span> 抗混乱能力强</span>
           <span class="badge"><span class="dot5"></span> 容易过度思考</span>
         </div>
-
         <div class="acc-subhead">解释系统低的人</div>
         <div class="grid2" style="margin-bottom:22px;">
           <div class="storyCard" style="border-color:rgba(0,0,0,.10);background:#fafafa;">
@@ -337,7 +327,6 @@
             </ul>
           </div>
         </div>
-
         <div class="card soft">
           <h3>不是「低就坏，高就好」</h3>
           <p>过低会无法整合经历，容易困惑与混乱；过高会困在解释里，用理解代替行动。两端都有代价，<b>成熟的解释系统是在建立清晰框架的同时，还能保持开放与更新。</b></p>
@@ -345,7 +334,6 @@
       </div>
     </div>
   </details>
-
   <!-- 典型语言 ACCORDION -->
   <details class="accordion" id="language" aria-label="典型语言">
     <summary class="accordionHeader">
@@ -390,7 +378,6 @@
       </div>
     </div>
   </details>
-
   <!-- 常见误解 ACCORDION -->
   <details class="accordion" id="misread" aria-label="常见误解">
     <summary class="accordionHeader">
@@ -434,7 +421,6 @@
       </div>
     </div>
   </details>
-
   <!-- 误伤方式 ACCORDION -->
   <details class="accordion" aria-label="解释系统的常见误伤">
     <summary class="accordionHeader">
@@ -473,7 +459,6 @@
       </div>
     </div>
   </details>
-
   <!-- ACCORDION 6: 压力下的表现 + 触发点 -->
   <details class="accordion" id="pressure" aria-label="压力下的表现">
     <summary class="accordionHeader">
@@ -487,13 +472,11 @@
     </summary>
     <div class="accordionBody">
       <div class="wrap">
-
         <div class="acc-subhead">压力下的反应</div>
         <div class="card soft" style="margin-bottom:22px;">
           <p>解释系统被触发时，不是普通焦虑，而是一种特定的不安：<b>「这件事说不通，我必须搞清楚，否则我没办法继续。」</b></p>
           <p style="margin-top:10px;color:var(--muted);">它会推着你一遍又一遍地想同一件事——不是享受思考，而是<b>停不下来</b>。因为解释系统检测到了「认知漏洞」，而它的驱动是：漏洞不补好，不安全。</p>
         </div>
-
         <div class="acc-subhead">八大触发来源</div>
         <div class="triggerGrid">
           <div class="triggerCard">
@@ -537,11 +520,9 @@
             <p>「我一直以为我看得很准，但如果我的解读一直是错的呢」——这是解释系统高的人最深的恐惧之一</p>
           </div>
         </div>
-
       </div>
     </div>
   </details>
-
   <!-- ACCORDION 7: 三个层级 -->
   <details class="accordion" id="levels" aria-label="三个层级">
     <summary class="accordionHeader">
@@ -592,11 +573,9 @@
             </ul>
           </div>
         </div>
-
       </div>
     </div>
   </details>
-
   <!-- ACCORDION 8: 适合路径 + 临床解读 -->
   <details class="accordion" id="application" aria-label="应用与临床">
     <summary class="accordionHeader">
@@ -610,7 +589,6 @@
     </summary>
     <div class="accordionBody">
       <div class="wrap">
-
         <div class="acc-subhead">适合的路径方向</div>
         <div class="grid2" style="margin-bottom:22px;">
           <div class="card">
@@ -635,7 +613,6 @@
             <p style="margin-top:10px;color:var(--muted);font-size:13px;">他们常需要先建立：基本的归因框架和叙事能力——否则容易在混乱中迷失方向。</p>
           </div>
         </div>
-
         <div class="acc-subhead">临床解读</div>
         <div class="grid3">
           <div class="card" style="border-color:rgba(0,122,255,.18);background:rgba(0,122,255,.03);">
@@ -668,11 +645,210 @@
             </ul>
           </div>
         </div>
-
       </div>
     </div>
   </details>
-
+  <!-- ============== 学术证据 EVIDENCE ACCORDION ============== -->
+  <details class="accordion" id="evidence" aria-label="学术证据">
+    <summary class="accordionHeader">
+      <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:16px;">
+        <div>
+          <h2 class="accordionTitle">9. 学术证据：相关研究背景</h2>
+          <p class="accordionLead" style="margin:4px 0 0;">"解释系统"这一概念的每一项功能，在 60 年来心理学研究中都能找到与之相关的实证或理论资源。</p>
+        </div>
+        <span class="accordionCaret">▾</span>
+      </div>
+    </summary>
+    <div class="accordionBody">
+      <div class="wrap">
+        <p class="lead">下面 7 个分类、共 21 项理论与研究，是与"解释系统"这一概念相关的实证与理论资源。每张卡片说明研究本身在做什么，以及它和解释系统的哪一项功能在哪种程度上相关，并附上可点击的<b>原文链接</b>（DOI / PubMed / 出版社官方页 / Wikipedia 概览）以便核查。需要说明的是：这些研究都不是为了支持本框架而做的，它们各自有自己的研究脉络；列在这里只是因为它们的发现，与"把解释看作一个值得单独识别和工作的人格层级"在某种程度上是相容的。</p>
+        <!-- ① 因果归因 -->
+        <div class="acc-subhead">① 因果归因是基本认知任务（"为什么"为何重要）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Heider · 1958</div>
+            <h3>归因理论（Attribution Theory）</h3>
+            <p>Heider 在《人际关系心理学》中首次系统提出：人不是被动观察者，而是<b>"朴素心理学家"</b>——会自动、不可抑制地为他人和自己的行为寻找原因。他和 Simmel 1944 年的著名实验里，受试者只是看几个抽象几何图形在屏幕上移动，就立刻给它们赋予"意图"和"动机"——三角形在欺负圆形、圆形在帮助小三角形。这说明<b>"找原因"在很大程度上是感知层级的自动加工</b>，而不是有意识的高级思考。<br/><br/>这与"解释系统是持续在后台运行的层级"的看法是一致的。如果归因只是偶尔为之的高级思维，那它顶多算思维习惯；但 Heider 的工作显示归因更接近一种<b>无法关闭的自动过程</b>——这给"把它当作一个独立系统而不是其他系统的副产品"提供了某种程度上的合理性。</p>
+            <div class="map">→ 对应：建立因果框架</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Attribution_(psychology)" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Attribution (psychology)</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Ross · 1977</div>
+            <h3>基本归因错误（Fundamental Attribution Error）</h3>
+            <p>Ross 通过大量实验显示：人在解释他人行为时，倾向于<b>系统性地高估个人特质（"他是这种人"），低估情境因素（"他当时处境如此"）</b>。在经典的"Quizmaster 实验"和"强制态度演讲"实验中，即使受试者完全知道演讲者是被指定立场的，他们仍然会推断演讲者本人就是这样想的——情境信息明摆着，归因依然滑向人格归因。这种偏差跨文化、跨年龄层都比较稳定，但程度因文化而异。<br/><br/>把同样一件事归因到"对方是什么样的人"还是"当时是什么样的处境"，会得出完全不同的结论与情绪反应。Ross 的工作说明<b>归因不是中立的分析，而是有可预测偏向的过程</b>——这与"归因走极端是常见的误伤"以及"成熟的解释方式需要有意识地把情境视角找回来"的观察相吻合。</p>
+            <div class="map">→ 对应：归因走极端</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Fundamental_attribution_error" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Fundamental Attribution Error</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Abramson, Seligman & Teasdale · 1978</div>
+            <h3>归因风格与习得性无助</h3>
+            <p>三人对学习无助理论的重构提出：人对负面事件的归因可以沿三个维度描述——<b>内部 vs 外部、稳定 vs 不稳定、整体 vs 局部</b>。把负面事件归因为"内部 + 稳定 + 整体"（"是我的问题，永远不会变，到处都这样"）的人，在多项纵向研究中显示出更高的抑郁风险。需要说明的是：归因风格只是预测因素之一，不是单一原因，且不同研究在效应量上有较大差异。<br/><br/>这条研究的意义在于显示了<b>解释方式本身可以是心理状态的因，而不只是果</b>——同样的事件，不同的归因维度组合会带来不同的下游情绪结果。这与"归因方向影响一个人之后的反应"的观察一致，也支持把"识别和调整自己的归因模式"作为一个有临床意义的工作目标。</p>
+            <div class="map">→ 对应：归因功能的维度结构</div>
+            <a class="eLink" href="https://ppc.sas.upenn.edu/sites/default/files/lhreformulation.pdf" target="_blank" rel="noopener">查阅 ↗ <small>原文 PDF · J Abnorm Psychol 87(1):49-74</small></a>
+          </div>
+        </div>
+        <!-- ② 叙事整合 -->
+        <div class="acc-subhead">② 叙事整合是真实的认知机制（生成叙事的证据）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">McAdams · 2001</div>
+            <h3>叙事身份理论（Narrative Identity）</h3>
+            <p>McAdams 通过几十年访谈研究提出：人不是简单地"经历"了事件，而是会把零散经历组织成<b>有主题、有转折、有因果的人生故事</b>，并以这个故事来理解自己是谁。叙事的<b>连贯性、目的感、主题统一性</b>可以独立测量，并与心理整合度、生活满意度有正相关——例如 McAdams 的研究观察到，能讲出"救赎叙事"（坏事最终带来成长）的人，与讲出"污染叙事"（好事最终走向坏的）的人相比，抑郁倾向显著更低。<br/><br/>这条研究在很大程度上把"叙事"从文学比喻变成了一个<b>可测量的认知结构</b>，也为"故事可以重讲"这种成长方向提供了某种程度的实证基础——既然叙事是构建出来的，那就意味着它有被重构的可能。这与"低层级的人经历是碎的"这种描述也吻合：问题不是事多事少，而是把事串成故事的能力。</p>
+            <div class="map">→ 对应：生成叙事</div>
+            <a class="eLink" href="https://doi.org/10.1037/1089-2680.5.2.100" target="_blank" rel="noopener">查阅 ↗ <small>DOI · Rev Gen Psychol 5(2):100-122</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Pennebaker · 1986+</div>
+            <h3>表达性写作（Expressive Writing）</h3>
+            <p>Pennebaker 在四十年间累积了大量研究，反复观察到一个反直觉的现象：让人连续 4 天、每天 15-20 分钟写下创伤经历的"最深感受和想法"，能在一定程度上改善心理健康，部分研究还报告了就医次数减少与免疫指标的改变（不过元分析显示效应量为中等偏小，约 d=0.16-0.47）。但更有意思的是分析受试者的语言后发现，效果较好的人通常<b>从混乱描述逐渐过渡到使用"因为""意识到""理解到"等因果与洞察词</b>。换言之，看起来不是单纯宣泄情绪，而是把碎片整合成有因果叙事的过程在起作用。<br/><br/>这与"叙事整合本身就有疗愈作用，而不只是宣泄"的看法是一致的。也提供了一个重要区分：把同一件事用碎片式描述讲一遍，和用连贯叙事讲一遍，<b>对身心的影响是不同的</b>——这与"反刍是反复讲同一个版本的碎片，整合是把碎片重新组织"的区分也吻合。</p>
+            <div class="map">→ 对应：叙事整合的疗愈作用</div>
+            <a class="eLink" href="https://pubmed.ncbi.nlm.nih.gov/28992443/" target="_blank" rel="noopener">查阅 ↗ <small>PubMed · Pennebaker 综述</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Bartlett · 1932</div>
+            <h3>图式理论（Schema Theory）</h3>
+            <p>Bartlett 让英国大学生读一则美洲原住民故事《幽灵的战争》，过几天、几周、几个月后让他们重述。结果令人印象深刻：受试者并不是简单地遗忘细节，而是<b>系统性地把故事改造成符合自己文化预期的版本</b>——独木舟变成了船，超自然元素被理性化。Bartlett 由此提出"图式"概念：记忆不是录像回放，而是<b>每次都用现有框架重新构建</b>。这一发现对认知心理学影响深远。<br/><br/>这与"框架先于事实"的看法是一致的——人不是先看到事实再去解释，而是<b>解释框架在先，事实进来后会被框架重塑</b>。这也帮助理解为什么"框架不易更新"是一个系统性现象：不是当事人顽固，而是新信息进入时已经被旧框架预处理过了。要真正"看清"，可能要先意识到自己有图式——这个意识本身，往往是从"被框架支配"走向"能调整框架"的关键一步。</p>
+            <div class="map">→ 对应：框架先于事实</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Schema_(psychology)" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Schema 与 Bartlett 实验</small></a>
+          </div>
+        </div>
+        <!-- ③ 信念更新与确认偏误 -->
+        <div class="acc-subhead">③ 信念更新有阻力（框架很难被改变的证据）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Wason · 1960; Nickerson · 1998</div>
+            <h3>确认偏误（Confirmation Bias）</h3>
+            <p>Wason 著名的"2-4-6 任务"中，受试者要找出实验者心里的数字规则。他们提出假设、测试规则——但<b>大多数人都只测试支持自己假设的例子</b>，几乎没人主动找反例，结果常常得出错误规则。Nickerson 1998 年在《一般心理学评论》整合了几十年研究，显示这种倾向<b>在不同任务、不同领域、不同智力水平中相对稳定地存在</b>，包括科学家、医生、法官在内的专业人员都不能完全免疫——尽管在某些受过训练或动机充足的情境下偏差会减弱。<br/><br/>这与"想得多 ≠ 解释更准"的看法是一致的。表面上反复思考一件事像是在求真，但实际上人在没有刻意训练的情况下，<b>思考越多反而越倾向于强化既有结论</b>。这也帮助理解为什么"框架更新"需要刻意练习——默认的解释方式不会自我更新，必须主动找反证。</p>
+            <div class="map">→ 对应：框架不易更新</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Confirmation_bias" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Confirmation Bias</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Festinger · 1957</div>
+            <h3>认知失调（Cognitive Dissonance）</h3>
+            <p>当行为与信念冲突，人会感到真实的<b>心理张力</b>，并试图消除它。Festinger 经典实验：让受试者做一小时极其无聊的工作，然后付他们 1 美元或 20 美元去告诉下一个人这工作很有趣。结果<b>拿 1 美元的人事后真的觉得这工作变得有趣了</b>——因为 1 美元不足以解释自己为什么撒谎，化解失调的方式就是真的相信自己说的话。这显示：人会更倾向调整<b>对事情的解释</b>，而不是改变行为。<br/><br/>这与"新信息常被塞回旧框架，而不是用来更新框架"的观察是一致的。它提示了一个重要的不对称性——当现实与框架冲突，人优先调整的往往是<b>对现实的解释</b>，而不是框架本身。识别自己什么时候在为框架辩护，可能是从"被解释支配"走向"能选择解释"的关键步骤。</p>
+            <div class="map">→ 对应：把新信息塞回旧框架</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Cognitive_dissonance" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · 认知失调</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Janoff-Bulman · 1992</div>
+            <h3>假设破碎理论（Shattered Assumptions）</h3>
+            <p>Janoff-Bulman 通过对受害者群体的长期研究提出：人通常隐性地持有三个核心假设——<b>世界是仁慈的、世界是有意义的、自我是有价值的</b>。这些假设平时不被意识到，但支撑着日常生活的安全感。她观察到，许多受害者在描述创伤时反复提到的不是事件本身，而是"我从来没想过会这样"——也就是说，<b>真正难以承受的部分往往是这些核心解释框架被推翻</b>带来的崩塌感。从创伤恢复的过程，在很大程度上是重建一个能容纳新事实的解释系统。<br/><br/>这与"核心假设被推翻是一种独特的、超出普通难过的伤害"的观察是一致的。它也提供了一种理解方式：PTSD 等创伤后状态中，叙事碎片化和反复回想可能不只是恐惧记忆的问题，<b>解释框架失效后的认知瘫痪</b>也是其中一个重要部分——这一视角对治疗工作中"重建意义"的环节是有启发的。</p>
+            <div class="map">→ 对应：核心假设崩塌的痛苦</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Shattered_assumptions_theory" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Shattered Assumptions Theory</small></a>
+          </div>
+        </div>
+        <!-- ④ 反刍与卡死 -->
+        <div class="acc-subhead">④ 反刍是解释系统卡死（"想太多"为何有害）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Nolen-Hoeksema · 1991</div>
+            <h3>反应风格理论（Response Styles Theory）</h3>
+            <p>Nolen-Hoeksema 提出并通过几十年纵向研究反复观察到：面对负面情绪，反复思考"我为什么这么难过、为什么会发生这种事、这意味着什么"的<b>反刍式思考</b>，并不容易带来理解或解决，反而<b>常常延长抑郁、加剧负面思维、损害问题解决能力</b>。1989 年旧金山地震后的纵向研究里，倾向反刍的居民在地震后 7 周时抑郁与 PTSD 症状显著更重，与初始压力水平相对独立——这一发现在多项重复研究中也得到了类似结果。<br/><br/>这与"想得多 ≠ 解释能力强"是吻合的。在大众文化里，"善于反思"通常被视为美德，但 Nolen-Hoeksema 的数据显示，<b>"反思"和"反刍"在主观体验上往往很相似，结果却不一样</b>。这也提供了一个重要的临床区分点——同样是反复想一件事，关键不在思考量，而在它是把人推向理解还是把人困在原地。</p>
+            <div class="map">→ 对应：想得多 ≠ 解释系统强</div>
+            <a class="eLink" href="https://pubmed.ncbi.nlm.nih.gov/1757671/" target="_blank" rel="noopener">查阅 ↗ <small>PubMed · J Abnorm Psychol 100(4):569-582</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Beck · 1967, 1976</div>
+            <h3>认知三角与认知扭曲</h3>
+            <p>Beck 通过对抑郁患者的临床访谈，识别出他们的思维不只是消极，而是有<b>系统性的扭曲模式</b>：任意推断（无证据下结论）、选择性提取（只看负面细节）、过度概括（一次失败=永远失败）、灾难化、人格化（把无关的事归因到自己）等。Beck 还观察到这些扭曲在某种程度上<b>独立于情绪存在</b>——抑郁缓解后被触发，扭曲思维仍可能再次出现。这一系列工作奠定了 CBT 的理论基础。<br/><br/>Beck 的工作的有用之处，是它把"解释帮倒忙"<b>从抽象描述变成了一份可识别的清单</b>。"把随机当针对、把解读当事实、归因走极端"等模式，在 Beck 体系里都有对应的、可记录、可在临床中干预的具体名称。这把"解释系统"从一个概念性表述变成了实际可用的临床工具——这一点对临床工作的意义可能比理论意义更大。</p>
+            <div class="map">→ 对应：解释系统的常见扭曲</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Cognitive_distortion" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · 认知扭曲</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Watkins · 2008</div>
+            <h3>建设性 vs 非建设性反复思考</h3>
+            <p>Watkins 在《心理学公报》的综述整合了大量实验证据，提出一个有用的区分：同样是反复思考，<b>抽象-评价型</b>（"我为什么这么差""为什么这事会发生在我身上"）较多与负面后果相关；<b>具体-过程型</b>（"具体发生了什么""我下一步可以怎么做"）较多与建设性应对相关。两者诱发的脑活动模式、对情绪的影响、对问题解决的效果都显著不同。一个简单的措辞转换——从"为什么"到"怎么样"——在某些实验中就能改变思考的方向与产出。<br/><br/>这给"如何停下反刍"提供了一个比"别想了"更具体的方向：<b>不是停下来，而是转换思考的层级</b>。从评价（why）转向过程（how/what），思考就从卡死变成推进。这也帮助理解为什么"叙事封闭"通常以抽象-评价层级出现（"我就是这种人"），而具体-过程层级的描述（"上次这种情况下我做了什么"）天然带有可变性。</p>
+            <div class="map">→ 对应：成熟整合 vs 防御反刍</div>
+            <a class="eLink" href="https://pubmed.ncbi.nlm.nih.gov/18298268/" target="_blank" rel="noopener">查阅 ↗ <small>PubMed · Psychol Bull 134(2):163-206</small></a>
+          </div>
+        </div>
+        <!-- ⑤ 意义建构 -->
+        <div class="acc-subhead">⑤ 意义建构是应对核心（"这对我意味着什么"的证据）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Lazarus & Folkman · 1984</div>
+            <h3>认知评估理论（Cognitive Appraisal）</h3>
+            <p>Lazarus 和 Folkman 通过实验和纵向研究观察到：<b>同一个客观事件并不会直接导致压力反应</b>，决定性的中介是个体的两次认知评估——<b>初次评估</b>（这件事对我是无关、积极、还是有威胁？）和<b>二次评估</b>（我有应对资源吗？）。研究中一个有意思的现象：把同一份手术录像告诉受试者"这是教学片"或"这是事故记录"，他们的生理压力反应（皮电、心率等）显著不同——刺激相同，解释不同，身体反应也不同。<br/><br/>这与"解释方式影响情绪强度"的看法是吻合的——真实的链条更可能是<b>"事件 → 解释 → 情绪"</b>，而中间这个解释步骤在某种程度上是可以被识别、被改变的。这一框架后来成为 CBT、ACT、正念等多种主流心理干预共同依赖的理论基础之一，也提示了"通过改变解释来调节情绪"是一个临床上可行的工作路径。</p>
+            <div class="map">→ 对应：解释决定情绪</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Stress_(biology)#Lazarus_and_Folkman" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Lazarus & Folkman 应激模型</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Park · 2010</div>
+            <h3>意义建构模型（Meaning Making Model）</h3>
+            <p>Park 在《心理学公报》整合了大量研究，提出区分两种意义：<b>全局意义</b>（关于自我、世界、生活的整体假设）与<b>情境意义</b>（对具体事件的解释）。当情境意义和全局意义冲突——比如"我是好人，为什么会发生这种事在我身上"——常常会引发持续的痛苦。研究观察到，经历重大丧失或创伤后，能完成<b>意义建构过程</b>（要么修改对事件的解释，要么调整全局意义系统）的人，心理康复倾向更好；而长期卡在冲突中的人，PTSD、抑郁风险相对更高。<br/><br/>这帮助理解为什么"失去意义感"是一种独特的、不同于普通难过的状态。心理痛苦的持续，往往不只是因为事件本身，而是<b>事件解释与全局解释框架卡在了不可调和的位置</b>。所谓"意义建构"在临床上要做的工作，往往就是把这两层解释重新对齐——这个过程没完成之前，反复回想、抑郁、空虚等表现可能会持续，不是因为事件还在影响，而是因为<b>解释还没有落地</b>。</p>
+            <div class="map">→ 对应：失去意义感的危机</div>
+            <a class="eLink" href="https://doi.org/10.1037/a0018301" target="_blank" rel="noopener">查阅 ↗ <small>DOI · Psychol Bull 136(2):257-301</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Frankl · 1946</div>
+            <h3>意义疗法（Logotherapy）</h3>
+            <p>Frankl 作为奥斯维辛幸存者，在集中营中观察到一个反复出现的现象：<b>能为苦难找到意义解释的人，似乎更容易撑下去</b>，即使身体条件相似、所受折磨相同。需要说明的是：Frankl 的观察是基于亲历经验而非系统的对照研究，作为科学证据其严谨度有限。但他把这一观察发展为意义疗法（logotherapy），核心命题是：人不只是被快乐驱动的，也被<b>对意义的需要</b>驱动；当意义结构崩塌（他称之为"存在性空虚"），人会出现一种特定的痛苦——不是焦虑，不是抑郁，而是"不知道为什么活"的层面危机。<br/><br/>这给"解释系统的功能不只是理解信息，也包括给生活提供活下去的理由"提供了一个存在主义视角——它和实证研究是不同性质的支持，但回应了现代社会中常见的"我做这些到底有什么用"的空心感：未必是事情不够多，而是<b>解释方式没有把这些事整合进一个更大的意义结构</b>。Frankl 的核心提示是：意义不是奢侈品，在某些处境下可能是<b>生存机制</b>。</p>
+            <div class="map">→ 对应：解释系统的存在维度</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Man%27s_Search_for_Meaning" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Man's Search for Meaning</small></a>
+          </div>
+        </div>
+        <!-- ⑥ 心智化与他人解读 -->
+        <div class="acc-subhead">⑥ 解读他人有专门机制（"看不懂对方行为"为何痛苦）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">Fonagy & Bateman · 1989+</div>
+            <h3>心智化（Mentalization）</h3>
+            <p>Fonagy 和 Bateman 提出并通过几十年研究发展出的概念：把他人行为<b>解读为心理状态（意图、信念、欲望、感受）的产物</b>，是一种独立的、可测量的、可发展的能力，称为"反思功能"（reflective functioning）。研究观察到，心智化能力差与边缘型人格障碍、人际功能受损相关。基于这一理论开发的 MBT（心智化治疗），在多项临床试验和 8 年随访中显示对边缘型人格障碍有疗效——核心机制被认为是<b>恢复对自己和他人心理状态的解读能力</b>。<br/><br/>这帮助理解为什么"看不懂对方行为"会引发独特的不安——它可能不只是社交困难，而是一种<b>独立认知能力受损</b>的表现。这一视角对临床有用：当一个人的解释能力在"理解他人"这个维度卡住时，问题未必是"换位思考能力差"这种笼统描述，而可能是反思功能本身需要专门干预。这也提供了一个可识别、可训练的治疗目标。</p>
+            <div class="map">→ 对应：理解别人为什么那样做</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Mentalization-based_treatment" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · MBT (Fonagy & Bateman)</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Premack & Woodruff · 1978</div>
+            <h3>心智理论（Theory of Mind）</h3>
+            <p>Premack 和 Woodruff 首次提出"心智理论"概念，几十年发展心理学研究随后表明：理解"他人有自己的信念、欲望、意图，且可能与我不同"是<b>一项独立的认知里程碑</b>。经典的"虚假信念任务"（Sally-Anne 任务）显示，4 岁左右儿童才能稳定通过——他们能理解 Sally 不知道球被移走了，所以会去原来的地方找。这一能力的延迟或缺失与自闭症谱系、边缘型病理、社交障碍相关；脑成像研究还定位出可能参与这一加工的神经网络（mPFC、TPJ 等）。<br/><br/>这与"解读他人不是后天习得的工具，而是早期发展的核心认知能力"是一致的。一个 4 岁前后必须建立、有专门脑区参与的能力，似乎不是其他系统的派生物。这也帮助理解"智力 ≠ 解读能力"——心智理论与一般智力相对独立，自闭谱系个体可以智力很高但心智理论受损。聪明并不意味着能看懂别人。</p>
+            <div class="map">→ 对应：解读他人行为的认知基础</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Theory_of_mind" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Theory of Mind</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Gopnik · 1990s+</div>
+            <h3>"理论-理论"（Theory-Theory）</h3>
+            <p>Gopnik 通过儿童认知发展研究提出："小孩像小科学家"——他们不是被动接受知识，而是<b>主动构建关于他人心理的因果理论</b>，并根据新证据不断修正。她的实验显示，儿童在某些因果学习任务上表现甚至超过成人——一种解读是成人的理论已经较为固化，而儿童还在主动建模。这把心智解读从"看懂别人"扩展为"<b>持续构建关于人的理论并测试</b>"。<br/><br/>这给"解读能力"提供了一个动态视角：它可以被理解为一个<b>持续在测试和修订的理论建构系统</b>，而不是一个静态的解读器。这也帮助理解为什么"叙事封闭"是一种问题——一个永远用同一个理论解释所有人的解读方式，看起来像稳定，更可能是<b>停止了更新</b>。健康的解读能力，更接近 Gopnik 描述的儿童那样保持开放性的理论建构。</p>
+            <div class="map">→ 对应：解释系统的发展性根基</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Theory-theory" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Theory-Theory</small></a>
+          </div>
+        </div>
+        <!-- ⑦ 临床解读 -->
+        <div class="acc-subhead">⑦ 解释系统失调有临床位置（精神病理学中的解释问题）</div>
+        <div class="grid2" style="margin-bottom:22px;">
+          <div class="evidenceCard">
+            <div class="eYear">CBT 临床证据</div>
+            <h3>认知重构（Cognitive Restructuring）</h3>
+            <p>CBT 累积 50 余年、数百项随机对照试验显示：通过<b>识别、检验、修改扭曲的解释</b>，能在不同程度上缓解抑郁、广泛性焦虑、社交焦虑、PTSD、强迫症、进食障碍。在多项 meta 分析中，效果量与抗抑郁药相当或在某些条件下更优，且复发率较低。关键的特征是 CBT<b>不需要事件改变，只需要解释改变</b>——一个相信"如果我说错话所有人都会讨厌我"的人，通过行为实验和认知重构，常常能在 12-20 次治疗内显著改善。<br/><br/>这从临床角度回应了一个值得问的问题："解释系统说起来抽象，但它真的能改变吗？" CBT 几十年的疗效数据给出的答案是：在很多情况下能，而且改变解释比改变情绪、改变行为往往更直接、更可持续。这也提供了一个把"解释"从描述性概念变成<b>实际干预靶点</b>的路径——三层级模型描述的从"被解释支配"到"能选择解释"的过渡，正是 CBT 临床上每天在做的事。</p>
+            <div class="map">→ 对应：解释可以被改变</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Cognitive_restructuring" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Cognitive Restructuring</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">Ehlers & Clark · 2000</div>
+            <h3>PTSD 认知模型</h3>
+            <p>Ehlers 和 Clark 提出并通过临床研究发展出一种 PTSD 模型：PTSD 不只是由创伤事件直接引起的，很大程度上由<b>对事件及其后果的负面解释</b>所维持——"我永远不安全"、"都是我的错"、"这种事说明世界是危险的"、"我永远好不了"。两个经历同样事件的人，是否会发展为 PTSD，在很大程度上取决于<b>他们怎么解释这件事和它的后果</b>。基于此模型开发的"创伤聚焦 CBT"已成为 PTSD 治疗的国际首选方案之一。<br/><br/>这帮助理解为什么"事件之后的解释"是一个独立的、值得重视的临床维度。在大众理解里，PTSD 是事件造成的——但 Ehlers & Clark 的模型显示：<b>事件决定有没有创伤暴露，而后续的解释方式在很大程度上决定它是否变成持续的 PTSD</b>。这也支持把"核心假设被推翻"看作一种独立伤害源——治疗 PTSD 不只是处理记忆，往往还要重建被打破的解释方式。</p>
+            <div class="map">→ 对应：解释维持创伤</div>
+            <a class="eLink" href="https://doi.org/10.1016/S0005-7967(99)00123-0" target="_blank" rel="noopener">查阅 ↗ <small>DOI · Behav Res Ther 38(4):319-345</small></a>
+          </div>
+          <div class="evidenceCard">
+            <div class="eYear">DSM-5 / 临床观察</div>
+            <h3>解释方式失调的形式</h3>
+            <p>跨多种精神障碍的临床数据显示，解释方式的失调可以呈现出可识别的特定形式：<b>偏执型障碍</b>中过度赋予中性事件敌意意义、<b>躁郁症</b>躁狂期的浮夸解释（"我有特殊使命"）、<b>抑郁症</b>的认知三角（自我/世界/未来都被悲观滤镜覆盖）、<b>强迫症</b>的过度责任感解释（"如果不做就会出事，都是我的错"）、<b>边缘型人格</b>对模糊情境的极端化解读。每种障碍都有相对特征性的解释扭曲模式，且这些模式相对独立于其他症状。<br/><br/>这与"解释方式本身可以是病理，不只是症状的伴随物"是吻合的。如果解释只是其他症状的副产品，它就不太可能在不同障碍中以一致、可识别的方式特异性失调。这一观察对临床有用：它把"解释"作为一个<b>跨诊断的评估维度</b>，让治疗师能在不同障碍中识别同一个底层问题——解释方式上的扭曲，并相应选择干预策略。</p>
+            <div class="map">→ 对应：临床极端表现</div>
+            <a class="eLink" href="https://en.wikipedia.org/wiki/Beck%27s_cognitive_triad" target="_blank" rel="noopener">查阅 ↗ <small>Wikipedia · Beck 认知三角</small></a>
+          </div>
+        </div>
+        <!-- 总结 -->
+        <div class="pullQuote" style="margin-top:22px;">
+          <p>解释系统在这里是一个整合性概念。<br/>它整合的是 60 年来心理学已经反复观察到的一些核心现象：<br/><b>归因有结构、叙事可整合、框架有惰性、反刍是病理、意义是必需。</b></p>
+          <small>这些研究不是为了支持任何一个特定框架而做的，<br/>但它们各自的发现，与"把解释看作一个独立的、值得单独干预的人格层级"是相容的。</small>
+        </div>
+        <div class="card soft" style="margin-top:18px;">
+          <h3>关于这些链接</h3>
+          <p>每张卡片下方的"查阅 ↗"按钮指向以下三类来源之一，全部可独立核查：<b>(1) DOI / PubMed</b> — 期刊原文（如 Nolen-Hoeksema 1991、Park 2010、Watkins 2008、McAdams 2001、Pennebaker 综述、Ehlers & Clark 2000、Abramson/Seligman/Teasdale 1978）；<b>(2) Wikipedia 概览</b>（适用于经典理论与术语，如 Heider 归因、Beck 认知三角、确认偏误、心智化、心智理论、意义疗法、假设破碎、认知失调、习得性无助等——Wikipedia 页面本身列有完整文献来源）。如需正式 APA 引用列表用于论文写作，可在此基础上补全。</p>
+        </div>
+      </div>
+    </div>
+  </details>
   <!-- 成长方向 - 独立展开 -->
   <section id="growth" aria-label="成长方向" style="border-top:1px solid var(--line);background:var(--section-bg);padding:52px 0;">
     <div class="wrap">
@@ -718,7 +894,6 @@
       </div>
     </div>
   </section>
-
   <!-- PULL QUOTE -->
   <section aria-label="结语" style="padding:44px 0;">
     <div class="wrap">
@@ -728,7 +903,6 @@
       </div>
     </div>
   </section>
-
   <!-- 环境选色 -->
   <section aria-label="环境选色">
     <div class="wrap">
@@ -745,9 +919,7 @@
       </div>
     </div>
   </section>
-
 </main>
-
 <footer role="contentinfo">
   <div class="wrap">
     <div class="footGrid">
@@ -762,6 +934,7 @@
           <a href="#tasks">核心任务</a> ·
           <a href="#language">典型语言</a> ·
           <a href="#misread">常见误解</a> ·
+          <a href="#evidence">学术证据</a> ·
           <a href="#growth">成长方向</a>
         </div>
         <div class="fine">© <span id="y"></span> Best Wellness Therapy</div>
@@ -769,7 +942,6 @@
     </div>
   </div>
 </footer>
-
 <script>
   document.getElementById("y").textContent = new Date().getFullYear();
   const themes = {
@@ -786,7 +958,7 @@
     root.style.setProperty("--page-bg", t.pageBg);
     root.style.setProperty("--section-bg", t.sectionBg);
     root.style.setProperty("--soft-bg", t.softBg);
-    document.querySelectorAll(".card:not(.soft),.step,details").forEach(el => {
+    document.querySelectorAll(".card:not(.soft),.step,details,.evidenceCard").forEach(el => {
       el.style.backgroundColor = t.cardBg;
     });
     swatches.forEach(b => b.classList.toggle("active", b.dataset.theme === name));
