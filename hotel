@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>两座华尔道夫 · 纽约 vs 华盛顿特区 · 深度指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --page-bg: #f7f1e8;
+  --soft-bg: #f2e7d9;
+  --card-bg: #fdf9f4;
+  --ink: #2a2420;
+  --ink-soft: #5c4f45;
+  --muted: #8a7e72;
+  --accent: #8b3a2f;
+  --accent-soft: #c8895a;
+  --gold: #b8892e;
+  --green: #5a7a42;
+  --warn: #a66a1f;
+  --divider: #e5d9c6;
+  --nyc: #8b3a2f;
+  --dc: #5a6d7a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--page-bg);
+  color: var(--ink);
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  line-height: 1.8;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.serif-en {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* HERO */
+.hero {
+  padding: 88px 0 72px;
+  text-align: center;
+  border-bottom: 1px solid var(--divider);
+  background: linear-gradient(180deg, var(--page-bg) 0%, #f9f3e8 100%);
+}
+
+.hero-tag {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.35em;
+  color: var(--accent);
+  margin-bottom: 24px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: 52px;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+
+.hero-divider {
+  width: 80px;
+  height: 1px;
+  background: var(--accent);
+  margin: 28px auto;
+  position: relative;
+}
+
+.hero-divider::before, .hero-divider::after {
+  content: "◆";
+  position: absolute;
+  top: -9px;
+  color: var(--accent);
+  font-size: 10px;
+}
+.hero-divider::before { left: -14px; }
+.hero-divider::after { right: -14px; }
+
+.hero-sub {
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.hero-vs {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 36px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.hero-vs span {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* QUICK COMPARE */
+.quick-compare {
+  padding: 56px 0;
+  background: var(--soft-bg);
+}
+
+.qc-grid {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+
+.qc-card {
+  background: var(--card-bg);
+  padding: 32px 28px;
+  border-radius: 10px;
+  border: 1px solid var(--divider);
+}
+
+.qc-card.nyc { border-top: 4px solid var(--nyc); }
+.qc-card.dc { border-top: 4px solid var(--dc); }
+
+.qc-card h3 {
+  font-size: 22px;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+
+.qc-card .en-sub {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 18px;
+  font-weight: 400;
+}
+
+.qc-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--divider);
+  font-size: 13px;
+}
+
+.qc-row:last-child { border-bottom: none; }
+
+.qc-row span:first-child {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.qc-row span:last-child {
+  color: var(--ink);
+  font-weight: 500;
+  text-align: right;
+}
+
+.qc-vs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 32px;
+  color: var(--accent);
+}
+
+/* SECTION */
+.section {
+  padding: 72px 0 32px;
+}
+
+.section-tag {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.section h2 {
+  font-size: 36px;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.section h2 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.section h2.dc-h em { color: var(--dc); }
+
+.section-lead {
+  font-size: 16px;
+  color: var(--ink-soft);
+  max-width: 720px;
+  margin-bottom: 36px;
+  line-height: 1.85;
+}
+
+/* CONTENT BLOCK */
+.block {
+  background: var(--card-bg);
+  border: 1px solid var(--divider);
+  border-radius: 12px;
+  padding: 32px 36px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.block.nyc { border-left: 4px solid var(--nyc); }
+.block.dc { border-left: 4px solid var(--dc); }
+
+.block-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.block-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.block.dc .block-num { color: var(--dc); }
+
+.block-head h3 {
+  font-size: 22px;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.block-head .en {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-top: 3px;
+  font-weight: 400;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.block p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  line-height: 1.9;
+}
+
+.block p strong { color: var(--ink); font-weight: 500; }
+
+.block ul {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+
+.block li {
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 8px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.block li::before {
+  content: "◆";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  color: var(--accent-soft);
+  font-size: 10px;
+}
+
+.block.dc li::before { color: var(--dc); }
+
+/* PULL QUOTE */
+.pull-quote {
+  margin: 20px 0;
+  padding: 16px 20px;
+  border-left: 3px solid var(--gold);
+  background: #fcf7ec;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+/* RESTAURANT CARD */
+.rest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.rest {
+  background: var(--soft-bg);
+  padding: 18px 20px;
+  border-radius: 8px;
+}
+
+.rest-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.rest-chef {
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.block.dc .rest-chef { color: var(--dc); }
+
+.rest-desc {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.rest-price {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--divider);
+}
+
+/* KEY STATS */
+.key-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.ks {
+  background: var(--soft-bg);
+  padding: 14px 16px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.ks-num {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1.1;
+}
+
+.block.dc .ks-num { color: var(--dc); }
+
+.ks-label {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* ACTIVITY / EXPERIENCE BADGES */
+.exp-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.exp {
+  background: #fff;
+  border: 1px solid var(--divider);
+  padding: 7px 14px;
+  border-radius: 16px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.exp.highlight {
+  background: var(--accent);
+  color: #fef8e8;
+  border-color: var(--accent);
+}
+
+.block.dc .exp.highlight {
+  background: var(--dc);
+  border-color: var(--dc);
+}
+
+/* COMPARE TABLE */
+.compare-full {
+  background: var(--card-bg);
+  border: 1px solid var(--divider);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.compare-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr;
+  border-bottom: 1px solid var(--divider);
+}
+
+.compare-row:last-child { border-bottom: none; }
+
+.compare-row.header {
+  background: var(--soft-bg);
+  font-weight: 700;
+  font-family: 'Noto Serif SC', serif;
+}
+
+.compare-row > div {
+  padding: 16px 20px;
+  border-right: 1px solid var(--divider);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+.compare-row > div:last-child { border-right: none; }
+
+.compare-row.header > div {
+  font-size: 14px;
+  padding: 14px 20px;
+}
+
+.compare-row > div:first-child {
+  color: var(--muted);
+  background: #f9f3e8;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.compare-row .nyc-col { color: var(--ink); }
+.compare-row .dc-col { color: var(--ink); }
+
+.nyc-head { color: var(--nyc); }
+.dc-head { color: var(--dc); }
+
+/* VERDICT */
+.verdict {
+  background: linear-gradient(135deg, #fdf9f4 0%, #f2e7d9 100%);
+  border: 1px solid var(--divider);
+  border-left: 5px solid var(--accent);
+  border-radius: 10px;
+  padding: 32px 36px;
+  margin-top: 28px;
+}
+
+.verdict h3 {
+  color: var(--accent);
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+.verdict p {
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.85;
+}
+
+.verdict .choose {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.choose-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px 18px;
+  border: 1px solid var(--divider);
+}
+
+.choose-card.nyc { border-top: 3px solid var(--nyc); }
+.choose-card.dc { border-top: 3px solid var(--dc); }
+
+.choose-card h4 {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-family: 'Noto Serif SC', serif;
+}
+
+.choose-card p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* FOOTER */
+.foot {
+  padding: 32px 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid var(--divider);
+  margin-top: 40px;
+}
+
+@media (max-width: 820px) {
+  .hero { padding: 56px 0 48px; }
+  .hero h1 { font-size: 32px; }
+  .hero-sub { font-size: 15px; }
+  .section h2 { font-size: 26px; }
+  .qc-grid { grid-template-columns: 1fr; gap: 16px; }
+  .qc-vs { padding: 8px 0; }
+  .block { padding: 24px 22px; }
+  .block-head h3 { font-size: 18px; }
+  .rest-grid { grid-template-columns: 1fr; }
+  .key-stats { grid-template-columns: repeat(2, 1fr); }
+  .compare-row { grid-template-columns: 1fr; }
+  .compare-row > div { border-right: none; border-bottom: 1px dashed var(--divider); }
+  .compare-row > div:last-child { border-bottom: none; }
+  .verdict { padding: 24px 22px; }
+  .verdict .choose { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-tag">Waldorf Astoria · Deep Guide</span>
+    <h1>两座华尔道夫<br><span class="serif-en" style="color:var(--nyc)">New York</span> vs <span class="serif-en" style="color:var(--dc)">Washington DC</span></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">一个是 1931 年的 Park Avenue 传奇，$20 亿修复后重新开门；一个是 1899 年的 Old Post Office，被改造成国会山脚下的奢华地标。两家都能用 FNC 换一晚，但气质完全不同。</p>
+    <div class="hero-vs">
+      <span>375 rooms · 1931</span>
+      <span style="color:var(--accent)">//</span>
+      <span>263 rooms · 1899</span>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK COMPARE -->
+<section class="quick-compare">
+  <div class="container">
+    <div class="qc-grid">
+      <div class="qc-card nyc">
+        <h3>华尔道夫 · 纽约</h3>
+        <div class="en-sub">Waldorf Astoria New York · Park Avenue, Midtown</div>
+        <div class="qc-row"><span>客房数</span><span>375 间 + 372 套住宅</span></div>
+        <div class="qc-row"><span>起步面积</span><span>~600 sq ft</span></div>
+        <div class="qc-row"><span>现金价</span><span>$1,600+/晚</span></div>
+        <div class="qc-row"><span>标准房积分</span><span>150,000 点</span></div>
+        <div class="qc-row"><span>车程（自 NYC）</span><span>市内</span></div>
+        <div class="qc-row"><span>主厨餐厅</span><span>Michael Anthony · Lex Yard</span></div>
+        <div class="qc-row"><span>Spa</span><span>Guerlain · 20,000 sq ft</span></div>
+        <div class="qc-row"><span>历史</span><span>1931 年 · Art Deco</span></div>
+      </div>
+
+      <div class="qc-vs">vs</div>
+
+      <div class="qc-card dc">
+        <h3>华尔道夫 · 华盛顿特区</h3>
+        <div class="en-sub">Waldorf Astoria Washington DC · Pennsylvania Ave</div>
+        <div class="qc-row"><span>客房数</span><span>263 间</span></div>
+        <div class="qc-row"><span>起步面积</span><span>~310 sq ft</span></div>
+        <div class="qc-row"><span>现金价</span><span>$412–$900+/晚</span></div>
+        <div class="qc-row"><span>标准房积分</span><span>110,000 点</span></div>
+        <div class="qc-row"><span>车程（自 NYC）</span><span>~3.5–4 小时</span></div>
+        <div class="qc-row"><span>主厨餐厅</span><span>José Andrés · Bazaar Meat</span></div>
+        <div class="qc-row"><span>Spa</span><span>Waldorf Spa · 10,000 sq ft</span></div>
+        <div class="qc-row"><span>历史</span><span>1899 年 · Romanesque</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NYC DEEP DIVE -->
+<section class="section" style="background:var(--page-bg);">
+  <div class="container">
+    <span class="section-tag">Deep Dive · 01</span>
+    <h2>华尔道夫 · <em>纽约</em></h2>
+    <p class="section-lead">1931 年开幕时，Conrad Hilton 本人曾说这是"The Greatest of Them All"。2017 年关闭，耗时 8 年、$20 亿美元修复，2025 年夏秋分阶段重开。375 间客房全部重新设计，起步面积 ~600 sq ft——这在 NYC 几乎听不见。</p>
+
+    <!-- History & Architecture -->
+    <div class="block nyc">
+      <div class="block-head">
+        <div class="block-num">01</div>
+        <h3>历史与建筑 <span class="en">HISTORY & ARCHITECTURE</span></h3>
+      </div>
+      <p>原 Waldorf-Astoria 建于 1893 年（34 街），1929 年为建帝国大厦拆除。当前建筑 1931 年建成在 Park Avenue 301 号，是当时<strong>世界最大、最高的酒店</strong>，47 层 Art Deco 建筑。一度有 1,400 间客房，历史上接待过每位自 1931 年以来的美国总统、多国国王、甘地、玛丽莲·梦露、Cole Porter（住在 33A 套房 25 年）。</p>
+      <p>本次翻修由 <strong>Skidmore, Owings &amp; Merrill（SOM）</strong>主导结构，室内由法国设计师 <strong>Pierre-Yves Rochon</strong> 操刀。保留原 Art Deco 建筑比例与美感，注入现代元素。酒店上方另有 <strong>372 套私人住宅</strong>，室内由 Jean-Louis Deniot 设计，配 50,000 sq ft 专属设施，艺术品由瑞士收藏家 Simon de Pury 策划。</p>
+      <div class="pull-quote">"The Greatest of Them All." — Conrad Hilton, 1949</div>
+    </div>
+
+    <!-- Rooms -->
+    <div class="block nyc">
+      <div class="block-head">
+        <div class="block-num">02</div>
+        <h3>客房设计 <span class="en">ROOMS & SUITES</span></h3>
+      </div>
+      <p>所有房型<strong>起步面积 ~600 sq ft</strong>，"曼哈顿最大客房之一"不是广告词，是结构事实（从 1,400 间缩减到 375 间换来的）。</p>
+      <ul>
+        <li>配色：薄荷绿 + 紫灰粉（mint &amp; mauve），Art Deco 灯饰 + 现代家具</li>
+        <li>套房可看 Park Avenue 或 Lexington 街景</li>
+        <li>Cole Porter Suite（33A）是历史住宅改造的签名套房，他住这里 25 年</li>
+        <li>大理石浴室 + 深浸浴缸，Italian 大理石</li>
+      </ul>
+      <div class="key-stats">
+        <div class="ks"><div class="ks-num">375</div><div class="ks-label">客房</div></div>
+        <div class="ks"><div class="ks-num">600+</div><div class="ks-label">sq ft 起</div></div>
+        <div class="ks"><div class="ks-num">33A</div><div class="ks-label">Cole Porter 套房</div></div>
+        <div class="ks"><div class="ks-num">Art Deco</div><div class="ks-label">原始风格</div></div>
+      </div>
+    </div>
+
+    <!-- Restaurants -->
+    <div class="block nyc">
+      <div class="block-head">
+        <div class="block-num">03</div>
+        <h3>三家签名餐厅 <span class="en">DINING</span></h3>
+      </div>
+      <p>这是 2025 年 NYC 餐饮圈最大的话题之一。三家餐厅，三种气质。</p>
+      <div class="rest-grid">
+        <div class="rest">
+          <div class="rest-name">Lex Yard</div>
+          <div class="rest-chef">CHEF MICHAEL ANTHONY · James Beard 得主</div>
+          <div class="rest-desc">两层美式 Brasserie，主厨是 Gramercy Tavern 的 Michael Anthony。设计由 AvroKO 操刀，鸡尾酒由 PDT 传奇 <strong>Jeff Bell</strong> 设计。招牌是 Royal Ocsiètre Gold 鱼子酱三明治、慢煮比目鱼配罗宋汤酱。酒店命名自酒店下方"Track 61"秘密铁轨，传说罗斯福总统专用。</div>
+          <div class="rest-price">早午晚三餐 · 市内 NYC 热门榜</div>
+        </div>
+        <div class="rest">
+          <div class="rest-name">Peacock Alley</div>
+          <div class="rest-chef">MIXOLOGIST JEFF BELL</div>
+          <div class="rest-desc"><strong>唯一从 1931 年保留至今的空间</strong>。Park Avenue 大堂对面，修复后的 Waldorf Astoria Clock（1893 年伦敦世博会制作）+ Cole Porter 弹过的 Steinway 钢琴。<strong>早 6:30 到深夜开放</strong>，鸡尾酒菜单致敬 1931 的经典 NY 酒吧文化。</div>
+          <div class="rest-price">全天 · Bar &amp; Lounge · 婚礼热门</div>
+        </div>
+        <div class="rest">
+          <div class="rest-name">Yoshoku</div>
+          <div class="rest-chef">CHEF RY NITZKOWSKI</div>
+          <div class="rest-desc">Park Avenue 大堂极简空间，紧挨 Louis Rigal 1931 年的"Wheel of Life"（148,000 片手切瓷砖马赛克）。<strong>怀石风格日本料理</strong>。另供 <strong>日式下午茶 $135/人</strong>，用 Brooklyn 的 Kettl 从日本直采茶叶（genmaimatcha、gyokuro）。</div>
+          <div class="rest-price">$135/人 下午茶 · 周二至六</div>
+        </div>
+      </div>
+      <div class="pull-quote">"Waldorf Astoria New York invented Room Service." —— 酒店官方</div>
+    </div>
+
+    <!-- Spa -->
+    <div class="block nyc">
+      <div class="block-head">
+        <div class="block-num">04</div>
+        <h3>Guerlain Wellness Spa <span class="en">THE LARGEST GUERLAIN SPA IN THE WORLD</span></h3>
+      </div>
+      <p>2025 年秋开业，位于酒店 5 楼，<strong>20,000 sq ft（约 2,000 平米）</strong>，是 Guerlain 全球最大的 Spa。由 Wimberly Interiors 设计，融合 Art Deco + 现代法式。</p>
+      <ul>
+        <li>16 间治疗室，含 2 间 VIP 双人套房</li>
+        <li>冷冻疗法舱（Cryotherapy Chamber）</li>
+        <li>红外线桑拿 + 蒸汽房 + 摩洛哥 Hammam</li>
+        <li><strong>北极雪洞（Arctic Snow Cave）</strong>—— 冷疗特色</li>
+        <li>3 间休息休闲区</li>
+        <li>7,000 sq ft 健身中心（Physique 57 合作）</li>
+        <li>Guerlain 零售精品店 ×3（Spa 内、大堂、50 街独立店）</li>
+      </ul>
+      <p>Guerlain 四大养生支柱：<strong>睡眠、微营养、心流、运动</strong>。招牌项目 Orchidée Impériale 抗老面部护理，男士专属 Skin Saver Facial。情侣服务"Time Together"系列，婚前、孕期、旅行后专属项目。</p>
+    </div>
+
+    <!-- Events & Experiences -->
+    <div class="block nyc">
+      <div class="block-head">
+        <div class="block-num">05</div>
+        <h3>活动与独特体验 <span class="en">SIGNATURE EXPERIENCES</span></h3>
+      </div>
+      <div class="exp-list">
+        <span class="exp highlight">日式下午茶 $135</span>
+        <span class="exp">Art Deco 历史导览</span>
+        <span class="exp">Cole Porter 钢琴现场</span>
+        <span class="exp">Jeff Bell 鸡尾酒课</span>
+        <span class="exp">Cryotherapy 冷疗</span>
+        <span class="exp">Arctic Snow Cave</span>
+        <span class="exp">Wheel of Life 马赛克</span>
+      </div>
+      <p><strong>"Wheel of Life" 马赛克：</strong>Louis Rigal 1931 年为酒店制作的 148,000 片手切瓷砖马赛克，在 Park Avenue 大堂地面。这是 NYC 最低调但最重要的公共艺术之一，修复后再次呈现。</p>
+      <p><strong>活动空间：</strong>43,000 sq ft 重新开放的会议/宴会空间，包括 <strong>Grand Ballroom（9,990 sq ft，容纳 1,500 人）</strong>、Basildon Room（1,645 sq ft）、Jade Room + Astor Salon（各 3,675 sq ft）。全部镀金修复完毕。</p>
+      <p><strong>附近步行可达：</strong>中央车站（3 个街区）、MoMA、洛克菲勒中心、Saks 第五大道、Bergdorf Goodman、中央公园（12 街区）。地铁 51/Lex 站门口。</p>
+    </div>
+  </div>
+</section>
+
+<!-- DC DEEP DIVE -->
+<section class="section" style="background:linear-gradient(180deg, #f9f3e8 0%, var(--page-bg) 100%);">
+  <div class="container">
+    <span class="section-tag" style="color:var(--dc)">Deep Dive · 02</span>
+    <h2 class="dc-h">华尔道夫 · <em>华盛顿特区</em></h2>
+    <p class="section-lead">占据 1899 年建成的 Old Post Office（原美国邮政总局）大楼。Pennsylvania Avenue 1100 号，<strong>白宫与国会山的正中间</strong>。建筑本身是国家历史地标——你住进去就等于住进一段美国历史。</p>
+
+    <!-- History -->
+    <div class="block dc">
+      <div class="block-head">
+        <div class="block-num">01</div>
+        <h3>历史与建筑 <span class="en">THE OLD POST OFFICE</span></h3>
+      </div>
+      <p>1899 年作为美国邮政总局启用，Romanesque Revival 风格，曾是华盛顿最高建筑。原本要拆，但在 1970s 民间保育运动中存活下来。2013–2016 年经过 $200M 改造变成奢华酒店，<strong>2022 年归入 Hilton 旗下，成为 Waldorf Astoria 华盛顿特区</strong>。</p>
+      <ul>
+        <li>九层玻璃中庭（National Historic Landmark 结构）</li>
+        <li>原始手工木雕、灰泥冠饰、大理石楼梯保留</li>
+        <li>自 1917 年 Taft 总统起，每一届美国总统都曾到访这栋楼</li>
+        <li>Clock Tower 钟楼高 <strong>315 英尺（96 米）</strong>——DC 第三高建筑</li>
+      </ul>
+      <div class="pull-quote">"Where world leaders have stayed since 1917 and every room whispers tales of political intrigue."</div>
+    </div>
+
+    <!-- Clock Tower -->
+    <div class="block dc">
+      <div class="block-head">
+        <div class="block-num">02</div>
+        <h3>Clock Tower · 免费观景 <span class="en">FREE 360° VIEW</span></h3>
+      </div>
+      <p>酒店<strong>独家卖点之一</strong>：附属 Clock Tower 钟楼，坐电梯到 270 英尺高的观景台，可 360 度俯瞰整个华盛顿特区（华盛顿纪念碑、国会山、白宫方向全收眼底）。<strong>免费入场</strong>，非住客也可以上去，但住客有优先安排。</p>
+      <p>钟楼内还保留"Congress Bells"——美国国会钟，独立战争期间铸造的铜钟组。</p>
+    </div>
+
+    <!-- Rooms -->
+    <div class="block dc">
+      <div class="block-head">
+        <div class="block-num">03</div>
+        <h3>客房 <span class="en">ROOMS & SUITES</span></h3>
+      </div>
+      <p>263 间客房——DC 范围内最大的几家之一。<strong>标准 King 起 310 sq ft，Grand King 可达 558 sq ft</strong>。设计是"住进白宫客房"的感觉：四柱顶幔床、深蓝地毯、白色厚窗帘、金色点缀、水晶吊灯。</p>
+      <ul>
+        <li>55 寸 4K 智能电视</li>
+        <li>Italian 大理石浴室，深浸浴缸 + 玻璃淋浴房</li>
+        <li>浓缩咖啡机 + 精品迷你吧</li>
+        <li>衣物蒸汽熨斗</li>
+        <li>Pennsylvania Avenue 面房可看国会山圆顶</li>
+      </ul>
+      <p>套房包括 <strong>Franklin 套房（独立客厅）、Post Office 套房、以及总统级套房</strong>。历史风格 + 现代设施组合，和 Ritz / Four Seasons DC 有本质区别。</p>
+      <div class="key-stats">
+        <div class="ks"><div class="ks-num">263</div><div class="ks-label">客房</div></div>
+        <div class="ks"><div class="ks-num">310+</div><div class="ks-label">sq ft 起</div></div>
+        <div class="ks"><div class="ks-num">315 ft</div><div class="ks-label">钟楼高度</div></div>
+        <div class="ks"><div class="ks-num">1899</div><div class="ks-label">建筑年代</div></div>
+      </div>
+    </div>
+
+    <!-- Restaurants -->
+    <div class="block dc">
+      <div class="block-head">
+        <div class="block-num">04</div>
+        <h3>三家重磅餐厅 <span class="en">DINING · MICHELIN-STARRED</span></h3>
+      </div>
+      <p>这家酒店的餐厅阵容可能是 <strong>整个 Waldorf 体系最强的</strong>——包括 José Andrés 本人 30 年梦想项目。</p>
+      <div class="rest-grid">
+        <div class="rest">
+          <div class="rest-name">Bazaar Meat by José Andrés</div>
+          <div class="rest-chef">CHEF JOSÉ ANDRÉS · 30 年梦想</div>
+          <div class="rest-desc">多层戏剧化 Steakhouse，是 José Andrés 本人"30 年梦想的集大成"。西班牙肉类艺术 + 剧场化服务。对他来说这是回归 DC（他在 DC 起家），也是 Bazaar 体系的旗舰。</div>
+          <div class="rest-price">晚餐 · Reservation 提前数周</div>
+        </div>
+        <div class="rest">
+          <div class="rest-name">Sushi Nakazawa</div>
+          <div class="rest-chef">CHEF DAISUKE NAKAZAWA · 米其林</div>
+          <div class="rest-desc"><strong>米其林一星</strong>，20 道 Omakase 菜单，鱼来自全球（主要日本）。主厨曾是 Jiro Dreams of Sushi 纪录片里 Jiro 的徒弟。NYC Nakazawa 姐妹店，在 DC 这家是 DC 唯一 Omakase 顶级选项之一。</div>
+          <div class="rest-price">Omakase · $150+/人</div>
+        </div>
+        <div class="rest">
+          <div class="rest-name">Peacock Alley</div>
+          <div class="rest-chef">9 层玻璃中庭下</div>
+          <div class="rest-desc">设在九层玻璃中庭下方，水晶吊灯 + 大理石立柱。<strong>早 6:30 至晚 11 点全天营业</strong>，是 DC "see and be seen" 的社交地标。下午茶是签名体验（见下条）。</div>
+          <div class="rest-price">全天 · 含下午茶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Afternoon Tea -->
+    <div class="block dc">
+      <div class="block-head">
+        <div class="block-num">05</div>
+        <h3>下午茶 · Peacock Alley <span class="en">SIGNATURE AFTERNOON TEA</span></h3>
+      </div>
+      <p>DC 最好的下午茶之一，在九层玻璃中庭下方，水晶吊灯映照。</p>
+      <ul>
+        <li><strong>$120/人标准</strong>（含 Veuve Clicquot Yellow Label 香槟一杯）</li>
+        <li><strong>$200/人 升级</strong>（顶级座位 + 名品瓷器 + Ruinart Blanc de Blancs 一整瓶）</li>
+        <li>时间：<strong>周四到周日 12:00 &amp; 15:30</strong>，需提前预订</li>
+        <li>8+ 款茶叶：薰衣草伯爵、茉莉珠茶、印度香料、季节特色</li>
+        <li>季节主题：<strong>樱花茶（3–5 月）</strong>、假日茶、Teddy Bear Tea（家庭）</li>
+        <li>樱花茶特别：慢煮龙虾、鸭肝 terrine、和牛烤面包、抹茶柑橘 opera cake、樱花鱼子酱</li>
+      </ul>
+    </div>
+
+    <!-- Spa -->
+    <div class="block dc">
+      <div class="block-head">
+        <div class="block-num">06</div>
+        <h3>Waldorf Astoria Spa <span class="en">HIMALAYAN SALT THERAPY</span></h3>
+      </div>
+      <p>10,000 sq ft（约 930 平米），是 Hilton 在华盛顿特区投资的第一家 Spa。比 NYC Guerlain 小得多，但在 DC 范围内仍是顶级。</p>
+      <ul>
+        <li>6 间治疗室（含情侣套房，含香槟服务）</li>
+        <li><strong>Himalayan Salt Therapy Room（喜马拉雅盐室）</strong>—— DC 独一</li>
+        <li>放松室有从天花板到地面的雨布瀑布</li>
+        <li>Technogym 健身中心 + Peloton 动感单车</li>
+        <li>冷的桉树毛巾 + 新鲜水果</li>
+      </ul>
+      <p>治疗菜单：按摩、面部护理、身体排毒、盐疗。不如 NYC Guerlain 那么 high-tech（没有 Cryotherapy、Arctic Snow Cave），但气氛上更静谧、更"DC 政客式"的低调奢华。</p>
+    </div>
+
+    <!-- Hidden Gem: Tasting Salon -->
+    <div class="block dc">
+      <div class="block-head">
+        <div class="block-num">07</div>
+        <h3>隐藏体验 · The Tasting Salon <span class="en">HIDDEN WHISKY ROOM</span></h3>
+      </div>
+      <p>这是我觉得这家酒店最<strong>低调的亮点</strong>——"只有最挑剔味蕾才知道的秘密"。</p>
+      <p>酒店门后的私人品鉴沙龙，收藏世上最罕见的威士忌、干邑、稀有烈酒。可选"策展式 Flight"或者请 sommelier 订制完全个性化的体验。一杯是一个故事。</p>
+      <div class="exp-list">
+        <span class="exp highlight">Tasting Salon 稀有烈酒</span>
+        <span class="exp">Clock Tower 免费登顶</span>
+        <span class="exp">Cherry Blossom Tea</span>
+        <span class="exp">Holiday Teddy Bear Tea</span>
+        <span class="exp">Himalayan 盐疗</span>
+        <span class="exp">Bazaar 剧场式晚餐</span>
+        <span class="exp">Nakazawa Omakase</span>
+      </div>
+      <p><strong>活动空间：</strong>34,000+ sq ft，Grand Ballroom、Lincoln Library（原始木雕）、Franklin Study（带 Benjamin 露台）。Lincoln Library 保留了 19 世纪末的原始手工木雕——在这里开会有种仪式感。</p>
+      <p><strong>步行可达：</strong>Federal Triangle 地铁站（门口）、国家广场（0.5 km）、华盛顿纪念碑（6 分钟）、史密森尼博物馆群、国家艺术画廊、国会大厦（~1 km）。</p>
+    </div>
+  </div>
+</section>
+
+<!-- FULL COMPARE -->
+<section class="section container">
+  <span class="section-tag">Head to Head</span>
+  <h2>两家全面对比</h2>
+  <p class="section-lead">细到每个维度。</p>
+
+  <div class="compare-full">
+    <div class="compare-row header">
+      <div>维度</div>
+      <div class="nyc-head">华尔道夫 · 纽约</div>
+      <div class="dc-head">华尔道夫 · 华盛顿特区</div>
+    </div>
+    <div class="compare-row">
+      <div>建筑年代</div>
+      <div class="nyc-col">1931 · Art Deco</div>
+      <div class="dc-col">1899 · Romanesque Revival（邮局）</div>
+    </div>
+    <div class="compare-row">
+      <div>建筑历史</div>
+      <div class="nyc-col">世界最高酒店（1931）· Cole Porter 住 25 年</div>
+      <div class="dc-col">原美国邮政总局 · 国家历史地标</div>
+    </div>
+    <div class="compare-row">
+      <div>翻修投入</div>
+      <div class="nyc-col">$2B，8 年（2017–2025）</div>
+      <div class="dc-col">$200M（2013–2016），2022 并入 Hilton</div>
+    </div>
+    <div class="compare-row">
+      <div>建筑师</div>
+      <div class="nyc-col">SOM + Pierre-Yves Rochon（法）</div>
+      <div class="dc-col">原 Willoughby J. Edbrooke（1899）</div>
+    </div>
+    <div class="compare-row">
+      <div>客房数</div>
+      <div class="nyc-col">375 间 + 372 套公寓</div>
+      <div class="dc-col">263 间</div>
+    </div>
+    <div class="compare-row">
+      <div>起步房面积</div>
+      <div class="nyc-col">~600 sq ft（Manhattan 最大）</div>
+      <div class="dc-col">310 sq ft（仍超过 DC 平均）</div>
+    </div>
+    <div class="compare-row">
+      <div>设计语言</div>
+      <div class="nyc-col">薄荷 + 紫灰粉 · Art Deco 复现</div>
+      <div class="dc-col">深蓝 + 金 · 政治感四柱床</div>
+    </div>
+    <div class="compare-row">
+      <div>招牌主厨</div>
+      <div class="nyc-col">Michael Anthony（James Beard）· Lex Yard</div>
+      <div class="dc-col">José Andrés · Bazaar Meat</div>
+    </div>
+    <div class="compare-row">
+      <div>米其林</div>
+      <div class="nyc-col">（新开未评）</div>
+      <div class="dc-col">★ Sushi Nakazawa（米其林一星）</div>
+    </div>
+    <div class="compare-row">
+      <div>鸡尾酒</div>
+      <div class="nyc-col">Jeff Bell（PDT 传奇）@ Peacock Alley &amp; Lex Yard</div>
+      <div class="dc-col">Peacock Alley · Tasting Salon（稀有烈酒）</div>
+    </div>
+    <div class="compare-row">
+      <div>下午茶</div>
+      <div class="nyc-col">Yoshoku 日式 $135 · 周二至六</div>
+      <div class="dc-col">Peacock Alley $120/$200 · 周四至日 · 樱花茶</div>
+    </div>
+    <div class="compare-row">
+      <div>Spa 规模</div>
+      <div class="nyc-col">Guerlain · 20,000 sq ft · 16 室（全球最大 Guerlain）</div>
+      <div class="dc-col">Waldorf Spa · 10,000 sq ft · 6 室</div>
+    </div>
+    <div class="compare-row">
+      <div>Spa 特色</div>
+      <div class="nyc-col">Cryotherapy · Arctic Snow Cave · Moroccan Hammam</div>
+      <div class="dc-col">Himalayan 盐室 · 雨布瀑布 · 香槟情侣套房</div>
+    </div>
+    <div class="compare-row">
+      <div>独有体验</div>
+      <div class="nyc-col">Wheel of Life 马赛克 · Cole Porter 钢琴 · 1893 古董钟</div>
+      <div class="dc-col">Clock Tower 免费登顶 · Tasting Salon · 樱花茶</div>
+    </div>
+    <div class="compare-row">
+      <div>宴会空间</div>
+      <div class="nyc-col">43,000 sq ft · Grand Ballroom 9,990 sq ft</div>
+      <div class="dc-col">34,000 sq ft · 含 Lincoln Library / Franklin Study</div>
+    </div>
+    <div class="compare-row">
+      <div>现金价（标准房起）</div>
+      <div class="nyc-col">$1,600+</div>
+      <div class="dc-col">$412–$900+</div>
+    </div>
+    <div class="compare-row">
+      <div>标准房积分</div>
+      <div class="nyc-col">150,000</div>
+      <div class="dc-col">110,000</div>
+    </div>
+    <div class="compare-row">
+      <div>FNC 订房难度</div>
+      <div class="nyc-col">2026 H1 空房充足</div>
+      <div class="dc-col">全年标准房开放多</div>
+    </div>
+    <div class="compare-row">
+      <div>地理位置</div>
+      <div class="nyc-col">Park Avenue 核心，中央车站 3 街区</div>
+      <div class="dc-col">Pennsylvania Ave，白宫 ↔ 国会山正中</div>
+    </div>
+    <div class="compare-row">
+      <div>适合客户</div>
+      <div class="nyc-col">纪念日 / 求婚 / 外地游客的 NYC 顶配体验</div>
+      <div class="dc-col">NYC 居民的 2–3 天度假 / 品历史 / 政客风格</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <h3>最终建议</h3>
+    <p>两家都是顶级 FNC 兑换，但决定因素是<strong>"你要的是什么"</strong>：</p>
+    <div class="choose">
+      <div class="choose-card nyc">
+        <h4>选 NYC 如果……</h4>
+        <p>① 特殊日子（纪念日 / 求婚 / 生日）<br>
+        ② 外地朋友来 NYC 想住传奇酒店<br>
+        ③ 想用 FNC 的"现金面值"最大化 (~$1,600)<br>
+        ④ 对 Jeff Bell 鸡尾酒 / Guerlain Spa / Cole Porter 历史有兴趣</p>
+      </div>
+      <div class="choose-card dc">
+        <h4>选 DC 如果……</h4>
+        <p>① 想用 FNC 换一次"真正的旅行"<br>
+        ② José Andrés Bazaar 是 bucket list<br>
+        ③ 想登钟楼看华盛顿全景<br>
+        ④ 樱花季（3–5 月）想体验 Cherry Blossom Tea<br>
+        ⑤ 对 Michelin Omakase（Nakazawa）感兴趣</p>
+      </div>
+    </div>
+    <p style="margin-top:18px;"><strong>对住在 NYC 的人：</strong>我个人更推 DC。你本来就在 NYC，Waldorf NY 是 Staycation；DC 是一次真正意义上的 3–4 天周末自驾。Clock Tower 观景 + Bazaar 晚餐 + Nakazawa Omakase + 樱花季下午茶，四个东西随便拼两个，都能组成一趟难忘的短途旅行。</p>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="container">
+    <p>数据来源：Hilton / Waldorf Astoria 官网、Stories from Hilton、WWD、Lodging Magazine、Time Out NY、Washingtonian、Hollywood Reporter、Wikipedia、Frequent Miler、TPG（2022–2026）</p>
+    <p style="margin-top: 6px;">餐厅/Spa 服务内容和价格以酒店实时信息为准 · 本站仅供参考</p>
+  </div>
+</footer>
+
+</body>
+</html>
