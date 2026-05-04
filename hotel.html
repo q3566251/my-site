@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brooklyn → Manchester, VT · 公路旅行指南</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--page-bg:#f7f1e8;--soft-bg:#f2e7d9;--card-bg:#fdf9f4;--text:#2c2416;--text2:#6b5d4d;--muted:#9a8b78;--accent:#c47d3e;--border:#e2d5c3;--shadow:rgba(44,36,22,0.06);--green:#5a7a52;--blue:#4a6d8c;--red:#c44a3e;--tag-bg:#ede4d6}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans SC',sans-serif;background:var(--page-bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--accent)}
+a:hover{border-bottom-style:solid}
+.hero{background:linear-gradient(180deg,#e8ddd0,var(--page-bg));padding:3rem 1rem 1.5rem;text-align:center}
+.hero-badge{display:inline-block;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:5px 16px;border-radius:20px;margin-bottom:1.5rem}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:700;line-height:1.3;margin-bottom:.5rem}
+.hero h1 span{color:var(--accent)}
+.hero p{font-size:.9rem;color:var(--text2)}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:.5rem;background:var(--soft-bg);position:sticky;top:0;z-index:10}
+.tab-btn{font-family:'Noto Sans SC',sans-serif;font-size:.73rem;padding:6px 12px;border-radius:16px;border:1px solid var(--border);background:var(--card-bg);color:var(--text2);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.content{max-width:820px;margin:0 auto;padding:1rem}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:1.2rem;margin-bottom:1rem;box-shadow:0 2px 8px var(--shadow)}
+.card h3{font-family:'Noto Serif SC',serif;font-size:1.05rem;color:var(--accent);margin-bottom:.7rem}
+.warn{background:#fdf0ec;border:1px solid #e8c5b8;border-radius:10px;padding:.7rem 1rem;font-size:.84rem;color:#8a3a2a;line-height:1.7;margin-bottom:.8rem}
+.warn strong{color:var(--red)}
+.tag{display:inline-block;font-size:.67rem;padding:2px 8px;border-radius:6px;background:var(--tag-bg);color:var(--muted);margin-right:4px;white-space:nowrap;margin-bottom:3px}
+.tag-green{background:#e8f0e5;color:var(--green)}.tag-blue{background:#e5ecf0;color:var(--blue)}.tag-orange{background:#f0e8e2;color:#a0644a}.tag-red{background:#fdf0ec;color:var(--red)}
+.menu-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:1px solid #f2e7d9;gap:8px}
+.menu-row .name{font-size:.84rem;color:var(--text);flex:1}
+.menu-row .note{font-size:.74rem;color:var(--muted);margin-top:2px}
+.menu-row .price{font-size:.84rem;font-weight:600;color:var(--accent);white-space:nowrap}
+.itin-row{display:flex;gap:.7rem;padding:.5rem 0;border-bottom:1px solid #f2e7d9}
+.itin-time{min-width:68px;font-size:.77rem;color:var(--accent);font-weight:600;padding-top:2px}
+.itin-what{font-size:.86rem;font-weight:500;color:var(--text)}
+.itin-detail{font-size:.77rem;color:var(--text2);margin-top:2px;line-height:1.6}
+.tip-box{font-size:.8rem;color:var(--green);background:#e8f0e5;padding:7px 10px;border-radius:8px;line-height:1.7;margin-top:6px}
+.stop-num{width:30px;height:30px;border-radius:50%;border:2px solid var(--accent);display:inline-flex;align-items:center;justify-content:center;font-family:'Noto Serif SC',serif;font-weight:700;color:var(--accent);font-size:.85rem;flex-shrink:0;margin-right:8px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;font-size:.77rem;color:var(--muted)}
+.exp-price{font-size:.82rem;color:var(--accent);font-weight:600;margin:3px 0}
+.exp-note{font-size:.77rem;color:#8a3a2a;margin-top:3px;line-height:1.6}
+.section-sub{font-size:.85rem;color:var(--text2);line-height:1.8;margin-bottom:8px}
+.link-grid{columns:2;column-gap:16px;font-size:.77rem}
+.link-grid div{padding:3px 0}
+.footer{text-align:center;padding:2rem 1rem;border-top:1px solid var(--border);margin-top:1rem}
+.footer p{font-size:.74rem;color:var(--muted)}
+@media(max-width:640px){.link-grid{columns:1}.itin-time{min-width:58px}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-badge">Road Trip Guide</div>
+  <h1>Brooklyn → <span>Manchester, VT</span></h1>
+  <p>5/18 (Mon) – 5/20 (Wed), 2026 · 219mi · 4.5 hours</p>
+</div>
+<div class="tabs" id="tabs"></div>
+<div class="content" id="content"></div>
+<div class="footer"><p>Brooklyn → Kimpton Taconic Road Trip Guide · 所有链接均为官方网站或权威平台 · April 2026</p></div>
+
+<script>
+const data = {
+  trip: {
+    from: "Brooklyn, NY",
+    to: "Kimpton Taconic Hotel, Manchester Village, VT",
+    dates: "5/18 (Mon) – 5/20 (Wed), 2026",
+    miles: 219,
+    driveTime: "4.5 hours (no stops)",
+    withStops: "7-8 hours (2-3 stops)",
+    route: "Brooklyn → BQE → I-87N → Taconic State Pkwy → Route 7 East → Route 7A North → Manchester",
+    routeNote: "Taconic State Parkway是FDR时代修建的风景公路，2005年列入国家历史遗迹名录。比I-87风景好很多，穿越Hudson Valley东侧丘陵。"
+  },
+  hotel: {
+    name: "Kimpton Taconic Hotel",
+    address: "3835 Main St, Manchester, VT 05254",
+    phone: "(802) 362-0147",
+    website: "https://www.taconichotel.com/",
+    ihg: "https://www.ihg.com/kimptonhotels/hotels/us/en/taconic-hotel-manchester-vt/rutth/hoteldetail",
+    ranking: "US News 2026 Vermont #3 · Travel+Leisure \"Top 10 Resort Hotels in the Northeast\"",
+    checkIn: "4:00 PM",
+    checkOut: "11:00 AM",
+    resortFee: "$30/天（含代客泊车 + 升级WiFi + Hildene门票）",
+    rooms: "87间客房+套房+3栋独立小屋",
+    roomFeatures: "四柱床 · Frette床品 · 瑜伽垫 · minibar · 部分有壁炉/爪足浴缸/山景",
+    petPolicy: "宠物免费入住，无额外费用。每日social hour狗狗很多。",
+    points: "IHG One Rewards 约29,500-50,000点/晚",
+    noShuttle: true,
+    extras: "隔夜洗衣干洗 · 擦鞋服务 · 全天flavored water",
+    dailyFree: [
+      { icon: "🍷", name: "Manager's Reception", desc: "每天5-6PM，免费红酒+芝士+VT精酿啤酒。宠物和住客齐聚，氛围感很好。建议到达当天赶上。", link: "" },
+      { icon: "🚲", name: "免费自行车", desc: "Kimpton定制PUBLIC Bikes（蓝色），前台借用即可。可骑行探索Manchester Village主街和周边，平坦好骑。", link: "" },
+      { icon: "🥾", name: "登山杖借用", desc: "免费walking sticks，前台领取。适合Equinox Preserve、Lye Brook Falls等步道。不用自带。", link: "" },
+      { icon: "☕", name: "全天咖啡&茶", desc: "大堂壁炉旁全天供应咖啡、茶、热巧克力。清晨可以在前廊摇椅上喝咖啡看山。", link: "" },
+      { icon: "🔥", name: "火坑 & S'mores", desc: "户外火坑区域，晚间可以烤棉花糖做S'mores。酒店也提供S'mores kit（部分套餐含）。", link: "" },
+      { icon: "🧘", name: "周末瑜伽 & 活动", desc: "周末有草坪瑜伽课。前廊不定期乒乓球比赛。5/18是周一，到店确认当周安排。每周一Copper Grouse有live music。", link: "" },
+      { icon: "🏊", name: "户外加热泳池", desc: "Seasonal outdoor heated plunge pool + 露台躺椅。5月中旬通常已开放（天气好的话）。到店确认。", link: "" },
+      { icon: "📚", name: "图书馆", desc: "酒店后方有library-style房间，书架上精选推荐书目，还有国际象棋。安静阅读角。", link: "" }
+    ],
+    bookableExperiences: [
+      { icon: "🚙", name: "Land Rover越野体验", price: "1小时$275/人 · 2小时约$500 · 半日(4h)$850(可2人轮换) · 全日含午餐$1,200 · 自带车半日$600", desc: "Equinox Resort旁80英亩专用越野场地，全美仅3处Land Rover Experience Center之一（另两处在Carmel, CA和Asheville, NC）。专业教练带教爬坡、侧倾、涉水、岩石路段。难度可调。全年运营。", phone: "(802) 362-0687", link: "https://experience.landroverusa.com/vermont/index.html", note: "最刺激的活动之一。开完Land Rover回酒店的满足感无与伦比。" },
+      { icon: "🔮", name: "Manchester Hot Glass 玻璃吹制", price: "吹制玻璃杯$75/人(30min) · 碗/花瓶$100/人 · Glassblowing 101全套$350/2人(2h,做4-5件含镇纸+酒杯+碗)", desc: "Artist Andrew Weill 2000年创办的工坊。你亲手选颜色、操作熔融玻璃、吹制成型。零基础完全OK。作品需次日取（冷却时间）。地址：79 Elm St（Depot历史区，酒店很近）。", phone: "(802) 362-2227", link: "https://www.manchesterhotglass.com/classes/", note: "⚠️ 周二三休 → 5/19-20不可去，只有5/18能去。需预约。5岁+可做镇纸，11岁+吹杯，14岁+上101课。" },
+      { icon: "🪓", name: "飞斧投掷", price: "需联系酒店sales team报价（餐饮另加16%小费+6%行政费+10-11%税）", desc: "在酒店草坪Green上的Fire.Fire.合作飞斧体验。可搭配Copper Grouse定制餐饮套餐。适合团体友谊赛。", phone: "(802) 362-0147", link: "https://www.taconichotel.com/manchester-event-venues/experiences/", note: "比较适合团队/多人，2人可能不太划算。提前问酒店。" },
+      { icon: "🛶", name: "Battenkill River 皮划艇/独木舟", price: "单人kayak约$55-70 · 双人canoe约$65-85（含shuttle回起点）", desc: "Battenkill River是VT最著名的休闲漂流河之一，水流平缓适合初学者。5月雪融水量充沛，是最佳漂流季。BVO (Battenkill Valley Outdoors) 提供rental+shuttle+安全停车场+更衣室+冲水厕所。全天可用。也可通过Vermont River Runners预约。", phone: "", link: "https://www.battenkillvalleyoutdoors.com/", note: "穿可以湿的鞋和衣服，带防晒。河上无手机信号。" },
+      { icon: "🎣", name: "Orvis飞蝇钓课程", price: "半日课程约$199/人 · 全日约$399/人（含装备）· 向导带钓Battenkill半日$300+", desc: "Orvis 1856年创立于Manchester，这是发源地旗舰店（4180 Main St）。Fly Fishing School就在对面，有入门和进阶课程。Battenkill是美东顶级鳟鱼(trout)河之一，5月是trout season开始。", phone: "", link: "https://www.orvis.com/fly-fishing-schools", note: "旗舰店一楼有Johnny Hinrichs制作的巨型\"Lure of the Fly\"彩色玻璃窗，非常壮观。旁边American Museum of Fly Fishing免费/捐赠制。" },
+      { icon: "💆", name: "Renu Lounge（合作SPA/恢复中心）", price: "桑拿/红光/盐房单次$45 · 冷水池$25 · 4次套餐$160($40/次) · 8次套餐$280($35/次)", desc: "酒店合作的现代恢复中心（非酒店内部），开车几分钟。红外桑拿+冷水池(cold plunge)+红光疗+盐疗(halotherapy)+Hyperice Normatec腿部压缩+Emsella椅。极度干净现代。", phone: "", link: "https://www.renulounge.com/packages", note: "酒店客人用码TACONIC享全价8折。周一至四9AM-1PM，周五至日9AM-3PM。地址：3511 Richville Rd。带白毛巾（否则租$3）。" },
+      { icon: "🦅", name: "British School of Falconry 猎鹰术", price: "入门课约$100-175/人（需联系Equinox确认当前价格）", desc: "全美最古老猎鹰学校之一，Equinox Resort旗下。1-2小时课程，近距离操控猛禽飞行。学习猎鹰基本技巧。酒店步行可达。", phone: "(802) 362-4700", link: "https://www.equinoxresort.com/activities/falconry", note: "非常独特的体验，Manchester几乎是全美唯一能做这个的度假地之一。" }
+    ]
+  },
+  copperGrouse: {
+    name: "The Copper Grouse",
+    website: "https://www.coppergrouse.com/menus",
+    opentable: "https://www.opentable.com/copper-grouse-taconic-hotel",
+    phone: "(802) 362-0176",
+    rating: "OpenTable 4.6/5 · 1648条评价",
+    chef: "Chef Jeremy Taisey",
+    chefNote: "全球经历丰富，专注VT本地时令食材。食材来源：Dorset Maple Reserve枫糖、Bromley Farms微型蔬菜、Earth & Sea海鲜、Nitty Gritty Grains粗粮、King Arthur面粉、Vermont Creamery黄油、Castleton Crackers饼干、Slipstream Farm蘑菇、Vermont Wagyu牛肉、North Country Smokehouse培根、Earth Sky Time面包。",
+    hours: {
+      mon: "早8-10:30 · 午12-2:30 · 晚5-8:30 · 🎵 周一有live music",
+      tue: "早8-10:30 · 晚5-8:30（无午餐）",
+      wed: "早8-10:30（⚠️ 周三只有早餐！无午餐无晚餐）",
+      thu: "早8-10:30 · 晚5-8:30",
+      fri: "早8-10:30 · 午12-2:30 · 晚5-9:00",
+      sat: "Brunch 8-2 · 晚5-9:00",
+      sun: "Brunch 8-2 · 晚5-8:30 · 🍷 周日瓶装酒5折"
+    },
+    yourDates: "5/18周一全天开放(有live music!) · 5/19周二无午餐 · ⚠️ 5/20周三只有早餐",
+    breakfast: [
+      { item: "Omelette（自选2种配料：bacon/onion/sausage/spinach/red pepper/canadian bacon/tomato/mushroom/cheddar/goat cheese）", price: "$16", note: "配breakfast potatoes" },
+      { item: "法式吐司 French Toast", price: "$14", note: "浆果+打发奶油，分量巨大" },
+      { item: "VT酸奶+水果+格兰诺拉", price: "$11", note: "" },
+      { item: "Eggs Benedict", price: "$16", note: "" },
+      { item: "Steel-cut Oatmeal 燕麦粥", price: "$11", note: "" },
+      { item: "Lox & Bagel 熏鲑鱼贝果", price: "$16", note: "" },
+      { item: "Buttermilk Pancakes", price: "$14", note: "正宗VT枫糖浇" }
+    ],
+    appetizers: [
+      { item: "鸡翅 Wings（Grouse dry rub 或 maple sriracha）", price: "$16", note: "配蓝纹芝士酱" },
+      { item: "天妇罗花椰菜 Tempura Cauliflower", price: "$14", note: "Tahini ranch + 枫辣酱" },
+      { item: "烤甜菜&梨 Roasted Beets & Pears", price: "$17", note: "VT山羊芝士+核桃pesto+橙皮" },
+      { item: "Cheese & Charcuterie Board", price: "$14起(2/4/6人份)", note: "本地肉+芝士+腌菜+自制芥末+果酱" },
+      { item: "Baby Kale Salad", price: "$13", note: "烟熏枫糖vinaigrette+本地苹果+布包切达" },
+      { item: "Caesar Salad", price: "$13", note: "手撕面包丁+帕玛森" },
+      { item: "南瓜浓汤 Squash Bisque", price: "$11", note: "香料南瓜籽+辣油" }
+    ],
+    entrees: [
+      { item: "⭐ Wagyu Burger", price: "$26", note: "VT Cheddar+生菜+酸黄瓜+Copper Grouse酱+薯条。Travel+Leisure推荐招牌，多数食客公认最佳选择。性价比最高。" },
+      { item: "Coq Au Vin 红酒炖鸡", price: "$32", note: "鸡胸+鸡腿，甜玉米/本地蘑菇/lardons/第戎鸡汁" },
+      { item: "Risotto 烩饭", price: "$36-38", note: "时令版本轮换（柠檬ricotta/烤番茄/speck）。分量惊人，两人可share" },
+      { item: "香煎三文鱼 Seared Salmon", price: "$36-44", note: "配芦笋/蜜汁小胡萝卜/藏红花黄油 或 刨丝夏季蔬菜沙拉" },
+      { item: "Berkshire猪排 Pork Chop", price: "$42-49", note: "au poivre配spätzle（德式小面疙瘩）+时蔬" },
+      { item: "炖牛肋排 Braised Short Ribs", price: "$49", note: "红酒汁+红椒酱+烤土豆。OpenTable评价\"amazing short ribs\"" },
+      { item: "Halibut 比目鱼", price: "$45", note: "柠檬草豌豆泥+晒干番茄+柠檬油" },
+      { item: "鳕鱼&青口 Cod & Mussels", price: "$48", note: "烤青椒+薯条+chimichurri" },
+      { item: "Braised Chicken 白酒炖鸡", price: "$36", note: "heirloom土豆+胡萝卜+珍珠洋葱+培根" }
+    ],
+    sides: [
+      { item: "薯条 French Fries", price: "$8-12" },
+      { item: "松露帕玛森薯条 Parmesan Truffle Fries", price: "$14" },
+      { item: "土豆泥 Mashed Potatoes", price: "$11" },
+      { item: "Mac & Cheese", price: "$16" },
+      { item: "Earth Sky Time面包", price: "$6" },
+      { item: "时蔬 Seasonal Vegetables", price: "$12-14" }
+    ],
+    desserts: [
+      { item: "枫糖/咖啡 Crème Brûlée", price: "~$12", note: "蓝莓柠檬版本也很受欢迎" },
+      { item: "时令水果Cobbler à la mode", price: "~$12", note: "" },
+      { item: "Brown Butter Toffee Pudding", price: "~$12", note: "咸焦糖+香草chantilly" },
+      { item: "温热巧克力曲奇 Warm Chocolate Chip Cookies", price: "~$10", note: "" }
+    ],
+    drinks: [
+      { item: "Cosmonaut 鸡尾酒", price: "~$16", note: "酒店招牌" },
+      { item: "Uncle Nearest Old Fashioned", price: "~$16", note: "每杯捐$1给HBCU" },
+      { item: "Cardamom Grouse", price: "~$16", note: "豆蔻洗Famous Grouse苏格兰威士忌+西柚" },
+      { item: "100+种葡萄酒", price: "按杯$14-22/按瓶$45-200+", note: "以美国葡萄酒为主，周日瓶装酒5折" },
+      { item: "VT精酿啤酒", price: "$8-12", note: "当地craft brewery" }
+    ],
+    budgetTip: "两人晚餐含酒约$120-180。Wagyu Burger是性价比之王。Risotto分量足够两人分享。周一有live music增加氛围。建议提前通过OpenTable订位，即使工作日也经常满。"
+  },
+  restaurants: [
+    {
+      name: "The Silver Fork",
+      emoji: "🥇",
+      type: "Fine Dining · International Fusion",
+      price: "人均$60-100+（含酒）",
+      address: "48 West Rd, Manchester, VT 05254",
+      phone: "(802) 768-8444",
+      hours: "周二至六 5-9PM · 周一日休",
+      link: "https://www.thesilverforkvt.com/",
+      tripadvisor: "https://www.tripadvisor.com/Restaurant_Review-g57312-d2332216-Reviews-The_Silver_Fork-Manchester_Vermont.html",
+      desc: "Tripadvisor 2021全美\"最佳约会餐厅\"#1。旧Mark Skinner图书馆改造，mid-century modern风格，高天花板+巨大窗户可看Mt. Equinox山景。Chef Mark French（德国学徒+波多黎各Hilton经历）与妻子Melody共同经营。她是前厅+侍酒师+调酒师，他是厨房艺术家。",
+      mustOrder: [
+        "⭐ Maryland Crab Cake $42 — 配手切薯条+自制tartar酱。Yelp 61条评价，最受欢迎单品",
+        "Creole Shrimp Mofongo $38 — 木薯泥(yuca)+番茄creole酱+青椒洋葱橄榄，用传统pilon石臼盛放(GF)",
+        "Lobster Risotto $46 — 配sautéed prosciutto & asparagus",
+        "Wiener Schnitzel — 有食客专程从外州飞来吃这道，\"比德国吃的还好\"",
+        "Plantain Crusted Mahi Mahi $38 — 车前草脆皮+米饭+escabeche",
+        "Goat Cheese Soufflé — 山羊芝士舒芙蕾+chutney+自制Melba toast（前菜）",
+        "Duck Egg Rolls — 鸭肉春卷（Chef推荐前菜）",
+        "French Onion Soup — 上面会附小园艺剪刀（用来剪奶酪丝！）",
+        "⭐ Caribbean Bread Pudding Soufflé $14 — 必点甜点！香蕉+葡萄干+杏仁+椰子壳盛cream anglaise。需提前30分钟预点（soufflé类）。\"全美最好bread pudding\"",
+        "Bardwell Farm Cheese Plate — 4种以VT地名命名的芝士（Manchester/Dorset/Pawlet/Rupert）"
+      ],
+      tips: "只有6桌+5吧台座位，必须提前电话订位。甜点soufflé需点菜时就预点（30min制作）。老板Melody会来桌边聊天，非常warmable。吧台座位其实体验更好（可以看Melody调酒）。5/18周一休息！5/19周二或5/20周三晚可以去。"
+    },
+    {
+      name: "The Crooked Ram",
+      emoji: "🍕",
+      type: "Craft Beer · Wood-Fired Pizza · Natural Wine",
+      price: "人均$30-60",
+      address: "Main St, Manchester Center",
+      phone: "",
+      hours: "详见官网",
+      link: "https://www.thecrookedram.com/",
+      desc: "2017年从啤酒瓶装店起步，现在是Manchester最受欢迎的casual dining。Esquire 2021 \"Best Bars in America\"。三个空间：The Cafe（日间咖啡+轻食）、The Dining Room（正式晚餐）、The Yard（户外庭院+木火披萨，5月开放）。本地食材优先，从independent家庭农场直采。biodynamic葡萄酒+wild-fermented啤酒。",
+      mustOrder: [
+        "木火披萨 — 招牌，The Yard专属",
+        "New England生蚝",
+        "VT手工芝士拼盘",
+        "Charcuterie + tinned fish",
+        "Craft beer flight — Manchester唯一精酿啤酒专门店，每日免费试饮，可买crowler带走"
+      ],
+      tips: "The Yard户外区域5月应该已开放。酒店步行距离。不接受预约（walk-in only for some areas），早去避免排队。"
+    },
+    {
+      name: "Ye Olde Tavern",
+      emoji: "🏚️",
+      type: "Colonial American · Comfort Food",
+      price: "人均$30-60",
+      address: "5183 Main St, Manchester Center",
+      phone: "",
+      hours: "详见官网",
+      link: "https://www.yeoldetavern.net/",
+      desc: "1790年开业（比Vermont 1791年建州还早1年），原名Stagecoach Inn。殖民风格装潢、木地板、壁炉、古董家具、斜门。Vermont Green Mountain Boys曾在此聚会。",
+      mustOrder: [
+        "⭐ 每餐附赠蔓越莓Fritters + Vermont枫糖黄油 — 这是招牌免费开胃",
+        "Cheddar & Ale Onion Soup",
+        "Roast Tom Turkey 烤火鸡",
+        "Venison 鹿肉",
+        "New England Pot Roast"
+      ],
+      tips: "冬天壁炉氛围最佳，但5月也很舒服。适合想体验\"穿越回1790年\"的感觉。"
+    },
+    {
+      name: "Restaurant at Hill Farm",
+      emoji: "🐄",
+      type: "Farm-to-Table · Wood-Fired",
+      price: "人均$40-70",
+      address: "Hill Farm Inn, Manchester",
+      phone: "",
+      hours: "周三至日，4PM开始bar service",
+      link: "https://www.hillfarminn.com/dine",
+      desc: "真正的农场餐厅。自家菜园供应食材。挑高谷仓改造空间+木火烤炉。Taconic山脉全景wrap-around露台（5月开放）。Chef Austin Poulin的时令菜单。有羊驼(alpacas)可以看！全吧台+时令鸡尾酒+VT精酿生啤。",
+      mustOrder: [
+        "木火烤蔬菜",
+        "时令主菜（菜单经常变化）",
+        "VT精酿生啤 on tap",
+        "看完羊驼再吃饭，心情加分"
+      ],
+      tips: "Google评价里反复提到\"beautiful location with alpacas\"。预约建议，尤其周末。5/18周一不开，5/20周三可以去（Copper Grouse周三没晚餐，这是好替代）。"
+    },
+    {
+      name: "Up for Breakfast",
+      emoji: "🍳",
+      type: "Breakfast · Brunch Only",
+      price: "人均$15-25",
+      address: "Main St 二楼阁楼",
+      phone: "",
+      hours: "早餐时段，约7:30AM-1PM",
+      link: "https://www.tripadvisor.com/Restaurant_Review-g57312-d947067-Reviews-Up_for_Breakfast-Manchester_Vermont.html",
+      desc: "Manchester最好的早餐。二楼阁楼仅10张桌，窗口俯瞰Main Street。老板Amy (前厅，service training背景) + 老公 (厨房)。Google 4.6分。周末去晚了要排30分钟+。",
+      mustOrder: [
+        "⭐ Sourdough Battered French Toast + VT枫糖香肠",
+        "Wild Thing Omelette — 烤火鸡+辣椒+洋葱+蘑菇+土豆+cheddar",
+        "Happy Hiker — AT徒步者最爱大份全套（两个蛋+toast+两条bacon+两根香肠+两块pancake+VT枫糖）",
+        "蓝莓酪乳Pancakes",
+        "⭐ Maple Latte — 必点饮品",
+        "Farmers Omelette — 也非常好"
+      ],
+      tips: "分量很大。早去（8AM前到）避免排队。可能是你整个旅行中最memorable的一餐之一。"
+    },
+    {
+      name: "Mystico 802",
+      emoji: "🍝",
+      type: "Italian · Handmade Pasta",
+      price: "人均$30-55",
+      address: "Manchester Center",
+      phone: "",
+      hours: "详见官网",
+      link: "https://mystico802.com/",
+      desc: "Manchester Center新开的意大利餐厅。Debbie & Luis Pazos夫妇创办（NYC fine dining背景，Debbie是三个孩子的妈妈）。手工意面+artisan focaccia三明治+自制鸡尾酒。本地农场食材+意大利进口配料。Yelp最高评分新餐厅之一。温暖亲切氛围。",
+      mustOrder: ["手工意面（每天现做）", "Focaccia panini", "自制鸡尾酒"],
+      tips: "适合家庭和约会。比Silver Fork更casual但品质一样高。"
+    },
+    {
+      name: "curATE Café",
+      emoji: "🎨",
+      type: "Modern American · Arts Center",
+      price: "人均$20-40",
+      address: "Southern Vermont Arts Center内",
+      phone: "(802) 362-9100",
+      hours: "Brunch周四至六12-2PM,周日11AM-2PM · 晚餐周三至日,座位5-7:30PM",
+      link: "https://www.svac.org/curate-cafe/",
+      desc: "在SVAC画廊和雕塑公园内用餐。Church Street Hospitality运营（同时运营Barrows House Inn、Dorset Inn、Dorset Bakery）。现代sensibility+经典地方菜。小食+沙拉+三明治+flatbread+全吧台。",
+      mustOrder: ["Artfully curated小食拼盘", "时令flatbread", "配合画廊参观的afternoon beverage"],
+      tips: "需通过OpenTable预约。边吃边看艺术，非常unique的体验。5/19周二和5/20周三都可以去（SVAC周二至日开放）。"
+    },
+    {
+      name: "Little Rooster Café",
+      emoji: "🥞",
+      type: "Breakfast · Brunch · Diner",
+      price: "人均$12-20",
+      address: "Main Street",
+      phone: "",
+      hours: "早午餐时段",
+      link: "https://www.tripadvisor.com/Restaurant_Review-g57312-d1063067-Reviews-Little_Rooster_Cafe-Manchester_Vermont.html",
+      desc: "Main Street上的乡村风早午餐小馆，当地人最爱。Pancake、omelette、自制烘焙。轻松休闲，不像Up for Breakfast那么\"网红\"但同样好吃。",
+      mustOrder: ["Pancakes", "各种omelette", "自制烘焙"],
+      tips: "如果Up for Breakfast排队太长，这是很好的替代。"
+    },
+    {
+      name: "Depot Street Burgers",
+      emoji: "🍔",
+      type: "Burgers · Casual",
+      price: "人均$15-25",
+      address: "Manchester Center",
+      phone: "",
+      hours: "午餐+晚餐",
+      link: "https://www.tripadvisor.com/Restaurant_Review-g57312-d23914771-Reviews-Depot_Street_Burgers-Manchester_Vermont.html",
+      desc: "Fresh-ground smash burger风格。肉来自Black River Meats (Springfield, VT)。素食者有Earth Sky Time Farm的咖喱姜素肉饼。夏季有户外座位面对旧磨坊和小溪，很Vermont。",
+      mustOrder: ["⭐ Underground Burger — pub cheese+焦糖洋葱+bacon", "Curried Ginger Vegan Patty（如果吃素）", "薯条"],
+      tips: "快速便宜好吃。适合不想fine dining的晚上。"
+    },
+    {
+      name: "Depot 62",
+      emoji: "🌮",
+      type: "Turkish-Mediterranean · Organic",
+      price: "人均$25-45",
+      address: "Manchester Depot区",
+      phone: "",
+      hours: "午餐+晚餐",
+      link: "https://www.manchestervermont.com/taste/",
+      desc: "藏在高端古董/家居showroom内的\"当地秘密\"。全有机菜单。铜质公共长桌+单人桌。夏季有户外patio。Halal认证。无麸质选项可用胡萝卜/辣椒代替Pida面包。也提供catering。",
+      mustOrder: ["有机土耳其菜", "地中海沙拉", "甜点"],
+      tips: "人气旺建议预约，尤其6人以上。非常独特的\"在古董店里吃饭\"体验。"
+    },
+    {
+      name: "Reluctant Panther Restaurant",
+      emoji: "🫕",
+      type: "Fine Dining · American",
+      price: "人均$50-80+",
+      address: "39 West Rd",
+      phone: "",
+      hours: "仅晚餐",
+      link: "https://www.reluctantpanther.com/dining",
+      desc: "Wine Spectator多年获奖酒单。花园inn环境中的优雅美式料理。本地食材。适合浪漫晚餐或庆祝场合。有儿童菜单但氛围偏成人。Manchester传统fine dining选择（比Silver Fork更classic）。",
+      mustOrder: ["看时令菜单", "配Wine Spectator获奖酒单点酒"],
+      tips: "需提前预约。如果Silver Fork订不到位，这是同等级替代。"
+    },
+    {
+      name: "Sugar Shack",
+      emoji: "🍦",
+      type: "Maple Treats · Snacks",
+      price: "Creemee $5-7 · 枫糖产品$5-30",
+      address: "Route 7A, Arlington（酒店南行约10min）",
+      phone: "",
+      hours: "日间",
+      link: "https://www.tripadvisor.com/Attraction_Review-g30217-d5773270-Reviews-Sugar_Shack-Arlington_Vermont.html",
+      desc: "Route 7A路边小灰谷仓。VT必吃体验：maple creemee（枫糖软冰淇淋）。各种枫糖产品可买回家做手信：枫糖浆、枫糖棉花糖、枫糖爆米花、枫糖candy。附带Norman Rockwell小展（免费）。",
+      mustOrder: ["⭐ Maple Creemee — VT标志性体验", "枫糖浆（带回家）", "枫糖棉花糖"],
+      tips: "免费进入。Creemee约$5-7。从酒店往Bennington方向走Route 7A就到。"
+    }
+  ],
+  stops: [
+    {
+      num: 1, name: "Woodbury Common Premium Outlets", nameZh: "Woodbury Common 奥特莱斯",
+      location: "Central Valley, NY", distance: "距Brooklyn约1小时", tags: ["购物"],
+      link: "https://www.premiumoutlets.com/outlet/woodbury-common",
+      address: "498 Red Apple Ct, Central Valley, NY 10917",
+      hours: "周一至四10AM-8PM · 周五至日10AM-9PM",
+      price: "免费入场 · 折扣25-65% off",
+      rating: "4.5 · 30K+ 评价",
+      desc: "全球最大奥特莱斯之一，250+品牌。5个色彩编码区域，村落式户外布局。",
+      luxury: "Gucci · Prada · Saint Laurent · Balenciaga · Moncler · Burberry · Bottega Veneta · Balmain · Fendi · Tory Burch · Tiffany & Co. · Roberto Cavalli · Armani · Brunello Cucinelli · ISAIA · Brioni · MCM · Jil Sander",
+      popular: "Nike · Adidas · Lululemon · New Balance · Arc'teryx · The North Face · Canada Goose · Coach(两家) · Kate Spade · Michael Kors · J.Crew · Banana Republic · Gap · Calvin Klein · Tommy Hilfiger · Brooks Brothers · Polo Ralph Lauren",
+      food: "Shake Shack · Parm · Kinton Ramen · Chipotle · Jersey Mike's · Just Salad · Cinnabon · Pinkberry · Gong Cha · Playa Bowls · Bollicine & Co. Champagne Bar · Market Hall(20+餐饮)",
+      tips: "周二至四上午去人最少。下载Simon+app可领extra coupons。Guest Services有VIP coupon book。停车免费但周末难找位（从Blue Lot或Gold Lot进）。带行李箱方便购物。奢侈品店（Gucci/Prada）周末可能排队，工作日体验好很多。提醒：部分outlet店卖outlet专供线（非正价线库存），奢侈品牌通常是真正retail overstock。"
+    },
+    {
+      num: 2, name: "Storm King Art Center", nameZh: "风暴王艺术中心",
+      location: "New Windsor, NY", distance: "距Brooklyn约1.5小时", tags: ["艺术","自然"],
+      link: "https://stormking.org/",
+      address: "1 Museum Rd, New Windsor, NY 12553",
+      hours: "10AM-6PM · ⚠️周二休馆",
+      price: "成人$22 · 学生$14 · 5岁以下免费",
+      rating: "4.7 · 5K 评价",
+      desc: "500英亩户外雕塑公园，坐拥Hudson Valley壮丽山景。Alexander Calder、Mark di Suvero、David Smith、Richard Serra、Maya Lin等大师作品散布于草地、山丘和树林间。免费tram在各站之间穿梭（不需要全程步行）。纽约周边最值得一访的当代艺术目的地之一。",
+      tips: "预留2-4小时。穿舒适走路的鞋。带水和防晒。有cafe可以午餐。秋季叶色+雕塑最震撼，但5月绿意盎然也非常美。5/18周一可去，5/19周二休馆。建议网上提前购票。"
+    },
+    {
+      num: 3, name: "Dia Beacon", nameZh: "Dia:Beacon 美术馆",
+      location: "Beacon, NY", distance: "距Brooklyn约1.5小时", tags: ["艺术"],
+      link: "https://www.diaart.org/visit/visit-our-locations-702/dia-beacon-702",
+      address: "3 Beekman St, Beacon, NY 12508",
+      hours: "10AM-5PM · ⚠️周二至四休馆",
+      price: "成人$20 · 学生/老人$12 · 12岁以下免费",
+      rating: "4.6 · 3K+ 评价",
+      desc: "由Nabisco旧印刷厂改造的当代艺术殿堂。34,000平方英尺巨大工业空间，天窗自然光洒落。Richard Serra巨型钢板、Dan Flavin霓虹灯装置、Donald Judd极简方块、Andy Warhol、Agnes Martin等。空间本身就是艺术体验——有评论说\"想在里面滑旱冰\"。建筑比内容更震撼。",
+      tips: "建议参加curator-led导览（含在门票中，提供更多背景）。有小gift shop和cafeteria。Main Street上有不错的咖啡馆可以午餐（Beacon小镇本身很可爱值得逛）。5/18周一可去（唯一能去的日子）。如果Storm King和Dia同天去有点赶，建议二选一深度体验。"
+    },
+    {
+      num: 4, name: "West Point (USMA)", nameZh: "西点军校",
+      location: "West Point, NY", distance: "距Brooklyn约1.5小时", tags: ["历史"],
+      link: "https://www.westpoint.edu/visiting",
+      address: "606 Thayer Rd, West Point, NY 10996",
+      hours: "周一至五 7:30AM-4:30PM · ⚠️周末不开放",
+      price: "免费参观（导览团可能收费，查官网）",
+      rating: "4.5",
+      desc: "美国最著名军事学院，1802年建立。Hudson River西岸壮丽河谷。Trophy Point可俯瞰全景+展示历次战争缴获的大炮。哥特式Cadet Chapel（全美最大教堂管风琴之一）+墓地充满历史感。Eisenhower、MacArthur、Patton都毕业于此。",
+      tips: "平民只能通过2.25小时导览团参观校园内部（含Trophy Point、教堂、墓地）。从Visitor Center出发。需在进入前到Visitor Control拿通行证。5/18周一可去。如果时间紧，可以只去Visitor Center+博物馆（博物馆2026年可能还在翻修，提前确认）。"
+    },
+    {
+      num: 5, name: "Bennington Battle Monument", nameZh: "Bennington 战役纪念碑",
+      location: "Bennington, VT", distance: "距Brooklyn约3.5小时", tags: ["历史","自然"],
+      link: "https://www.benningtonbattlemonument.com/",
+      address: "15 Monument Cir, Bennington, VT 05201",
+      hours: "10AM-5PM",
+      price: "成人$8 · 6-14岁$2 · 6岁以下免费 · 军人/退伍军人免费 · ⚠️ 2026年开放日可能为5/24起（Memorial Day前后），你5/18去可能还没开！提前打电话确认📞(802)447-0550",
+      rating: "4.6 · 2K 评价",
+      desc: "进入Vermont的第一个标志性景点。306英尺石质方尖碑（Vermont最高建筑物），纪念1777年8月16日独立战争关键胜利。有电梯可登顶，晴天可眺望Vermont、New York、Massachusetts三州。⚠️ 注意：每年开放日约为5月下旬至10月底，2025年为5/24开放。2026年日期需提前确认，你5/18去可能还没开。即使没开，外观和周围街区也值得快速看一眼。",
+      tips: "礼品店值得逛，有VT特色纪念品，价格合理。旁边Bennington Museum有Grandma Moses画作+革命战争文物（成人$12）。附近Old Bennington区有美丽的老房子和Robert Frost墓地。如果饿了，Blue Benn Diner就在Bennington（经典美国diner，全VT最受欢迎之一，便宜好吃）。"
+    },
+    {
+      num: 6, name: "Silk Road Covered Bridge", nameZh: "Silk Road 廊桥",
+      location: "Bennington → Manchester沿途", distance: "Bennington北部", tags: ["历史","自然"],
+      link: "https://www.tripadvisor.com/Attraction_Review-g57197-d7183627-Reviews-Silk_Road_Covered_Bridge-Bennington_Vermont.html",
+      address: "Silk Rd, Bennington, VT 05201",
+      hours: "全天开放",
+      price: "免费",
+      rating: "4.7",
+      desc: "建于1840年的木质lattice-truss廊桥，横跨Walloomsac River。Vermont标志性Covered Bridge之一。可以走下河边拍不同角度。沿Route 7A北上Manchester途中，附近还有Paper Mill Bridge和Henry Bridge（Henry Bridge旁有镇建的picnic area适合休息）。",
+      tips: "三座廊桥之间距离不远，可以一次逛完。⚠️ 这一带手机信号几乎为零，提前存好导航。开车穿过廊桥本身就是一种体验。Route 7A（\"Little 7\"）从Bennington到Manchester的23英里是全程最美的一段路——古董店、农场、田园风光，不赶路的话预留1-2小时。"
+    },
+    {
+      num: 7, name: "Hildene, The Lincoln Family Home", nameZh: "Hildene · 林肯家族故居",
+      location: "Manchester Village", distance: "距酒店5分钟车程", tags: ["历史","文化","自然"],
+      link: "https://hildene.org/",
+      address: "1005 Hildene Rd, Manchester, VT 05254",
+      hours: "10AM-4:30PM · ⚠️周二三休馆",
+      price: "成人$23 · 6-14岁$6 · 6岁以下免费 · 💡酒店resort fee已含门票→到前台领取",
+      rating: "4.7 · 1.3K 评价",
+      desc: "Lincoln之子Robert Todd Lincoln 1905年建造的24室夏季别墅。95%家具为Lincoln家族原物（壁橱里还有高尔夫球鞋、端桌上有家庭照片）。亮点：Abraham Lincoln的礼帽（全球仅存3顶之一）+ 1000管管风琴（Robert送给妻子的生日礼物！）+ Pullman火车车厢\"Sunbeam\"（Robert曾任Pullman公司总裁）+ 山羊奶酪作坊（可买新鲜山羊芝士）+ 正式花园（5月水仙花/牡丹盛开）+ 天文台 + 12英里步道。Lincoln家族一直居住到1975年最后一位后代去世。",
+      tips: "预留3-6小时才能充分体验。自导览或预约guided tour（更深入）。Pullman车厢千万别错过——内部极其精美。礼品店有unique的本地手工艺品+Lincoln相关书籍。5/18周一是你唯一能去的日子（周二三休）。到酒店前台领免费门票（含在resort fee里）。"
+    }
+  ],
+  activities: [
+    {
+      name: "Mt. Equinox Skyline Drive", emoji: "⛰️",
+      link: "https://equinoxmountain.com/",
+      price: "$25/车 + $5/额外乘客 · 儿童10岁以下免费",
+      desc: "全美最长私人铺装收费公路。5.2英里从Route 7A蜿蜒登顶Taconic山脉最高峰(3,848 ft)。入口在42 Skyline Drive, Arlington, VT（酒店南行约10分钟）。山顶Saint Bruno Scenic Viewing Center（Carthusian修道院捐赠）可看五州（VT/NH/NY/MA + 加拿大方向Mount Royal）。多个pull-off停车拍照点。最后入场4PM，5PM关门。大巴/RV/拖车禁入。可自带野餐。下山用低挡不要踩刹车（发卡弯）。预留2小时（含登顶步道Lookout Rock约40分钟往返）。",
+      warning: "⚠️ 2026年开放日为Memorial Day Weekend（5/23起），你5/18-20去的时候还没开放！"
+    },
+    {
+      name: "Equinox Preserve 步道（Skyline Drive替代）", emoji: "🥾",
+      link: "https://www.equinoxpreservationtrust.org/",
+      price: "免费 · 全年开放",
+      desc: "914英亩保护地，多条步道可选：\n• Equinox Pond Loop (0.75mi) — 平坦环湖\"Flatlanders Path\"，适合所有人，看野生动物\n• Robin's Lookout (Red Gate Trail) — 中等难度，俯瞰Battenkill Valley绝佳视角\n• Aspen Trail — 秋季特别美\n• 登顶Mt. Equinox (6.2mi往返) — Blue Trail从Burr and Burton Academy出发。海拔升2,840 ft。严格上坡无switchback，需体力。\nTrailhead有地图可取。"
+    },
+    {
+      name: "Lye Brook Falls", emoji: "🌊",
+      link: "https://www.alltrails.com/trail/us/vermont/lye-brook-falls-trail",
+      price: "免费",
+      desc: "Vermont最高瀑布之一(125 ft)。4.5mi中等往返（海拔升925 ft），约2-2.5小时。蓝色标记步道，前半段平坦（旧伐木铁路路基），后半段爬升。需过2-3条小溪（5月雪融水量大，穿防水鞋带登山杖）。到达瀑布后走左侧步道上方看全景（正面被树挡，上方视角更好）。底部有水池可以给狗玩水。停车场约20个位，早去。GPS坐标：43.158936, -73.041171。从酒店开车到trailhead约10分钟。狗可以去但要牵绳。5月水量最佳是全年最好的时候。"
+    },
+    {
+      name: "Northshire Bookstore", emoji: "📚",
+      link: "https://www.northshire.com/",
+      price: "免费进入",
+      desc: "Google 4.9分 / 1627条评价。百年Colburn House建筑。新书+二手书+桌游+益智玩具+礼品+肥皂。整层楼的儿童区（书+游戏+拼图）。手写推荐标签、禁书专区、spooky recipe books专区、D&D专区。店内咖啡馆（很热闹，排队正常）。允许带狗。地址：4869 Main St。每天10AM-7PM。可以逛2-3小时。Manchester必去。"
+    },
+    {
+      name: "Orvis旗舰店 + American Museum of Fly Fishing", emoji: "🎣",
+      link: "https://www.orvis.com/s/manchester-vermont-flagship-store/store-1007",
+      link2: "https://www.amff.org/",
+      price: "商店免费 · 博物馆免费/捐赠制",
+      desc: "Orvis 1856年创立于Manchester，4180 Main St旗舰店。一楼Johnny Hinrichs制作的巨型\"Lure of the Fly\"彩色玻璃窗非常壮观。Fly Fishing School就在对面（半日$199/全日$399含装备）。旁边American Museum of Fly Fishing展示运动历史+精美fly-tying艺术品。二楼Gardiner Grant图书馆有1663年版Sir Izaak Walton《The Compleat Angler》。"
+    },
+    {
+      name: "Southern Vermont Arts Center (SVAC)", emoji: "🎨",
+      link: "https://www.svac.org/",
+      price: "成人$15 · 学生$10 · 会员免费",
+      desc: "120英亩，Mt. Equinox山腰。1000+件地区艺术品永久馆藏+轮换特展。Vermont最大户外雕塑公园（开车上山路上就能看到巨型雕塑）。400座剧场有演出。Boswell植物学步道可以从后面直接走进森林。夏季周五晚\"Friday Night Live\"户外音乐会（门票另购）。curATE Café在内用餐。周二至日10AM-5PM。"
+    },
+    {
+      name: "Pastime Pinball", emoji: "🕹️",
+      link: "https://www.pastimepinball.com/",
+      price: "入场费（具体查官网）",
+      desc: "65台弹球机\"可玩博物馆\"。从1947年第一台电子弹球\"Humpty Dumpty\"到现代高刺激机型。Warren of rooms（迷宫式多房间）。楼上小酒吧有爆米花+craft beer+成人饮品。所有机器状态极佳。全年龄。可以玩几小时。"
+    },
+    {
+      name: "Manchester Designer Outlets", emoji: "🛍️",
+      link: "https://www.manchesterdesigneroutlets.com/",
+      price: "免费",
+      desc: "Route 7A沿线品牌折扣群，New England风格建筑。Ralph Lauren · Armani · Eileen Fisher · Brooks Brothers · J.Crew等。Vermont Flannel新店（VT本地品牌，柔软法兰绒衬衫+毯子，做手信很好）。EPOCH Vermont Artisans Gallery（18位本地艺术家轮流看店，陶器/玻璃/珠宝）。Italian Market of Manchester（原Fortuna's，无防腐剂手工意式腊肠，可买回家）。"
+    },
+    {
+      name: "Bromley Mountain Adventure Park", emoji: "🏔️",
+      link: "https://www.bromley.com/",
+      price: "按项目计费",
+      desc: "酒店15分钟车程。夏季Adventure Park：全美最长alpine slide之一（luge式滑道）、zipline、treetop冒险绳索课程、攀岩墙、碰碰船、mini golf、scenic chairlift、Spider Climb充气障碍。冬季46条滑雪道，VT唯一朝南山（日照好）。⚠️ 5月Memorial Day前部分设施可能未开，先查官网。"
+    },
+    {
+      name: "Consider Bardwell Farm", emoji: "🧀",
+      link: "https://www.considerbardwellfarm.com/",
+      price: "参观免费 · workshop/dinner需预约（价格查官网）",
+      desc: "West Pawlet获奖手工芝士农场（约30min车程）。山羊奶和牛奶芝士，有机牧场、无抗生素无激素。4种以VT地名命名的芝士：Manchester（生山羊奶硬芝士）、Dorset（洗皮牛奶芝士）、Pawlet（半硬牛奶）、Rupert（硬牛奶）。可参加cheese making workshop和农场晚餐。也可直接去买芝士带回家做VT最佳手信。Silver Fork的cheese plate就用他家芝士。"
+    },
+    {
+      name: "Manchester Hot Glass", emoji: "🔮",
+      link: "https://www.manchesterhotglass.com/classes/",
+      price: "吹杯$75/人 · 碗/花瓶$100/人 · Glassblowing 101 $350/2人(2h)",
+      desc: "Artist Andrew Weill 2000年创办。79 Elm St（Depot历史区）。你亲手选颜色、操作熔融玻璃、吹制成型。零基础OK。101课做4-5件（镇纸+酒杯+碗）。作品需次日取。📞(802)362-2227。周四至一10-5，周日10-3。⚠️周二三休→只有5/18能去。5岁+可做镇纸，11岁+吹杯，14岁+上101。"
+    },
+    {
+      name: "Route 7A 风景线", emoji: "🍁",
+      link: "https://www.manchestervermont.com/",
+      price: "免费",
+      desc: "Bennington→Manchester 23英里\"Little 7\"（原Route 7，55mph限速但风景绝佳）。沿途：Silk Road/Henry/Paper Mill三座廊桥 · 古董店群 · Arlington Sugar Shack（枫糖+creemee+Norman Rockwell展）· Blue Benn Diner（Bennington经典老餐车，全VT最受欢迎diner之一，便宜好吃）。VT信号差提前存导航。开完约30分钟，加停靠预留1-2小时。这段路本身就是目的地。"
+    }
+  ],
+  itinerary: [
+    {
+      day: "Day 1 · 5/18 周一",
+      title: "Brooklyn → Manchester（路上+抵达）",
+      items: [
+        { time: "7:00 AM", what: "Brooklyn出发", detail: "走BQE → I-87N → Taconic State Pkwy。提前加满油+下载离线地图。⚠️ 关键决策：如果要去Hildene（唯一机会），建议跳过Hudson Valley停靠直达Manchester（约12:30到），这样有整个下午泡Hildene。如果选择停Storm King/Dia，到Manchester约3:30PM，Hildene只剩1小时。两者不可兼得。" },
+        { time: "8:15 AM", what: "可选停靠：Woodbury Common", detail: "如果需要购物。10AM开门，可以先到附近吃早餐等开门。不购物则跳过。" },
+        { time: "9:30 AM", what: "可选停靠：Storm King Art Center 或 Dia:Beacon", detail: "二选一（同天两个有点赶）。Storm King 10AM开门 · Dia:Beacon 10AM开门。都是周一开放。Storm King预留2-3h，Dia预留1.5-2h。" },
+        { time: "12:30 PM", what: "午餐：Beacon Main Street 或 路上", detail: "如果去了Dia，Beacon Main Street有不错的咖啡馆和餐厅。如果走Storm King，可以在New Windsor附近吃。" },
+        { time: "1:30 PM", what: "继续北上", detail: "Taconic Pkwy → Route 7 East进入VT → Route 7A North。进入VT后信号变差。" },
+        { time: "2:30 PM", what: "可选停靠：Bennington Battle Monument", detail: "⚠️ 可能5/24才开放（提前打电话确认802-447-0550）。如果没开，外观看一眼+周围Old Bennington街区快速逛。如果开了$8登顶看三州。如果时间紧跳过这里，优先保Hildene。" },
+        { time: "3:00 PM", what: "Route 7A风景线北上", detail: "Silk Road廊桥快速看一眼（5分钟）。Sugar Shack可以回程时再去。这段尽量快通过。" },
+        { time: "3:15 PM", what: "⭐ Hildene 林肯故居（必须今天去！）", detail: "⚠️ 周二三休，今天是唯一机会！直接到Hildene买票（$23/人，或先打电话确认resort fee门票能否在check-in前使用）。闭馆4:30PM，1小时15分钟可以看大宅+花园+Pullman车厢（跳过步道和农场，时间不够）。如果12点前不停靠任何景点直达Manchester，可以1:30PM到Hildene获得3小时。" },
+        { time: "4:30 PM", what: "酒店Check-in", detail: "Kimpton Taconic Hotel。4PM check-in，4:30到也OK。放行李，换衣服，休息一下。" },
+        { time: "5:00 PM", what: "🍷 Manager's Reception", detail: "免费红酒+芝士+VT啤酒。在大堂/前廊/露台。宠物和住客齐聚。" },
+        { time: "6:30 PM", what: "晚餐：Copper Grouse", detail: "周一全天开放+有live music！推荐Wagyu Burger($26)或Risotto。提前OpenTable订位。" },
+        { time: "8:30 PM", what: "火坑S'mores", detail: "户外火坑烤棉花糖。或在图书馆看书下棋。" }
+      ]
+    },
+    {
+      day: "Day 2 · 5/19 周二",
+      title: "Manchester 全日探索",
+      items: [
+        { time: "7:30 AM", what: "酒店早餐 或 Up for Breakfast", detail: "Copper Grouse周二早餐8-10:30AM开放。或者去Up for Breakfast（早去避开排队）→ Sourdough法式吐司+Maple Latte。" },
+        { time: "9:00 AM", what: "可选：Renu Lounge SPA", detail: "桑拿$45·冷水池$25，酒店码TACONIC享8折。⚠️周二business hours仅9AM-1PM，要去就上午去。地址3511 Richville Rd，开车几分钟。带白毛巾。" },
+        { time: "9:30 AM", what: "选项A：Lye Brook Falls 徒步", detail: "4.5mi往返约2.5h。5月水量最佳。穿防水鞋，借酒店登山杖。trailhead开车10分钟。" },
+        { time: "9:30 AM", what: "选项B：Land Rover越野体验", detail: "1小时$275起。Equinox Resort旁。需提前预约📞(802)362-0687。" },
+        { time: "9:30 AM", what: "选项C：Battenkill River皮划艇", detail: "单人$55-70。5月水量充沛。BVO提供rental+shuttle。穿可以湿的衣服。" },
+        { time: "12:00 PM", what: "午餐", detail: "Copper Grouse周二无午餐！替代：Crooked Ram Cafe · curATE Café(SVAC内) · Depot Street Burgers · Little Rooster。" },
+        { time: "1:30 PM", what: "SVAC 南佛蒙特艺术中心", detail: "周二开放！成人$15。雕塑公园+画廊+Boswell步道。在curATE Café喝个下午茶。预留2小时。" },
+        { time: "3:30 PM", what: "Northshire Bookstore", detail: "逛书店+咖啡。然后Manchester主街shopping（outlets/Vermont Flannel/EPOCH Gallery）。" },
+        { time: "5:00 PM", what: "🍷 Manager's Reception", detail: "回酒店免费酒会。" },
+        { time: "7:00 PM", what: "晚餐：Silver Fork", detail: "周二开放！5-9PM（last seating约8:30）。必须提前订📞(802)768-8444。点Mofongo($38)+Caribbean Bread Pudding Soufflé($14,提前30min预点)。或者：Ye Olde Tavern · Reluctant Panther · Crooked Ram。" },
+        { time: "9:00 PM", what: "散步 + 火坑", detail: "Manchester Village夜间非常安静美丽。回酒店火坑区看星星。" }
+      ]
+    },
+    {
+      day: "Day 3 · 5/20 周三",
+      title: "最后探索 + 返程",
+      items: [
+        { time: "8:00 AM", what: "Copper Grouse早餐", detail: "⚠️周三只有早餐（无午餐无晚餐）！8-10:30AM。最后一顿酒店餐，推荐French Toast($14)或Eggs Benedict($16)。" },
+        { time: "9:30 AM", what: "选项A：Equinox Preserve 步道", detail: "Pond Loop轻松0.75mi · Robin's Lookout中等 · 登顶6.2mi（如果昨天没徒步的话）。免费。" },
+        { time: "9:30 AM", what: "选项B：Northshire Bookstore + 主街Shopping", detail: "如果昨天没去。书店10AM开门。然后逛Manchester Designer Outlets、Vermont Flannel、EPOCH Gallery、Italian Market买手信。" },
+        { time: "9:30 AM", what: "选项C：Orvis旗舰店 + 飞蝇钓博物馆", detail: "免费逛旗舰店+看巨型彩色玻璃窗。博物馆免费/捐赠制。如果想钓鱼可以预约半日课程$199。" },
+        { time: "9:30 AM", what: "选项D：Consider Bardwell Farm", detail: "开车30min去West Pawlet买手工芝士。适合带手信回家。" },
+        { time: "11:00 AM", what: "Check-out", detail: "11AM deadline。如果需要late check-out提前跟前台申请（IHG白金以上会员通常可以延到2PM）。" },
+        { time: "11:30 AM", what: "Sugar Shack (Route 7A)", detail: "往南走Route 7A回程顺路。吃maple creemee+买枫糖手信。" },
+        { time: "12:00 PM", what: "午餐：Hill Farm Restaurant 或 Bennington", detail: "Hill Farm周三开放（4PM bar/晚餐）→午餐时间不开。替代：回Bennington吃Blue Benn Diner（经典美国diner，便宜大碗）。或打包Copper Grouse早餐吃。" },
+        { time: "1:00 PM", what: "返程出发", detail: "Manchester → Route 7A South → Route 7 West → Taconic State Pkwy South → I-87S → Brooklyn。约4.5小时不停车。" },
+        { time: "2:00 PM", what: "可选停靠：Woodbury Common", detail: "如果来的时候没逛。下午到正好是工作日，人少。" },
+        { time: "5:30 PM", what: "抵达Brooklyn", detail: "如果不停车，约5:30PM到。加停靠约7PM。" }
+      ]
+    }
+  ],
+  budget: {
+    title: "预算估算（2人）",
+    items: [
+      { category: "住宿", item: "Kimpton Taconic 2晚", estimate: "$400-700", note: "取决于房型和季节。5月非旺季。加resort fee $60。" },
+      { category: "油费", item: "Brooklyn往返440英里", estimate: "$60-80", note: "约15-18加仑@$3.50-4.50/gal" },
+      { category: "过路费", item: "I-87 + Taconic Pkwy", estimate: "$15-25", note: "EZPass更便宜" },
+      { category: "餐饮", item: "Copper Grouse 2早+1晚", estimate: "$100-160", note: "早餐$25-35/人，晚餐$60-90/人含酒" },
+      { category: "餐饮", item: "Silver Fork 1晚", estimate: "$120-200", note: "人均$60-100含酒" },
+      { category: "餐饮", item: "其他餐（午餐+小吃）", estimate: "$80-120", note: "Up for Breakfast, Crooked Ram, Sugar Shack等" },
+      { category: "门票", item: "Hildene", estimate: "$0", note: "resort fee含" },
+      { category: "门票", item: "Storm King 或 Dia", estimate: "$40-44", note: "2人" },
+      { category: "门票", item: "Bennington Monument", estimate: "$16", note: "2人@$8（可能未开放，需确认）" },
+      { category: "门票", item: "SVAC", estimate: "$30", note: "2人" },
+      { category: "活动", item: "Land Rover 1小时", estimate: "$275", note: "可选" },
+      { category: "活动", item: "Manchester Hot Glass", estimate: "$150-350", note: "可选" },
+      { category: "活动", item: "Battenkill皮划艇", estimate: "$110-170", note: "可选" },
+      { category: "活动", item: "Renu Lounge SPA", estimate: "$70-90", note: "可选，已含8折" },
+      { category: "购物", item: "Woodbury Common / Manchester Outlets", estimate: "自控", note: "😂" },
+      { category: "手信", item: "枫糖/芝士/Vermont Flannel", estimate: "$30-80", note: "" }
+    ],
+    total: "基础（住宿+餐饮+门票+油费）约 $900-1,400 / 含活动约 $1,300-2,200"
+  },
+  packing: [
+    "防水徒步鞋（Mud Season尾声，步道可能泥泞）",
+    "轻薄外套/抓绒（山区夜间5-8°C）",
+    "防晒霜+太阳镜（5月日照渐强）",
+    "可湿衣物（如果玩皮划艇）",
+    "充电宝（VT信号差耗电快）",
+    "Google Maps离线地图（提前下载VT区域）",
+    "现金（部分农场/小店不收卡）",
+    "白毛巾（如果去Renu Lounge，否则租$3）",
+    "空行李箱空间（Woodbury Common/Manchester shopping）",
+    "相机/手机存储空间（风景极美）",
+    "小型cooler（路上可以买VT芝士/枫糖保鲜带回）"
+  ],
+  emergencies: [
+    { type: "酒店", phone: "(802) 362-0147", name: "Kimpton Taconic Hotel" },
+    { type: "餐厅", phone: "(802) 362-0176", name: "Copper Grouse 预约" },
+    { type: "餐厅", phone: "(802) 768-8444", name: "Silver Fork 预约" },
+    { type: "活动", phone: "(802) 362-0687", name: "Land Rover Experience" },
+    { type: "活动", phone: "(802) 362-2227", name: "Manchester Hot Glass" },
+    { type: "活动", phone: "(802) 362-4700", name: "Equinox Resort (Falconry)" },
+    { type: "紧急", phone: "911", name: "紧急救援" },
+    { type: "医疗", phone: "(802) 442-6361", name: "Southwestern VT Medical Center (Bennington, 最近医院约30min)" },
+    { type: "道路", phone: "511", name: "VT道路状况" }
+  ],
+  openSchedule: {
+    "5/18 Mon": {
+      open: ["Dia:Beacon ✅", "Storm King ✅", "Hildene ✅(唯一机会!)", "Northshire ✅", "Orvis ✅", "Pastime Pinball ✅", "Manchester Hot Glass ✅", "Copper Grouse全天 ✅(live music!)"],
+      closed: ["SVAC ❌(周一休)", "curATE ❌(周一休)", "Bennington Monument ❓(可能5/24才开,需确认)"]
+    },
+    "5/19 Tue": {
+      open: ["SVAC ✅", "curATE ✅", "Northshire ✅", "Orvis ✅", "Silver Fork ✅", "Ye Olde Tavern ✅", "Pastime Pinball ✅", "Copper Grouse早+晚 ✅(无午餐)"],
+      closed: ["Storm King ❌", "Dia:Beacon ❌", "Hildene ❌", "Manchester Hot Glass ❌"]
+    },
+    "5/20 Wed": {
+      open: ["SVAC ✅", "curATE ✅(晚餐5-7:30)", "Northshire ✅", "Orvis ✅", "Silver Fork ✅", "Hill Farm ✅(4PM起)", "Pastime Pinball ✅"],
+      closed: ["Hildene ❌", "Manchester Hot Glass ❌", "Copper Grouse ❌(只有早餐!)", "Skyline Drive ❌(5/23才开)"]
+    }
+  }
+}
+
+const tabDefs = [
+  {id:"overview",label:"总览"},
+  {id:"stops",label:"沿途停靠"},
+  {id:"hotel",label:"酒店活动"},
+  {id:"dining",label:"餐饮详情"},
+  {id:"activities",label:"体验活动"},
+  {id:"itinerary",label:"Day 1-3"},
+  {id:"practical",label:"实用信息"}
+];
+
+let currentTab = "overview";
+
+function L(url,text){return `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`}
+function tag(t,c){return `<span class="tag ${c||''}">${t}</span>`}
+function card(inner){return `<div class="card">${inner}</div>`}
+function h3(t){return `<h3>${t}</h3>`}
+function warn(t){return `<div class="warn">${t}</div>`}
+function menuRow(item,price,note){return `<div class="menu-row"><div><div class="name">${item}</div>${note?`<div class="note">${note}</div>`:''}</div><div class="price">${price}</div></div>`}
+function itinRow(time,what,detail){return `<div class="itin-row"><div class="itin-time">${time}</div><div style="flex:1"><div class="itin-what">${what}</div><div class="itin-detail">${detail}</div></div></div>`}
+
+function renderTabs(){
+  document.getElementById('tabs').innerHTML = tabDefs.map(t=>
+    `<button class="tab-btn ${t.id===currentTab?'active':''}" onclick="switchTab('${t.id}')">${t.label}</button>`
+  ).join('');
+}
+
+function switchTab(id){
+  currentTab=id;
+  renderTabs();
+  renderContent();
+}
+
+function renderContent(){
+  const el=document.getElementById('content');
+  let h='';
+  
+  if(currentTab==='overview'){
+    h+=warn(`<strong>⚠️ 日期关键提醒：</strong> 5/18周一 · 5/19周二 · 5/20周三。Hildene周二三休→<strong>只能5/18去</strong>。Dia:Beacon周二至四休。Storm King周二休。Copper Grouse <strong>周三只有早餐</strong>。Mt. Equinox Skyline Drive 5/23才开放。Bennington Monument可能5/24才开（需确认）。五月中旬Mud Season尾声。`);
+    
+    h+=card(h3('🗺️ 推荐路线')+`<p class="section-sub">${data.trip.route}</p><p style="font-size:.79rem;color:var(--muted)">${data.trip.routeNote}</p>`);
+    
+    h+=card(h3('🏨 目的地：'+data.hotel.name)+`<p class="section-sub">
+      ${data.hotel.address} · ${L(data.hotel.website,'官网')} · ${L(data.hotel.ihg,'IHG')}<br>
+      ${data.hotel.ranking}<br>
+      Check-in ${data.hotel.checkIn} · Check-out ${data.hotel.checkOut}<br>
+      Resort Fee: ${data.hotel.resortFee}<br>
+      ${data.hotel.rooms} · ${data.hotel.roomFeatures}<br>
+      宠物：${data.hotel.petPolicy}<br>
+      IHG积分：${data.hotel.points}<br>
+      其他：${data.hotel.extras}
+    </p>`);
+    
+    let sched='';
+    for(const[day,info] of Object.entries(data.openSchedule)){
+      sched+=`<div style="margin-bottom:8px"><div style="font-weight:600;font-size:.87rem;margin-bottom:3px">${day}</div>
+        <div style="font-size:.77rem;color:var(--green);line-height:1.6">${info.open.join(' · ')}</div>
+        <div style="font-size:.77rem;color:var(--red);line-height:1.6">${info.closed.join(' · ')}</div></div>`;
+    }
+    h+=card(h3('📅 三天开放速查')+sched);
+    
+    let budget='';
+    for(const b of data.budget.items){
+      budget+=`<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f2e7d9;font-size:.81rem">
+        <span style="color:var(--text2)">${tag(b.category)} ${b.item}</span>
+        <span style="color:var(--accent);font-weight:600;white-space:nowrap">${b.estimate}</span></div>`;
+    }
+    budget+=`<div style="margin-top:8px;font-weight:600;font-size:.88rem;color:var(--accent)">${data.budget.total}</div>`;
+    h+=card(h3('💰 预算估算（2人）')+budget);
+  }
+  
+  else if(currentTab==='stops'){
+    for(const s of data.stops){
+      let inner=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span class="stop-num">${s.num}</span>
+        <div><div style="font-family:'Noto Serif SC',serif;font-weight:600;font-size:1rem">${s.nameZh}</div>
+        <div style="font-size:.74rem;color:var(--muted)">${s.name} · ${s.location}</div></div>
+        <div style="margin-left:auto;font-size:.69rem;background:var(--tag-bg);padding:2px 8px;border-radius:8px;color:var(--muted);white-space:nowrap">${s.distance}</div></div>`;
+      inner+=s.tags.map(t=>tag(t,t==='购物'?'tag-orange':t==='历史'?'tag-blue':t==='自然'?'tag-green':'')).join('');
+      inner+=`<p style="font-size:.84rem;color:var(--text2);line-height:1.8;margin-top:8px">${s.desc}</p>`;
+      if(s.luxury)inner+=`<p style="font-size:.77rem;color:var(--muted);margin-top:4px"><strong>奢侈品：</strong>${s.luxury}</p>`;
+      if(s.popular)inner+=`<p style="font-size:.77rem;color:var(--muted);margin-top:2px"><strong>流行品牌：</strong>${s.popular}</p>`;
+      if(s.food)inner+=`<p style="font-size:.77rem;color:var(--muted);margin-top:2px"><strong>餐饮：</strong>${s.food}</p>`;
+      let meta=[];
+      if(s.hours)meta.push('⏰ '+s.hours);
+      if(s.price)meta.push('💰 '+s.price);
+      if(s.rating)meta.push('⭐ '+s.rating);
+      if(meta.length)inner+=`<div class="meta">${meta.map(m=>'<span>'+m+'</span>').join('')}</div>`;
+      if(s.tips)inner+=`<div class="tip-box">💡 ${s.tips}</div>`;
+      inner+=`<div style="margin-top:6px">${L(s.link,'→ 官网/详情')}</div>`;
+      h+=card(inner);
+    }
+  }
+  
+  else if(currentTab==='hotel'){
+    let free='';
+    for(const a of data.hotel.dailyFree){
+      free+=`<div style="padding:7px 0;border-bottom:1px solid #f2e7d9">
+        <div style="font-size:.87rem;font-weight:500">${a.icon} ${a.name}</div>
+        <div style="font-size:.79rem;color:var(--text2);margin-top:2px;line-height:1.7">${a.desc}</div></div>`;
+    }
+    h+=card(h3('🎁 每日免费活动')+free);
+    
+    let exp='';
+    for(const a of data.hotel.bookableExperiences){
+      exp+=`<div style="padding:9px 0;border-bottom:1px solid #f2e7d9">
+        <div style="font-size:.9rem;font-weight:600">${a.icon} ${a.name}</div>
+        <div class="exp-price">${a.price}</div>
+        <div style="font-size:.79rem;color:var(--text2);margin-top:3px;line-height:1.7">${a.desc}</div>`;
+      if(a.note)exp+=`<div class="exp-note">${a.note}</div>`;
+      exp+=`<div style="margin-top:3px;font-size:.77rem">`;
+      if(a.phone)exp+=`<span style="color:var(--muted);margin-right:8px">📞 ${a.phone}</span>`;
+      if(a.link)exp+=L(a.link,'→ 详情/预约');
+      exp+=`</div></div>`;
+    }
+    h+=card(h3('🎯 可预约特色体验')+exp);
+  }
+  
+  else if(currentTab==='dining'){
+    // Copper Grouse
+    let cg=h3('🍽️ '+data.copperGrouse.name+'（酒店餐厅）');
+    cg+=`<p style="font-size:.81rem;color:var(--text2);margin-bottom:5px">${data.copperGrouse.chef} · ${data.copperGrouse.rating} · ${L(data.copperGrouse.website,'菜单')} · ${L(data.copperGrouse.opentable,'OpenTable')} · 📞${data.copperGrouse.phone}</p>`;
+    cg+=`<p style="font-size:.77rem;color:var(--muted);margin-bottom:7px;line-height:1.6">${data.copperGrouse.chefNote}</p>`;
+    cg+=warn(`<strong>你的日期营业时间：</strong><br>${data.copperGrouse.yourDates}`);
+    
+    const sections=[
+      ['☀️ 早餐 ($11-16)',data.copperGrouse.breakfast],
+      ['🥗 前菜/沙拉',data.copperGrouse.appetizers],
+      ['🥩 主菜',data.copperGrouse.entrees],
+      ['🥗 配菜',data.copperGrouse.sides],
+      ['🍰 甜点',data.copperGrouse.desserts],
+      ['🍸 饮品',data.copperGrouse.drinks]
+    ];
+    for(const[title,items] of sections){
+      cg+=`<div style="margin-bottom:7px"><div style="font-weight:600;font-size:.87rem;margin-bottom:3px">${title}</div>`;
+      for(const m of items) cg+=menuRow(m.item,m.price,m.note||'');
+      cg+=`</div>`;
+    }
+    cg+=`<div class="tip-box">💡 ${data.copperGrouse.budgetTip}</div>`;
+    h+=card(cg);
+    
+    // Other restaurants
+    for(const r of data.restaurants){
+      let inner=`<div style="display:flex;justify-content:space-between;align-items:flex-start">${h3(r.emoji+' '+r.name)}${tag(r.price,'tag-orange')}</div>`;
+      inner+=`<p style="font-size:.77rem;color:var(--muted);margin-bottom:3px">${r.type} · ${r.hours}</p>`;
+      if(r.address)inner+=`<p style="font-size:.77rem;color:var(--muted)">📍 ${r.address}${r.phone?' · 📞 '+r.phone:''}</p>`;
+      inner+=`<p style="font-size:.84rem;color:var(--text2);margin-top:5px;line-height:1.8">${r.desc}</p>`;
+      inner+=`<div style="margin-top:7px"><div style="font-weight:500;font-size:.84rem;margin-bottom:3px">必点推荐：</div>`;
+      for(const m of r.mustOrder) inner+=`<div style="font-size:.81rem;color:var(--text2);padding:2px 0;line-height:1.6">• ${m}</div>`;
+      inner+=`</div>`;
+      if(r.tips)inner+=`<div class="tip-box">💡 ${r.tips}</div>`;
+      if(r.link)inner+=`<div style="margin-top:5px">${L(r.link,'→ 官网')}${r.tripadvisor?' · '+L(r.tripadvisor,'Tripadvisor'):''}</div>`;
+      h+=card(inner);
+    }
+  }
+  
+  else if(currentTab==='activities'){
+    for(const a of data.activities){
+      let inner=h3(a.emoji+' '+a.name);
+      inner+=`<div class="exp-price">${a.price}</div>`;
+      inner+=`<p style="font-size:.84rem;color:var(--text2);line-height:1.8;white-space:pre-line">${a.desc}</p>`;
+      if(a.warning)inner+=warn(a.warning);
+      if(a.link)inner+=`<div style="margin-top:5px">${L(a.link,'→ 详情')}${a.link2?' · '+L(a.link2,'→ 飞蝇钓博物馆'):''}</div>`;
+      h+=card(inner);
+    }
+  }
+  
+  else if(currentTab==='itinerary'){
+    for(const day of data.itinerary){
+      let inner=h3(day.day)+`<p style="font-size:.84rem;color:var(--text2);margin-bottom:7px;font-weight:500">${day.title}</p>`;
+      for(const it of day.items) inner+=itinRow(it.time,it.what,it.detail);
+      h+=card(inner);
+    }
+  }
+  
+  else if(currentTab==='practical'){
+    h+=card(h3('🌤️ 五月天气')+`<p class="section-sub">Manchester 5月平均高温18-22°C (64-72°F)，夜间可降至5-8°C (41-46°F)。山区温差大，Mt. Equinox山顶比山下低5-10°C。偶有阵雨。Mud Season尾声，4月-6月初步道泥泞。Lye Brook Falls 5月水量最佳（雪融水）。绿意刚刚爆发，非常清新。</p>`);
+    
+    let pack='';
+    for(const p of data.packing) pack+=`<div style="font-size:.84rem;color:var(--text2);padding:3px 0">☐ ${p}</div>`;
+    h+=card(h3('🎒 装箱清单')+pack);
+    
+    let emerg='';
+    for(const e of data.emergencies){
+      const tc=e.type==='紧急'||e.type==='医疗'?'tag-red':'';
+      emerg+=`<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f2e7d9;font-size:.84rem">
+        <span style="color:var(--text2)">${tag(e.type,tc)} ${e.name}</span>
+        <span style="color:var(--accent);font-weight:600">${e.phone}</span></div>`;
+    }
+    h+=card(h3('📞 重要电话')+emerg);
+    
+    h+=card(h3('📱 信号 & 导航')+`<p class="section-sub">进入Vermont南部后手机信号非常不稳定（T-Mobile/AT&T/Verizon都一样）。Route 7A廊桥周边、Lye Brook Falls步道、山区几乎无信号。<strong>必须提前下载Google Maps离线地图</strong>（设置→离线地图→选择VT区域）。也可下载AllTrails离线步道地图。EZPass提前确认余额（I-87有收费站）。</p>`);
+    
+    const links=[
+      ["Kimpton Taconic",data.hotel.website],
+      ["Copper Grouse菜单",data.copperGrouse.website],
+      ["Copper Grouse预约",data.copperGrouse.opentable],
+      ["Silver Fork","https://www.thesilverforkvt.com/"],
+      ["Crooked Ram","https://www.thecrookedram.com/"],
+      ["Ye Olde Tavern","https://www.yeoldetavern.net/"],
+      ["Hill Farm","https://www.hillfarminn.com/dine"],
+      ["Mystico 802","https://mystico802.com/"],
+      ["curATE Café","https://www.svac.org/curate-cafe/"],
+      ["Reluctant Panther","https://www.reluctantpanther.com/dining"],
+      ["Northshire Bookstore","https://www.northshire.com/"],
+      ["Storm King","https://stormking.org/"],
+      ["Dia Beacon","https://www.diaart.org/visit/visit-our-locations-702/dia-beacon-702"],
+      ["Hildene","https://hildene.org/"],
+      ["Bennington Monument","https://www.benningtonbattlemonument.com/"],
+      ["SVAC","https://www.svac.org/"],
+      ["Equinox Preserve","https://www.equinoxpreservationtrust.org/"],
+      ["Skyline Drive","https://equinoxmountain.com/"],
+      ["Land Rover Experience","https://experience.landroverusa.com/vermont/index.html"],
+      ["Manchester Hot Glass","https://www.manchesterhotglass.com/classes/"],
+      ["Orvis Flagship","https://www.orvis.com/s/manchester-vermont-flagship-store/store-1007"],
+      ["AMFF飞蝇钓博物馆","https://www.amff.org/"],
+      ["Renu Lounge","https://www.renulounge.com/packages"],
+      ["Falconry","https://www.equinoxresort.com/activities/falconry"],
+      ["BVO皮划艇","https://www.battenkillvalleyoutdoors.com/"],
+      ["Lye Brook Falls","https://www.alltrails.com/trail/us/vermont/lye-brook-falls-trail"],
+      ["Bromley Mountain","https://www.bromley.com/"],
+      ["Consider Bardwell Farm","https://www.considerbardwellfarm.com/"],
+      ["Pastime Pinball","https://www.pastimepinball.com/"],
+      ["Woodbury Common","https://www.premiumoutlets.com/outlet/woodbury-common"],
+      ["Manchester Outlets","https://www.manchesterdesigneroutlets.com/"],
+      ["Manchester VT总览","https://www.manchestervermont.com/"]
+    ];
+    let linkHtml='<div class="link-grid">';
+    for(const[name,url] of links) linkHtml+=`<div>${L(url,name)}</div>`;
+    linkHtml+='</div>';
+    h+=card(h3('🔗 所有链接汇总')+linkHtml);
+  }
+  
+  el.innerHTML=h;
+}
+
+renderTabs();
+renderContent();
+</script>
+</body>
+</html>
