@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心理成长工作坊</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --beige: #f7f1e8;
+  --beige-soft: #f2e7d9;
+  --beige-card: #fdf9f4;
+  --gold: #b8860b;
+  --gold-light: rgba(184,134,11,0.15);
+  --text: #3a3226;
+  --text-mid: #6b5e4e;
+  --text-light: #9a8c7e;
+  --border: #e0d5c7;
+  --radius: 16px;
+  --radius-lg: 24px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Noto Sans SC', sans-serif; background: var(--beige); color: var(--text); min-height: 100vh; }
+#selectorScreen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px 60px; }
+.selector-header { text-align: center; margin-bottom: 44px; }
+.selector-header .logo { font-size: 36px; margin-bottom: 12px; }
+.selector-header h1 { font-family: 'Noto Serif SC', serif; font-size: 28px; font-weight: 600; color: var(--text); letter-spacing: 1px; margin-bottom: 6px; }
+.selector-header p { font-size: 14px; color: var(--text-light); letter-spacing: 0.5px; }
+.selector-section { width: 100%; max-width: 760px; margin-bottom: 36px; }
+.selector-section h2 { font-family: 'Noto Serif SC', serif; font-size: 16px; font-weight: 600; color: var(--text-mid); margin-bottom: 14px; padding-left: 4px; display: flex; align-items: center; gap: 8px; }
+.selector-section h2::before { content: ''; display: inline-block; width: 4px; height: 18px; background: var(--gold); border-radius: 2px; }
+.age-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.age-card { background: var(--beige-card); border: 2px solid var(--border); border-radius: var(--radius); padding: 20px 14px; cursor: pointer; text-align: center; transition: all 0.2s; }
+.age-card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(184,134,11,0.12); }
+.age-card.selected { border-color: var(--gold); background: var(--gold-light); }
+.age-card .age-icon { font-size: 32px; margin-bottom: 8px; }
+.age-card .age-label { font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 600; color: var(--text); }
+.age-card .age-sub { font-size: 11px; color: var(--text-light); margin-top: 3px; }
+.theme-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.theme-card { background: var(--beige-card); border: 2px solid var(--border); border-radius: var(--radius); padding: 18px 20px; cursor: pointer; display: flex; align-items: center; gap: 14px; transition: all 0.2s; }
+.theme-card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(184,134,11,0.12); }
+.theme-card.selected { border-color: var(--gold); background: var(--gold-light); }
+.theme-card .theme-icon { font-size: 28px; flex-shrink: 0; }
+.theme-card .theme-info .theme-name { font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 600; color: var(--text); }
+.theme-card .theme-info .theme-desc { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+.generate-btn { width: 100%; max-width: 760px; padding: 18px; background: var(--gold); color: white; border: none; border-radius: var(--radius); font-family: 'Noto Serif SC', serif; font-size: 17px; font-weight: 600; cursor: pointer; letter-spacing: 1px; transition: all 0.2s; opacity: 0.4; pointer-events: none; }
+.generate-btn.ready { opacity: 1; pointer-events: all; }
+.generate-btn.ready:hover { background: #9a7209; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(184,134,11,0.3); }
+#worksheetScreen { display: none; min-height: 100vh; }
+.ws-toolbar { position: fixed; top:0; left:0; right:0; z-index:200; background: var(--beige-card); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; box-shadow: 0 2px 8px rgba(58,50,38,0.06); }
+.ws-toolbar-left { display: flex; align-items: center; gap: 12px; }
+.ws-toolbar-title { font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 600; }
+.ws-toolbar-badge { font-size: 11px; padding: 3px 10px; background: var(--gold-light); color: var(--gold); border-radius: 20px; font-weight: 500; }
+.toolbar-btn { padding: 8px 18px; border-radius: 8px; border: 1.5px solid var(--border); background: white; font-family: 'Noto Sans SC', sans-serif; font-size: 13px; cursor: pointer; color: var(--text); transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
+.toolbar-btn:hover { border-color: var(--gold); }
+.toolbar-btn.primary { background: var(--gold); color: white; border-color: var(--gold); }
+.toolbar-btn.primary:hover { background: #9a7209; }
+.ws-area { max-width: 860px; margin: 0 auto; padding: 80px 24px 80px; }
+
+/* CHILD */
+.ws-child { --c1: #ff8fab; --c2: #ffd166; --c3: #06d6a0; --c4: #118ab2; --c5: #e07be0; font-family: 'Nunito', 'Noto Sans SC', sans-serif; }
+.ws-child .ws-header { background: white; border-radius: var(--radius-lg); padding: 28px 30px; margin-bottom: 18px; border: 3px solid #ffd166; text-align: center; position: relative; overflow: hidden; }
+.ws-child .ws-header::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,209,102,0.08) 8px, rgba(255,209,102,0.08) 16px); }
+.ws-child .ws-title { font-family: 'Nunito', sans-serif; font-size: 30px; font-weight: 900; color: var(--text); position: relative; }
+.ws-child .ws-subtitle { font-size: 13px; color: var(--text-light); margin-top: 4px; position: relative; }
+.ws-child .ws-name-row { display: flex; gap: 12px; flex-wrap: wrap; position: relative; margin-top: 14px; }
+.ws-child .name-field { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; }
+.ws-child .name-field span { color: var(--text); }
+.ws-child .name-field input { border: none; border-bottom: 2.5px solid #ffd166; background: transparent; font-family: inherit; font-size: 14px; width: 120px; outline: none; color: var(--text); padding: 2px 4px; }
+.ws-child .ws-card { background: white; border-radius: var(--radius-lg); padding: 22px 24px; margin-bottom: 16px; border: 2.5px solid var(--border); }
+.ws-child .card-title { font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.draw-box { border: 2.5px dashed var(--border); border-radius: 12px; background: #fffef9; display: flex; align-items: center; justify-content: center; color: var(--text-light); font-size: 13px; text-align: center; padding: 12px; position: relative; }
+.draw-box-hint { font-size: 11px; color: var(--text-light); margin-top: 6px; text-align: center; }
+.write-lines { margin-top: 6px; }
+.write-line { width: 100%; border: none; border-bottom: 1.5px solid #e8ddd0; background: transparent; font-family: 'Nunito', 'Noto Sans SC', sans-serif; font-size: 14px; color: var(--text); padding: 8px 4px; outline: none; display: block; margin-bottom: 4px; }
+.write-line-label { font-size: 13px; color: var(--text-mid); font-weight: 600; margin-bottom: 2px; }
+.emotion-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.emo-btn-child { display: flex; flex-direction: column; align-items: center; padding: 10px 14px; border-radius: 14px; border: 2.5px solid var(--border); background: white; cursor: pointer; transition: all 0.15s; font-family: 'Nunito', sans-serif; min-width: 70px; user-select: none; }
+.emo-btn-child:hover { transform: scale(1.06); }
+.emo-btn-child.on { border-color: var(--gold); background: var(--gold-light); }
+.emo-btn-child .ei { font-size: 28px; }
+.emo-btn-child .el { font-size: 11px; font-weight: 700; margin-top: 4px; color: var(--text); }
+.circle-rating { display: flex; gap: 8px; margin: 8px 0; align-items: center; }
+.circle-rating label { font-size: 12px; color: var(--text-light); }
+.cr-btn { width: 34px; height: 34px; border-radius: 50%; border: 2.5px solid var(--border); background: white; cursor: pointer; font-size: 13px; font-weight: 700; font-family: 'Nunito', sans-serif; transition: all 0.12s; color: var(--text-light); display: flex; align-items: center; justify-content: center; }
+.cr-btn:hover { border-color: var(--gold); }
+.cr-btn.on { background: var(--gold); color: white; border-color: var(--gold); }
+.check-bubbles { display: flex; flex-wrap: wrap; gap: 7px; margin: 8px 0; }
+.cb-bubble { padding: 6px 14px; border-radius: 20px; border: 2px solid var(--border); background: white; cursor: pointer; font-size: 13px; font-weight: 600; font-family: 'Nunito', sans-serif; transition: all 0.12s; user-select: none; }
+.cb-bubble:hover { border-color: var(--gold); }
+.cb-bubble.on { background: var(--gold); color: white; border-color: var(--gold); }
+.color-badge { display: inline-block; padding: 2px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; color: white; }
+.scenario-card { background: #fffef9; border: 2px solid var(--border); border-radius: 14px; padding: 16px 18px; margin-bottom: 12px; }
+.scenario-card .scenario-text { font-size: 14px; line-height: 1.7; color: var(--text-mid); margin-bottom: 10px; }
+.scenario-card .scenario-q { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.two-col-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0; }
+
+/* TEEN */
+.ws-teen { --tc: #5e60ce; --tc-soft: rgba(94,96,206,0.1); font-family: 'Noto Sans SC', sans-serif; }
+.ws-teen .ws-header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: var(--radius-lg); padding: 30px 32px; margin-bottom: 20px; color: white; position: relative; overflow: hidden; }
+.ws-teen .ws-header::after { content: ''; position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; border-radius: 50%; background: rgba(94,96,206,0.25); }
+.ws-teen .ws-title { font-family: 'Noto Serif SC', serif; font-size: 26px; font-weight: 700; color: white; position: relative; }
+.ws-teen .ws-subtitle { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 4px; position: relative; }
+.ws-teen .ws-name-row { display: flex; gap: 20px; margin-top: 16px; position: relative; }
+.ws-teen .name-field { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.7); }
+.ws-teen .name-field input { border: none; border-bottom: 1.5px solid rgba(255,255,255,0.4); background: transparent; color: white; font-family: inherit; font-size: 13px; width: 130px; outline: none; padding: 2px 4px; }
+.ws-teen .ws-card { background: white; border-radius: var(--radius); padding: 22px 24px; margin-bottom: 14px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(58,50,38,0.04); }
+.ws-teen .card-title { font-size: 14px; font-weight: 600; color: var(--tc); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.ws-teen .card-title::before { content: ''; display: block; width: 3px; height: 14px; background: var(--tc); border-radius: 2px; }
+.teen-emotion-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px,1fr)); gap: 8px; margin: 8px 0; }
+.teen-emo { padding: 8px 6px; border-radius: 10px; border: 1.5px solid var(--border); background: white; cursor: pointer; text-align: center; transition: all 0.15s; user-select: none; }
+.teen-emo:hover { border-color: var(--tc); background: var(--tc-soft); }
+.teen-emo.on { border-color: var(--tc); background: var(--tc-soft); }
+.teen-emo .ei { font-size: 22px; display: block; margin-bottom: 3px; }
+.teen-emo .el { font-size: 11px; color: var(--text); }
+.teen-input { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; background: #fafafa; font-family: inherit; font-size: 13px; color: var(--text); outline: none; margin-bottom: 8px; resize: none; transition: border-color 0.15s; }
+.teen-input:focus { border-color: var(--tc); }
+.teen-input-label { font-size: 12px; color: var(--text-light); margin-bottom: 4px; font-weight: 500; }
+.teen-slider-wrap { margin: 8px 0 14px; }
+.teen-slider-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-light); margin-bottom: 4px; }
+.teen-slider { width: 100%; accent-color: var(--tc); }
+.teen-slider-val { text-align: center; font-size: 13px; font-weight: 600; color: var(--tc); margin-top: 2px; }
+.teen-check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 6px; margin: 8px 0; }
+.teen-check-item { display: flex; align-items: center; gap: 7px; padding: 7px 10px; border-radius: 8px; border: 1.5px solid var(--border); background: white; cursor: pointer; font-size: 13px; transition: all 0.12s; user-select: none; }
+.teen-check-item:hover { background: var(--tc-soft); border-color: var(--tc); }
+.teen-check-item.on { background: var(--tc-soft); border-color: var(--tc); color: var(--tc); font-weight: 500; }
+.teen-check-item .check-dot { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid currentColor; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; }
+.teen-check-item.on .check-dot::after { content: '✓'; }
+.teen-scenario { background: #fafafa; border: 1.5px solid var(--border); border-radius: 10px; padding: 16px 18px; margin-bottom: 12px; }
+.teen-scenario .sc-text { font-size: 13px; line-height: 1.7; color: var(--text-mid); margin-bottom: 10px; }
+
+/* ADULT */
+.ws-adult { font-family: 'Noto Serif SC', serif; }
+.ws-adult .ws-header { background: var(--beige-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px 36px; margin-bottom: 20px; display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.ws-adult .ws-header-left .ws-title { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.ws-adult .ws-header-left .ws-subtitle { font-size: 13px; color: var(--text-light); font-family: 'Noto Sans SC', sans-serif; margin-top: 6px; }
+.ws-adult .ws-header-left .ws-name-row { margin-top: 18px; display: flex; gap: 24px; flex-wrap: wrap; }
+.ws-adult .name-field { display: flex; align-items: center; gap: 8px; font-size: 13px; font-family: 'Noto Sans SC', sans-serif; color: var(--text-light); }
+.ws-adult .name-field input { border: none; border-bottom: 1px solid var(--border); background: transparent; font-family: 'Noto Sans SC', sans-serif; font-size: 13px; width: 130px; outline: none; color: var(--text); padding: 2px 4px; }
+.ws-adult .ws-header-ornament { font-size: 48px; opacity: 0.3; flex-shrink: 0; margin-top: 4px; }
+.ws-adult .ws-card { background: var(--beige-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 16px; }
+.ws-adult .card-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border-light, #ede6db); display: flex; align-items: center; gap: 10px; }
+.ws-adult .field-label { font-family: 'Noto Sans SC', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; margin-top: 14px; }
+.ws-adult .field-label:first-child { margin-top: 0; }
+.adult-textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: white; font-family: 'Noto Sans SC', sans-serif; font-size: 13px; color: var(--text); resize: none; outline: none; line-height: 1.7; transition: border-color 0.15s; }
+.adult-textarea:focus { border-color: var(--gold); }
+.adult-lines { margin: 4px 0; }
+.adult-line { width: 100%; border: none; border-bottom: 1px solid var(--border); background: transparent; font-family: 'Noto Sans SC', sans-serif; font-size: 14px; color: var(--text); padding: 9px 4px; outline: none; display: block; margin-bottom: 2px; }
+.adult-line:focus { border-bottom-color: var(--gold); }
+.adult-emotion-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; margin: 8px 0; }
+.adult-emo { padding: 10px 8px; border-radius: 10px; border: 1px solid var(--border); background: white; cursor: pointer; text-align: center; transition: all 0.15s; user-select: none; }
+.adult-emo:hover { border-color: var(--gold); }
+.adult-emo.on { border-color: var(--gold); background: var(--gold-light); }
+.adult-emo .ei { font-size: 20px; display: block; margin-bottom: 4px; }
+.adult-emo .el-zh { font-size: 12px; font-weight: 500; color: var(--text); font-family: 'Noto Sans SC', sans-serif; }
+.adult-emo .el-en { font-size: 10px; color: var(--text-light); font-family: 'Noto Sans SC', sans-serif; }
+.adult-check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 6px; margin: 8px 0; }
+.adult-check { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); background: white; cursor: pointer; font-size: 13px; font-family: 'Noto Sans SC', sans-serif; transition: all 0.12s; user-select: none; color: var(--text); }
+.adult-check:hover { background: var(--gold-light); border-color: var(--gold); }
+.adult-check.on { background: var(--gold-light); border-color: var(--gold); color: var(--text); }
+.adult-check-box { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; transition: all 0.12s; }
+.adult-check.on .adult-check-box { background: var(--gold); border-color: var(--gold); color: white; }
+.adult-rating-wrap { display: flex; gap: 6px; align-items: center; margin: 6px 0; }
+.adult-rating-wrap .rl { font-size: 11px; color: var(--text-light); }
+.adult-rate-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: white; cursor: pointer; font-size: 12px; font-weight: 500; font-family: 'Noto Sans SC', sans-serif; transition: all 0.12s; color: var(--text-light); }
+.adult-rate-btn:hover { border-color: var(--gold); }
+.adult-rate-btn.on { background: var(--gold); color: white; border-color: var(--gold); }
+.adult-scenario { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; }
+.adult-scenario .sc-text { font-size: 13px; line-height: 1.8; color: var(--text-mid); font-family: 'Noto Sans SC', sans-serif; margin-bottom: 12px; }
+
+/* ATR table */
+.atr-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-family: 'Noto Sans SC', sans-serif; font-size: 12px; }
+.atr-table th, .atr-table td { border: 1px solid var(--border); padding: 8px; vertical-align: top; }
+.atr-table th { background: var(--beige-soft); font-weight: 600; color: var(--text); text-align: left; font-size: 11px; }
+.atr-table td textarea { width: 100%; min-height: 60px; border: none; background: transparent; font-family: inherit; font-size: 12px; outline: none; resize: none; color: var(--text); }
+
+/* Likert 5-point */
+.likert-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.likert-row:last-child { border-bottom: none; }
+.likert-text { font-size: 13px; color: var(--text); font-family: 'Noto Sans SC', sans-serif; line-height: 1.6; }
+.likert-opts { display: flex; gap: 4px; }
+.likert-opt { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); background: white; cursor: pointer; font-size: 12px; color: var(--text-light); font-family: 'Noto Sans SC', sans-serif; transition: all 0.12s; }
+.likert-opt:hover { border-color: var(--gold); }
+.likert-opt.on { background: var(--gold); color: white; border-color: var(--gold); }
+.likert-legend { font-size: 11px; color: var(--text-light); font-family: 'Noto Sans SC', sans-serif; margin-bottom: 8px; padding-left: 4px; }
+
+@media print {
+  #selectorScreen, .ws-toolbar { display: none !important; }
+  #worksheetScreen { display: block !important; }
+  .ws-area { padding: 0 !important; max-width: 100% !important; }
+  .ws-teen .ws-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { background: white !important; }
+}
+@media (max-width: 600px) {
+  .age-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .theme-grid { grid-template-columns: 1fr 1fr; }
+  .ws-area { padding: 70px 14px 40px; }
+  .ws-adult .ws-header { flex-direction: column; }
+  .two-col-grid { grid-template-columns: 1fr; }
+  .likert-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="selectorScreen">
+  <div class="selector-header">
+    <div class="logo">🌱</div>
+    <h1>心理成长工作坊</h1>
+    <p>选择年龄段和主题，生成专属工作表</p>
+  </div>
+
+  <div class="selector-section">
+    <h2>选择年龄段</h2>
+    <div class="age-grid">
+      <div class="age-card" data-age="child" onclick="selectAge(this)">
+        <div class="age-icon">🧒</div>
+        <div class="age-label">儿童</div>
+        <div class="age-sub">6 – 10 岁</div>
+      </div>
+      <div class="age-card" data-age="teen" onclick="selectAge(this)">
+        <div class="age-icon">🧑</div>
+        <div class="age-label">青少年</div>
+        <div class="age-sub">11 – 17 岁</div>
+      </div>
+      <div class="age-card" data-age="adult" onclick="selectAge(this)">
+        <div class="age-icon">🧑‍💼</div>
+        <div class="age-label">成人</div>
+        <div class="age-sub">18 岁以上</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="selector-section">
+    <h2>选择主题</h2>
+    <div class="theme-grid">
+      <div class="theme-card" data-theme="feelings" onclick="selectTheme(this)">
+        <div class="theme-icon">💛</div>
+        <div class="theme-info"><div class="theme-name">情绪识别</div><div class="theme-desc">认识并表达自己的感受</div></div>
+      </div>
+      <div class="theme-card" data-theme="anger" onclick="selectTheme(this)">
+        <div class="theme-icon">🔥</div>
+        <div class="theme-info"><div class="theme-name">愤怒应对</div><div class="theme-desc">了解愤怒，找到健康出口</div></div>
+      </div>
+      <div class="theme-card" data-theme="selflove" onclick="selectTheme(this)">
+        <div class="theme-icon">💗</div>
+        <div class="theme-info"><div class="theme-name">自我爱护</div><div class="theme-desc">发现自己的价值与美好</div></div>
+      </div>
+      <div class="theme-card" data-theme="social" onclick="selectTheme(this)">
+        <div class="theme-icon">🤝</div>
+        <div class="theme-info"><div class="theme-name">社交技能</div><div class="theme-desc">友谊、尊重与合作</div></div>
+      </div>
+      <div class="theme-card" data-theme="awareness" onclick="selectTheme(this)">
+        <div class="theme-icon">🪞</div>
+        <div class="theme-info"><div class="theme-name">自我认知</div><div class="theme-desc">认识自己，了解喜好与特质</div></div>
+      </div>
+      <div class="theme-card" data-theme="selfcontrol" onclick="selectTheme(this)">
+        <div class="theme-icon">🧘</div>
+        <div class="theme-info"><div class="theme-name">自我控制</div><div class="theme-desc">管理冲动，做出更好的选择</div></div>
+      </div>
+      <div class="theme-card" data-theme="choices" onclick="selectTheme(this)">
+        <div class="theme-icon">⚖️</div>
+        <div class="theme-info"><div class="theme-name">选择与后果</div><div class="theme-desc">理解行为与结果的关系</div></div>
+      </div>
+      <div class="theme-card" data-theme="empathy" onclick="selectTheme(this)">
+        <div class="theme-icon">💜</div>
+        <div class="theme-info"><div class="theme-name">同理心</div><div class="theme-desc">感受他人，换位思考</div></div>
+      </div>
+      <div class="theme-card" data-theme="anxiety" onclick="selectTheme(this)">
+        <div class="theme-icon">🌊</div>
+        <div class="theme-info"><div class="theme-name">焦虑应对</div><div class="theme-desc">认识焦虑，学习放松技巧</div></div>
+      </div>
+      <div class="theme-card" data-theme="safety" onclick="selectTheme(this)">
+        <div class="theme-icon">🛡️</div>
+        <div class="theme-info"><div class="theme-name">安全计划</div><div class="theme-desc">识别警示信号，建立支持网络</div></div>
+      </div>
+      <div class="theme-card" data-theme="resilience" onclick="selectTheme(this)">
+        <div class="theme-icon">🌱</div>
+        <div class="theme-info"><div class="theme-name">韧性与优势</div><div class="theme-desc">发现力量，重塑视角</div></div>
+      </div>
+      <div class="theme-card" data-theme="family" onclick="selectTheme(this)">
+        <div class="theme-icon">👨‍👩‍👧</div>
+        <div class="theme-info"><div class="theme-name">亲子关系</div><div class="theme-desc">评估与改善亲子互动</div></div>
+      </div>
+      <div class="theme-card" data-theme="threecircle" onclick="selectTheme(this)">
+        <div class="theme-icon">🎯</div>
+        <div class="theme-info"><div class="theme-name">三圈复发预防</div><div class="theme-desc">Three Circle 成瘾行为规划(仅成人)</div></div>
+      </div>
+      <div class="theme-card" data-theme="duluth" onclick="selectTheme(this)">
+        <div class="theme-icon">⚠️</div>
+        <div class="theme-info"><div class="theme-name">家暴识别教育</div><div class="theme-desc">Power & Control Wheel(仅成人)</div></div>
+      </div>
+      <div class="theme-card" data-theme="victimempathy" onclick="selectTheme(this)">
+        <div class="theme-icon">💔</div>
+        <div class="theme-info"><div class="theme-name">受害者同理心</div><div class="theme-desc">施害者治疗(仅临床专业使用)</div></div>
+      </div>
+      <div class="theme-card" data-theme="psychosis" onclick="selectTheme(this)">
+        <div class="theme-icon">🩺</div>
+        <div class="theme-info"><div class="theme-name">家属症状观察</div><div class="theme-desc">精神症状观察记录(仅成人)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="generate-btn" id="generateBtn" onclick="generateWorksheet()">生成工作表 →</button>
+</div>
+
+<div id="worksheetScreen">
+  <div class="ws-toolbar">
+    <div class="ws-toolbar-left">
+      <button class="toolbar-btn" onclick="backToSelector()">← 返回</button>
+      <span class="ws-toolbar-title" id="toolbarTitle"></span>
+      <span class="ws-toolbar-badge" id="toolbarBadge"></span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="toolbar-btn" onclick="window.print()">🖨️ 打印</button>
+    </div>
+  </div>
+  <div class="ws-area" id="wsArea"></div>
+</div>
+
+<script>
+let selAge = null, selTheme = null;
+
+function selectAge(el) {
+  document.querySelectorAll('.age-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selAge = el.dataset.age;
+  checkReady();
+}
+function selectTheme(el) {
+  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selTheme = el.dataset.theme;
+  checkReady();
+}
+function checkReady() {
+  const btn = document.getElementById('generateBtn');
+  if (selAge && selTheme) btn.classList.add('ready');
+  else btn.classList.remove('ready');
+}
+function backToSelector() {
+  document.getElementById('selectorScreen').style.display = 'flex';
+  document.getElementById('worksheetScreen').style.display = 'none';
+}
+function toggle(el, cls='on') { el.classList.toggle(cls); }
+function rateClick(btn) {
+  btn.closest('.circle-rating, .adult-rating-wrap, .likert-opts').querySelectorAll('.cr-btn, .adult-rate-btn, .likert-opt').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function generateWorksheet() {
+  if (!selAge || !selTheme) return;
+  // 仅成人主题
+  const adultOnly = ['psychosis','threecircle','duluth','victimempathy'];
+  if (adultOnly.includes(selTheme) && selAge !== 'adult') {
+    alert('此工作表仅适用于成人版。');
+    return;
+  }
+  document.getElementById('selectorScreen').style.display = 'none';
+  document.getElementById('worksheetScreen').style.display = 'block';
+  const ageLabels = {child:'儿童版', teen:'青少年版', adult:'成人版'};
+  const themeLabels = {feelings:'情绪识别', anger:'愤怒应对', selflove:'自我爱护', social:'社交技能', awareness:'自我认知', selfcontrol:'自我控制', choices:'选择与后果', empathy:'同理心', anxiety:'焦虑应对', safety:'安全计划', resilience:'韧性与优势', family:'亲子关系', psychosis:'家属症状观察', threecircle:'三圈复发预防', duluth:'家暴识别教育', victimempathy:'受害者同理心'};
+  document.getElementById('toolbarTitle').textContent = themeLabels[selTheme];
+  document.getElementById('toolbarBadge').textContent = ageLabels[selAge];
+  document.getElementById('wsArea').innerHTML = buildWorksheet(selAge, selTheme);
+  window.scrollTo(0,0);
+}
+
+function buildWorksheet(age, theme) {
+  const builders = {
+    child: { feelings: childFeelings, anger: childAnger, selflove: childSelflove, social: childSocial, awareness: childAwareness, selfcontrol: childSelfcontrol, choices: childChoices, empathy: childEmpathy, anxiety: childAnxiety, safety: childSafety, resilience: childResilience, family: childFamily },
+    teen:  { feelings: teenFeelings,  anger: teenAnger,  selflove: teenSelflove,  social: teenSocial, awareness: teenAwareness, selfcontrol: teenSelfcontrol, choices: teenChoices, empathy: teenEmpathy, anxiety: teenAnxiety, safety: teenSafety, resilience: teenResilience, family: teenFamily },
+    adult: { feelings: adultFeelings, anger: adultAnger, selflove: adultSelflove, social: adultSocial, awareness: adultAwareness, selfcontrol: adultSelfcontrol, choices: adultChoices, empathy: adultEmpathy, anxiety: adultAnxiety, safety: adultSafety, resilience: adultResilience, family: adultFamily, psychosis: adultPsychosis, threecircle: adultThreeCircle, duluth: adultDuluth, victimempathy: adultVictimEmpathy },
+  };
+  return builders[age][theme]();
+}
+
+const EMOTIONS = [
+  {icon:'😊', zh:'开心', en:'Happy'},
+  {icon:'😢', zh:'难过', en:'Sad'},
+  {icon:'😡', zh:'生气', en:'Angry'},
+  {icon:'😰', zh:'担心', en:'Worried'},
+  {icon:'😨', zh:'害怕', en:'Scared'},
+  {icon:'😴', zh:'疲惫', en:'Tired'},
+  {icon:'😤', zh:'沮丧', en:'Frustrated'},
+  {icon:'🥰', zh:'被爱', en:'Loved'},
+  {icon:'😌', zh:'平静', en:'Calm'},
+  {icon:'😲', zh:'惊讶', en:'Surprised'},
+  {icon:'😔', zh:'孤独', en:'Lonely'},
+  {icon:'🤩', zh:'兴奋', en:'Excited'},
+];
+
+function childEmoBtns(subset) {
+  return subset.map(e => `<div class="emo-btn-child" onclick="toggle(this)"><span class="ei">${e.icon}</span><span class="el">${e.zh}</span></div>`).join('');
+}
+function teenEmoBtns(subset) {
+  return subset.map(e => `<div class="teen-emo" onclick="toggle(this)"><span class="ei">${e.icon}</span><span class="el">${e.zh}</span></div>`).join('');
+}
+function adultEmoBtns(subset) {
+  return subset.map(e => `<div class="adult-emo" onclick="toggle(this)"><span class="ei">${e.icon}</span><span class="el-zh">${e.zh}</span><span class="el-en">${e.en}</span></div>`).join('');
+}
+function childBubbles(items, color) {
+  return items.map(item => `<div class="cb-bubble" onclick="toggle(this)" style="--on-bg:${color}">${item}</div>`).join('');
+}
+function teenChecks(items) {
+  return items.map(i => `<div class="teen-check-item" onclick="toggle(this)"><span class="check-dot"></span>${i}</div>`).join('');
+}
+function adultChecks(items) {
+  return items.map(i => `<div class="adult-check" onclick="toggle(this)"><span class="adult-check-box">✓</span>${i}</div>`).join('');
+}
+function drawBox(h=120, hint='在这里画画') {
+  return `<div class="draw-box" style="height:${h}px">${hint}</div>`;
+}
+function childWriteLines(n, placeholder='') {
+  return Array(n).fill(0).map((_,i) => `<input class="write-line" type="text" placeholder="${placeholder||'在这里写下你的答案…'}">`).join('');
+}
+function childRating(max=5, label='') {
+  let btns = '';
+  for(let i=1; i<=max; i++) btns += `<button class="cr-btn" onclick="rateClick(this)">${i}</button>`;
+  return `<div class="circle-rating">${label?`<label>${label}</label>`:''}${btns}</div>`;
+}
+function adultRating(max=5, label='') {
+  let btns = '';
+  for(let i=1; i<=max; i++) btns += `<button class="adult-rate-btn" onclick="rateClick(this)">${i}</button>`;
+  return `<div class="adult-rating-wrap">${label?`<span class="rl">${label}</span>`:''}${btns}<span class="rl">${max}=最强</span></div>`;
+}
+function teenSlider(id, label, min=0, max=10) {
+  return `<div class="teen-slider-wrap">
+    <div class="teen-slider-label"><span>${label}</span><span>${min} – ${max}</span></div>
+    <input class="teen-slider" type="range" min="${min}" max="${max}" value="${Math.floor((min+max)/2)}" oninput="this.nextElementSibling.textContent=this.value">
+    <div class="teen-slider-val">${Math.floor((min+max)/2)}</div>
+  </div>`;
+}
+function likertRow(text, max=5) {
+  let opts = '';
+  for(let i=1; i<=max; i++) opts += `<button class="likert-opt" onclick="rateClick(this)">${i}</button>`;
+  return `<div class="likert-row"><div class="likert-text">${text}</div><div class="likert-opts">${opts}</div></div>`;
+}
+function atrRow() {
+  return `<tr>
+    <td><textarea placeholder="日期/时间"></textarea></td>
+    <td><textarea placeholder="触发情境、感受、想法(可信度%)"></textarea></td>
+    <td><textarea placeholder="自动化思维"></textarea></td>
+    <td><textarea placeholder="情绪/强度%"></textarea></td>
+    <td><textarea placeholder="适应性回应(可信度%)"></textarea></td>
+    <td><textarea placeholder="结果"></textarea></td>
+  </tr>`;
+}
+
+// ═══════ CHILD BUILDERS ═══════
+function childFeelings() {
+  return `<div class="ws-child">
+  <div class="ws-header">
+    <div class="ws-title">💛 我今天的感受</div>
+    <div class="ws-subtitle">认识并表达你的情绪</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card">
+    <div class="card-title">😊 我现在感觉…</div>
+    <div class="emotion-row">${childEmoBtns(EMOTIONS)}</div>
+  </div>
+  <div class="ws-card">
+    <div class="card-title">📏 我的感觉有多强？</div>
+    ${childRating(5)}
+  </div>
+  <div class="ws-card">
+    <div class="card-title">🫀 我感觉在身体的哪里？</div>
+    ${drawBox(130, '✏️ 画出来')}
+  </div>
+  <div class="ws-card">
+    <div class="card-title">💭 是什么让我有这个感觉？</div>
+    ${childWriteLines(2)}
+  </div>
+  <div class="ws-card">
+    <div class="card-title">🌈 让我开心的事</div>
+    <div class="check-bubbles">${childBubbles(['🐱 猫咪','🐶 狗狗','🍫 巧克力','🎮 游戏','☀️ 晴天','🤗 朋友','🎁 礼物'], '#ffd166')}</div>
+    ${childWriteLines(1, '还有什么让我开心？')}
+  </div>
+  <div class="ws-card">
+    <div class="card-title">🛠️ 心情不好时，我可以…</div>
+    <div class="check-bubbles">${childBubbles(['深呼吸','喝水','找朋友说说','画画','听音乐','出去走走','抱抱玩具','数到10'], '#06d6a0')}</div>
+  </div>
+  <div class="ws-card">
+    <div class="card-title">🎨 画出你现在的心情</div>
+    ${drawBox(160, '✏️ 在这里画出你的感受')}
+  </div>
+</div>`;
+}
+
+function childAnger() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#ff8fab">
+    <div class="ws-title">🔥 认识我的愤怒</div>
+    <div class="ws-subtitle">了解愤怒，找到健康的出口</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">😡 愤怒是正常的感受</div><p style="font-size:13px;line-height:1.8;color:var(--text-mid)">每个人都会生气。生气没有错，但我们可以学习用好的方法表达它。</p></div>
+  <div class="ws-card"><div class="card-title">⚡ 什么让我生气？</div>${childWriteLines(3)}</div>
+  <div class="ws-card"><div class="card-title">🌡️ 我的愤怒有多强？</div>${childRating(5)}</div>
+  <div class="ws-card"><div class="card-title">🫀 生气时我的身体感觉…</div><div class="check-bubbles">${childBubbles(['脸红','心跳很快','手握拳','想大叫','头发热','手抖','胃不舒服'], '#ff8fab')}</div>${drawBox(100, '✏️ 画出你生气时的样子')}</div>
+  <div class="ws-card"><div class="card-title">✅ 好的做法</div><div class="check-bubbles">${childBubbles(['🌬️ 深呼吸','🚶 走开冷静','🗣️ 用语言表达','🏃 跑一跑','🧸 抱抱玩具','数到10'], '#06d6a0')}</div></div>
+  <div class="ws-card"><div class="card-title">📝 我可以说…</div><div class="write-line-label">当你 __________ 的时候，我感到很生气，因为 __________。</div>${childWriteLines(2)}</div>
+  <div class="ws-card"><div class="card-title">🌟 我的冷静计划</div><div class="write-line-label">下次我生气时，我会…</div>${childWriteLines(2)}<div class="write-line-label" style="margin-top:8px">我可以找谁帮我？</div>${childWriteLines(1)}</div>
+</div>`;
+}
+
+function childSelflove() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#e07be0">
+    <div class="ws-title">💗 我很棒！</div>
+    <div class="ws-subtitle">发现自己的特别和美好</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">🪞 这就是我！</div>${drawBox(150, '✏️ 画出自己')}<div class="write-line-label" style="margin-top:12px">我的名字</div>${childWriteLines(1)}<div class="write-line-label">三个字描述我</div>${childWriteLines(1)}</div>
+  <div class="ws-card"><div class="card-title">⭐ 我擅长的事</div>${childWriteLines(3, '我很擅长…')}</div>
+  <div class="ws-card"><div class="card-title">❤️ 我喜欢的事</div><div class="check-bubbles">${childBubbles(['🎨 画画','🎵 音乐','📚 读书','🏃 运动','🎮 游戏','🐾 动物','🧩 拼图'], '#e07be0')}</div></div>
+  <div class="ws-card"><div class="card-title">🏅 我为自己骄傲的事</div>${childWriteLines(3)}</div>
+  <div class="ws-card"><div class="card-title">🌟 给自己三个夸奖！</div>${childWriteLines(3, '我很…')}</div>
+  <div class="ws-card"><div class="card-title">🫂 爱我关心我的人</div>${childWriteLines(3, '写下他们的名字…')}</div>
+</div>`;
+}
+
+function childSocial() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#06d6a0">
+    <div class="ws-title">🤝 和朋友在一起</div>
+    <div class="ws-subtitle">学习友谊、尊重与合作</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">💛 好朋友会…</div><div class="check-bubbles">${childBubbles(['分享','倾听','诚实','帮助你','鼓励你','拥抱你','尊重你'], '#ffd166')}</div></div>
+  <div class="ws-card"><div class="card-title">❌ 好朋友不会…</div><div class="check-bubbles">${childBubbles(['嘲笑你','说谎','打断你','欺负你','伤害你'], '#ff8fab')}</div></div>
+  <div class="ws-card"><div class="card-title">🎨 画出你和朋友</div>${drawBox(150, '✏️ 在这里画画')}</div>
+  <div class="ws-card"><div class="card-title">🌟 我是一个好朋友！</div><div class="write-line-label">我对朋友友好，因为我会…</div>${childWriteLines(3)}</div>
+  <div class="ws-card"><div class="card-title">🕊️ 吵架了怎么办</div><div class="check-bubbles">${childBubbles(['深呼吸','说对不起','好好谈谈','找大人帮忙','轮流说感受'], '#06d6a0')}</div></div>
+</div>`;
+}
+
+function childAwareness() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#118ab2">
+    <div class="ws-title">🪞 认识我自己</div>
+    <div class="ws-subtitle">了解自己是谁，喜欢什么</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">🎨 画出你自己！</div>${drawBox(160, '✏️ 画出你自己的样子')}<div class="write-line-label" style="margin-top:12px">我叫</div>${childWriteLines(1)}<div class="write-line-label">我是一个 __________ 的人！</div>${childWriteLines(1)}</div>
+  <div class="ws-card"><div class="card-title">😊 我现在的心情</div><div class="emotion-row">${childEmoBtns(EMOTIONS.slice(0,6))}</div><div class="write-line-label" style="margin-top:8px">我觉得 __________ 因为 __________</div>${childWriteLines(2)}</div>
+  <div class="ws-card"><div class="card-title">👍 我喜欢的事</div><div class="two-col-grid"><div><div class="write-line-label">我喜欢吃</div>${childWriteLines(1)}<div class="write-line-label">我喜欢玩</div>${childWriteLines(1)}<div class="write-line-label">喜欢的颜色</div>${childWriteLines(1)}</div><div><div class="write-line-label">喜欢的动物</div>${childWriteLines(1)}<div class="write-line-label">喜欢的地方</div>${childWriteLines(1)}<div class="write-line-label">喜欢的人</div>${childWriteLines(1)}</div></div></div>
+  <div class="ws-card"><div class="card-title">⭐ 我最棒的三个地方</div>${childWriteLines(3)}</div>
+  <div class="ws-card"><div class="card-title">🌈 我长大后想…</div>${childWriteLines(2)}${drawBox(100, '✏️ 画出你的梦想')}</div>
+</div>`;
+}
+
+function childSelfcontrol() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#06d6a0">
+    <div class="ws-title">🧘 我能控制自己</div>
+    <div class="ws-subtitle">学习管理自己的行为和冲动</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">💡 什么是自我控制？</div><p style="font-size:13px;line-height:1.8;color:var(--text-mid)">自我控制就是当我很想做一件事的时候，我可以先停下来想一想，然后做出好的选择。</p></div>
+  <div class="ws-card"><div class="card-title">✅ 好方法</div><div class="check-bubbles">${childBubbles(['🌬️ 深呼吸','🧸 捏减压球','🗣️ 说出来','🔢 数到10','✋ 先停下来想一想'], '#06d6a0')}</div></div>
+  <div class="ws-card"><div class="card-title">😠 当我生气的时候，我可以…</div>${childWriteLines(2)}${drawBox(100)}</div>
+  <div class="ws-card"><div class="card-title">😢 当我难过的时候，我可以…</div>${childWriteLines(2)}</div>
+  <div class="ws-card"><div class="card-title">🏫 在学校里，自我控制是…</div><div class="check-bubbles">${childBubbles(['👂 认真听讲','✋ 举手发言','📚 努力做功课','🤝 尊重别人','🙂 好好坐着'], '#118ab2')}</div></div>
+  <div class="ws-card"><div class="card-title">🌟 我的计划</div><div class="write-line-label">下次想冲动的时候，我会先…</div>${childWriteLines(2)}<div class="write-line-label">我可以请谁帮我？</div>${childWriteLines(1)}</div>
+</div>`;
+}
+
+function childChoices() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#ffd166">
+    <div class="ws-title">⚖️ 好选择和坏选择</div>
+    <div class="ws-subtitle">了解我们的选择会有什么结果</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">✅ 好的选择</div><div class="check-bubbles">${childBubbles(['👂 认真听讲','🤝 帮助别人','✋ 举手发言','📚 努力做功课','🙏 说谢谢','🤗 分享'], '#06d6a0')}</div></div>
+  <div class="ws-card"><div class="card-title">❌ 不好的选择</div><div class="check-bubbles">${childBubbles(['👊 打人','🗯️ 大喊大叫','🤥 说谎','💥 破坏东西'], '#ff8fab')}</div></div>
+  <div class="ws-card"><div class="card-title">🤔 想一想</div>
+    <div class="scenario-card"><div class="scenario-text">小明想和朋友玩，但是功课还没做完。他决定先玩再说。</div><div class="scenario-q">好选择还是坏选择？为什么？</div>${childWriteLines(2)}</div>
+    <div class="scenario-card"><div class="scenario-text">小红看到新同学一个人坐着，走过去说"你好，要一起玩吗？"</div><div class="scenario-q">好选择还是坏选择？为什么？</div>${childWriteLines(2)}</div>
+  </div>
+  <div class="ws-card"><div class="card-title">📝 我做过的一个好选择</div>${childWriteLines(2)}<div class="write-line-label">后来发生了什么好事？</div>${childWriteLines(2)}</div>
+</div>`;
+}
+
+function childEmpathy() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#b388ff">
+    <div class="ws-title">💜 穿上别人的鞋子</div>
+    <div class="ws-subtitle">学习理解别人的感受</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">💡 什么是同理心？</div><p style="font-size:13px;line-height:1.8;color:var(--text-mid)">同理心就是能够理解别人的感受，就像"穿上别人的鞋子"一样。</p></div>
+  <div class="ws-card"><div class="card-title">🔍 看看他们的表情</div><div class="two-col-grid">
+    <div style="text-align:center"><div style="font-size:48px">😢</div><div class="write-line-label">感到</div>${childWriteLines(1)}</div>
+    <div style="text-align:center"><div style="font-size:48px">😊</div><div class="write-line-label">感到</div>${childWriteLines(1)}</div>
+    <div style="text-align:center"><div style="font-size:48px">😨</div><div class="write-line-label">感到</div>${childWriteLines(1)}</div>
+    <div style="text-align:center"><div style="font-size:48px">😡</div><div class="write-line-label">感到</div>${childWriteLines(1)}</div>
+  </div></div>
+  <div class="ws-card"><div class="card-title">👟 换位思考</div>
+    <div class="scenario-card"><div class="scenario-text">小丽的好朋友搬走了，她一个人坐在操场上。</div><div class="scenario-q">小丽可能在想什么？</div>${childWriteLines(2)}<div class="scenario-q">你可以怎么做？</div>${childWriteLines(1)}</div>
+  </div>
+  <div class="ws-card"><div class="card-title">❤️ 关心别人的方法</div><div class="check-bubbles">${childBubbles(['问你还好吗','倾听','拥抱','陪TA玩','分享'], '#b388ff')}</div></div>
+  <div class="ws-card"><div class="card-title">🌟 今天我可以对谁表达关心？</div><div class="write-line-label">我想关心的人是</div>${childWriteLines(1)}<div class="write-line-label">我打算这样做</div>${childWriteLines(2)}</div>
+</div>`;
+}
+
+function childAnxiety() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#81d4fa">
+    <div class="ws-title">🌊 我的担心和害怕</div>
+    <div class="ws-subtitle">学习认识焦虑，找到放松的方法</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">💡 什么是焦虑？</div><p style="font-size:13px;line-height:1.8;color:var(--text-mid)">焦虑就是担心或害怕时，身体和大脑给我们的信号。每个人都会有焦虑，它是正常的。</p></div>
+  <div class="ws-card"><div class="card-title">😰 我最担心的事</div>${childWriteLines(3)}${childRating(5)}</div>
+  <div class="ws-card"><div class="card-title">🫀 焦虑时我的身体感觉…</div><div class="check-bubbles">${childBubbles(['心跳很快','手心出汗','肚子不舒服','头晕','呼吸困难','手在抖','想哭'], '#81d4fa')}</div></div>
+  <div class="ws-card"><div class="card-title">🌬️ 深呼吸练习</div><p style="font-size:13px;line-height:1.8;color:var(--text-mid)">吸气4秒 → 屏住4秒 → 呼气6秒</p></div>
+  <div class="ws-card"><div class="card-title">👀 五感放松（5-4-3-2-1）</div>
+    <div class="write-line-label">5 个看到的</div>${childWriteLines(1)}
+    <div class="write-line-label">4 个摸到的</div>${childWriteLines(1)}
+    <div class="write-line-label">3 个听到的</div>${childWriteLines(1)}
+    <div class="write-line-label">2 个闻到的</div>${childWriteLines(1)}
+    <div class="write-line-label">1 个尝到的</div>${childWriteLines(1)}
+  </div>
+  <div class="ws-card"><div class="card-title">🛠️ 感到害怕时，我可以…</div><div class="check-bubbles">${childBubbles(['🌬️ 深呼吸','🧸 抱抱玩具','🗣️ 跟大人说','🎵 听音乐','🎨 画画','数到10'], '#06d6a0')}</div></div>
+  <div class="ws-card"><div class="card-title">🌈 我的安全感地图</div><div class="write-line-label">让我感到安全的地方</div>${childWriteLines(1)}<div class="write-line-label">让我感到安全的人</div>${childWriteLines(1)}</div>
+</div>`;
+}
+
+function childSafety() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#ffab91">
+    <div class="ws-title">🛡️ 我的安全计划</div>
+    <div class="ws-subtitle">知道什么时候需要帮助</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">⚠️ 不开心的信号</div><div class="check-bubbles">${childBubbles(['一直很难过','不想和人说话','不想玩','哭很多','睡不好','很害怕','总是生气'], '#ffab91')}</div></div>
+  <div class="ws-card"><div class="card-title">🧸 让自己好起来的方法</div><div class="check-bubbles">${childBubbles(['深呼吸','画画','听音乐','出去走走','抱抱玩具'], '#06d6a0')}</div></div>
+  <div class="ws-card"><div class="card-title">👨‍👩‍👧 可以帮助我的人</div><div class="write-line-label">家人：</div>${childWriteLines(2)}<div class="write-line-label">老师：</div>${childWriteLines(1)}<div class="write-line-label">朋友：</div>${childWriteLines(1)}</div>
+  <div class="ws-card"><div class="card-title">📞 紧急联系</div><div class="write-line-label">爸爸/妈妈的电话</div>${childWriteLines(1)}<div class="write-line-label">其他紧急联系人</div>${childWriteLines(1)}</div>
+</div>`;
+}
+
+function childResilience() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#a5d6a7">
+    <div class="ws-title">🌱 我的超能力</div>
+    <div class="ws-subtitle">发现自己的力量</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">⭐ 我的超能力词语</div><div class="check-bubbles">${childBubbles(['勇敢','善良','有创意','聪明','有耐心','乐于助人','坚强','认真','好奇','有趣','忠诚','努力'], '#a5d6a7')}</div></div>
+  <div class="ws-card"><div class="card-title">🏆 我做到过的很难的事</div>${childWriteLines(2)}<div class="write-line-label">你是怎么做到的？</div>${childWriteLines(1)}</div>
+  <div class="ws-card"><div class="card-title">🔄 换个想法看看</div>
+    <div class="scenario-card"><div class="scenario-text">😟 "我什么都做不好"</div><div class="scenario-q">换个想法 → </div>${childWriteLines(1, 'e.g., 我正在学习')}</div>
+    <div class="scenario-card"><div class="scenario-text">😟 写一个你自己常有的担心：</div>${childWriteLines(1)}<div class="scenario-q">换个想法 → </div>${childWriteLines(1)}</div>
+  </div>
+  <div class="ws-card"><div class="card-title">💪 给自己的鼓励话</div>${childWriteLines(1, 'e.g., 我可以的！我很棒！')}</div>
+</div>`;
+}
+
+// NEW: 亲子关系 (child)
+function childFamily() {
+  return `<div class="ws-child">
+  <div class="ws-header" style="border-color:#ffb3ba">
+    <div class="ws-title">👨‍👩‍👧 我和家人</div>
+    <div class="ws-subtitle">想一想我和家人的关系</div>
+    <div class="ws-name-row">
+      <div class="name-field"><span>姓名</span><input type="text"></div>
+      <div class="name-field"><span>日期</span><input type="text"></div>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">🏠 画出我的家人</div>${drawBox(160, '✏️ 画出你和家人在一起')}</div>
+  <div class="ws-card"><div class="card-title">💗 一起喜欢做的事</div><div class="check-bubbles">${childBubbles(['一起吃饭','聊天','看电视','出去玩','讲故事','一起做饭','抱抱','读书'], '#ffb3ba')}</div>${childWriteLines(1, '还有…')}</div>
+  <div class="ws-card"><div class="card-title">🗣️ 我想告诉家人…</div>${childWriteLines(3)}</div>
+  <div class="ws-card"><div class="card-title">😊 和家人在一起时，我感觉…</div><div class="emotion-row">${childEmoBtns(EMOTIONS.slice(0,8))}</div></div>
+  <div class="ws-card"><div class="card-title">💝 家人对我的好</div><div class="write-line-label">家人做的让我开心的一件事：</div>${childWriteLines(2)}</div>
+  <div class="ws-card"><div class="card-title">🌟 我想和家人一起…</div>${childWriteLines(3)}</div>
+</div>`;
+}
+
+// ═══════ TEEN BUILDERS ═══════
+function teenFeelings() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">情绪识别工作表</div><div class="ws-subtitle">Feelings Check-In</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">我现在的感受</div><div class="teen-emotion-grid">${teenEmoBtns(EMOTIONS)}</div><div class="teen-input-label" style="margin-top:10px">用你自己的话说</div><textarea class="teen-input" rows="2" placeholder="我感觉…"></textarea></div>
+  <div class="ws-card"><div class="card-title">情绪强度</div>${teenSlider('int','0 = 完全没有',0,10)}<div class="teen-input-label">这种感觉有多久了？</div><input class="teen-input" type="text" placeholder="e.g., 今天 / 过去几周…"></div>
+  <div class="ws-card"><div class="card-title">触发因素</div><div class="teen-input-label">发生了什么？</div><textarea class="teen-input" rows="3"></textarea><div class="teen-input-label">我当时的想法：</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">身体感受</div><div class="teen-check-grid">${teenChecks(['胸口紧','心跳加速','手心出汗','胃部不适','头痛','肌肉紧张','呼吸变快','感觉空洞','疲惫'])}</div></div>
+  <div class="ws-card"><div class="card-title">应对策略</div><div class="teen-check-grid">${teenChecks(['深呼吸','写日记','和人聊聊','运动','听音乐','冥想','画画','出门散步','5-4-3-2-1正念','哭出来','休息'])}</div><div class="teen-input-label" style="margin-top:10px">我今天打算用哪种方法？</div><input class="teen-input" type="text"></div>
+  <div class="ws-card"><div class="card-title">给自己一句话</div><textarea class="teen-input" rows="3" placeholder="写一句鼓励自己的话…"></textarea></div>
+</div>`;
+}
+
+function teenAnger() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">愤怒管理工作表</div><div class="ws-subtitle">Understanding & Managing Anger</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">触发因素</div><div class="teen-input-label">什么让我生气？</div><textarea class="teen-input" rows="3"></textarea>${teenSlider('anger','愤怒程度',0,10)}</div>
+  <div class="ws-card"><div class="card-title">身体信号</div><div class="teen-check-grid">${teenChecks(['脸红','心跳加速','握紧拳头','想大叫','发热','颤抖','胃部紧绷','眼泪','肌肉紧'])}</div></div>
+  <div class="ws-card"><div class="card-title">我的想法</div><div class="teen-input-label">生气时脑海里出现的想法</div><textarea class="teen-input" rows="3"></textarea><div class="teen-input-label">这些想法完全真实吗？</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">应对技能</div><div class="teen-check-grid">${teenChecks(['离开现场冷静','深呼吸','数到10','写下感受','和信任的人说','运动跑步','听音乐','画画','冥想','给对方写信'])}</div></div>
+  <div class="ws-card"><div class="card-title">健康表达</div><div class="teen-input-label">用"我"陈述：</div><textarea class="teen-input" rows="2" placeholder='当___发生时，我感到愤怒，因为___。我希望___。'></textarea><div class="teen-input-label">下次遇到类似情况，我会…</div><textarea class="teen-input" rows="2"></textarea></div>
+</div>`;
+}
+
+function teenSelflove() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">自我爱护工作表</div><div class="ws-subtitle">Self-Love & Self-Care</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">我喜欢自己的 5 件事</div>${Array(5).fill(0).map((_,i)=>`<div class="teen-input-label">${i+1}.</div><input class="teen-input" type="text">`).join('')}</div>
+  <div class="ws-card"><div class="card-title">我感恩的 5 件事</div>${Array(5).fill(0).map((_,i)=>`<div class="teen-input-label">${i+1}.</div><input class="teen-input" type="text">`).join('')}</div>
+  <div class="ws-card"><div class="card-title">我的优点</div><div class="teen-check-grid">${teenChecks(['创意十足','善于倾听','有同理心','做事认真','勇于尝试','幽默感','有责任心','忠诚','积极乐观','善于解决问题'])}</div></div>
+  <div class="ws-card"><div class="card-title">自我关怀计划</div><div class="teen-check-grid">${teenChecks(['足够睡眠','规律运动','健康饮食','和朋友联系','做喜欢的事','限制屏幕时间','写日记','花时间在大自然','学新技能','冥想/正念'])}</div><div class="teen-input-label" style="margin-top:10px">今天我可以为自己做的一件事：</div><input class="teen-input" type="text"></div>
+  <div class="ws-card"><div class="card-title">写给自己的一封信</div><textarea class="teen-input" rows="5" placeholder="亲爱的自己，…"></textarea></div>
+</div>`;
+}
+
+function teenSocial() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">社交技能工作表</div><div class="ws-subtitle">Friendship & Social Skills</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">一段关系的反思</div><div class="teen-input-label">这个人是…</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">做得好的地方：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">想改善的地方：</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">社交技能自评</div>${teenSlider('l','倾听',0,10)}${teenSlider('c','表达',0,10)}${teenSlider('e','同理心',0,10)}${teenSlider('b','界限',0,10)}</div>
+  <div class="ws-card"><div class="card-title">冲突解决</div><div class="teen-input-label">描述最近的冲突</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">我的做法：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">重来的话我会…</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">健康关系 vs 不健康关系</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><div class="teen-input-label" style="color:#06d6a0">✅ 健康</div><div class="teen-check-grid" style="grid-template-columns:1fr">${teenChecks(['互相尊重','诚实沟通','支持彼此','有个人空间','平等关系'])}</div></div>
+      <div><div class="teen-input-label" style="color:#ff6b6b">❌ 不健康</div><div class="teen-check-grid" style="grid-template-columns:1fr">${teenChecks(['控制对方','不断批评','忽视界限','依赖关系','不诚实'])}</div></div>
+    </div>
+  </div>
+</div>`;
+}
+
+function teenAwareness() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">自我认知工作表</div><div class="ws-subtitle">Self-Awareness Exploration</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">我是谁</div><div class="teen-input-label">用5个词描述自己</div><input class="teen-input" type="text"><div class="teen-input-label">别人会怎么描述你？</div><input class="teen-input" type="text"><div class="teen-input-label">两者有什么不同？</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">我的价值观</div><p style="font-size:12px;color:var(--text-light);margin-bottom:8px">选择对你最重要的5个：</p><div class="teen-check-grid">${teenChecks(['诚实','家庭','友谊','创意','独立','学习','健康','冒险','尊重','公正','有趣','努力','善良','自由'])}</div></div>
+  <div class="ws-card"><div class="card-title">我的情绪模式</div><div class="teen-input-label">什么让你开心？</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">什么让你有压力？</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">优势与成长空间</div><div class="teen-input-label">三个最大优势：</div>${Array(3).fill(0).map((_,i)=>`<input class="teen-input" type="text" placeholder="${i+1}.">`).join('')}<div class="teen-input-label">想成长的三个方面：</div>${Array(3).fill(0).map((_,i)=>`<input class="teen-input" type="text" placeholder="${i+1}.">`).join('')}</div>
+  <div class="ws-card"><div class="card-title">📝 每周回顾 Weekly Retrospective</div>
+    <div class="teen-input-label">What went well? 本周哪些事顺利？</div><textarea class="teen-input" rows="2"></textarea>
+    <div class="teen-input-label">What didn't go well? 哪些事不顺利？</div><textarea class="teen-input" rows="2"></textarea>
+    <div class="teen-input-label">What did I learn? 我学到了什么？</div><textarea class="teen-input" rows="2"></textarea>
+    <div class="teen-input-label">What still puzzles me? 还有什么困惑？</div><textarea class="teen-input" rows="2"></textarea>
+  </div>
+  <div class="ws-card"><div class="card-title">写给未来的我</div><textarea class="teen-input" rows="4" placeholder="一年后的我，我希望你…"></textarea></div>
+</div>`;
+}
+
+function teenSelfcontrol() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">自我控制工作表</div><div class="ws-subtitle">Self-Control & Impulse Management</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">自我控制自评</div>${teenSlider('i','控制冲动',0,10)}${teenSlider('d','延迟满足',0,10)}${teenSlider('ca','压力下保持冷静',0,10)}</div>
+  <div class="ws-card"><div class="card-title">我的触发因素</div><div class="teen-input-label">什么最容易让你失控？</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">警告信号：</div><div class="teen-check-grid">${teenChecks(['心跳加速','脸红','握紧拳头','呼吸变快','想大叫','想摔东西','全身紧绷','眼泪涌出'])}</div></div>
+  <div class="ws-card"><div class="card-title">STOP 技巧</div><p style="font-size:13px;color:var(--text-mid);line-height:1.7;margin-bottom:10px"><strong>S</strong>top → <strong>T</strong>hink → <strong>O</strong>ptions → <strong>P</strong>roceed</p><div class="teen-input-label">描述一个最近冲动的情境：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">用STOP重新分析：</div><textarea class="teen-input" rows="3" placeholder="Stop: ... Think: ... Options: ... Proceed: ..."></textarea></div>
+  <div class="ws-card"><div class="card-title">冷静工具箱</div><div class="teen-check-grid">${teenChecks(['深呼吸','数到10','离开现场','写下感受','听音乐','运动','和信任的人说','正念冥想','喝水','画画'])}</div><div class="teen-input-label" style="margin-top:10px">最有效的方法：</div><input class="teen-input" type="text"></div>
+  <div class="ws-card"><div class="card-title">本周目标</div><div class="teen-input-label">本周想改善的方面</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">怎么做到？</div><textarea class="teen-input" rows="2"></textarea></div>
+</div>`;
+}
+
+function teenChoices() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">选择与后果工作表</div><div class="ws-subtitle">Choices & Consequences</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">情境 1</div>
+    <div class="teen-scenario"><div class="sc-text">小华明天要交报告，但朋友邀她出去玩到很晚，她决定先玩。</div>
+      <div class="teen-input-label">玩的时候感觉怎么样？</div><textarea class="teen-input" rows="1"></textarea>
+      <div class="teen-input-label">拿到成绩后感觉怎么样？</div><textarea class="teen-input" rows="1"></textarea>
+      <div class="teen-input-label">好选择还是坏选择？为什么？</div><textarea class="teen-input" rows="2"></textarea>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">情境 2</div>
+    <div class="teen-scenario"><div class="sc-text">小杰看到朋友被网暴，他站出来为朋友说话。</div>
+      <div class="teen-input-label">站出来的时候感觉怎么样？</div><textarea class="teen-input" rows="1"></textarea>
+      <div class="teen-input-label">好选择吗？为什么？</div><textarea class="teen-input" rows="2"></textarea>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">我的选择反思</div><div class="teen-input-label">最近做的一个重要选择：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">短期/长期结果：</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">做好选择的步骤</div><div class="teen-check-grid">${teenChecks(['停下来','想想有哪些选择','每个选择的后果','符合我的价值观？','承担责任'])}</div></div>
+</div>`;
+}
+
+function teenEmpathy() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">同理心工作表</div><div class="ws-subtitle">Empathy & Perspective-Taking</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">什么是同理心？</div><p style="font-size:13px;color:var(--text-mid);line-height:1.7;margin-bottom:10px">同理心是理解和感受别人的感觉，不是"可怜你"而是"我能想象你的感受"。</p>${teenSlider('emp','同理心程度',0,10)}</div>
+  <div class="ws-card"><div class="card-title">换位思考练习</div>
+    <div class="teen-scenario"><div class="sc-text">一个同学在课堂上被老师批评，全班都在看TA。</div>
+      <div class="teen-input-label">TA可能在想什么？</div><textarea class="teen-input" rows="2"></textarea>
+      <div class="teen-input-label">你可以怎么支持TA？</div><textarea class="teen-input" rows="2"></textarea>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">看见不同的角度</div><div class="teen-input-label">你和别人看法不同的情况：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">你的感受：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">对方可能的感受：</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">同理心行动</div><div class="teen-check-grid">${teenChecks(['主动倾听不打断','问"你还好吗？"','不急于评判','观察他人情绪','在需要时伸出援手','尊重不同','表达关心'])}</div><div class="teen-input-label" style="margin-top:10px">本周想对谁表达同理心？</div><textarea class="teen-input" rows="2"></textarea></div>
+</div>`;
+}
+
+function teenAnxiety() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">焦虑应对工作表</div><div class="ws-subtitle">Anxiety Management</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">焦虑自评</div>${teenSlider('a','焦虑程度',0,10)}<div class="teen-input-label">这种焦虑有多久了？</div><input class="teen-input" type="text"></div>
+  <div class="ws-card"><div class="card-title">身体症状</div><div class="teen-check-grid">${teenChecks(['心跳加速','手心出汗','呼吸困难','肌肉紧张','胃部不适','头痛头晕','手抖','恶心','失眠','疲惫'])}</div></div>
+  <div class="ws-card"><div class="card-title">认知症状</div><div class="teen-check-grid">${teenChecks(['灾难化思维','过度担心','无法集中','脑中一片空白','反复想同一件事','害怕失去控制','完美主义','自我怀疑'])}</div></div>
+  <div class="ws-card"><div class="card-title">焦虑思维日志</div><div class="teen-input-label">触发情境：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">焦虑想法：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">更合理的想法：</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">深呼吸</div><p style="font-size:13px;color:var(--text-mid);line-height:1.7;margin-bottom:8px">吸气4秒 → 屏住4秒 → 呼气6秒</p>${teenSlider('p','练习后焦虑',0,10)}</div>
+  <div class="ws-card"><div class="card-title">五感正念</div>
+    <div class="teen-input-label">5 个看到的</div><input class="teen-input" type="text">
+    <div class="teen-input-label">4 个能摸到的</div><input class="teen-input" type="text">
+    <div class="teen-input-label">3 个听到的</div><input class="teen-input" type="text">
+    <div class="teen-input-label">2 个闻到的</div><input class="teen-input" type="text">
+    <div class="teen-input-label">1 个尝到的</div><input class="teen-input" type="text">
+  </div>
+  <div class="ws-card"><div class="card-title">应对策略</div><div class="teen-check-grid">${teenChecks(['深呼吸','5-4-3-2-1正念','渐进式肌肉放松','写日记','运动','和人聊聊','限制咖啡因','规律作息','冥想','画画'])}</div></div>
+</div>`;
+}
+
+function teenSafety() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">我的安全计划</div><div class="ws-subtitle">My Safety Plan</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">第一步：警示信号</div>${Array(3).fill(0).map((_,i)=>`<input class="teen-input" type="text" placeholder="${i+1}.">`).join('')}</div>
+  <div class="ws-card"><div class="card-title">第二步：自己可以做的事</div>${Array(3).fill(0).map((_,i)=>`<input class="teen-input" type="text" placeholder="${i+1}.">`).join('')}</div>
+  <div class="ws-card"><div class="card-title">第三步：可以陪伴我的人</div><div class="teen-input-label">1. 名字：</div><input class="teen-input" type="text"><div class="teen-input-label">联系方式：</div><input class="teen-input" type="text"><div class="teen-input-label">2. 名字：</div><input class="teen-input" type="text"><div class="teen-input-label">联系方式：</div><input class="teen-input" type="text"><div class="teen-input-label">让我感到安全的地方：</div><input class="teen-input" type="text"></div>
+  <div class="ws-card"><div class="card-title">第四步：可以求助的大人</div><div class="teen-input-label">1. 名字：</div><input class="teen-input" type="text"><div class="teen-input-label">联系方式：</div><input class="teen-input" type="text"><div class="teen-input-label">2. 名字：</div><input class="teen-input" type="text"><div class="teen-input-label">联系方式：</div><input class="teen-input" type="text"></div>
+  <div class="ws-card"><div class="card-title">第五步：专业资源</div><div class="teen-input-label">咨询师/治疗师：</div><input class="teen-input" type="text" placeholder="姓名 & 电话"><div class="teen-input-label">紧急联系机构：</div><input class="teen-input" type="text"><p style="font-size:13px;color:var(--text-mid);margin-top:12px;line-height:1.8">🆘 24小时心理援助热线：<strong>12320-5</strong><br>🆘 生命热线：<strong>400-161-9995</strong><br>🆘 Crisis Text Line: Text <strong>HELLO</strong> to <strong>741741</strong></p></div>
+  <div class="ws-card"><div class="card-title">第六步：值得活下去的理由</div><textarea class="teen-input" rows="4" placeholder="对我来说重要的人、事、目标…"></textarea></div>
+</div>`;
+}
+
+function teenResilience() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">韧性与优势工作表</div><div class="ws-subtitle">Resilience & Strengths</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">我的优势词汇</div><div class="teen-check-grid">${teenChecks(['善于接纳','有适应力','善于沟通','勇敢','有同理心','灵活','专注','慷慨','有希望','有想象力','忠诚','有动力','有耐心','坚强','有支持力'])}</div></div>
+  <div class="ws-card"><div class="card-title">回忆过去的成功</div><div class="teen-input-label">描述一次成功的经历：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">遇到什么挑战？</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">怎么克服的？</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">认知重构</div><p style="font-size:13px;color:var(--text-mid);line-height:1.7;margin-bottom:10px">把消极的想法换个角度看：</p><div class="teen-input-label">消极想法 →</div><input class="teen-input" type="text" placeholder='e.g., "我考砸了"'><div class="teen-input-label">重新看待 →</div><input class="teen-input" type="text" placeholder='e.g., "一次考试不代表一切"'><div class="teen-input-label" style="margin-top:10px">消极想法 →</div><input class="teen-input" type="text"><div class="teen-input-label">重新看待 →</div><input class="teen-input" type="text"></div>
+  <div class="ws-card"><div class="card-title">记住你的"为什么"</div><div class="teen-input-label">是什么让你继续前进？</div><textarea class="teen-input" rows="3"></textarea></div>
+  <div class="ws-card"><div class="card-title">我的座右铭</div><textarea class="teen-input" rows="2"></textarea></div>
+</div>`;
+}
+
+// NEW: 亲子关系 (teen) - 基于親子關係自我評量表精简
+function teenFamily() {
+  return `<div class="ws-teen">
+  <div class="ws-header"><div class="ws-title">亲子关系工作表</div><div class="ws-subtitle">Parent-Teen Relationship Reflection</div>
+    <div class="ws-name-row"><div class="name-field"><span>Name</span><input type="text"></div><div class="name-field"><span>Date</span><input type="text"></div></div>
+  </div>
+  <div class="ws-card"><div class="card-title">亲子关系自评</div>
+    <div class="likert-legend">1=很不符合　2=不符合　3=尚符合　4=符合　5=非常符合</div>
+    ${likertRow('父母每天都会留一些时间给我')}
+    ${likertRow('我能和父母愉快相处')}
+    ${likertRow('我说话时，父母能耐心专注地听完')}
+    ${likertRow('我可以主动告诉父母在外面发生的事和感受')}
+    ${likertRow('父母能理解我内心真正的感受')}
+    ${likertRow('父母了解我的喜好')}
+    ${likertRow('父母答应我的事会履行')}
+    ${likertRow('亲子间有冲突时，父母不会认为一定是我的错')}
+    ${likertRow('父母给我充分自主空间决定自己的事')}
+    ${likertRow('我对目前的家庭状况感到满意')}
+  </div>
+  <div class="ws-card"><div class="card-title">沟通反思</div><div class="teen-input-label">我希望父母知道但还没说出口的：</div><textarea class="teen-input" rows="3"></textarea><div class="teen-input-label">父母做的让我感到被理解的一件事：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">我想改变的一件事：</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">冲突与边界</div><div class="teen-input-label">最近一次和父母的冲突：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">我当时的感受和需要：</div><textarea class="teen-input" rows="2"></textarea><div class="teen-input-label">我希望下次怎么处理：</div><textarea class="teen-input" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">感恩与期待</div><div class="teen-input-label">感谢父母的三件事：</div>${Array(3).fill(0).map((_,i)=>`<input class="teen-input" type="text" placeholder="${i+1}.">`).join('')}<div class="teen-input-label">想和父母一起做的一件事：</div><input class="teen-input" type="text"></div>
+</div>`;
+}
+
+// ═══════ ADULT BUILDERS ═══════
+function adultFeelings() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">情绪识别工作表</div><div class="ws-subtitle">Feelings Identification Worksheet</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div><div class="name-field"><span>咨询师</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">💛</div></div>
+  <div class="ws-card"><div class="card-title">💛 今日情绪</div><div class="field-label">勾选所有符合的情绪</div><div class="adult-emotion-grid">${adultEmoBtns(EMOTIONS)}</div><div class="field-label">用自己的话描述</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">📊 情绪强度</div><div class="field-label">1 = 几乎没有 · 5 = 非常强烈</div>${adultRating(5)}<div class="field-label">持续多久了？</div><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white" type="text"></div>
+  <div class="ws-card"><div class="card-title">🔍 触发因素与背景</div><div class="field-label">什么触发了这个情绪？</div><textarea class="adult-textarea" rows="3"></textarea><div class="field-label">当时的自动化思维</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">行为反应</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">🫀 身体感受</div><div class="adult-check-grid">${adultChecks(['胸口紧绷','心跳加速','手心出汗','肌肉紧张','呼吸急促','胃部不适','头痛/头晕','身体发热','感觉麻木','疲惫乏力'])}</div></div>
+  <div class="ws-card"><div class="card-title">🛠️ 应对策略</div><div class="adult-check-grid">${adultChecks(['深呼吸/腹式呼吸','5-4-3-2-1正念','写日记/反思','与支持者联系','运动/散步','冥想/放松练习','认知重构','接纳情绪','寻求专业帮助','艺术/创意表达'])}</div><div class="field-label">最有帮助的策略</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">📝 反思与洞察</div><div class="field-label">这次体验让我了解到自己什么？</div><textarea class="adult-textarea" rows="3"></textarea><div class="field-label">下一步</div><textarea class="adult-textarea" rows="2"></textarea></div>
+</div>`;
+}
+
+function adultAnger() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">愤怒管理工作表</div><div class="ws-subtitle">Anger Management Worksheet</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">🔥</div></div>
+  <div class="ws-card"><div class="card-title">⚡ 触发情境</div><div class="field-label">描述引发愤怒的情境</div><textarea class="adult-textarea" rows="3"></textarea><div class="field-label">愤怒强度（0-10）</div>${adultRating(10)}</div>
+  <div class="ws-card"><div class="card-title">🔍 愤怒背后的情绪</div><p style="font-size:13px;color:var(--text-light);font-family:'Noto Sans SC';line-height:1.7;margin-bottom:12px">愤怒通常是"次级情绪"，背后往往有更深层的感受。</p><div class="adult-check-grid">${adultChecks(['受伤/被误解','被忽视','不被尊重','担心/恐惧','失去控制','失望','羞愧/羞耻','无助'])}</div><div class="field-label">这种愤怒让我想起什么？</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">💭 认知评估</div><div class="field-label">我当时的想法</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">是否有认知扭曲？</div><div class="adult-check-grid">${adultChecks(['全或无思维','过度泛化','心理过滤','灾难化','情绪推理','个人化','应该句式','标签化'])}</div><div class="field-label">更平衡的看法</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">🌿 调节策略</div><div class="adult-check-grid">${adultChecks(['腹式深呼吸','暂时离开情境','运动消耗','渐进式肌肉放松','写愤怒日记','延迟反应','正念观察愤怒','和信任的人倾诉','重新评估情境','寻求咨询帮助'])}</div></div>
+  <div class="ws-card"><div class="card-title">📣 健康表达</div><div class="field-label">用"我"陈述</div><textarea class="adult-textarea" rows="2" placeholder='当___时，我感到___，因为___。我希望___。'></textarea><div class="field-label">我的应对计划</div><textarea class="adult-textarea" rows="3"></textarea></div>
+</div>`;
+}
+
+// adult selflove - 塞入gratitude内容
+function adultSelflove() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">自我爱护工作表</div><div class="ws-subtitle">Self-Love, Gratitude & Self-Compassion</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">💗</div></div>
+  <div class="ws-card"><div class="card-title">🌟 10件我欣赏自己的事</div><div class="adult-lines">${Array(10).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. ">`).join('')}</div></div>
+  <div class="ws-card"><div class="card-title">🙏 今天我感恩的 10 件事</div><p style="font-size:12px;color:var(--text-light);font-family:'Noto Sans SC';margin-bottom:10px">An attitude of gratitude supports wellbeing.</p><div class="adult-lines">${Array(10).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. ">`).join('')}</div></div>
+  <div class="ws-card"><div class="card-title">🫂 我的支持网络</div><div class="field-label">可以在精神/情绪之旅上支持我的具体的人</div><div class="adult-lines">${Array(5).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. 姓名 / 关系 / 怎么支持我">`).join('')}</div></div>
+  <div class="ws-card"><div class="card-title">💬 给自己三个肯定</div><div class="field-label">肯定 1</div><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white;margin-bottom:8px" type="text" placeholder="我是…"><div class="field-label">肯定 2</div><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white;margin-bottom:8px" type="text" placeholder="我拥有…"><div class="field-label">肯定 3</div><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white" type="text" placeholder="我值得…"></div>
+  <div class="ws-card"><div class="card-title">🗓️ 我的自我关怀计划</div><div class="field-label">每天需要做什么来照顾自己？</div><textarea class="adult-textarea" rows="3"></textarea><div class="field-label">需要设立更健康界限的地方</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">💌 写给自己的一封信</div><textarea class="adult-textarea" rows="6" placeholder="亲爱的自己，…"></textarea></div>
+</div>`;
+}
+
+function adultSocial() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">社交技能工作表</div><div class="ws-subtitle">Social Skills & Relationship Reflection</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">🤝</div></div>
+  <div class="ws-card"><div class="card-title">🔍 关系反思</div><div class="field-label">描述一段你想关注的关系</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">我满意的地方</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">希望改善的地方</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">📊 社交技能自评（0-10）</div><div class="field-label">主动倾听</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">清晰表达需求</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">设立健康界限</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">处理冲突</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">同理心</div>${adultRating(10)}</div>
+  <div class="ws-card"><div class="card-title">🕊️ 冲突解决</div><div class="field-label">近期冲突</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">我的反应与应对</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">我学到的</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">💡 健康关系的特征</div><div class="adult-check-grid">${adultChecks(['相互尊重','诚实透明沟通','支持彼此成长','各有个人空间','平等的权力结构','能安全表达感受','建设性冲突处理','共同的核心价值观'])}</div><div class="field-label">目前哪项最需要加强？</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">🎯 行动计划</div><div class="field-label">本周想改善的一件事</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">可以向谁寻求支持？</div><textarea class="adult-textarea" rows="2"></textarea></div>
+</div>`;
+}
+
+// adult awareness - 塞入 Weekly Retrospective + Minute Paper
+function adultAwareness() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">自我认知工作表</div><div class="ws-subtitle">Self-Awareness & Reflection</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">🪞</div></div>
+  <div class="ws-card"><div class="card-title">🪞 自我画像</div><div class="field-label">用5个词描述你自己</div><textarea class="adult-textarea" rows="1"></textarea><div class="field-label">核心价值观（选择最重要的3-5个）</div><div class="adult-check-grid">${adultChecks(['诚实正直','家庭','成长学习','创造力','健康','自由独立','社会正义','冒险','安全稳定','精神追求','服务他人','专业卓越','亲密关系','乐趣享受'])}</div></div>
+  <div class="ws-card"><div class="card-title">📊 自我评估</div><div class="field-label">自信心</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">接纳自己</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">处理批评</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">了解自己情绪</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">整体满意度</div>${adultRating(10)}</div>
+  <div class="ws-card"><div class="card-title">🔍 情绪与行为模式</div><div class="field-label">什么情况下你表现最好？</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">什么情况下你最容易感到压力？</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">反复出现的行为模式？</div><textarea class="adult-textarea" rows="3"></textarea></div>
+  <div class="ws-card"><div class="card-title">📝 每周回顾 Weekly Retrospective</div>
+    <div class="field-label">What went well? 本周哪些事顺利？</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">What didn't go well? 哪些事不顺利？</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">What did I learn? 我学到了什么？</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">What still puzzles me? 还有什么困惑？</div><textarea class="adult-textarea" rows="2"></textarea>
+  </div>
+  <div class="ws-card"><div class="card-title">⏱️ Minute Paper 一分钟反思</div>
+    <div class="field-label">今天我想学到什么？</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">今天我学到了什么？</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">还需要深入学习什么？</div><textarea class="adult-textarea" rows="2"></textarea>
+  </div>
+  <div class="ws-card"><div class="card-title">💡 优势与成长</div><div class="field-label">最引以为豪的三件事</div><div class="adult-lines">${Array(3).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}.">`).join('')}</div><div class="field-label">想成长的方面</div><textarea class="adult-textarea" rows="3"></textarea></div>
+</div>`;
+}
+
+// adult selfcontrol - 塞入 trigger清单
+function adultSelfcontrol() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">自我控制工作表</div><div class="ws-subtitle">Self-Regulation, Triggers & Impulse Management</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">🧘</div></div>
+  <div class="ws-card"><div class="card-title">📊 自我调节评估</div><div class="field-label">识别失控早期信号</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">冲动时暂停并思考</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">压力下保持冷静</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">延迟满足</div>${adultRating(10)}</div>
+  <div class="ws-card"><div class="card-title">⚡ 触发因素清单 Triggers Checklist</div>
+    <div class="field-label">生理触发 Physical</div>
+    <div class="adult-check-grid">${adultChecks(['过度疲劳','生病(如流感)','噪音','受虐待'])}</div>
+    <div class="field-label">社交触发 Social</div>
+    <div class="adult-check-grid">${adultChecks(['独处太久','节假日','度假','婚礼/葬礼','发薪日','他人情绪爆发','与人亲密','感到成功','音乐','失落/创伤周年纪念'])}</div>
+    <div class="field-label">生活压力 Life Stress</div>
+    <div class="adult-check-grid">${adultChecks(['工作','家庭','经济问题','住房','世界性事件'])}</div>
+    <div class="field-label">情绪触发 Emotional</div>
+    <div class="adult-check-grid">${adultChecks(['感到被排除','愧疚','沉溺过去','责备','症状加重','他人过度批评','被抛弃感','他人干涉我的事'])}</div>
+    <div class="field-label">其他触发</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+  </div>
+  <div class="ws-card"><div class="card-title">🚨 早期警告信号</div><div class="adult-check-grid">${adultChecks(['心跳加速','肌肉紧张','呼吸变浅','烦躁不安','思维混乱','想逃避','过度担心','疲惫感','注意力下降'])}</div></div>
+  <div class="ws-card"><div class="card-title">🛑 STOP 技巧</div><p style="font-size:13px;color:var(--text-light);font-family:'Noto Sans SC';line-height:1.7;margin-bottom:12px"><strong>S</strong>top 停下来 → <strong>T</strong>ake a breath 深呼吸 → <strong>O</strong>bserve 观察 → <strong>P</strong>roceed 有意识行动</p><div class="field-label">最近一次失控的情境</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">用STOP重新分析</div><textarea class="adult-textarea" rows="4"></textarea></div>
+  <div class="ws-card"><div class="card-title">🧘 调节策略工具箱</div><div class="adult-check-grid">${adultChecks(['腹式深呼吸','渐进式肌肉放松','正念观察','认知重构','延迟反应','暂时离开情境','运动锻炼','写日记记录','与支持者联系','设立预防计划'])}</div></div>
+  <div class="ws-card"><div class="card-title">🎯 本周目标</div><div class="field-label">具体提升哪方面？</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">具体行动计划</div><textarea class="adult-textarea" rows="3"></textarea></div>
+</div>`;
+}
+
+function adultChoices() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">选择与后果工作表</div><div class="ws-subtitle">Choices, Consequences & Decision-Making</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">⚖️</div></div>
+  <div class="ws-card"><div class="card-title">📋 情境分析</div>
+    <div class="adult-scenario"><div class="sc-text">小雅刚入职新公司。主管要求她下班前完成一系列任务。她选择留下来认真完成。</div>
+      <div class="field-label">做任务时的感受</div><textarea class="adult-textarea" rows="1"></textarea>
+      <div class="field-label">第二天主管的反应</div><textarea class="adult-textarea" rows="1"></textarea>
+      <div class="field-label">好选择吗？为什么？</div><textarea class="adult-textarea" rows="2"></textarea>
+    </div>
+    <div class="adult-scenario"><div class="sc-text">小明的朋友邀请他尝试不确定的事。他同意了，后来陷入不好的处境。</div>
+      <div class="field-label">迎合朋友时的感受</div><textarea class="adult-textarea" rows="1"></textarea>
+      <div class="field-label">怎样做出不同的选择？</div><textarea class="adult-textarea" rows="2"></textarea>
+    </div>
+  </div>
+  <div class="ws-card"><div class="card-title">🔍 我的选择反思</div><div class="field-label">最近一个重要决定</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">短期/长期后果</div><textarea class="adult-textarea" rows="3"></textarea><div class="field-label">重新选择会怎么做？</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">🧭 决策框架</div><div class="adult-check-grid">${adultChecks(['符合我的价值观？','对长期目标的影响？','会影响哪些人？','是否冲动？','信息足够吗？','最坏结果能接受吗？','尊重自己和他人？'])}</div></div>
+  <div class="ws-card"><div class="card-title">🎯 行动计划</div><div class="field-label">下次困难选择的决策原则</div><textarea class="adult-textarea" rows="3"></textarea></div>
+</div>`;
+}
+
+function adultEmpathy() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">同理心工作表</div><div class="ws-subtitle">Empathy & Perspective-Taking</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">💜</div></div>
+  <div class="ws-card"><div class="card-title">📊 同理心自评</div><div class="field-label">识别他人情绪</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">理解他人而不评判</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">倾听时全神贯注</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">分歧中看到对方合理之处</div>${adultRating(10)}</div>
+  <div class="ws-card"><div class="card-title">👟 换位思考练习</div><div class="field-label">最近一次产生分歧的情境</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">你的观点与感受</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">对方的观点与感受</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">有什么新的理解？</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">🔍 同理心障碍</div><div class="adult-check-grid">${adultChecks(['对方让我生气','太忙/太累','觉得对方不值得同情','文化/价值观差异','自己也在受苦','不理解对方处境','害怕被利用','习惯性评判'])}</div><div class="field-label">如何克服？</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">❤️ 同理心实践</div><div class="adult-check-grid">${adultChecks(['眼神接触','不打断','复述对方的话','关注情感而非事实','不急于给建议','提问深入了解','身体语言表达关注','接纳沉默'])}</div><div class="field-label">本周对谁练习更多同理心？</div><textarea class="adult-textarea" rows="1"></textarea><div class="field-label">具体怎么做？</div><textarea class="adult-textarea" rows="2"></textarea></div>
+</div>`;
+}
+
+function adultAnxiety() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">焦虑应对工作表</div><div class="ws-subtitle">Anxiety Management Worksheet</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">🌊</div></div>
+  <div class="ws-card"><div class="card-title">📊 焦虑评估</div><div class="field-label">当前焦虑水平（0-10）</div>${adultRating(10)}<div class="field-label">持续时间</div><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white" type="text"></div>
+  <div class="ws-card"><div class="card-title">🫀 躯体症状</div><div class="adult-check-grid">${adultChecks(['心跳加速','手心出汗','呼吸急促','肌肉紧张','胃部不适','头痛头晕','手抖','恶心','失眠','疲惫乏力','面部潮红','窒息感'])}</div></div>
+  <div class="ws-card"><div class="card-title">💭 认知症状</div><div class="adult-check-grid">${adultChecks(['灾难化思维','过度担忧','注意力下降','思维空白','反刍思维','害怕失控','完美主义','自我怀疑','害怕最坏结果','情绪推理'])}</div></div>
+  <div class="ws-card"><div class="card-title">📝 焦虑思维日志</div><div class="field-label">触发情境</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">焦虑想法</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">发生可能性（0-100%）</div><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white" type="text"><div class="field-label">理性反驳 / 更平衡的想法</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">🌬️ 放松练习</div><p style="font-size:13px;color:var(--text-light);font-family:'Noto Sans SC';line-height:1.7;margin-bottom:10px">腹式深呼吸：吸气4秒 → 屏住4秒 → 呼气6秒</p><div class="field-label">练习前焦虑</div>${adultRating(10)}<div class="field-label" style="margin-top:10px">练习后焦虑</div>${adultRating(10)}</div>
+  <div class="ws-card"><div class="card-title">👁️ 5-4-3-2-1 正念</div><div class="field-label">5个看到的</div><textarea class="adult-textarea" rows="1"></textarea><div class="field-label">4个能触碰的</div><textarea class="adult-textarea" rows="1"></textarea><div class="field-label">3个听到的</div><textarea class="adult-textarea" rows="1"></textarea><div class="field-label">2个闻到的</div><textarea class="adult-textarea" rows="1"></textarea><div class="field-label">1个尝到的</div><textarea class="adult-textarea" rows="1"></textarea></div>
+  <div class="ws-card"><div class="card-title">🛠️ 长期管理策略</div><div class="adult-check-grid">${adultChecks(['腹式深呼吸','渐进式肌肉放松','5-4-3-2-1正念','认知重构','暴露练习','规律运动','减少咖啡因','充足睡眠','写焦虑日记','冥想练习','寻求专业帮助','限制新闻/社交媒体'])}</div></div>
+</div>`;
+}
+
+function adultSafety() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">我的安全计划</div><div class="ws-subtitle">Personal Safety Plan</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div><div class="name-field"><span>咨询师</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">🛡️</div></div>
+  <div class="ws-card"><div class="card-title">⚠️ 第一步：警示信号</div><div class="adult-lines">${Array(3).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}.">`).join('')}</div></div>
+  <div class="ws-card"><div class="card-title">🧘 第二步：我自己可以做的事</div><div class="adult-lines">${Array(3).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}.">`).join('')}</div></div>
+  <div class="ws-card"><div class="card-title">👥 第三步：社交支持</div><div class="field-label">可以陪伴我的人</div><div class="adult-lines"><input class="adult-line" type="text" placeholder="1. 姓名 / 联系方式"><input class="adult-line" type="text" placeholder="2."></div><div class="field-label">让我感到安全的地方</div><div class="adult-lines"><input class="adult-line" type="text" placeholder="1."><input class="adult-line" type="text" placeholder="2."></div></div>
+  <div class="ws-card"><div class="card-title">🆘 第四步：危机时求助</div><div class="adult-lines"><input class="adult-line" type="text" placeholder="1. 姓名 / 联系方式 / 关系"><input class="adult-line" type="text" placeholder="2."><input class="adult-line" type="text" placeholder="3."></div></div>
+  <div class="ws-card"><div class="card-title">🏥 第五步：专业资源</div><div class="field-label">咨询师/治疗师</div><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white;margin-bottom:8px" type="text"><div class="field-label">紧急联系机构</div><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white;margin-bottom:8px" type="text"><div class="field-label">最近的急诊室</div><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white;margin-bottom:12px" type="text"><p style="font-size:13px;color:var(--text-mid);line-height:1.8;font-family:'Noto Sans SC'">🆘 24小时心理援助热线：<strong>12320-5</strong><br>🆘 生命热线：<strong>400-161-9995</strong><br>🆘 988 Suicide & Crisis Lifeline: <strong>988</strong><br>🆘 Crisis Text Line: Text <strong>HELLO</strong> to <strong>741741</strong></p></div>
+  <div class="ws-card"><div class="card-title">🌿 第六步：环境安全</div><div class="field-label">如何让环境更安全？</div><div class="adult-lines">${Array(2).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}.">`).join('')}</div></div>
+  <div class="ws-card"><div class="card-title">🌟 值得活下去的理由</div><textarea class="adult-textarea" rows="4"></textarea></div>
+</div>`;
+}
+
+// adult resilience - 塞入 Automatic Thought Record (ATR)
+function adultResilience() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">韧性与优势工作表</div><div class="ws-subtitle">Resilience, Strengths & Cognitive Reframing</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">🌱</div></div>
+  <div class="ws-card"><div class="card-title">⭐ 识别你的优势</div><div class="adult-check-grid">${adultChecks(['善于接纳','有适应力','善于表达','勇敢','有同理心','赋能他人','热情','灵活','专注','慷慨','有希望','有想象力','忠诚','有动力','有耐心','积极','自驱','坚强','有支持力'])}</div></div>
+  <div class="ws-card"><div class="card-title">🏆 回忆过去的成功</div><div class="field-label">描述一次有成就感的经历</div><textarea class="adult-textarea" rows="3"></textarea><div class="field-label">当时的挑战</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">如何克服</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">📒 自动化思维记录表 ATR</div><p style="font-size:12px;color:var(--text-light);font-family:'Noto Sans SC';line-height:1.7;margin-bottom:10px">心情变差时，尽快填写。组织适应性回应的提问：(1) 这个想法真实吗？证据是？(2) 有其他解释吗？(3) 最坏/最好/最现实的结果？(4) 如果朋友处在这个情境，我会说什么？</p>
+    <div style="overflow-x:auto"><table class="atr-table">
+      <thead><tr><th>日期/时间</th><th>情境</th><th>自动化思维<br>可信度%</th><th>情绪<br>强度%</th><th>适应性回应<br>可信度%</th><th>结果</th></tr></thead>
+      <tbody>${atrRow()}${atrRow()}${atrRow()}</tbody>
+    </table></div>
+  </div>
+  <div class="ws-card"><div class="card-title">🔄 快速认知重构</div><div class="field-label">消极想法 1</div><textarea class="adult-textarea" rows="1"></textarea><div class="field-label">重新看待</div><textarea class="adult-textarea" rows="1"></textarea><div class="field-label" style="margin-top:14px">消极想法 2</div><textarea class="adult-textarea" rows="1"></textarea><div class="field-label">重新看待</div><textarea class="adult-textarea" rows="1"></textarea></div>
+  <div class="ws-card"><div class="card-title">🔥 记住你的 "为什么"</div><textarea class="adult-textarea" rows="3"></textarea></div>
+  <div class="ws-card"><div class="card-title">💪 我的座右铭</div><textarea class="adult-textarea" rows="2"></textarea></div>
+  <div class="ws-card"><div class="card-title">🎯 韧性行动计划</div><div class="field-label">本周建立韧性的方面</div><textarea class="adult-textarea" rows="2"></textarea><div class="field-label">第一步</div><textarea class="adult-textarea" rows="2"></textarea></div>
+</div>`;
+}
+
+// NEW: 亲子关系 (adult) - 20题完整版親子關係自我評量表
+function adultFamily() {
+  const items = [
+    '不管我的工作或生活再忙碌，每一天我都会留一些时间给子女。',
+    '我能经常保持愉快的心情和孩子相处。',
+    '我认为孩子是有理性的，能自己面对和解决问题。',
+    '和孩子对话时，我甚少使用"你应该…"、"你最好…否则…"、"你再不…我就…"的语气。',
+    '我觉得孩子能欢喜地生活，比成绩好更重要。',
+    '我觉得孩子犯错和惹麻烦是成长必经的过程。',
+    '孩子说话时，我能耐心专注地听完。',
+    '我能经常和孩子有亲密的接触（如摸头、拍肩、相互拥抱…）。',
+    '即使孩子犯了错，我也不会因此就认为他/她是个坏孩子。',
+    '我经常给自己和孩子充裕的时间，避免催促孩子。',
+    '不论孩子发生什么事，我都能以孩子的立场，分享孩子内心的感受。',
+    '亲子间有冲突时，我不认为一定是孩子的错。',
+    '我能给孩子充分的自主空间，决定自己的事。',
+    '我要求孩子做的事情，我自己都能做到。',
+    '我答应孩子的事情，我一定都会履行。',
+    '我与孩子谈话时，我能了解孩子内心真正的感受。',
+    '我了解孩子内心的喜好和厌恶。',
+    '孩子愿意主动告诉我，他在外面发生的事情和内心感受。',
+    '和孩子谈完话，我甚少批评或指责孩子的想法。',
+    '我满意我目前的家庭和孩子的状况。'
+  ];
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">亲子关系工作表</div><div class="ws-subtitle">Parent-Child Relationship Self-Assessment</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div><div class="name-field"><span>孩子年龄</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">👨‍👩‍👧</div></div>
+  <div class="ws-card"><div class="card-title">📋 亲子关系自我评量表（20题）</div>
+    <p style="font-size:12px;color:var(--text-light);font-family:'Noto Sans SC';line-height:1.7;margin-bottom:10px">请依照每个描述与你情况的符合度作答。建议父母先作答，再请孩子作答（使用青少年版），比较两者差异。</p>
+    <div class="likert-legend">1=很不符合　2=不符合　3=尚符合　4=符合　5=非常符合</div>
+    ${items.map(t=>likertRow(t)).join('')}
+  </div>
+  <div class="ws-card"><div class="card-title">📊 计分与解读</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8">将所有题目的分数相加（总分 20–100）。<br><strong>60分以下</strong>：亲子关系已有危机，需立即调整。<br><strong>60–80分</strong>：相处还算良好，仍有提升空间。<br><strong>80分以上</strong>：亲子关系很好，请继续保持。</p>
+    <div class="field-label">我的总分</div>
+    <input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white" type="text">
+    <div class="field-label">孩子的总分（如已作答）</div>
+    <input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white" type="text">
+  </div>
+  <div class="ws-card"><div class="card-title">🔍 亲子对比反思</div>
+    <p style="font-size:12px;color:var(--text-light);font-family:'Noto Sans SC';margin-bottom:10px">做完测验后，在温馨的情境下亲子共同讨论，特别关注回答差异较大的题目。</p>
+    <div class="field-label">差异最大的题目（题号）</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">孩子的视角让我意识到…</div><textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">我想改变的一个具体行为</div><textarea class="adult-textarea" rows="2"></textarea>
+  </div>
+  <div class="ws-card"><div class="card-title">💬 沟通与表达</div>
+    <div class="field-label">我希望孩子知道但还没说出口的话</div><textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">最近一次和孩子的亲密时刻</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">我对自己做得最好的一件事</div><textarea class="adult-textarea" rows="2"></textarea>
+  </div>
+  <div class="ws-card"><div class="card-title">🎯 行动计划</div>
+    <div class="field-label">本周要实践的一个具体改变</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">一个月后想看到什么改变</div><textarea class="adult-textarea" rows="2"></textarea>
+  </div>
+</div>`;
+}
+
+// NEW: 家属症状观察 Symptom Checklist (仅成人版)
+function adultPsychosis() {
+  const symptomGroups = [
+    { title: '精神病性症状 Psychotic Symptoms', items: ['幻觉 Hallucinations','妄想 Delusions'] },
+    { title: '阴性症状 Negative Symptoms', items: ['情感迟钝 Blunted affect','言语贫乏 Alogia','冷漠无情 Apathy','快感缺失 Anhedonia'] },
+    { title: '情绪问题 Mood Problems', items: ['抑郁 Depression','自杀倾向 Suicidality','焦虑 Anxiety','愤怒、敌意或猜疑','情绪不稳 Labile mood','情感不协调'] },
+    { title: '思维紊乱 Disturbances in Thinking', items: ['注意力/专注问题','记忆力问题','抽象思维障碍','社交感知问题','古怪的逻辑','语言障碍','缺乏自知力'] },
+    { title: '行为紊乱 Behavioral Disturbances', items: ['紧张症/重复动作 Catatonia','缄默症 Mutism','思维或行为混乱','古怪打扮','社交场合行为不当','哭笑无常'] }
+  ];
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">家属症状观察记录表</div><div class="ws-subtitle">Family Symptom Checklist (Educational Reference)</div>
+    <div class="ws-name-row"><div class="name-field"><span>填写人</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div><div class="name-field"><span>患者关系</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">🩺</div></div>
+  <div class="ws-card" style="background:#fff3e0;border-color:#ffcc80">
+    <div class="card-title" style="color:#e65100">⚠️ 重要说明</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8">此表仅为家属教育和症状观察记录之用，<strong>不能替代专业诊断</strong>。如亲人出现以下症状，请尽快联系精神科医生或心理治疗师。本表改编自 <em>The Complete Family Guide to Schizophrenia</em> (Mueser & Gingerich, 2006)。</p>
+  </div>
+  <div class="ws-card"><div class="card-title">📋 症状清单</div>
+    <p style="font-size:12px;color:var(--text-light);font-family:'Noto Sans SC';margin-bottom:10px">请在每个症状旁勾选：过去是否出现过（Past，1个月前以上），现在是否出现（Present）。如不确定，留空。</p>
+    <table class="atr-table">
+      <thead><tr><th style="width:60%">症状 Symptom</th><th style="width:20%;text-align:center">过去 Past</th><th style="width:20%;text-align:center">现在 Present</th></tr></thead>
+      <tbody>
+        ${symptomGroups.map(g => `
+          <tr><td colspan="3" style="background:var(--beige-soft);font-weight:600;font-size:12px">${g.title}</td></tr>
+          ${g.items.map(it => `<tr>
+            <td style="font-size:12px;padding:6px 8px">${it}</td>
+            <td style="text-align:center"><input type="checkbox" style="width:16px;height:16px;cursor:pointer"></td>
+            <td style="text-align:center"><input type="checkbox" style="width:16px;height:16px;cursor:pointer"></td>
+          </tr>`).join('')}
+        `).join('')}
+      </tbody>
+    </table>
+  </div>
+  <div class="ws-card"><div class="card-title">📝 观察记录</div>
+    <div class="field-label">最近观察到的具体情况（时间、场景、持续多久）</div><textarea class="adult-textarea" rows="4"></textarea>
+    <div class="field-label">症状对日常生活的影响</div><textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">家属当前的应对方式</div><textarea class="adult-textarea" rows="3"></textarea>
+  </div>
+  <div class="ws-card"><div class="card-title">💊 当前治疗情况</div>
+    <div class="field-label">用药情况（药名 / 剂量 / 开始时间）</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">治疗方式</div>
+    <div class="adult-check-grid">${adultChecks(['精神科门诊','个体心理治疗','CBT 认知行为治疗','支持性治疗','住院治疗','日间康复','社区服务','家庭治疗'])}</div>
+    <div class="field-label">主治医生 / 咨询师</div><input style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:'Noto Sans SC';font-size:13px;outline:none;background:white" type="text">
+  </div>
+  <div class="ws-card"><div class="card-title">🫂 家属自我关怀</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8;margin-bottom:10px">照顾精神疾病亲人对家属身心都是挑战。照顾自己同样重要。</p>
+    <div class="field-label">我近期的情绪状态</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">我能获得的支持资源（家属互助组、咨询）</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">本周我为自己做的一件事</div><textarea class="adult-textarea" rows="2"></textarea>
+  </div>
+  <div class="ws-card"><div class="card-title">🆘 紧急情况应对</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8">出现以下情况请立即就医：严重自伤/自杀念头或行为、伤害他人的冲动或行为、完全失去现实感、无法进食或睡眠超过数日、严重急性发作。</p>
+    <p style="font-size:13px;color:var(--text-mid);line-height:1.8;font-family:'Noto Sans SC';margin-top:10px">🆘 24小时心理援助热线：<strong>12320-5</strong><br>🆘 生命热线：<strong>400-161-9995</strong><br>🆘 紧急情况：拨打 <strong>120</strong> 或前往最近的精神科急诊</p>
+  </div>
+</div>`;
+}
+
+// NEW: Three Circle 复发预防 (仅成人) - 源自SAA Green Book
+function adultThreeCircle() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">三圈复发预防计划</div><div class="ws-subtitle">Three Circle Plan — Relapse Prevention Framework</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div><div class="name-field"><span>支持者</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">🎯</div></div>
+
+  <div class="ws-card" style="background:#fff3e0;border-color:#ffcc80">
+    <div class="card-title" style="color:#e65100">📖 框架说明</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8">Three Circle 是源自 Sex Addicts Anonymous（SAA）的复发预防工具，适用于任何成瘾或强迫性行为。三个圈层由内到外：<br><strong>内圈</strong>（Inner / Bottom Line）= 想完全停止的行为；<br><strong>中圈</strong>（Middle / Boundary）= 导向内圈的风险行为与触发因素；<br><strong>外圈</strong>（Outer / Healthy）= 健康的替代行为与支持。<br>与赞助人 / 咨询师共同制定并定期回顾。</p>
+  </div>
+
+  <div class="ws-card" style="border-color:#ef9a9a">
+    <div class="card-title" style="color:#c62828">🔴 内圈 Inner Circle — 完全停止的行为</div>
+    <p style="font-size:12px;color:var(--text-light);font-family:'Noto Sans SC';margin-bottom:10px">具体、可观察的行为（不是情绪或想法）。只要做了任何一条，就算复发。</p>
+    <div class="adult-lines">${Array(5).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. 具体行为…">`).join('')}</div>
+  </div>
+
+  <div class="ws-card" style="border-color:#ffcc80">
+    <div class="card-title" style="color:#e65100">🟡 中圈 Middle Circle — 警示行为与触发</div>
+    <p style="font-size:12px;color:var(--text-light);font-family:'Noto Sans SC';margin-bottom:10px">会把我推向内圈的行为、情境、情绪状态。发现自己进入中圈是启动应对计划的信号。</p>
+    <div class="field-label">情境触发 / 环境</div>
+    <div class="adult-lines">${Array(4).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. 地点、时段、物理环境…">`).join('')}</div>
+    <div class="field-label">情绪状态触发</div>
+    <div class="adult-lines">${Array(4).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. e.g. 无聊、孤独、压力、过度兴奋…">`).join('')}</div>
+    <div class="field-label">行为前兆 / 滑坡动作</div>
+    <div class="adult-lines">${Array(4).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. 通向内圈的小动作…">`).join('')}</div>
+  </div>
+
+  <div class="ws-card" style="border-color:#a5d6a7">
+    <div class="card-title" style="color:#2e7d32">🟢 外圈 Outer Circle — 健康行为与支持</div>
+    <p style="font-size:12px;color:var(--text-light);font-family:'Noto Sans SC';margin-bottom:10px">积极、滋养、与恢复一致的行为。越多外圈活动，内/中圈风险越低。</p>
+    <div class="field-label">身体 / 感官类</div>
+    <div class="adult-lines">${Array(3).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. e.g. 运动、洗澡、散步、喝温水…">`).join('')}</div>
+    <div class="field-label">心理 / 精神类</div>
+    <div class="adult-lines">${Array(3).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. e.g. 冥想、阅读、写日记、听播客…">`).join('')}</div>
+    <div class="field-label">社交 / 支持类</div>
+    <div class="adult-lines">${Array(3).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. e.g. 联系赞助人、参加会议、见朋友…">`).join('')}</div>
+    <div class="field-label">创造 / 成长类</div>
+    <div class="adult-lines">${Array(3).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. e.g. 学习、工作项目、艺术、志愿…">`).join('')}</div>
+  </div>
+
+  <div class="ws-card"><div class="card-title">🧭 中圈应对流程</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8;margin-bottom:10px">一旦发现自己进入中圈，按步骤执行：</p>
+    <div class="field-label">1. 承认 Acknowledge — 我现在正处于中圈，具体的信号是：</div>
+    <textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">2. 暂停 Pause — 我可以立即做的一件事来打断：</div>
+    <textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">3. 联系 Connect — 我可以联系的人（排序优先）：</div>
+    <div class="adult-lines">${Array(3).fill(0).map((_,i)=>`<input class="adult-line" type="text" placeholder="${i+1}. 姓名 / 联系方式">`).join('')}</div>
+    <div class="field-label">4. 转向外圈 Shift — 我会做的外圈活动：</div>
+    <textarea class="adult-textarea" rows="2"></textarea>
+  </div>
+
+  <div class="ws-card"><div class="card-title">📅 每日签到 Daily Check-in</div>
+    <div class="field-label">今天有过中圈行为吗？是什么？</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">今天做了哪些外圈活动？</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">今天我的风险等级</div>${adultRating(5, '1=稳定')}
+    <div class="field-label" style="margin-top:10px">明天需要注意的触发</div><textarea class="adult-textarea" rows="2"></textarea>
+  </div>
+
+  <div class="ws-card"><div class="card-title">🤝 承诺与责任 Commitment</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8;margin-bottom:10px">Three Circle 的关键是事先承诺 (commitment)、接受后果 (consequences)、与他人共享。</p>
+    <div class="field-label">我为什么想改变？</div><textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">如果复发，我同意的后果</div><textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">会看到这个计划的人（赞助人 / 咨询师 / 信任伙伴）</div><textarea class="adult-textarea" rows="2"></textarea>
+  </div>
+</div>`;
+}
+
+// NEW: Duluth Power & Control Wheel 家暴识别教育 (成人)
+function adultDuluth() {
+  const categories = [
+    { icon:'😨', name:'Using Intimidation 使用恐吓', items:['用眼神、动作、手势让她感到害怕','打砸物品','破坏她的财产','虐待宠物','展示武器'] },
+    { icon:'💔', name:'Using Emotional Abuse 情感虐待', items:['贬低她','让她对自己感到糟糕','辱骂','让她以为自己疯了','玩心理游戏','羞辱她','让她感到内疚'] },
+    { icon:'🏚️', name:'Using Isolation 孤立', items:['控制她做什么、见谁、和谁说话、读什么、去哪里','限制她的外部活动','用嫉妒合理化控制行为'] },
+    { icon:'🙈', name:'Minimizing, Denying & Blaming 最小化/否认/责备', items:['淡化虐待、不认真对待她的担忧','说虐待没有发生','把施虐责任推给别人','说是她造成的'] },
+    { icon:'🧒', name:'Using Children 利用孩子', items:['让她对孩子感到内疚','用孩子传话','利用探视权骚扰她','威胁带走孩子'] },
+    { icon:'👑', name:'Using Male Privilege 使用男性特权', items:['把她当仆人','所有重大决定都自己做','表现得像"城堡之主"','定义男女角色'] },
+    { icon:'💰', name:'Using Economic Abuse 经济虐待', items:['阻止她找工作或保住工作','让她要钱','给她"零花钱"','拿走她的钱','不让她知道或接触家庭收入'] },
+    { icon:'⚖️', name:'Using Coercion & Threats 胁迫与威胁', items:['做出或执行伤害她的威胁','威胁离开她、自杀、举报她','让她撤诉','强迫她做违法的事'] }
+  ];
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">家暴识别教育 · Power & Control Wheel</div><div class="ws-subtitle">Duluth Model — 权力与控制轮</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">⚠️</div></div>
+
+  <div class="ws-card" style="background:#fff3e0;border-color:#ffcc80">
+    <div class="card-title" style="color:#e65100">📖 关于 Duluth 模型</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8">权力与控制轮由 Domestic Abuse Intervention Programs (Duluth, MN) 开发，用于识别亲密关系中的非身体虐待模式。外圈是身体和性暴力（physical / sexual violence），内部是用来维持权力和控制的 8 种战术。此工作表用于教育与识别——<strong>如果你或他人正在经历以下情况，请寻求专业帮助</strong>。</p>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8;margin-top:10px">🆘 全国反家暴热线（中国）：<strong>12338</strong>（妇联）<br>🆘 National Domestic Violence Hotline (US)：<strong>1-800-799-7233</strong></p>
+  </div>
+
+  <div class="ws-card"><div class="card-title">🎯 8 种权力与控制战术识别</div>
+    <p style="font-size:12px;color:var(--text-light);font-family:'Noto Sans SC';margin-bottom:10px">勾选在过去/当前关系中观察到的行为。此处用"她/他"的原始用语仅因模型原文，虐待可发生于任何性别之间。</p>
+    ${categories.map(c => `
+      <div style="margin-bottom:18px;padding:14px 16px;background:white;border:1px solid var(--border);border-radius:10px">
+        <div style="font-weight:600;font-size:14px;margin-bottom:10px;font-family:'Noto Sans SC'">${c.icon} ${c.name}</div>
+        <div class="adult-check-grid">${adultChecks(c.items)}</div>
+      </div>
+    `).join('')}
+  </div>
+
+  <div class="ws-card"><div class="card-title">🔍 反思</div>
+    <div class="field-label">在当前或过去的关系中，我识别出了哪些模式？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">这些行为如何影响了我（或我关心的人）？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">如果我在施加这些行为，我愿意承担的第一步改变是</div>
+    <textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">如果我在承受这些行为，我的下一步是</div>
+    <textarea class="adult-textarea" rows="2"></textarea>
+  </div>
+
+  <div class="ws-card"><div class="card-title">🌿 平等轮 Equality Wheel — 健康关系对比</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8;margin-bottom:10px">Duluth 同时提出平等轮作为健康关系的参照。勾选你当前关系中存在的特征：</p>
+    <div class="adult-check-grid">${adultChecks([
+      '不威胁的行为 Non-threatening behavior',
+      '尊重 Respect',
+      '信任与支持 Trust & support',
+      '诚实与问责 Honesty & accountability',
+      '负责任的养育 Responsible parenting',
+      '共同分担责任 Shared responsibility',
+      '经济伙伴关系 Economic partnership',
+      '协商与公平 Negotiation & fairness'
+    ])}</div>
+  </div>
+
+  <div class="ws-card"><div class="card-title">📞 资源与支持</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8">🆘 全国妇联维权热线：<strong>12338</strong><br>🆘 National DV Hotline (US)：<strong>1-800-799-7233</strong> / Text <strong>START</strong> to <strong>88788</strong><br>🆘 NYC Safe Horizon：<strong>1-800-621-4673</strong><br>📚 Duluth Model 官网：www.theduluthmodel.org</p>
+  </div>
+</div>`;
+}
+
+// NEW: 受害者同理心 Victim Empathy (施害者治疗用 — 成人/临床)
+function adultVictimEmpathy() {
+  return `<div class="ws-adult">
+  <div class="ws-header"><div class="ws-header-left"><div class="ws-title">受害者同理心练习</div><div class="ws-subtitle">Developing Victim Empathy (Clinical Exercise)</div>
+    <div class="ws-name-row"><div class="name-field"><span>姓名</span><input type="text"></div><div class="name-field"><span>日期</span><input type="text"></div><div class="name-field"><span>临床督导</span><input type="text"></div></div>
+  </div><div class="ws-header-ornament">💔</div></div>
+
+  <div class="ws-card" style="background:#ffebee;border-color:#ef9a9a">
+    <div class="card-title" style="color:#c62828">⚠️ 临床使用说明</div>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8">此工作表源自性犯罪者治疗项目（Sex Offender Treatment），<strong>必须在受过专门训练的临床师督导下使用</strong>。不适合自行填写，也不适用于受害者工作或一般心理咨询。独立使用可能有害（包括情绪去稳定、被当作认知扭曲工具）。</p>
+    <p style="font-size:13px;color:var(--text-mid);font-family:'Noto Sans SC';line-height:1.8;margin-top:10px"><strong>适用场景</strong>：法庭指派治疗项目、注册性犯罪者处遇项目（RSOTP）、有资质的临床师个案督导。</p>
+  </div>
+
+  <div class="ws-card"><div class="card-title">📝 第一部分：从受害者角度描述事件</div>
+    <div class="field-label">1. 事件发生前，受害者可能正在做什么或想什么？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">2. 你接近他/她实施伤害时，受害者可能在想和感受什么？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">3. 事件发生过程中，受害者可能在想和感受什么？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">4. 事件结束后，受害者可能在想和感受什么？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">5. 受害者当时可能有哪些关于此事的疑问？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">6. 受害者现在对于此事、对自己，可能还有哪些疑问？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+  </div>
+
+  <div class="ws-card"><div class="card-title">👤 第二部分：描述受害者</div>
+    <div class="field-label">1. 你是如何认识受害者的？</div>
+    <textarea class="adult-textarea" rows="2"></textarea>
+    <div class="field-label">2. 在你实施伤害之前，受害者对你的感觉或看法可能是什么？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">3. 你认为受害者对你的态度、想法和感受是否有改变？如有，怎样改变？如无，为什么？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+  </div>
+
+  <div class="ws-card"><div class="card-title">🌊 第三部分：短期与长期影响</div>
+    <div class="field-label">事件发生后的数天、数周，受害者可能经历了哪些影响？（情绪、身体、关系、日常功能）</div>
+    <textarea class="adult-textarea" rows="4"></textarea>
+    <div class="field-label">几个月、几年之后，可能存在哪些长期影响？</div>
+    <textarea class="adult-textarea" rows="4"></textarea>
+    <div class="field-label">受害者的家人、朋友、社区可能受到了哪些影响？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+  </div>
+
+  <div class="ws-card"><div class="card-title">🪞 第四部分：自我反思</div>
+    <div class="field-label">在做此练习时，你注意到自己出现了哪些想法或情绪？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">在哪些地方你感到难以进入受害者的视角？为什么？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">这个练习改变了你对自己行为的理解吗？</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+  </div>
+
+  <div class="ws-card"><div class="card-title">👥 第五部分：督导讨论</div>
+    <p style="font-size:12px;color:var(--text-light);font-family:'Noto Sans SC';margin-bottom:10px">以下由督导临床师填写：</p>
+    <div class="field-label">出现的认知扭曲</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">需要进一步工作的领域</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+    <div class="field-label">同理心水平评估</div>
+    ${adultRating(10, '0 = 完全无同理')}
+    <div class="field-label" style="margin-top:10px">下一步治疗计划</div>
+    <textarea class="adult-textarea" rows="3"></textarea>
+  </div>
+</div>`;
+}
+</script>
+</body>
+</html>
