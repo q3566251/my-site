@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mental Health Worksheets Hub · 心理治疗工作表汇总</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--page-bg:#f7f1e8;--soft-bg:#f2e7d9;--card-bg:#fdf9f4;--ink:#3a2f24;--ink-soft:#6b5a47;--accent:#a6794a;--accent-soft:#c89b6e;--line:#e4d7c3;--warn:#b86a3a;--shadow:0 1px 2px rgba(90,60,30,.05),0 4px 12px rgba(90,60,30,.06);}
+  *{box-sizing:border-box}html,body{margin:0;padding:0}
+  body{background:var(--page-bg);color:var(--ink);font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1280px;margin:0 auto;padding:36px 24px 80px}
+  header{margin-bottom:24px}
+  h1{font-family:"Noto Serif SC",serif;font-weight:700;font-size:28px;margin:0 0 6px;letter-spacing:.5px;}
+  .sub{color:var(--ink-soft);font-size:14px;margin:0 0 18px}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:var(--soft-bg);padding:14px 16px;border-radius:14px;border:1px solid var(--line);}
+  .search{flex:1;min-width:240px;display:flex;align-items:center;gap:8px;background:var(--card-bg);border:1px solid var(--line);border-radius:10px;padding:8px 12px;}
+  .search input{border:0;outline:0;background:transparent;flex:1;font-size:15px;color:var(--ink);font-family:inherit;}
+  .search svg{opacity:.5}
+  .count{font-size:13px;color:var(--ink-soft);white-space:nowrap}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 20px;}
+  .chip{background:var(--card-bg);border:1px solid var(--line);color:var(--ink-soft);padding:6px 14px;border-radius:999px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .15s;}
+  .chip:hover{border-color:var(--accent-soft);color:var(--ink)}
+  .chip.active{background:var(--accent);color:#fff8ee;border-color:var(--accent);}
+  .section-title{font-family:"Noto Serif SC",serif;font-size:22px;font-weight:700;margin:36px 0 6px;color:var(--ink);display:flex;align-items:baseline;gap:12px;}
+  .section-title::before{content:'';width:4px;height:22px;background:var(--accent);border-radius:2px;transform:translateY(3px);}
+  .section-sub{color:var(--ink-soft);font-size:13px;margin:0 0 18px;padding-left:16px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;}
+  .card{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow);transition:transform .15s;}
+  .card.secondary{background:#faf5ec;border-style:dashed;}
+  .card:hover{transform:translateY(-2px)}
+  .card h2{font-family:"Noto Serif SC",serif;font-size:19px;margin:0 0 4px;color:var(--ink);}
+  .card .zh{color:var(--ink-soft);font-size:13px;margin-bottom:10px}
+  .note{font-size:12px;color:var(--warn);background:#faefe0;border-left:3px solid var(--warn);padding:6px 10px;border-radius:4px;margin:0 0 12px;}
+  .card ul{list-style:none;margin:0;padding:0}
+  .card li{padding:8px 0;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .card li:last-child{border-bottom:0}
+  .card a{color:var(--accent);text-decoration:none;font-size:14px;font-weight:500;flex:1;}
+  .card a:hover{text-decoration:underline}
+  .src{font-size:11px;color:var(--ink-soft);background:var(--soft-bg);padding:2px 8px;border-radius:999px;white-space:nowrap;}
+  .verified{display:inline-block;font-size:11px;color:#4a7a4a;background:#e8f0e2;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle;}
+  .empty{grid-column:1/-1;color:var(--ink-soft);font-size:13px;padding:16px;text-align:center;}
+  footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-soft);line-height:1.7;}
+  footer code{background:var(--soft-bg);padding:1px 6px;border-radius:4px}
+  .src-key{margin-top:28px;padding:18px 20px;background:var(--soft-bg);border-radius:12px;font-size:13px;}
+  .src-key h3{margin:0 0 10px;font-size:14px;font-family:"Noto Serif SC",serif}
+  .src-key dl{margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 18px}
+  .src-key dt{font-weight:600;color:var(--ink)}
+  .src-key dd{margin:0 0 6px;color:var(--ink-soft);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Mental Health Worksheets Hub <span class="verified">v5 扩展</span></h1>
+  <p class="sub">Section 1 = 35 个常见 DSM-5 disorders（主要） · Section 2 = 症状 / 人群 / 模态（补充）· 所有链接经验证</p>
+
+  <div class="bar">
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="搜索 disorder / 症状（如 claustrophobia、tic、BFRB、chronic pain、IED）" autocomplete="off">
+    </div>
+    <div class="count" id="count"></div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+</header>
+
+<h2 class="section-title">Section 1 · Disorders</h2>
+<p class="section-sub">DSM-5 里有明确诊断的障碍 — 焦虑 / OCD 谱系 / 创伤 / 抑郁 / 进食 / 成瘾 / 人格 / 神经发育 / 破坏性行为 / 精神病性 / 睡眠 / 适应 / 冲动控制 / 躯体症状 / 性别。</p>
+<div class="grid" id="grid-disorders"></div>
+
+<h2 class="section-title">Section 2 · 症状 · 人群 · 模态</h2>
+<p class="section-sub">跨诊断的症状（愤怒、哀伤、压力、自尊）、特殊人群（受害者、加害者、LGBTQ+、照护者）、以及通用的 CBT / DBT / 心理教育工具。</p>
+<div class="grid" id="grid-secondary"></div>
+
+<section class="src-key">
+  <h3>Source key · 站点说明</h3>
+  <dl>
+    <dt>Therapist Aid</dt><dd>美国，单页 PDF，最全</dd>
+    <dt>CCI (Perth, AU)</dt><dd>按 disorder 分模块 workbook</dd>
+    <dt>Psychology Tools</dt><dd>英国，循证 CBT</dd>
+    <dt>GetSelfHelp (get.gg)</dt><dd>NHS 取向经典 CBT 表单</dd>
+    <dt>PsychPoint</dt><dd>美国分类 worksheet 库</dd>
+    <dt>Think CBT</dt><dd>英国免费 90 页 CBT 工作簿，覆盖 claustrophobia / emetophobia 等</dd>
+    <dt>CNTW NHS (UK)</dt><dd>23+ 自助指南</dd>
+    <dt>IOCDF</dt><dd>OCD/BDD/Hoarding 官方</dd>
+    <dt>VA / NCPTSD</dt><dd>退伍军人部，PTSD / Chronic Pain</dd>
+    <dt>NCTSN</dt><dd>儿童青少年创伤</dd>
+    <dt>Stanley-Brown</dt><dd>自杀安全计划</dd>
+    <dt>RAINN</dt><dd>性侵资源</dd>
+    <dt>Alzheimer's / NIA</dt><dd>痴呆症照护</dd>
+    <dt>ABCT</dt><dd>Association for Behavioral and Cognitive Therapies</dd>
+    <dt>Tourette Association</dt><dd>CBIT 官方 provider toolkit</dd>
+    <dt>Free-from-BFRB</dt><dd>BFRB 免费自助（科学背景，Moritz et al.）</dd>
+    <dt>Selective Mutism Center</dt><dd>S-CAT® 专科资源</dd>
+  </dl>
+</section>
+
+<footer>
+  <p><b>更新日志 (v5)</b>：新增 7 个 Section 1 卡 — Claustrophobia、Emetophobia、BFRBs（拔毛/抠皮）、Tourette/Tic Disorders、Intermittent Explosive Disorder、Chronic Pain / Somatic Symptom、Gender Dysphoria。</p>
+  <p><b>注意</b>：Claustrophobia 在 DSM-5 归为 Specific Phobia（situational 亚型），此处单列是因为 Think CBT 有专门工作簿；其他常见 phobia 亚型（社交以外的）都归 Specific Phobia 卡。</p>
+  <p><b>Disclaimer</b>：所有链接指向第三方。版权归原站。本页仅为 bookmark 聚合，不代表专业推荐。临床使用前请核对伦理要求。</p>
+  <p><code>Ctrl/Cmd + F</code> 也能搜</p>
+</footer>
+</div>
+
+<script>
+const DATA = [
+
+  // ==================== SECTION 1: DISORDERS ====================
+
+  // --- Anxiety Disorders ---
+  { section:"disorders", name:"Generalized Anxiety Disorder (GAD)", zh:"广泛性焦虑障碍", cat:"Anxiety",
+    links:[
+      {title:"Anxiety worksheets (all ages)", url:"https://www.therapistaid.com/therapy-worksheets/anxiety/none", src:"Therapist Aid"},
+      {title:"Worry & Rumination workbook", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Worry-and-Rumination", src:"CCI"},
+      {title:"Anxiety clinical problem page", url:"https://www.psychologytools.com/professional/problems/anxiety", src:"Psychology Tools"},
+      {title:"Anxiety self-help guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/anxiety", src:"CNTW NHS"},
+      {title:"Think CBT Workbook (free 90pp)", url:"https://thinkcbt.com/think-cbt-worksheets", src:"Think CBT"},
+    ]},
+  { section:"disorders", name:"Panic Disorder", zh:"惊恐障碍", cat:"Anxiety",
+    links:[
+      {title:"Panic self-help modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Panic", src:"CCI"},
+      {title:"Panic self-help guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/panic", src:"CNTW NHS"},
+      {title:"Panic thought records + diary", url:"https://www.getselfhelp.co.uk/free-downloads-alphabetical-list-of-cbt-worksheets-information-sheets-n-to-z/", src:"GetSelfHelp"},
+    ]},
+  { section:"disorders", name:"Agoraphobia", zh:"广场恐惧症", cat:"Anxiety",
+    note:"无专门免费 worksheet 站；用 exposure hierarchy 配合 Panic 资源。",
+    links:[
+      {title:"Exposure Hierarchy worksheet", url:"https://www.therapistaid.com/therapy-worksheet/exposure-hierarchy", src:"Therapist Aid"},
+      {title:"What is Exposure Therapy?", url:"https://www.therapistaid.com/therapy-worksheet/exposure-therapy-info-sheet", src:"Therapist Aid"},
+      {title:"Fear Ladder (Psychology Tools)", url:"https://www.psychologytools.com/resource/fear-ladder", src:"Psychology Tools"},
+      {title:"Panic self-help (适用)", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Panic", src:"CCI"},
+    ]},
+  { section:"disorders", name:"Social Anxiety Disorder", zh:"社交焦虑障碍", cat:"Anxiety",
+    links:[
+      {title:"Social Anxiety modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Social-Anxiety", src:"CCI"},
+      {title:"Social Anxiety guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/social-anxiety", src:"CNTW NHS"},
+    ]},
+  { section:"disorders", name:"Specific Phobia", zh:"特定恐惧症", cat:"Anxiety",
+    note:"常见亚型：animal、natural environment（高空、雷电）、blood-injection-injury、situational（飞机、密闭空间 claustrophobia）、other。治疗核心：exposure therapy。",
+    links:[
+      {title:"Exposure Hierarchy worksheet", url:"https://www.therapistaid.com/therapy-worksheet/exposure-hierarchy", src:"Therapist Aid"},
+      {title:"Creating an Exposure Hierarchy (guide)", url:"https://www.therapistaid.com/therapy-guide/creating-an-exposure-hierarchy-guide", src:"Therapist Aid"},
+      {title:"What is Exposure Therapy?", url:"https://www.therapistaid.com/therapy-worksheet/exposure-therapy-info-sheet", src:"Therapist Aid"},
+      {title:"Fear Ladder (Psychology Tools)", url:"https://www.psychologytools.com/resource/fear-ladder", src:"Psychology Tools"},
+    ]},
+  { section:"disorders", name:"Claustrophobia", zh:"幽闭恐惧症", cat:"Anxiety",
+    note:"DSM-5 归为 Specific Phobia（situational 亚型），但 Think CBT 有专门模块，故单列。",
+    links:[
+      {title:"Think CBT Workbook (含 Claustrophobia)", url:"https://thinkcbt.com/think-cbt-worksheets", src:"Think CBT"},
+      {title:"Exposure Hierarchy worksheet", url:"https://www.therapistaid.com/therapy-worksheet/exposure-hierarchy", src:"Therapist Aid"},
+      {title:"Fear Ladder (Psychology Tools)", url:"https://www.psychologytools.com/resource/fear-ladder", src:"Psychology Tools"},
+    ]},
+  { section:"disorders", name:"Emetophobia (vomiting phobia)", zh:"呕吐恐惧症", cat:"Anxiety",
+    note:"DSM-5 归为 Specific Phobia；Think CBT 有专门页面。",
+    links:[
+      {title:"Emetophobia treatment page (Think CBT)", url:"https://thinkcbt.com/emetophobia-vomiting-phobia", src:"Think CBT"},
+      {title:"Think CBT Workbook (含 Emetophobia)", url:"https://thinkcbt.com/think-cbt-worksheets", src:"Think CBT"},
+      {title:"Fear of vomiting: 4 areas (CBT Hub)", url:"https://cbthub.org/cbt-worksheet/fear-of-vomiting-how-it-all-connects/", src:"CBT Hub"},
+    ]},
+  { section:"disorders", name:"Illness Anxiety / Health Anxiety", zh:"疾病焦虑障碍", cat:"Anxiety",
+    links:[
+      {title:"Health Anxiety modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Health-Anxiety", src:"CCI"},
+      {title:"Health Anxiety guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/health-anxiety", src:"CNTW NHS"},
+    ]},
+  { section:"disorders", name:"Selective Mutism", zh:"选择性缄默症", cat:"Anxiety",
+    note:"免费临床 worksheet 稀少；SMA 和 SMart Center 是最权威的专科资源入口。",
+    links:[
+      {title:"SMA fact sheet (ABCT)", url:"https://www.abct.org/fact-sheets/selective-mutism/", src:"ABCT"},
+      {title:"SM guides & handouts (Social Communication Bridge)", url:"https://selectivemutismcenter.org/guides_worksheets/", src:"SMart Center"},
+      {title:"Educator Toolkit (PDF)", url:"https://www.selectivemutism.org/wp-content/uploads/2022/10/20221019_SMA_Educator_ToolKit_SinglePagesRevisedOct2022.pdf", src:"SM Association"},
+    ]},
+
+  // --- OCD & Related ---
+  { section:"disorders", name:"Obsessive-Compulsive Disorder (OCD)", zh:"强迫症", cat:"OCD",
+    links:[
+      {title:"OCD clinical problem page", url:"https://www.psychologytools.com/professional/problems/obsessive-compulsive-disorder-ocd", src:"Psychology Tools"},
+      {title:"OCD self-help guide", url:"https://www.getselfhelp.co.uk/ocd-self-help/", src:"GetSelfHelp"},
+      {title:"Brochures, fact sheets, handouts", url:"https://iocdf.org/brochures-and-fact-sheets/", src:"IOCDF"},
+      {title:"Obsessions & compulsions (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/obsessions-and-compulsions", src:"CNTW NHS"},
+      {title:"Thought records: OCD + ERP", url:"https://www.getselfhelp.co.uk/thought-challenging/", src:"GetSelfHelp"},
+    ]},
+  { section:"disorders", name:"Hoarding Disorder", zh:"囤积障碍", cat:"OCD",
+    links:[
+      {title:"Hoarding Disorder resource hub", url:"https://hoarding.iocdf.org/", src:"IOCDF"},
+      {title:"Hoarding fact sheet (PDF)", url:"https://iocdf.org/wp-content/uploads/2014/10/Hoarding-Fact-Sheet.pdf", src:"IOCDF"},
+      {title:"Hoarding brochure (PDF)", url:"https://iocdf.org/wp-content/uploads/2021/01/IOCDF-Hoarding-Brochure.pdf", src:"IOCDF"},
+    ]},
+  { section:"disorders", name:"Body Dysmorphic Disorder (BDD)", zh:"躯体变形障碍", cat:"OCD",
+    links:[
+      {title:"Body Dysmorphia modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Body-Dysmorphia", src:"CCI"},
+    ]},
+  { section:"disorders", name:"BFRBs: Trichotillomania / Skin Picking / Nail Biting", zh:"拔毛症 / 抠皮症 / 咬甲 (BFRB)", cat:"OCD",
+    note:"DSM-5: Trichotillomania (拔毛症) + Excoriation (抠皮症) 归为 OCD-Related。循证首选 HRT 习惯反转训练。",
+    links:[
+      {title:"BFRB clinical page + resources", url:"https://www.psychologytools.com/professional/problems/body-focused-repetitive-behaviors", src:"Psychology Tools"},
+      {title:"Free-from-BFRB (free self-help)", url:"https://www.free-from-bfrb.org/", src:"Free-from-BFRB"},
+      {title:"Habit Replacement Manual (PDF)", url:"https://www.free-from-bfrb.org/wp-content/uploads/2023/09/Habit_Replacement_Manual_EN_23_02.pdf", src:"Free-from-BFRB"},
+      {title:"IOCDF: BFRB treatment slides (PDF)", url:"https://iocdf.org/wp-content/uploads/2023/07/Elegant-Simplicity-of-BFRB-Treatment.pdf", src:"IOCDF"},
+    ]},
+
+  // --- Trauma / Stress-Related ---
+  { section:"disorders", name:"PTSD (adult)", zh:"创伤后应激障碍 成人", cat:"Trauma",
+    links:[
+      {title:"PTSD clinical problem page", url:"https://www.psychologytools.com/professional/problems/post-traumatic-stress-disorder-ptsd", src:"Psychology Tools"},
+      {title:"Understanding PTSD (client)", url:"https://www.psychologytools.com/self-help/post-traumatic-stress-disorder-ptsd", src:"Psychology Tools"},
+      {title:"PTSD worksheets directory", url:"https://www.psychpoint.com/worksheets/ptsd-worksheets", src:"PsychPoint"},
+      {title:"What Is Trauma? (psychoed)", url:"https://www.psychpoint.com/worksheets/what-is-trauma", src:"PsychPoint"},
+      {title:"Post Traumatic Stress guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/post-traumatic-stress", src:"CNTW NHS"},
+    ]},
+  { section:"disorders", name:"PTSD – Veterans / Military", zh:"军人 PTSD", cat:"Trauma",
+    links:[
+      {title:"PTSD.va.gov – get help", url:"https://www.ptsd.va.gov/gethelp/", src:"VA / NCPTSD"},
+      {title:"Self-help & coping", url:"https://www.ptsd.va.gov/gethelp/help_for_veterans.asp", src:"VA / NCPTSD"},
+      {title:"PTSD treatment overview", url:"https://www.va.gov/health-care/health-needs-conditions/mental-health/ptsd/", src:"VA / NCPTSD"},
+    ]},
+  { section:"disorders", name:"Adjustment Disorder", zh:"适应障碍", cat:"Trauma",
+    note:"常用 stress / grief / life transition 类 worksheet 处理，没有独立模块。",
+    links:[
+      {title:"Stress guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/stress", src:"CNTW NHS"},
+      {title:"Therapist Aid – topics hub", url:"https://www.therapistaid.com/therapy-worksheets", src:"Therapist Aid"},
+      {title:"Grief worksheets (适用)", url:"https://www.psychpoint.com/worksheets/grief-worksheets", src:"PsychPoint"},
+    ]},
+  { section:"disorders", name:"Dissociative Disorders", zh:"解离障碍", cat:"Trauma",
+    links:[
+      {title:"Dissociation clinical page", url:"https://www.psychologytools.com/professional/problems/dissociation", src:"Psychology Tools"},
+      {title:"Types of Dissociation handout", url:"https://www.psychologytools.com/resource/types-of-dissociation", src:"Psychology Tools"},
+      {title:"Dissociation self-monitoring record", url:"https://www.psychologytools.com/resource/dissociation-self-monitoring-record", src:"Psychology Tools"},
+    ]},
+
+  // --- Mood ---
+  { section:"disorders", name:"Major Depressive Disorder", zh:"重性抑郁障碍", cat:"Mood",
+    links:[
+      {title:"Depression worksheets (all ages)", url:"https://www.therapistaid.com/therapy-worksheets/depression/none", src:"Therapist Aid"},
+      {title:"Depression – adolescents", url:"https://www.therapistaid.com/therapy-worksheets/depression/adolescents", src:"Therapist Aid"},
+      {title:"Coping Skills: Depression", url:"https://www.therapistaid.com/therapy-worksheet/coping-skills-depression", src:"Therapist Aid"},
+      {title:"The Cycle of Depression", url:"https://www.therapistaid.com/therapy-worksheet/cycle-of-depression", src:"Therapist Aid"},
+      {title:"Depression modules (Back from the Bluez)", url:"https://www.cci.health.wa.gov.au/resources/looking-after-yourself/depression", src:"CCI"},
+      {title:"Depression worksheets directory", url:"https://www.psychpoint.com/worksheets/depression-worksheets", src:"PsychPoint"},
+      {title:"Depression guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/depression-and-low-mood", src:"CNTW NHS"},
+    ]},
+  { section:"disorders", name:"Bipolar Disorder", zh:"双相障碍", cat:"Mood",
+    links:[
+      {title:"Bipolar self-help modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Bipolar", src:"CCI"},
+    ]},
+  { section:"disorders", name:"Perinatal / Postpartum Depression", zh:"围产期 / 产后抑郁", cat:"Mood",
+    links:[
+      {title:"Postpartum Depression Info Sheet", url:"https://www.therapistaid.com/therapy-worksheet/what-is-postpartum-depression", src:"Therapist Aid"},
+      {title:"Perinatal Depression (NIMH)", url:"https://www.nimh.nih.gov/health/publications/perinatal-depression", src:"NIMH"},
+      {title:"Postnatal Depression guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/postnatal-depression", src:"CNTW NHS"},
+      {title:"Coping with depression pregnancy/birth (PDF)", url:"https://www.heretohelp.bc.ca/sites/default/files/coping-with-depression-during-pregnancy-and-following-birth-a-cognitive-behaviour-therapy-based-self-management-guide-for-women.pdf", src:"HeretoHelp BC"},
+    ]},
+
+  // --- Feeding / Eating ---
+  { section:"disorders", name:"Eating Disorders (AN/BN/BED)", zh:"进食障碍", cat:"Eating",
+    links:[
+      {title:"Disordered Eating modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Disordered-Eating", src:"CCI"},
+      {title:"Appearance Concerns workbook", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Appearance-Concerns", src:"CCI"},
+      {title:"Eating Disorders guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/eating-disorders", src:"CNTW NHS"},
+    ]},
+
+  // --- Substance & Addictive ---
+  { section:"disorders", name:"Substance Use Disorders", zh:"物质使用障碍", cat:"Addiction",
+    links:[
+      {title:"Substance Use worksheets (all ages)", url:"https://www.therapistaid.com/therapy-worksheets/substance-use/none", src:"Therapist Aid"},
+      {title:"Substance Use – adults", url:"https://www.therapistaid.com/therapy-worksheets/substance-use/adults", src:"Therapist Aid"},
+      {title:"Addiction tools hub", url:"https://www.therapistaid.com/tools/substance-use", src:"Therapist Aid"},
+      {title:"PsychPoint – substance use worksheets", url:"https://www.psychpoint.com/worksheets/substance-use-worksheets", src:"PsychPoint"},
+    ]},
+  { section:"disorders", name:"Gambling Disorder", zh:"赌博障碍", cat:"Addiction",
+    links:[
+      {title:"Gambling Disorder Info Sheet", url:"https://www.therapistaid.com/therapy-worksheet/what-is-gambling-disorder", src:"Therapist Aid"},
+    ]},
+  { section:"disorders", name:"Gaming Disorder / Internet Addiction", zh:"游戏障碍 / 网瘾", cat:"Addiction",
+    note:"主流免费 worksheet 站无专门模块（DSM 列为研究条目）。推荐借用成瘾/赌博框架。",
+    links:[
+      {title:"Gambling Disorder Info Sheet (most similar)", url:"https://www.therapistaid.com/therapy-worksheet/what-is-gambling-disorder", src:"Therapist Aid"},
+      {title:"Addiction tools & worksheets hub", url:"https://www.therapistaid.com/tools/substance-use", src:"Therapist Aid"},
+      {title:"What is Addiction? (psychoed)", url:"https://www.therapistaid.com/therapy-worksheet/what-is-addiction", src:"Therapist Aid"},
+      {title:"Relapse Prevention Plan v2", url:"https://www.therapistaid.com/therapy-worksheet/relapse-prevention-plan-2/motivational-interviewing/none", src:"Therapist Aid"},
+      {title:"Woog – Problematic/Addictive Gaming (PDF)", url:"https://community.pepperdine.edu/counselingcenter/content/alcoholandotherdrugs/woogpepperdine.pdf", src:"Pepperdine"},
+    ]},
+
+  // --- Personality ---
+  { section:"disorders", name:"Borderline Personality Disorder (BPD)", zh:"边缘型人格障碍", cat:"Personality",
+    links:[
+      {title:"BPD worksheets directory", url:"https://www.psychpoint.com/worksheets/borderline-personality-disorder-worksheets", src:"PsychPoint"},
+      {title:"DBT worksheets directory", url:"https://www.psychpoint.com/worksheets/dbt-worksheets", src:"PsychPoint"},
+      {title:"Tolerating Distress modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Tolerating-Distress", src:"CCI"},
+    ]},
+  { section:"disorders", name:"Other Personality Disorders (NPD/ASPD/Cluster B)", zh:"其他人格障碍", cat:"Personality",
+    note:"NPD/ASPD 免费 worksheet 稀少；多数优质资源为付费 workbook（Daniel Fox, Schema Therapy）。",
+    links:[
+      {title:"Personality Disorders clinical page", url:"https://www.psychologytools.com/professional/problems/personality-disorders", src:"Psychology Tools"},
+      {title:"BPD worksheets (often co-occurring)", url:"https://www.psychpoint.com/worksheets/borderline-personality-disorder-worksheets", src:"PsychPoint"},
+    ]},
+
+  // --- Neurodevelopmental ---
+  { section:"disorders", name:"ADHD (adults & kids)", zh:"注意缺陷多动障碍", cat:"Neurodev.",
+    links:[
+      {title:"ADHD worksheets (all ages)", url:"https://www.therapistaid.com/therapy-worksheets/adhd/none", src:"Therapist Aid"},
+      {title:"Managing ADHD (worksheet)", url:"https://www.therapistaid.com/therapy-worksheet/managing-adhd", src:"Therapist Aid"},
+      {title:"CDC free materials on ADHD", url:"https://www.cdc.gov/adhd/communication-resources/index.html", src:"CDC"},
+      {title:"Free ADHD printables (adult + kids)", url:"https://www.choosingtherapy.com/therapy-worksheets/adhd/", src:"ChoosingTherapy"},
+    ]},
+  { section:"disorders", name:"Autism Spectrum (ASD)", zh:"自闭症谱系", cat:"Neurodev.",
+    note:"免费临床 worksheet 少；多为教育/行为支持。",
+    links:[
+      {title:"Autism clinical problem page", url:"https://www.psychologytools.com/professional/problems/autism", src:"Psychology Tools"},
+      {title:"Think CBT Workbook (含 ADHD/ASD)", url:"https://thinkcbt.com/think-cbt-worksheets", src:"Think CBT"},
+      {title:"Autism teaching strategies – emotions", url:"https://autismteachingstrategies.com/emotions/", src:"autismteachingstrategies"},
+    ]},
+  { section:"disorders", name:"Tourette / Tic Disorders", zh:"抽动障碍 / 妥瑞症", cat:"Neurodev.",
+    note:"循证首选 CBIT（Comprehensive Behavioral Intervention for Tics），含 HRT 习惯反转 + function-based 干预。",
+    links:[
+      {title:"CBIT overview (Tourette Association)", url:"https://tourette.org/research-medical/cbit-overview/", src:"Tourette Association"},
+      {title:"Provider Tool Kit (PDF)", url:"https://tourette.org/wp-content/uploads/Full-Provider-Tool-Kit-rev.pdf", src:"Tourette Association"},
+      {title:"Basic Concepts of CBIT (PDF)", url:"https://www.tourettes-action.org.uk/storage/downloads/1464867836_Basic-Concepts-of-CBIT-Comprehensive-Behavioural-Intervention-for-Tics-G-2016-05-29-YouTube-Embed.pdf", src:"Tourettes Action UK"},
+      {title:"Behavior therapy for tics (clinical)", url:"https://tics.wustl.edu/treatment/behavior-therapy-for-tics/", src:"WUSTL Tics"},
+    ]},
+
+  // --- Disruptive, Impulse-Control, and Conduct Disorders ---
+  { section:"disorders", name:"Oppositional Defiant Disorder (ODD)", zh:"对立违抗性障碍", cat:"Disruptive Behavior",
+    note:"主流免费站无 ODD 专门模块；推荐用 parent management training + anger/behavior worksheets 组合。",
+    links:[
+      {title:"Parenting & Behavior – children", url:"https://www.therapistaid.com/therapy-worksheets/behavior/children", src:"Therapist Aid"},
+      {title:"Parenting & Behavior – teens", url:"https://www.therapistaid.com/therapy-worksheets/behavior/adolescents", src:"Therapist Aid"},
+      {title:"Parenting & Behavior tools hub", url:"https://www.therapistaid.com/tools/behavior", src:"Therapist Aid"},
+      {title:"Anger Management worksheets", url:"https://www.therapistaid.com/therapy-worksheets/anger/none", src:"Therapist Aid"},
+      {title:"Disruptive Behavior self-management (PDF)", url:"https://www.pediatricassociatesct.com/storage/app/media/handouts/disruptive-behavior/CN-Guided-Self-Management-Tools-for-Disruptive-Behavior-Parents-of-Children-3-12.pdf", src:"CN/Pediatric"},
+    ]},
+  { section:"disorders", name:"Conduct Disorder", zh:"品行障碍", cat:"Disruptive Behavior",
+    note:"免费临床 worksheet 稀少；多数为 CBT + parent training 改编。",
+    links:[
+      {title:"Parenting & Behavior – teens", url:"https://www.therapistaid.com/therapy-worksheets/behavior/adolescents", src:"Therapist Aid"},
+      {title:"Anger Management worksheets", url:"https://www.therapistaid.com/therapy-worksheets/anger/none", src:"Therapist Aid"},
+      {title:"Behavioral interventions paper (NIH PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC4808268/", src:"NIH PMC"},
+    ]},
+  { section:"disorders", name:"Intermittent Explosive Disorder (IED)", zh:"间歇性暴怒障碍", cat:"Disruptive Behavior",
+    note:"无专门免费 worksheet；通常用愤怒管理 + CBT 组合。",
+    links:[
+      {title:"Anger Management worksheets", url:"https://www.therapistaid.com/therapy-worksheets/anger/none", src:"Therapist Aid"},
+      {title:"Anger worksheets directory", url:"https://www.psychpoint.com/worksheets/anger-worksheets", src:"PsychPoint"},
+      {title:"Managing Anger guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/managing-anger", src:"CNTW NHS"},
+    ]},
+
+  // --- Psychotic ---
+  { section:"disorders", name:"Psychotic Disorders / Hearing Voices", zh:"精神病性障碍 / 幻听", cat:"Psychosis",
+    links:[
+      {title:"Hearing Voices & Disturbing Beliefs (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/hearing-voices-and-disturbing-beliefs", src:"CNTW NHS"},
+      {title:"Self-help guides and leaflets", url:"https://www.getselfhelp.co.uk/free-downloads-cbt-information-leaflets-self-help-guides/", src:"GetSelfHelp"},
+    ]},
+
+  // --- Sleep ---
+  { section:"disorders", name:"Sleep-Wake Disorders (Insomnia)", zh:"睡眠障碍 / 失眠", cat:"Sleep",
+    links:[
+      {title:"Sleep modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Sleep", src:"CCI"},
+      {title:"Sleeping Problems guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/sleeping-problems", src:"CNTW NHS"},
+    ]},
+
+  // --- Somatic / Pain ---
+  { section:"disorders", name:"Chronic Pain / Somatic Symptom", zh:"慢性疼痛 / 躯体症状", cat:"Somatic",
+    note:"循证首选 CBT-CP（VA 有完整免费手册）+ ACT-for-pain。",
+    links:[
+      {title:"Brief CBT-CP Patient Guidebook (PDF)", url:"https://www.va.gov/PAINMANAGEMENT/CBT_CP/docs/Brief_CBT-CP_Patient_Guidebook-4-13-2021.pdf", src:"VA"},
+      {title:"CBT-CP Therapist Manual (PDF)", url:"https://www.va.gov/painmanagement/docs/cbt-cp_therapist_manual.pdf", src:"VA"},
+      {title:"CBT-CP Group session handouts (PDF)", url:"https://www.rti.org/sites/default/files/documents/2024-07/INSPIRE%20MI+CBT%20Patient%20Packet%20for%20RTI%20website.pdf", src:"RTI/INSPIRE"},
+      {title:"Think CBT Workbook (含 Chronic Pain)", url:"https://thinkcbt.com/think-cbt-worksheets", src:"Think CBT"},
+    ]},
+
+  // --- Gender ---
+  { section:"disorders", name:"Gender Dysphoria", zh:"性别焦虑", cat:"Gender",
+    note:"无专门循证 worksheet 模块；推荐 LGBTQ-affirmative CBT 框架。",
+    links:[
+      {title:"Transdiagnostic LGBTQ-Affirmative CBT", url:"https://www.psychologytools.com/resource/transdiagnostic-lgbtq-affirmative-cognitive-behavioral-therapy-client-workbook", src:"Psychology Tools"},
+    ]},
+
+
+  // ==================== SECTION 2: SYMPTOMS / POPULATIONS / MODALITIES ====================
+
+  // --- Symptoms ---
+  { section:"secondary", name:"Anger (symptom)", zh:"愤怒 跨诊断症状", cat:"Symptoms",
+    links:[
+      {title:"Anger Management worksheets", url:"https://www.therapistaid.com/therapy-worksheets/anger/none", src:"Therapist Aid"},
+      {title:"Anger worksheets directory", url:"https://www.psychpoint.com/worksheets/anger-worksheets", src:"PsychPoint"},
+      {title:"Managing Anger guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/managing-anger", src:"CNTW NHS"},
+    ]},
+  { section:"secondary", name:"Grief & Loss", zh:"哀伤 / 丧失", cat:"Symptoms",
+    links:[
+      {title:"Grief worksheets directory", url:"https://www.psychpoint.com/worksheets/grief-worksheets", src:"PsychPoint"},
+      {title:"Bereavement guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/bereavement", src:"CNTW NHS"},
+    ]},
+  { section:"secondary", name:"Stress", zh:"压力", cat:"Symptoms",
+    links:[
+      {title:"Stress guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/stress", src:"CNTW NHS"},
+    ]},
+  { section:"secondary", name:"Low Self-Esteem / Self-Criticism", zh:"低自尊 / 自我批评", cat:"Symptoms",
+    links:[
+      {title:"Self-Esteem modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Self-Esteem", src:"CCI"},
+      {title:"Self-Compassion modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Self-Compassion", src:"CCI"},
+    ]},
+  { section:"secondary", name:"Perfectionism", zh:"完美主义", cat:"Symptoms",
+    links:[
+      {title:"Perfectionism modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Perfectionism", src:"CCI"},
+    ]},
+  { section:"secondary", name:"Procrastination", zh:"拖延", cat:"Symptoms",
+    links:[
+      {title:"Procrastination modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Procrastination", src:"CCI"},
+    ]},
+  { section:"secondary", name:"Assertiveness", zh:"坚定自信表达", cat:"Symptoms",
+    links:[
+      {title:"Assertiveness modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Assertiveness", src:"CCI"},
+    ]},
+
+  // --- Crisis ---
+  { section:"secondary", name:"Suicide & Self-Harm (crisis)", zh:"自杀 / 自伤 危机", cat:"Crisis",
+    links:[
+      {title:"Stanley-Brown Safety Plan (official forms)", url:"https://suicidesafetyplan.com/forms/", src:"Stanley-Brown"},
+      {title:"Safety Plan (Therapist Aid)", url:"https://www.therapistaid.com/therapy-worksheet/safety-plan", src:"Therapist Aid"},
+      {title:"Suicide & self-harm worksheets", url:"https://www.therapistaid.com/therapy-worksheets/suicide/none", src:"Therapist Aid"},
+      {title:"Self-harm self-help guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/self-harm", src:"CNTW NHS"},
+    ]},
+
+  // --- Populations: Victims ---
+  { section:"secondary", name:"Domestic Violence – Survivors", zh:"家暴受害者", cat:"Victims",
+    note:"主流免费 worksheet 站缺乏 DV 专门模块；CNTW NHS 指南最完整。",
+    links:[
+      {title:"Domestic Abuse self-help guide", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/domestic-abuse", src:"CNTW NHS"},
+      {title:"What Is Domestic Abuse? (info sheet)", url:"https://www.therapistaid.com/therapy-worksheet/what-is-abuse", src:"Therapist Aid"},
+    ]},
+  { section:"secondary", name:"Sexual Assault Survivors", zh:"性侵幸存者", cat:"Victims",
+    note:"RAINN 主打热线支援；worksheet 较少。",
+    links:[
+      {title:"Help & healing portal", url:"https://rainn.org/help-and-healing/", src:"RAINN"},
+      {title:"Self-care for survivors", url:"https://rainn.org/help-and-healing/overcoming-trauma-after-sexual-violence/self-care/", src:"RAINN"},
+      {title:"For child sexual abuse survivors", url:"https://rainn.org/help-and-healing/for-survivors-of-child-sexual-abuse/", src:"RAINN"},
+      {title:"PTSD worksheets (applicable)", url:"https://www.psychpoint.com/worksheets/ptsd-worksheets", src:"PsychPoint"},
+    ]},
+  { section:"secondary", name:"Child Abuse Survivors (adults)", zh:"童年虐待幸存者", cat:"Victims",
+    links:[
+      {title:"NCTSN resource library", url:"https://www.nctsn.org/resources", src:"NCTSN"},
+      {title:"Abuse self-help guide (NHS)", url:"https://selfhelp.cntw.nhs.uk/self-help-guides/abuse", src:"CNTW NHS"},
+      {title:"For survivors of CSA (RAINN)", url:"https://rainn.org/help-and-healing/for-survivors-of-child-sexual-abuse/", src:"RAINN"},
+    ]},
+
+  // --- Populations: Perpetrators ---
+  { section:"secondary", name:"Batterer Intervention / DV Offender", zh:"家暴加害人干预", cat:"Perpetrators",
+    note:"BIP 通常是 state-approved 项目（Duluth Model 等），不是单张 worksheet。",
+    links:[
+      {title:"NC BIP guidelines (PDF)", url:"https://www.doa.nc.gov/cfwyi-dvip-program-guidelinespdf/open", src:"NC State"},
+      {title:"Ohio BIP standards (PDF)", url:"https://www.odvn.org/wp-content/uploads/2020/05/BI_Standards_2010__Final3_Ohio.pdf", src:"ODVN"},
+    ]},
+  { section:"secondary", name:"Justice-Involved / Juvenile", zh:"司法系统 / 未成年犯罪", cat:"Perpetrators",
+    note:"93%+ 的青少年 offender 有 trauma 史；推荐 trauma-informed 取向。",
+    links:[
+      {title:"NCTSN – juvenile justice resources", url:"https://www.nctsn.org/resources", src:"NCTSN"},
+      {title:"Substance Use worksheets", url:"https://www.therapistaid.com/therapy-worksheets/substance-use/none", src:"Therapist Aid"},
+    ]},
+
+  // --- Populations: Special ---
+  { section:"secondary", name:"LGBTQ+ / Minority Stress", zh:"LGBTQ+ / 少数群体压力", cat:"Special pop.",
+    links:[
+      {title:"Transdiagnostic LGBTQ-Affirmative CBT", url:"https://www.psychologytools.com/resource/transdiagnostic-lgbtq-affirmative-cognitive-behavioral-therapy-client-workbook", src:"Psychology Tools"},
+    ]},
+  { section:"secondary", name:"Dementia Caregivers", zh:"痴呆症照护者", cat:"Special pop.",
+    note:"非传统 worksheet，多为教育/培训资源。",
+    links:[
+      {title:"Dementia care education", url:"https://www.alz.org/help-support/resources/care-education-resources", src:"Alzheimer's Assoc."},
+      {title:"Downloadable patient/caregiver PDFs", url:"https://www.alz.org/professionals/health-systems-medical-professionals/for-patients-caregivers/downloadable-resources", src:"Alzheimer's Assoc."},
+      {title:"NIA Alzheimer's caregiver resources", url:"https://www.alzheimers.gov/life-with-dementia/resources-caregivers", src:"NIA"},
+    ]},
+  { section:"secondary", name:"Children & Adolescents (trauma)", zh:"儿童青少年 创伤", cat:"Special pop.",
+    links:[
+      {title:"NCTSN resource library", url:"https://www.nctsn.org/resources", src:"NCTSN"},
+      {title:"NCTSN main site (types of trauma)", url:"https://www.nctsn.org/", src:"NCTSN"},
+      {title:"Depression adolescents (TA)", url:"https://www.therapistaid.com/therapy-worksheets/depression/adolescents", src:"Therapist Aid"},
+    ]},
+  { section:"secondary", name:"Couples / Relationships", zh:"伴侣 / 关系", cat:"Special pop.",
+    links:[
+      {title:"Relationship worksheets (all ages)", url:"https://www.therapistaid.com/therapy-worksheets/relationships/none", src:"Therapist Aid"},
+      {title:"Relationship Check-In", url:"https://www.therapistaid.com/therapy-worksheet/relationship-check-in", src:"Therapist Aid"},
+      {title:"Conflict Resolution (I-statements)", url:"https://www.therapistaid.com/therapy-worksheet/relationship-conflict-resolution", src:"Therapist Aid"},
+      {title:"Relationship Maintenance", url:"https://www.therapistaid.com/therapy-worksheet/relationship-maintenance", src:"Therapist Aid"},
+      {title:"Communication worksheets", url:"https://www.therapistaid.com/therapy-worksheets/communication/none", src:"Therapist Aid"},
+    ]},
+
+  // --- Modalities ---
+  { section:"secondary", name:"CBT – general tools", zh:"CBT 通用工具", cat:"Modality",
+    links:[
+      {title:"All CBT worksheets", url:"https://www.therapistaid.com/therapy-worksheets/cbt/none", src:"Therapist Aid"},
+      {title:"All CBT handouts", url:"https://www.psychologytools.com/downloads/cbt-worksheets-and-therapy-resources", src:"Psychology Tools"},
+      {title:"Alphabetical list A–M", url:"https://www.getselfhelp.co.uk/free-downloads-alphabetical-list-of-cbt-worksheets-information-sheets-a-to-m/", src:"GetSelfHelp"},
+      {title:"Alphabetical list N–Z", url:"https://www.getselfhelp.co.uk/free-downloads-alphabetical-list-of-cbt-worksheets-information-sheets-n-to-z/", src:"GetSelfHelp"},
+      {title:"Info leaflets & self-help guides", url:"https://www.getselfhelp.co.uk/free-downloads-cbt-information-leaflets-self-help-guides/", src:"GetSelfHelp"},
+      {title:"CBT worksheets directory", url:"https://www.psychpoint.com/worksheets/cbt-worksheets", src:"PsychPoint"},
+      {title:"Think CBT Workbook (free 90pp)", url:"https://thinkcbt.com/think-cbt-worksheets", src:"Think CBT"},
+    ]},
+  { section:"secondary", name:"DBT – skills worksheets", zh:"DBT 技能工作表", cat:"Modality",
+    links:[
+      {title:"DBT worksheets directory", url:"https://www.psychpoint.com/worksheets/dbt-worksheets", src:"PsychPoint"},
+      {title:"Tolerating Distress modules", url:"https://www.cci.health.wa.gov.au/Resources/Looking-After-Yourself/Tolerating-Distress", src:"CCI"},
+    ]},
+  { section:"secondary", name:"Exposure Therapy (ERP/CBT)", zh:"暴露疗法 通用", cat:"Modality",
+    links:[
+      {title:"Creating an Exposure Hierarchy (guide)", url:"https://www.therapistaid.com/therapy-guide/creating-an-exposure-hierarchy-guide", src:"Therapist Aid"},
+      {title:"Exposure Hierarchy worksheet", url:"https://www.therapistaid.com/therapy-worksheet/exposure-hierarchy", src:"Therapist Aid"},
+      {title:"What is Exposure Therapy? (info)", url:"https://www.therapistaid.com/therapy-worksheet/exposure-therapy-info-sheet", src:"Therapist Aid"},
+      {title:"Fear Ladder (Psychology Tools)", url:"https://www.psychologytools.com/resource/fear-ladder", src:"Psychology Tools"},
+    ]},
+  { section:"secondary", name:"Habit Reversal Training (HRT)", zh:"习惯反转训练", cat:"Modality",
+    note:"BFRB + Tic 循证核心技术。",
+    links:[
+      {title:"BFRB clinical page", url:"https://www.psychologytools.com/professional/problems/body-focused-repetitive-behaviors", src:"Psychology Tools"},
+      {title:"Habit Replacement Manual (PDF)", url:"https://www.free-from-bfrb.org/wp-content/uploads/2023/09/Habit_Replacement_Manual_EN_23_02.pdf", src:"Free-from-BFRB"},
+      {title:"CBIT overview (for tics)", url:"https://tourette.org/research-medical/cbit-overview/", src:"Tourette Association"},
+    ]},
+  { section:"secondary", name:"Psychoeducation", zh:"心理教育材料", cat:"Modality",
+    links:[
+      {title:"Psychoed packets (all disorders)", url:"https://www.therapistaid.com/therapy-worksheets/education/none", src:"Therapist Aid"},
+      {title:"Psychoeducation worksheets directory", url:"https://www.psychpoint.com/worksheets/psychoeducation-worksheets", src:"PsychPoint"},
+      {title:"CNTW NHS – all 23+ self-help guides", url:"https://selfhelp.cntw.nhs.uk/self-help-guides", src:"CNTW NHS"},
+    ]},
+];
+
+const gridD = document.getElementById('grid-disorders');
+const gridS = document.getElementById('grid-secondary');
+const q = document.getElementById('q');
+const cnt = document.getElementById('count');
+const filtersEl = document.getElementById('filters');
+const cats = ['全部',...[...new Set(DATA.map(d=>d.cat))]];
+let activeCat = '全部';
+
+function renderCard(d){
+  const card = document.createElement('div');
+  card.className = 'card' + (d.section==='secondary' ? ' secondary' : '');
+  card.innerHTML = `
+    <h2>${d.name}</h2>
+    <div class="zh">${d.zh} · ${d.cat}</div>
+    ${d.note?`<div class="note">⚠ ${d.note}</div>`:''}
+    <ul>${d.links.map(l=>`
+      <li>
+        <a href="${l.url}" target="_blank" rel="noopener">${l.title}</a>
+        <span class="src">${l.src}</span>
+      </li>`).join('')}</ul>
+  `;
+  return card;
+}
+
+function render(){
+  const kw = q.value.trim().toLowerCase();
+  let shown=0, totalLinks=0, shownD=0, shownS=0;
+  gridD.innerHTML=''; gridS.innerHTML='';
+  DATA.forEach(d=>{
+    const matchCat = activeCat==='全部' || d.cat===activeCat;
+    const hay = (d.name+' '+d.zh+' '+d.cat+' '+(d.note||'')+' '+d.links.map(l=>l.title+' '+l.src).join(' ')).toLowerCase();
+    const matchKw = !kw || hay.includes(kw);
+    if(!matchCat || !matchKw) return;
+    shown++; totalLinks += d.links.length;
+    const card = renderCard(d);
+    if(d.section==='disorders'){ gridD.appendChild(card); shownD++; }
+    else { gridS.appendChild(card); shownS++; }
+  });
+  if(shownD===0) gridD.innerHTML='<div class="empty">（该筛选下无 disorder 匹配）</div>';
+  if(shownS===0) gridS.innerHTML='<div class="empty">（该筛选下无 症状/人群/模态 匹配）</div>';
+  cnt.textContent = `${shown} 项 · ${totalLinks} 条链接（Disorders ${shownD} · 其他 ${shownS}）`;
+}
+
+cats.forEach(c=>{
+  const b = document.createElement('button');
+  b.className = 'chip'+(c===activeCat?' active':'');
+  b.textContent = c;
+  b.onclick = ()=>{
+    activeCat = c;
+    filtersEl.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active', x.textContent===c));
+    render();
+  };
+  filtersEl.appendChild(b);
+});
+
+q.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>
