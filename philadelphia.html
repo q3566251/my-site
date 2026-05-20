@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>费城两天行程 · 5/20–5/21</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page-bg: #f7f1e8;
+    --soft-bg: #f2e7d9;
+    --card-bg: #fdf9f4;
+    --accent: #8b5e3c;
+    --accent-light: #c49a72;
+    --accent-dark: #5c3a1e;
+    --text: #2d1f0e;
+    --text-muted: #7a5c3e;
+    --text-faint: #a88060;
+    --border: rgba(139,94,60,0.15);
+    --border-strong: rgba(139,94,60,0.3);
+    --must: #8b3a2a;
+    --must-bg: #fdf0ed;
+    --food: #7a5c00;
+    --food-bg: #fdf8e8;
+    --opt: #1a6b4a;
+    --opt-bg: #edf7f2;
+    --backup: #3a5c8b;
+    --backup-bg: #edf3fd;
+    --special: #7a1a6b;
+    --special-bg: #fcedf9;
+    --drive: #4a4a4a;
+    --drive-bg: #f0f0ee;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(139,94,60,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--page-bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .header {
+    background: var(--accent-dark);
+    padding: 32px 20px 24px;
+    text-align: center;
+  }
+  .header h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #f7ede0;
+    letter-spacing: .04em;
+    margin-bottom: 6px;
+  }
+  .header p {
+    color: var(--accent-light);
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: .08em;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding: 14px 16px;
+    background: var(--soft-bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 10px;
+    border-radius: 99px;
+    white-space: nowrap;
+  }
+  .tag.must    { background: var(--must-bg);    color: var(--must); }
+  .tag.food    { background: var(--food-bg);    color: var(--food); }
+  .tag.opt     { background: var(--opt-bg);     color: var(--opt); }
+  .tag.backup  { background: var(--backup-bg);  color: var(--backup); }
+  .tag.special { background: var(--special-bg); color: var(--special); }
+  .tag.drive   { background: var(--drive-bg);   color: var(--drive); }
+  .container { max-width: 680px; margin: 0 auto; padding: 20px 14px 60px; }
+  .day-block { margin-bottom: 32px; }
+  .day-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent-dark);
+    padding: 10px 0 10px;
+    margin-bottom: 4px;
+    border-bottom: 2px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .day-title .dot {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    padding: 14px 0 6px 2px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 13px 15px;
+    margin-bottom: 8px;
+    box-shadow: var(--shadow);
+    transition: box-shadow .2s;
+  }
+  .card:hover { box-shadow: 0 4px 18px rgba(139,94,60,0.13); }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .card-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent-dark);
+    flex: 1;
+  }
+  .time {
+    font-size: 12px;
+    color: var(--text-faint);
+    white-space: nowrap;
+    font-weight: 300;
+    padding-top: 2px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .card-desc strong { color: var(--accent-dark); font-weight: 500; }
+  .tip {
+    margin-top: 7px;
+    padding: 7px 10px;
+    background: var(--soft-bg);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent-light);
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .tip strong { color: var(--accent); }
+  .alert {
+    background: var(--special-bg);
+    border: 1px solid rgba(122,26,107,0.2);
+    border-radius: var(--radius);
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--special);
+    line-height: 1.6;
+  }
+  .alert strong { font-weight: 600; }
+  .divider {
+    border: none;
+    border-top: 1px dashed var(--border-strong);
+    margin: 20px 0 6px;
+  }
+  .note-box {
+    background: var(--soft-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 13px 15px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .note-box strong { color: var(--accent-dark); font-weight: 500; }
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-faint);
+    padding: 20px 16px;
+    border-top: 1px solid var(--border);
+    line-height: 1.8;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🔔 费城两日行程</h1>
+  <p>5/20（周二）抵达 · 5/21（周三）下午离开</p>
+</div>
+
+<div class="legend">
+  <span class="tag must">🔴 必去</span>
+  <span class="tag food">🟡 必吃</span>
+  <span class="tag opt">🟢 Optional</span>
+  <span class="tag backup">🔵 Backup</span>
+  <span class="tag special">🟣 限定活动</span>
+  <span class="tag drive">⚫ 驾车贴士</span>
+</div>
+
+<div class="container">
+
+  <!-- ================= DAY 1 ================= -->
+  <div class="day-block">
+    <div class="day-title"><span class="dot"></span>5/20 周二 · 下午抵达 Philly</div>
+
+    <!-- Drive -->
+    <div class="section-label">驾车 · NYC → Philly</div>
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">从纽约出发</div>
+        <div class="time">12:00 pm</div>
+      </div>
+      <div class="tags"><span class="tag drive">⚫ 驾车</span></div>
+      <div class="card-desc">
+        Brooklyn出发走 I-278 W → NJ Turnpike（I-95 S）→ 到达费城约 <strong>2小时</strong>（不堵车）。抵达时间约下午 2:00–2:30 pm。<br>
+        🛣 全程约 95 英里，过路费约 $17（EZ-Pass 更便宜）。
+      </div>
+      <div class="tip"><strong>贴士：</strong>停车推荐 PHL Airport Parking 或市中心 <a href="https://www.parkindego.com" target="_blank">DECO parking</a>，Center City约 $15–25/天。建议停好车再步行/Uber。</div>
+    </div>
+
+    <!-- 必吃 下午 -->
+    <div class="section-label">2:30pm — 第一站：吃 + 逛</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">DiNic's Roast Pork · Reading Terminal Market</div>
+        <div class="time">2:30 pm</div>
+      </div>
+      <div class="tags"><span class="tag food">🟡 必吃</span><span class="tag must">🔴 必去</span></div>
+      <div class="card-desc">
+        费城「最低调的传奇」：<strong>猪肉三明治（Roast Pork Italian）</strong>，配 sharp provolone + broccoli rabe，被 Food Network 评为全美最佳三明治。市场里 80+ 摊位，Amish 摊点、新鲜蔬果、各国小吃。半小时就能逛完，顺手买几块软糖或 pretzels 当零食。
+      </div>
+      <div class="tip">
+        📍 Reading Terminal Market，51 N 12th St（中央火车站正下方）<br>
+        ⏰ Mon–Sat 8am–6pm（市场），DiNic's约 10am–5pm，建议核实<br>
+        💵 猪肉三明治约 $12–15
+      </div>
+    </div>
+
+    <!-- 必去 下午逛 -->
+    <div class="section-label">4:00pm — 历史区步行</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">独立厅 + 自由钟</div>
+        <div class="time">4:00 pm</div>
+      </div>
+      <div class="tags"><span class="tag must">🔴 必去</span></div>
+      <div class="card-desc">
+        美国宪法 & 独立宣言签署地。<strong>自由钟免费参观</strong>（Liberty Bell Center，无需预约）。独立厅需 ranger-led tour，可当天免费领票（限量），或提前在 <a href="https://www.recreation.gov" target="_blank">recreation.gov</a> 预约 $1。两处步行距离，约 45–60 分钟。
+      </div>
+      <div class="tip">
+        📍 526 Market St（自由钟）/ 520 Chestnut St（独立厅）<br>
+        ⏰ 每日 9am–5pm，最后 tour 约 4:30pm，建议尽早到<br>
+        💵 自由钟免费，独立厅 tour $1/person（预约费）
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Elfreth's Alley · 古街打卡</div>
+        <div class="time">5:15 pm</div>
+      </div>
+      <div class="tags"><span class="tag must">🔴 必去</span></div>
+      <div class="card-desc">
+        全美最古老的住宅街，建于 1702 年，红砖小巷极具拍照价值。步行 10 分钟可达。不需要进博物馆，街道本身就值得一逛。
+      </div>
+      <div class="tip">📍 Elfreth's Alley, Old City, Philadelphia · 免费随时可逛</div>
+    </div>
+
+    <!-- 晚饭 -->
+    <div class="section-label">7:00pm — 晚饭</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Angelo's Pizzeria · 全 Philly 最佳 Cheesesteak</div>
+        <div class="time">7:00 pm</div>
+      </div>
+      <div class="tags"><span class="tag food">🟡 必吃</span></div>
+      <div class="card-desc">
+        当地人公认 2024–2025 最佳 cheesesteak。自家烤的 seeded roll，极香脆，ribeye 切得恰到好处，奶酪分布均匀。<strong>只收现金，没有座位，没有电话预约，排队可能 20–30 分钟</strong>，完全值得。点 "one whiz wit"（cheese whiz + onion）。
+      </div>
+      <div class="tip">
+        📍 736 S 9th St, South Philly（Italian Market 旁边）<br>
+        ⏰ 通常 Wed–Sun，具体时间不固定，建议出发前查 Instagram @angelosphiladelphia<br>
+        💵 约 $15–17，带足现金<br>
+        ⚠️ <strong>周二可能休息</strong>——见 Backup 方案↓
+      </div>
+    </div>
+
+    <!-- Backup 晚饭 -->
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Backup 晚饭：John's Roast Pork</div>
+        <div class="time">Backup</div>
+      </div>
+      <div class="tags"><span class="tag backup">🔵 Backup</span><span class="tag food">🟡 必吃</span></div>
+      <div class="card-desc">
+        1930 年开业的本地传奇，猪肉三明治 + cheesesteak 都是顶级。也是全现金、排队。<strong>周二–周六营业</strong>，5/20 周二可以去。
+      </div>
+      <div class="tip">
+        📍 14 E Snyder Ave, South Philly<br>
+        ⏰ Tue–Sat 约 10am–5pm（卖完即止，建议下午3-4点前到）<br>
+        💵 约 $13–16，现金
+      </div>
+    </div>
+
+    <!-- Optional -->
+    <hr class="divider">
+    <div class="section-label">Optional · 有时间才去</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Philadelphia Magic Gardens</div>
+        <div class="time">Optional</div>
+      </div>
+      <div class="tags"><span class="tag opt">🟢 Optional</span></div>
+      <div class="card-desc">
+        South Street 上独一无二的大型马赛克装置艺术，Isaiah Zagar 的毕生作品，室内+室外都是拼贴艺术，拍照超出片。约 45 分钟够逛。
+      </div>
+      <div class="tip">
+        📍 1020 South St<br>
+        ⏰ Mon–Fri 11am–6pm，Sat–Sun 10am–6pm<br>
+        💵 门票约 $10–15，建议提前网上购票
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Fishtown 区夜逛 · 酒吧 / 咖啡</div>
+        <div class="time">Optional · 晚上</div>
+      </div>
+      <div class="tags"><span class="tag opt">🟢 Optional</span></div>
+      <div class="card-desc">
+        Philly 最酷的年轻人聚集地，独立小店、酒吧、街头艺术。Frankford Ave 一带夜间氛围很好，不需要计划，随便逛。推荐喝一杯的地方：<strong>Punch Buggy Brewing</strong> 或 <strong>Human Robot</strong>（craft beer）。
+      </div>
+      <div class="tip">📍 Fishtown, Frankford Ave & Girard Ave 一带 · Uber 约 $8–12 from Center City</div>
+    </div>
+  </div>
+
+  <!-- ================= DAY 2 ================= -->
+  <div class="day-block">
+    <div class="day-title"><span class="dot"></span>5/21 周三 · 上午 → 下午5-6pm出发</div>
+
+    <!-- 限定活动 -->
+    <div class="alert">
+      🟣 <strong>今天限定活动！FIFA World Cup 2026 奖杯巡展 @ UPenn</strong><br>
+      18K 金真品奖杯，Coca-Cola 巡展唯一 Philly 站。时间：正午 12pm–9pm，地点 University of Pennsylvania。<strong>需提前在 Coca-Cola.com 预约（限量），walk-up 名额极少</strong>。免费，但要抢。
+    </div>
+
+    <!-- 早午饭 -->
+    <div class="section-label">9:00am — 早午饭</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Dutch Eating Place · Amish 早餐</div>
+        <div class="time">9:00 am</div>
+      </div>
+      <div class="tags"><span class="tag food">🟡 必吃</span></div>
+      <div class="card-desc">
+        Reading Terminal Market 内最有名的 Amish 摊位，自制 scrapple（PA 特色）、pancakes、fresh eggs。非常本地，早晨排队较长但值得。周末才营业，<strong>周三查一下是否营业</strong>（Amish 部分摊位只周三–六）。
+      </div>
+      <div class="tip">
+        📍 Reading Terminal Market 内（Amish 区）<br>
+        ⏰ 一般 Wed–Sat 营业，建议到场确认<br>
+        💵 约 $8–14
+      </div>
+    </div>
+
+    <!-- 上午必去 -->
+    <div class="section-label">10:30am — 上午必去</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Philadelphia Museum of Art · Rocky Steps</div>
+        <div class="time">10:30 am</div>
+      </div>
+      <div class="tags"><span class="tag must">🔴 必去</span></div>
+      <div class="card-desc">
+        Rocky 跑台阶的取景地，打个卡是仪式感。博物馆本身馆藏极强（印象派、东方艺术），有时间进去值得逛 1–2 小时。馆外可以俯瞰 Benjamin Franklin Parkway，景色很好。
+      </div>
+      <div class="tip">
+        📍 2600 Benjamin Franklin Pkwy<br>
+        ⏰ Tue–Sun 10am–5pm（周五至8:45pm）<br>
+        💵 门票 $30，台阶外面免费随时可上
+      </div>
+    </div>
+
+    <!-- FIFA -->
+    <div class="section-label">12:00pm — 限定</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">FIFA World Cup 奖杯巡展 @ UPenn</div>
+        <div class="time">12:00 pm</div>
+      </div>
+      <div class="tags"><span class="tag special">🟣 限定</span></div>
+      <div class="card-desc">
+        真实的 FIFA World Cup 奖杯近距离观看，全程 Coca-Cola 赞助免费。2026 世界杯就在北美举办，这是在正式开赛前最近距离接触的机会。现场有合影、周边等活动。<strong>必须提前登记，否则很可能进不去。</strong>
+      </div>
+      <div class="tip">
+        📍 University of Pennsylvania 校园内，具体地点登记后确认<br>
+        ⏰ 5/21 正午 12pm–9pm<br>
+        💵 免费，Uber from PMA 约 $8–10<br>
+        🔗 预约：<a href="https://www.coca-cola.com" target="_blank">Coca-Cola.com</a>（搜索 Trophy Tour）
+      </div>
+    </div>
+
+    <!-- 午饭 -->
+    <div class="section-label">2:00pm — 午饭 + 最后逛</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">South Street 闲逛 + 随便吃</div>
+        <div class="time">2:00 pm</div>
+      </div>
+      <div class="tags"><span class="tag opt">🟢 Optional</span></div>
+      <div class="card-desc">
+        费城版 Bleecker Street，独立店、文身店、vintage、小餐馆。Philly cheesesteak 还没吃够的话这里有 <strong>Jim's South St Steaks</strong>（经典老店，Whiz 出名）。
+      </div>
+      <div class="tip">📍 South St, 从 Broad St 到 Delaware Ave</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Water Ice（Rita's 或 John's）</div>
+        <div class="time">3:30 pm</div>
+      </div>
+      <div class="tags"><span class="tag food">🟡 必吃</span></div>
+      <div class="card-desc">
+        Philly 本地特色冷饮，介于冰沙和冰淇淋之间。Rita's Italian Ice 是连锁但最正宗，任何口味都好。出发前的最后一口 Philly taste。
+      </div>
+      <div class="tip">📍 Rita's Italian Ice 多处门店，搜最近的 · 约 $4–6</div>
+    </div>
+
+    <!-- 出发 -->
+    <hr class="divider">
+    <div class="section-label">5:00–6:00pm — 出发回纽约</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">返程 · Philly → Brooklyn</div>
+        <div class="time">5:00–6:00 pm</div>
+      </div>
+      <div class="tags"><span class="tag drive">⚫ 驾车</span></div>
+      <div class="card-desc">
+        5月下旬日落约 8:05pm（纽约），5pm 出发有充足余量天黑前到家。走 I-76 E → NJ Turnpike（I-95 N）→ 约 <strong>2小时</strong>（不堵车）。
+      </div>
+      <div class="tip">
+        ⚠️ 周三下午堵车概率较低，但 5–6pm 是 rush hour 开始，建议 <strong>5pm 前出发</strong>。
+      </div>
+    </div>
+
+    <!-- 途中吃 -->
+    <div class="section-label">途中 · NJ Turnpike 休息站（返程路上）</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Walt Whitman Service Plaza（南行）/ Molly Pitcher（北行）</div>
+        <div class="time">返程途中</div>
+      </div>
+      <div class="tags"><span class="tag drive">⚫ 驾车</span></div>
+      <div class="card-desc">
+        返程 NJ Turnpike 北行，约 MM71 的 <strong>Molly Pitcher Service Plaza</strong> 或 MM78 的 <strong>Joyce Kilmer Service Plaza</strong>。有 Popeyes、Starbucks、Nathan's（热狗）、Auntie Anne's。如果没吃饱可以在这里加餐。
+      </div>
+      <div class="tip">
+        📍 NJ Turnpike northbound，大约距 Philly 40–50 英里处<br>
+        ⏰ 24小时开放
+      </div>
+    </div>
+
+    <!-- Optional Day2 -->
+    <hr class="divider">
+    <div class="section-label">Optional Day 2 · 如果有多余时间</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Eastern State Penitentiary</div>
+        <div class="time">Optional</div>
+      </div>
+      <div class="tags"><span class="tag opt">🟢 Optional</span></div>
+      <div class="card-desc">
+        Al Capone 曾关押于此的历史监狱，哥特式废墟建筑，视觉冲击力极强。约 1.5 小时。不喜欢历史/阴暗风格就跳过。
+      </div>
+      <div class="tip">
+        📍 2027 Fairmount Ave（PMA 步行 15 分钟）<br>
+        ⏰ 每日 10am–5pm<br>
+        💵 门票约 $25
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">Calder Gardens（新开 2025）</div>
+        <div class="time">Optional</div>
+      </div>
+      <div class="tags"><span class="tag opt">🟢 Optional</span></div>
+      <div class="card-desc">
+        2025 年新开，Ben Franklin Parkway 上，雕塑家 Alexander Calder 的专属花园，规模大，免费参观区域多。PMA 旁边顺路可看。
+      </div>
+      <div class="tip">📍 Benjamin Franklin Pkwy，PMA 步行范围内</div>
+    </div>
+  </div>
+
+  <!-- 实用贴士 -->
+  <div class="note-box">
+    <strong>📌 实用小贴士（真实）</strong><br>
+    • <strong>停车：</strong>Center City 停车 $15–25/天，建议用 SpotHero 提前预订更便宜<br>
+    • <strong>现金：</strong>Angelo's + John's Roast Pork 都只收现金，带够<br>
+    • <strong>FIFA 奖杯：</strong>必须提前在 Coca-Cola 官网预约，不然大概率进不去<br>
+    • <strong>Angelo's 周二：</strong>很可能不营业，务必提前查 Instagram<br>
+    • <strong>天气：</strong>5月费城通常 15–23°C，舒适，带轻外套<br>
+    • <strong>步行：</strong>Center City + Old City 区域步行极方便，大部分景点互相 10–20 分钟步距
+  </div>
+
+</div>
+
+<div class="footer">
+  行程信息基于2025–2026年公开资料整理 · 营业时间/票价可能变动，出发前建议核实<br>
+  <a href="https://www.visitphilly.com" target="_blank">visitphilly.com</a> · 祝旅途愉快 🔔
+</div>
+
+</body>
+</html>
