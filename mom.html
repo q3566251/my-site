@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>停车动图</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap');
+:root{--bg:#f7f1e8;--card:#fdf9f4;--soft:#f2e7d9;--red:#e03b3b;--green:#2a9d5c;--yellow:#d4900a;--text:#2b2b2b;--muted:#888;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--text);max-width:400px;margin:0 auto;padding-bottom:40px;}
+.hdr{background:#2b2b2b;color:#fff;text-align:center;padding:16px;}
+.hdr h1{font-size:1.35rem;font-weight:900;}
+.hdr p{font-size:0.82rem;color:#ccc;margin-top:3px;}
+.tabs{display:flex;background:var(--soft);border-bottom:2px solid #ddd;}
+.tab{flex:1;padding:10px 4px;text-align:center;font-size:0.85rem;font-weight:700;cursor:pointer;border:none;background:transparent;font-family:inherit;color:var(--muted);}
+.tab.on{color:var(--text);border-bottom:3px solid #2b2b2b;background:var(--card);}
+.sec{display:none;padding:12px;}
+.sec.on{display:block;}
+.sbar{background:#2b2b2b;color:#fff;border-radius:10px;padding:9px 13px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
+.sbar .n{font-size:0.76rem;color:#aaa;}
+.sbar .t{font-size:0.95rem;font-weight:900;}
+.dots{display:flex;gap:5px;justify-content:center;margin-bottom:8px;}
+.dot{width:8px;height:8px;border-radius:50%;background:#ddd;transition:background .3s;}
+.dot.on{background:#2b2b2b;}
+canvas{display:block;width:100%;border-radius:10px;margin-bottom:10px;}
+.brow{display:flex;gap:10px;margin-bottom:10px;}
+.wbox{background:var(--card);border-radius:10px;padding:9px 7px;display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.08);min-width:96px;}
+.wlabel{font-size:0.76rem;font-weight:700;margin-top:4px;text-align:center;}
+.gb{display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;font-size:0.88rem;font-weight:900;color:#fff;margin-top:4px;}
+.gR{background:var(--red);}
+.gD{background:var(--green);}
+.gP{background:#555;}
+.dbox{flex:1;background:var(--card);border-radius:10px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:0.88rem;line-height:1.7;}
+.tip{font-size:0.78rem;color:var(--muted);margin-top:4px;}
+.btns{display:flex;gap:8px;}
+.btn{flex:1;padding:11px 4px;border:2px solid #ddd;border-radius:10px;background:var(--card);font-size:0.88rem;font-weight:700;font-family:inherit;cursor:pointer;color:var(--text);}
+.btn.play{background:#2b2b2b;color:#fff;border-color:#2b2b2b;}
+</style>
+</head>
+<body>
+<div class="hdr"><h1>🚗 停车动图教学</h1><p>看图学习，一步一步来</p></div>
+<div class="tabs">
+  <button class="tab on" onclick="sw('p')">🅿️ 平行停车</button>
+  <button class="tab" onclick="sw('c')">↕️ 靠边调整</button>
+</div>
+
+<div id="sp" class="sec on">
+  <div class="sbar"><span class="n" id="pn">步骤 1/4</span><span class="t" id="pt">准备：对齐前车</span></div>
+  <div class="dots" id="pd"></div>
+  <canvas id="pc" width="340" height="200"></canvas>
+  <div class="brow">
+    <div class="wbox">
+      <svg width="82" height="82" viewBox="0 0 100 100">
+        <g transform="translate(50,50)">
+          <g id="pwg" style="transform-origin:0 0;transform:rotate(0deg);transition:transform .65s ease">
+            <circle r="40" fill="none" stroke="#333" stroke-width="6"/>
+            <circle r="7" fill="#333"/>
+            <line x1="0" y1="-32" x2="0" y2="32" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+            <line x1="-32" y1="0" x2="32" y2="0" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+          </g>
+          <circle cy="-40" r="5" fill="#e03b3b"/>
+        </g>
+      </svg>
+      <div class="wlabel" id="pwl">回正</div>
+      <div class="gb gD" id="pg">D</div>
+    </div>
+    <div class="dbox" id="pd2">把车开到前车旁边。<br>你的车镜对齐前车的车尾。<div class="tip">💡 D档，慢慢停好</div></div>
+  </div>
+  <div class="btns">
+    <button class="btn" onclick="pm(-1)">◀ 上一步</button>
+    <button class="btn play" id="ppb" onclick="ptog()">▶ 自动</button>
+    <button class="btn" onclick="pm(1)">下一步 ▶</button>
+  </div>
+</div>
+
+<div id="sc" class="sec">
+  <div class="sbar"><span class="n" id="cn">步骤 1/6</span><span class="t" id="ct">问题：太靠路边</span></div>
+  <div class="dots" id="cd"></div>
+  <canvas id="cc" width="340" height="200"></canvas>
+  <div class="brow">
+    <div class="wbox">
+      <svg width="82" height="82" viewBox="0 0 100 100">
+        <g transform="translate(50,50)">
+          <g id="cwg" style="transform-origin:0 0;transform:rotate(0deg);transition:transform .65s ease">
+            <circle r="40" fill="none" stroke="#333" stroke-width="6"/>
+            <circle r="7" fill="#333"/>
+            <line x1="0" y1="-32" x2="0" y2="32" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+            <line x1="-32" y1="0" x2="32" y2="0" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+          </g>
+          <circle cy="-40" r="5" fill="#e03b3b"/>
+        </g>
+      </svg>
+      <div class="wlabel" id="cwl">回正</div>
+      <div class="gb gP" id="cg">P</div>
+    </div>
+    <div class="dbox" id="cd2">车停得太靠路边了。<br>需要往外移一点。<div class="tip">💡 P档先停住</div></div>
+  </div>
+  <div class="btns">
+    <button class="btn" onclick="cm(-1)">◀ 上一步</button>
+    <button class="btn play" id="cpb" onclick="ctog()">▶ 自动</button>
+    <button class="btn" onclick="cm(1)">下一步 ▶</button>
+  </div>
+</div>
+
+<script>
+// ── CANVAS & COORDS ──────────────────────────────────────────────
+// Canvas: 340×200
+// Road: y 0-155,  Curb line: y=155 (yellow),  Parking: y=155-196,  Sidewalk: 196-200
+// Lane dash: y=72
+// Front parked car (right of space): cx=294, cy=174, L=58, W=22
+// Rear parked car  (left of space):  cx=106, cy=174, L=58, W=22
+// Space: x=135-265
+
+const CY=155, SW=22, SL=58;
+const PA=[{x:294,y:174,l:SL,w:SW},{x:106,y:174,l:SL,w:SW}];  // [0]=front,[1]=rear
+const OL=56, OW=20;
+
+// ── PARKING STEPS ────────────────────────────────────────────────
+// angle convention: 0=pointing right (+x). positive=clockwise (front goes DOWN).
+// When reversing with right wheel: rear swings DOWN → car rotates counterclockwise → NEGATIVE angle.
+const PS=[
+  {title:"准备：对齐前车",
+   desc:"D档，开到前车旁边。<br>你的车镜 对齐 前车车尾。",
+   tip:"D档，慢慢停好",gear:"D",
+   x:283,y:98,a:0,w:0,wl:"回正",align:true},
+
+  {title:"R档 ＋ 往右打死，慢慢倒",
+   desc:"换R档。<br>方向盘往右打死（约1.5圈）。<br>慢慢往后倒，车尾向右下方走。",
+   tip:"车尾往路边（下方）进",gear:"R",
+   x:248,y:148,a:-42,w:135,wl:"→ 右打死"},
+
+  {title:"往左打死，继续倒",
+   desc:"车尾已入位。<br>方向盘往左打死（约1.5圈）。<br>继续慢慢往后倒。",
+   tip:"车身开始变直",gear:"R",
+   x:202,y:175,a:-3,w:-135,wl:"← 左打死"},
+
+  {title:"方向盘回正，D档往前",
+   desc:"车身平行路边了。<br>方向盘回正。<br>D档往前一点点，停在中间。",
+   tip:"P档，停好了！",gear:"D",
+   x:203,y:172,a:0,w:0,wl:"回正"}
+];
+
+// ── CURB ADJUST STEPS ────────────────────────────────────────────
+const CS=[
+  {title:"问题：太靠路边",
+   desc:"车停得太靠路边，需要往外移。",
+   tip:"P档先停住",gear:"P",
+   x:200,y:184,a:0,w:0,wl:"回正"},
+
+  {title:"D档，往左打死，往前动一下",
+   desc:"换D档。<br>方向盘往左打死（约1.5圈）。<br>前进一点点，停住。",
+   tip:"车头往外（上方）偏",gear:"D",
+   x:201,y:176,a:-13,w:-135,wl:"← 左打死"},
+
+  {title:"往右打死，继续往前动一下",
+   desc:"方向盘往右打死（约1.5圈）。<br>前进一点点，停住。",
+   tip:"车身开始调整",gear:"D",
+   x:204,y:169,a:7,w:135,wl:"→ 右打死"},
+
+  {title:"R档，往左打死，往后倒一下",
+   desc:"换R档。<br>方向盘往左打死（约1.5圈）。<br>往后倒一点点，停住。",
+   tip:"车往外移动",gear:"R",
+   x:202,y:175,a:-4,w:-135,wl:"← 左打死"},
+
+  {title:"往右打死，继续往后倒一下",
+   desc:"方向盘往右打死（约1.5圈）。<br>继续往后倒一点点，停住。",
+   tip:"车身在回正",gear:"R",
+   x:201,y:181,a:3,w:135,wl:"→ 右打死"},
+
+  {title:"D档，方向盘回正",
+   desc:"方向盘回正。<br>D档往前进一点，停好。<br>离路边有距离了！",
+   tip:"P档，完成！",gear:"D",
+   x:200,y:173,a:0,w:0,wl:"回正"}
+];
+
+// ── DRAWING ──────────────────────────────────────────────────────
+function drawRoad(ctx){
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  // Road
+  ctx.fillStyle='#b0b0b0'; ctx.fillRect(0,0,W,H);
+  // Lane center dash
+  ctx.save();
+  ctx.strokeStyle='rgba(255,255,255,.4)';
+  ctx.setLineDash([18,11]); ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(0,72); ctx.lineTo(W,72); ctx.stroke();
+  ctx.setLineDash([]); ctx.restore();
+  // Parking area
+  ctx.fillStyle='#999'; ctx.fillRect(0,CY,W,H-CY);
+  // Yellow curb line
+  ctx.strokeStyle='#f5c520'; ctx.lineWidth=3.5;
+  ctx.beginPath(); ctx.moveTo(0,CY); ctx.lineTo(W,CY); ctx.stroke();
+  // Sidewalk strip
+  ctx.fillStyle='#c4af90'; ctx.fillRect(0,196,W,4);
+  // Space outline (dashed white)
+  ctx.strokeStyle='rgba(255,255,255,.75)';
+  ctx.setLineDash([6,5]); ctx.lineWidth=1.5;
+  ctx.strokeRect(135,CY,130,41); ctx.setLineDash([]);
+  // "空位" label in space
+  ctx.fillStyle='rgba(255,255,255,.5)';
+  ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('空位',200,182);
+}
+
+function drawParkedCar(ctx,c,label){
+  ctx.save(); ctx.translate(c.x,c.y);
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,.12)'; ctx.fillRect(-c.l/2+2,-c.w/2+2,c.l,c.w);
+  // Body
+  ctx.fillStyle='#595959'; ctx.fillRect(-c.l/2,-c.w/2,c.l,c.w);
+  // Windshield (right end = front)
+  ctx.fillStyle='rgba(150,210,235,.6)'; ctx.fillRect(c.l/2-13,-c.w/2+2,10,c.w-4);
+  // Label
+  ctx.fillStyle='rgba(255,255,255,.85)';
+  ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
+  ctx.fillText(label,0,-c.w/2-5);
+  ctx.restore();
+}
+
+function drawOurCar(ctx,x,y,a,gear){
+  ctx.save(); ctx.translate(x,y); ctx.rotate(a*Math.PI/180);
+  const L=OL,W=OW;
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,.15)'; ctx.fillRect(-L/2+2,-W/2+2,L,W);
+  // Body
+  ctx.fillStyle='#d63333'; ctx.fillRect(-L/2,-W/2,L,W);
+  // Windshield (front = +x end)
+  ctx.fillStyle='rgba(170,225,255,.85)'; ctx.fillRect(L/2-13,-W/2+2,10,W-4);
+  // Rear lights (−x end)
+  ctx.fillStyle='rgba(255,80,80,.7)'; ctx.fillRect(-L/2+1,-W/2+3,5,W-6);
+  // Direction arrow (rear when R, front when D)
+  if(gear==='R'){
+    // Arrow at rear pointing backward
+    ctx.fillStyle='rgba(255,255,255,.95)';
+    ctx.beginPath();
+    ctx.moveTo(-L/2-6,0);
+    ctx.lineTo(-L/2,5); ctx.lineTo(-L/2,-5);
+    ctx.closePath(); ctx.fill();
+  } else if(gear==='D'){
+    // Arrow at front pointing forward
+    ctx.fillStyle='rgba(255,255,255,.95)';
+    ctx.beginPath();
+    ctx.moveTo(L/2+6,0);
+    ctx.lineTo(L/2,5); ctx.lineTo(L/2,-5);
+    ctx.closePath(); ctx.fill();
+  }
+  // "我" label
+  ctx.fillStyle='rgba(255,255,255,.9)';
+  ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('我的车',0,3);
+  ctx.restore();
+}
+
+function drawAlignGuide(ctx,carX,carY){
+  // Our car rear (left end at a=0): carX - OL/2
+  // Front parked car rear end (left end): PA[0].x - PA[0].l/2
+  const ax = PA[0].x - PA[0].l/2; // = 265
+  ctx.save();
+  // Vertical dashed yellow line
+  ctx.strokeStyle='rgba(255,215,0,.9)';
+  ctx.setLineDash([5,4]); ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(ax,55); ctx.lineTo(ax,PA[0].y+14); ctx.stroke();
+  ctx.setLineDash([]);
+  // Label
+  ctx.fillStyle='#f5c520';
+  ctx.font='bold 10px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('对齐这里',ax,50);
+  // Dots
+  ctx.fillStyle='#f5c520';
+  ctx.beginPath(); ctx.arc(ax,PA[0].y,4,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(carX-OL/2,carY,4,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function drawScene(ctx,car,opts){
+  drawRoad(ctx);
+  drawParkedCar(ctx,PA[0],'前车');
+  drawParkedCar(ctx,PA[1],'后车');
+  if(opts&&opts.align) drawAlignGuide(ctx,car.x,car.y);
+  drawOurCar(ctx,car.x,car.y,car.a,opts&&opts.gear||'D');
+}
+
+// ── ANIMATION ────────────────────────────────────────────────────
+let animId=null;
+function lerp(a,b,t){return a+(b-a)*t;}
+function lerpA(a,b,t){let d=b-a;while(d>180)d-=360;while(d<-180)d+=360;return a+d*t;}
+function ez(t){return t<.5?2*t*t:-1+(4-2*t)*t;}
+function anim(ctx,from,to,opts,done){
+  if(animId)cancelAnimationFrame(animId);
+  const t0=performance.now();
+  const dur=900;
+  function fr(ts){
+    const t=ez(Math.min((ts-t0)/dur,1));
+    drawScene(ctx,{x:lerp(from.x,to.x,t),y:lerp(from.y,to.y,t),a:lerpA(from.a,to.a,t)},opts);
+    if(t<1)animId=requestAnimationFrame(fr);
+    else{drawScene(ctx,to,opts);done&&done();}
+  }
+  animId=requestAnimationFrame(fr);
+}
+
+// ── PARK ─────────────────────────────────────────────────────────
+const PC=document.getElementById('pc').getContext('2d');
+let pi=0,pp=false,pt=null,cur={x:PS[0].x,y:PS[0].y,a:PS[0].a};
+function rp(i,animate){
+  const s=PS[i];
+  document.getElementById('pn').textContent='步骤 '+(i+1)+'/'+PS.length;
+  document.getElementById('pt').textContent=s.title;
+  document.getElementById('pd2').innerHTML=s.desc+'<div class="tip">💡 '+s.tip+'</div>';
+  document.getElementById('pwl').textContent=s.wl;
+  const g=document.getElementById('pg');g.textContent=s.gear;g.className='gb g'+s.gear;
+  document.getElementById('pwg').style.transform='rotate('+s.w+'deg)';
+  dots('pd',i,PS.length);
+  const to={x:s.x,y:s.y,a:s.a};
+  const opts={align:!!s.align,gear:s.gear};
+  if(animate)anim(PC,cur,to,opts,()=>{cur={...to};});
+  else{cur={...to};drawScene(PC,cur,opts);}
+}
+function pm(d){const n=pi+d;if(n<0||n>=PS.length)return;pi=n;rp(pi,d>0);}
+function ptog(){pp=!pp;document.getElementById('ppb').textContent=pp?'⏸ 暂停':'▶ 自动';if(pp)pa();else clearTimeout(pt);}
+function pa(){if(!pp)return;pi=(pi+1)%PS.length;rp(pi,true);pt=setTimeout(pa,2700);}
+
+// ── CURB ─────────────────────────────────────────────────────────
+const CC=document.getElementById('cc').getContext('2d');
+let ci=0,cp=false,cti=null,ccur={x:CS[0].x,y:CS[0].y,a:CS[0].a};
+function rc(i,animate){
+  const s=CS[i];
+  document.getElementById('cn').textContent='步骤 '+(i+1)+'/'+CS.length;
+  document.getElementById('ct').textContent=s.title;
+  document.getElementById('cd2').innerHTML=s.desc+'<div class="tip">💡 '+s.tip+'</div>';
+  document.getElementById('cwl').textContent=s.wl;
+  const g=document.getElementById('cg');g.textContent=s.gear;g.className='gb g'+s.gear;
+  document.getElementById('cwg').style.transform='rotate('+s.w+'deg)';
+  dots('cd',i,CS.length);
+  const to={x:s.x,y:s.y,a:s.a};
+  const opts={gear:s.gear};
+  if(animate)anim(CC,ccur,to,opts,()=>{ccur={...to};});
+  else{ccur={...to};drawScene(CC,ccur,opts);}
+}
+function cm(d){const n=ci+d;if(n<0||n>=CS.length)return;ci=n;rc(ci,d>0);}
+function ctog(){cp=!cp;document.getElementById('cpb').textContent=cp?'⏸ 暂停':'▶ 自动';if(cp)ca();else clearTimeout(cti);}
+function ca(){if(!cp)return;ci=(ci+1)%CS.length;rc(ci,true);cti=setTimeout(ca,2700);}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function dots(id,cur,total){
+  const el=document.getElementById(id);
+  while(el.children.length<total){const d=document.createElement('div');d.className='dot';el.appendChild(d);}
+  Array.from(el.children).forEach((d,i)=>d.className='dot'+(i===cur?' on':''));
+}
+function sw(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.className='tab'+((i===0?'p':'c')===t?' on':''));
+  document.getElementById('sp').className='sec'+(t==='p'?' on':'');
+  document.getElementById('sc').className='sec'+(t==='c'?' on':'');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+rp(0,false); rc(0,false);
+</script>
+</body>
+</html>
