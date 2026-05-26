@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自助洗车 SOP</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page-bg: #f7f1e8;
+    --soft-bg: #f2e7d9;
+    --card-bg: #fdf9f4;
+    --accent: #8b6f47;
+    --accent-light: #c4a47a;
+    --accent-dark: #5c4530;
+    --text: #2d2419;
+    --text-muted: #7a6652;
+    --border: #ddd0bc;
+    --green: #5a7a5a;
+    --green-bg: #eef5ee;
+    --red: #8b3a3a;
+    --red-bg: #f5eeee;
+    --blue: #3a5a7a;
+    --blue-bg: #eef2f5;
+    --step-done: #c4a47a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--page-bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  header {
+    background: var(--accent-dark);
+    color: #f7f1e8;
+    padding: 28px 24px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,0.03) 20px,rgba(255,255,255,0.03) 40px);
+  }
+  header h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    position: relative;
+  }
+  header p {
+    font-size: 0.82rem;
+    color: rgba(247,241,232,0.7);
+    margin-top: 6px;
+    position: relative;
+  }
+
+  .progress-bar { height: 4px; background: var(--border); }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-light), var(--accent));
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-dark);
+    margin: 28px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .step-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+    cursor: pointer;
+  }
+  .step-card:hover { border-color: var(--accent-light); }
+  .step-card.done {
+    border-color: var(--step-done);
+    background: #fef9f0;
+  }
+  /* FIX: hide number text when done, show checkmark only via ::before on a pseudo */
+  .step-card.done .step-num {
+    background: var(--step-done);
+    color: transparent;  /* hide the number */
+    font-size: 0;
+    border-color: var(--step-done);
+  }
+  .step-card.done .step-num::after {
+    content: '✓';
+    font-size: 0.9rem;
+    color: #fff;
+  }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--soft-bg);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+  }
+  .step-title { flex: 1; font-size: 0.95rem; font-weight: 500; line-height: 1.3; }
+
+  .step-tag { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-weight: 500; flex-shrink: 0; }
+  .tag-water { background: var(--blue-bg); color: var(--blue); }
+  .tag-soap  { background: #eef5f0; color: #3a6b50; }
+  .tag-wax   { background: #f5f0ee; color: #7a5038; }
+  .tag-dry   { background: var(--soft-bg); color: var(--accent); }
+  .tag-glass { background: var(--blue-bg); color: var(--blue); }
+
+  .step-body {
+    display: none;
+    padding: 0 16px 14px 60px;
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+  .step-body.open { display: block; }
+  .step-body ul { list-style: none; padding: 0; }
+  .step-body ul li { margin-bottom: 3px; }
+  .step-body ul li::before { content: '›'; color: var(--accent-light); margin-right: 6px; font-weight: 700; }
+
+  /* Highlight inline key points */
+  .hl {
+    background: #fde8b0;
+    color: #5c3d10;
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-weight: 600;
+    font-size: 0.83rem;
+  }
+  .hl-red {
+    background: #fdddd0;
+    color: #7a2e10;
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-weight: 600;
+    font-size: 0.83rem;
+  }
+
+  .step-body .tip {
+    background: #fef6e4;
+    border-left: 3px solid var(--accent-light);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--accent-dark);
+  }
+
+  .step-check-btn {
+    font-size: 0.75rem;
+    color: var(--accent);
+    padding: 4px 10px;
+    border: 1px solid var(--accent-light);
+    border-radius: 20px;
+    background: none;
+    cursor: pointer;
+    font-family: 'Noto Sans SC', sans-serif;
+    transition: background 0.15s;
+  }
+  .step-check-btn:hover { background: var(--soft-bg); }
+  .step-card.done .step-check-btn { border-color: var(--step-done); color: var(--step-done); }
+
+  .spray-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .spray-box { border-radius: 10px; padding: 14px; font-size: 0.82rem; line-height: 1.7; }
+  .spray-yes { background: var(--green-bg); border: 1px solid #b8d4b8; }
+  .spray-no  { background: var(--red-bg);   border: 1px solid #d4b8b8; }
+  .spray-box h4 { font-family: 'Noto Serif SC', serif; font-size: 0.88rem; font-weight: 700; margin-bottom: 8px; }
+  .spray-yes h4 { color: var(--green); }
+  .spray-no  h4 { color: var(--red); }
+  .spray-box ul { list-style: none; }
+  .spray-yes ul li::before { content: '✓ '; color: var(--green); }
+  .spray-no  ul li::before { content: '✗ '; color: var(--red); }
+
+  .rainx-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .rainx-step {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--soft-bg); border-radius: 8px;
+    padding: 10px 12px; font-size: 0.83rem; line-height: 1.5;
+  }
+  .rainx-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--blue); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+
+  .reset-btn {
+    display: block; margin: 24px auto 0;
+    background: none; border: 1.5px solid var(--border);
+    color: var(--text-muted); padding: 10px 24px; border-radius: 24px;
+    font-family: 'Noto Sans SC', sans-serif; font-size: 0.82rem; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--accent-light); color: var(--accent); }
+
+  .progress-label { text-align: center; font-size: 0.78rem; color: var(--text-muted); padding: 10px 0 0; }
+  .progress-label span { color: var(--accent); font-weight: 500; }
+
+  @media (max-width: 480px) {
+    .spray-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 1.35rem; }
+    .step-body { padding-left: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🚗 自助洗车 SOP</h1>
+  <p>Meguiar's Hybrid Ceramic Wax · Rain-X 2-in-1</p>
+</header>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="container">
+
+  <p class="progress-label" id="progressLabel">点击标题可折叠 · 右侧按钮标记完成</p>
+
+  <div class="section-title">完整流程</div>
+
+  <!-- Step 1 -->
+  <div class="step-card" id="s1">
+    <div class="step-header" onclick="toggleStep('s1')">
+      <div class="step-num">1</div>
+      <div class="step-title">高压水冲车</div>
+      <span class="step-tag tag-water">高压水</span>
+      <button class="step-check-btn" onclick="checkStep(event,'s1')">完成</button>
+    </div>
+    <div class="step-body open" id="b1">
+      <ul>
+        <li><span class="hl">从上往下</span>：车顶 → 玻璃 → hood → 车门 → 后备箱 → bumper → 轮拱</li>
+        <li>先把沙子、泥、盐冲掉，<span class="hl">避免后面擦出细纹</span></li>
+        <li>高压水保持距离，不要贴太近</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step-card" id="s2">
+    <div class="step-header" onclick="toggleStep('s2')">
+      <div class="step-num">2</div>
+      <div class="step-title">喷泡沫 / soap</div>
+      <span class="step-tag tag-soap">泡沫</span>
+      <button class="step-check-btn" onclick="checkStep(event,'s2')">完成</button>
+    </div>
+    <div class="step-body open" id="b2">
+      <ul>
+        <li>全车外观喷一遍</li>
+        <li>重点：车头、车门下方、后保险杠、轮拱附近</li>
+        <li><span class="hl-red">不要让泡沫干在车上</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step-card" id="s3">
+    <div class="step-header" onclick="toggleStep('s3')">
+      <div class="step-num">3</div>
+      <div class="step-title">再次高压水冲干净</div>
+      <span class="step-tag tag-water">高压水</span>
+      <button class="step-check-btn" onclick="checkStep(event,'s3')">完成</button>
+    </div>
+    <div class="step-body open" id="b3">
+      <ul>
+        <li>还是从上往下冲</li>
+        <li>确认泡沫全部冲掉</li>
+        <li><span class="hl">冲完车身保持湿的</span>，不要擦干，直接进下一步</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step-card" id="s4">
+    <div class="step-header" onclick="toggleStep('s4')">
+      <div class="step-num">4</div>
+      <div class="step-title">喷 Meguiar's Hybrid Ceramic Wax</div>
+      <span class="step-tag tag-wax">Wax</span>
+      <button class="step-check-btn" onclick="checkStep(event,'s4')">完成</button>
+    </div>
+    <div class="step-body open" id="b4">
+      <ul>
+        <li><span class="hl">车身必须是湿的</span></li>
+        <li>每个 panel <span class="hl">喷 1–2 下</span>就够，不要过量</li>
+        <li>喷完后<span class="hl">再用水冲一遍</span>，让 wax 铺开</li>
+      </ul>
+      <div class="tip">💡 喷哪里 / 不喷哪里见下方详细对照表</div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step-card" id="s5">
+    <div class="step-header" onclick="toggleStep('s5')">
+      <div class="step-num">5</div>
+      <div class="step-title">擦干车身</div>
+      <span class="step-tag tag-dry">擦干</span>
+      <button class="step-check-btn" onclick="checkStep(event,'s5')">完成</button>
+    </div>
+    <div class="step-body open" id="b5">
+      <ul>
+        <li>用干净 <span class="hl">microfiber towel</span></li>
+        <li>顺序：车顶 → 玻璃外侧 → hood → 车门 → 后备箱 → bumper</li>
+        <li><span class="hl-red">一条毛巾湿了就换</span>，不要用脏毛巾继续擦</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Step 6 -->
+  <div class="step-card" id="s6">
+    <div class="step-header" onclick="toggleStep('s6')">
+      <div class="step-num">6</div>
+      <div class="step-title">Rain-X 2-in-1 玻璃</div>
+      <span class="step-tag tag-glass">玻璃</span>
+      <button class="step-check-btn" onclick="checkStep(event,'s6')">完成</button>
+    </div>
+    <div class="step-body open" id="b6">
+      <div class="rainx-steps">
+        <div class="rainx-step"><div class="rainx-num">1</div>玻璃外侧保持 <span class="hl" style="margin-left:4px">干</span></div>
+        <div class="rainx-step"><div class="rainx-num">2</div><span class="hl-red">少量</span>喷 Rain-X 到玻璃或毛巾上</div>
+        <div class="rainx-step"><div class="rainx-num">3</div>用毛巾横向 / 竖向擦开</div>
+        <div class="rainx-step"><div class="rainx-num">4</div>等几秒，微微发雾</div>
+        <div class="rainx-step"><div class="rainx-num">5</div>用<span class="hl" style="margin:0 4px">第二条干毛巾</span>擦到完全透明</div>
+      </div>
+      <div class="tip">⚠️ 前挡风玻璃<span class="hl-red">不要喷太多</span>，喷多最容易油膜感。<br>Rain-X <strong>不是等它自己干</strong>，必须擦开再用干毛巾擦净。</div>
+    </div>
+  </div>
+
+  <!-- Wax reference -->
+  <div class="section-title">Wax 喷哪里 / 不喷哪里</div>
+  <div class="spray-grid">
+    <div class="spray-box spray-yes">
+      <h4>✓ 喷这些（有车漆的地方）</h4>
+      <ul>
+        <li>引擎盖 hood</li>
+        <li>车顶 roof</li>
+        <li>前保险杠</li>
+        <li>后保险杠</li>
+        <li>前翼子板</li>
+        <li>后翼子板</li>
+        <li>四个车门</li>
+        <li>后备箱门</li>
+        <li>外后视镜壳（漆面）</li>
+      </ul>
+    </div>
+    <div class="spray-box spray-no">
+      <h4>✗ 不要喷</h4>
+      <ul>
+        <li>前挡风玻璃</li>
+        <li>侧窗玻璃</li>
+        <li>后挡风玻璃</li>
+        <li>后视镜镜片</li>
+        <li>轮胎</li>
+        <li>刹车盘</li>
+        <li>黑色塑料 trim</li>
+        <li>雨刷胶条</li>
+        <li>内饰</li>
+      </ul>
+      <div style="margin-top:8px;font-size:0.75rem;color:var(--red);opacity:0.85">不小心喷到玻璃 → 马上擦掉即可</div>
+    </div>
+  </div>
+
+  <button class="reset-btn" onclick="resetAll()">↺ 重置所有进度</button>
+
+</div>
+
+<script>
+  const TOTAL = 6;
+
+  function toggleStep(id) {
+    const body = document.getElementById('b' + id.slice(1));
+    body.classList.toggle('open');
+  }
+
+  function checkStep(e, id) {
+    e.stopPropagation();
+    const card = document.getElementById(id);
+    card.classList.toggle('done');
+    const btn = card.querySelector('.step-check-btn');
+    btn.textContent = card.classList.contains('done') ? '撤销' : '完成';
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const done = document.querySelectorAll('.step-card.done').length;
+    const pct = Math.round((done / TOTAL) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    const label = document.getElementById('progressLabel');
+    if (done === 0) {
+      label.innerHTML = '点击标题可折叠 · 右侧按钮标记完成';
+    } else if (done === TOTAL) {
+      label.innerHTML = '🎉 <span>全部完成！车已洗好。</span>';
+    } else {
+      label.innerHTML = `进度：<span>${done} / ${TOTAL} 步完成</span>`;
+    }
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.step-card').forEach(c => {
+      c.classList.remove('done');
+      c.querySelector('.step-check-btn').textContent = '完成';
+    });
+    // restore all to open
+    document.querySelectorAll('.step-body').forEach(b => b.classList.add('open'));
+    updateProgress();
+  }
+</script>
+</body>
+</html>
