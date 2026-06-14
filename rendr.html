@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rendr 仁德医疗 · 全景研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page-bg:#f7f1e8; --soft-bg:#f2e7d9; --card-bg:#fdf9f4;
+  --ink:#3a342c; --muted:#8a7f6e; --line:#cdb99c; --gold:#b8893f;
+  --crimson:#9a4b3a; --ops:#5a7d6a; --fin:#6a6a9a; --med:#9a5a4a;
+  --serif:'Noto Serif SC',serif; --sans:'Noto Sans SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--page-bg);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:60px;
+  background-image:radial-gradient(circle at 12% 6%,rgba(184,137,63,.05),transparent 38%),radial-gradient(circle at 90% 20%,rgba(154,75,58,.04),transparent 42%);}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;background:rgba(247,241,232,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+nav .inner{display:flex;gap:4px;padding:8px 14px;max-width:920px;margin:0 auto}
+nav a{font-size:12px;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;font-weight:500;flex-shrink:0}
+nav a:hover{background:var(--soft-bg);color:var(--gold)}
+
+header{text-align:center;padding:52px 20px 8px}
+.kicker{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:700}
+header h1{font-family:var(--serif);font-size:clamp(28px,7vw,46px);font-weight:700;margin:8px 0 6px}
+header .sub{color:var(--muted);font-size:15px;max-width:640px;margin:0 auto}
+
+section{padding:38px 0 8px}
+h2{font-family:var(--serif);font-size:24px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+h2:before{content:"";width:5px;height:24px;background:var(--gold);border-radius:3px}
+.lead{color:var(--muted);font-size:13.5px;margin-bottom:18px}
+h3{font-family:var(--serif);font-size:17px;font-weight:600;margin:18px 0 6px;color:var(--crimson)}
+p{margin-bottom:12px;font-size:14.5px}
+.card{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+
+.stats{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:24px 0 8px}
+.stat{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:12px 18px;min-width:100px;text-align:center}
+.stat b{font-family:var(--serif);display:block;font-size:22px;color:var(--gold)}
+.stat span{font-size:11px;color:var(--muted)}
+
+table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 14px;background:var(--card-bg);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--soft-bg);font-weight:700;font-size:12px;color:var(--ink)}
+tr:last-child td{border-bottom:none}
+td .role{font-family:var(--serif);font-weight:600}
+td .pay{color:var(--gold);font-weight:600;white-space:nowrap}
+
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.flow .step{background:var(--soft-bg);border:1px solid var(--line);border-radius:20px;padding:6px 14px;font-size:12.5px;display:flex;align-items:center;gap:6px}
+.flow .arrow{color:var(--gold);font-weight:700;align-self:center}
+
+ul.clean{list-style:none;margin:6px 0 14px}
+ul.clean li{position:relative;padding-left:18px;margin-bottom:7px;font-size:14px}
+ul.clean li:before{content:"▪";position:absolute;left:0;color:var(--gold)}
+
+/* org tree */
+.scroller{overflow-x:auto;padding:18px 4px 6px;-webkit-overflow-scrolling:touch}
+.tree{display:flex;flex-direction:column;align-items:center;min-width:max-content;margin:0 auto}
+.node{background:var(--card-bg);border:1px solid var(--line);border-radius:13px;padding:11px 15px;width:200px;text-align:center}
+.node .name{font-family:var(--serif);font-size:15px;font-weight:700}
+.node .title{font-size:11px;color:var(--gold);margin-top:2px;line-height:1.4}
+.node .note{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4}
+.node.capital{width:250px;background:var(--soft-bg);border:1.5px dashed var(--gold)}
+.node.capital .name{color:var(--crimson);font-size:16px}
+.node.ceo{width:250px;border:1.5px solid var(--gold);background:linear-gradient(180deg,#fefbf6,#f9efdf)}
+.node.ceo .name{font-size:18px}
+.node.pillar{width:210px;border-width:1.5px}
+.node.pillar.ops{border-color:var(--ops)}.node.pillar.ops .title{color:var(--ops)}
+.node.pillar.fin{border-color:var(--fin)}.node.pillar.fin .title{color:var(--fin)}
+.node.pillar.med{border-color:var(--med)}.node.pillar.med .title{color:var(--med)}
+.stem{width:2px;height:22px;background:var(--line);margin:0 auto}
+.bus{height:2px;background:var(--line);margin:0 auto}
+.pillars{display:flex;justify-content:center;gap:30px}
+.branch{display:flex;flex-direction:column;align-items:center}
+.branch .stem-down{width:2px;height:20px;background:var(--line)}
+.kids{display:flex;flex-direction:column;gap:9px;margin-top:6px;padding-top:12px;position:relative}
+.kids:before{content:"";position:absolute;top:0;left:50%;width:2px;height:12px;background:var(--line)}
+.kid{background:var(--card-bg);border:1px solid var(--line);border-radius:10px;padding:7px 11px;width:196px;text-align:center;position:relative}
+.kid:before{content:"";position:absolute;top:-12px;left:50%;width:2px;height:12px;background:var(--line)}
+.kid .name{font-family:var(--serif);font-size:12.5px;font-weight:600}
+.kid .title{font-size:10px;color:var(--muted);margin-top:1px}
+.kid.ops{border-left:3px solid var(--ops)}.kid.fin{border-left:3px solid var(--fin)}.kid.med{border-left:3px solid var(--med)}
+.badge{font-size:8px;font-weight:700;padding:1px 6px;border-radius:20px;margin-left:3px;vertical-align:middle}
+.b-c{background:#e6efe2;color:#4a6b40}.b-u{background:#f3e3d8;color:#9a4b3a}
+
+.callout{background:var(--soft-bg);border-left:3px solid var(--gold);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:13.5px}
+.callout b{color:var(--crimson)}
+.warn{background:#f6ece2;border:1px dashed var(--crimson);border-radius:10px;padding:12px 16px;font-size:12.5px;color:var(--ink);margin:12px 0}
+.tag{display:inline-block;background:var(--soft-bg);border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:11px;color:var(--muted);margin:0 2px}
+
+footer{text-align:center;margin-top:36px;font-size:11.5px;color:var(--muted);line-height:1.7;padding:0 24px}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:14px 0;font-size:11.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.dot{width:11px;height:11px;border-radius:3px}
+@media(max-width:560px){.kid,.node.pillar{width:170px}}
+</style>
+</head>
+<body>
+
+<nav><div class="inner">
+  <a href="#overview">概况</a>
+  <a href="#revenue">收入模式</a>
+  <a href="#ops">如何运作</a>
+  <a href="#org">组织架构</a>
+  <a href="#roles">角色·年薪</a>
+  <a href="#valuation">投资人估值</a>
+  <a href="#game">通关攻略</a>
+  <a href="#bhc">行为健康预防</a>
+  <a href="#specialty">最吃香专科</a>
+  <a href="#mhfuture">心理健康未来</a>
+  <a href="#history">发展历程</a>
+  <a href="#playbook">落地做法·股权真相</a>
+  <a href="#sources">来源</a>
+</div></nav>
+
+<header>
+  <div class="kicker">Rendr · 仁德医疗 · 全景研究</div>
+  <h1>这家公司是怎么运作、值多少钱、怎么往上爬</h1>
+  <p class="sub">纽约最大的华人/亚裔多专科医疗集团 · 画面简洁，内容求深，附数据来源</p>
+</header>
+
+<div class="wrap">
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <h2>一、公司概况</h2>
+    <p class="lead">谁、何时、为什么、规模多大</p>
+    <div class="card">
+      <p>Rendr（仁德医疗）<strong>创立于 2019 年</strong>，是<strong>纽约市最大、最综合的多专科医生集团，专注服务华人社区</strong>。使命是为长期因语言文化壁垒而医疗资源不足的华裔，提供"有温度的、世界级的价值医疗（Value-Based Care, VBC）"。</p>
+      <p>背后是医疗专注型私募基金 <strong>Ascend Capital Partners</strong> 提供资金支持。创始人 Richard Park 同时是 Ascend 的联合管理合伙人 —— 这是理解整家公司权力结构的关键。</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>2019</b><span>创立</span></div>
+      <div class="stat"><b>100+</b><span>诊所站点</span></div>
+      <div class="stat"><b>250+</b><span>医疗提供者</span></div>
+      <div class="stat"><b>~1,390</b><span>员工</span></div>
+      <div class="stat"><b>~166K</b><span>基础医疗患者</span></div>
+      <div class="stat"><b>1.3M+</b><span>2024 就诊量</span></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted)">覆盖：Brooklyn、Manhattan、Flushing、Elmhurst、Staten Island（另有 Queens、Nassau 等地）。团队多语种，通晓多种中文方言。</p>
+  </section>
+
+  <!-- REVENUE -->
+  <section id="revenue">
+    <h2>二、收入与商业模式</h2>
+    <p class="lead">一家价值医疗医生集团到底怎么赚钱</p>
+    <div class="card">
+      <p>已知营收约 <strong>$190.8M（约 1.9 亿美元）</strong>——这是 ZoomInfo 收录的较旧数据（约 2021 年口径）；以 2024 年 130 万+ 就诊量、16.6 万患者推算，<strong>现实营收应明显更高</strong>。Rendr 的收入不是单一来源，而是下面几条叠加：</p>
+      <h3>1. 按服务收费 (Fee-for-Service, FFS)</h3>
+      <p>最传统的一条：每次门诊、检查、处置，按项目向 Medicare / Medicaid / 商业保险开账单。诊所越多、就诊量越大，这条线越粗。</p>
+      <h3>2. 按人头预付 (Capitation / PMPM)</h3>
+      <p>这是 VBC 的核心。保险公司（尤其 Medicare Advantage）按"每位归属会员每月固定金额（PMPM）"预付给 Rendr，由 Rendr 承担这群人的医疗费用风险。<strong>管得好、患者更健康 → 成本低于预付额 → 差额就是利润。</strong></p>
+      <h3>3. 共享结余 (Shared Savings / ACO)</h3>
+      <p>在 ACO / Medicare 共享结余模型里，如果实际花费低于 CMS 设定的基准线，Rendr 可分得一部分节省下来的钱。</p>
+      <h3>4. 风险调整收入 (Risk Adjustment / HCC·RAF)</h3>
+      <p>把患者的慢性病、复杂度准确编码（HCC 编码、RAF 评分），合规地提高每人头的预付金额。编码做得专业，capitation 收入就更高。</p>
+      <h3>5. 附加服务线 (Ancillary)</h3>
+      <p>检验、影像、专科、<strong>行为健康（你这条线）</strong>等。每多一条附加服务，就提高"每位患者的收入"，也加深患者黏性。</p>
+      <h3>6. 管理服务费 (MSO 模式)</h3>
+      <p>管理公司向旗下诊所收取管理/服务费，把分散的诊所整合成一个有议价权的平台。</p>
+      <div class="callout"><b>一句话：</b>Rendr 的盈利逻辑正在从"看一次收一次钱（FFS）"转向"包一群人的健康、省下来的就是赚的（VBC/风险）"。后者是投资人愿意给高估值的原因。</div>
+    </div>
+  </section>
+
+  <!-- OPERATIONS -->
+  <section id="ops">
+    <h2>三、整个集团怎么运作</h2>
+    <p class="lead">从一个患者走进诊所，到背后三条支撑线</p>
+    <div class="card">
+      <h3>前台：患者旅程</h3>
+      <div class="flow">
+        <span class="step">华人患者就诊</span><span class="arrow">→</span>
+        <span class="step">双语基础医疗 PCP</span><span class="arrow">→</span>
+        <span class="step">院内专科 / 检验 / 影像</span><span class="arrow">→</span>
+        <span class="step">慢病 + 行为健康管理</span><span class="arrow">→</span>
+        <span class="step">数据回收 · 质量评分 · 风险编码</span>
+      </div>
+      <p>核心壁垒：<strong>语言 + 文化</strong>。对很多华人患者，这不是"选哪家诊所"，而是"哪家听得懂我"。这种黏性别人很难复制，是 Rendr 的护城河。</p>
+      <h3>后台：三条支撑线（详见下方架构图）</h3>
+      <ul class="clean">
+        <li><strong style="color:var(--ops)">运营线</strong>：开新诊所、排班、IT 系统、招人、增长扩张——保证机器转得动。</li>
+        <li><strong style="color:var(--fin)">财务行政线</strong>：保险合约谈判、资金、合规、法务、数据分析——保证钱进得来、不踩雷。</li>
+        <li><strong style="color:var(--med)">医疗临床线</strong>：临床质量、医生管理、人口健康、CMS Star 评级——保证治得好、分数高。</li>
+      </ul>
+      <div class="callout">这三条线只有在 <b>CEO</b> 一个点上交汇。谁离这三条线的"头"越近，谁离权力越近。</div>
+    </div>
+  </section>
+
+  <!-- ORG CHART -->
+  <section id="org">
+    <h2>四、横向组织架构图</h2>
+    <p class="lead">资本 → CEO → 三大支柱 → 各部门（手机可左右滑动）</p>
+    <div class="scroller">
+      <div class="tree">
+        <div class="node capital"><div class="name">Ascend Capital Partners</div><div class="title">医疗私募基金 · 控股方</div></div>
+        <div class="stem"></div>
+        <div class="node ceo"><div class="name">Richard Park, MD <span class="badge b-c">确认</span></div><div class="title">创始人 兼 CEO</div><div class="note">同为 Ascend 联合管理合伙人 · Co-President: Henry Chen</div></div>
+        <div class="stem"></div>
+        <div class="bus" style="width:560px"></div>
+        <div class="pillars">
+          <div class="branch">
+            <div class="stem-down"></div>
+            <div class="node pillar ops"><div class="name">Shu Li <span class="badge b-c">确认</span></div><div class="title">联合总裁兼COO · 运营</div></div>
+            <div class="kids">
+              <div class="kid ops"><div class="name">Steven Kang</div><div class="title">CTO 技术</div></div>
+              <div class="kid ops"><div class="name">Dennis Nesta</div><div class="title">Chief Growth Officer 增长</div></div>
+              <div class="kid ops"><div class="name">John Hui</div><div class="title">Chief Development Officer 发展</div></div>
+              <div class="kid ops"><div class="name">Terry Carter</div><div class="title">Chief People Officer 人力</div></div>
+              <div class="kid ops"><div class="name">Achalanka Dalawella</div><div class="title">VP 运营与转型</div></div>
+            </div>
+          </div>
+          <div class="branch">
+            <div class="stem-down"></div>
+            <div class="node pillar fin"><div class="name">Alex Mitchell <span class="badge b-c">确认</span></div><div class="title">总裁兼CFO · 财务行政</div></div>
+            <div class="kids">
+              <div class="kid fin"><div class="name">Qian Zhong</div><div class="title">Chief Data Analytics Officer 数据</div></div>
+              <div class="kid fin"><div class="name">Peiman Saadat</div><div class="title">首席合规/伦理与隐私官</div></div>
+              <div class="kid fin"><div class="name">Steve Fenlon</div><div class="title">Chief Legal Officer 法务</div></div>
+            </div>
+          </div>
+          <div class="branch">
+            <div class="stem-down"></div>
+            <div class="node pillar med"><div class="name">David Shih, MD <span class="badge b-c">确认</span></div><div class="title">CMO · 医疗临床</div></div>
+            <div class="kids">
+              <div class="kid med"><div class="name">Wu Ni, MD <span class="badge b-c">确认</span></div><div class="title">副CMO / SVP 临床运营</div></div>
+              <div class="kid med"><div class="name">Nafila Kouba</div><div class="title">Associate CMO 副首席医疗官</div></div>
+              <div class="kid med"><div class="name">Jenny Tsang-Quinn, MD</div><div class="title">SVP 人口健康与战略</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--ops)"></span>运营线</span>
+      <span><span class="dot" style="background:var(--fin)"></span>财务行政线</span>
+      <span><span class="dot" style="background:var(--med)"></span>医疗临床线</span>
+      <span><span class="badge b-c">确认</span>多源印证</span>
+      <span><span class="badge b-u">未验证</span>单一来源</span>
+    </div>
+    <div class="warn">⚠️ 三大支柱的归属为基于公开职称的<strong>合理推断</strong>，Rendr 未发布官方组织图。未标"确认"者仅来自 The Org 单一来源（其平台标注"未验证"）。历史职位：<strong>Dean Lin</strong> 曾任 President & Board Member（资料较旧，现状未确认）。</div>
+  </section>
+
+  <!-- ROLES + SALARY -->
+  <section id="roles">
+    <h2>五、每个角色：日常做什么 + 大概年薪</h2>
+    <p class="lead">他们平时干嘛，以及这个职位在同规模公司大概拿多少</p>
+    <div class="warn">⚠️ <strong>重要：以下年薪不是 Rendr 的真实内部数字（私有，未公开）。</strong>它们是 2025–26 年美国"同职称、同规模医生集团/PE 投资医疗平台"的<strong>行业基准区间估算</strong>，仅供你建立量级概念。真实薪酬受地区、资历、奖金、股权影响极大。</div>
+
+    <table>
+      <tr><th>角色 / 人物</th><th>日常工作</th><th>大概年薪（基准估算）</th></tr>
+      <tr>
+        <td><span class="role">创始人兼 CEO</span><br>Richard Park</td>
+        <td>定战略方向、对接资本与董事会、谈大额并购、对外代表公司、决定开哪些市场。</td>
+        <td><span class="pay">基薪约 $500K–$1M+</span><br><span style="font-size:11px;color:var(--muted)">真正的财富是股权，退出时可达数千万级，远超工资；另有 Ascend 一侧收益</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">联合总裁兼 COO</span><br>Shu Li</td>
+        <td>管全公司日常运转：诊所运营、排班、流程、扩张落地、跨部门协调。</td>
+        <td><span class="pay">约 $400K–$700K + 奖金/股权</span><br><span style="font-size:11px;color:var(--muted)">医生集团 COO 基准中位约 $412K</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">总裁兼 CFO</span><br>Alex Mitchell</td>
+        <td>管钱与资本：财务规划、保险合约经济模型、并购财务、与 PE 对接退出。</td>
+        <td><span class="pay">约 $400K–$800K + 股权</span><br><span style="font-size:11px;color:var(--muted)">医生集团 CFO 基准约 $364K；PE 平台 CFO 偏高且含 EBITDA 挂钩奖金</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">联合总裁</span><br>Henry Chen</td>
+        <td>与 CEO 共担总裁职责，分管特定业务板块（具体分工未公开）。</td>
+        <td><span class="pay">约 $400K–$700K + 股权</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">首席医疗官 CMO</span><br>David Shih</td>
+        <td>医疗临床最高负责人：临床质量标准、医生团队管理、Star 评级、医疗政策。</td>
+        <td><span class="pay">基薪约 $400K–$700K</span><br><span style="font-size:11px;color:var(--muted)">PE/企业级医生高管含股权后总包常超 $1M</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">CTO 首席技术官</span><br>Steven Kang</td>
+        <td>电子病历、数据系统、IT 基础设施、临床软件与自动化。</td>
+        <td><span class="pay">约 $300K–$550K + 股权</span><br><span style="font-size:11px;color:var(--muted)">数字化高管近年涨薪最快（年增 8–12%）</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">首席数据分析官</span><br>Qian Zhong</td>
+        <td>把就诊、风险编码、成本数据变成能指导决策与谈合约的分析。</td>
+        <td><span class="pay">约 $280K–$500K</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">首席增长官</span><br>Dennis Nesta</td>
+        <td>拓展患者量、品牌、社区外联、新合作渠道。</td>
+        <td><span class="pay">约 $250K–$450K</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">首席发展官</span><br>John Hui</td>
+        <td>新诊所选址扩张、并购整合、业务拓展。</td>
+        <td><span class="pay">约 $250K–$450K</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">首席人力官</span><br>Terry Carter</td>
+        <td>招聘、薪酬福利、培训、员工关系、组织文化（约 1,390 人）。</td>
+        <td><span class="pay">约 $250K–$450K</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">首席合规/伦理隐私官</span><br>Peiman Saadat</td>
+        <td>HIPAA、Medicare 合规、风险防范、审计、避免监管处罚。</td>
+        <td><span class="pay">约 $250K–$400K</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">首席法务官</span><br>Steve Fenlon</td>
+        <td>合同、并购法律、监管、诉讼、保险合约法律条款。</td>
+        <td><span class="pay">约 $300K–$550K</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">副CMO / SVP 临床运营</span><br>Wu Ni · Nafila Kouba</td>
+        <td>把 CMO 的临床标准落到一线：质量改进、医生督导、临床流程。</td>
+        <td><span class="pay">约 $300K–$500K</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">SVP 人口健康与战略</span><br>Jenny Tsang-Quinn</td>
+        <td>慢病管理、降低总医疗成本、风险人群健康项目（VBC 成败关键）。</td>
+        <td><span class="pay">约 $300K–$500K</span></td>
+      </tr>
+      <tr>
+        <td><span class="role">VP 运营与转型</span><br>Achalanka Dalawella</td>
+        <td>流程优化、效率提升、运营转型项目落地执行。</td>
+        <td><span class="pay">约 $180K–$300K</span></td>
+      </tr>
+    </table>
+    <p style="font-size:12px;color:var(--muted)">参考量级：医生集团 CEO 中位约 $315K、COO 约 $412K、CFO 约 $364K（Salary.com，2025）；非营利医院 CEO 平均约 $1.3M（含规模溢价）；PE 投资公司高管普遍"基薪 + EBITDA 挂钩奖金 + 与退出挂钩的股权"。</p>
+  </section>
+
+  <!-- VALUATION -->
+  <section id="valuation">
+    <h2>六、从投资人角度怎么估值</h2>
+    <p class="lead">医生集团几乎只看一个东西：调整后 EBITDA（可持续现金流），不是营收</p>
+    <div class="card">
+      <h3>方法 1 · EBITDA 倍数法（主力）</h3>
+      <ul class="clean">
+        <li>普通基础医疗小诊所：约 <strong>0.5–0.7x 营收、3–5x EBITDA</strong>。</li>
+        <li>能在 Medicare Advantage / ACO 风险合约里跑出成绩的，可达<strong>双位数</strong>倍数（与专科同级）。</li>
+        <li>有规模、能在价值医疗合约里跑赢、管理团队稳定的<strong>大平台，可达 10–20x EBITDA</strong>。</li>
+        <li>Rendr 属<strong>平台级</strong>（100+ 站点、承担 MA 风险、Star 评级、华人社区护城河）→ 落在倍数<strong>顶部</strong>。</li>
+      </ul>
+      <h3>方法 2 · 按归属人头估（VBC 专用）</h3>
+      <p>价值医疗真正的资产是<strong>承担风险的归属人头</strong>，尤其 Medicare Advantage 参保人。投资人会数：归属 MA 人数 × 每人头价值（行业并购里单个 MA life 常值数千到上万美元，视风险承担深度而定）。</p>
+      <h3>方法 3 · DCF</h3>
+      <p>预测未来自由现金流并贴现，用来交叉验证倍数法的结果。</p>
+      <div class="callout">
+        <b>粗略量级（仅示意，非真实报价）：</b>已知营收约 $190.8M（偏旧）。假设现营收 $300–400M、EBITDA 利润率 8–12% → EBITDA 约 $25–48M，乘平台倍数 12–18x ≈ <b>$3 亿–$8.7 亿</b>，再叠加 MA 人头溢价可能更高。
+      </div>
+      <p><strong>投资人真正盯的价值杠杆：</strong>风险/capitation 占比、MA 归属人头、MLR（医疗损耗率）、CMS Star 评级、人头增长、商保 vs Medicare 比例、医生留存——以及那条别人复制不了的<strong>华人语言+文化护城河</strong>。</p>
+      <div class="warn">⚠️ 这是<strong>估值框架推演，不是投资建议</strong>。Rendr 未公开 EBITDA 和 MA 人头，缺这两个数就无法算准。倍数区间引自 2025–26 公开并购数据。</div>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section id="game">
+    <h2>七、通关攻略：LMHC 怎么往上拿到管理权</h2>
+    <p class="lead">先看穿规则：Rendr 的权力 = 资本，不是头衔。终极答案是拿股权，不是拿 title</p>
+    <div class="card">
+      <h3>短期（1–2 年）· 造一条收入线</h3>
+      <p>别只做咨询。基础医疗 VBC 里，行为健康（BHI / Collaborative Care，CPT 99492-99494、99484）既能<strong>直接产生账单收入</strong>，又改善慢病结局、<strong>抬高 Star 评级</strong>——正好踩在估值杠杆上。把自己做成"那个把行为健康变成赚钱+提分模块的人" → 升 <strong>BH Lead / 督导</strong>。你已在 Rendr 拿到行为健康资质，这是最快的杠杆点。</p>
+      <h3>中期（3–5 年）· 把工具变成 IP</h3>
+      <p>你手上有 Z5S、intake 平台、临床工具。在内部把它们包装成<strong>能证明降低总医疗成本的产品</strong>，用数据找数据线（Qian Zhong）和财务线（Mitchell）背书。目标头衔：<strong>Behavioral Health / Clinical Innovation 总监</strong>，挂在 CMO（David Shih）线下。关键加速器：<strong>找一个 C 级 sponsor</strong>——临床靠 Shih，人口健康靠 Jenny Tsang-Quinn。</p>
+      <h3>长期 / 极端打法（可叠加）</h3>
+      <ul class="clean">
+        <li><strong>复制 Park 的剧本（最狠最有效）</strong>：临床人 → 造公司 → 卖掉 → 带股权回来当领导。Park 就是建 CityMD → 卖给 Summit → 现在手握 Rendr + Ascend。你可以用 Best Wellness + Z5S 自建服务同一华人社区的行为健康/数字工具公司，跑出人头和数据，<strong>被 Rendr 或竞品收购，以股东+高管身份进场</strong>。</li>
+        <li><strong>不可替代护城河</strong>：把自己锁成"华语双语行为健康服务线唯一单点"——语言+文化是别人买不来的壁垒，你就是壁垒。</li>
+        <li><strong>资本侧上位</strong>：管理权的尽头是资本。你本就懂投资。长期路径是自己攒资本 → 入股/参与医疗 PE，从 Ascend 那一侧切入，而不是打工那一侧。</li>
+        <li><strong>数据即筹码</strong>：VBC 靠数据定胜负。谁掌握"行为健康降低总成本"的证据数据，谁就在财务桌上有发言权。</li>
+      </ul>
+      <div class="callout"><b>一句话攻略：</b>内部最快 = 造收入线 + 抱 C 级 sponsor + 升 BH 总监；想拿真正控制权，终局必须是<b>股权</b>——谈进合伙/期权、自建后被并购、或走到资本那一侧。</div>
+      <div class="warn">⚠️ 这是职业策略推演，不保证结果；内部晋升与并购都受现实合约、合规与时机约束。</div>
+    </div>
+  </section>
+
+  <!-- BHC PREVENTIVE -->
+  <section id="bhc">
+    <h2>八、行为健康（BHC）如何做"预防"，从而提升 PMPM 与价值</h2>
+    <p class="lead">这是你这条线最值钱的地方：把心理健康从"成本"变成"省钱+提分"的引擎 · 全部 evidence-based</p>
+    <div class="card">
+      <h3>核心机制：为什么"管心理"能省"身体的钱"</h3>
+      <p>抑郁、焦虑和慢性病（糖尿病、高血压、慢性疼痛）高度共病。情绪没管好的患者，<strong>依从性差、复诊乱、急诊多、住院多</strong>——这些都是 VBC 里最贵的花费。把行为健康<strong>前置（预防性）</strong>嵌进基础医疗，就能在花大钱之前把人拦住。证据显示，整合后患者的 <strong>HbA1c、血压、血脂、PHQ-9 同时改善</strong>，并降低急诊和住院利用率。</p>
+
+      <h3>用哪个模型：Collaborative Care Model（CoCM，黄金标准）</h3>
+      <p>CoCM 由华盛顿大学在 1990 年代开发，是<strong>少数有压倒性证据的整合模型</strong>——已被 <strong>90+ 项随机对照试验</strong>和多个荟萃分析验证，效果优于常规照护。它由三人团队组成：基础医疗医生（PCP）+ 行为健康照护经理（BHCM，<strong>就是你这类 LMHC 的位置</strong>）+ 精神科顾问。五大原则：<span class="tag">团队协作</span><span class="tag">人群管理（registry 不漏人）</span><span class="tag">测量驱动、治到达标</span><span class="tag">循证治疗</span><span class="tag">问责</span></p>
+
+      <h3>钱从哪来：直接报销 + 间接省钱，两头都赚</h3>
+      <table>
+        <tr><th>渠道</th><th>怎么变成钱</th></tr>
+        <tr><td><span class="role">直接账单</span></td><td>CMS 自 2017 年设了 CoCM/BHI 专用码（CPT 99492–99494、99484、G2214），按月计费——<strong>本身就是一条收入线</strong>。协作照护的报销常比同等时间的单独心理治疗<strong>高约 20–40%</strong>。</td></tr>
+        <tr><td><span class="role">降低总成本</span></td><td>在 capitation / 共享结余里，省下来的就是利润。IMPACT 研究：老年抑郁协作照护 4 年内每位患者<strong>省约 $3,365</strong>，每投入 $1 长期省约 $6（<strong>ROI 约 6:1</strong>）。</td></tr>
+        <tr><td><span class="role">抬高质量分</span></td><td>抑郁筛查与随访是 CMS Star / HEDIS 的明确指标。做得好<strong>直接抬 Star 评级</strong> → 更高的 MA 奖金与 PMPM。</td></tr>
+      </table>
+      <p>外部测算（Milliman）：有效整合身心健康、尤其循证 CoCM，可带来约 <strong>9–17% 的成本节约</strong>。注：也有研究发现某些项目是"成本中性"（不增加总开销但显著改善结局）——所以<strong>关键是做到模型保真度 + 测量到达标</strong>，否则只省一半。</p>
+
+      <h3>这个部门如何 justify（向管理层证明自己）</h3>
+      <ul class="clean">
+        <li><strong>用 PHQ-9 / GAD-7 量表做"测量驱动照护"</strong>：每位患者基线分→随访分，证明症状真的降了（不是只做了服务）。</li>
+        <li><strong>把临床结局 + 理赔数据拼在一起</strong>：证明"接受 BH 的患者，急诊/住院/总医疗成本下降"——这是说服付款方和 CFO 的唯一语言。</li>
+        <li><strong>registry 化人群管理</strong>：用登记册追踪每个人、谁没达标、谁要升级，体现"问责"和"不漏人"。</li>
+        <li><strong>算 ROI 给财务线看</strong>：每投入 1 元、省下几元、抬高几分 Star——把心理健康翻译成钱和分。</li>
+      </ul>
+      <div class="callout"><b>给你的落点：</b>作为 LMHC，你正好是 CoCM 里 <b>BHCM（照护经理）</b>这个核心齿轮。把这条线建起来、跑出数据、算清 ROI，你就从"提供服务的人"变成"<b>带来收入和质量分的人</b>"——这正是第七节攻略里"造一条收入线"的具体打法。</div>
+      <div class="warn">⚠️ 临床与报销规则随付款方、州政策、合约而变；CPT 计费需符合 CMS 保真度要求，落地前须与合规线（Peiman Saadat 那条）和实际付款方合约核对。</div>
+    </div>
+  </section>
+
+  <!-- SPECIALTY -->
+  <section id="specialty">
+    <h2>九、Rendr 的专科里，到底哪个最"吃香"</h2>
+    <p class="lead">"吃香"要分两种问法：哪个最赚现金，和哪个对价值医疗最值钱——答案不一样</p>
+    <div class="card">
+      <h3>A. 论"单独卖最值钱 / 现金流最猛"</h3>
+      <p>按 2025–26 并购数据，<strong>消化科（GI）</strong>常拿到溢价估值——因为内镜和门诊手术中心（ASC）现金流强、需求稳。<strong>骨科</strong>（随手术向 ASC 迁移、人口老化）和<strong>心内科</strong>也属高价值专科。这些"带操作/带设备"的专科，按服务收费时最赚钱。</p>
+      <h3>B. 论"对 Rendr 的价值医疗战略最值钱"</h3>
+      <p>在 VBC 里，真正的底盘是<strong>基础医疗（Primary Care）</strong>——它掌握归属人头、风险编码和转诊大门，是 capitation 收入的入口。其次是<strong>管理高成本慢病的专科</strong>：<span class="tag">心内科</span><span class="tag">内分泌（糖尿病）</span><span class="tag">肾科</span>——把这些病人管好，省下的总成本最多，对承担风险的 Rendr 最划算。</p>
+      <div class="callout"><b>那心理健康（你）排哪？</b>行为健康<b>不是靠自己单独赚大钱</b>的专科，它的价值是<b>"乘数"</b>：它让上面所有慢病管得更好（依从性↑、急诊↓）、把质量分抬上去。也就是说——<b>心理健康不是最吃香的"主菜"，但它是让主菜更值钱的"杠杆"</b>。在按人头/共享结余的合约里，这种杠杆作用的战略价值正在快速上升。</div>
+      <div class="warn">⚠️ "最吃香"在不同合约结构下结论不同：纯按服务收费时偏向带操作的专科；越往风险/人头走，基础医疗 + 慢病管理 + 行为健康杠杆越值钱。Rendr 同时在两种模式里，所以两类都重要。</div>
+    </div>
+  </section>
+
+  <!-- MENTAL HEALTH FUTURE -->
+  <section id="mhfuture">
+    <h2>十、心理健康的未来方向，以及如何 push further</h2>
+    <p class="lead">2026 是行为健康"从扩张转向证明价值"的转折年——风向对你这条线极其有利</p>
+    <div class="card">
+      <h3>三个正在发生的大趋势</h3>
+      <ul class="clean">
+        <li><strong>测量驱动照护（MBC）成为常态</strong>：付款方越来越把激励绑定到 PHQ-9 / GAD-7 等标准量表，要求你证明患者真的好转，而不只是做了多少次。2026 被业内称为 MBC"终于迎来时刻"的一年。</li>
+        <li><strong>CMS 出手做行为健康 VBC</strong>：新的 <strong>ACCESS 模型</strong>（自 2026 年 7 月 5 日启动）按结局付费，针对抑郁和焦虑、用 PHQ-9 / GAD-7 衡量改善，对一位 Medicare 患者按 12 个月固定周期支付——这是 CMS 给"按结果付钱"的强力背书。</li>
+        <li><strong>整合 + 数字化 + AI</strong>：行为健康进一步嵌入基础医疗、精神科与慢病管理；AI 辅助数据追踪、趋势分析、效率提升成为新基建。</li>
+      </ul>
+      <h3>整个领域的瓶颈（= 你的机会）</h3>
+      <p>业界共识方向已定，但<strong>缺"可信的测量基建"</strong>——多数机构只有行政/账单数据，证明不了"治疗真的改善了结局"。<strong>谁先建起这套把临床结局 + 理赔数据连起来的测量系统，谁就赢得价值医疗。</strong></p>
+      <h3>你如何 push further（把这条线推到更高）</h3>
+      <ul class="clean">
+        <li><strong>抢先建测量基建</strong>：把 PHQ-9/GAD-7 + 理赔 + Star 指标做成一个能看见结局的仪表盘（这正是你擅长的网站/数据工具方向，Z5S 也能接进来）。</li>
+        <li><strong>把 Rendr 报进 ACCESS / 风险型 BH 合约</strong>：成为内部"懂按结局付费怎么玩"的人。</li>
+        <li><strong>用数据反复证明总成本下降</strong>：每个季度给财务线一张"BH 省了多少钱、抬了多少分"的表。</li>
+        <li><strong>把方法论产品化</strong>：双语 + 文化适配的测量驱动行为健康，是别人难复制的——这既是临床壁垒，也是你个人的不可替代性。</li>
+      </ul>
+      <div class="callout"><b>方向一句话：</b>心理健康正从"做服务、按次收费"走向"<b>证明结局、按价值付费</b>"。提前站到"测量 + 数据 + 整合"这一侧的人，会拿到话语权和管理权。</div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section id="history">
+    <h2>十一、Rendr 的发展历程与未来走向</h2>
+    <p class="lead">从一家社区诊所到纽约最大华人医疗集团，再到下一步</p>
+    <div class="card">
+      <h3>过去：怎么长到今天</h3>
+      <table>
+        <tr><th>时间</th><th>里程碑</th></tr>
+        <tr><td><span class="pay">~2016</span></td><td>前身诊所阶段，此后<strong>年均营收增长约 35%</strong>，奠定增长底子。</td></tr>
+        <tr><td><span class="pay">2019</span></td><td>Rendr 正式成立。创始人 <strong>Richard Park（CityMD 创始人）</strong>；同年其与前 Warburg Pincus 全球医疗主管 In Seon Hwang 共同创立 <strong>Ascend Capital Partners</strong>。<span style="font-size:11px;color:var(--muted)">（注：Tracxn 另记为 2020 年由 David Shih、John Hui 创立——来源有出入）</span></td></tr>
+        <tr><td><span class="pay">2020→2021</span></td><td>疫情后强势反弹，营收<strong>增长 52%</strong>。</td></tr>
+        <tr><td><span class="pay">2021</span></td><td>获 <strong>Ascend + Kain Capital</strong> 股权投资；earned 多数政府保险计划的<strong>顶级 CMS 质量分</strong>，并与多家 Medicaid/Medicare 付款方签<strong>风险共担合约</strong>。Ascend 两轮累计投入约 <strong>$85M</strong>。</td></tr>
+        <tr><td><span class="pay">2022</span></td><td>与 <strong>Excelsior Integrated Medical Group 合并</strong>（收购/LBO），规模大幅扩张；成为 MSO 网络 CareAbout 成员。站点从 18 → 40。</td></tr>
+        <tr><td><span class="pay">至今</span></td><td>扩张到 <strong>100+ 站点</strong>、250+ 提供者、约 16.6 万患者，覆盖 Brooklyn、Manhattan、Queens、Staten Island、Nassau。</td></tr>
+      </table>
+      <h3>未来：最可能的几条路</h3>
+      <ul class="clean">
+        <li><strong>更深地走向风险/人头</strong>：从按服务收费继续转向 capitation 与共享结余，把更多 MA 人头纳入风险——这是估值倍数往上走的关键。</li>
+        <li><strong>地理与专科扩张</strong>：继续在大纽约华裔/亚裔聚集区开点，并加深心内、内分泌、肿瘤、<strong>行为健康</strong>等服务线。</li>
+        <li><strong>数据与技术投入</strong>：风险型合约靠数据定胜负，会持续投基建（也是你切入的口子）。</li>
+        <li><strong>PE 退出（终局）</strong>：作为 PE 投资平台，5–7 年持有期后大概率走向<strong>出售给更大的医疗/付款方平台（如 Optum 类）、资本重组、或上市</strong>——这也是为什么"拿股权"对你是终极攻略。</li>
+      </ul>
+      <div class="warn">⚠️ 未来走向为基于其 PE 背景与行业惯例的合理推断，非官方计划；具体取决于市场、监管与资本时机。</div>
+    </div>
+  </section>
+
+  <!-- PLAYBOOK -->
+  <section id="playbook">
+    <h2>十二、落地做法（具体到能执行）+ 股权的真相</h2>
+    <p class="lead">不讲空话：先说清股权为什么几乎拿不到，再给你能照着做的步骤和真实薪资天花板</p>
+
+    <div class="card">
+      <h3>先认清股权真相（我之前讲得太理想，纠正）</h3>
+      <p>在 PE 投资的医疗集团里，作为 LMHC <strong>几乎拿不到股权</strong>。原因很硬：</p>
+      <ul class="clean">
+        <li>PE 的管理层激励池（MIP）通常只占总股权的<strong>约 8–12%</strong>，而且高度集中在 C 级和创始人手里。</li>
+        <li>医生拿股，多半是因为<strong>当初卖了自己的诊所换股</strong>；你没有诊所可卖。</li>
+        <li>对一个受雇的中层临床岗，公司<strong>宁愿给你现金/奖金，也不会给你股</strong>——这是你说对的地方。</li>
+      </ul>
+      <div class="callout"><b>所以方向要改：</b>在 Rendr 内部，你的天花板是<b>现金 + 头衔（做到 BH 总监）</b>；想要"拥有"，唯一现实的路是<b>自己拥有一个实体，把服务卖进 Rendr</b>（见本节最后）。</div>
+    </div>
+
+    <div class="card">
+      <h3>这条线的真实账（CoCM 单位经济，数字已查证）</h3>
+      <p>关键计费规则：CoCM 码（99492 首月、99493 次月、99494 每加 30 分钟、99484 一般 BHI、G2214 短时）<strong>只能由基础医疗诊所/PCP 申报，照护经理和精神科顾问本人不能直接 billing</strong>。也就是说——<strong>你干活，诊所拿去开账单</strong>。这正是你谈判的支点：你为诊所创造可计费收入。</p>
+      <table>
+        <tr><th>码</th><th>用于</th><th>大致每人每月（全国均值，会浮动）</th></tr>
+        <tr><td>99484</td><td>一般 BHI（<strong>不需要精神科医生</strong>，可先起步）</td><td>约 $48–$57</td></tr>
+        <tr><td>99492</td><td>CoCM 首月（含精神科顾问）</td><td>较高（首月最高）</td></tr>
+        <tr><td>99493</td><td>CoCM 次月（持续）</td><td>约 $130–$145</td></tr>
+        <tr><td>99494</td><td>每额外 30 分钟（加成）</td><td>约 $65 上下</td></tr>
+      </table>
+      <p>叠加其他护理管理后，一位患者每月可产生约 <strong>$170–$277</strong>（行业测算，视组合而定）。</p>
+      <div class="callout"><b>示意算账（仅举例，非保证）：</b>一名全职照护经理活跃管理约 <b>80 名</b>登记患者 × 约 $140/月 ≈ <b>$11,200/月 ≈ ~$135K/年</b>的可计费收入 —— <b>这条线靠 billing 基本就能养活自己</b>，而 IMPACT 的 6:1 长期省钱、Star 提分都是<b>额外的上行</b>。这就是你向管理层证明"我不是成本，是收入+省钱"的硬数据。</div>
+      <div class="warn">⚠️ 报销额随年度 MPFS、地区、付款方而变；NY Medicaid 与多数商保覆盖 CoCM，但需逐一核对合约。计费须由诊所合规完成，落地前对接合规线（Peiman Saadat）与计费团队。</div>
+    </div>
+
+    <div class="card">
+      <h3>90 天落地计划（照着做）</h3>
+      <h3 style="font-size:14px;margin-top:8px">第 1 个月 · 立项</h3>
+      <ul class="clean">
+        <li>写一页 <strong>CoCM/BHI 试点提案</strong>（我可以帮你起草）：目标人群、指标、6 个月里程碑、ROI 预测。</li>
+        <li>锁定<strong>临床 sponsor</strong>：医疗线 David Shih / Wu Ni 其中一位点头。</li>
+        <li>找计费/合规线确认 <strong>Rendr 现有合约里哪些付款方报 CoCM/BHI</strong>、NY 覆盖情况。</li>
+        <li>圈出起步队列：panel 里 <strong>PHQ-9 ≥ 10 或 GAD-7 ≥ 10</strong> 的现有患者。</li>
+      </ul>
+      <h3 style="font-size:14px">第 2 个月 · 起跑</h3>
+      <ul class="clean">
+        <li><strong>先用 99484（一般 BHI，不需精神科医生）开跑</strong>，等安排好兼职精神科顾问（每周 1–2 小时 curbside）再升级到 CoCM。</li>
+        <li>搭一个<strong>登记册 registry</strong>（哪怕先用表格/简单工具——你的强项），录入基线 PHQ-9/GAD-7。</li>
+        <li>先登记 20–30 人。</li>
+      </ul>
+      <h3 style="font-size:14px">第 3 个月 · 出数据</h3>
+      <ul class="clean">
+        <li>做第一轮随访测量，算<strong>症状改善率 + 当月计费额</strong>。</li>
+        <li>产出一页 <strong>ROI 仪表盘</strong>：登记人数 / 计费额 / PHQ-9 变化 / 预估总成本影响。拿这页去见人。</li>
+      </ul>
+      <h3 style="font-size:14px">6–12 个月 · 放大</h3>
+      <ul class="clean">
+        <li>扩 panel、招第二名照护经理 → <strong>你升督导/Lead</strong>。</li>
+        <li>找数据线（Qian Zhong）拉<strong>理赔数据</strong>，证明急诊/住院下降。</li>
+        <li>每季度向人口健康（Jenny Tsang-Quinn）和财务汇报，把自己变成"那条会算钱的线"。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>真实薪资天花板（现金，NYC 口径，约数）</h3>
+      <table>
+        <tr><th>层级</th><th>大致年薪</th></tr>
+        <tr><td>Staff LMHC（一线咨询）</td><td><span class="pay">约 $70K–$95K</span></td></tr>
+        <tr><td>行为健康照护经理 / 资深临床</td><td><span class="pay">约 $80K–$100K</span></td></tr>
+        <tr><td>BH Lead / 临床督导</td><td><span class="pay">约 $95K–$125K</span></td></tr>
+        <tr><td>BH 项目经理 Program Manager</td><td><span class="pay">约 $110K–$140K</span></td></tr>
+        <tr><td>行为健康总监 Director of BH</td><td><span class="pay">约 $130K–$180K</span></td></tr>
+        <tr><td>行为健康副总裁 VP（大型系统）</td><td><span class="pay">约 $170K–$260K</span></td></tr>
+      </table>
+      <p style="font-size:12px;color:var(--muted)">约数，随机构规模、资历、奖金浮动；NYC 偏高端。这是"纯打工"路线的现金天花板——不含股权，因为基本不会有。</p>
+    </div>
+
+    <div class="card">
+      <h3>你真正的"股权"在哪：拥有一个卖进 Rendr 的实体</h3>
+      <p>既然内部不给股，那就<strong>自己当那个被付钱的实体</strong>。三条现实路径：</p>
+      <ul class="clean">
+        <li><strong>① 自有 PLLC 当供应商（最务实）</strong>：用 Best Wellness Therapy 注册实体，向 Rendr（或其他诊所群）<strong>承包行为健康照护管理的人力与基建</strong>，按合同/按人头收费。诊所负责 billing，你的实体提供 BHCM 团队和 registry 系统——你赚的是<strong>margin，而且这家公司是你的</strong>。这就是你能真正"拥有"的东西。（参考市面 Nsight Health 这类 BHI 外包模式）</li>
+        <li><strong>② 建了再卖</strong>：把双语 + 文化适配的行为健康服务/工具（Best Wellness + Z5S）做出真实营收和人头，<strong>被 Rendr 或竞品收购</strong>——这才是 LMHC 拿到"股权式回报"的现实版。</li>
+        <li><strong>③ 把 Z5S 做成产品</strong>：测量驱动的工具，授权或卖给需要测量基建的机构。</li>
+      </ul>
+      <div class="callout"><b>一句话纠正后的攻略：</b>别在 Rendr 内部追股权（追不到）。两条腿走 —— 内部靠现金爬到 <b>BH 总监</b>，同时在外面<b>拥有一个把服务卖进医疗集团的实体</b>。后者才是你的"股权"。</div>
+      <div class="warn">⚠️ 自营实体涉及执照、合规、反回扣（Anti-Kickback / Stark）、合同与税务等法律问题，必须先咨询医疗法律与会计专业人士；本页不构成法律或投资建议。</div>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <section id="sources">
+    <h2>十三、数据来源与免责声明</h2>
+    <div class="card" style="font-size:12.5px;color:var(--muted)">
+      <p><strong>公司/人员：</strong>rendrcare.com（About）、LinkedIn、The Org、ZoomInfo、RocketReach、公开新闻稿（Alex Mitchell 任命稿、Richard Park 简介）。</p>
+      <p><strong>估值倍数：</strong>FOCUS Investment Banking（2026 医生执业并购倍数）、Sofer Advisors、SovDoc、Scope Research、HealthFMV（2025 基础医疗估值指南）。</p>
+      <p><strong>薪酬基准：</strong>Salary.com（医生执业 CEO/CFO/COO 中位）、HealthStaffingGroup（CMO/医生高管 2026）、Becker's、SullivanCotter、ThriveBoard（PE 高管薪酬）。</p>
+      <p><strong>行为健康循证：</strong>AIMS Center / 华盛顿大学（IMPACT、CoCM）、APA Psychiatry.org（CoCM 90+ RCT、五大原则、计费规则）、Unützer 等《长期成本效应》（6:1 ROI）、Milliman（9–17% 节约）、AJMC（成本中性研究、整合 BH 成本效益）、psychiatryonline.org。</p>
+      <p><strong>CoCM/BHI 计费与费率：</strong>Nsight Health（2026 BHI 计费指南，$170–277/患者/月）、Providers Care Billing、Prevounce、Acuity.news（CoCM 2026、36 州 Medicaid 覆盖）、DLA Piper / Forvis Mazars / ChartSpan（2026 MPFS 新增 APCM 加成码 G0568/69/70）、APA "Getting Paid in CoCM"。</p>
+      <p><strong>心理健康未来趋势：</strong>Behavioral Health Business（2026 转向"证明价值"、CMS ACCESS 模型）、Trilliant Health 2026 BH 报告、Becker's Behavioral Health、Charta Health、Behave Health（协作照护报销高 20–40%）、npj Mental Health Research、Healthcare IT Today。</p>
+      <p><strong>发展历程：</strong>Ascend Partners 官网、PRWeb / rendrcare.com（Rendr-Excelsior 合并稿）、Mondaq、Mergr、PitchBook、ZoomInfo、Tracxn、LeadIQ（创始与融资记录，部分细节来源间有出入已注明）。</p>
+      <p style="margin-top:10px;color:var(--crimson)"><strong>免责：</strong>本页为公开资料整理 + 行业基准推演，<strong>非 Rendr 官方发布</strong>。组织层级、薪资、估值均为合理估算，可能与真实情况有出入。不构成投资、法律或职业建议。整理于 2026 年，请以官方信息为准。</p>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Rendr 仁德医疗 · 全景研究 · 暖米黄主题 · 整理于 2026 年<br>
+  画面求简，内容求深 — 数据可追溯，估算有标注
+</footer>
+
+</body>
+</html>
