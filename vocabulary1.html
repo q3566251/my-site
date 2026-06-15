@@ -16,6 +16,7 @@
     --psy-ac:#bf3a7a;--psy-bg:#fff0f5;--psy-bd:#f0a8c8;
     --nro-ac:#1a9470;--nro-bg:#eefaf4;--nro-bd:#7ed4b4;
     --beh-ac:#d43a3a;--beh-bg:#fff0f0;--beh-bd:#f0a0a0;
+    --tec-ac:#7a6c28;--tec-bg:#faf6e8;--tec-bd:#d4c87a;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:'Noto Sans SC',sans-serif;background:var(--page-bg);color:var(--text);line-height:1.8;min-height:100vh;}
@@ -51,6 +52,17 @@
   .li-meaning{font-size:13px;color:var(--text);line-height:1.6;}
   .note-block{margin:4px 16px 12px;padding:10px 12px;border-radius:6px;font-size:12px;line-height:1.6;cursor:pointer;transition:background .15s;}
   .note-block:hover{opacity:.85;}.note-block.playing{outline:2px solid var(--accent);}
+  .detail-toggle{margin:0 16px 4px;font-size:11px;color:var(--text-light);cursor:pointer;padding:4px 0;user-select:none;}
+  .detail-toggle:hover{color:var(--accent);}
+  .detail-block{margin:0 16px 12px;padding:14px 16px;border-radius:8px;font-size:12px;line-height:1.9;display:none;border:1px solid var(--border);background:var(--card-bg);}
+  .detail-block.open{display:block;}
+  .detail-block .dx{font-weight:600;color:var(--text);margin-top:10px;margin-bottom:2px;font-size:12px;}
+  .detail-block .dx:first-child{margin-top:0;}
+  .detail-block .dc{color:var(--accent);font-weight:600;}
+  .detail-block .dv{color:var(--text-light);font-style:italic;padding-left:12px;border-left:2px solid var(--border);margin:4px 0;}
+  .detail-block .dt{color:var(--text);padding-left:12px;border-left:2px solid var(--accent);margin:4px 0;}
+  .detail-block .dn{font-size:11px;color:var(--text-light);margin-top:6px;}
+  .detail-block .dk{background:var(--highlight);padding:8px 12px;border-radius:6px;margin-top:10px;font-size:11px;line-height:1.7;}
   .progress-bar{height:3px;background:var(--border);border-radius:2px;margin:0 16px 8px;overflow:hidden;}
   .progress-fill{height:100%;border-radius:2px;transition:width .3s;width:0%;}
   .status-bar{position:fixed;bottom:0;left:0;right:0;background:var(--soft-bg);border-top:1px solid var(--border);padding:10px 20px;text-align:center;font-size:12px;color:var(--text-light);z-index:100;}
@@ -59,7 +71,7 @@
 <body>
 <div class="header">
   <h1>🧠 DSM-5 Mnemonics 朗读</h1>
-  <p>17 个 Disorder · 点击朗读 · 自动播放全部记忆法</p>
+  <p>17 Disorders + 3 Techniques · 点击朗读 · 自动播放全部记忆法</p>
 </div>
 <div class="controls">
   <button class="btn" id="playAllBtn" onclick="playAll()">▶ 全部朗读</button>
@@ -79,6 +91,7 @@
   <button class="mbtn" onclick="setFilter('trauma',this)">Trauma</button>
   <button class="mbtn" onclick="setFilter('neuro',this)">Neuro</button>
   <button class="mbtn" onclick="setFilter('behavior',this)">Behavior</button>
+  <button class="mbtn" onclick="setFilter('technique',this)">Technique</button>
 </div>
 <div class="container" id="content"></div>
 <div class="status-bar" id="statusBar">就绪 · 点击任意条目或按「全部朗读」开始</div>
@@ -91,6 +104,7 @@ const CATS = {
   trauma:   {label:'Trauma & Stress',    ac:'var(--trm-ac)',bg:'var(--trm-bg)',bd:'var(--trm-bd)'},
   neuro:    {label:'Neurodevelopmental', ac:'var(--nro-ac)',bg:'var(--nro-bg)',bd:'var(--nro-bd)'},
   behavior: {label:'Behavior Disorders', ac:'var(--beh-ac)',bg:'var(--beh-bg)',bd:'var(--beh-bd)'},
+  technique:{label:'Clinical Techniques',ac:'var(--tec-ac)',bg:'var(--tec-bg)',bd:'var(--tec-bd)'},
 };
 
 /*
@@ -344,9 +358,107 @@ const DISORDERS = [
    ],
    note:'Need all 3 SIR + ≥2 of 4 R\'s. Spectrum: nonverbal to highly verbal',
    noteTTS:['Need all 3 SIR plus 2 or more of 4 Rs.','Spectrum from nonverbal to highly verbal.']},
+
+  {id:'stuffcp',name:'STUFF-CP',full:'Clinical Assessment Framework',cat:'technique',
+   mn:'STUFF-CP', mnTTS:'S. T. U. F. F. C. P.',
+   dur:'Every intake and session',cnt:'7 dimensions to assess',
+   ls:[
+    {l:'S', display:'Symptoms — what the client is experiencing right now',
+            tts:['Symptoms.','what the client is experiencing right now.']},
+    {l:'T', display:'Trigger — what set it off, what happened before',
+            tts:['Trigger.','what set it off.','what happened before.']},
+    {l:'U', display:'Uncontrollable — can they control it or not',
+            tts:['Uncontrollable.','can they control it or not.']},
+    {l:'F', display:'Function impairment — how is it affecting daily life',
+            tts:['Function impairment.','how is it affecting daily life.']},
+    {l:'F', display:'Frequency — how often does it happen',
+            tts:['Frequency.','how often does it happen.']},
+    {l:'C', display:'Control — do they have control over the behavior or feeling',
+            tts:['Control.','do they have control over the behavior or feeling.']},
+    {l:'P', display:'Pattern and history — trait vs state; trait is stable, state changes',
+            tts:['Pattern and history.','trait versus state.','trait is stable.','state changes.']},
+   ],
+   note:'Trait 不变 (personality, lifelong). State 会变 (mood episode, reaction). 区分 trait vs state 决定 diagnosis 方向',
+   noteTTS:['Trait does not change, like personality, lifelong.','State changes, like a mood episode or reaction.','Distinguishing trait versus state determines diagnosis direction.']},
+
+  {id:'race',name:'RACE',full:'High-Functioning Client Technique',cat:'technique',
+   mn:'RACE', mnTTS:'R. A. C. E.',
+   dur:'Session technique for resistant clients',cnt:'4 steps in sequence',
+   ls:[
+    {l:'R', display:'Reflect — 复述, mirror back what they said',
+            tts:['Reflect.','mirror back what they said.']},
+    {l:'A', display:'Agitate — 制造不一致感, highlight the gap between what they say and what they do',
+            tts:['Agitate.','highlight the gap between what they say and what they do.']},
+    {l:'C', display:'Concretize — 拉到具体情境, pull them into a specific real situation',
+            tts:['Concretize.','pull them into a specific real situation.']},
+    {l:'E', display:'Elicit — 让他自己说需要, let them voice their own need for change',
+            tts:['Elicit.','let them voice their own need for change.']},
+   ],
+   note:'抓住感觉：说完后你什么感觉？现在什么感觉？到 core experience 时继续 explore。你感觉…… 太长就 rephrase，重点永远是最后一句。High-functioning clients intellectualize — RACE 让他们自己感受到不一致，自己说出需要改变',
+   noteTTS:['Grab the feeling.','After they speak, ask: what do you feel now.','When you hit core experience, keep exploring.','You feel...','If they talk too long, rephrase for them.','The key is always the last sentence.','High-functioning clients intellectualize.','RACE makes them feel the inconsistency themselves.','and voice their own need for change.'],
+   detail:`<div class="dx">完整示范 — High Insight</div>
+<div class="dv">来访者："我知道应该放下，但就是放不下。"</div>
+<div class="dt"><span class="dc">R</span> "理智上接受了，情绪上还没有。"</div>
+<div class="dt"><span class="dc">A</span> "一年过去了，这件事似乎仍然影响着你。"</div>
+<div class="dt"><span class="dc">C</span> "最近一次想到她是什么时候？"</div>
+<div class="dv">来访者："上周经过以前一起吃饭的餐厅。"</div>
+<div class="dt"><span class="dc">C</span> "当时你停下来了吗？脑子里出现什么画面？"</div>
+<div class="dv">来访者："想到以前她坐在我对面。"</div>
+<div class="dt"><span class="dc">E</span> "那一刻最痛的部分是什么？"</div>
+<div class="dv">来访者："我觉得再也不会有人那样爱我了。"</div>
+<div class="dn">这时候才真正进入核心。问题可能不是前女友，而是：<b>"我不相信自己还值得被爱。"</b></div>
+<div class="dk">RACE 最强的地方：从故事 → 矛盾 → 具体场景 → 核心意义<br>高功能来访者会一直停留在故事和分析层面，RACE 就是把他往下挖。</div>
+
+<div class="dx">Low Insight 示范</div>
+<div class="dv">来访者："都是我妈的问题。"</div>
+<div class="dt"><span class="dc">R</span> "你觉得妈妈给你很大压力。"</div>
+<div class="dt"><span class="dc">A</span> "但你好像也因此一直很痛苦。"</div>
+<div class="dt"><span class="dc">C</span> "上次跟妈妈冲突是什么时候？"</div>
+<div class="dt"><span class="dc">E</span> "这件事对你意味着什么？"</div>
+<div class="dv">Low insight 常见回答："不知道。" / "反正就是她有问题。" / "没什么。" — 直接卡住。</div>
+<div class="dn">因为 Elicit 需要 Mentalization、Self-awareness、Emotional vocabulary — 很多 low insight client 这些能力还没建立。</div>
+
+<div class="dx">Low Insight 策略：R → C → C → C → C</div>
+<div class="dn">不断具体化，先建立觉察：</div>
+<div class="dt">"她哪里让你生气？"</div>
+<div class="dt">"当时她说了什么？"</div>
+<div class="dt">"你身体有什么反应？"</div>
+<div class="dt">"你后来做了什么？"</div>
+<div class="dt">"你希望她怎么做？"</div>
+
+<div class="dx">判断标准 — 什么时候可以进 E</div>
+<div class="dk">
+<b>✅ 可以开始 E：</b><br>
+"我觉得自己被忽视了。" / "我害怕失败。" / "我其实很失望。"<br><br>
+<b>❌ 继续 C，不要急：</b><br>
+"不知道。" / "没事。" / "反正就是烦。"
+</div>
+
+<div class="dx">三种 Insight Level 路径</div>
+<div class="dk">
+<b>High insight:</b> R → A → C → E （一次走完整套）<br>
+<b>Moderate insight:</b> R → A → C → E （需要很多辅助）<br>
+<b>Low insight:</b> R → C → C → C → C （先培养观察能力，E 很后面才出现）
+</div>`},
+
+  {id:'mcbn',name:'MCBN',full:'Biggest Issue Assessment — 4 Lenses',cat:'technique',
+   mn:'MCBN', mnTTS:'M. C. B. N.',
+   dur:'Every session — frame the biggest challenge',cnt:'4 lenses + contributing factors',
+   ls:[
+    {l:'M', display:'Mood — what is the emotional experience right now',
+            tts:['Mood.','what is the emotional experience right now.']},
+    {l:'C', display:'Cognition — what are the thought patterns, beliefs, self-talk',
+            tts:['Cognition.','what are the thought patterns.','beliefs.','self-talk.']},
+    {l:'B', display:'Behavior — what are they doing or avoiding doing',
+            tts:['Behavior.','what are they doing or avoiding doing.']},
+    {l:'N', display:'Neurology — biological and neurological factors',
+            tts:['Neurology.','biological and neurological factors.']},
+   ],
+   note:'Contributing factors: Religious beliefs, Family dynamics, Genetics, Life experience. 用 MCBN 四个镜头看 biggest issue，再用 contributing factors 理解背后的 why',
+   noteTTS:['Contributing factors.','Religious beliefs.','Family dynamics.','Genetics.','Life experience.','Use MCBN as 4 lenses to see the biggest issue.','then use contributing factors to understand the why behind it.']},
 ];
 
-const CAT_ORDER = ['psychotic','anxiety','mood','trauma','neuro','behavior'];
+const CAT_ORDER = ['psychotic','anxiety','mood','trauma','neuro','behavior','technique'];
 let synth = window.speechSynthesis;
 let currentFilter = 'all';
 
@@ -378,6 +490,18 @@ function setFilter(f, el) {
 }
 function clearHL() { document.querySelectorAll('.playing').forEach(el => el.classList.remove('playing')); }
 function letterForTTS(l) { return l.replace(/[+]/g,'').replace(/[0-9₁₂₃₄¹²]/g,'').trim(); }
+function toggleDetail(did) {
+  const el = document.getElementById(`dt-${did}`);
+  if (!el) return;
+  const toggle = el.previousElementSibling;
+  if (el.classList.contains('open')) {
+    el.classList.remove('open');
+    if (toggle) toggle.textContent = '📖 展开临床示范 ▼';
+  } else {
+    el.classList.add('open');
+    if (toggle) toggle.textContent = '📖 收起 ▲';
+  }
+}
 
 // Speak — resolves on end/error. If token changes during speech, we cancel synth
 // so it resolves fast. Returns `true` if finished normally, `false` if aborted.
@@ -421,6 +545,7 @@ function renderContent() {
       });
       html += '</div>';
       if (d.note) html += `<div class="note-block" id="nt-${d.id}" style="background:${cat.bg};color:${cat.ac};border:1px solid ${cat.bd}" onclick="onClickNote('${d.id}')">📌 ${d.note}</div>`;
+      if (d.detail) html += `<div class="detail-toggle" onclick="toggleDetail('${d.id}')">📖 展开临床示范 ▼</div><div class="detail-block" id="dt-${d.id}">${d.detail}</div>`;
       html += '</div>';
     });
     html += '</div>';
