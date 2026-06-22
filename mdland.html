@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MDland LMHC 操作指南 · Rendr/EMG</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page-bg: #f7f1e8;
+    --soft-bg: #f2e7d9;
+    --card-bg: #fdf9f4;
+    --accent: #8b5e3c;
+    --accent-light: #c4956a;
+    --accent-dim: #e8d5c0;
+    --green: #4a7c59;
+    --green-bg: #e8f2ec;
+    --red: #a33a3a;
+    --red-bg: #f5e8e8;
+    --blue: #2d5f8a;
+    --blue-bg: #e6f0f8;
+    --gold: #8a6f2d;
+    --gold-bg: #f5f0e0;
+    --suggest: #c0392b;
+    --suggest-bg: #fdf0ee;
+    --suggest-border: #e8b4b0;
+    --text: #2c2016;
+    --text-sub: #6b5240;
+    --border: #ddd0c0;
+    --radius: 10px;
+    --font-serif: 'Noto Serif SC', serif;
+    --font-sans: 'Noto Sans SC', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--page-bg); font-family: var(--font-sans); color: var(--text); min-height: 100vh; }
+
+  header {
+    background: var(--accent); color: #fff;
+    padding: 18px 20px 14px; position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(0,0,0,.2);
+  }
+  header h1 { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; }
+  header span { font-size: .7rem; opacity: .7; font-weight: 300; margin-top: 2px; display: block; }
+  .emg-badge {
+    font-size: .63rem; background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.35); border-radius: 20px;
+    padding: 4px 10px; letter-spacing: .04em; white-space: nowrap;
+  }
+
+  .session-bar {
+    background: var(--soft-bg); border-bottom: 1px solid var(--border);
+    padding: 12px 16px; display: flex; gap: 8px; align-items: center;
+  }
+  .session-bar label { font-size: .8rem; font-weight: 500; color: var(--text-sub); }
+  .toggle-group { display: flex; gap: 6px; }
+  .tog-btn {
+    padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(--border);
+    background: var(--card-bg); font-family: var(--font-sans); font-size: .8rem;
+    font-weight: 500; color: var(--text-sub); cursor: pointer; transition: all .2s;
+  }
+  .tog-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  main { padding: 16px 14px 48px; max-width: 700px; margin: 0 auto; }
+
+  .step-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: 12px; overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  }
+  .step-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 16px; cursor: pointer; user-select: none;
+  }
+  .step-header:hover { background: var(--soft-bg); }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-family: var(--font-serif); font-size: .85rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .step-title { font-family: var(--font-serif); font-size: 1rem; font-weight: 600; flex: 1; }
+  .step-sub { font-size: .72rem; color: var(--text-sub); font-weight: 400; margin-left: 4px; }
+  .chevron { width: 18px; height: 18px; color: var(--accent-light); transition: transform .25s; flex-shrink: 0; }
+  .step-card.open .chevron { transform: rotate(180deg); }
+  .step-body { display: none; padding: 4px 16px 16px 56px; border-top: 1px solid var(--border); }
+  .step-card.open .step-body { display: block; }
+
+  .inst-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 0; border-bottom: 1px dashed var(--accent-dim);
+  }
+  .inst-row:last-child { border-bottom: none; }
+  .inst-icon {
+    width: 22px; height: 22px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: .8rem; margin-top: 1px;
+  }
+  .icon-click { background: var(--gold-bg); }
+  .icon-pick  { background: var(--green-bg); }
+  .icon-note  { background: var(--red-bg); }
+
+  .inst-text { font-size: .84rem; line-height: 1.6; color: var(--text); }
+  .inst-text strong { color: var(--accent); font-weight: 600; }
+  .inst-text em { color: var(--blue); font-style: normal; font-weight: 500; }
+  .tag {
+    display: inline-block; font-size: .7rem; font-weight: 700;
+    border-radius: 4px; padding: 1px 6px; margin-left: 4px;
+  }
+  .tag-green { background: var(--green-bg); color: var(--green); }
+  .tag-blue  { background: var(--blue-bg);  color: var(--blue);  }
+
+  /* PS BOX */
+  .ps-box {
+    background: var(--blue-bg); border: 1.5px solid #b0cce0;
+    border-radius: 8px; padding: 10px 12px; margin-top: 10px;
+    font-size: .81rem; color: var(--blue); line-height: 1.6;
+  }
+  .ps-box strong { color: var(--blue); }
+
+  /* SUGGEST BOX */
+  .suggest-card {
+    background: var(--suggest-bg);
+    border: 1.5px solid var(--suggest-border);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .suggest-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 11px 16px; cursor: pointer; user-select: none;
+    background: var(--suggest-bg);
+  }
+  .suggest-header:hover { background: #f9e5e3; }
+  .suggest-badge {
+    background: var(--suggest); color: #fff;
+    font-size: .65rem; font-weight: 700; letter-spacing: .05em;
+    border-radius: 4px; padding: 2px 7px; flex-shrink: 0;
+  }
+  .suggest-title {
+    font-family: var(--font-serif); font-size: .95rem; font-weight: 600;
+    color: var(--suggest); flex: 1;
+  }
+  .suggest-sub { font-size: .71rem; color: #c06060; font-weight: 400; margin-left: 4px; }
+  .suggest-body { display: none; padding: 4px 16px 14px 16px; border-top: 1px solid var(--suggest-border); }
+  .suggest-card.open .suggest-body { display: block; }
+  .suggest-card.open .chevron { transform: rotate(180deg); }
+  .suggest-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 7px 0; border-bottom: 1px dashed var(--suggest-border);
+  }
+  .suggest-row:last-child { border-bottom: none; }
+  .suggest-icon {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: #f5d5d2; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: .8rem; margin-top: 1px;
+  }
+  .suggest-text { font-size: .83rem; line-height: 1.6; color: var(--suggest); }
+  .suggest-text strong { color: var(--suggest); font-weight: 700; }
+  .suggest-text span { color: #8b3030; }
+
+  /* VARIANT */
+  .variant { display: none; }
+  .intake-only { display: block; }
+  .show-regular .intake-only { display: none; }
+  .show-regular .regular-only { display: block; }
+
+  /* SCORE GRID */
+  .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .score-block { background: var(--soft-bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .score-block-title { background: var(--accent); color: #fff; font-size: .71rem; font-weight: 700; padding: 5px 10px; letter-spacing: .05em; }
+  .score-row { display: flex; justify-content: space-between; padding: 5px 10px; font-size: .76rem; border-bottom: 1px solid var(--border); }
+  .score-row:last-child { border-bottom: none; }
+  .sev-0 { color: #4a7c59; } .sev-1 { color: #8a6f2d; } .sev-2 { color: #d4851a; } .sev-3 { color: #a33a3a; } .sev-4 { color: #7b0000; }
+
+  /* REFERENCE */
+  .ref-section { margin-top: 20px; }
+  .ref-title {
+    font-family: var(--font-serif); font-size: .92rem; font-weight: 700;
+    color: var(--accent); margin-bottom: 10px; padding-bottom: 6px;
+    border-bottom: 2px solid var(--accent-dim);
+  }
+  .ref-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .ref-tab {
+    padding: 5px 13px; border-radius: 16px; border: 1.5px solid var(--border);
+    background: var(--card-bg); font-family: var(--font-sans); font-size: .76rem;
+    font-weight: 500; color: var(--text-sub); cursor: pointer; transition: all .15s;
+  }
+  .ref-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .ref-panel { display: none; }
+  .ref-panel.active { display: block; }
+
+  /* BILINGUAL CODE CARD */
+  .code-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .code-item { background: var(--soft-bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+  .code-item .code { font-family: monospace; font-size: .83rem; font-weight: 700; color: var(--accent); }
+  .code-item .desc-zh { font-size: .74rem; color: var(--text); font-weight: 500; margin-top: 3px; line-height: 1.4; }
+  .code-item .desc-en { font-size: .69rem; color: var(--text-sub); font-weight: 400; margin-top: 1px; line-height: 1.4; border-top: 1px dashed var(--border); padding-top: 3px; margin-top: 3px; }
+
+  /* BILINGUAL DX TABLE */
+  .dx-search-wrap { position: relative; margin-bottom: 8px; }
+  .dx-search {
+    width: 100%; padding: 8px 12px 8px 32px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--card-bg); font-family: var(--font-sans); font-size: .82rem;
+    color: var(--text); outline: none;
+  }
+  .dx-search:focus { border-color: var(--accent); }
+  .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--text-sub); }
+  .dx-table { width: 100%; border-collapse: collapse; font-size: .76rem; background: var(--soft-bg); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .dx-table th { background: var(--accent); color: #fff; padding: 6px 10px; text-align: left; font-size: .72rem; letter-spacing: .04em; }
+  .dx-table td { padding: 5px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .dx-table tr:last-child td { border-bottom: none; }
+  .dx-table tr:nth-child(even) td { background: var(--card-bg); }
+  .dx-code { font-family: monospace; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .dx-zh { font-size: .76rem; color: var(--text); font-weight: 500; display: block; }
+  .dx-en { font-size: .68rem; color: var(--text-sub); display: block; margin-top: 1px; }
+
+  /* BILINGUAL Z-CODES */
+  .z-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .z-item { background: var(--soft-bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; }
+  .z-item .z-code { font-family: monospace; font-size: .78rem; font-weight: 700; color: var(--green); }
+  .z-item .z-zh { font-size: .73rem; color: var(--text); font-weight: 500; margin-top: 2px; }
+  .z-item .z-en { font-size: .67rem; color: var(--text-sub); margin-top: 1px; border-top: 1px dashed var(--border); padding-top: 2px; margin-top: 2px; }
+
+  footer { text-align: center; padding: 16px; font-size: .7rem; color: var(--text-sub); border-top: 1px solid var(--border); }
+
+  @media (max-width: 480px) {
+    .score-grid, .code-grid, .z-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>MDland LMHC 操作指南</h1>
+    <span>Rendr / EMG · 账单与文档流程</span>
+  </div>
+  <div class="emg-badge">EMG 百康醫療</div>
+</header>
+
+<div class="session-bar">
+  <label>就诊类型：</label>
+  <div class="toggle-group">
+    <button class="tog-btn active" onclick="setSession('intake',this)">初诊 Intake</button>
+    <button class="tog-btn" onclick="setSession('regular',this)">复诊 Regular</button>
+  </div>
+</div>
+
+<main id="mainContent">
+
+  <!-- STEP 1 -->
+  <div class="step-card open" id="step1">
+    <div class="step-header" onclick="toggleStep('step1')">
+      <div class="step-num">1</div>
+      <div class="step-title">建立就诊 Build &amp; Check-In <span class="step-sub">开始接诊</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="step-body">
+      <div class="variant intake-only">
+        <div class="inst-row">
+          <div class="inst-icon icon-click">🖱</div>
+          <div class="inst-text">在患者档案点击 <strong>Build</strong></div>
+        </div>
+        <div class="inst-row">
+          <div class="inst-icon icon-pick">✔</div>
+          <div class="inst-text">选择就诊类型：<strong>Intake</strong>，时长 <strong>60 分钟</strong><span class="tag tag-green">90791</span></div>
+        </div>
+        <div class="inst-row">
+          <div class="inst-icon icon-click">🖱</div>
+          <div class="inst-text">点击 <strong>Check-In</strong>，激活本次就诊</div>
+        </div>
+      </div>
+      <div class="variant regular-only">
+        <div class="inst-row">
+          <div class="inst-icon icon-click">🖱</div>
+          <div class="inst-text">在患者档案点击 <strong>Build</strong></div>
+        </div>
+        <div class="inst-row">
+          <div class="inst-icon icon-pick">✔</div>
+          <div class="inst-text">选择 <strong>Psychotherapy</strong>，时长 <strong>45 分钟</strong><span class="tag tag-green">90834</span></div>
+        </div>
+        <div class="inst-row">
+          <div class="inst-icon icon-click">🖱</div>
+          <div class="inst-text">点击 <strong>Check-In</strong>，激活本次就诊</div>
+        </div>
+        <div class="inst-row">
+          <div class="inst-icon icon-note">ℹ</div>
+          <div class="inst-text">若 30 分钟短疗程改选 <strong>90832</strong>；周末/非工作时间额外加 <strong>99051</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-card open" id="step2">
+    <div class="step-header" onclick="toggleStep('step2')">
+      <div class="step-num">2</div>
+      <div class="step-title">主诉 Chief Complaint <span class="step-sub">选模板</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="step-body">
+      <div class="inst-row">
+        <div class="inst-icon icon-pick">✔</div>
+        <div class="inst-text">
+          点击 <strong>Chief Complaint</strong> 区域 → 选择模板：<br>
+          → <strong>Chief Complaint Adult</strong>（大多数成人患者）<br>
+          → <strong>Other</strong>（儿童 / 特殊情况）
+        </div>
+      </div>
+      <div class="inst-row">
+        <div class="inst-icon icon-click">🖱</div>
+        <div class="inst-text">用自己的话填写患者的主要来诊原因</div>
+      </div>
+      <div class="ps-box">
+        📹 <strong>PS — 远程就诊（Tele）：</strong><br>
+        如果是 Tele 就诊，在 Chief Complaint 额外选择 <strong>"Tele Audio-Video"</strong> 模板，记录远程就诊方式。电话账单用 <em>99442</em>（11–20 分钟），视频用 <em>90834 + GT modifier</em>。
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step-card open" id="step3">
+    <div class="step-header" onclick="toggleStep('step3')">
+      <div class="step-num">3</div>
+      <div class="step-title">风险筛查 Risk Screening <span class="step-sub">PHQ-9 · GAD-7 · 情绪</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="step-body">
+      <div class="inst-row">
+        <div class="inst-icon icon-pick">✔</div>
+        <div class="inst-text">
+          进入 <strong>Risk Screening</strong> 区域，添加以下量表：<br>
+          • <strong>PHQ-9</strong> — 抑郁筛查<br>
+          • <strong>GAD-7</strong> — 焦虑筛查<br>
+          • <strong>Rapid Mood Screener</strong> — 双相筛查
+        </div>
+      </div>
+      <div class="inst-row">
+        <div class="inst-icon icon-note">⚠</div>
+        <div class="inst-text">
+          若患者有 SI → 危机账单：<strong>90839 + 90840</strong>（30 分钟附加）<br>
+          若 Non-SI → 诊断栏记录 <strong>R45.88</strong>，note 聚焦于处理身体不适的<em>问题解决策略</em>
+        </div>
+      </div>
+      <div class="score-grid">
+        <div class="score-block">
+          <div class="score-block-title">PHQ-9 分级</div>
+          <div class="score-row"><span class="sev-0">无/极轻微</span><span class="sev-0">0–4</span></div>
+          <div class="score-row"><span class="sev-1">轻度</span><span class="sev-1">5–9</span></div>
+          <div class="score-row"><span class="sev-2">中度</span><span class="sev-2">10–14</span></div>
+          <div class="score-row"><span class="sev-3">中重度</span><span class="sev-3">15–19</span></div>
+          <div class="score-row"><span class="sev-4">重度</span><span class="sev-4">20–27</span></div>
+        </div>
+        <div class="score-block">
+          <div class="score-block-title">GAD-7 分级</div>
+          <div class="score-row"><span class="sev-0">极轻微</span><span class="sev-0">1–4</span></div>
+          <div class="score-row"><span class="sev-1">轻度</span><span class="sev-1">5–9</span></div>
+          <div class="score-row"><span class="sev-2">中度</span><span class="sev-2">10–14</span></div>
+          <div class="score-row"><span class="sev-3">重度</span><span class="sev-3">15–21</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step-card open" id="step4">
+    <div class="step-header" onclick="toggleStep('step4')">
+      <div class="step-num">4</div>
+      <div class="step-title">评估 Assessment <span class="step-sub">模板 + 督导签字</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="step-body">
+      <div class="variant intake-only">
+        <div class="inst-row">
+          <div class="inst-icon icon-pick">✔</div>
+          <div class="inst-text">点击 <strong>Assessment</strong> → 选择模板：<strong>Intake Assessment</strong></div>
+        </div>
+        <div class="inst-row">
+          <div class="inst-icon icon-note">ℹ</div>
+          <div class="inst-text">填写呈现问题、病史、MSE 精神状态检查、诊断、治疗计划</div>
+        </div>
+      </div>
+      <div class="variant regular-only">
+        <div class="inst-row">
+          <div class="inst-icon icon-pick">✔</div>
+          <div class="inst-text">点击 <strong>Assessment</strong> → 选择模板：<strong>Psychotherapy Adult</strong></div>
+        </div>
+        <div class="inst-row">
+          <div class="inst-icon icon-pick">✔</div>
+          <div class="inst-text">同时添加：<strong>Supervisor Attestation</strong> 模板（LMHC 督导签字必填）</div>
+        </div>
+        <div class="inst-row">
+          <div class="inst-icon icon-note">ℹ</div>
+          <div class="inst-text">记录本次干预手段、患者反应、更新治疗计划</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step-card open" id="step5">
+    <div class="step-header" onclick="toggleStep('step5')">
+      <div class="step-num">5</div>
+      <div class="step-title">结束就诊 Check-Out <span class="step-sub">提交关闭</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="step-body">
+      <div class="inst-row">
+        <div class="inst-icon icon-click">🖱</div>
+        <div class="inst-text">确认 <strong>诊断码（Dx）</strong> 已选择正确</div>
+      </div>
+      <div class="inst-row">
+        <div class="inst-icon icon-click">🖱</div>
+        <div class="inst-text">核对 <strong>CPT 账单码</strong> 与就诊类型及时长匹配</div>
+      </div>
+      <div class="inst-row">
+        <div class="inst-icon icon-pick">✔</div>
+        <div class="inst-text">点击 <strong>Check-Out</strong> → 确认提交就诊记录</div>
+      </div>
+      <div class="inst-row">
+        <div class="inst-icon icon-note">ℹ</div>
+        <div class="inst-text">如有 Supervisor Attestation，Note 会自动路由至督导等待联署</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SUGGESTIONS (RED) -->
+  <!-- ═══════════════════════════════════════════ -->
+
+  <div style="margin: 20px 0 8px; font-family: var(--font-serif); font-size: .85rem; font-weight: 700; color: var(--suggest); border-bottom: 2px solid var(--suggest-border); padding-bottom: 6px;">
+    💡 建议补充 — Suggested Items to Add
+    <span style="font-family: var(--font-sans); font-size: .68rem; font-weight: 400; color: #c06060; margin-left: 6px;">以下是你目前流程里可能漏掉的临床步骤</span>
+  </div>
+
+  <!-- SUGGEST A: Treatment Plan -->
+  <div class="suggest-card open" id="sug1">
+    <div class="suggest-header" onclick="toggleStep('sug1')">
+      <div class="suggest-badge">建议 A</div>
+      <div class="suggest-title">治疗计划 Treatment Plan <span class="suggest-sub">初诊后必须完成</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="suggest-body">
+      <div class="suggest-row">
+        <div class="suggest-icon">📋</div>
+        <div class="suggest-text">
+          <strong>初诊结束后需在规定时间内（通常 30 天内）单独完成 Treatment Plan。</strong><br>
+          <span>MDland 里找 Treatment Plan 模板，填写：Problem List · Goals · Objectives · Interventions · Target Dates。这是 Medicaid / insurance 审计必查项目，漏做会影响报销。</span>
+        </div>
+      </div>
+      <div class="suggest-row">
+        <div class="suggest-icon">🔄</div>
+        <div class="suggest-text">
+          <strong>复诊每 90 天需 Treatment Plan Review（更新目标进度）。</strong><br>
+          <span>在 MDland 找 Treatment Plan Update 或 Review 模板完成，需督导共同签署。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUGGEST B: Consent & Safety Plan -->
+  <div class="suggest-card" id="sug2">
+    <div class="suggest-header" onclick="toggleStep('sug2')">
+      <div class="suggest-badge">建议 B</div>
+      <div class="suggest-title">知情同意 &amp; 安全计划 <span class="suggest-sub">Consent / Safety Plan</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="suggest-body">
+      <div class="suggest-row">
+        <div class="suggest-icon">📝</div>
+        <div class="suggest-text">
+          <strong>初诊时确认 Consent for Treatment 已在 MDland 签署并记录。</strong><br>
+          <span>包含 HIPAA Notice、Informed Consent、Release of Information (ROI)。缺少这些文件，保险公司可以拒付。</span>
+        </div>
+      </div>
+      <div class="suggest-row">
+        <div class="suggest-icon">🚨</div>
+        <div class="suggest-text">
+          <strong>若 Risk Screening 出现任何 SI/HI → 必须完成 Safety Plan 并上传至 MDland。</strong><br>
+          <span>Stanley-Brown Safety Planning 是标准模板。Note 里注明"Safety Plan completed and reviewed with patient"。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUGGEST C: No-Show / Late Cancel -->
+  <div class="suggest-card" id="sug3">
+    <div class="suggest-header" onclick="toggleStep('sug3')">
+      <div class="suggest-badge">建议 C</div>
+      <div class="suggest-title">No-Show / Late Cancel 记录 <span class="suggest-sub">不能不记</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="suggest-body">
+      <div class="suggest-row">
+        <div class="suggest-icon">📵</div>
+        <div class="suggest-text">
+          <strong>患者未出席或临时取消，需在 MDland 记录 No-Show / Late Cancellation。</strong><br>
+          <span>在 Build 里选 No-Show 类型，简短写明联系尝试（attempted contact via phone x1）。这保护你的执照，也是监管要求。连续 3 次 No-Show 需要评估患者 engagement，必要时启动 discharge 流程。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUGGEST D: Coordination of Care -->
+  <div class="suggest-card" id="sug4">
+    <div class="suggest-header" onclick="toggleStep('sug4')">
+      <div class="suggest-badge">建议 D</div>
+      <div class="suggest-title">跨科协作记录 Coordination of Care <span class="suggest-sub">与医生、精神科沟通</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="suggest-body">
+      <div class="suggest-row">
+        <div class="suggest-icon">🤝</div>
+        <div class="suggest-text">
+          <strong>Rendr 是 multi-specialty 机构，LMHC 经常需要与 PCP 或精神科医生沟通。</strong><br>
+          <span>每次与其他科室医生的沟通（phone call、message、referral）都应该在 MDland 添加一个 Coordination of Care note。不需要账单码，但是是临床记录的一部分，保护你。</span>
+        </div>
+      </div>
+      <div class="suggest-row">
+        <div class="suggest-icon">💊</div>
+        <div class="suggest-text">
+          <strong>患者转介精神科开药后，需跟进并记录 medication coordination。</strong><br>
+          <span>在 note 里写明："Patient currently prescribed [medication] by Dr. X, coordination ongoing re: response and side effects."</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUGGEST E: Group Therapy -->
+  <div class="suggest-card" id="sug5">
+    <div class="suggest-header" onclick="toggleStep('sug5')">
+      <div class="suggest-badge">建议 E</div>
+      <div class="suggest-title">团体治疗账单 Group Therapy <span class="suggest-sub">90853</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="suggest-body">
+      <div class="suggest-row">
+        <div class="suggest-icon">👥</div>
+        <div class="suggest-text">
+          <strong>如果你带 Group，账单码是 <em>90853</em>（Group psychotherapy），每位参与患者各开一张账单。</strong><br>
+          <span>MDland 里为每位 group 成员分别 Build → Check-In → 选 Group Psychotherapy。Note 可以是同一个 group note 内容，但每人需要单独的 encounter。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUGGEST F: Cultural Formulation -->
+  <div class="suggest-card" id="sug6">
+    <div class="suggest-header" onclick="toggleStep('sug6')">
+      <div class="suggest-badge">建议 F</div>
+      <div class="suggest-title">文化因素记录 Cultural Formulation <span class="suggest-sub">Rendr 特有需求</span></div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="suggest-body">
+      <div class="suggest-row">
+        <div class="suggest-icon">🌏</div>
+        <div class="suggest-text">
+          <strong>Rendr 服务华裔社区，Intake Assessment 里应记录语言偏好、文化背景对心理健康观念的影响。</strong><br>
+          <span>例如：patient minimizes emotional distress due to cultural stigma; prefers to present somatic symptoms. 这些记录帮助 justify 治疗方向，也保护你的临床决策。</span>
+        </div>
+      </div>
+      <div class="suggest-row">
+        <div class="suggest-icon">🗣</div>
+        <div class="suggest-text">
+          <strong>如果用中文（普通话/广东话）进行治疗，在 Note 里注明 "session conducted in Mandarin/Cantonese"。</strong><br>
+          <span>部分保险需要这个记录来 justify language-appropriate care。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- QUICK REFERENCE -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="ref-section">
+    <div class="ref-title">📋 快速参考 Quick Reference</div>
+    <div class="ref-tabs">
+      <button class="ref-tab active" onclick="showRef('billing',this)">账单码 Billing</button>
+      <button class="ref-tab" onclick="showRef('dx',this)">诊断码 Dx</button>
+      <button class="ref-tab" onclick="showRef('zcodes',this)">Z-Codes</button>
+    </div>
+
+    <!-- BILLING -->
+    <div class="ref-panel active" id="ref-billing">
+      <div class="code-grid">
+        <div class="code-item">
+          <div class="code">90791</div>
+          <div class="desc-zh">初诊精神评估，60 分钟</div>
+          <div class="desc-en">Psychiatric diagnostic eval — Intake, 60 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90834</div>
+          <div class="desc-zh">心理治疗，45 分钟</div>
+          <div class="desc-en">Psychotherapy 45 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90832</div>
+          <div class="desc-zh">心理治疗，30 分钟</div>
+          <div class="desc-en">Psychotherapy 30 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90839</div>
+          <div class="desc-zh">危机心理治疗，前 60 分钟</div>
+          <div class="desc-en">Crisis psychotherapy — first 60 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90840</div>
+          <div class="desc-zh">危机附加，每增加 30 分钟</div>
+          <div class="desc-en">Crisis add-on — each addl 30 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">99442</div>
+          <div class="desc-zh">电话就诊，11–20 分钟</div>
+          <div class="desc-en">Telephone 11–20 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90847</div>
+          <div class="desc-zh">家庭治疗（患者在场）</div>
+          <div class="desc-en">Family therapy w/ patient present</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90846</div>
+          <div class="desc-zh">家庭治疗（患者不在场）</div>
+          <div class="desc-en">Family therapy w/o patient</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90853</div>
+          <div class="desc-zh">团体心理治疗</div>
+          <div class="desc-en">Group psychotherapy</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90785</div>
+          <div class="desc-zh">互动复杂性附加码</div>
+          <div class="desc-en">Interactive complexity add-on</div>
+        </div>
+        <div class="code-item">
+          <div class="code">99051</div>
+          <div class="desc-zh">周末 / 非工作时间附加</div>
+          <div class="desc-en">Weekend / after-hours surcharge</div>
+        </div>
+        <div class="code-item">
+          <div class="code">R45.88</div>
+          <div class="desc-zh">非自杀性自伤意念，记入诊断栏</div>
+          <div class="desc-en">Non-SI — add to Dx section</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90837</div>
+          <div class="desc-zh">心理治疗，60 分钟</div>
+          <div class="desc-en">Psychotherapy 60 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90833</div>
+          <div class="desc-zh">心理治疗附加（+E&M）30 分钟</div>
+          <div class="desc-en">Psychotherapy add-on to E&M, 30 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90836</div>
+          <div class="desc-zh">心理治疗附加（+E&M）45 分钟</div>
+          <div class="desc-en">Psychotherapy add-on to E&M, 45 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90838</div>
+          <div class="desc-zh">心理治疗附加（+E&M）60 分钟</div>
+          <div class="desc-en">Psychotherapy add-on to E&M, 60 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">99441</div>
+          <div class="desc-zh">电话就诊，5–10 分钟</div>
+          <div class="desc-en">Telephone 5–10 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">99443</div>
+          <div class="desc-zh">电话就诊，21–30 分钟</div>
+          <div class="desc-en">Telephone 21–30 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">98966</div>
+          <div class="desc-zh">非医生电话，5–10 分钟（LMHC 适用）</div>
+          <div class="desc-en">Non-physician phone 5–10 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">98967</div>
+          <div class="desc-zh">非医生电话，11–20 分钟（LMHC 适用）</div>
+          <div class="desc-en">Non-physician phone 11–20 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">98968</div>
+          <div class="desc-zh">非医生电话，21–30 分钟（LMHC 适用）</div>
+          <div class="desc-en">Non-physician phone 21–30 min</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90887</div>
+          <div class="desc-zh">向家属解释精神科治疗计划</div>
+          <div class="desc-en">Explanation of psychiatric tx to family/significant other</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90882</div>
+          <div class="desc-zh">患者环境干预（联系学校/雇主等）</div>
+          <div class="desc-en">Environmental intervention for psychiatric patient</div>
+        </div>
+        <div class="code-item">
+          <div class="code">H2019</div>
+          <div class="desc-zh">行为健康咨询，每 15 分钟（Medicaid）</div>
+          <div class="desc-en">Therapeutic behavioral services, per 15 min (Medicaid)</div>
+        </div>
+        <div class="code-item">
+          <div class="code">99484</div>
+          <div class="desc-zh">行为健康协作照护管理，20 分钟/月</div>
+          <div class="desc-en">Collaborative care management, behavioral health, 20 min/mo</div>
+        </div>
+        <div class="code-item">
+          <div class="code">90889</div>
+          <div class="desc-zh">为第三方撰写精神科报告</div>
+          <div class="desc-en">Preparation of report for non-treating provider/agency</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DX -->
+    <div class="ref-panel" id="ref-dx">
+      <div class="dx-search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="dx-search" type="text" id="dxSearch" placeholder="搜索 / Search diagnosis..." oninput="filterDx()">
+      </div>
+      <table class="dx-table" id="dxTable">
+        <thead><tr><th>ICD-10</th><th>诊断 / Diagnosis</th></tr></thead>
+        <tbody id="dxBody">
+          <tr><td class="dx-code">F33.1</td><td><span class="dx-zh">重度抑郁症，中度</span><span class="dx-en">MDD, moderate</span></td></tr>
+          <tr><td class="dx-code">F32.89</td><td><span class="dx-zh">其他特定抑郁发作</span><span class="dx-en">Other specified depressive episode</span></td></tr>
+          <tr><td class="dx-code">F41.1</td><td><span class="dx-zh">广泛性焦虑症</span><span class="dx-en">GAD — Generalized Anxiety Disorder</span></td></tr>
+          <tr><td class="dx-code">F34.1</td><td><span class="dx-zh">持续性抑郁障碍</span><span class="dx-en">Dysthymic disorder (Persistent Depressive)</span></td></tr>
+          <tr><td class="dx-code">F43.23</td><td><span class="dx-zh">适应障碍（焦虑型）</span><span class="dx-en">Adjustment disorder w/ anxiety</span></td></tr>
+          <tr><td class="dx-code">F43.12</td><td><span class="dx-zh">创伤后应激障碍，慢性</span><span class="dx-en">PTSD, chronic</span></td></tr>
+          <tr><td class="dx-code">F43.11</td><td><span class="dx-zh">创伤后应激障碍，急性</span><span class="dx-en">PTSD, acute</span></td></tr>
+          <tr><td class="dx-code">F43.0</td><td><span class="dx-zh">急性应激反应</span><span class="dx-en">Acute stress reaction</span></td></tr>
+          <tr><td class="dx-code">F31.62</td><td><span class="dx-zh">双相一型，当前抑郁中度</span><span class="dx-en">Bipolar I, current episode depressed, moderate</span></td></tr>
+          <tr><td class="dx-code">F31.81</td><td><span class="dx-zh">双相二型</span><span class="dx-en">Bipolar II disorder</span></td></tr>
+          <tr><td class="dx-code">F20.9</td><td><span class="dx-zh">精神分裂症，未分型</span><span class="dx-en">Schizophrenia, unspecified</span></td></tr>
+          <tr><td class="dx-code">F90.9</td><td><span class="dx-zh">注意力缺陷多动，未分型</span><span class="dx-en">ADHD, unspecified</span></td></tr>
+          <tr><td class="dx-code">F60.3</td><td><span class="dx-zh">边缘型人格障碍</span><span class="dx-en">Borderline Personality Disorder (BPD)</span></td></tr>
+          <tr><td class="dx-code">F42.9</td><td><span class="dx-zh">强迫症，未分型</span><span class="dx-en">OCD, unspecified</span></td></tr>
+          <tr><td class="dx-code">F40.228</td><td><span class="dx-zh">特定自然环境型恐惧症</span><span class="dx-en">Other natural environment type phobia</span></td></tr>
+          <tr><td class="dx-code">G47.00</td><td><span class="dx-zh">失眠症，未分型</span><span class="dx-en">Insomnia, unspecified</span></td></tr>
+          <tr><td class="dx-code">G31.84</td><td><span class="dx-zh">轻度认知障碍</span><span class="dx-en">Mild cognitive impairment (MCI)</span></td></tr>
+          <tr><td class="dx-code">G30.1</td><td><span class="dx-zh">阿尔茨海默症，晚发型</span><span class="dx-en">Alzheimer's disease, late onset</span></td></tr>
+          <tr><td class="dx-code">F02.A18</td><td><span class="dx-zh">其他疾病所致痴呆</span><span class="dx-en">Dementia in other diseases classified elsewhere</span></td></tr>
+          <tr><td class="dx-code">F01.A18</td><td><span class="dx-zh">血管性痴呆</span><span class="dx-en">Vascular dementia</span></td></tr>
+          <tr><td class="dx-code">Z63.0</td><td><span class="dx-zh">伴侣关系问题</span><span class="dx-en">Problems w/ partner relationship</span></td></tr>
+          <tr><td class="dx-code">R45.88</td><td><span class="dx-zh">非自杀性自伤意念</span><span class="dx-en">Non-suicidal self-harm ideation (Non-SI)</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Z-CODES -->
+    <div class="ref-panel" id="ref-zcodes">
+      <div class="z-grid">
+        <div class="z-item">
+          <div class="z-code">Z36</div>
+          <div class="z-zh">残疾所致活动受限</div>
+          <div class="z-en">Limitation of activities due to disability</div>
+        </div>
+        <div class="z-item">
+          <div class="z-code">R62.0</div>
+          <div class="z-zh">儿童期发育迟缓</div>
+          <div class="z-en">Delayed milestone in childhood</div>
+        </div>
+        <div class="z-item">
+          <div class="z-code">Z73.2</div>
+          <div class="z-zh">缺乏休闲与放松</div>
+          <div class="z-en">Lack of leisure and relaxation</div>
+        </div>
+        <div class="z-item">
+          <div class="z-code">Z62.29</div>
+          <div class="z-zh">幼年离开父母抚养</div>
+          <div class="z-en">Other upbringing away from parents</div>
+        </div>
+        <div class="z-item">
+          <div class="z-code">Z56.0</div>
+          <div class="z-zh">失业，未分型</div>
+          <div class="z-en">Unemployment, unspecified</div>
+        </div>
+        <div class="z-item">
+          <div class="z-code">Z73.9</div>
+          <div class="z-zh">生活管理相关问题</div>
+          <div class="z-en">Problem related to life management</div>
+        </div>
+        <div class="z-item">
+          <div class="z-code">Z63.0</div>
+          <div class="z-zh">伴侣关系问题</div>
+          <div class="z-en">Problems w/ partner relationship</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>MDland LMHC 操作指南 · Rendr / EMG · 仅供内部临床学习使用</footer>
+
+<script>
+function setSession(type, btn) {
+  document.querySelectorAll('.tog-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const main = document.getElementById('mainContent');
+  if (type === 'regular') {
+    main.classList.add('show-regular');
+    document.querySelectorAll('.variant.regular-only').forEach(el => el.style.display = 'block');
+    document.querySelectorAll('.variant.intake-only').forEach(el => el.style.display = 'none');
+  } else {
+    main.classList.remove('show-regular');
+    document.querySelectorAll('.variant.regular-only').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.variant.intake-only').forEach(el => el.style.display = 'block');
+  }
+}
+function toggleStep(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+function showRef(panel, btn) {
+  document.querySelectorAll('.ref-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ref-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('ref-' + panel).classList.add('active');
+  btn.classList.add('active');
+}
+function filterDx() {
+  const q = document.getElementById('dxSearch').value.toLowerCase();
+  document.querySelectorAll('#dxBody tr').forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
