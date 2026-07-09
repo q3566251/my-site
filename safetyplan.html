@@ -121,8 +121,9 @@
 
   <nav class="toc noprint">
     <a href="#sec-a">A. Current SI</a>
-    <a href="#sec-b">B. History</a>
-    <a href="#sec-c">C. Risk/Protective</a>
+    <a href="#sec-b">B. High-Risk Follow-up</a>
+    <a href="#sec-c">C. History</a>
+    <a href="#sec-d">D. Risk/Protective</a>
     <a href="#sec-sp">Safety Plan</a>
     <a href="#sec-summary">汇总 & 下载</a>
   </nav>
@@ -164,9 +165,21 @@ function renderAll(){
   </div>`));
 
   c.appendChild(el(`<div class="card" id="sec-b">
-    <h2>B. History（Lifetime + Recent）</h2>
+    <h2>B. High-Risk Follow-up（风险容纳 Risk Containment）</h2>
+    <div class="sub">Past month SI with intent（C-SSRS #4）通常属于 high risk triage：建议启动 psychiatric admission / emergency evaluation，并 stay with patient until transfer 完成。当下不是"治疗"，而是 risk containment——立刻补以下 6 题：</div>
+    ${q('hr_intent_scale','1) 冲动强度 Intent scale','0–10，你现在想执行的冲动是多少？On a 0–10 scale, how strong is the urge to act right now?',null)}
+    ${q('hr_plan_probe','2) 追问 Plan（为什么没有 / 是否隐瞒）','你说现在没有 plan，但之前有时候有 plan。之前的 plan 是什么？现在还可行吗？Is there really no plan, or is it unspoken?',null)}
+    ${q('hr_access_means','3) 手段可及性 Access to Means','药 / 刀 / 绳 / 车 / 高处 / 枪 / 大量药物 / 地铁站 / 桥 — 目前是否可及？',null)}
+    ${q('hr_prep_behavior','4) 预备行为 Preparatory Behavior','有没有查方法、写遗书、整理财物、囤药、去过地点、发 goodbye message？',null)}
+    ${q('hr_safety_next_contact','5) 能否安全撑到下次联系 Safe Until Next Contact','如果今天冲动上来，你能不能先用 safety plan、联系某个人、远离 means？',null)}
+    ${q('hr_reduce_access_now','6) 现在能否降低手段可及性 Reduce Means Access Now','今天谁可以帮你拿走/锁起来这些东西？',null)}
+  </div>`));
+
+  c.appendChild(el(`<div class="card" id="sec-c">
+    <h2>C. History（Lifetime + Recent）</h2>
     <div class="sub">不要只问"有没有自杀过"——要问最严重的一次、attempt 类型、为什么没做、强度</div>
-    ${q('hist_worst','1) 最严重的一次发作 Worst episode','What was the closest you ever came to killing yourself? At that time, was it just thoughts, or did you intend to act?',null)}
+    ${q('hist_onset','1a) 最初起病时间 Onset','When did these thoughts first start? How long has this been part of your life?',null)}
+    ${q('hist_worst','1b) 最严重的一次发作 Worst episode','What was the closest you ever came to killing yourself? At that time, was it just thoughts, or did you intend to act?',null)}
     ${q('hist_attempt','2) 既往尝试类型 Attempt 类型','Have you ever tried to kill yourself? Did you ever begin or prepare to act, then stop yourself?',['无 Attempt/预备行为','Aborted/Interrupted','Actual Attempt'])}
     ${q('hist_deterrent','3) 为什么没有做 Deterrents','What stopped you from acting on it? Do those reasons still stop you now?',null)}
     ${q('hist_intensity','4) 强度 Intensity（频率/持续/可控性）','How often do these thoughts happen? How long do they last? Can you control or redirect them?',null)}
@@ -177,8 +190,8 @@ function renderAll(){
     "社会孤立、近期丧失、法律/财务/关系压力","可及致命手段（药物/枪支/刀/绳/车/高处）","治疗依从性差 / 停药 / 错过精神科随访","无法或拒绝同意 safety plan"];
   const protItems = ["子女/家人/伴侣/宠物/工作/学业","害怕死亡或疼痛","宗教/道德信仰","治疗联盟","即将到来的预约",
     "愿意寻求支持/打电话","愿意限制手段可及性","能识别应对技能","患者自述的 reasons for living"];
-  c.appendChild(el(`<div class="card" id="sec-c">
-    <h2>C. Risk / Protective Factors</h2>
+  c.appendChild(el(`<div class="card" id="sec-d">
+    <h2>D. Risk / Protective Factors</h2>
     <div class="sub">勾选适用项，供整体临床判断参考</div>
     <div style="margin-bottom:16px;"><strong>Risk Factors 风险因素</strong>
     <div class="checkgrid">${riskItems.map(t=>`<label><input type="checkbox" data-cat="risk" value="${t}">${t}</label>`).join('')}</div>
@@ -198,13 +211,31 @@ function renderAll(){
 
   c.appendChild(el(`<div class="card" id="sec-sp">
     <h2>Safety Plan · Stanley-Brown 7 Steps</h2>
-    ${q('sp1','Step 1 — 预警信号 Warning Signs','How do you know the crisis is starting? What thoughts, feelings, behaviors show up first?',null)}
-    ${q('sp2','Step 2 — 内在应对 Internal Coping','What can you do by yourself for 10–30 min to let the urge pass?',null)}
-    ${q('sp3','Step 3 — 社交转移 Social Distraction','Where can you go or who can you be around so you are not alone?',null)}
-    ${q('sp4','Step 4 — 求助支持 Help-Seeking Support','Who can you tell directly if SI gets stronger? What exact words can you use?',null)}
-    ${q('sp5','Step 5 — 专业/危机资源 Professional / Crisis Resources','Therapist / psychiatrist / agency crisis line / 988 / 911 / ER',null)}
-    ${q('sp6','Step 6 — 安全环境/限制手段 Safe Environment / Means Restriction','What could you use to hurt yourself? Who can hold or lock these away?',null)}
-    ${q('sp7','Step 7 — 生存理由 Reasons for Living','What is one reason to stay alive today? Who/what would be affected if you died?',null)}
+    ${q('sp1','Step 1 — 预警信号 Warning Signs','How do you know the crisis is starting? What thoughts, feelings, behaviors show up first?<br>你怎么知道危机开始了？最先出现的想法、情绪、行为是什么？',null)}
+    ${q('sp2','Step 2 — 内在应对 Internal Coping','What can you do by yourself for 10–30 min to let the urge pass?<br>你自己可以做什么，撑过10–30分钟让冲动过去？',null)}
+    ${q('sp3','Step 3 — 社交转移 Social Distraction','Where can you go or who can you be around so you are not alone?<br>你可以去哪里，或者和谁在一起，让自己不孤单？',null)}
+    ${q('sp4','Step 4 — 求助支持 Help-Seeking Support','Who can you tell directly if SI gets stronger? What exact words can you use?<br>如果自杀意念变强，你可以直接告诉谁？你会用什么原话？',null)}
+    <div class="qblock">
+      <div class="qtext">紧急联系人 Emergency Contact</div>
+      <div class="prompt">"Who is your emergency contact if we cannot reach you or things escalate?<br>是否需要经常联系家属？谁是你的紧急联系人？"</div>
+      <div class="custom-row">
+        <input type="text" id="sp4_name" placeholder="姓名 Name">
+        <input type="text" id="sp4_relation" placeholder="关系 Relationship">
+        <input type="text" id="sp4_phone" placeholder="电话 Phone">
+      </div>
+    </div>
+    ${q('sp5','Step 5 — 专业/危机资源 Professional / Crisis Resources','Therapist / psychiatrist / agency crisis line / 988 / 911 / ER<br>治疗师 / 精神科医生 / 机构危机热线 / 988 / 911 / 急诊',null)}
+    ${q('sp6','Step 6 — 安全环境/限制手段 Safe Environment / Means Restriction','What could you use to hurt yourself? Who can hold or lock these away?<br>你可能会用什么伤害自己？谁可以帮你收好或锁起来？',null)}
+    ${q('sp7','Step 7 — 生存理由 Reasons for Living','What is one reason to stay alive today? Who/what would be affected if you died?<br>今天活下去的一个理由是什么？如果你不在了，谁/什么会受影响？',null)}
+    <div class="qblock">
+      <div class="qtext">随访安排 Follow-up Plan</div>
+      <div class="prompt">"When is your next session? How often should we check in? Do you need a psychiatry follow-up?<br>下次预约是什么时候？多久联系一次？是否需要精神科随访？"</div>
+      <div class="custom-row">
+        <input type="text" id="sp7_next_session" placeholder="Next session date 下次预约日期">
+        <input type="text" id="sp7_checkin_freq" placeholder="Check-in frequency 联系频率">
+        <input type="text" id="sp7_psych_followup" placeholder="Psychiatry follow-up 精神科随访">
+      </div>
+    </div>
   </div>`));
 
   c.appendChild(el(`<div class="card" id="sec-summary">
@@ -264,13 +295,22 @@ Method: ${radioVal('cur_method_r')} — ${val('cur_method')}
 Intent: ${radioVal('cur_intent_r')} — ${val('cur_intent')}
 Plan: ${radioVal('cur_plan_r')} — ${val('cur_plan')}
 
-── B. HISTORY ──
+── B. HIGH-RISK FOLLOW-UP (Risk Containment) ──
+Intent scale (0-10): ${val('hr_intent_scale')}
+Plan probe: ${val('hr_plan_probe')}
+Access to means: ${val('hr_access_means')}
+Preparatory behavior: ${val('hr_prep_behavior')}
+Safe until next contact: ${val('hr_safety_next_contact')}
+Reduce means access now: ${val('hr_reduce_access_now')}
+
+── C. HISTORY ──
+Onset: ${val('hist_onset')}
 Worst episode: ${val('hist_worst')}
 Attempt history: ${radioVal('hist_attempt_r')} — ${val('hist_attempt')}
 Deterrents: ${val('hist_deterrent')}
 Intensity (freq/duration/control): ${val('hist_intensity')}
 
-── C. RISK / PROTECTIVE FACTORS ──
+── D. RISK / PROTECTIVE FACTORS ──
 Risk factors endorsed: ${riskFactors.length? riskFactors.join('; ') : '无勾选'}
 Protective factors endorsed: ${protFactors.length? protFactors.join('; ') : '无勾选'}
 Overall Acute Risk Level: ${risk}
@@ -280,9 +320,11 @@ Overall Acute Risk Level: ${risk}
 2. Internal coping: ${val('sp2')}
 3. Social distraction: ${val('sp3')}
 4. Help-seeking support: ${val('sp4')}
+   Emergency contact: ${val('sp4_name')} (${val('sp4_relation')}) — ${val('sp4_phone')}
 5. Professional / crisis resources: ${val('sp5')}
 6. Safe environment / means restriction: ${val('sp6')}
 7. Reasons for living: ${val('sp7')}
+   Follow-up plan — Next session: ${val('sp7_next_session')} | Check-in frequency: ${val('sp7_checkin_freq')} | Psychiatry follow-up: ${val('sp7_psych_followup')}
 
 ── PLAN ──
 Risk level ${risk}. Safety plan completed collaboratively. Continue outpatient therapy / consult psychiatry / notify supervisor / refer to higher level of care / emergency evaluation as clinically indicated.
