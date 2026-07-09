@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safety Plan 临床工作流程</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page-bg:#f7f1e8;
+    --soft-bg:#f2e7d9;
+    --card-bg:#fdf9f4;
+    --ink:#3a3229;
+    --ink-soft:#6b5f52;
+    --line:#e3d5c0;
+    --accent:#a9663f;
+    --accent-soft:#c98a5e;
+    --risk-low:#7a8f5c;
+    --risk-mod:#c98a3a;
+    --risk-high:#b3543f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--page-bg); color:var(--ink);
+    font-family:'Noto Sans SC',sans-serif; line-height:1.7;
+  }
+  h1,h2,h3,.serif{font-family:'Noto Serif SC',serif;}
+  .shell{max-width:920px; margin:0 auto; padding:40px 24px 100px;}
+  header.top{text-align:center; margin-bottom:12px;}
+  header.top h1{font-size:1.9rem; font-weight:700; margin:0 0 8px;}
+  header.top p{color:var(--ink-soft); margin:0; font-size:.95rem;}
+
+  nav.toc{
+    display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
+    margin:22px 0 34px; position:sticky; top:0; background:var(--page-bg);
+    padding:12px 0; z-index:10; border-bottom:1px solid var(--line);
+  }
+  nav.toc a{
+    color:var(--ink-soft); text-decoration:none; font-size:.82rem; padding:6px 14px;
+    border-radius:16px; background:var(--soft-bg); border:1px solid transparent;
+  }
+  nav.toc a:hover{border-color:var(--accent-soft); color:var(--accent);}
+
+  .card{
+    background:var(--card-bg); border:1px solid var(--line); border-radius:14px;
+    padding:28px 30px; margin-bottom:22px; box-shadow:0 2px 10px rgba(58,50,41,0.04); scroll-margin-top:70px;
+  }
+  .card h2{font-size:1.25rem; margin:0 0 4px; color:var(--accent);}
+  .card .sub{color:var(--ink-soft); font-size:.85rem; margin-bottom:18px;}
+
+  .qblock{margin-bottom:22px; padding-bottom:18px; border-bottom:1px dashed var(--line);}
+  .qblock:last-child{border-bottom:none; padding-bottom:0; margin-bottom:0;}
+  .qtext{font-weight:600; margin-bottom:8px; font-size:.98rem;}
+  .prompt{color:var(--ink-soft); font-size:.85rem; font-style:italic; margin-bottom:10px;}
+
+  .radiorow{display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap;}
+  .radiorow label{
+    background:var(--soft-bg); padding:7px 16px; border-radius:20px; font-size:.85rem;
+    cursor:pointer; border:1px solid transparent; user-select:none;
+  }
+  .radiorow input{display:none;}
+  .radiorow label:has(input:checked){background:var(--accent); color:#fff; font-weight:600;}
+
+  textarea, input[type=text]{
+    width:100%; border:1px solid var(--line); border-radius:8px; background:#fff;
+    padding:10px 12px; font-family:'Noto Sans SC',sans-serif; font-size:.9rem; color:var(--ink);
+    resize:vertical;
+  }
+  textarea{min-height:44px;}
+
+  .custom-row{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;}
+  .custom-row input{flex:1; min-width:160px; border:1px solid var(--line); border-radius:8px; background:#fff; padding:8px 10px; font-size:.85rem;}
+  .checkgrid{display:grid; grid-template-columns:1fr 1fr; gap:6px 16px;}
+  .checkgrid label{font-size:.85rem; display:flex; gap:8px; align-items:flex-start; cursor:pointer;}
+  .checkgrid input{margin-top:3px;}
+  @media(max-width:640px){.checkgrid{grid-template-columns:1fr;}}
+
+  .riskpicker{display:flex; gap:12px; margin-top:6px;}
+  .riskcard{flex:1; padding:14px; border-radius:10px; text-align:center; cursor:pointer; border:2px solid var(--line); font-size:.85rem; font-weight:600;}
+  .riskcard input{display:none;}
+  .riskcard.low{color:var(--risk-low);}
+  .riskcard.mod{color:var(--risk-mod);}
+  .riskcard.high{color:var(--risk-high);}
+  .riskcard:has(input:checked).low{border-color:var(--risk-low); background:#eef2e6;}
+  .riskcard:has(input:checked).mod{border-color:var(--risk-mod); background:#faf1e2;}
+  .riskcard:has(input:checked).high{border-color:var(--risk-high); background:#f7e9e5;}
+
+  #summaryCard .noteblock{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px;
+    font-size:.9rem; white-space:pre-wrap; line-height:1.8;
+  }
+  .summary-actions{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .badge{display:inline-block; padding:4px 14px; border-radius:16px; font-size:.8rem; font-weight:700; color:#fff;}
+  .badge.low{background:var(--risk-low);}
+  .badge.mod{background:var(--risk-mod);}
+  .badge.high{background:var(--risk-high);}
+  button{
+    font-family:'Noto Sans SC',sans-serif; border:none; border-radius:24px; padding:11px 26px;
+    font-size:.9rem; cursor:pointer; font-weight:600;
+  }
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:var(--accent-soft);}
+  .btn-ghost{background:transparent; color:var(--ink-soft); border:1px solid var(--line);}
+  .btn-ghost:hover{background:var(--soft-bg);}
+
+  @media print{
+    body{background:#fff;}
+    nav.toc, .summary-actions, .noprint{display:none !important;}
+    .card{box-shadow:none; border:1px solid #ccc; break-inside:avoid; position:static;}
+    .shell{max-width:100%; padding:10px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header class="top">
+    <h1>Safety Plan 临床工作流程</h1>
+    <p>Suicide Risk Assessment → Safety Plan → 自动生成 Note / Worksheet</p>
+  </header>
+
+  <nav class="toc noprint">
+    <a href="#sec-a">A. Current SI</a>
+    <a href="#sec-b">B. History</a>
+    <a href="#sec-c">C. Risk/Protective</a>
+    <a href="#sec-sp">Safety Plan</a>
+    <a href="#sec-summary">汇总 & 下载</a>
+  </nav>
+
+  <div id="content"></div>
+</div>
+
+<script>
+const state = {};
+
+function el(html){ const d=document.createElement('div'); d.innerHTML=html; return d.firstElementChild; }
+
+function radioRow(name, options){
+  return `<div class="radiorow">` + options.map(o=>
+    `<label><input type="radio" name="${name}" value="${o}"><span>${o}</span></label>`).join('') + `</div>`;
+}
+
+function q(id, label, prompt, opts){
+  return `<div class="qblock">
+    <div class="qtext">${label}</div>
+    <div class="prompt">"${prompt}"</div>
+    ${opts ? radioRow(id+'_r', opts) : ''}
+    <textarea id="${id}" placeholder="记录 / 补充细节…"></textarea>
+  </div>`;
+}
+
+function renderAll(){
+  const c = document.getElementById('content');
+  c.innerHTML = '';
+
+  c.appendChild(el(`<div class="card" id="sec-a">
+    <h2>A. Current SI（现在有没有想死）</h2>
+    <div class="sub">按顺序问：passive death wish → active SI → method → intent → plan</div>
+    ${q('cur_death_wish','1) 被动死亡意愿 Passive death wish','Have you wished you were dead or wished you could go to sleep and not wake up?',['Denied','Endorsed'])}
+    ${q('cur_active_si','2) 主动自杀意念 Active suicidal thought','Have you actually had thoughts of killing yourself?',['Denied','Endorsed'])}
+    ${q('cur_method','3) 方法 Method','Have you thought about how you might do it? / What method came to mind? / Is this available to you?',['无 Method','有 Method — 无 Access','有 Method — 有 Access'])}
+    ${q('cur_intent','4) 意图 Intent','When you had those thoughts, did any part of you intend to act on them? (0–10)',['无 Intent','部分 Intent','明确 Intent'])}
+    ${q('cur_plan','5) 计划 Plan','Have you worked out details about how, when, or where? Did you rehearse or prepare?',['无 Plan','有 Plan 细节'])}
+  </div>`));
+
+  c.appendChild(el(`<div class="card" id="sec-b">
+    <h2>B. History（Lifetime + Recent）</h2>
+    <div class="sub">不要只问"有没有自杀过"——要问最严重的一次、attempt 类型、为什么没做、强度</div>
+    ${q('hist_worst','1) 最严重的一次发作 Worst episode','What was the closest you ever came to killing yourself? At that time, was it just thoughts, or did you intend to act?',null)}
+    ${q('hist_attempt','2) 既往尝试类型 Attempt 类型','Have you ever tried to kill yourself? Did you ever begin or prepare to act, then stop yourself?',['无 Attempt/预备行为','Aborted/Interrupted','Actual Attempt'])}
+    ${q('hist_deterrent','3) 为什么没有做 Deterrents','What stopped you from acting on it? Do those reasons still stop you now?',null)}
+    ${q('hist_intensity','4) 强度 Intensity（频率/持续/可控性）','How often do these thoughts happen? How long do they last? Can you control or redirect them?',null)}
+  </div>`));
+
+  const riskItems = ["既往 attempt / aborted / preparatory behavior","当前 SI 伴 method/intent/plan","近期恶化的抑郁、绝望、无助、trapped 感",
+    "严重焦虑/激越、冲动、物质使用","精神病性症状 / command hallucination","创伤、哀伤、羞耻、perceived burden",
+    "社会孤立、近期丧失、法律/财务/关系压力","可及致命手段（药物/枪支/刀/绳/车/高处）","治疗依从性差 / 停药 / 错过精神科随访","无法或拒绝同意 safety plan"];
+  const protItems = ["子女/家人/伴侣/宠物/工作/学业","害怕死亡或疼痛","宗教/道德信仰","治疗联盟","即将到来的预约",
+    "愿意寻求支持/打电话","愿意限制手段可及性","能识别应对技能","患者自述的 reasons for living"];
+  c.appendChild(el(`<div class="card" id="sec-c">
+    <h2>C. Risk / Protective Factors</h2>
+    <div class="sub">勾选适用项，供整体临床判断参考</div>
+    <div style="margin-bottom:16px;"><strong>Risk Factors 风险因素</strong>
+    <div class="checkgrid">${riskItems.map(t=>`<label><input type="checkbox" data-cat="risk" value="${t}">${t}</label>`).join('')}</div>
+    <div class="custom-row">${[1,2,3].map(i=>`<input type="text" id="custom_risk_${i}" placeholder="其他 / Other…">`).join('')}</div></div>
+    <div style="margin-bottom:16px;"><strong>Protective Factors 保护因素</strong>
+    <div class="checkgrid">${protItems.map(t=>`<label><input type="checkbox" data-cat="prot" value="${t}">${t}</label>`).join('')}</div>
+    <div class="custom-row">${[1,2,3].map(i=>`<input type="text" id="custom_prot_${i}" placeholder="其他 / Other…">`).join('')}</div></div>
+    <div class="qblock">
+      <div class="qtext">整体 Acute Risk Level（临床判断）</div>
+      <div class="riskpicker">
+        <label class="riskcard low"><input type="radio" name="risklevel" value="Low"><div>Low<br><span style="font-weight:400;font-size:.75rem;">Safety plan + coping + follow-up</span></div></label>
+        <label class="riskcard mod"><input type="radio" name="risklevel" value="Moderate"><div>Moderate<br><span style="font-weight:400;font-size:.75rem;">+ 限制手段 + 会诊 + 提高频率</span></div></label>
+        <label class="riskcard high"><input type="radio" name="risklevel" value="High"><div>High<br><span style="font-weight:400;font-size:.75rem;">不可独处 + 上级/精神科/ER</span></div></label>
+      </div>
+    </div>
+  </div>`));
+
+  c.appendChild(el(`<div class="card" id="sec-sp">
+    <h2>Safety Plan · Stanley-Brown 7 Steps</h2>
+    ${q('sp1','Step 1 — 预警信号 Warning Signs','How do you know the crisis is starting? What thoughts, feelings, behaviors show up first?',null)}
+    ${q('sp2','Step 2 — 内在应对 Internal Coping','What can you do by yourself for 10–30 min to let the urge pass?',null)}
+    ${q('sp3','Step 3 — 社交转移 Social Distraction','Where can you go or who can you be around so you are not alone?',null)}
+    ${q('sp4','Step 4 — 求助支持 Help-Seeking Support','Who can you tell directly if SI gets stronger? What exact words can you use?',null)}
+    ${q('sp5','Step 5 — 专业/危机资源 Professional / Crisis Resources','Therapist / psychiatrist / agency crisis line / 988 / 911 / ER',null)}
+    ${q('sp6','Step 6 — 安全环境/限制手段 Safe Environment / Means Restriction','What could you use to hurt yourself? Who can hold or lock these away?',null)}
+    ${q('sp7','Step 7 — 生存理由 Reasons for Living','What is one reason to stay alive today? Who/what would be affected if you died?',null)}
+  </div>`));
+
+  c.appendChild(el(`<div class="card" id="sec-summary">
+    <h2>汇总 Note <span id="riskBadge"></span></h2>
+    <div class="sub">随填写自动更新，可复制进病历系统，或下载为 worksheet 文件</div>
+    <div class="noteblock" id="noteText"></div>
+    <div class="summary-actions noprint">
+      <button class="btn-primary" onclick="downloadTxt()">⬇ 下载 Worksheet (.txt)</button>
+      <button class="btn-ghost" onclick="window.print()">🖨 打印 / 存为 PDF</button>
+      <button class="btn-ghost" onclick="copyNote()">📋 复制文本</button>
+    </div>
+  </div>`));
+
+  bindInputs();
+  updateSummary();
+}
+
+function bindInputs(){
+  document.querySelectorAll('textarea').forEach(t=>{
+    t.value = state[t.id] || '';
+    t.addEventListener('input', ()=>{ state[t.id]=t.value; updateSummary(); });
+  });
+  document.querySelectorAll('input[type=text]').forEach(t=>{
+    t.value = state[t.id] || '';
+    t.addEventListener('input', ()=>{ state[t.id]=t.value; updateSummary(); });
+  });
+  document.querySelectorAll('input[type=radio]').forEach(r=>{
+    if(state[r.name]===r.value) r.checked = true;
+    r.addEventListener('change', ()=>{ state[r.name]=r.value; updateSummary(); });
+  });
+  document.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    const key = 'chk_'+cb.dataset.cat+'_'+cb.value;
+    if(state[key]) cb.checked = true;
+    cb.addEventListener('change', ()=>{ state[key]=cb.checked; updateSummary(); });
+  });
+}
+
+function val(id){ return (state[id]||'').trim() || '未记录'; }
+function radioVal(name){ return state[name] || '未选择'; }
+
+function buildNote(){
+  const riskFactors = Object.keys(state).filter(k=>k.startsWith('chk_risk_') && state[k]).map(k=>k.replace('chk_risk_',''));
+  const protFactors = Object.keys(state).filter(k=>k.startsWith('chk_prot_') && state[k]).map(k=>k.replace('chk_prot_',''));
+  [1,2,3].forEach(i=>{
+    const rv=(state['custom_risk_'+i]||'').trim(); if(rv) riskFactors.push(rv);
+    const pv=(state['custom_prot_'+i]||'').trim(); if(pv) protFactors.push(pv);
+  });
+  const risk = radioVal('risklevel');
+
+  return `RISK ASSESSMENT / SAFETY PLAN NOTE
+Generated: ${new Date().toLocaleString()}
+
+── A. CURRENT SI ──
+Passive death wish: ${radioVal('cur_death_wish_r')} — ${val('cur_death_wish')}
+Active SI: ${radioVal('cur_active_si_r')} — ${val('cur_active_si')}
+Method: ${radioVal('cur_method_r')} — ${val('cur_method')}
+Intent: ${radioVal('cur_intent_r')} — ${val('cur_intent')}
+Plan: ${radioVal('cur_plan_r')} — ${val('cur_plan')}
+
+── B. HISTORY ──
+Worst episode: ${val('hist_worst')}
+Attempt history: ${radioVal('hist_attempt_r')} — ${val('hist_attempt')}
+Deterrents: ${val('hist_deterrent')}
+Intensity (freq/duration/control): ${val('hist_intensity')}
+
+── C. RISK / PROTECTIVE FACTORS ──
+Risk factors endorsed: ${riskFactors.length? riskFactors.join('; ') : '无勾选'}
+Protective factors endorsed: ${protFactors.length? protFactors.join('; ') : '无勾选'}
+Overall Acute Risk Level: ${risk}
+
+── SAFETY PLAN (Stanley-Brown) ──
+1. Warning signs: ${val('sp1')}
+2. Internal coping: ${val('sp2')}
+3. Social distraction: ${val('sp3')}
+4. Help-seeking support: ${val('sp4')}
+5. Professional / crisis resources: ${val('sp5')}
+6. Safe environment / means restriction: ${val('sp6')}
+7. Reasons for living: ${val('sp7')}
+
+── PLAN ──
+Risk level ${risk}. Safety plan completed collaboratively. Continue outpatient therapy / consult psychiatry / notify supervisor / refer to higher level of care / emergency evaluation as clinically indicated.
+`;
+}
+
+function updateSummary(){
+  const note = document.getElementById('noteText');
+  if(note) note.textContent = buildNote();
+  const risk = radioVal('risklevel');
+  const badge = document.getElementById('riskBadge');
+  if(badge){
+    if(risk==='未选择'){ badge.innerHTML=''; }
+    else{
+      const cls = risk==='High'?'high':risk==='Moderate'?'mod':'low';
+      badge.innerHTML = `<span class="badge ${cls}">${risk} Risk</span>`;
+    }
+  }
+}
+
+function downloadTxt(){
+  const blob = new Blob([buildNote()], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `safety_plan_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+}
+function copyNote(){
+  navigator.clipboard.writeText(buildNote());
+  const btn = event.target; const old = btn.textContent;
+  btn.textContent = '已复制 ✓'; setTimeout(()=>btn.textContent=old, 1500);
+}
+
+renderAll();
+</script>
+</body>
+</html>
