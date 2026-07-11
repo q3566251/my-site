@@ -23,6 +23,7 @@
   body{
     margin:0; background:var(--page-bg); color:var(--ink);
     font-family:'Noto Sans SC',sans-serif; line-height:1.7;
+    zoom:.8;
   }
   h1,h2,h3,.serif{font-family:'Noto Serif SC',serif;}
   .shell{max-width:920px; margin:0 auto; padding:40px 24px 100px;}
@@ -104,10 +105,12 @@
   .btn-ghost:hover{background:var(--soft-bg);}
 
   @media print{
-    body{background:#fff;}
+    body{background:#fff; zoom:1;}
     nav.toc, .summary-actions, .noprint{display:none !important;}
     .card{box-shadow:none; border:1px solid #ccc; break-inside:avoid; position:static;}
     .shell{max-width:100%; padding:10px;}
+    #summaryCard{break-before:page;}
+    #summaryCard .noteblock{font-size:.82rem; line-height:1.55; border:none; padding:0;}
   }
 </style>
 </head>
@@ -158,7 +161,7 @@ function renderAll(){
     <h2>A. Current SI（现在有没有想死）</h2>
     <div class="sub">按顺序问：passive death wish → active SI → method → intent → plan</div>
     ${q('cur_death_wish','1) 被动死亡意愿 Passive death wish','Have you wished you were dead or wished you could go to sleep and not wake up?',['Denied','Endorsed'])}
-    ${q('cur_active_si','2) 主动自杀意念 Active suicidal thought','Have you actually had thoughts of killing yourself?',['Denied','Endorsed'])}
+    ${q('cur_active_si','2) 主动自杀意念与自伤 Active suicidal thought and self-harm','Have you actually had thoughts of killing yourself? Have you also had thoughts of hurting yourself (self-harm) without intending to die?<br>你有没有真的想过要杀死自己？有没有也想过在不想死的情况下伤害自己（自伤）？',['Denied','Endorsed'])}
     ${q('cur_method','3) 方法 Method','Have you thought about how you might do it? / What method came to mind? / Is this available to you?',['无 Method','有 Method — 无 Access','有 Method — 有 Access'])}
     ${q('cur_intent','4) 意图 Intent','When you had those thoughts, did any part of you intend to act on them? (0–10)',['无 Intent','部分 Intent','明确 Intent'])}
     ${q('cur_plan','5) 计划 Plan','Have you worked out details about how, when, or where? Did you rehearse or prepare?',['无 Plan','有 Plan 细节'])}
@@ -315,16 +318,46 @@ Risk factors endorsed: ${riskFactors.length? riskFactors.join('; ') : '无勾选
 Protective factors endorsed: ${protFactors.length? protFactors.join('; ') : '无勾选'}
 Overall Acute Risk Level: ${risk}
 
-── SAFETY PLAN (Stanley-Brown) ──
-1. Warning signs: ${val('sp1')}
-2. Internal coping: ${val('sp2')}
-3. Social distraction: ${val('sp3')}
-4. Help-seeking support: ${val('sp4')}
-   Emergency contact: ${val('sp4_name')} (${val('sp4_relation')}) — ${val('sp4_phone')}
-5. Professional / crisis resources: ${val('sp5')}
-6. Safe environment / means restriction: ${val('sp6')}
-7. Reasons for living: ${val('sp7')}
-   Follow-up plan — Next session: ${val('sp7_next_session')} | Check-in frequency: ${val('sp7_checkin_freq')} | Psychiatry follow-up: ${val('sp7_psych_followup')}
+══════════════════════════════════
+SAFETY PLAN · Stanley-Brown 7 Steps
+══════════════════════════════════
+
+Step 1 — 预警信号 Warning Signs
+Q: How do you know the crisis is starting? What thoughts, feelings, behaviors show up first?
+   你怎么知道危机开始了？最先出现的想法、情绪、行为是什么？
+A: ${val('sp1')}
+
+Step 2 — 内在应对 Internal Coping
+Q: What can you do by yourself for 10–30 min to let the urge pass?
+   你自己可以做什么，撑过10–30分钟让冲动过去？
+A: ${val('sp2')}
+
+Step 3 — 社交转移 Social Distraction
+Q: Where can you go or who can you be around so you are not alone?
+   你可以去哪里，或者和谁在一起，让自己不孤单？
+A: ${val('sp3')}
+
+Step 4 — 求助支持 Help-Seeking Support
+Q: Who can you tell directly if SI gets stronger? What exact words can you use?
+   如果自杀意念变强，你可以直接告诉谁？你会用什么原话？
+A: ${val('sp4')}
+   Emergency contact 紧急联系人: ${val('sp4_name')} (${val('sp4_relation')}) — ${val('sp4_phone')}
+
+Step 5 — 专业/危机资源 Professional / Crisis Resources
+Q: Therapist / psychiatrist / agency crisis line / 988 / 911 / ER
+   治疗师 / 精神科医生 / 机构危机热线 / 988 / 911 / 急诊
+A: ${val('sp5')}
+
+Step 6 — 安全环境/限制手段 Safe Environment / Means Restriction
+Q: What could you use to hurt yourself? Who can hold or lock these away?
+   你可能会用什么伤害自己？谁可以帮你收好或锁起来？
+A: ${val('sp6')}
+
+Step 7 — 生存理由 Reasons for Living
+Q: What is one reason to stay alive today? Who/what would be affected if you died?
+   今天活下去的一个理由是什么？如果你不在了，谁/什么会受影响？
+A: ${val('sp7')}
+   随访安排 Follow-up — Next session 下次预约: ${val('sp7_next_session')} | Check-in frequency 联系频率: ${val('sp7_checkin_freq')} | Psychiatry follow-up 精神科随访: ${val('sp7_psych_followup')}
 
 ── PLAN ──
 Risk level ${risk}. Safety plan completed collaboratively. Continue outpatient therapy / consult psychiatry / notify supervisor / refer to higher level of care / emergency evaluation as clinically indicated.
