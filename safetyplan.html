@@ -106,7 +106,7 @@
 
   @media print{
     body{background:#fff; zoom:1;}
-    nav.toc, .summary-actions, .noprint{display:none !important;}
+    nav.toc, .summary-actions, .noprint, #sec-clinical-ref{display:none !important;}
     .card{box-shadow:none; border:1px solid #ccc; break-inside:avoid; position:static;}
     .shell{max-width:100%; padding:10px;}
     #summaryCard{break-before:page;}
@@ -129,6 +129,7 @@
     <a href="#sec-d">D. Risk/Protective</a>
     <a href="#sec-sp">Safety Plan</a>
     <a href="#sec-summary">汇总 & 下载</a>
+    <a href="#sec-clinical-ref">Clinician Reference</a>
   </nav>
 
   <div id="content"></div>
@@ -161,7 +162,23 @@ function renderAll(){
     <h2>A. Current SI（现在有没有想死）</h2>
     <div class="sub">按顺序问：passive death wish → active SI → method → intent → plan</div>
     ${q('cur_death_wish','1) 被动死亡意愿 Passive death wish','Have you wished you were dead or wished you could go to sleep and not wake up?',['Denied','Endorsed'])}
-    ${q('cur_active_si','2) 主动自杀意念与自伤 Active suicidal thought and self-harm','Have you actually had thoughts of killing yourself? Have you also had thoughts of hurting yourself (self-harm) without intending to die?<br>你有没有真的想过要杀死自己？有没有也想过在不想死的情况下伤害自己（自伤）？',['Denied','Endorsed'])}
+    ${q('cur_active_si','2) 主动自杀意念 Active suicidal thought','Have you actually had thoughts of killing yourself?<br>你有没有真的想过要杀死自己？',['Denied','Endorsed'])}
+    <div class="qblock">
+      <div class="qtext">2b) 自伤 Self-harm</div>
+      <div class="prompt">"Have you hurt yourself on purpose, even without wanting to die? What method, and how often?<br>你有没有故意伤害过自己，即使不是想死？用什么方法，多久一次？"</div>
+      <textarea id="sh_method_freq" placeholder="Method & frequency 方法与频率…"></textarea>
+      <div class="prompt" style="margin-top:12px;">"When was the most recent time?<br>最近一次是什么时候？"</div>
+      <input type="text" id="sh_last_occurrence" placeholder="最近一次时间 Last occurrence">
+      <div class="prompt" style="margin-top:12px;">"On a 0–10 scale, how strong is the urge, and can you resist it?<br>冲动强度0–10，是否可控？"</div>
+      <textarea id="sh_urge_control" placeholder="Urge intensity / controllability 冲动强度/可控性…"></textarea>
+      <div class="prompt" style="margin-top:12px;">"What does it do for you — relief, self-punishment, or a cry for help?<br>自伤的作用是什么——缓解情绪、惩罚自己、还是求助信号？"</div>
+      <div class="radiorow">
+        <label><input type="radio" name="sh_function_r" value="缓解情绪 Emotion relief"><span>缓解情绪 Emotion relief</span></label>
+        <label><input type="radio" name="sh_function_r" value="惩罚自己 Self-punishment"><span>惩罚自己 Self-punishment</span></label>
+        <label><input type="radio" name="sh_function_r" value="求助信号 Cry for help"><span>求助信号 Cry for help</span></label>
+        <label><input type="radio" name="sh_function_r" value="混合/不确定 Mixed"><span>混合/不确定 Mixed</span></label>
+      </div>
+    </div>
     ${q('cur_method','3) 方法 Method','Have you thought about how you might do it? / What method came to mind? / Is this available to you?',['无 Method','有 Method — 无 Access','有 Method — 有 Access'])}
     ${q('cur_intent','4) 意图 Intent','When you had those thoughts, did any part of you intend to act on them? (0–10)',['无 Intent','部分 Intent','明确 Intent'])}
     ${q('cur_plan','5) 计划 Plan','Have you worked out details about how, when, or where? Did you rehearse or prepare?',['无 Plan','有 Plan 细节'])}
@@ -252,6 +269,35 @@ function renderAll(){
     </div>
   </div>`));
 
+  c.appendChild(el(`<div class="card" id="sec-clinical-ref">
+    <h2>Clinician Reference · 认知扭曲 / 虚无感应对参考</h2>
+    <div class="sub">非患者填写，仅供临床参考 — 不进入下载/打印的note</div>
+
+    <div class="qblock">
+      <div class="qtext">常见负性思维模式 Common patterns to monitor</div>
+      <ul style="margin:6px 0 0; padding-left:20px; font-size:.9rem;">
+        <li>全或无思维 All-or-nothing：everything is meaningless / nothing ever works</li>
+        <li>过度概括 Overgeneralization：一件坏事 → "this always happens"</li>
+        <li>灾难化 Catastrophizing / 无望感偏差 hopelessness bias</li>
+        <li>虚无/淡漠表达 Nihilistic flatness："我什么都不想，也不想改，为什么要活，死了不是更好"</li>
+      </ul>
+    </div>
+
+    <div class="qblock">
+      <div class="qtext">当 pt 表达"什么都不想 / 不想改 / 为什么要活 / 死了更好"时 — 如何应对</div>
+      <ol style="margin:6px 0 0; padding-left:20px; font-size:.9rem; line-height:1.9;">
+        <li><strong>先 validate 情绪，不 validate 信念本身</strong> — 反映痛苦本身，而不是认同"死了更好"这个结论。
+          例："听起来你现在真的连一点力气都没有了，这种感觉持续多久了？"</li>
+        <li><strong>不要直接反驳或说教</strong>（"别这么想" / "生活很美好"）— 这类空洞 reassurance 会被 pt 体验为不被理解。</li>
+        <li><strong>用苏格拉底式提问</strong>温和检验绝对化用语（"什么都不想" / "为什么要活"）：
+          "如果非要说一件事，哪怕很小，你还愿意花一点力气吗？"</li>
+        <li><strong>区分</strong> existential exhaustion / passive death wish，还是伴随 intent 的主动倾向 — 一旦出现虚无表达，需立即回到 A/B 部分重新评估 current SI，而不是仅当作情绪表达处理。</li>
+        <li><strong>若 pt 完全无法说出任何 reason for living</strong> 或任何微小的下一步 → 视为风险上升信号，重新评估 risk level，考虑增加接触频率 / psychiatry consult / 是否需要 higher level of care。</li>
+        <li><strong>保持 in-session 稳定</strong> — 不急于"修正"认知，先建立安全与被理解感，再逐步引入 behavioral activation 或 cognitive restructuring（识别"什么都不想"背后具体被回避的任务/情绪）。</li>
+      </ol>
+    </div>
+  </div>`));
+
   bindInputs();
   updateSummary();
 }
@@ -294,6 +340,7 @@ Generated: ${new Date().toLocaleString()}
 ── A. CURRENT SI ──
 Passive death wish: ${radioVal('cur_death_wish_r')} — ${val('cur_death_wish')}
 Active SI: ${radioVal('cur_active_si_r')} — ${val('cur_active_si')}
+Self-harm 自伤 — Method/frequency: ${val('sh_method_freq')} | Last occurrence 最近一次: ${val('sh_last_occurrence')} | Urge/control 冲动可控性: ${val('sh_urge_control')} | Function 功能: ${radioVal('sh_function_r')}
 Method: ${radioVal('cur_method_r')} — ${val('cur_method')}
 Intent: ${radioVal('cur_intent_r')} — ${val('cur_intent')}
 Plan: ${radioVal('cur_plan_r')} — ${val('cur_plan')}
