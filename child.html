@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYC 儿童资源指南 | 家长参考</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page-bg:#f7f1e8;
+    --soft-bg:#f2e7d9;
+    --card-bg:#fdf9f4;
+    --ink:#3a2f26;
+    --ink-soft:#6b5c4c;
+    --accent:#a8763e;
+    --accent-deep:#8a5a2a;
+    --line:#e2d2b8;
+    --special:#7c6a9c;
+    --special-soft:#efeaf5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Noto Sans SC", sans-serif;
+    line-height:1.7;
+  }
+  h1,h2,h3,.serif{font-family:"Noto Serif SC", serif;}
+  header{
+    padding:56px 24px 40px;
+    text-align:center;
+    background:linear-gradient(180deg, var(--soft-bg), var(--page-bg));
+    border-bottom:1px solid var(--line);
+  }
+  header h1{font-size:2rem; margin:0 0 10px; color:var(--accent-deep); font-weight:700;}
+  header p{margin:0; color:var(--ink-soft); font-size:0.95rem;}
+  .wrap{max-width:960px; margin:0 auto; padding:0 20px;}
+  nav.tabs{
+    display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+    margin:28px auto 8px; max-width:960px; padding:0 20px;
+  }
+  nav.tabs button{
+    font-family:"Noto Sans SC", sans-serif;
+    background:var(--card-bg);
+    border:1px solid var(--line);
+    color:var(--ink);
+    padding:10px 20px;
+    border-radius:999px;
+    cursor:pointer;
+    font-size:0.9rem;
+    transition:all .2s;
+  }
+  nav.tabs button.active{
+    background:var(--accent);
+    color:#fff;
+    border-color:var(--accent);
+  }
+  section.panel{display:none; padding:20px 0 60px;}
+  section.panel.active{display:block;}
+  .intro{
+    background:var(--card-bg);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px 24px;
+    margin-bottom:24px;
+    color:var(--ink-soft);
+    font-size:0.92rem;
+  }
+  .special .intro{background:var(--special-soft); border-color:#ddd3ea;}
+  h2.section-title{
+    font-size:1.3rem;
+    color:var(--accent-deep);
+    border-left:4px solid var(--accent);
+    padding-left:12px;
+    margin:36px 0 16px;
+  }
+  .special h2.section-title{color:#5a4a7c; border-left-color:var(--special);}
+  .card{
+    background:var(--card-bg);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px 22px;
+    margin-bottom:16px;
+    box-shadow:0 1px 3px rgba(58,47,38,0.04);
+  }
+  .card h3{margin:0 0 6px; font-size:1.05rem; color:var(--ink);}
+  .card .tag{
+    display:inline-block;
+    font-size:0.72rem;
+    background:var(--soft-bg);
+    color:var(--accent-deep);
+    padding:2px 10px;
+    border-radius:999px;
+    margin-bottom:8px;
+    font-family:"Noto Sans SC", sans-serif;
+  }
+  .special .card .tag{background:var(--special-soft); color:#5a4a7c;}
+  .card p{margin:6px 0; color:var(--ink-soft); font-size:0.92rem;}
+  .card .meta{
+    display:flex; flex-wrap:wrap; gap:8px 20px;
+    margin-top:10px; font-size:0.85rem; color:var(--ink-soft);
+  }
+  .card .meta span{white-space:nowrap;}
+  .card a{color:var(--accent-deep); text-decoration:none; border-bottom:1px solid var(--accent);}
+  .special .card a{color:#5a4a7c; border-bottom-color:var(--special);}
+  .card a:hover{opacity:0.75;}
+  footer{
+    text-align:center;
+    padding:30px 20px 50px;
+    color:var(--ink-soft);
+    font-size:0.8rem;
+  }
+  .warn{
+    background:#f9efe0;
+    border:1px solid #e8d3a8;
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:0.82rem;
+    color:#7a5a1f;
+    margin:20px 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>NYC 儿童资源指南</h1>
+  <p>写给家长：让孩子远离手机屏幕、拥有真实社交与成长的社区资源</p>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="general">普通孩子 · 课外/就业/社区</button>
+  <button class="tab-btn" data-tab="special">特殊需求 · 自闭症/OPWDD</button>
+</nav>
+
+<div class="wrap">
+
+<section class="panel active" id="general">
+  <div class="intro">
+    面向所有 NYC 家庭的免费或低成本课外项目：从小学生的课后班到青少年的带薪暑期工作，目的是给孩子提供比刷手机更有价值的时间安排——真实的社交、技能和陪伴。
+  </div>
+
+  <h2 class="section-title">带薪就业 / 求职类</h2>
+
+  <div class="card">
+    <span class="tag">14–24岁</span>
+    <h3>SYEP 暑期青年就业项目 (Summer Youth Employment Program)</h3>
+    <p>纽约市规模最大的青年就业项目，由 DYCD 主办。14–15岁为项目制学习，最高可获约 $700 补贴；16–24岁按最低工资标准带薪工作，安排在真实企业/机构实习。</p>
+    <p>2026年申请季已于 2月27日截止，通常每年 1–2月开放下一年申请，建议家长提前设日历提醒。</p>
+    <div class="meta">
+      <span>📞 1-800-246-4646</span>
+      <span>🌐 <a href="https://www.nyc.gov/site/dycd/services/jobs-internships/summer-youth-employment-program-syep.page" target="_blank">nyc.gov/dycd SYEP</a></span>
+    </div>
+  </div>
+
+  <h2 class="section-title">课后 / 社区中心（免手机、有人带的空间）</h2>
+
+  <div class="card">
+    <span class="tag">6岁以上 & 全家</span>
+    <h3>Beacon 灯塔项目</h3>
+    <p>设在学校内的社区中心，全市约92个点，周一到周日晚间/周末/假期开放。提供功课辅导、领导力训练、体育、生活技能课程，家长和孩子都能参与。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.nyc.gov/site/dycd/services/after-school/beacon.page" target="_blank">nyc.gov Beacon</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">NYCHA 住户优先，全年龄</span>
+    <h3>Cornerstone 基石项目</h3>
+    <p>设在约100个纽约住房局(NYCHA)社区中心的全年项目，面向青少年和成人，提供课后活动、体育、艺术和社交机会。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.nyc.gov/site/dycd/services/after-school/cornerstone.page" target="_blank">nyc.gov Cornerstone</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">K–5 COMPASS / 6–8年级 SONYC</span>
+    <h3>DYCD 课后班（discoverDYCD 查找工具）</h3>
+    <p>按邮编/社区搜索所有 DYCD 资助的课后班、暑期项目和青年就业机会，含地图导航功能，适合家长直接按地址查找离家最近的点。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.nyc.gov/html/dycd/html/home/home.shtml" target="_blank">discoverDYCD</a></span>
+    </div>
+  </div>
+
+  <h2 class="section-title">布碌崙 Sunset Park / Bay Ridge 华人社区专属</h2>
+
+  <div class="card">
+    <span class="tag">华策会 CPC · 中英双语</span>
+    <h3>CPC Beacon Community Center（Sunset Park）</h3>
+    <p>华策会（Chinese-American Planning Council）在 Sunset Park 深耕25年以上的社区中心，提供课后功课辅导、STEM、中国传统舞蹈、体育、公民参与等项目，面向小学到高中各年龄段，双语服务对华人家庭尤其友好。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.cpc-nyc.org/programs/education/cpc-beacon-220" target="_blank">CPC Beacon 官网</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">华策会 CPC</span>
+    <h3>CPC Brooklyn Community Center（8th Ave）</h3>
+    <p>服务 Sunset Park 及周边区域，提供青年项目、职业培训、多元社会服务（含医疗补助/食品券协助），是本地华人家庭的综合服务窗口。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.cpc-nyc.org/programs/cpc-brooklyn-community-center" target="_blank">CPC Brooklyn 官网</a></span>
+    </div>
+  </div>
+
+  <h2 class="section-title">免费体育 / 娱乐设施</h2>
+
+  <div class="card">
+    <span class="tag">0–24岁 完全免费</span>
+    <h3>NYC Parks 娱乐中心会员</h3>
+    <p>全市娱乐中心对24岁以下青少年儿童<strong>永久免费</strong>（成人25–61岁需付费$100–150/年）。会员含健身器材、室内泳池、篮球、游泳课、艺术手工、舞蹈课等，且大多数场馆无障碍设施齐全，持相关证明的残障人士也可申请免费/优惠会员。</p>
+    <p>另有 <strong>Parents' Night Out</strong>：每年夏天各区选一个娱乐中心，周五晚免费托管6–13岁孩子几小时，让家长喘口气；以及 <strong>Kids in Motion</strong>：工作人员带队在各游乐场组织4–7小时免费户外活动。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.nycgovparks.org/programs/recreation-centers/membership" target="_blank">娱乐中心会员申请</a></span>
+      <span>🌐 <a href="https://www.nycgovparks.org/highlights/festivals/parents-night-out" target="_blank">Parents' Night Out</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">3–21岁</span>
+    <h3>PAL 警察运动联盟（Police Athletic League）</h3>
+    <p>NYC最大的独立青少年发展机构，与NYPD合作。提供免费的课后班（PAL SMARTS学业辅导/PAL ARTS艺术/PAL FIT体育三合一）、Cops & Kids各类免费体育联赛（篮球、棒球、橄榄球等）、13–19岁青少年晚间Teen Center（周三到周五6:30–9:30pm开放，含大学升学辅导CAP项目）、暑期SYEP就业。全部项目对家庭免费。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://palnyc.org/programs-overview" target="_blank">palnyc.org 项目总览</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">1.5–17岁 · 完全免费 · 抽签制</span>
+    <h3>NYC Parks 免费游泳课（Learn to Swim）</h3>
+    <p>市公园局每年教约1.9万名1岁半–17岁孩子游泳，暑期在户外泳池上课（2026夏季场次7月6日–8月28日，全五区18个户外泳池），完全免费、无需娱乐中心会员；秋冬春则在室内泳池开课（需娱乐中心会员，儿童本就免费）。采用抽签报名制，需给每个孩子单独注册账号，中签后3天内确认，错过2次连续课程会被替补名单顶替。</p>
+    <div class="meta"><span>🌐 <a href="https://www.nycgovparks.org/events/learn-to-swim" target="_blank">nycgovparks.org Learn to Swim</a></span></div>
+  </div>
+
+  <h2 class="section-title">免费博物馆 / 文化机构（省下几百刀会员费）</h2>
+
+  <div class="card">
+    <span class="tag">10岁以上可办卡，全家受益</span>
+    <h3>IDNYC 市民卡 → 35+文化机构免费会员</h3>
+    <p>持 IDNYC（免费办理，不问身份/移民状态）可到访自然历史博物馆(AMNH)、MoMA、布鲁克林博物馆、布朗士动物园/中央公园动物园/纽约水族馆(WCS)、林肯中心、卡内基音乐厅等30多家机构，现场或线上激活<strong>一年免费会员</strong>（价值可达上千美元），到期后隔几年可再次申请。大都会博物馆(The Met)本身对纽约州居民就是"随意付费"，凭IDNYC作居住证明即可。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.nyc.gov/site/idnyc/benefits/museums-and-cultural-institutions.page" target="_blank">IDNYC 文化机构完整名单</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">全民免费</span>
+    <h3>公共图书馆（BPL/NYPL/QPL）+ Culture Pass</h3>
+    <p>任何纽约居民均可免费办理图书馆卡（三大系统通用），除借书、有声书、电子书、免费WiFi/打印外，图书馆卡还能激活 <strong>Culture Pass</strong>——每月1号放出新名额，可免费预约100+家博物馆/文化场馆的当日门票（含IDNYC名单之外的机构），先到先得。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.bklynlibrary.org/" target="_blank">Brooklyn Public Library</a></span>
+    </div>
+  </div>
+
+  <h2 class="section-title">免费艺术 / 棋类 / 科技类项目（顶级机构，完全免费）</h2>
+
+  <div class="card">
+    <span class="tag">6–23岁</span>
+    <h3>Free Arts NYC</h3>
+    <p>面向弱势社区青少年的艺术+1对1导师制项目，将创意表达和长期陪伴式辅导结合，帮助孩子建立自信与技能。</p>
+    <div class="meta"><span>🌐 <a href="https://www.freeartsnyc.org/programs" target="_blank">freeartsnyc.org</a></span></div>
+  </div>
+
+  <div class="card">
+    <span class="tag">K–高中</span>
+    <h3>Chess in the Schools 国际象棋项目</h3>
+    <p>纽约历史最悠久的象棋教育机构，30多年来教过超50万名低收入学生。若孩子学校未参与School Program，个人学生仍可免费报名 CIS 举办的市级象棋比赛，并可获Chesskid.com一年金卡会员免费在线学棋。也有专为特殊需求孩子设计的夏令营合作项目(Camp Ramapo)。</p>
+    <div class="meta"><span>🌐 <a href="https://chessintheschools.org/programs/" target="_blank">chessintheschools.org</a></span></div>
+  </div>
+
+  <div class="card">
+    <span class="tag">4–18岁</span>
+    <h3>ProjectArt（皇后区图书馆内）</h3>
+    <p>在皇后区公共图书馆分馆开设的免费视觉艺术课，9月至次年5月，材料全部免费提供，按年龄分组(4–7/8–12/13–18岁)，驻馆艺术家授课。</p>
+    <div class="meta"><span>🌐 <a href="https://afterschoolhq.com/ProjectArtNewYork" target="_blank">ProjectArt 介绍</a></span></div>
+  </div>
+
+  <div class="card">
+    <span class="tag">高中生，纽约市公立校</span>
+    <h3>Cooper Union Saturday Program</h3>
+    <p>Cooper Union 大学开设超55年的免费周六艺术/建筑课程，面向纽约市公立高中生，含大学申请作品集辅导，由本科生和专业艺术家授课。</p>
+    <div class="meta"><span>🌐 <a href="https://cooper.edu/academics/outreach-and-pre-college/saturday-program" target="_blank">cooper.edu Saturday Program</a></span></div>
+  </div>
+
+  <div class="card">
+    <span class="tag">Title I 学校为主</span>
+    <h3>DreamYard / Publicolor</h3>
+    <p>DreamYard 是布朗士最大的艺术教育机构，课后/周六/暑期均有免费项目，强调创意与社会议题写作、诗歌等；Publicolor 让学生用粉刷学校/社区空间的"Paint Club"课后项目学习技能，表现优秀者可进入带薪学徒 Color Club。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.dreamyard.com/programs/art-center" target="_blank">dreamyard.com</a></span>
+    </div>
+  </div>
+
+  <div class="warn">
+    ⚠️ 以上信息基于2026年公开资料整理，具体开放时间、名额及申请截止日期请以官网最新公告为准。
+  </div>
+</section>
+
+<section class="panel special" id="special">
+  <div class="intro">
+    面向自闭症谱系(ASD)或其他智力/发展性障碍(I/DD)孩子的纽约州/市资源。核心入口是 <strong>OPWDD</strong>（纽约州发展障碍人士服务办公室），几乎所有政府资助的评估与长期服务都需要先通过它的 "Front Door" 流程建立资格。
+  </div>
+
+  <h2 class="section-title">评估与诊断入口（比OPWDD/IEP更早的第一步）</h2>
+
+  <div class="card">
+    <span class="tag">0–3岁 · 完全免费 · 不看身份/收入</span>
+    <h3>Early Intervention 早期干预项目（EIP）</h3>
+    <p>由纽约州卫生局(DOH)主管，服务对象是"发育不像同龄孩子"（说话、走路、社交等）的0–3岁孩子。任何人（家长、儿科医生、日托机构）都能转介，家长本人也可直接拨打 <strong>311</strong> 或用线上转介系统(EI Referral Portal)申请。转介后免费做多学科评估；若确诊或已有诊断（如唐氏综合症）自动符合资格。有保险/Medicaid的话服务由保险支付，家庭不需自付。</p>
+    <p><strong>关键衔接点</strong>：孩子约2.5岁时，EI service coordinator应主动安排"转衔会议"，把孩子转介到教育局的CPSE（见下方IEP流程），避免3岁生日当天服务断档——这是许多自闭症家庭最容易"掉链子"的环节，建议提前追问。</p>
+    <div class="meta">
+      <span>📞 311（或热线 1-877-885-5439）</span>
+      <span>🌐 <a href="https://www.nyc.gov/site/doh/health/health-topics/early-intervention.page" target="_blank">nyc.gov 早期干预项目</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">3岁以上 · 多条免费/付费路径</span>
+    <h3>如何获得自闭症（或其他发展障碍）正式诊断</h3>
+    <p>正式诊断通常需要发展儿科医生(developmental pediatrician)、心理医生或精神科医生完成综合评估（含ADOS等标准化工具），普通儿科医生可初筛但一般不能下诊断。按年龄有不同免费公立渠道：<strong>0–3岁</strong>走上方 Early Intervention；<strong>3–5岁</strong>走 CPSE 免费评估；<strong>5–21岁</strong>可直接向所在学区/学校提出评估申请，即便孩子读私校，也有权要求教育局免费评估。纽约州法律要求大多数保险（含Medicaid、Child Health Plus）必须覆盖自闭症评估费用。</p>
+    <p>医院端口：<strong>NYU Langone Child Study Center</strong>、<strong>NewYork-Presbyterian 自闭症与发展中大脑中心(CADB)</strong>（Weill Cornell/Columbia合作）等均设专门自闭症评估门诊，接受多数保险。若不符合Medicaid资格又想找免费评估，<strong>YAI 提供免费心理/社会心理/自闭症评估名额</strong>（布鲁克林/皇后区/曼哈顿居民，条件是不符合Medicaid资格）。走完全自费私人渠道，评估费用普遍在$4,500–7,000区间。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.yai.org/services/free-psychological-psychosocial-and-autism-assessments" target="_blank">YAI 免费评估申请</a></span>
+      <span>🌐 <a href="https://nyulangone.org/locations/child-study-center/autism-spectrum-disorder-service" target="_blank">NYU Langone Child Study Center</a></span>
+    </div>
+  </div>
+
+  <h2 class="section-title">政府核心入口</h2>
+
+  <div class="card">
+    <span class="tag">州级主管机构</span>
+    <h3>OPWDD（Office for People With Developmental Disabilities）</h3>
+    <p>负责协调全纽约州超过12.8万名发展障碍人士（含自闭症谱系、智力障碍、脑瘫、唐氏综合症等）的服务，约80%服务通过750多家非营利机构提供。申请服务需先预约参加 "Front Door" 说明会建立资格。</p>
+    <div class="meta">
+      <span>📞 信息热线/投诉: 866-946-9733</span>
+      <span>🌐 <a href="https://opwdd.ny.gov/eligibility" target="_blank">opwdd.ny.gov 资格说明</a></span>
+    </div>
+  </div>
+
+  <h2 class="section-title">评估与临床服务</h2>
+
+  <div class="card">
+    <span class="tag">OPWDD Article 16 诊所</span>
+    <h3>YAI Center for Specialty Therapy（Manhattan / Brooklyn / Queens 均有服务）</h3>
+    <p>提供心理、心理社会及自闭症评估，心理治疗，物理治疗，职能治疗，言语治疗；部分点还提供精神科、牙科等 Article 28 医疗服务。接受 Medicaid、Medicare 及部分私人保险。</p>
+    <p>YAI 同时提供住宿项目、就业培训、日间服务、家庭补助金、面向自闭症孩子照顾者的免费家庭支持系列讲座（如"如何向亲友解释孩子的自闭症诊断"）。</p>
+    <div class="meta">
+      <span>📞 YAI LINK: 1-866-2-YAI-LINK</span>
+      <span>🌐 <a href="https://www.yai.org" target="_blank">yai.org</a></span>
+    </div>
+  </div>
+
+  <h2 class="section-title">其他重要机构（供进一步了解）</h2>
+
+  <div class="card">
+    <span class="tag">AHRC New York City</span>
+    <h3>AHRC</h3>
+    <p>面向智力与发展障碍人士，提供从早期干预到成年后就业、住房的全年龄段项目与支持。</p>
+    <div class="meta">
+      <span>📞 212-780-2500</span>
+      <span>🌐 <a href="https://www.ahrcnyc.org/" target="_blank">ahrcnyc.org</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">QSAC</span>
+    <h3>QSAC（自闭症专项服务）</h3>
+    <p>专注服务自闭症谱系人士的机构，提供教育、行为支持及成人服务项目，地址在 Manhattan。</p>
+    <div class="meta">
+      <span>📞 212-244-5560</span>
+      <span>🌐 <a href="https://www.qsac.com/" target="_blank">qsac.com</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">Care Design NY</span>
+    <h3>Care Design NY（护理协调）</h3>
+    <p>为持有 Medicaid 且符合 OPWDD 资格的人士提供服务协调（Care Coordination），帮助家庭对接各类福利与服务。</p>
+  </div>
+
+  <h2 class="section-title">免费/低价社交与娱乐（不需要OPWDD资格）</h2>
+
+  <div class="card">
+    <span class="tag">免费为主，滑动定价</span>
+    <h3>Extreme Kids & Crew</h3>
+    <p>专为神经多样性(neurodivergent)孩子和家庭打造的游戏空间，在布鲁克林Red Hook、皇后区Ridgewood、布朗士Morrisania设有三个据点（均在Title 1学校内）。提供感统游戏室开放时间、音乐律动课、女孩专属小组(Girls Crew)、青少年组(Teens Crew)、课后班，以及家长互助支持小组。图书馆合作活动完全免费；其余项目采用"自愿分层定价"，可用OPWDD资金支付。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.extremekidsandcrew.org/our-programs" target="_blank">extremekidsandcrew.org 项目页</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">免费/含门票</span>
+    <h3>博物馆无障碍专场</h3>
+    <p>多家纽约博物馆设有感统友好(sensory-friendly)专场或残障家庭专属时段：紐約大都会博物馆、MoMA(Create Ability)、布鲁克林儿童博物馆等提供针对发展障碍孩子的艺术工作坊（常为每月一次，家长陪同参加，费用为常规门票或免费）。纽约交通博物馆(NY Transit Museum)的 <strong>Subway Sleuths</strong> 是专为自闭症孩子设计的课后项目，用孩子们对地铁的兴趣建立社交技能。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.nytransitmuseum.org/" target="_blank">nytransitmuseum.org</a></span>
+    </div>
+  </div>
+
+  <h2 class="section-title">IEP（个别化教育计划）申请流程</h2>
+
+  <div class="card">
+    <span class="tag">教育系统 · 与OPWDD并行，互不替代</span>
+    <h3>IEP 是什么、怎么申请</h3>
+    <p><strong>IEP（Individualized Education Program）</strong>由纽约市教育局(DOE)负责，是孩子在公立学校获得特教服务的法定计划，和OPWDD（州发展障碍服务）是两个独立系统，很多自闭症/发展障碍孩子两边都需要申请。</p>
+    <p><strong>3–5岁</strong>：走 <strong>CPSE</strong>（学前特殊教育委员会），由所在区办公室受理；<strong>5–21岁</strong>：走 <strong>CSE</strong>（特殊教育委员会），由所在学区受理。若孩子正在接受0–3岁的 Early Intervention(EI) 服务，需在孩子2.5岁左右开始转介到CPSE，避免3岁生日当天服务断档。</p>
+    <p><strong>基本流程与时限</strong>：① 书面提出评估申请（转介）→ 校方/CSE须在10个上学日内寄出《评估同意书》；② 家长签字同意后，60个日历日内必须完成全部评估（含心理、教育、语言、社交历史等，非英语家庭有权要求双语评估）；③ 评估完成后召开IEP会议，决定资格与服务内容；④ 若不认可评估结果，家长有权要求教育局出资做独立评估(IEE)。IEP每年至少复审一次，家长可随时要求召开会议讨论调整。</p>
+    <p>如遇教育局超时未履行流程，可先书面联系学区特教主任，无解决可向纽约州教育厅(NYSED)投诉。整个过程建议自建一个文件夹，保存所有信件、评估报告和会议记录。</p>
+    <div class="meta">
+      <span>🌐 <a href="https://www.schools.nyc.gov/learning/special-education/the-iep-process" target="_blank">schools.nyc.gov IEP流程官方页</a></span>
+      <span>🌐 <a href="https://includenyc.org/help-center/resources/special-education-timeline/" target="_blank">INCLUDEnyc 流程时间线图解</a></span>
+    </div>
+  </div>
+
+  <h2 class="section-title">特需夏令营（暑期）</h2>
+
+  <div class="card">
+    <span class="tag">8–18岁 · 住宿营 · 有奖学金</span>
+    <h3>YAI MAC（Mainstreaming At Camp）</h3>
+    <p>YAI 与全美最大住宿营之一 Frost Valley YMCA 合作，让发展障碍孩子与普通孩子同营区生活，营员:辅导员比例维持3:1，前48小时会主动致电家长汇报适应情况。YAI 的 Brighter Futures Society 奖学金基金可为经济困难家庭提供部分资助。</p>
+    <div class="meta"><span>🌐 <a href="https://www.yai.org/camping" target="_blank">yai.org/camping</a></span></div>
+  </div>
+
+  <div class="card">
+    <span class="tag">全五区居民 · 日营/住宿营</span>
+    <h3>AHRC NYC Camping & Recreation</h3>
+    <p>提供日营（在Catskills/Berkshires）及全无障碍、符合ADA标准的住宿营（Camp Anne等），也有课后班、周末喘息服务(respite)和短假期活动，服务全纽约市五区发展障碍孩子和成人。</p>
+    <div class="meta"><span>🌐 <a href="https://www.ahrcnyc.org/services/community/recreation/camping/" target="_blank">ahrcnyc.org 夏令营</a></span></div>
+  </div>
+
+  <div class="card">
+    <span class="tag">资金协助 · 一站式咨询</span>
+    <h3>夏令营奖学金怎么找</h3>
+    <p>若孩子已有 OPWDD 资格，可联系你的 care manager 或 OPWDD 服务提供机构询问"家庭报销(family reimbursement)"或"营地基金(camp funds)"补助；也可拨打各区发展障碍区域办公室(DDRO)的 "Front Door" 询问。INCLUDEnyc 每年1月的资源展会现场就有大量机构提供夏令营财务资助信息，可提前致电其免费热线咨询。</p>
+    <div class="meta"><span>📞 INCLUDEnyc 免费热线 212-677-4660</span></div>
+  </div>
+
+  <h2 class="section-title">适应性体育（免费或极低费用）</h2>
+
+  <div class="card">
+    <span class="tag">3–21岁 免费</span>
+    <h3>Achilles Kids（Achilles International）</h3>
+    <p>专为残障孩子设计的跑步/骑行训练，在中央公园、展望公园、法拉盛草原公园均设点，志愿者一对一陪跑，也提供适应性自行车项目。</p>
+    <div class="meta"><span>🌐 <a href="https://www.achillesinternational.org/achilles-kids" target="_blank">achillesinternational.org</a></span></div>
+  </div>
+
+  <div class="card">
+    <span class="tag">收费制，可用资助</span>
+    <h3>GallopNYC 治疗性骑马</h3>
+    <p>为身心障碍儿童及成人提供马术治疗课程，布鲁克林等地设有场地，经证实对自闭症孩子的感统与情绪调节有帮助。</p>
+    <div class="meta"><span>🌐 <a href="https://www.gallopnyc.org/" target="_blank">gallopnyc.org</a></span></div>
+  </div>
+
+  <div class="card">
+    <span class="tag">$25/年起</span>
+    <h3>NYC Parks 无障碍中心 (Adaptive Hubs)</h3>
+    <p>市公园局在全市设有全无障碍娱乐中心，持残障证明年费仅$25，提供适应性体育、健身、艺术项目，专为身心障碍人士设计。Row New York 也有专门的适应性赛艇项目。</p>
+    <div class="meta"><span>🌐 <a href="https://www.nyc.gov/site/mopd/resources/sports-recreation.page" target="_blank">nyc.gov 无障碍体育资源</a></span></div>
+  </div>
+
+  <h2 class="section-title">家长维权 / 特教流程支持（IEP/OPWDD申请免费协助）</h2>
+
+  <div class="card">
+    <span class="tag">免费</span>
+    <h3>INCLUDEnyc</h3>
+    <p>专注纽约市特教与发展障碍事务的非营利机构，提供免费一对一咨询（预约制）及workshop，主题涵盖"看懂孩子的IEP""特教维权技巧""OPWDD服务申请"等，多语言资源，每年1月举办全市最大的特需资源展会 INCLUDEnyc Fair（近百家机构参展）。</p>
+    <div class="meta">
+      <span>📞 212-677-4650</span>
+      <span>🌐 <a href="https://includenyc.org/help-center/" target="_blank">includenyc.org</a></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="tag">免费 · 低收入家庭</span>
+    <h3>Advocates for Children (AFC)</h3>
+    <p>为低收入家庭0–26岁孩子提供免费特教维权服务，包括教育支持热线、workshop，以及针对学校听证/上诉的免费法律咨询与代理。</p>
+    <div class="meta"><span>📞 866-427-6033（周一至周四 10am–4pm）</span></div>
+  </div>
+
+  <div class="warn">
+    ⚠️ 上述机构联系方式基于公开资料整理，实际服务范围、等待名单及资格要求可能变化，建议致电确认后再前往。本页不构成医疗或法律建议。
+  </div>
+</section>
+
+</div>
+
+<footer>NYC 儿童资源指南 · 家长参考版 · 数据来源：nyc.gov / opwdd.ny.gov / yai.org / cpc-nyc.org</footer>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
