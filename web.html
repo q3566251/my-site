@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>网站总览</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page-bg:#f7f1e8;
+  --soft-bg:#f2e7d9;
+  --card-bg:#fdf9f4;
+  --text-main:#3a2f26;
+  --text-sub:#948374;
+  --accent:#a8763e;
+  --accent-dark:#8a5f2e;
+  --border:#e7dbc7;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:var(--page-bg);
+  font-family:'Noto Sans SC',sans-serif;
+  color:var(--text-main);
+}
+.top{
+  position:sticky;top:0;z-index:20;
+  background:var(--page-bg);
+  padding:18px 20px 12px;
+  border-bottom:1px solid var(--border);
+}
+h1{
+  font-family:'Noto Serif SC',serif;
+  font-size:1.25rem;
+  color:var(--accent-dark);
+  margin-bottom:10px;
+}
+.search-row{display:flex;gap:8px;}
+#search{
+  flex:1;
+  padding:10px 14px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--card-bg);
+  font-size:0.9rem;
+  color:var(--text-main);
+}
+#search:focus{outline:none;border-color:var(--accent);}
+.tags-row{
+  display:flex;gap:6px;flex-wrap:wrap;
+  margin-top:10px;
+}
+.tag-pill{
+  padding:5px 12px;
+  border-radius:20px;
+  background:var(--soft-bg);
+  color:var(--accent-dark);
+  font-size:0.78rem;
+  cursor:pointer;
+  border:1px solid transparent;
+  user-select:none;
+}
+.tag-pill.active{
+  background:var(--accent-dark);
+  color:#fff;
+}
+.tag-pill.add-new{
+  border:1px dashed var(--accent);
+  background:transparent;
+  color:var(--accent-dark);
+}
+main{max-width:760px;margin:0 auto;padding:16px 16px 60px;}
+.count{color:var(--text-sub);font-size:0.78rem;margin-bottom:10px;}
+.group{margin-bottom:6px;border-radius:10px;overflow:hidden;}
+.group-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;
+  background:var(--soft-bg);
+  cursor:pointer;
+  font-size:0.88rem;
+  font-weight:600;
+  color:var(--accent-dark);
+}
+.group-header .chev{transition:transform .15s;font-size:0.75rem;}
+.group.collapsed .chev{transform:rotate(-90deg);}
+.group-body{
+  background:var(--card-bg);
+}
+.group.collapsed .group-body{display:none;}
+.row{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;
+  border-top:1px solid var(--border);
+  font-size:0.86rem;
+}
+.row a{
+  color:var(--text-main);
+  font-weight:500;
+  text-decoration:none;
+  flex:0 0 auto;
+  max-width:40%;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.row a:hover{color:var(--accent-dark);text-decoration:underline;}
+.row .desc{
+  color:var(--text-sub);
+  flex:1;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.row .my-tag{
+  font-size:0.7rem;
+  padding:2px 8px;
+  border-radius:10px;
+  background:var(--soft-bg);
+  color:var(--accent-dark);
+  cursor:pointer;
+  flex:0 0 auto;
+  white-space:nowrap;
+}
+.row .my-tag.empty{
+  border:1px dashed var(--border);
+  color:var(--text-sub);
+  background:transparent;
+}
+.empty-state{
+  text-align:center;color:var(--text-sub);
+  padding:40px 0;font-size:0.85rem;
+}
+.hint{
+  font-size:0.72rem;color:var(--text-sub);
+  margin-top:8px;
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>网站总览</h1>
+  <div class="search-row">
+    <input type="text" id="search" placeholder="搜索网址 / 描述">
+  </div>
+  <div class="tags-row" id="tagsRow"></div>
+  <div class="hint">点击每行右侧「+标签」可自定义分类，标签会保存在本地浏览器</div>
+</div>
+
+<main>
+  <div class="count" id="count"></div>
+  <div id="results"></div>
+</main>
+
+<script>
+// ============ 数据区：新增网站直接在此加一条 { url, desc } ============
+const DATA = [
+  {group:"临床/工作工具", items:[
+    {url:"template.html", desc:"初诊评估模板"},
+    {url:"safetyplan.html", desc:"安全计划 / 临床安全评估工具"},
+    {url:"case.html", desc:"临床案例库"},
+    {url:"vocabulary.html", desc:"临床术语参考"},
+    {url:"vocabulary1.html", desc:"临床术语参考（更新版）"},
+    {url:"worksheet.html", desc:"临床工作表工具"},
+    {url:"worksheetlink.html", desc:"工作表链接页"},
+    {url:"lmhc.html", desc:"LMHC 相关需求页"},
+    {url:"technique.html", desc:"心理辅导技巧"},
+  ]},
+  {group:"生活/其他工具", items:[
+    {url:"resources.html", desc:"资源汇总页"},
+    {url:"services.html", desc:"服务介绍页"},
+    {url:"rendr.html", desc:"Rendr 相关内容"},
+    {url:"journal.html", desc:"日志页面"},
+    {url:"journal-editor.html", desc:"日志编辑器"},
+    {url:"journal-md", desc:"日志 markdown 内容"},
+    {url:"journal-posts", desc:"日志文章（中英）"},
+    {url:"post.html", desc:"文章渲染页"},
+    {url:"posts.json", desc:"文章数据"},
+    {url:"investment.html", desc:"投资分析"},
+    {url:"inflation.html", desc:"通胀相关分析"},
+    {url:"creditcard.html", desc:"信用卡优化"},
+    {url:"car.html", desc:"洗车/汽车相关"},
+    {url:"gym.html", desc:"健身内容"},
+    {url:"nutrition.html", desc:"营养相关"},
+    {url:"nutritiongirl.html", desc:"营养相关（另一版）"},
+    {url:"food.html", desc:"食物/美食"},
+    {url:"travel.html", desc:"旅行内容"},
+    {url:"hotel", desc:"酒店相关"},
+    {url:"hotel1.html", desc:"酒店相关（重命名版）"},
+    {url:"philadelphia.html", desc:"费城相关"},
+    {url:"sleep.html", desc:"睡眠相关"},
+    {url:"famous.html", desc:"名人相关内容"},
+    {url:"adhd", desc:"ADHD 教育指南"},
+  ]},
+  {group:"日常网站", items:[
+    {url:"bestwellnesstherapy.com/therapy", desc:"介绍疗法提供什么"},
+    {url:"bestwellnesstherapy.com/treatment", desc:"心理辅导师的技巧大全"},
+    {url:"bestwellnesstherapy.com/zebin", desc:"自我履历"},
+    {url:"bestwellnesstherapy.com/online", desc:"自我 online 介绍"},
+    {url:"bestwellnesstherapy.com/nutrition", desc:"健身营养"},
+    {url:"bestwellnesstherapy.com/investment", desc:"投资回顾"},
+    {url:"bestwellnesstherapy.com/lmhc", desc:"心理辅导 NYC 的需求"},
+    {url:"bestwellnesstherapy.com/travel", desc:"欧洲30天之旅"},
+    {url:"bestwellnesstherapy.com/food", desc:"NYC 食物吃的"},
+  ]},
+  {group:"Z5S 框架介绍", items:[
+    {url:"bestwellnesstherapy.com/z5s/evidence", desc:"Z5S 引用的临床论文与讨论"},
+    {url:"bestwellnesstherapy.com/z5s/fivesystem", desc:"五个主权系统的介绍"},
+    {url:"bestwellnesstherapy.com/z5s/character", desc:"Z5S 人格的描述"},
+    {url:"bestwellnesstherapy.com/z5s/interpretation", desc:"解释系统人格"},
+    {url:"bestwellnesstherapy.com/z5s/execution", desc:"执行系统人格"},
+    {url:"bestwellnesstherapy.com/z5s/emotion", desc:"情绪系统人格"},
+    {url:"bestwellnesstherapy.com/z5s/identity", desc:"认同系统人格"},
+    {url:"bestwellnesstherapy.com/z5s/play", desc:"玩乐系统人格"},
+    {url:"bestwellnesstherapy.com/z5s/dysfunction", desc:"Z5S 系统功能失调"},
+    {url:"bestwellnesstherapy.com/z5s/story", desc:"Z5S 故事"},
+  ]},
+  {group:"测量工具", items:[
+    {url:"bestwellnesstherapy.com/z5s/system", desc:"测量你的 Z5S 操作系统"},
+    {url:"bestwellnesstherapy.com/z5s/fundamental", desc:"测量你的主系统"},
+    {url:"bestwellnesstherapy.com/z5s/depressed", desc:"测情绪低落时会怎么样"},
+    {url:"bestwellnesstherapy.com/z5s/systemthreelevel", desc:"测系统三个层级（待完善）"},
+    {url:"bestwellnesstherapy.com/sample6", desc:"同上（重复/待整理）"},
+    {url:"bestwellnesstherapy.com/z5s/motivation", desc:"测量你的动力系统（待完善）"},
+  ]},
+  {group:"游戏/娱乐", items:[
+    {url:"game/doudizhu.html", desc:"斗地主游戏"},
+    {url:"TD", desc:"塔防游戏"},
+    {url:"TD1", desc:"塔防游戏（版本1）"},
+  ]},
+  {group:"家人相关", items:[
+    {url:"dad", desc:"爸爸相关内容"},
+    {url:"dad1.html", desc:"爸爸相关内容（版本1）"},
+    {url:"mom.html", desc:"妈妈相关内容"},
+  ]},
+];
+// =====================================================================
+
+const STORAGE_KEY = 'site_ref_tags_v1';
+let myTags = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); // {url: [tag,tag]}
+let collapsedGroups = JSON.parse(localStorage.getItem('site_ref_collapsed_v1') || '{}');
+let activeFilterTag = null;
+
+function saveTags(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(myTags)); }
+function saveCollapsed(){ localStorage.setItem('site_ref_collapsed_v1', JSON.stringify(collapsedGroups)); }
+
+function allCustomTags(){
+  const set = new Set();
+  Object.values(myTags).forEach(arr => arr.forEach(t => set.add(t)));
+  return Array.from(set).sort();
+}
+
+function renderTagsRow(){
+  const tags = allCustomTags();
+  let html = '';
+  tags.forEach(t => {
+    html += `<span class="tag-pill ${activeFilterTag===t?'active':''}" data-tag="${t}">${t} ✕</span>`;
+  });
+  document.getElementById('tagsRow').innerHTML = html || '<span class="hint" style="margin:0;">还没有自定义标签，点某一行的「+标签」即可添加</span>';
+  document.querySelectorAll('.tag-pill').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      const t = el.dataset.tag;
+      if(e.target === el && el.textContent.includes('✕') === false) return;
+      // toggle filter, ✕ removes tag entirely if clicked precisely on remove zone -- simplify: click filters, shift+click deletes
+      if(e.shiftKey){
+        if(confirm(`删除标签「${t}」？`)){
+          Object.keys(myTags).forEach(url=>{
+            myTags[url] = myTags[url].filter(x=>x!==t);
+          });
+          saveTags();
+          activeFilterTag = activeFilterTag===t ? null : activeFilterTag;
+          renderAll();
+        }
+      } else {
+        activeFilterTag = activeFilterTag === t ? null : t;
+        renderAll();
+      }
+    });
+  });
+}
+
+function makeHref(url){
+  const first = url.split(' ')[0];
+  if(first.startsWith('http')) return first;
+  if(first.startsWith('bestwellnesstherapy.com/')) return 'https://'+first;
+  return 'https://bestwellnesstherapy.com/'+first; // 相对路径统一挂到主站域名下
+}
+
+function makeLabel(url){
+  const first = url.split(' ')[0];
+  let label = first.startsWith('bestwellnesstherapy.com/') ? first.replace('bestwellnesstherapy.com/', '') : first;
+  return label.replace(/\.html$/i, '');
+}
+
+function renderResults(){
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const resultsEl = document.getElementById('results');
+  let total = 0;
+  let html = '';
+
+  DATA.forEach(g => {
+    const items = g.items.filter(it => {
+      const matchesQ = !q || it.url.toLowerCase().includes(q) || it.desc.toLowerCase().includes(q) || g.group.toLowerCase().includes(q);
+      const tags = myTags[it.url] || [];
+      const matchesTag = !activeFilterTag || tags.includes(activeFilterTag);
+      return matchesQ && matchesTag;
+    });
+    if(items.length === 0) return;
+    total += items.length;
+    const isCollapsed = collapsedGroups[g.group];
+    html += `<div class="group ${isCollapsed?'collapsed':''}" data-group="${g.group}">
+      <div class="group-header">
+        <span>${g.group} · ${items.length}</span>
+        <span class="chev">▾</span>
+      </div>
+      <div class="group-body">`;
+    items.forEach(it => {
+      const tags = myTags[it.url] || [];
+      const tagHtml = tags.length
+        ? tags.map(t=>`<span class="my-tag" data-url="${it.url}" data-tag="${t}">${t}</span>`).join('')
+        : `<span class="my-tag empty" data-url="${it.url}">+标签</span>`;
+      html += `<div class="row">
+        <a href="${makeHref(it.url)}" target="_blank" title="${it.url}">${makeLabel(it.url)}</a>
+        <span class="desc" title="${it.desc}">${it.desc}</span>
+        ${tagHtml}
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+
+  document.getElementById('count').textContent = total ? `共 ${total} 条` : '';
+  resultsEl.innerHTML = total ? html : '<div class="empty-state">没有匹配结果</div>';
+
+  document.querySelectorAll('.group-header').forEach(h=>{
+    h.addEventListener('click', ()=>{
+      const g = h.parentElement;
+      const name = g.dataset.group;
+      collapsedGroups[name] = !collapsedGroups[name];
+      saveCollapsed();
+      g.classList.toggle('collapsed');
+    });
+  });
+
+  document.querySelectorAll('.my-tag').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const url = el.dataset.url;
+      const existingTag = el.dataset.tag;
+      if(existingTag){
+        if(confirm(`移除标签「${existingTag}」？`)){
+          myTags[url] = (myTags[url]||[]).filter(t=>t!==existingTag);
+          saveTags(); renderAll();
+        }
+      } else {
+        const t = prompt('给这个网站加一个标签（如：常用、待整理、投资类）：');
+        if(t && t.trim()){
+          myTags[url] = myTags[url] || [];
+          if(!myTags[url].includes(t.trim())) myTags[url].push(t.trim());
+          saveTags(); renderAll();
+        }
+      }
+    });
+  });
+}
+
+function renderAll(){
+  renderTagsRow();
+  renderResults();
+}
+
+document.getElementById('search').addEventListener('input', renderResults);
+renderAll();
+</script>
+</body>
+</html>
