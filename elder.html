@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老年来访者照护资源 · 功能与安全评估</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page-bg:#f7f1e8;
+  --soft-bg:#f2e7d9;
+  --card-bg:#fdf9f4;
+  --ink:#2e2620;
+  --ink-soft:#5c5245;
+  --line:#dfd0b8;
+  --brass:#a97c3f;
+  --brass-dark:#7d5a2c;
+  --sage:#6f7d5c;
+  --clay:#b5603f;
+  --urgent:#96432a;
+  --shadow:0 6px 24px rgba(60,45,20,0.08);
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--page-bg);color:var(--ink);font-family:"Noto Sans SC",sans-serif;line-height:1.7;}
+h1,h2,h3,.serif{font-family:"Noto Serif SC",serif;}
+a{color:var(--brass-dark);}
+:focus-visible{outline:3px solid var(--brass);outline-offset:2px;}
+
+/* ---------- Header ---------- */
+header{padding:56px 24px 40px;text-align:center;position:relative;}
+.eyebrow{letter-spacing:.3em;font-size:12px;color:var(--brass-dark);font-weight:500;margin-bottom:14px;}
+h1{font-size:clamp(28px,4.5vw,44px);font-weight:900;margin:0 0 12px;color:var(--ink);}
+.sub{color:var(--ink-soft);font-size:15px;max-width:600px;margin:0 auto 32px;}
+
+.clock-wrap{width:170px;height:170px;margin:0 auto;position:relative;}
+.clock-face{width:100%;height:100%;border-radius:50%;background:var(--card-bg);border:3px solid var(--brass);box-shadow:var(--shadow);position:relative;}
+.tick{position:absolute;background:var(--ink-soft);width:3px;height:12px;top:6px;left:50%;transform-origin:1.5px 79px;}
+.hand{position:absolute;background:var(--ink);border-radius:3px;transform-origin:bottom center;bottom:50%;left:50%;}
+.hand.hh{width:5px;height:42px;margin-left:-2.5px;animation:hh 43200s linear infinite;}
+.hand.mm{width:3px;height:60px;margin-left:-1.5px;background:var(--brass-dark);animation:mm 3600s linear infinite;}
+.center-dot{position:absolute;width:10px;height:10px;background:var(--clay);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);}
+@keyframes hh{from{transform:rotate(230deg)}to{transform:rotate(590deg)}}
+@keyframes mm{from{transform:rotate(60deg)}to{transform:rotate(420deg)}}
+
+/* ---------- Function-check module ---------- */
+.func-check{max-width:960px;margin:0 auto;padding:0 20px 44px;}
+.tier-desc{background:var(--soft-bg);border-left:4px solid var(--brass);padding:16px 20px;border-radius:8px;color:var(--ink-soft);font-size:14.5px;margin-bottom:24px;}
+.func-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px;}
+.func-col{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow);}
+.func-col h3{margin:0 0 14px;font-size:16.5px;}
+.func-item{display:flex;align-items:flex-start;gap:10px;padding:7px 0;font-size:13.8px;color:var(--ink-soft);cursor:pointer;border-bottom:1px dashed var(--line);}
+.func-item:last-child{border-bottom:none;}
+.func-item input{margin-top:3px;accent-color:var(--brass);width:16px;height:16px;flex:none;}
+.func-item.checked span{color:var(--sage);text-decoration:line-through;text-decoration-color:var(--sage);}
+.warn-box{background:#f7ece4;border:1px solid #e4c4ac;border-radius:14px;padding:22px 24px;}
+.warn-box h3{margin:0 0 10px;font-size:16.5px;color:var(--urgent);}
+.warn-box ul{margin:0 0 10px;padding-left:18px;font-size:14px;color:var(--ink-soft);columns:2;column-gap:28px;}
+.warn-box li{margin-bottom:6px;break-inside:avoid;}
+.warn-box p{margin:10px 0 0;font-size:13.8px;color:var(--ink-soft);}
+
+/* ---------- Mobility tabs ---------- */
+nav.tiers{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:0 20px 8px;}
+.tier-btn{font-family:"Noto Serif SC",serif;font-weight:600;font-size:15px;padding:10px 20px;border-radius:999px;border:1.5px solid var(--line);background:var(--card-bg);color:var(--ink-soft);cursor:pointer;transition:.2s;}
+.tier-btn:hover{border-color:var(--brass);}
+.tier-btn.active{background:var(--brass);border-color:var(--brass);color:#fff;}
+
+section.tier-panel{display:none;max-width:960px;margin:0 auto;padding:36px 20px 20px;}
+section.tier-panel.active{display:block;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-bottom:36px;}
+.card{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow);}
+.card .num{font-family:"Noto Serif SC",serif;font-weight:700;color:var(--brass-dark);font-size:13px;letter-spacing:.15em;margin-bottom:6px;}
+.card h3{font-size:18px;margin:0 0 10px;}
+.card ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-soft);}
+.card li{margin-bottom:6px;}
+
+.domain-title{display:flex;align-items:center;gap:10px;margin:44px 0 16px;}
+.domain-title .tag{width:8px;height:8px;border-radius:50%;background:var(--clay);flex:none;}
+.domain-title.urgent .tag{display:none;}
+.domain-title h2{font-size:21px;margin:0;}
+.pendant-icon{flex:none;}
+
+.test-box{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px;}
+.test-box h3{margin-top:0;font-size:17px;}
+.test-box p{font-size:14.5px;color:var(--ink-soft);margin:6px 0;}
+.pill{display:inline-block;background:var(--soft-bg);color:var(--brass-dark);font-size:12.5px;padding:3px 10px;border-radius:999px;margin-right:6px;margin-bottom:6px;font-weight:500;}
+.note{font-size:13px;color:var(--ink-soft);background:var(--soft-bg);border-radius:8px;padding:10px 14px;margin-top:10px;}
+.note.urgent-note{background:#f7ece4;border:1px solid #e4c4ac;color:var(--urgent);}
+
+footer{text-align:center;padding:40px 20px 60px;color:var(--ink-soft);font-size:12.5px;max-width:700px;margin:0 auto;}
+footer p{margin:4px 0;}
+
+@media(max-width:640px){
+  .clock-wrap{width:130px;height:130px;}
+  .func-grid{grid-template-columns:1fr;}
+  .warn-box ul{columns:1;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">RENDR · 老年来访者咨询工具</div>
+  <h1>老年人功能与安全评估资源</h1>
+  <p class="sub">按行动能力分级组织 — 功能速查、居家安全、跌倒警报器、认知筛查、唱歌、家庭活动，帮助你在会谈中快速定位适合来访者当前状态的建议。</p>
+  <div class="clock-wrap" aria-hidden="true">
+    <div class="clock-face">
+      <div class="tick" style="transform:rotate(0deg)"></div>
+      <div class="tick" style="transform:rotate(30deg)"></div>
+      <div class="tick" style="transform:rotate(60deg)"></div>
+      <div class="tick" style="transform:rotate(90deg)"></div>
+      <div class="tick" style="transform:rotate(120deg)"></div>
+      <div class="tick" style="transform:rotate(150deg)"></div>
+      <div class="tick" style="transform:rotate(180deg)"></div>
+      <div class="tick" style="transform:rotate(210deg)"></div>
+      <div class="tick" style="transform:rotate(240deg)"></div>
+      <div class="tick" style="transform:rotate(270deg)"></div>
+      <div class="tick" style="transform:rotate(300deg)"></div>
+      <div class="tick" style="transform:rotate(330deg)"></div>
+      <div class="hand hh"></div>
+      <div class="hand mm"></div>
+      <div class="center-dot"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 功能变化速查（跨层级） ================= -->
+<section class="func-check" id="func-check">
+  <div class="domain-title"><span class="tag"></span><h2>功能变化速查：维持中还是在下降？</h2></div>
+  <div class="tier-desc">用于快速判断来访者目前更接近哪一档，或本次随访较上次是否出现功能下降。逐项在会谈中口头确认或观察即可，不需要来访者书面填写。</div>
+  <div class="func-grid">
+    <div class="func-col">
+      <h3>基本日常生活活动 ADL</h3>
+      <label class="func-item"><input type="checkbox"><span>洗澡 — 能否独立进出浴缸/淋浴并清洗全身</span></label>
+      <label class="func-item"><input type="checkbox"><span>穿衣 — 能否独立选衣、穿脱、扣纽扣拉拉链</span></label>
+      <label class="func-item"><input type="checkbox"><span>如厕 — 能否独立如厕、整理衣物、清洁</span></label>
+      <label class="func-item"><input type="checkbox"><span>移位 — 能否独立完成床↔椅↔站立转换</span></label>
+      <label class="func-item"><input type="checkbox"><span>大小便控制 — 是否偶发或持续失禁</span></label>
+      <label class="func-item"><input type="checkbox"><span>进食 — 能否独立用餐具进食、吞咽是否正常</span></label>
+    </div>
+    <div class="func-col">
+      <h3>工具性日常生活活动 IADL</h3>
+      <label class="func-item"><input type="checkbox"><span>电话使用 — 能否查号、拨打并进行对话</span></label>
+      <label class="func-item"><input type="checkbox"><span>购物 — 能否独立列清单、购买必需品</span></label>
+      <label class="func-item"><input type="checkbox"><span>备餐 — 能否独立规划、烹饪一餐</span></label>
+      <label class="func-item"><input type="checkbox"><span>家务/洗衣 — 能否维持基本整洁与洗衣</span></label>
+      <label class="func-item"><input type="checkbox"><span>交通出行 — 能否独立搭车/驾车外出</span></label>
+      <label class="func-item"><input type="checkbox"><span>服药管理 — 能否按时按量自行服药</span></label>
+      <label class="func-item"><input type="checkbox"><span>理财能力 — 能否管理账单、识别异常支出</span></label>
+    </div>
+  </div>
+  <div class="warn-box">
+    <h3>功能下降警示信号 — 出现以下情况考虑下调层级或加强转介</h3>
+    <ul>
+      <li>近一年内新发跌倒，或跌倒次数增加</li>
+      <li>新发大小便失禁</li>
+      <li>非刻意的体重下降</li>
+      <li>拒绝洗澡或个人卫生明显变差</li>
+      <li>社交/家庭活动参与骤减</li>
+      <li>情绪持续低落或明显淡漠加重</li>
+      <li>忘记服药、重复服药或用药混乱</li>
+      <li>在熟悉环境中迷路或走失</li>
+      <li>对原本热衷的活动失去兴趣</li>
+      <li>短时间内认知筛查得分下滑</li>
+    </ul>
+    <p>若功能较此前评估明显下降，建议下调适用层级、重新排查居家安全与警报器配置，并与PCP讨论是否需要PT/OT或神经心理转介。</p>
+  </div>
+</section>
+
+<nav class="tiers">
+  <button class="tier-btn active" data-tier="full">完全自理 · 独立行走</button>
+  <button class="tier-btn" data-tier="cane">使用拐杖/助行器</button>
+  <button class="tier-btn" data-tier="wheelchair">轮椅 / 卧床</button>
+</nav>
+
+<!-- ================= 完全自理 ================= -->
+<section class="tier-panel active" id="full">
+  <div class="tier-desc">四肢健全、可独立步行的来访者。重点从"预防"转向"维持"：防止孤立、维持认知刺激、鼓励其继续承担部分家庭/社区角色，避免因过度保护而加速功能衰退。</div>
+
+  <div class="domain-title"><span class="tag"></span><h2>居家安全</h2></div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>环境</h3><ul><li>浴室防滑垫，夜灯</li><li>楼梯扶手是否牢固</li><li>地毯边缘/电线是否绊脚</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>用药与就医</h3><ul><li>是否有固定PCP并按时复诊</li><li>用药是否有人核对（防重复/漏服）</li><li>多重用药(polypharmacy)是否请医生定期review</li><li>是否独自开车，视力是否评估过</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>紧急应对</h3><ul><li>是否知道如何联系家人/911</li><li>独居时是否有人每日联系</li><li>紧急联络卡是否放在钱包/冰箱上</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>跌倒风险自评</h3><ul><li>视力模糊/白内障是否处理</li><li>是否服用镇静/安眠类药物</li><li>起身是否头晕（体位性低血压）</li><li>近一年是否已跌倒过一次</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>诈骗与财务安全</h3><ul><li>冒充政府/银行/亲属求救的电话诈骗</li><li>陌生来电推销"免费"医疗警报器需格外小心</li><li>大额转账前先与信任家属核对</li><li>避免向陌生来电透露医保/社安号</li></ul></div>
+  </div>
+
+  <div class="domain-title urgent"><svg class="pendant-icon" width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--urgent)" stroke-width="2"/><circle cx="13" cy="13" r="5" fill="var(--urgent)"/></svg><h2>紧急呼叫与跌倒警报器（老人钟）</h2></div>
+  <div class="test-box">
+    <p class="note">这里的"老人钟"指跌倒/紧急呼叫报警器 — 按下即可连接24小时人工客服，并非字面意义上的时钟。</p>
+    <h3>装置原理</h3>
+    <p>可挂在脖子或戴在手腕上的按键装置，按下后连接人工客服中心，客服通话确认情况后按需联系家属或直接拨打911。部分新款具备自动跌倒侦测（即使昏迷或来不及按键也可能报警），但准确率并非100%，能按键时仍应主动按。</p>
+    <h3>适合该层级的类型</h3>
+    <p>此层级来访者仍会独自外出（买菜、散步、去活动中心），建议选择带GPS定位的蜂窝网络移动款，或具备跌倒侦测功能的智能手表；日常洗澡佩戴需确认防水。</p>
+    <h3>费用与保险</h3>
+    <p>Original Medicare（Part A/B）不覆盖此类装置，因其不属于"耐用医疗器材"分类；部分Medicare Advantage计划将其列为补充福利，需查看具体保单条款。持有Medicaid者，可通过纽约州Medicaid居家护理计划（如MLTC、Personal Care）申请PERS，需经个案经理审批。自费价格因服务商而异，一般每月约US$20-50，部分品牌（如Life Alert）可能更高，另有一次性设备/开通费。</p>
+    <p class="note urgent-note">谨防诈骗：接到声称"免费赠送"警报器的陌生来电时，先与家人或PCP核实，不要立即提供个人信息或医保号。</p>
+    <h3>沟通话术方向</h3>
+    <p>强调"独立"而非"被监控"，例如："这样即使你想一个人去散步、洗澡，家人也能放心" —— 减少来访者觉得被剥夺自主权的抵触感。</p>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>认知筛查：数数与画钟测验</h2></div>
+  <div class="test-box">
+    <span class="pill">定向力</span><span class="pill">注意与计算</span><span class="pill">回忆</span><span class="pill">视空间</span>
+    <h3>倒数练习（100 连续减 7）</h3>
+    <p>100→93→86→79→72→65，共5次；错误或卡顿处记录，用于粗筛注意力与执行功能。</p>
+    <h3>三词延迟回忆</h3>
+    <p>说出3个不相关词（如"苹果、桌子、硬币"），请来访者复述并记住，随后进行画钟测验作为干扰，最后再请其回忆这3个词。</p>
+    <h3>画钟测验（Clock Drawing Test）</h3>
+    <p>请来访者在空白圆圈中画出时钟数字，并画出指向"11点10分"的指针；观察数字排列、指针位置、整体空间布局是否正确。</p>
+    <h3>今日定向</h3>
+    <p>询问年、月、日、星期几、当前地点，判断时间与地点定向力是否完整。</p>
+    <p class="note urgent-note">关于MMSE：正式版MMSE现由PAR公司持有版权，机构须付费购买才能合法使用，不可自行复印传播。若未购买正式授权，建议改用完全免费、可用于临床教育用途的Mini-Cog（三词回忆+画钟测验，满分5分，&lt;3分提示需要进一步评估），必要时再转介正式神经心理评估。</p>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>怀旧金曲</h3><ul><li>播放来访者年轻时熟悉的老歌</li><li>邀请其跟唱或哼唱旋律</li><li>可结合语言背景（粤语老歌、国语老歌、邓丽君等）</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>合唱/团体</h3><ul><li>社区中心老年合唱团</li><li>教会诗班/团体节庆歌曲活动</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>家庭K歌</h3><ul><li>家用麦克风+手机K歌App</li><li>在家人面前唱拿手曲目，增加成就感</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>音乐与情绪</h3><ul><li>怀旧疗法：按文化背景挑选曲目唤起正向回忆</li><li>可用于安抚焦虑、提升情绪</li></ul></div>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>与家人共同</h3><ul><li>教孙辈做家乡菜/方言/书法</li><li>每周固定的家庭视频/聚餐</li><li>整理老照片、讲家族故事</li><li>按农历节气一起包粽子/包饺子</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>独立可做</h3><ul><li>散步、太极、园艺</li><li>阅读、书法、麻将/棋牌</li><li>社区免费英语班或华人社团活动</li><li>社区图书馆/庙宇志愿服务</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>PCP随访提醒</h3><ul><li>建议每3-6个月随访一次</li><li>核对新增/调整的用药</li><li>询问是否需要跌倒风险、骨密度、听力视力筛查</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>手工与益智</h3><ul><li>剪纸/编织/串珠手作</li><li>拼图、数独、猜谜语</li><li>整理老照片、做成相册</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>户外与社区活动</h3><ul><li>门球/木球（华人社区中心常见）</li><li>公园下棋角、象棋摊</li><li>耆英活动中心课程（法拉盛、8大道等）</li><li>遛鸟/观鸟</li></ul></div>
+    <div class="card"><div class="num">06</div><h3>数字与文娱</h3><ul><li>微信视频通话孙辈</li><li>YouTube听老戏曲/评书</li><li>抄经、礼佛、静坐冥想</li></ul></div>
+  </div>
+</section>
+
+<!-- ================= 拐杖/助行器 ================= -->
+<section class="tier-panel" id="cane">
+  <div class="tier-desc">需借助拐杖或助行器行走的来访者。安全重点转向"防跌"，活动设计需减少远距离移动需求，同时避免因行动受限而产生的自我价值感下降。</div>
+
+  <div class="domain-title"><span class="tag"></span><h2>居家安全</h2></div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>移动路径</h3><ul><li>常走路线是否清空杂物</li><li>助行器高度是否调整合适</li><li>是否有坐式淋浴椅/扶手</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>用药与就医</h3><ul><li>PCP是否评估过跌倒风险</li><li>是否有骨密度/关节相关检查</li><li>是否需要理疗（PT）转介</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>紧急应对</h3><ul><li>手机/呼叫器是否随身可及</li><li>独自在家时间段是否有人知晓</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>跌倒风险自评</h3><ul><li>跌倒史是最强预测因子之一，曾跌倒者再次跌倒风险显著升高</li><li>拐杖/助行器高度是否合脚</li><li>鞋底是否防滑</li><li>浴室是否已加装扶手</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>诈骗与财务安全</h3><ul><li>行动不便者更易被上门推销盯上</li><li>陌生人上门先电话核实身份</li><li>不轻易签署陌生文件</li></ul></div>
+  </div>
+
+  <div class="domain-title urgent"><svg class="pendant-icon" width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--urgent)" stroke-width="2"/><circle cx="13" cy="13" r="5" fill="var(--urgent)"/></svg><h2>紧急呼叫与跌倒警报器（老人钟）</h2></div>
+  <div class="test-box">
+    <p class="note">这里的"老人钟"指跌倒/紧急呼叫报警器 — 按下即可连接24小时人工客服，并非字面意义上的时钟。</p>
+    <h3>适合该层级的类型</h3>
+    <p>此层级跌倒多发生在浴室/如厕过程中，首选可防水佩戴入浴室的挂绳式按钮；也可在浴室、床边各装一个墙壁拉绳式求助按钮。若仍规律外出（如去日间照料中心），可搭配GPS移动款。</p>
+    <h3>费用与保险</h3>
+    <p>Original Medicare不覆盖此类装置；部分Medicare Advantage计划提供补充福利。持Medicaid者可经MLTC/Personal Care个案经理申请。自费一般每月约US$20-50，另有开通费，具体因服务商而异。</p>
+    <p class="note urgent-note">谨防诈骗：陌生来电声称"免费赠送"警报器时，先与家人核实再提供个人信息。</p>
+    <h3>沟通话术方向</h3>
+    <p>具体到情境更易被接受，例如："洗澡时万一滑倒，你按一下就有人来" —— 比抽象谈"安全"更有说服力。</p>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>认知筛查：数数与画钟测验</h2></div>
+  <div class="test-box">
+    <h3>倒数练习（简化版）</h3>
+    <p>若连续减7有困难，可改为20倒数到1，或说出一周七天倒序，降低操作难度但保留筛查价值。</p>
+    <h3>今日定向 + 三词回忆</h3>
+    <p>同样进行时间/地点定向提问与延迟回忆，注意来访者是否因行动受限而情绪低落影响配合度。</p>
+    <h3>画钟测验（坐位完成）</h3>
+    <p>坐位即可完成，无需站立；若手部力量不足，可改为口头描述指针位置代替书写。</p>
+    <p class="note urgent-note">正式MMSE需向PAR公司付费购买，未购买授权时建议改用免费的Mini-Cog（三词回忆+画钟测验）作为初筛。</p>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>坐姿进行</h3><ul><li>坐着跟唱，配合手部打拍子</li><li>使用耳机播放熟悉曲目，降低环境干扰</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>辅助工具</h3><ul><li>防滑桌面固定歌词本/平板</li><li>方便坐姿翻看歌词，减少手部负担</li></ul></div>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>与家人共同</h3><ul><li>坐着教孙辈折纸/编织</li><li>家庭视频通话固定时段</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>独立可做</h3><ul><li>室内座椅体操、拉伸</li><li>拼图、纸牌、看电视剧追剧</li><li>用助行器篮子短途遛弯取信，维持出门动力</li><li>阳台/窗边园艺（盆栽）</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>PCP随访提醒</h3><ul><li>建议每3-6个月随访</li><li>请PT/OT评估拐杖或助行器是否需要更换</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>手工与益智（坐姿）</h3><ul><li>串珠、剪纸等坐姿手作</li><li>数独、填字、猜谜语</li><li>整理老照片相册</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>社区与团体活动</h3><ul><li>日间照料中心（Senior Day Program）团体活动</li><li>社区中心坐姿八段锦班</li><li>有人接送时参加教会/庙宇小组聚会</li></ul></div>
+    <div class="card"><div class="num">06</div><h3>数字与文娱</h3><ul><li>微信视频通话</li><li>听广播/评书、看老戏曲录像</li><li>简单手机游戏（如消消乐）</li></ul></div>
+  </div>
+</section>
+
+<!-- ================= 轮椅/卧床 ================= -->
+<section class="tier-panel" id="wheelchair">
+  <div class="tier-desc">轮椅使用者或卧床来访者。重点在"防止并发症"（压疮、肌肉萎缩）与"维持社会连接"，认知与情绪支持比运动类活动更为核心。</div>
+
+  <div class="domain-title"><span class="tag"></span><h2>居家安全</h2></div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>皮肤与体位</h3><ul><li>定时翻身/减压垫使用</li><li>轮椅刹车、脚踏板是否安全</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>用药与就医</h3><ul><li>是否有居家护理/上门PCP服务</li><li>吞咽功能是否评估（误吸风险）</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>紧急应对</h3><ul><li>照护者是否24小时可及</li><li>呼叫铃/床边报警是否可用</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>跌倒风险自评</h3><ul><li>床-轮椅转移过程中最易跌倒</li><li>轮椅刹车是否每次转移前锁好</li><li>是否需要转移板辅助</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>诈骗与财务安全</h3><ul><li>卧床/轮椅来访者更依赖照护者转达信息</li><li>留意照护者是否有不当财务经手行为</li><li>大额支出请家属定期核对账目</li></ul></div>
+  </div>
+
+  <div class="domain-title urgent"><svg class="pendant-icon" width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--urgent)" stroke-width="2"/><circle cx="13" cy="13" r="5" fill="var(--urgent)"/></svg><h2>紧急呼叫与跌倒警报器（老人钟）</h2></div>
+  <div class="test-box">
+    <p class="note">这里的"老人钟"指跌倒/紧急呼叫报警器 — 按下即可连接24小时人工客服，并非字面意义上的时钟。</p>
+    <h3>适合该层级的类型</h3>
+    <p>若有专职照护者在旁，重点是"呼叫铃在手边"，GPS外出定位并非必要；可考虑床垫/轮椅感应垫（离床/离座警报），提醒照护者来访者试图自行转移的时刻。若独自在家时段较长，仍建议配备按键式挂绳。</p>
+    <h3>费用与保险</h3>
+    <p>Original Medicare不覆盖此类装置；持Medicaid者可在申请居家护理服务（MLTC个案管理）时一并申请PERS及床边设备，需经审批。</p>
+    <p class="note urgent-note">谨防诈骗：任何声称"免费"赠送设备的陌生来电，先请家属核实来源。</p>
+    <h3>沟通话术方向</h3>
+    <p>此层级的沟通对象常是照护者/家属而非来访者本人（若认知严重受损），话术重点在于"如何第一时间发现异常"而非"独立感"。</p>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>认知筛查：数数与画钟测验</h2></div>
+  <div class="test-box">
+    <h3>轻量化筛查</h3>
+    <p>优先简短对话式提问（今天星期几、在哪里、家人姓名），避免过长测验引起疲劳。</p>
+    <h3>谵妄警示</h3>
+    <p>需区分急性意识混乱（谵妄）与慢性痴呆：若定向力短时间内突然恶化，应立即转介排查感染、脱水、药物副作用等可逆病因，而非直接归因于痴呆进展。</p>
+    <p class="note urgent-note">若需正式量表，MMSE须向PAR购买授权；免费的Mini-Cog（三词回忆+画钟）可作为初筛，但此层级来访者若手部/语言能力受限，画钟部分可能无法完成，需在记录中注明。</p>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>被动聆听</h3><ul><li>播放熟悉旧曲，鼓励轻声跟唱或打拍</li><li>音乐可用于安抚焦躁情绪</li><li>家属可录制家人声音搭配熟悉旋律播放</li></ul></div>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>与家人共同</h3><ul><li>家人朗读新闻/家书</li><li>看老照片、听家人讲近况</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>独立可做</h3><ul><li>广播剧、有声书</li><li>简单手部活动（握力球）</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>PCP随访提醒</h3><ul><li>了解居家医疗（house call）或Telehealth选项</li><li>是否需要吞咽/营养师转介</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>床边手工与感官活动</h3><ul><li>简单编织、揉纸团（维持精细动作）</li><li>闻香、触摸不同织物（感官刺激）</li><li>看老照片、播放熟悉音乐</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>陪伴与社交</h3><ul><li>视频通话，让来访者看到孙辈</li><li>机构允许时安排宠物探访（pet therapy）</li><li>志愿者/教友床边探视</li></ul></div>
+    <div class="card"><div class="num">06</div><h3>精神与安宁活动</h3><ul><li>念经、祷告</li><li>听诵经/佛乐录音</li><li>静坐、引导式呼吸放松</li></ul></div>
+  </div>
+</section>
+
+<footer>
+  <p>供咨询会谈参考使用，非诊断工具，认知筛查结果异常建议转介正式神经心理评估。</p>
+  <p>内容参考CDC老年跌倒数据、Medicare.gov、纽约州Medicaid居家护理PERS政策及Mini-Cog公开资料整理，具体保险覆盖请以承保方最新条款为准。</p>
+</footer>
+
+<script>
+document.querySelectorAll('.tier-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tier-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tier-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tier).classList.add('active');
+  });
+});
+document.querySelectorAll('.func-item input').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    cb.closest('.func-item').classList.toggle('checked',cb.checked);
+  });
+});
+</script>
+</body>
+</html>
