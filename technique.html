@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心理治疗技术手册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page-bg:#f7f1e8;
+  --soft-bg:#f2e7d9;
+  --card-bg:#fdf9f4;
+  --ink:#3a332b;
+  --ink-soft:#6b6156;
+  --ink-faint:#948a7c;
+  --line:#e4d8c5;
+  --gold:#b08a2e;
+
+  --cbt:#b0563a;
+  --exposure:#9c3f42;
+  --humanistic:#5f7a4a;
+  --psychodynamic:#5f5a86;
+  --family:#3f7a86;
+  --solution:#b08a2e;
+  --adlerian_reality:#8a5a3f;
+
+  --lvl1:#8a4a4a;
+  --lvl2:#a8703f;
+  --lvl3:#b0973f;
+  --lvl4:#5f7a4a;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--page-bg);
+  color:var(--ink);
+  font-family:'Noto Sans SC',sans-serif;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.serif{font-family:'Noto Serif SC',serif;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px 100px;}
+a{color:inherit;}
+
+/* ---------- sticky control bar ---------- */
+.controlbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(247,241,232,0.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.controlbar-top{
+  max-width:1240px;margin:0 auto;padding:12px 24px 0;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+.brand{font-family:'Noto Serif SC',serif;font-weight:700;font-size:14px;letter-spacing:.04em;color:var(--ink);}
+.anchor-links{display:flex;gap:18px;flex-wrap:wrap;}
+.anchor-links a{font-size:13px;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px;transition:color .15s,border-color .15s;}
+.anchor-links a:hover{color:var(--ink);border-color:var(--gold);}
+.controlbar-main{
+  max-width:1240px;margin:0 auto;padding:12px 24px 14px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+#search{
+  flex:1 1 240px;min-width:200px;
+  padding:9px 16px;border-radius:999px;border:1px solid var(--line);
+  background:var(--card-bg);color:var(--ink);font-size:14px;font-family:inherit;
+  outline:none;transition:border-color .15s,box-shadow .15s;
+}
+#search:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(176,138,46,0.15);}
+.pills{display:flex;gap:8px;flex-wrap:wrap;}
+.pill{
+  padding:7px 15px;border-radius:999px;border:1px solid var(--line);
+  background:var(--card-bg);font-size:12.5px;cursor:pointer;color:var(--ink-soft);
+  transition:all .15s;white-space:nowrap;
+}
+.pill:hover{border-color:var(--ink-faint);}
+.pill.active{background:var(--ink);color:var(--card-bg);border-color:var(--ink);}
+.count{font-size:12.5px;color:var(--ink-faint);white-space:nowrap;margin-left:auto;padding-left:8px;}
+
+/* ---------- hero ---------- */
+.hero{padding:52px 0 26px;}
+.hero .eyebrow{font-size:13px;color:var(--gold);letter-spacing:.08em;font-weight:600;margin-bottom:10px;}
+.hero h1{font-size:clamp(28px,4vw,42px);font-weight:700;margin:0 0 14px;color:var(--ink);}
+.hero p{font-size:15.5px;color:var(--ink-soft);max-width:640px;margin:0 0 22px;}
+.stat-row{display:flex;gap:28px;flex-wrap:wrap;}
+.stat{}
+.stat .n{font-family:'Noto Serif SC',serif;font-weight:700;font-size:26px;color:var(--ink);}
+.stat .l{font-size:12.5px;color:var(--ink-faint);}
+
+/* ---------- sections ---------- */
+section{padding:44px 0 8px;border-top:1px solid var(--line);}
+section:first-of-type{border-top:none;}
+.section-head{margin-bottom:6px;}
+.section-head h2{font-size:22px;margin:0 0 8px;color:var(--ink);}
+.section-intro{font-size:14px;color:var(--ink-soft);max-width:720px;margin:0 0 18px;}
+
+/* ---------- technique list (one row per item, full width) ---------- */
+.grid{display:flex;flex-direction:column;gap:8px;margin-top:18px;}
+.group-header{
+  font-family:'Noto Serif SC',serif;font-weight:700;font-size:12.5px;
+  color:var(--accent,#b08a2e);letter-spacing:.05em;
+  margin:22px 2px 2px;padding-bottom:7px;border-bottom:1px solid var(--line);
+}
+.group-header:first-child{margin-top:0;}
+.card{
+  background:var(--card-bg);border:1px solid var(--line);border-left:4px solid var(--accent,#b08a2e);
+  border-radius:11px;padding:12px 18px;cursor:pointer;position:relative;
+  transition:box-shadow .2s;
+}
+.card:hover{box-shadow:0 4px 14px rgba(60,45,25,.07);}
+.card.flash{animation:flashGlow 1.4s ease;}
+@keyframes flashGlow{
+  0%{box-shadow:0 0 0 5px rgba(176,138,46,.45);}
+  100%{box-shadow:0 4px 14px rgba(60,45,25,.07);}
+}
+.card .head-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-right:22px;}
+.supp-badge{
+  font-size:9.5px;font-weight:700;color:#8a6a2e;background:#f0dfb8;
+  padding:1px 7px;border-radius:999px;letter-spacing:.02em;flex-shrink:0;
+}
+.card .name-en{font-family:'Noto Serif SC',serif;font-weight:700;font-size:15.5px;color:var(--ink);flex-shrink:0;}
+.card .name-cn{font-size:12.5px;color:var(--ink-soft);flex-shrink:0;white-space:nowrap;}
+.card .core-preview{
+  flex:1 1 200px;min-width:0;
+  font-size:12.5px;color:var(--ink-soft);line-height:1.55;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.card.expanded .core-preview{
+  flex-basis:100%;white-space:normal;overflow:visible;text-overflow:clip;margin-top:2px;
+}
+.card::after{
+  content:"›";position:absolute;right:14px;top:12px;color:var(--ink-faint);font-size:16px;
+  transition:transform .25s;
+}
+.card.expanded::after{transform:rotate(90deg);}
+
+.tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.tag{font-size:10px;padding:2px 9px;border-radius:999px;background:var(--soft-bg);color:var(--ink-soft);}
+
+.detail{max-height:0;overflow:hidden;}
+.card.expanded .detail{max-height:none;margin-top:9px;padding-top:9px;border-top:1px solid var(--line);}
+.detail .meta-line{font-size:11px;color:var(--ink-faint);margin-bottom:7px;}
+.tech-item{margin-bottom:6px;font-size:12.5px;line-height:1.55;}
+.tech-item b{color:var(--ink);}
+.tech-item .d{color:var(--ink-soft);}
+.example-line{font-size:12.5px;color:var(--ink);line-height:1.6;margin-top:7px;padding-left:9px;border-left:2px solid var(--accent,#b08a2e);}
+.notes-line{font-size:11.5px;color:var(--ink-faint);line-height:1.55;margin-top:8px;}
+
+/* ---------- lookup table ---------- */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card-bg);}
+table{width:100%;border-collapse:collapse;min-width:760px;}
+thead th{
+  font-family:'Noto Serif SC',serif;font-weight:600;font-size:13px;text-align:left;
+  background:var(--soft-bg);padding:12px 16px;position:sticky;top:0;
+}
+tbody td{padding:12px 16px;border-top:1px solid var(--line);font-size:13px;vertical-align:top;}
+tbody tr:hover{background:rgba(176,138,46,0.05);}
+.cue{color:var(--ink-soft);}
+.kw{color:var(--ink-faint);font-size:12px;}
+.chip{
+  display:inline-block;margin:2px 5px 2px 0;padding:4px 11px;border-radius:999px;
+  background:var(--soft-bg);border:1px solid var(--line);font-size:12px;cursor:pointer;
+  transition:all .15s;
+}
+.chip:hover{background:var(--ink);color:var(--card-bg);border-color:var(--ink);}
+.chip-plain{
+  display:inline-block;margin:2px 5px 2px 0;padding:4px 11px;border-radius:999px;
+  background:transparent;border:1px dashed var(--line);font-size:12px;color:var(--ink-faint);
+}
+
+/* ---------- defense mechanisms ---------- */
+.coping-intro{background:var(--soft-bg);border-radius:12px;padding:14px 18px;font-size:13.5px;color:var(--ink-soft);margin-bottom:20px;}
+.ladder{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.level-band{border-radius:14px;padding:16px 20px;border-left:6px solid var(--lc,#999);background:var(--card-bg);border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line);}
+.level-band .level-label{font-family:'Noto Serif SC',serif;font-weight:700;font-size:15px;color:var(--lc,#999);}
+.level-band .level-sub{font-size:12px;color:var(--ink-faint);margin:2px 0 12px;}
+.mech-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.mech-card{
+  background:var(--soft-bg);border-radius:10px;padding:8px 13px;cursor:pointer;
+  font-size:13px;max-width:100%;transition:background .15s;
+}
+.mech-card:hover{background:#ece0cd;}
+.mech-card .mc-title{font-weight:600;}
+.mech-card .mc-detail{display:none;margin-top:8px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;max-width:340px;}
+.mech-card.expanded{background:var(--card-bg);border:1px solid var(--line);}
+.mech-card.expanded .mc-detail{display:block;}
+
+.subhead{font-family:'Noto Serif SC',serif;font-weight:600;font-size:15px;margin:26px 0 10px;color:var(--ink);}
+.other-mech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;}
+
+.confuse-pairs{display:flex;flex-direction:column;gap:10px;}
+.confuse-pair{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+.confuse-pair>div{padding:13px 16px;font-size:13px;}
+.confuse-pair>div:first-child{background:var(--card-bg);border-right:1px dashed var(--line);}
+.confuse-pair>div:last-child{background:var(--soft-bg);}
+.confuse-pair b{display:block;margin-bottom:3px;font-family:'Noto Serif SC',serif;}
+.confuse-pair span{color:var(--ink-soft);}
+
+/* ---------- SOC stepper ---------- */
+.stepper{display:flex;gap:0;flex-wrap:wrap;margin-top:20px;}
+.step{
+  flex:1 1 180px;position:relative;padding:18px 18px 18px 0;
+}
+.step:not(:last-child)::after{
+  content:"→";position:absolute;right:-2px;top:22px;color:var(--ink-faint);font-size:16px;
+}
+.step .step-n{font-family:'Noto Serif SC',serif;font-size:12px;color:var(--gold);font-weight:700;margin-bottom:6px;}
+.step .step-name{font-weight:700;font-size:15px;margin-bottom:6px;}
+.step .step-desc{font-size:12.5px;color:var(--ink-soft);margin-bottom:8px;}
+.step .step-int{font-size:12px;color:var(--ink);background:var(--soft-bg);border-radius:8px;padding:8px 10px;}
+@media (max-width:900px){
+  .step:not(:last-child)::after{content:"↓";right:auto;left:12px;top:auto;bottom:-6px;}
+  .stepper{flex-direction:column;}
+}
+
+footer{padding:30px 0 10px;font-size:12px;color:var(--ink-faint);border-top:1px solid var(--line);margin-top:40px;}
+
+@media (max-width:720px){
+  .grid{grid-template-columns:1fr;}
+  .confuse-pair{grid-template-columns:1fr;}
+  .confuse-pair>div:first-child{border-right:none;border-bottom:1px dashed var(--line);}
+  .count{margin-left:0;}
+  .hero h1{font-size:26px;}
+}
+</style>
+</head>
+<body>
+
+<div class="controlbar">
+  <div class="controlbar-top">
+    <div class="brand">心理治疗技术手册</div>
+    <div class="anchor-links">
+      <a href="#grid-section">技术总览</a>
+      <a href="#lookup-section">障碍速查</a>
+      <a href="#defense-section">应对与防御机制</a>
+      <a href="#soc-section">改变阶段模型</a>
+    </div>
+  </div>
+  <div class="controlbar-main">
+    <input id="search" type="text" placeholder="搜索技术名称 / 关键词 / 适用障碍…">
+    <div class="pills" id="pills"></div>
+    <span class="count" id="count"></span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">CLINICAL TECHNIQUE REFERENCE</div>
+    <h1>心理治疗技术手册</h1>
+    <p>按理论流派浏览具体干预技术与临床示例，或按来访者的障碍/困扰直接查找推荐疗法。内容整理自临床理论笔记，供快速查阅与备考参考。</p>
+    <div class="stat-row">
+      <div class="stat"><div class="n" id="stat-techniques">–</div><div class="l">种疗法 / 流派</div></div>
+      <div class="stat"><div class="n" id="stat-methods">–</div><div class="l">项具体技术</div></div>
+      <div class="stat"><div class="n" id="stat-disorders">–</div><div class="l">条障碍速查</div></div>
+      <div class="stat"><div class="n" id="stat-mech">–</div><div class="l">种应对/防御机制</div></div>
+    </div>
+  </header>
+
+  <section id="grid-section">
+    <div class="section-head">
+      <h2>技术总览</h2>
+      <p class="section-intro">每张卡片代表一个理论流派或疗法；点击卡片展开具体技术、临床示例与适用障碍。</p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="lookup-section">
+    <div class="section-head">
+      <h2>按障碍速查疗法</h2>
+      <p class="section-intro">点击「推荐疗法」标签可直接跳转到对应技术卡片查看详情。</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>障碍 / 情境</th><th>核心机制线索</th><th>关键词</th><th>推荐疗法</th></tr>
+        </thead>
+        <tbody id="lookup-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="defense-section">
+    <div class="section-head">
+      <h2>应对与防御机制</h2>
+      <p class="section-intro">用于理解来访者的内在模式，而非治疗师主动使用的干预技术。</p>
+    </div>
+    <div class="coping-intro">
+      <b>应对机制 Coping</b> 用于处理造成困扰的外部情境，可以是有意识的；<b>防御机制 Defense</b> 则改变个体内在的心理状态，且大多是无意识的。George Vaillant 提出四层级分类，层级越高通常代表适应功能越成熟。点击卡片查看定义与示例。
+    </div>
+    <div class="ladder" id="ladder"></div>
+
+    <div class="subhead">其他常见应对 / 防御机制</div>
+    <div class="other-mech-grid" id="other-mech"></div>
+
+    <div class="subhead">易混淆概念对比</div>
+    <div class="confuse-pairs" id="confuse-pairs"></div>
+  </section>
+
+  <section id="soc-section">
+    <div class="section-head">
+      <h2>跨理论改变阶段模型（SOC / Transtheoretical Model）</h2>
+      <p class="section-intro">Prochaska &amp; DiClemente 提出，根据来访者所处的改变阶段匹配相应的干预策略。</p>
+    </div>
+    <div class="stepper" id="stepper"></div>
+  </section>
+
+  <footer>心理治疗技术手册 · 内容整理自临床理论学习笔记，仅供专业学习与临床参考使用。</footer>
+
+</div>
+
+<script>
+/* =========================================================
+   分类 CATEGORIES
+========================================================= */
+const CATS = [
+  {id:'cbt', name:'认知行为取向', color:'var(--cbt)'},
+  {id:'exposure', name:'暴露与创伤聚焦', color:'var(--exposure)'},
+  {id:'humanistic', name:'人本、存在与格式塔', color:'var(--humanistic)'},
+  {id:'psychodynamic', name:'精神动力与分析', color:'var(--psychodynamic)'},
+  {id:'family', name:'家庭与伴侣系统', color:'var(--family)'},
+  {id:'solution', name:'焦点解决、优势与动机', color:'var(--solution)'},
+  {id:'adlerian_reality', name:'阿德勒、现实与叙事', color:'var(--adlerian_reality)'}
+];
+const CAT_MAP = Object.fromEntries(CATS.map(c=>[c.id,c]));
+
+/* =========================================================
+   技术数据 DATA — 37 个流派/疗法卡片
+========================================================= */
+const DATA = [
+{id:"cbt", cat:"cbt", en:"CBT", full:"Cognitive Behavioral Therapy", cn:"认知行为疗法", founder:"Aaron Beck",
+ core:"识别并改变功能失调的思维（dysfunctional thoughts），通过认知重建和行为练习减轻症状。",
+ keywords:["dysfunctional thoughts","decatastrophizing","behavior experiments","distortion thinking","思维记录"],
+ techniques:[
+   {name:"思维记录表 Thought Record", desc:"识别自动化想法与认知歪曲，记录情境-想法-情绪-替代想法"},
+   {name:"去灾难化 Decatastrophizing", desc:"挑战对事件后果的灾难化预测，评估真实发生概率"},
+   {name:"行为实验 Behavior Experiments", desc:"通过实际行为验证或推翻原有的负性预测"}
+ ],
+ example:"来访者有 GAD，每天担心会出错 → 用思维记录表识别非理性想法 + 行为练习。若来访者言行不一致，帮助其看见自己的 unproductive thoughts。",
+ disorders:["GAD","MDD","Adjustment Disorder","Eating Disorders（成人）","Insomnia（CBT-I）","Somatic Symptom Disorder","Alcohol Use Disorder（配合MI）"],
+ notes:"若焦虑非常严重，优先用 CBT 稳定思维，而非直接使用暴露疗法。"},
+
+{id:"rebt", cat:"cbt", en:"REBT", full:"Rational Emotive Behavior Therapy", cn:"理性情绪行为疗法", founder:"Albert Ellis",
+ core:"不是事件本身让人痛苦，而是对事件的非理性信念（irrational beliefs）让人痛苦。",
+ keywords:["irrational beliefs","should statements","faulty beliefs","catastrophizing","ABCDE"],
+ techniques:[
+   {name:"ABCDE 模型", desc:"A 事件 Activating event → B 信念 Belief → C 后果 Consequence → D 辩驳 Dispute → E 效果 Effect"},
+   {name:"挑战「应该 / 必须」Musterbation", desc:"挑战「我必须…否则我就是失败的」这类绝对化信念带来的羞耻感"}
+ ],
+ example:"来访者说：「我必须被所有人喜欢，不然我就一无是处」→ 治疗师挑战「必须」的非理性信念。",
+ disorders:["适用障碍与 CBT 类似（GAD / MDD / 适应障碍等）"],
+ notes:"题干出现「irrational beliefs / faulty beliefs / should statements / catastrophizing」→ 优先考虑 REBT。"},
+
+{id:"dbt", cat:"cbt", en:"DBT", full:"Dialectical Behavior Therapy", cn:"辩证行为疗法", founder:"Marsha Linehan",
+ core:"帮助调节情绪、应对困境与冲动控制困难，尤其适合情绪爆发与自伤风险较高的来访者。",
+ keywords:["mindfulness","emotion regulation","distress tolerance","interpersonal effectiveness"],
+ techniques:[
+   {name:"正念 Mindfulness", desc:"觉察当下身体与情绪状态，不加评判地观察"},
+   {name:"情绪调节 Emotion Regulation", desc:"识别、命名并调整情绪强度"},
+   {name:"痛苦耐受 Distress Tolerance", desc:"危机中不采取破坏性行为的技巧"},
+   {name:"人际效能 Interpersonal Effectiveness", desc:"在关系中表达需求，同时维持关系与自尊"}
+ ],
+ example:"BPD 来访者频繁情绪爆发 → 学习正念与情绪调节技巧。",
+ disorders:["BPD","有自伤 / 自杀意念（SI）的来访者"],
+ notes:"与 Gestalt 的觉察不同：DBT 的 mindfulness 是为了觉察身体上的情绪信号，而非解决人际冲突中的反应模式。"},
+
+{id:"act", cat:"cbt", en:"ACT", full:"Acceptance and Commitment Therapy", cn:"接纳承诺疗法",
+ core:"接纳不适感而不是与之对抗，按照个人价值观采取行动。",
+ keywords:["acceptance","cognitive defusion","values","committed action"],
+ techniques:[
+   {name:"认知解离 Cognitive Defusion", desc:"把想法当作「想法」本身，而不是等同于事实"},
+   {name:"以己为境 Self as Context", desc:"将自我与体验的内容分离开来看待"},
+   {name:"价值澄清与承诺行动", desc:"明确个人价值观，并据此采取具体行动"}
+ ],
+ example:"来访者被焦虑困扰 → 学习接受不适感，并按价值观采取行动。",
+ disorders:["焦虑相关困扰","发展障碍（含自闭症）儿童的父母支持"],
+ notes:"尤其适合有发展障碍（especially autism）孩子的父母。"},
+
+{id:"schema", cat:"cbt", en:"Schema Therapy", full:"", cn:"图式治疗 / 模式焦点疗法", founder:"Jeffrey Young",
+ core:"关注个体在早期经历中形成的负性模式（早期不良图式），帮助来访者深入理解并改变这些模式。",
+ keywords:["early maladaptive schemas","childhood trauma","long-term personality change"],
+ techniques:[
+   {name:"识别早期不良图式", desc:"如「被遗弃图式」：小时候形成的「我不值得被爱」「别人都会抛弃我」等根深蒂固的负性信念"},
+   {name:"重塑早期信念模式", desc:"帮助来访者认识模式的存在，并逐步重塑"}
+ ],
+ example:"来访者有「被遗弃」图式 → 持续担心重要的人会离开自己，导致关系中过度依赖、害怕分手、强烈嫉妒或粘人行为 → 治疗师重塑其早期不良信念模式。",
+ disorders:["BPD","人格障碍","复杂性创伤"],
+ notes:"长期人格层面 + 早期创伤图式，CBT 不够深入时才选 Schema Therapy。BPD 常见治疗顺序：DBT（先稳定情绪）→ CBT（调整思维）→ Schema Therapy（处理长期人格与早期创伤模式）。"},
+
+{id:"behavior_therapy", cat:"cbt", en:"Behavior Therapy", full:"", cn:"行为疗法",
+ core:"基于经典条件反射与操作性条件反射的干预，直接针对可观察行为进行改变。",
+ keywords:["classical conditioning","operant conditioning","reinforcement","desensitization"],
+ techniques:[
+   {name:"经典条件反射（脱敏）Classical Conditioning", desc:"通过配对刺激改变对特定情境的反应"},
+   {name:"操作性条件反射（强化）Operant Conditioning", desc:"运用正 / 负强化与正 / 负惩罚改变行为频率"}
+ ],
+ example:"融合两者的 ABA 常用于 ASD 干预；儿童 ADHD 也常以行为训练为主。",
+ disorders:["ASD","儿童行为问题","儿童 ADHD"],
+ notes:"是 ABA 的理论基础。"},
+
+{id:"aba", cat:"cbt", en:"ABA", full:"Applied Behavior Analysis", cn:"应用行为分析",
+ core:"融合经典条件反射与操作性条件反射，通过系统化流程改变行为，尤其用于 ASD。",
+ keywords:["assessment","reinforcement","positive/negative punishment"],
+ techniques:[
+   {name:"评估 Assessment", desc:"识别目标行为与其功能"},
+   {name:"计划 Plan", desc:"制定强化 / 干预方案"},
+   {name:"干预 Intervention", desc:"实施行为训练，如社交技能强化计划"},
+   {name:"数据收集与分析 Data Collection & Analysis", desc:"追踪行为变化"},
+   {name:"干预调整 Adjustment", desc:"根据数据调整方案"}
+ ],
+ example:"ASD 儿童 → 制定强化计划训练社交技能。",
+ disorders:["ASD 自闭症"],
+ notes:"步骤：assessment → plan → intervention → data collection and analysis → intervention adjustment。"},
+
+{id:"hrt", cat:"cbt", en:"HRT", full:"Habit Reversal Training", cn:"习惯逆转训练",
+ core:"专门针对身体习惯 / 冲动行为——没有强迫观念，只是「忍不住的习惯动作」。",
+ keywords:["tic disorders","trichotillomania","onychophagia","excoriation"],
+ techniques:[
+   {name:"觉察训练", desc:"提高对习惯动作发生前兆的觉察"},
+   {name:"竞争反应训练", desc:"用不相容的动作替代原有习惯动作"}
+ ],
+ example:"抽动障碍（Tic Disorders）、拔毛癖（Trichotillomania）、咬指甲（Onychophagia）、抓皮肤（Excoriation Disorder）。",
+ disorders:["Tic Disorders","Trichotillomania","Onychophagia","Excoriation Disorder"],
+ notes:"这类行为的特点是「没有强迫观念，只是忍不住的习惯动作」，与 OCD 的 ERP 逻辑不同。"},
+
+{id:"ipsrt", cat:"cbt", en:"IPSRT", full:"Interpersonal and Social Rhythm Therapy", cn:"人际与社交节律疗法",
+ core:"通过稳定日常生活节奏（睡眠、工作、社交活动）减少情绪发作的诱因。",
+ keywords:["social rhythm","sleep","routine stabilization"],
+ techniques:[
+   {name:"社交节律追踪", desc:"记录并稳定睡眠、工作与社交活动的规律性"},
+   {name:"人际关系调节", desc:"处理节律紊乱背后的人际触发因素"}
+ ],
+ example:"社交节律（睡眠、工作、社交活动）调节困难的来访者，这些困难可能触发情绪波动。",
+ disorders:["Bipolar Disorder 双相障碍"],
+ notes:"双相障碍若以人际关系 / 节律问题为主，优先 IPSRT；若以家庭冲突 / 沟通为主，优先 Family-Focused Therapy（FFT）。"},
+
+{id:"ipt", cat:"cbt", en:"Interpersonal Psychotherapy", full:"IPT", cn:"人际心理治疗", founder:"Gerald Klerman & Myrna Weissman", supplement:true,
+ core:"不聚焦扭曲认知，而是把情绪症状与当下人际功能、生活事件相连接，围绕四类问题领域展开：哀伤、角色冲突、角色转换、人际缺陷。",
+ keywords:["grief","role dispute","role transition","interpersonal deficits","MDD"],
+ techniques:[
+   {name:"锁定问题领域", desc:"帮助来访者把当前抑郁症状与哀伤 / 角色冲突 / 角色转换 / 人际缺陷中的一类关联起来"},
+   {name:"沟通分析与角色扮演", desc:"针对锁定的人际议题，练习更有效的沟通与应对方式"}
+ ],
+ example:"来访者产后抑郁，与伴侣因育儿分工产生持续冲突 → 归为「角色冲突」领域，通过沟通分析帮助双方重新协商角色期待。",
+ disorders:["MDD"],
+ notes:"补充内容（非原始笔记）：与 CBT 并列 MDD 两大一线循证心理治疗之一，通常 12-16 次；IPSRT 即是 IPT 在双相障碍上的节律强化版本。"},
+
+{id:"exposure_therapy", cat:"exposure", en:"Exposure Therapy", full:"", cn:"暴露疗法",
+ core:"打破「情境 / 感觉 = 危险」的回避模式，通过反复接触让神经系统学习「不危险」。",
+ keywords:["avoidance","systematic desensitization","in-vivo","interoceptive"],
+ techniques:[
+   {name:"系统脱敏 Systematic Desensitization", desc:"结合放松训练，从低到高逐级接触害怕的对象或场景"},
+   {name:"现实情境暴露 In-Vivo Exposure", desc:"直接、真实地接触害怕的对象或场景（如狗、飞行、高处）"},
+   {name:"内感受暴露 Interoceptive Exposure", desc:"在安全环境下反复体验身体感觉（如心跳加快），打破「身体感觉 = 危险」的灾难化解释"}
+ ],
+ example:"Panic Disorder 核心是对身体感觉的灾难化解释（如「心跳加快 = 我要心脏病发了」）→ 内感受暴露让患者学会「身体感觉 ≠ 危险」。Specific Phobia 则逐步接触或先用想象暴露，目标是打破「外部情境 = 危险」的回避模式。",
+ disorders:["Panic Disorder（内感受暴露）","Specific Phobia（系统脱敏 / 现实暴露）"],
+ notes:"内感受暴露本质上是 CBT 的一部分，是惊恐障碍的核心干预。"},
+
+{id:"erp", cat:"exposure", en:"ERP", full:"Exposure and Response Prevention", cn:"暴露与反应预防",
+ core:"面对强迫触发情境，同时不执行强迫行为，是 OCD 治疗的 CBT 核心技术。",
+ keywords:["OCD","compulsion","trigger"],
+ techniques:[
+   {name:"暴露", desc:"主动接触引发强迫观念的触发情境"},
+   {name:"反应预防", desc:"暴露后刻意不执行强迫行为，忍受随之而来的焦虑直至下降"}
+ ],
+ example:"面对触发 → 不执行强迫行为。",
+ disorders:["OCD"],
+ notes:"ERP 是 CBT 核心技术之一。"},
+
+{id:"emdr", cat:"exposure", en:"EMDR", full:"Eye Movement Desensitization and Reprocessing", cn:"眼动脱敏与再加工",
+ core:"通过双侧刺激（如眼动）帮助大脑重新加工创伤记忆。",
+ keywords:["PTSD","trauma memory","bilateral stimulation"],
+ techniques:[
+   {name:"双侧刺激下的记忆重加工", desc:"在回忆创伤片段的同时进行双侧眼动 / 刺激，促进信息重新整合"}
+ ],
+ example:"用于 PTSD 或创伤相关障碍的核心疗法。",
+ disorders:["PTSD","Trauma-related Disorders"],
+ notes:""},
+
+{id:"pe", cat:"exposure", en:"Prolonged Exposure", full:"PE", cn:"延长暴露疗法", founder:"Edna Foa", supplement:true,
+ core:"通过反复重现创伤记忆、逐级面对被回避的安全情境，帮助来访者认识到创伤相关线索本身并不危险。",
+ keywords:["imaginal exposure","in-vivo exposure","avoidance","PTSD"],
+ techniques:[
+   {name:"想象暴露 Imaginal Exposure", desc:"在治疗中反复口述、重历创伤记忆细节，录音供课后反复聆听"},
+   {name:"现实暴露 In-Vivo Exposure", desc:"从低到高逐级面对被回避但客观安全的创伤相关情境或线索"},
+   {name:"呼吸放松训练", desc:"配合暴露练习教授呼吸调节技巧以管理焦虑"}
+ ],
+ example:"来访者车祸后回避开车、一听刹车声就极度恐慌 → 先想象暴露重历事故细节并录音复听，再逐步现实暴露：从坐副驾驶到自己短途驾驶。",
+ disorders:["PTSD","Trauma-related Disorders"],
+ notes:"补充内容（非原始笔记）：与 EMDR、CPT 并列为 APA / VA 指南中 PTSD 的一线循证疗法，通常 8-15 次、每次约 90 分钟。"},
+
+{id:"cpt", cat:"exposure", en:"Cognitive Processing Therapy", full:"CPT", cn:"认知加工疗法", founder:"Patricia Resick", supplement:true,
+ core:"聚焦创伤事件如何扭曲了来访者对安全、信任、权力、尊重、亲密感的核心信念（卡点 stuck points），通过认知重建修正。",
+ keywords:["stuck points","impact statement","trauma beliefs","PTSD"],
+ techniques:[
+   {name:"影响陈述 Impact Statement", desc:"来访者书写创伤事件如何影响自己对自我和世界看法的陈述，用于识别卡点"},
+   {name:"识别卡点 Stuck Points", desc:"找出创伤后形成的扭曲信念，例如「都怪我没保护好家人」"},
+   {name:"认知工作表", desc:"用结构化提问挑战卡点，类似 CBT 的思维记录表"}
+ ],
+ example:"来访者遭遇性侵后坚信「是我当时的穿着造成的」→ 通过影响陈述识别这一卡点，再用认知工作表逐步挑战并修正。",
+ disorders:["PTSD"],
+ notes:"补充内容（非原始笔记）：与 PE、EMDR 并列为 PTSD 一线疗法，通常 12 次；可选择是否包含书面创伤叙述（CPT+A / CPT-C 两种形式）。"},
+
+{id:"tfcbt", cat:"exposure", en:"TF-CBT", full:"Trauma-Focused CBT", cn:"创伤聚焦认知行为疗法",
+ core:"强调创伤记忆处理，聚焦侵入性闪回与过度警觉，核心是创伤叙事与认知重建。",
+ keywords:["intrusive flashbacks","hypervigilance","trauma narrative","cognitive restructuring"],
+ techniques:[
+   {name:"创伤叙事 Trauma Narrative", desc:"在安全节奏下逐步讲述、加工创伤事件"},
+   {name:"认知重建", desc:"修正创伤相关的负性认知"}
+ ],
+ example:"Acute Stress Disorder（创伤 >3 天 ≤1 月）与合并 PTSD 的 Complicated Grief 均使用 TF-CBT。",
+ disorders:["Acute Stress Disorder","PTSD","Complicated Grief（合并 PTSD 时）"],
+ notes:""},
+
+{id:"cgt", cat:"exposure", en:"CGT", full:"Complicated Grief Therapy", cn:"复杂性哀伤疗法",
+ core:"结合 CBT 与暴露元素，帮助打破「持续回避 / 过度执着」的哀伤模式。",
+ keywords:["prolonged grief","stuck","avoidance"],
+ techniques:[
+   {name:"结合暴露元素的哀伤加工", desc:"处理对逝者 / 丧失事件的回避，同时保留有意义的联结"}
+ ],
+ example:"来访者卡住 / 过度执着于丧失，表现为 prolonged grief。",
+ disorders:["Complicated Grief 复杂性哀伤"],
+ notes:"若合并 PTSD，则改用 Trauma-Focused CBT（TF-CBT），核心为创伤记忆处理。"},
+
+{id:"phase_trauma", cat:"exposure", en:"Phase-Oriented Trauma Therapy", full:"", cn:"分阶段创伤治疗",
+ core:"安全优先，再逐步进入创伤处理，最后整合与康复。",
+ keywords:["DID","complex trauma","safety first"],
+ techniques:[
+   {name:"第一阶段：建立安全 Safety", desc:"稳定情绪与生活功能，建立安全感"},
+   {name:"第二阶段：创伤处理 Trauma Processing（TFCBT）", desc:"在安全基础上处理创伤记忆"},
+   {name:"第三阶段：整合与康复 Integration & Rehabilitation", desc:"整合创伤经验，恢复功能"}
+ ],
+ example:"DID 或 Complex Trauma 来访者 → 先建立安全，再进入创伤处理，最后整合与康复。",
+ disorders:["Dissociative Identity Disorder（DID）","Complex Trauma"],
+ notes:""},
+
+{id:"analytical_therapy", cat:"exposure", en:"Analytical Therapy", full:"", cn:"分析性治疗",
+ core:"聚焦童年创伤、解离性遗忘与分离性身份障碍。",
+ keywords:["childhood trauma","dissociative amnesia","DID"],
+ techniques:[
+   {name:"探索童年创伤与失落记忆", desc:"帮助来访者接触被隔离 / 遗忘的创伤记忆"}
+ ],
+ example:"有解离性遗忘的来访者 → 探索童年创伤与失落记忆。",
+ disorders:["Dissociative Amnesia","Dissociative Identity Disorder"],
+ notes:""},
+
+{id:"person_centered", cat:"humanistic", en:"Person-Centered Therapy", full:"", cn:"以人为中心疗法", founder:"Carl Rogers",
+ core:"通过无条件积极关注、一致性与共情，帮助来访者增强自我价值感，走向自我实现。",
+ keywords:["unconditional positive regard","congruence","empathy","reflection","self-actualization"],
+ techniques:[
+   {name:"无条件积极关注", desc:"接纳来访者本来的样子（who they are），不附加条件"},
+   {name:"一致性 Congruence", desc:"治疗师真实自我与理想治疗师形象的一致展现"},
+   {name:"反映 Reflection", desc:"映照并确认来访者的情绪与感受"}
+ ],
+ example:"来访者感到被家人否定 → 治疗师用无条件积极关注与反映，帮助其增强自我价值感。",
+ disorders:["适用广泛，尤其人际否定 / 自我价值受损的来访者"],
+ notes:"衍生出 Motivational Interviewing（OARS）。"},
+
+{id:"existential", cat:"humanistic", en:"Existential Therapy", full:"", cn:"存在主义治疗",
+ core:"探索自由意志、个人责任与存在的意义，帮助来访者建立个人的意义与目的。",
+ keywords:["meaning","free will","personal responsibility","purpose"],
+ techniques:[
+   {name:"意义探索", desc:"探讨来访者如何理解自己生命的意义与目的"},
+   {name:"责任面对", desc:"帮助来访者面对自由选择所伴随的责任"}
+ ],
+ example:"来访者陷入「人生没有意义」→ 探索其自由选择与责任，帮助其找到目的感。",
+ disorders:["存在性危机、意义缺失感"],
+ notes:"与 Gestalt 的区别：Gestalt 强调此时此地的体验与感受，存在疗法更强调对存在意义本身的探索。"},
+
+{id:"gestalt", cat:"humanistic", en:"Gestalt Therapy", full:"", cn:"格式塔疗法",
+ core:"聚焦此时此地（here and now）的体验、觉察与责任，理解来访者的投射（projection）。",
+ keywords:["here and now","awareness","projection","empty chair"],
+ techniques:[
+   {name:"空椅技术 Empty Chair", desc:"与假想坐在空椅上的人（如父母）对话，表达未说出口的话，提升觉察"},
+   {name:"梦境工作 Dream Work", desc:"以此时此地的方式理解来访者对梦境的投射"},
+   {name:"上犬-下犬 Topdog-Underdog", desc:"探索完美主义 / 苛刻内在批评声（上犬）的负面影响，寻找卓越与自我怜悯（下犬）之间的平衡"},
+   {name:"扮演 Enactment", desc:"让来访者在治疗中扮演情景，练习如断言需求等能力，直接体验和探索内在世界"},
+   {name:"心理戏剧 Psychodrama", desc:"组织来访者扮演不同角色（自己、他人、创伤事件），在安全环境中面对和表达情感冲突"},
+   {name:"幻想 Fantasy", desc:"探索和表达对未来的幻想，以更全面了解内在需求、欲望与冲突"},
+   {name:"认同 Identification", desc:"治疗师通过倾听、理解与支持，与来访者建立情感联结和共鸣"},
+   {name:"将情绪定位于身体 Locating Emotions in the Body", desc:"引导来访者关注并描述在身体不同部位感受到的情绪，如胸部的紧张感"},
+   {name:"重复与夸大 Repetition and Exaggeration", desc:"重复夸大来访者的言行 / 姿态 / 情感，帮助其更清楚地观察和理解自己的固定模式"}
+ ],
+ example:"来访者未解决的父母冲突 → 用「空椅子」对话表达未说出口的话。来访者表达在断言自己需求方面的困难 → 治疗师鼓励扮演情景练习断言。",
+ disorders:["未解决的关系冲突","低自我觉察","创伤后表达困难"],
+ notes:"与 DBT 的正念不同：DBT 的 mindfulness 是为了觉察身体的情绪信号；Gestalt 是为了让来访者觉察自己对人际冲突的反应模式。与存在疗法的区别：Gestalt 是此时此地的体验与责任，存在疗法是对存在意义本身的探索。"},
+
+{id:"psychodynamic", cat:"psychodynamic", en:"Psychodynamic Therapy", full:"", cn:"心理动力学疗法",
+ core:"更现代、较短期，重点是当前问题与未解决的情感冲突，探索无意识冲突与移情。",
+ keywords:["unconscious","defense mechanisms","transference"],
+ techniques:[
+   {name:"探索无意识冲突", desc:"识别来访者无意识中重复的关系 / 行为模式"},
+   {name:"移情分析 Transference", desc:"通过来访者对治疗师的情感投射理解其关系模式"}
+ ],
+ example:"来访者反复选择不可靠的伴侣 → 治疗师探索其无意识冲突和移情。",
+ disorders:["人格障碍（除 ASPD 外）","复杂性创伤","关系困难"],
+ notes:"对于 ASPD（反社会型人格障碍），因来访者 insight 较低，优先选择 Behavioral / CBT 而非 Psychodynamic——心理动力学更适合处理由无意识行为导致、但具备一定自知力的低功能问题；短期内可用于提高功能水平（functioning level）。"},
+
+{id:"psychoanalytic", cat:"psychodynamic", en:"Psychoanalytic Therapy", full:"", cn:"精神分析疗法", founder:"Sigmund Freud",
+ core:"通过梦境解析与自由联想，理解无意识与童年冲突的象征意义。",
+ keywords:["dream interpretation","free association","childhood conflict"],
+ techniques:[
+   {name:"梦境解析 Dream Interpretation", desc:"分析梦境内容与童年冲突之间的象征联系"},
+   {name:"自由联想 Free Association", desc:"来访者不加筛选地说出脑中浮现的任何内容，暴露无意识线索"}
+ ],
+ example:"来访者梦见被追赶 → 治疗师分析梦境与童年冲突的象征意义。",
+ disorders:["适合探索深层无意识议题"],
+ notes:"理论基础：ID → EGO → Superego。"},
+
+{id:"jungian", cat:"psychodynamic", en:"Jungian Therapy", full:"", cn:"荣格疗法", founder:"Carl Jung",
+ core:"注重个体的潜意识、梦境与符号解读，强调自我探索、自我成长与集体无意识的关系。",
+ keywords:["dreams","archetypes","collective unconscious","individuation","shadow"],
+ techniques:[
+   {name:"阴影整合 Shadow Work", desc:"引导来访者探索并接纳内心的「阴暗部分」（阴影），从而更好地融合整体性，达到内心平衡"},
+   {name:"原型探索 Archetypes", desc:"探索英雄、智者、影子等人类共同心理模式在个人生活中的体现"}
+ ],
+ example:"来访者频繁梦到「大海」→ 探索其「集体无意识」中的原型意象。",
+ disorders:["自我探索、自我成长、灵性发展相关议题"],
+ notes:"「集体无意识」= 人类共享的、超越个人经验的心理结构，影响思维和行为模式。"},
+
+{id:"mbt", cat:"psychodynamic", en:"Mentalization-Based Therapy", full:"MBT", cn:"心智化治疗", founder:"Peter Fonagy & Anthony Bateman", supplement:true,
+ core:"BPD 来访者在情绪唤起 / 依恋压力下容易丧失「心智化」能力（理解自己和他人心理状态的能力），治疗聚焦重建这一能力。",
+ keywords:["mentalizing","attachment","not-knowing stance","BPD"],
+ techniques:[
+   {name:"「不知道」姿态 Not-Knowing Stance", desc:"治疗师保持好奇、非评判的探索姿态，而非急于给出解释或答案"},
+   {name:"修复关系裂痕", desc:"利用治疗关系中出现的误解或裂痕，帮助来访者慢下来探索自己和他人当下的心理状态"}
+ ],
+ example:"来访者因治疗师迟到5分钟而暴怒并认定「你根本不在乎我」→ 治疗师不急于安抚或辩解，而是与来访者一起慢下来探索这个念头是如何形成的。",
+ disorders:["BPD"],
+ notes:"补充内容（非原始笔记）：与 DBT、TFP、Schema Therapy 并列为 BPD 循证支持最充分的疗法之一，常结合个体与团体治疗。"},
+
+{id:"tfp", cat:"psychodynamic", en:"Transference-Focused Psychotherapy", full:"TFP", cn:"移情焦点心理治疗", founder:"Otto Kernberg", supplement:true,
+ core:"结构化的精神动力学疗法，通过来访者与治疗师关系中浮现的移情模式，帮助整合自我和他人「非黑即白」的分裂表征。",
+ keywords:["transference","splitting","object relations","BPD"],
+ techniques:[
+   {name:"移情分析", desc:"把来访者与治疗师互动中重复出现的关系模式作为治疗的核心素材"},
+   {name:"澄清与面质", desc:"帮助来访者看到对自己 / 他人「全好」或「全坏」的极端化认知如何在关系中反复出现"}
+ ],
+ example:"来访者时而将治疗师理想化为「唯一理解我的人」，时而在某次意见不合后视其为「和其他人一样都会抛弃我」→ 治疗师借此探讨这种非黑即白的关系模式。",
+ disorders:["BPD"],
+ notes:"补充内容（非原始笔记）：每周两次的结构化治疗，与 MBT 同为 BPD 循证心理动力学疗法。"},
+
+{id:"structural_family", cat:"family", en:"Structural Family Therapy", full:"", cn:"结构式家庭治疗", founder:"Salvador Minuchin",
+ core:"教导家长如何成为好的家长，聚焦家庭结构、边界与层级。",
+ keywords:["family structure","boundaries","hierarchy","joining","unbalancing"],
+ techniques:[
+   {name:"加入 Joining", desc:"治疗师先与家庭建立信任关系"},
+   {name:"边界重建 Boundary Making", desc:"帮助恢复父母的权威与合适的边界"},
+   {name:"打破平衡 Unbalancing", desc:"暂时打破家庭原有的互动平衡，促成改变"}
+ ],
+ example:"父母和孩子像朋友一样，没有界限 → 治疗师帮助父母恢复权威。",
+ disorders:["叛逆青少年","家庭冲突 / 系统性问题"],
+ notes:"叛逆期青少年若涉及家庭冲突和系统性问题，Structural Family Therapy 或 FFT 常被列入选项。"},
+
+{id:"fft", cat:"family", en:"FFT", full:"Functional Family Therapy", cn:"功能性家庭治疗",
+ core:"改善青少年儿童行为问题，聚焦参与、行为改变与泛化。",
+ keywords:["adolescent behavior problems","engagement","generalization"],
+ techniques:[
+   {name:"改善家庭沟通", desc:"重建家庭成员间的有效沟通"},
+   {name:"行为奖励系统", desc:"设计具体的行为奖励方案以巩固改变"}
+ ],
+ example:"青少年偷窃 → 治疗师改善家庭沟通，并设计行为奖励系统。",
+ disorders:["青少年行为问题","叛逆 / 家庭冲突"],
+ notes:""},
+
+{id:"pcit", cat:"family", en:"Parent-Child Interaction Therapy", full:"PCIT", cn:"亲子互动治疗", supplement:true,
+ core:"治疗师通过耳麦实时指导家长，分两阶段改善年幼儿童（约2-7岁）的对立违抗行为：先修复关系温度，再建立一致的管教方式。",
+ keywords:["PRIDE skills","time-out","young children","live coaching"],
+ techniques:[
+   {name:"儿童主导互动 CDI（PRIDE技巧）", desc:"家长练习赞美 Praise、复述 Reflect、模仿 Imitate、描述 Describe、热情 Enthusiasm，增强亲子关系、减少孩子的负性寻求关注行为"},
+   {name:"家长主导互动 PDI", desc:"家长学习清晰一致的指令方式与结构化的暂停 / 管教流程，应对孩子的不服从行为"}
+ ],
+ example:"4岁孩子频繁尖叫哭闹以获取关注、拒绝配合指令 → 家长在治疗师实时耳麦指导下先练习CDI增进关系，再学习PDI中一致的指令与暂停流程。",
+ disorders:["幼儿对立违抗行为","破坏性行为障碍（学龄前 / 儿童）"],
+ notes:"补充内容（非原始笔记）：适用年龄约2-7岁，与青少年常用的 Structural Family Therapy / FFT 是不同年龄段、不同机制的疗法，不可互相替代。"},
+
+{id:"experiential_family", cat:"family", en:"Experiential Family Therapy", full:"", cn:"体验式家庭治疗", founder:"Carl Whitaker",
+ core:"激发情绪让其显性化，强调情感表达、对抗、自发性与真实性。",
+ keywords:["emotional expression","confrontation","spontaneity","authenticity"],
+ techniques:[
+   {name:"对抗制造情绪场景", desc:"通过对抗性互动激发出被压抑的强烈情绪"}
+ ],
+ example:"父亲从不表达愤怒 → 治疗师用对抗制造强烈情绪场景，促使其表达。",
+ disorders:["情感压抑的家庭系统"],
+ notes:""},
+
+{id:"satir", cat:"family", en:"Satir Communication / Family Sculpting", full:"", cn:"萨提亚沟通模式 / 家庭雕塑", founder:"Virginia Satir",
+ core:"以非对抗性的方式让家庭成员意识到潜意识层面的沟通姿态。",
+ keywords:["communication styles","family sculpting","roles"],
+ techniques:[
+   {name:"家庭雕塑 Family Sculpting", desc:"由家人自己摆出代表彼此关系姿态的雕塑，治疗师只引导、不替他们摆位"},
+   {name:"沟通角色识别", desc:"识别讨好者 placater、指责者 blamer、超理智者 computer、打岔者 distracter、表里一致者 congruent 等姿态"}
+ ],
+ example:"母亲总是讨好 → 用家庭雕塑让家人看到她的沟通姿态。也适合离婚家庭的孩子，减少害怕感。",
+ disorders:["家庭沟通模式僵化","离婚家庭子女"],
+ notes:"雕塑必须由家人自己完成，治疗师角色是引导者而非编排者。"},
+
+{id:"fbt", cat:"family", en:"FBT", full:"Family-Based Therapy（Maudsley Model）", cn:"家庭治疗（莫兹利模式）",
+ core:"针对青少年厌食症（Anorexia Nervosa），通过三阶段恢复体重并逐步归还自主权。",
+ keywords:["weight restoration","adolescent anorexia","autonomy"],
+ techniques:[
+   {name:"阶段一：体重恢复 Weight Restoration", desc:"父母用爱去（暂时）控制、负责喂养与监督饮食"},
+   {name:"阶段二：归还控制权 Handing Control Back", desc:"随体重和健康改善，逐步把饮食控制权交还青少年，培养自主"},
+   {name:"阶段三：建立健康身份 Establish Healthy Identity", desc:"帮助青少年恢复正常的青春期发展（社交、独立性）"}
+ ],
+ example:"青少年厌食症 → 父母先接管喂养监督，再逐步交还自主权，最终恢复正常青春期发展。",
+ disorders:["Anorexia Nervosa（青少年）"],
+ notes:"Eating Disorders 成人多用 CBT，青少年厌食也可用 FBT。"},
+
+{id:"eft", cat:"family", en:"EFT", full:"Emotionally Focused Therapy", cn:"情绪聚焦疗法",
+ core:"探索依恋需求，促进伴侣间的情感联结，适合严重冲突或情感疏离的伴侣。",
+ keywords:["attachment","bonding","couple distress"],
+ techniques:[
+   {name:"依恋需求探索", desc:"识别冲突背后未被满足的依恋需求"},
+   {name:"促进情感联结", desc:"引导伴侣表达深层情感，重建安全依恋"}
+ ],
+ example:"夫妻频繁争吵 → 探索依恋需求，促进情感联结。",
+ disorders:["伴侣治疗（严重冲突 / 情感疏离）","依附问题"],
+ notes:""},
+
+{id:"bct", cat:"family", en:"BCT", full:"Behavioral Couples Therapy", cn:"行为伴侣治疗",
+ core:"聚焦正向互动、行为改变与问题解决，适合缺乏积极互动的伴侣。",
+ keywords:["positive interaction","behavior change","problem-solving"],
+ techniques:[
+   {name:"正向沟通训练", desc:"学习并练习正向沟通方式"},
+   {name:"问题解决技能", desc:"共同学习结构化的问题解决步骤"}
+ ],
+ example:"夫妻缺乏积极互动 → 学习正向沟通与问题解决技能。",
+ disorders:["伴侣治疗（行为互动改善）"],
+ notes:""},
+
+{id:"gottman", cat:"family", en:"Gottman Method Couples Therapy", full:"", cn:"戈特曼伴侣疗法", founder:"John & Julie Gottman", supplement:true,
+ core:"基于对婚姻稳定性 / 离婚预测的长期研究，识别并干预「末日四骑士」（批评、蔑视、防御、冷战），搭建「健全关系之屋」。",
+ keywords:["Four Horsemen","Sound Relationship House","repair","bids"],
+ techniques:[
+   {name:"识别「末日四骑士」", desc:"批评、蔑视、防御、筑墙冷战——最能预测关系破裂的四种互动模式"},
+   {name:"转向而非转开 Turn Towards", desc:"练习回应伴侣发出的情感联结「邀请」（bids），而非忽视或转开"},
+   {name:"建立爱的地图与共同意义", desc:"系统了解伴侣的内心世界，共同建立仪式感与人生意义"}
+ ],
+ example:"伴侣一方抱怨时，另一方习惯性翻白眼、反唇相讥（蔑视+防御）→ 治疗师帮助识别这一模式，练习用「温和开场」代替批评，用具体感受代替人身攻击。",
+ disorders:["伴侣治疗（行为互动改善）"],
+ notes:"补充内容（非原始笔记）：业内应用最广泛的伴侣疗法之一，常配合结构化评估问卷 / 访谈使用。"},
+
+{id:"sensate_focus", cat:"family", en:"Sensate Focus", full:"", cn:"感觉聚焦技术", founder:"Masters & Johnson",
+ core:"围绕性反应周期设计的结构化非要求式触摸练习，减少表现焦虑，重建亲密感。",
+ keywords:["sexual dysfunction","sexual response cycle"],
+ techniques:[
+   {name:"分阶段触摸练习", desc:"从非性器官接触逐步过渡，暂时移除「表现 / 高潮」目标，专注于感受本身"}
+ ],
+ example:"性功能障碍 → 基于性反应周期，使用 Sensate Focus 技术。",
+ disorders:["性功能障碍 Sexual Dysfunction"],
+ notes:""},
+
+{id:"sft", cat:"solution", en:"SFT", full:"Solution-Focused Therapy", cn:"焦点解决短期治疗",
+ core:"聚焦未来目标与希望，帮助来访者描绘理想未来并找到例外经验，而非深挖问题成因。",
+ keywords:["miracle question","exceptions","scaling questions","hope"],
+ techniques:[
+   {name:"奇迹问题 Miracle Question", desc:"「如果一夜之间问题奇迹般消失，你的生活会有什么不同？」帮助描绘理想未来"},
+   {name:"例外提问 Exceptions", desc:"寻找问题没有发生或较轻的例外时刻"},
+   {name:"评分提问 Scaling Questions", desc:"用数字量表评估现状与进展"}
+ ],
+ example:"来访者想尽快改善亲子沟通 → 用奇迹问题帮助其描绘理想未来并找到例外经验。",
+ disorders:["Adjustment Disorder（可选）","短期目标导向的议题"],
+ notes:"来访者之前成功的经历很重要——不要去改变他的想法，而是让他自己发现之前的资源与成功案例。"},
+
+{id:"strength_based", cat:"solution", en:"Strength-Based Therapy", full:"", cn:"优势视角疗法",
+ core:"强调发现和利用个体 / 家庭已有的内在力量、资源与应对能力，促进成长。",
+ keywords:["resilience","resources","coping strengths","empowerment"],
+ techniques:[
+   {name:"回顾成功应对经验", desc:"引导来访者回忆以往应对成功的经验，增强自我效能感"}
+ ],
+ example:"来访者自我感觉无力 → 引导其回忆以往应对成功经验，增强自我效能感。",
+ disorders:["自我效能感低的来访者"],
+ notes:"不一定要「找到未来解决方案」，而是提升来访者的信心和力量感。"},
+
+{id:"mi", cat:"solution", en:"MI", full:"Motivational Interviewing", cn:"动机式访谈",
+ core:"强调自我效能（self-efficacy）与自主性（autonomy），处理对改变的矛盾心理（ambivalence）。",
+ keywords:["ambivalence","readiness to change","autonomy","OARS"],
+ techniques:[
+   {name:"OARS", desc:"肯定 Affirmations、开放式提问 Open-ended questions、反映 Reflections、总结 Summarizations"},
+   {name:"重新框架 Reframing", desc:"辅助技术，帮助来访者从不同角度看待自己的处境"}
+ ],
+ example:"来访者已经决定要做出改变 → 治疗师强化其努力与自我决定性，鼓励向前迈一步。",
+ disorders:["Alcohol Use Disorder（首选，+CBT+aversion therapy）","物质使用障碍 Substance Use Disorder"],
+ notes:"与 MET 的区别：MI 是来访者已经决定要改变，治疗师负责强化、推动其向前一步；MET 更侧重提高参与治疗的意愿。"},
+
+{id:"met", cat:"solution", en:"MET", full:"Motivational Enhancement Therapy", cn:"动机强化治疗",
+ core:"提高来访者参与治疗的意愿与承诺。",
+ keywords:["willingness","commitment to treatment"],
+ techniques:[
+   {name:"强化治疗承诺", desc:"处理来访者对治疗不投入的状态，增强其承诺"}
+ ],
+ example:"来访者对治疗不投入 → 强化其对治疗的承诺和意愿。",
+ disorders:["治疗投入度低的来访者"],
+ notes:""},
+
+{id:"tsf", cat:"solution", en:"Twelve-Step Facilitation", full:"TSF", cn:"十二步促进疗法", supplement:true,
+ core:"引导来访者接纳「成瘾是一种疾病、难以单靠意志力控制」，鼓励积极参与匿名戒酒会（AA）等互助团体作为长期康复的核心支持。",
+ keywords:["Alcoholics Anonymous","acceptance","surrender","mutual support"],
+ techniques:[
+   {name:"接纳与臣服", desc:"帮助来访者接受成瘾的疾病模型，放下「靠自己就能控制」的信念"},
+   {name:"引入12步框架并鼓励参会", desc:"系统介绍12步的前几步，并追踪、鼓励实际参加互助会"}
+ ],
+ example:"来访者反复尝试自行戒酒失败、羞耻感强烈 → 治疗师帮助其理解成瘾的疾病模型，陪伴其迈出参加第一次AA会议的第一步。",
+ disorders:["Alcohol Use Disorder","物质使用障碍"],
+ notes:"补充内容（非原始笔记）：Project MATCH（NIAAA大型对照研究）验证的三大疗法之一，与CBT、MET并列，对精神共病程度较低的来访者效果尤佳。"},
+
+{id:"adlerian", cat:"adlerian_reality", en:"Adlerian Therapy", full:"Individual Psychology", cn:"阿德勒学派 / 个体心理学", founder:"Alfred Adler",
+ core:"强调个体的目标导向、归属感与社会兴趣，认为个体在社会中的地位和角色影响心理健康。",
+ keywords:["lifestyle","birth order","social interest","early recollections"],
+ techniques:[
+   {name:"生活风格 Lifestyle", desc:"探索来访者「我必须完美才能被爱」等核心生活风格信念"},
+   {name:"出生顺序 Birth Order", desc:"探索出生顺序（如老二不如老大）对自卑感的影响"},
+   {name:"早期回忆 Early Recollections", desc:"探索早期记忆（如父母忙碌、忽视）如何塑造「我不重要」等核心信念"},
+   {name:"假装 Acting As If", desc:"让来访者「假装」以不同的方式行动，像角色扮演一样尝试更好的结果"},
+   {name:"按按钮技术 Push Button Technique", desc:"帮助来访者意识到自己可以选择唤起哪种情绪 / 想法"},
+   {name:"往汤里吐口水 Spitting in the Soup", desc:"通过自由联想让来访者将某行为（如吸烟）与其负面影响联系起来，使其失去原有「吸引力」"},
+   {name:"矛盾意图 Paradoxical Intention", desc:"鼓励来访者鼓起勇气去做自己害怕的事情"}
+ ],
+ example:"来访者因总觉得「老二不如老大」而自卑 → 探索生活风格与出生顺序的影响，培养社会兴趣以增强归属感。",
+ disorders:["自卑感 / 归属感相关议题"],
+ notes:"核心是满足自己的目标、追求生活的目的，强调个体与周围环境的互动、社会利益和社会联系的重要性。"},
+
+{id:"reality_therapy", cat:"adlerian_reality", en:"Reality Therapy", full:"", cn:"现实治疗", founder:"William Glasser",
+ core:"帮助来访者学会自我评估与负责任，适合易怒 / 责怪他人 / 难以自我评估的来访者。",
+ keywords:["responsibility","self-evaluation","WDEP"],
+ techniques:[
+   {name:"WDEP 系统", desc:"Want（探索目标）→ Doing（评估当前行为）→ Evaluation（评价行为是否有效）→ Plan（规划新行动）"}
+ ],
+ example:"来访者经常责怪他人、不负责任 → 治疗师引导其做自我评估并制定行动计划。",
+ disorders:["BPD","自恋型人格（Narcissistic）","愤怒 / 责怪模式"],
+ notes:""},
+
+{id:"narrative", cat:"adlerian_reality", en:"Narrative Therapy", full:"", cn:"叙事治疗",
+ core:"帮助来访者重写自己的人生故事，将问题外化并解构。",
+ keywords:["externalization","deconstruction","re-authoring"],
+ techniques:[
+   {name:"外化 Externalization", desc:"将困扰（如焦虑）外化为一个具体的形象或「声音」，而非等同于自我"},
+   {name:"解构 Deconstruction", desc:"把笼统的问题拆解成碎片，使其更容易理解、探索和改变"},
+   {name:"重写故事 Re-authoring", desc:"帮助来访者以新的视角重新讲述自己的人生故事"}
+ ],
+ example:"来访者说「我是个失败者」→ 将问题外化为「失败的声音」，帮助其重写人生故事。",
+ disorders:["自我认同僵化的负性叙事"],
+ notes:""}
+];
+
+/* =========================================================
+   障碍速查表 LOOKUP TABLE
+========================================================= */
+const LOOKUP = [
+{disorder:"GAD / MDD", cue:"—", kw:"worry / hopelessness", therapy:[{id:"cbt",label:"CBT"},{id:"ipt",label:"IPT（仅MDD）"}]},
+{disorder:"Bipolar Disorder (BD) 双相障碍", cue:"家庭冲突 / 沟通　vs　作息与人际节律", kw:"family conflict / social rhythm", therapy:[{id:"fft",label:"FFT"},{id:"ipsrt",label:"IPSRT"}]},
+{disorder:"Panic Disorder 惊恐障碍", cue:"内在害怕（身体感觉）", kw:"心跳快 = 危险", therapy:[{id:"cbt",label:"CBT"},{id:"exposure_therapy",label:"Interoceptive Exposure"}]},
+{disorder:"Specific Phobia 特定恐惧症", cue:"外在害怕（物体 / 情境）", kw:"飞机更容易避免", therapy:[{id:"exposure_therapy",label:"系统脱敏 / 现实暴露"}]},
+{disorder:"Adjustment Disorder 适应障碍", cue:"事件引发适应困难", kw:"stressor / change", therapy:[{id:"cbt",label:"CBT"},{id:"sft",label:"Solution-Focused Therapy"}]},
+{disorder:"PTSD 创伤后应激障碍", cue:"—", kw:"trauma", therapy:[{id:"emdr",label:"EMDR"},{id:"pe",label:"Prolonged Exposure"},{id:"cpt",label:"CPT"}]},
+{disorder:"Acute Stress Disorder 急性应激障碍", cue:"—", kw:">3天 ≤1月 trauma", therapy:[{id:"tfcbt",label:"TF-CBT"}]},
+{disorder:"Complicated Grief 复杂性哀伤", cue:"卡住 / 过度执着", kw:"prolonged grief", therapy:[{id:"cgt",label:"CGT"},{id:"tfcbt",label:"TF-CBT（合并PTSD时）"}]},
+{disorder:"OCD 强迫症", cue:"—", kw:"compulsion", therapy:[{id:"erp",label:"ERP"}]},
+{disorder:"Eating Disorders 进食障碍", cue:"厌食 / 暴食 / 贪食", kw:"body image / binge", therapy:[{id:"cbt",label:"CBT"},{id:"fbt",label:"FBT（青少年厌食）"}]},
+{disorder:"Insomnia 失眠", cue:"入睡 / 维持睡眠困难", kw:"sleep", therapy:[{id:"cbt",label:"CBT-I"}]},
+{disorder:"Somatic Symptom Disorder 躯体症状障碍", cue:"过度身体关注", kw:"multiple complaints", therapy:[{id:"cbt",label:"CBT（躯体聚焦）"}]},
+{disorder:"Alcohol Use Disorder 酒精使用障碍", cue:"动机 + 技能", kw:"readiness to change", therapy:[{id:"mi",label:"MI"},{id:"cbt",label:"CBT"},{id:"tsf",label:"TSF"},{label:"aversion therapy"}]},
+{disorder:"Opioid Use Disorder 阿片类使用障碍", cue:"成瘾 + 药物维持", kw:"MAT", therapy:[{label:"MAT 药物辅助治疗"},{id:"behavior_therapy",label:"Behavioral Therapy"}]},
+{disorder:"ADHD", cue:"儿童 → 行为训练；成人 → CBT", kw:"inattention", therapy:[{id:"behavior_therapy",label:"儿童行为训练"},{id:"cbt",label:"成人 CBT"}]},
+{disorder:"ASD 孤独症谱系", cue:"行为矫正", kw:"repetitive / social skills", therapy:[{id:"aba",label:"ABA"}]},
+{disorder:"Schizophrenia 精神分裂症", cue:"药物 + 家庭教育", kw:"relapse prevention", therapy:[{label:"Psychoeducation + Family Intervention"}]},
+{disorder:"Oppositional / Defiant Adolescents 叛逆青少年", cue:"叛逆、家庭冲突", kw:"defiance / family", therapy:[{id:"structural_family",label:"Structural Family Therapy"},{id:"fft",label:"FFT"}]},
+{disorder:"Disruptive Behavior (Young Children) 幼儿破坏性行为", cue:"约2-7岁，需家长实时指导", kw:"noncompliance / tantrums", therapy:[{id:"pcit",label:"PCIT"}]},
+{disorder:"BPD 边缘型人格障碍", cue:"情绪爆发 / 冲动", kw:"—", therapy:[{id:"dbt",label:"① DBT"},{id:"cbt",label:"② CBT"},{id:"schema",label:"③ Schema Therapy"},{id:"mbt",label:"MBT"},{id:"tfp",label:"TFP"}]},
+{disorder:"ASPD 反社会型人格障碍", cue:"insight 低", kw:"—", therapy:[{id:"behavior_therapy",label:"Behavioral"},{id:"cbt",label:"CBT"}]},
+{disorder:"Other Personality Disorders / Complex Trauma 其他人格障碍", cue:"无意识冲突", kw:"—", therapy:[{id:"psychodynamic",label:"Psychodynamic Therapy"}]},
+{disorder:"Couples Therapy · Severe Conflict 伴侣·严重冲突疏离", cue:"严重冲突 / 情感疏离", kw:"attachment / bonding", therapy:[{id:"eft",label:"EFT"}]},
+{disorder:"Couples Therapy · Behavioral 伴侣·行为互动", cue:"行为互动改善", kw:"problem-solving", therapy:[{id:"bct",label:"BCT"},{id:"gottman",label:"Gottman Method"}]},
+{disorder:"Sex Therapy 性治疗", cue:"性功能障碍", kw:"性反应周期", therapy:[{id:"sensate_focus",label:"Sensate Focus"}]}
+];
+
+/* =========================================================
+   防御机制 DEFENSE MECHANISMS（Vaillant 四层级，文档明确归类）
+========================================================= */
+const LEVELS = [
+  {key:"4", label:"Level IV · 成熟防御 Mature", color:"var(--lvl4)",
+   sub:"最具适应性，社会功能良好",
+   items:[
+     {en:"Humor", cn:"幽默", def:"在紧张或创伤情境中开玩笑，提供轻松的情绪出口。", ex:""},
+     {en:"Sublimation", cn:"升华", def:"把冲动转化为社会可接受的行为，是成熟的标志。", ex:"有攻击冲动 → 去学拳击 / 写小说。"},
+     {en:"Suppression", cn:"压制", def:"有意识地决定暂不去想某件事。", ex:"决定现在不想考试焦虑，等晚上再复习。"},
+     {en:"Altruism", cn:"利他", def:"通过帮助他人满足自身内在需求。", ex:"药物康复者志愿帮助其他正在康复的人，以应对自己的渴求。"},
+     {en:"Anticipation", cn:"预期", def:"提前为可预期的困难做情绪与实际准备。", ex:""}
+   ]},
+  {key:"3", label:"Level III · 神经症性防御 Neurotic", color:"var(--lvl3)",
+   sub:"常见于一般人群与神经症性困扰",
+   items:[
+     {en:"Intellectualization", cn:"理智化", def:"用过度思考、理性分析回避情感体验。", ex:"室友宣布要搬走时，做详细财务分析而不是面对悲伤、孤独或愤怒。"},
+     {en:"Reaction Formation", cn:"反向形成", def:"用完全相反的情感或行为掩盖真实感受。", ex:"明明讨厌某人，却对他表现得过分友好。"},
+     {en:"Dissociation", cn:"解离", def:"让自己感觉与现实分离。", ex:""},
+     {en:"Displacement", cn:"移置", def:"把对一个对象的情绪转移到另一个更安全的对象。", ex:"老板骂我，我不敢骂老板 → 回家冲小孩发火。"},
+     {en:"Repression", cn:"压抑", def:"无意识地把痛苦想法推到潜意识中，ego 不让其浮现。", ex:"童年创伤完全想不起来。"}
+   ]},
+  {key:"2", label:"Level II · 不成熟防御 Immature", color:"var(--lvl2)",
+   sub:"常见于人格障碍与青少年",
+   items:[
+     {en:"Fantasy", cn:"幻想", def:"通过退入内心的安全空间来回避现实。", ex:"营造一个安全港 / 安全梦。"},
+     {en:"Projection", cn:"投射", def:"把自己不能接受的情绪、缺陷或冲动归因到别人身上。", ex:"「不是我，是你」：我恨你 → 我说「你讨厌我」。"},
+     {en:"Passive Aggression", cn:"消极攻击", def:"采取间接的敌对行为或沉默处理来表达不满。", ex:"冷战。"},
+     {en:"Acting Out", cn:"行为化", def:"用行动代替承认和承受情绪，而非直接表达。", ex:"生气时摔东西，而不是说「我很生气」，更常见于儿童。"}
+   ]},
+  {key:"1", label:"Level I · 病理性防御 Psychotic", color:"var(--lvl1)",
+   sub:"脱离现实，多见于精神病性状态",
+   items:[
+     {en:"Psychotic Denial", cn:"精神病性否认", def:"完全脱离现实层面的否认。", ex:""},
+     {en:"Delusional Projection", cn:"妄想性投射", def:"达到妄想程度的投射。", ex:""}
+   ]}
+];
+
+/* 其他常见应对 / 防御机制（文档未明确归类，单独列出） */
+const OTHER_MECH = [
+ {en:"Regression", cn:"退行 / 功能退化", def:"压力下回到更早、更有安全感的发展阶段。", ex:"堵车时发脾气摔东西；创伤后孩子重新吸手指或尿床。"},
+ {en:"Denial", cn:"否认", def:"完全拒绝承认现实。", ex:"酗酒者坚称「我没问题」。"},
+ {en:"Rationalization", cn:"合理化", def:"接受了现实，但给自己编一个看似合理的理由。", ex:"考试没过 →「其实我不喜欢这个专业」。"},
+ {en:"Undoing", cn:"抵消", def:"通过补偿性行为纠正自认为不恰当的想法 / 情感 / 行为，以减轻内疚感。", ex:""},
+ {en:"Compensation", cn:"补偿", def:"在某个领域过度努力，弥补另一领域的失败或不足。", ex:""},
+ {en:"Aim Inhibition", cn:"目标抑制", def:"接受修改后的原始目标形式。", ex:"想当职业运动员 → 成为高中篮球教练。"},
+ {en:"Compartmentalization", cn:"分隔化", def:"在心理上把冲突的想法、情感或经历分开，避免矛盾带来的不适。", ex:""},
+ {en:"Avoidance / Escape", cn:"回避 / 逃避", def:"避免或逃离与压力相关的情境或情感。", ex:""},
+ {en:"Physical Activities", cn:"身体活动", def:"通过运动、散步、瑜伽等释放压力与情绪，属于较健康的应对方式。", ex:""},
+ {en:"Unhealthy Self-Soothing", cn:"不健康自我安抚", def:"用暴饮暴食、酗酒、过度游戏等方式麻痹自己，属不健康的应对方式。", ex:""},
+ {en:"Compulsion & Risk-Taking", cn:"强迫与冒险行为", def:"用赌博、鲁莽驾驶等强迫性或冒险行为应对压力，属不健康的应对方式。", ex:""}
+];
+
+/* 易混淆概念对比 */
+const CONFUSE_PAIRS = [
+ {a:{t:"Suppression 压制", d:"有意识地决定「现在先不去想」，是主动的选择。"}, b:{t:"Repression 压抑", d:"无意识地把痛苦想法推入潜意识，本人并不知情。"}},
+ {a:{t:"Denial 否认", d:"完全拒绝承认现实本身。"}, b:{t:"Rationalization 合理化", d:"接受了现实，但为自己编一个看似合理的理由。"}},
+ {a:{t:"Reaction Formation 反向形成", d:"把不能接受的冲动，转变成完全相反的外在表现。"}, b:{t:"Sublimation 升华", d:"把冲动转化为社会可接受、甚至有建设性的行为。"}}
+];
+
+/* =========================================================
+   SOC 跨理论改变阶段模型
+========================================================= */
+const SOC = [
+ {n:"01", name:"Precontemplation 前意识期", desc:"防御、不认为自己需要改变（低自我效能）", intv:"Intervention：面质 confrontation、观察 observation、共情 empathy"},
+ {n:"02", name:"Contemplation 沉思期", desc:"开始尝试理解自己的行为", intv:"Intervention：提升意识 consciousness-raising、自我评估 self-evaluation"},
+ {n:"03", name:"Preparation 准备期", desc:"打算改变，即将采取行动", intv:"Intervention：协助制定详细计划"},
+ {n:"04", name:"Action 行动期", desc:"对改变有强烈承诺", intv:"Intervention：鼓励、引导、支持"},
+ {n:"05", name:"Maintenance 维持期", desc:"努力维持已发生的改变（高自我效能）", intv:"Intervention：复发预防——处理对复发的恐惧与焦虑，因为这种恐惧本身可能诱发复发"}
+];
+
+/* =========================================================
+   渲染逻辑 RENDER
+========================================================= */
+let currentCat = 'all';
+
+function renderPills(){
+  const wrap = document.getElementById('pills');
+  let html = `<div class="pill ${currentCat==='all'?'active':''}" data-cat="all">全部</div>`;
+  CATS.forEach(c=>{
+    html += `<div class="pill ${currentCat===c.id?'active':''}" data-cat="${c.id}">${c.name}</div>`;
+  });
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('.pill').forEach(p=>{
+    p.addEventListener('click', ()=>{
+      currentCat = p.dataset.cat;
+      renderPills();
+      renderGrid();
+    });
+  });
+}
+
+function matchesQuery(item, q){
+  if(!q) return true;
+  const hay = [
+    item.en, item.full||'', item.cn, item.core, item.founder||'',
+    (item.keywords||[]).join(' '),
+    (item.disorders||[]).join(' '),
+    (item.techniques||[]).map(t=>t.name+' '+t.desc).join(' '),
+    item.notes||''
+  ].join(' ').toLowerCase();
+  return hay.includes(q.toLowerCase());
+}
+
+function cardHTML(item){
+  const cat = CAT_MAP[item.cat];
+  const techHTML = (item.techniques||[]).map(t=>`<div class="tech-item"><b>${t.name}</b> — <span class="d">${t.desc}</span></div>`).join('');
+  const disorderHTML = (item.disorders||[]).map(d=>`<span class="tag">${d}</span>`).join('');
+  const metaBits = [item.founder, item.full].filter(Boolean).join('　·　');
+  return `
+  <div class="card" id="card-${item.id}" style="--accent:${cat.color}" data-id="${item.id}">
+    <div class="head-row">
+      <span class="name-en">${item.en}</span>
+      <span class="name-cn">${item.cn}</span>
+      ${item.supplement?'<span class="supp-badge">补充</span>':''}
+    </div>
+    <div class="core-preview">${item.core}</div>
+    <div class="detail">
+      ${metaBits?`<div class="meta-line">${metaBits}</div>`:''}
+      ${techHTML}
+      <div class="example-line">${item.example}</div>
+      <div class="tag-row">${disorderHTML}</div>
+      ${item.notes?`<div class="notes-line">${item.notes}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderGrid(){
+  const q = document.getElementById('search').value.trim();
+  const filtered = DATA.filter(d => (currentCat==='all'||d.cat===currentCat) && matchesQuery(d,q));
+  let html = '';
+  let lastCat = null;
+  filtered.forEach(item=>{
+    if(item.cat !== lastCat){
+      const c = CAT_MAP[item.cat];
+      html += `<div class="group-header" style="--accent:${c.color}">${c.name}</div>`;
+      lastCat = item.cat;
+    }
+    html += cardHTML(item);
+  });
+  document.getElementById('grid').innerHTML = html;
+  document.getElementById('count').textContent = `显示 ${filtered.length} / ${DATA.length} 项`;
+  document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('click', ()=> card.classList.toggle('expanded'));
+  });
+}
+
+function renderLookup(){
+  const body = document.getElementById('lookup-body');
+  body.innerHTML = LOOKUP.map(row=>{
+    const chips = row.therapy.map(t=>{
+      if(t.id) return `<span class="chip" data-jump="${t.id}">${t.label}</span>`;
+      return `<span class="chip-plain">${t.label}</span>`;
+    }).join('');
+    return `<tr><td>${row.disorder}</td><td class="cue">${row.cue}</td><td class="kw">${row.kw}</td><td>${chips}</td></tr>`;
+  }).join('');
+  body.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', ()=> jumpTo(chip.dataset.jump));
+  });
+}
+
+function jumpTo(id){
+  document.getElementById('search').value = '';
+  currentCat = 'all';
+  renderPills();
+  renderGrid();
+  const el = document.getElementById('card-'+id);
+  if(!el) return;
+  el.classList.add('expanded');
+  el.scrollIntoView({behavior:'smooth', block:'center'});
+  el.classList.add('flash');
+  setTimeout(()=>el.classList.remove('flash'), 1400);
+}
+
+function mechCardHTML(m, colorVar){
+  return `<div class="mech-card" style="--mc:${colorVar||''}">
+    <div class="mc-title">${m.en} <span style="font-weight:400;color:var(--ink-soft);">${m.cn}</span></div>
+    <div class="mc-detail">${m.def}${m.ex?`<br><i>例：${m.ex}</i>`:''}</div>
+  </div>`;
+}
+
+function renderLadder(){
+  const wrap = document.getElementById('ladder');
+  wrap.innerHTML = LEVELS.map(lv=>{
+    const items = lv.items.map(m=>mechCardHTML(m)).join('');
+    return `<div class="level-band" style="--lc:${lv.color}">
+      <div class="level-label">${lv.label}</div>
+      <div class="level-sub">${lv.sub}</div>
+      <div class="mech-wrap">${items}</div>
+    </div>`;
+  }).join('');
+  attachMechToggle(wrap);
+}
+
+function renderOtherMech(){
+  const wrap = document.getElementById('other-mech');
+  wrap.innerHTML = OTHER_MECH.map(m=>mechCardHTML(m)).join('');
+  attachMechToggle(wrap);
+}
+
+function attachMechToggle(container){
+  container.querySelectorAll('.mech-card').forEach(c=>{
+    c.addEventListener('click', ()=> c.classList.toggle('expanded'));
+  });
+}
+
+function renderConfusePairs(){
+  document.getElementById('confuse-pairs').innerHTML = CONFUSE_PAIRS.map(p=>`
+    <div class="confuse-pair">
+      <div><b>${p.a.t}</b><span>${p.a.d}</span></div>
+      <div><b>${p.b.t}</b><span>${p.b.d}</span></div>
+    </div>`).join('');
+}
+
+function renderStepper(){
+  document.getElementById('stepper').innerHTML = SOC.map(s=>`
+    <div class="step">
+      <div class="step-n">${s.n}</div>
+      <div class="step-name">${s.name}</div>
+      <div class="step-desc">${s.desc}</div>
+      <div class="step-int">${s.intv}</div>
+    </div>`).join('');
+}
+
+function renderStats(){
+  const totalTech = DATA.reduce((sum,d)=> sum + (d.techniques?d.techniques.length:0), 0);
+  const totalMech = LEVELS.reduce((sum,l)=> sum + l.items.length, 0) + OTHER_MECH.length;
+  document.getElementById('stat-techniques').textContent = DATA.length;
+  document.getElementById('stat-methods').textContent = totalTech;
+  document.getElementById('stat-disorders').textContent = LOOKUP.length;
+  document.getElementById('stat-mech').textContent = totalMech;
+}
+
+document.getElementById('search').addEventListener('input', renderGrid);
+
+renderPills();
+renderGrid();
+renderLookup();
+renderLadder();
+renderOtherMech();
+renderConfusePairs();
+renderStepper();
+renderStats();
+</script>
+</body>
+</html>
