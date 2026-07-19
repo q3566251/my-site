@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>精神健康评估工具速查 & 练习</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page-bg:#f7f1e8;
+    --soft-bg:#f2e7d9;
+    --card-bg:#fdf9f4;
+    --ink:#3a332b;
+    --ink-soft:#6b6255;
+    --accent:#a8734a;
+    --accent-dark:#8a5c39;
+    --border:#e3d5c1;
+    --good:#5f8365;
+    --tag-bg:#eee0cc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Noto Sans SC","Noto Serif SC",serif;
+    line-height:1.6;
+  }
+  header{
+    padding:36px 20px 24px;
+    text-align:center;
+    background:linear-gradient(180deg,var(--soft-bg),var(--page-bg));
+    border-bottom:1px solid var(--border);
+  }
+  header h1{
+    font-family:"Noto Serif SC",serif;
+    font-size:1.8rem;
+    margin:0 0 6px;
+    color:var(--accent-dark);
+  }
+  header p{margin:0;color:var(--ink-soft);font-size:0.95rem;}
+
+  .container{max-width:1000px;margin:0 auto;padding:20px;}
+
+  .toolbar{
+    position:sticky;top:0;z-index:10;
+    background:var(--page-bg);
+    padding:14px 0;
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+    border-bottom:1px solid var(--border);
+  }
+  #search{
+    flex:1;min-width:200px;
+    padding:10px 14px;border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--card-bg);
+    font-size:0.95rem;color:var(--ink);
+    font-family:inherit;
+  }
+  #search:focus{outline:2px solid var(--accent);}
+  .mode-btn{
+    padding:10px 16px;border-radius:10px;border:1px solid var(--border);
+    background:var(--card-bg);color:var(--ink);cursor:pointer;font-family:inherit;font-size:0.9rem;
+    transition:.15s;
+  }
+  .mode-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .mode-btn:hover{border-color:var(--accent);}
+
+  .cats{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0;}
+  .cat-chip{
+    padding:6px 14px;border-radius:20px;border:1px solid var(--border);
+    background:var(--tag-bg);color:var(--ink-soft);cursor:pointer;font-size:0.85rem;
+  }
+  .cat-chip.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  section.category{margin-top:28px;}
+  section.category h2{
+    font-family:"Noto Serif SC",serif;
+    font-size:1.2rem;color:var(--accent-dark);
+    border-left:4px solid var(--accent);padding-left:10px;margin-bottom:14px;
+    cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+    user-select:none;
+  }
+  section.category h2::after{
+    content:'▸';font-size:0.85rem;color:var(--ink-soft);
+    transition:transform .15s;margin-left:10px;
+  }
+  section.category.open h2::after{transform:rotate(90deg);}
+  section.category h2:hover{color:var(--accent);}
+  section.category .grid,
+  section.category .overview-list{display:none;}
+  section.category.open .grid{display:grid;}
+  section.category.open .overview-list{display:grid;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:640px){.grid{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--card-bg);border:1px solid var(--border);border-radius:14px;
+    padding:16px 18px;cursor:pointer;transition:.15s;
+  }
+  .card:hover{box-shadow:0 4px 14px rgba(138,92,57,0.12);transform:translateY(-2px);}
+  .card h3{margin:0 0 4px;font-size:1.02rem;color:var(--accent-dark);}
+  .card .cn-name{font-size:0.88rem;color:var(--ink-soft);margin-bottom:8px;}
+  .card .desc{font-size:0.88rem;color:var(--ink);}
+  .card .case{
+    margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);
+    font-size:0.82rem;color:var(--ink-soft);display:none;
+  }
+  .card.expanded .case{display:block;}
+  .card .case b{color:var(--good);}
+  .tool-link{
+    display:inline-block;margin-top:8px;font-size:0.78rem;
+    color:var(--accent-dark);text-decoration:none;border-bottom:1px dotted var(--accent-dark);
+  }
+  .tool-link:hover{color:var(--accent);border-bottom-style:solid;}
+  .alt-box{
+    margin-top:10px;padding:8px 10px;border-radius:8px;
+    background:#fbeee0;border:1px solid #e8c9a0;font-size:0.78rem;color:#6b4a26;
+  }
+  .alt-box b{color:#8a5c1f;}
+  .alt-box .tool-link{color:#8a5c1f;border-bottom-color:#8a5c1f;}
+  .internalalt-box{
+    margin-top:10px;padding:8px 10px;border-radius:8px;
+    background:#eef2ea;border:1px solid #cdd9c5;font-size:0.78rem;color:#3f5233;
+  }
+  .noalt-box{
+    margin-top:10px;padding:6px 10px;border-radius:8px;
+    background:#f2ede6;border:1px dashed var(--border);font-size:0.76rem;color:var(--ink-soft);
+  }
+  .verify-badge{
+    display:inline-block;font-size:0.7rem;font-weight:700;
+    background:#fde2e2;color:#a33a3a;border:1px solid #f0b8b8;
+    padding:2px 9px;border-radius:12px;margin-bottom:8px;
+  }
+  .evidence-line{
+    font-size:0.72rem;color:#7a6a55;margin-top:6px;line-height:1.5;
+    background:#f7f2ea;border-left:3px solid #d8c5a0;padding:5px 8px;border-radius:4px;
+  }
+
+  /* overview 20 items */
+  .overview-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  @media(max-width:640px){.overview-list{grid-template-columns:1fr;}}
+  .overview-list li{
+    background:var(--card-bg);border:1px solid var(--border);border-radius:10px;
+    padding:10px 12px;font-size:0.86rem;
+  }
+  .overview-list li b{color:var(--accent-dark);}
+
+  /* quiz mode */
+  #quiz{display:none;text-align:center;padding:30px 0;}
+  #quiz.active{display:block;}
+  .quiz-card{
+    background:var(--card-bg);border:1px solid var(--border);border-radius:16px;
+    padding:28px 24px;max-width:640px;margin:0 auto;
+  }
+  .quiz-case{font-size:1.02rem;margin-bottom:20px;line-height:1.8;}
+  .quiz-answer{
+    margin-top:16px;padding:14px;border-radius:10px;background:var(--soft-bg);
+    display:none;text-align:left;
+  }
+  .quiz-answer.show{display:block;}
+  .quiz-answer .tool-name{color:var(--accent-dark);font-weight:700;font-size:1.05rem;}
+  .quiz-btns{display:flex;gap:12px;justify-content:center;margin-top:18px;}
+  .quiz-btns button{
+    padding:10px 20px;border-radius:10px;border:1px solid var(--border);
+    background:var(--card-bg);cursor:pointer;font-family:inherit;font-size:0.9rem;
+  }
+  .quiz-btns button.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .quiz-progress{color:var(--ink-soft);font-size:0.8rem;margin-bottom:10px;}
+
+  .hidden{display:none !important;}
+  #empty-msg{text-align:center;color:var(--ink-soft);padding:40px 0;display:none;}
+  footer{text-align:center;color:var(--ink-soft);font-size:0.8rem;padding:30px 0;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>精神健康评估工具速查表</h1>
+  <p>按类别浏览常用评估量表 · 搜索工具名称 · 案例练习模式巩固记忆</p>
+</header>
+
+<div class="container">
+  <div class="toolbar">
+    <input id="search" type="text" placeholder="搜索工具名称、英文缩写或用途...">
+    <button class="mode-btn active" id="browseBtn" onclick="setMode('browse')">浏览模式</button>
+    <button class="mode-btn" id="quizBtn" onclick="setMode('quiz')">案例练习模式</button>
+  </div>
+
+  <div id="browseView">
+    <div class="cats" id="catChips"></div>
+
+    <section class="category" id="overviewSection">
+      <h2>评估维度总览（前20项）</h2>
+      <ul class="overview-list" id="overviewList"></ul>
+    </section>
+
+    <div id="categoriesContainer"></div>
+    <div id="empty-msg">没有找到匹配的工具</div>
+  </div>
+
+  <div id="quiz">
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div class="quiz-card">
+      <div class="quiz-case" id="quizCase"></div>
+      <div class="quiz-answer" id="quizAnswer">
+        <div class="tool-name" id="quizToolName"></div>
+        <div id="quizReason" style="margin-top:6px;font-size:0.9rem;color:var(--ink-soft);"></div>
+        <div id="quizLink" style="margin-top:8px;"></div>
+      </div>
+      <div class="quiz-btns">
+        <button onclick="revealAnswer()">显示答案</button>
+        <button class="primary" onclick="nextQuiz()">下一题 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>Rendr 临床工具 · 仅供学习参考</footer>
+
+<script>
+const overview20 = [
+"病史采集：了解个人背景、既往病史和家族史",
+"症状评估：评估当前精神症状，如焦虑、抑郁、幻觉、妄想",
+"情绪评估：评估情绪状态和情感调节能力",
+"自杀风险评估：评估自杀意念、计划或行为",
+"精神状态检查：评估意识、思维、感知、注意力和记忆",
+"功能评估：评估日常生活功能，如工作、学习、社交",
+"社交支持评估：评估社交网络和支持系统",
+"药物治疗评估：评估对药物治疗的反应和耐受性",
+"心理评估：使用标准化量表评估心理状况和人格特征",
+"饮食评估：评估饮食习惯和营养状况",
+"睡眠评估：评估睡眠质量和睡眠障碍",
+"药物滥用评估：评估是否滥用或依赖药物/物质",
+"心理社会压力评估：评估家庭/工作/社会压力和应对能力",
+"病程评估：评估疾病进展和治疗效果",
+"自我评估：患者自评心理健康状况和需求",
+"风险评估：评估对自身或他人的危险性",
+"心理教育评估：评估对精神健康问题的理解和知识",
+"应对策略评估：评估应对压力和困难的策略技能",
+"家庭评估：评估家庭环境对精神健康的影响",
+"康复评估：评估康复过程中的进展和需求"
+];
+
+const categories = [
+{
+  name:"综合心理治疗评估",
+  tools:[
+    {en:"OSRS", cn:"Outcome and Session Rating Scale", desc:"客观评估心理治疗的进展和效果", case:"治疗师想客观追踪来访者的治疗进展和会谈效果", link:"https://www.scottdmiller.com/performance-metrics"},
+    {en:"DAS", cn:"Dyadic Adjustment Scale", desc:"评估亲密伴侣关系满意度的自评问卷", case:"一对伴侣来访，想评估婚姻/亲密关系的满意度"},
+    {en:"BSI", cn:"Brief Symptom Inventory", desc:"简短自评，快速全面筛查当下症状困扰程度", case:"患者症状广泛（抑郁、焦虑、敌意、躯体化），需要快速全面筛查", internalAlt:"本站已收录的 DASS-42 + DSM-5跨切面症状量表 组合可替代广泛症状快筛"},
+    {en:"Working Alliance Inventory", cn:"工作联盟量表", desc:"评估治疗师与来访者之间的治疗联盟", case:"想了解治疗关系质量是否影响疗效", link:"https://wai.profhorvath.com/"},
+    {en:"CORE-OM", cn:"Clinical Outcomes in Routine Evaluation", desc:"评估心理健康困扰和幸福感", case:"常规评估心理治疗结局", link:"https://www.coresystemtrust.org.uk/"},
+    {en:"QOLI", cn:"Quality of Life Inventory", desc:"评估个人生活质量", case:"想全面了解来访者的生活满意度", alt:{name:"WHOQOL-BREF", cn:"世界卫生组织生活质量量表", link:"https://www.who.int/tools/whoqol/whoqol-bref"}},
+    {en:"SDS", cn:"Sheehan Disability Scale", desc:"3题功能损害自评（工作/社交/家庭）", case:"想用最简短的量表评估症状对功能的整体影响", needsVerification:true, evidence:"核实结果：SDS并非免费工具，官网harmresearch.org明确写明需付费购买/授权（含水印预览版），未找到免费公开版"}
+  ]
+},
+{
+  name:"抑郁评估",
+  tools:[
+    {en:"PHQ-9", cn:"Patient Health Questionnaire-9", desc:"初步筛查抑郁症，常用基层/门诊", case:"28岁患者因情绪低落来访，医生想快速筛查是否抑郁", link:"https://www.phqscreeners.com/select-screener"},
+    {en:"BDI-II", cn:"Beck Depression Inventory", desc:"成人自评抑郁严重程度", case:"30岁成人患者自我报告长期情绪低落，想自评抑郁水平", alt:{name:"CES-D", cn:"流调中心抑郁量表", link:"https://cesd-r.com/"}},
+    {en:"HAM-D", cn:"Hamilton Rating Scale for Depression", desc:"临床评估抑郁严重程度，金标准", case:"精神科医生想客观量化抑郁症状严重程度以追踪药效", link:"https://integrationacademy.ahrq.gov/sites/default/files/2020-07/HDRS.pdf"},
+    {en:"GDS", cn:"Geriatric Depression Scale", desc:"老年人抑郁筛查", case:"70岁老人，家属怀疑其有抑郁症，需排除正常老化", link:"https://web.stanford.edu/~yesavage/GDS.html"},
+    {en:"CDI", cn:"Children's Depression Inventory", desc:"儿童和青少年抑郁评估", case:"12岁儿童在学校情绪低落，老师建议评估抑郁", internalAlt:"本站已收录的 RCADS（含儿童抑郁分量表）可替代"},
+    {en:"IDS", cn:"Inventory of Depressive Symptomatology", desc:"评估抑郁症状严重程度，适合追踪治疗", case:"医生要跟踪患者抑郁症状变化的严重程度"},
+    {en:"PDSS", cn:"Postpartum Depression Screening Scale", desc:"筛查产后抑郁症状", case:"产后女性抱怨情绪低落、无助，需筛查产后抑郁", alt:{name:"EPDS", cn:"爱丁堡产后抑郁量表", link:"https://downloads.aap.org/AAP/PDF/Postnatal%20Depression%20Scale.pdf"}}
+  ]
+},
+{
+  name:"焦虑评估",
+  tools:[
+    {en:"GAD-7", cn:"Generalized Anxiety Disorder-7", desc:"筛查广泛性焦虑症，简短自评", case:"28岁男性，持续担心、难以控制焦虑，需快速筛查GAD", link:"https://www.phqscreeners.com/select-screener"},
+    {en:"BAI", cn:"Beck Anxiety Inventory", desc:"自评量表，量化焦虑症状强度", case:"35岁女性自述心慌、紧张、出汗，想测焦虑严重程度", internalAlt:"本站已收录的 GAD-7 可做焦虑严重度快速自评（构念侧重不完全相同）"},
+    {en:"HAM-A", cn:"Hamilton Anxiety Rating Scale", desc:"临床访谈评定，焦虑严重程度金标准", case:"精神科医生要量化焦虑症状以追踪药物疗效", link:"https://dcf.psychiatry.ufl.edu/files/2011/05/HAMILTON-ANXIETY.pdf"},
+    {en:"STAI", cn:"State-Trait Anxiety Inventory", desc:"区分状态焦虑与特质焦虑", case:"研究者要区分来访者是临时焦虑还是长期焦虑倾向"},
+    {en:"SPIN", cn:"Social Phobia Inventory", desc:"评估社交焦虑症状严重程度", case:"18岁大学生社交场合极度回避，怀疑社交焦虑障碍"},
+    {en:"Functional Assessment", cn:"功能分析评估", desc:"找触发+行为+后果，分析恐惧症起因、维持机制", case:"来访者在恐惧情境中回避，治疗师要分析触发-反应-后果模式", noCopyright:true},
+    {en:"PARS", cn:"Pediatric Anxiety Rating Scale", desc:"评估儿童和青少年焦虑症状", case:"10岁儿童过度担心、依赖父母，老师怀疑焦虑障碍", alt:{name:"SCARED", cn:"儿童焦虑相关障碍筛查表", link:"https://www.pediatricbipolar.pitt.edu/clinical-services/clinical-tools"}},
+    {en:"RCADS", cn:"Revised Children's Anxiety and Depression Scale", desc:"同时评估儿童焦虑和抑郁症状", case:"12岁儿童出现焦虑+抑郁症状，家长想了解共病情况", link:"https://rcads.ucla.edu/"},
+    {en:"DASS-42", cn:"Depression Anxiety Stress Scale", desc:"同时评估抑郁、焦虑和压力，共病评估（42题）", case:"25岁女性表现抑郁+焦虑+高压力，需一次性测共病情况", link:"https://www2.psy.unsw.edu.au/dass/"}
+  ]
+},
+{
+  name:"躁狂评估",
+  tools:[
+    {en:"YMRS", cn:"Young Mania Rating Scale", desc:"评估躁狂发作严重程度（双相障碍）", case:"28岁男性精力旺盛、话多、几天不睡，需量化躁狂严重程度", link:"https://www.carepatron.com/files/young-mania-rating-scale.pdf"},
+    {en:"MDQ", cn:"Mood Disorder Questionnaire", desc:"快速筛查双相障碍", case:"35岁女性反复情绪波动，怀疑双相障碍，需初筛", link:"https://ibpf.org/wp-content/uploads/2016/11/MDQ.pdf"}
+  ]
+},
+{
+  name:"强迫症评估",
+  tools:[
+    {en:"Y-BOCS", cn:"Yale-Brown Obsessive-Compulsive Scale", desc:"OCD严重程度评估金标准，临床访谈式", case:"30岁男性反复洗手和检查，医生要临床量化严重程度", link:"https://depts.washington.edu/dbpeds/Screening%20Tools/YBOCS-brief.pdf"},
+    {en:"CY-BOCS", cn:"Children's Yale-Brown OCS", desc:"儿童/青少年OCD评估", case:"10岁儿童反复洗手、数数行为，家长担心OCD"},
+    {en:"OCI", cn:"Obsessive-Compulsive Inventory", desc:"自评问卷，主观反映OCD症状严重程度", case:"25岁女性自述有强迫症状，愿意自我填写问卷", link:"https://pcl.psychiatry.uw.edu/wp-content/uploads/2025/04/OCI-R-Scale-and-Manual.pdf"}
+  ]
+},
+{
+  name:"创伤与压力评估",
+  tools:[
+    {en:"PCL-5", cn:"PTSD Checklist for DSM-5", desc:"PTSD常用筛查工具，自评", case:"退伍军人出现噩梦、回避、过度警觉，需快速筛查PTSD", link:"https://www.ptsd.va.gov/professional/assessment/adult-sr/ptsd-checklist.asp"},
+    {en:"CAPS-5", cn:"Clinician-Administered PTSD Scale", desc:"PTSD诊断金标准，结构化访谈", case:"创伤幸存者需要临床访谈确认PTSD诊断", link:"https://www.ptsd.va.gov/professional/assessment/adult-int/caps.asp"},
+    {en:"LEC-5", cn:"Life Events Checklist", desc:"评估是否经历过创伤性事件", case:"医生要确认个体是否经历过创伤事件", link:"https://www.ptsd.va.gov/professional/assessment/te-measures/life_events_checklist.asp"},
+    {en:"IES-R", cn:"Impact of Event Scale-Revised", desc:"近期创伤反应量表，灾后评估常用", case:"灾后人群近期有侵入性记忆、回避，想评估短期影响", link:"https://www.ptsd.va.gov/professional/assessment/adult-sr/ies-r.asp"},
+    {en:"TSI", cn:"Trauma Symptom Inventory", desc:"广泛评估创伤相关症状，不限于PTSD", case:"患者报告长期创伤史，伴随解离、焦虑、抑郁", alt:{name:"DES-II", cn:"分离体验量表（仅覆盖解离维度，非TSI全部范围）", link:"https://traumadissociation.com/des"}},
+    {en:"CPSS", cn:"Child PTSD Symptom Scale", desc:"儿童/青少年PTSD评估", case:"12岁儿童经历虐待后出现闪回、噩梦", alt:{name:"CRIES-8", cn:"儿童修订版事件影响量表", link:"https://www.childrenandwar.org/measures"}},
+    {en:"TALS", cn:"Trauma and Loss Spectrum", desc:"同时评估创伤和丧失，适合PTSD+哀伤共病", case:"患者有创伤和丧失双重经历（如失去亲友+战争创伤）"},
+    {en:"Grief Intensity Scale", cn:"悲伤强度量表", desc:"评估失去亲友后的悲伤强度", case:"丧亲者表现出强烈悲伤反应，想测悲伤程度", alt:{name:"ICG", cn:"复杂性哀伤量表（最常用免费哀伤量表）", link:"https://endoflife.weill.cornell.edu/sites/default/files/icg_publication.pdf"}},
+    {en:"Grief Resolution Index", cn:"悲伤适应指数", desc:"评估对悲伤的适应水平", case:"丧亲者逐渐适应或未适应，医生要评估恢复情况", alt:{name:"ICG", cn:"复杂性哀伤量表（同一工具，衡量哀伤适应/复杂化程度）", link:"https://endoflife.weill.cornell.edu/sites/default/files/icg_publication.pdf"}},
+    {en:"Quality of Dying and Death", cn:"临终质量问卷", desc:"评估临终患者身心状态和护理质量", case:"安宁疗护场景，家属想评估患者临终体验与护理质量", link:"https://depts.washington.edu/eolcare/"},
+    {en:"ACEs", cn:"童年不良经历问卷", desc:"评估18岁前经历的10类童年创伤/家庭功能失调", case:"初级保健/行为健康整合场景，需快速筛查童年逆境暴露史", link:"https://www.cdc.gov/aces/site.html", needsVerification:true, evidence:"CDC官网(cdc.gov/aces)确认为公共卫生监测工具，源自BRFSS问卷，可免费使用"}
+  ]
+},
+{
+  name:"自杀与绝望感评估",
+  tools:[
+    {en:"BHS", cn:"Beck Hopelessness Scale", desc:"预测自杀风险，测量绝望感，不直接问自杀想法", case:"长期抑郁患者未明确说自杀，但临床担心风险"},
+    {en:"SIQ", cn:"Suicidal Ideation Questionnaire", desc:"直接测量自杀意念的存在和强度", case:"青少年报告有过自杀想法，临床要评估意念严重程度", internalAlt:"本站已收录的 C-SSRS 更全面覆盖自杀意念评估"},
+    {en:"C-SSRS", cn:"Columbia Suicide Severity Rating Scale", desc:"最全面的自杀风险评估工具", case:"门诊患者疑似高风险，需全面评估意念/计划/意图/既往行为", link:"https://cssrs.columbia.edu/"}
+  ]
+},
+{
+  name:"情绪与情绪调节评估",
+  tools:[
+    {en:"DERS", cn:"Difficulties in Emotion Regulation Scale", desc:"评估情绪调节困难程度", case:"患者难以控制情绪，容易爆发或压抑，需测情绪调节困难", link:"https://elcentro.sonhs.miami.edu/research/measures-library/ders-sf/ders-sf.pdf"},
+    {en:"CERQ", cn:"Cognitive Emotion Regulation Questionnaire", desc:"评估调节情绪时使用的认知策略", case:"研究者想了解患者应对情绪的认知策略（如积极重评、反刍）", link:"https://www.universiteitleiden.nl/en/research/research-projects/social-and-behavioural-sciences/cognitive-emotion-regulation-questionnaire-cerq"}
+  ]
+},
+{
+  name:"愤怒评估",
+  tools:[
+    {en:"STAXI", cn:"State-Trait Anger Expression Inventory", desc:"评估愤怒及表达方式", case:"患者报告经常愤怒爆发或长期压抑愤怒，需区分特质vs状态"}
+  ]
+},
+{
+  name:"物质使用与成瘾评估",
+  tools:[
+    {en:"CAGE", cn:"CAGE Questionnaire", desc:"最简短的酒精使用风险筛查（4题）", case:"门诊快速筛查饮酒问题", link:"https://www.mirecc.va.gov/cih-visn2/Documents/Provider_Education_Handouts/CAGE_Version_3.pdf"},
+    {en:"AUDIT", cn:"Alcohol Use Disorders Identification Test", desc:"全面常用的酒精使用初筛", case:"医生要全面初筛患者的饮酒情况", link:"https://www.who.int/publications/i/item/WHO-MSD-MSB-01.6a"},
+    {en:"MAST", cn:"Michigan Alcohol Screening Test", desc:"评估酒精依赖的长期影响，比AUDIT更深入", case:"患者长期酗酒，临床想评估依赖严重程度", link:"https://www.oregon.gov/oha/HSD/AMH/docs/MAST.pdf"},
+    {en:"DAST", cn:"Drug Abuse Screening Test", desc:"专门针对药物滥用（非酒精）的筛查", case:"怀疑患者存在药物使用问题（非酒精）", link:"https://www.asam.org/docs/default-source/education-docs/drug-abuse-screening-test_dast10_8-28-2017.pdf"},
+    {en:"SASSI", cn:"Substance Abuse Subtle Screening Inventory", desc:"通过防御性回答检测隐性成瘾", case:"患者否认饮酒/吸毒，但临床高度怀疑成瘾问题", internalAlt:"本站已收录的 AUDIT + DAST 组合覆盖核心物质筛查（不含防御性回答检测功能）"},
+    {en:"GAIN", cn:"Global Appraisal of Individual Needs", desc:"综合评估物质使用+共病，用于制定治疗方案", case:"患者同时有物质使用和心理健康问题，需综合评估", link:"https://www.hca.wa.gov/assets/billers-and-providers/gain-ss-manual-v3.0.pdf"}
+  ]
+},
+{
+  name:"家庭与养育评估",
+  tools:[
+    {en:"PSI", cn:"Parenting Stress Index", desc:"评估父母养育过程中的压力水平", case:"家长报告育儿压力大，感觉身心疲惫", alt:{name:"Parental Stress Scale (PSS)", cn:"公共领域育儿压力量表", link:"https://www.corc.uk.net/outcome-measures-guidance/directory-of-outcome-measures/parental-stress-scale-pss/"}},
+    {en:"PCRI", cn:"Parent-Child Relationship Inventory", desc:"测量亲子关系质量", case:"父母和孩子关系紧张，想评估互动质量"}
+  ]
+},
+{
+  name:"儿童和青少年行为评估",
+  tools:[
+    {en:"CBCL", cn:"Child Behavior Checklist", desc:"综合评估儿童情绪与行为问题", case:"10岁儿童表现出攻击、焦虑、退缩等行为问题", alt:{name:"SDQ", cn:"长处与困难问卷（非商业用途免费，含中文版）", link:"https://www.sdqinfo.org/"}},
+    {en:"CAFAS", cn:"Child and Adolescent Functional Assessment Scale", desc:"评估功能障碍程度（学业、家庭、社交）", case:"青少年在学校/家庭功能明显下降，需测整体功能水平", internalAlt:"本站已收录的 CANS 同样用于儿童功能/需求评估，可替代"},
+    {en:"CANS", cn:"Child and Adolescent Needs and Strengths", desc:"兼顾风险与优势，适合制定干预计划", case:"治疗师想了解儿童的风险与保护性因素（优势+需求）", link:"https://praedfoundation.org/tcom/tcom-tools/the-child-and-adolescent-needs-and-strengths-cans/"}
+  ]
+},
+{
+  name:"认知和神经心理评估",
+  tools:[
+    {en:"MMSE", cn:"Mini-Mental State Examination", desc:"30分量表，常用认知障碍筛查", case:"70岁老人健忘，医生要快速筛查认知障碍", alt:{name:"Mini-Cog", cn:"3分钟免费认知筛查（3词回忆+画钟测验）", link:"https://mini-cog.com/download-the-mini-cog-instrument/"}},
+    {en:"MSE", cn:"Mental Status Exam", desc:"精神状态全面检查，但不量化分数", case:"门诊初诊精神病人，需要整体评估心理状态", noCopyright:true},
+    {en:"WAIS", cn:"Wechsler Adult Intelligence Scale", desc:"标准智力与认知能力测评", case:"成年人要求智力测试（如学习障碍/职业评估）"},
+    {en:"WCST", cn:"Wisconsin Card Sorting Test", desc:"测认知灵活性与执行功能", case:"患者执行任务时出错，医生怀疑认知灵活性受损"},
+    {en:"CVLT", cn:"California Verbal Learning Test", desc:"专门评估言语学习与记忆", case:"患者怀疑语言学习和记忆功能障碍"},
+    {en:"NPI", cn:"Neuropsychiatric Inventory", desc:"老年人神经精神症状评估（妄想、焦虑、易怒等）", case:"老年痴呆患者出现情绪和行为异常", link:"https://www.alz.org/getmedia/fac45de4-c45d-4227-8e32-1153b4cdf6f3/npiq-questionnaire.pdf"},
+    {en:"CAM", cn:"意识模糊评估法（谵妄）", desc:"医院/老年科床旁快速谵妄识别工具", case:"住院老年患者突然出现意识/注意力波动，需鉴别谵妄vs痴呆", link:"https://www.va.gov/covidtraining/docs/The_Confusion_Assessment_Method.pdf", needsVerification:true, evidence:"版权属Hospital Elder Life Program，此为VA(退伍军人事务部)官网转载的授权版本，非HELP官方直链，建议再核实"}
+  ]
+},
+{
+  name:"人格和精神障碍评估",
+  tools:[
+    {en:"SCID-5", cn:"Structured Clinical Interview for DSM-5", desc:"DSM-5诊断金标准，全面精神障碍诊断", case:"患者症状复杂，需要按照DSM-5标准确诊"},
+    {en:"PANSS", cn:"Positive and Negative Syndrome Scale", desc:"专用于精神分裂症严重程度评估（先BPRS后PANSS）", case:"精神分裂症患者，医生要量化阳性/阴性症状", internalAlt:"本站已收录的 BPRS 覆盖重叠的精神病性症状严重度评估"},
+    {en:"BPRS", cn:"Brief Psychiatric Rating Scale", desc:"常用临床症状严重程度量表", case:"医生要评估精神病性症状（幻觉、妄想、焦虑、抑郁）的严重程度", link:"https://www.psychdb.com/_media/psychosis/bprs.pdf"},
+    {en:"MMPI-2", cn:"Minnesota Multiphasic Personality Inventory-2", desc:"全面心理病理筛查，检测作假", case:"怀疑成人存在广泛心理病理或人格问题"},
+    {en:"MCMI", cn:"Millon Clinical Multiaxial Inventory", desc:"侧重人格障碍评估，适合临床/司法环境", case:"个案疑似人格障碍（尤其是罪犯/临床人群）"},
+    {en:"PCL-R", cn:"Hare Psychopathy Checklist-Revised", desc:"法医鉴定常用，区分ASPD vs 精神病态", case:"囚犯/有暴力史个案，需要评估精神病态和再犯风险"},
+    {en:"Cross-Cultural Symptom Checklist", cn:"跨文化症状检查表（DSM-5 Level 1）", desc:"跨文化症状筛查（抑郁、焦虑、精神病性、认知、睡眠）", case:"跨文化背景来访者，症状可能与文化相关", link:"https://www.psychiatry.org/psychiatrists/practice/dsm/educational-resources/assessment-measures"},
+    {en:"ACPT", cn:"Auditory Continuous Performance Test", desc:"测ADHD的持续注意力缺陷（听觉维度）", case:"怀疑ADHD或注意力缺陷，尤其是听觉注意问题"},
+    {en:"MSI-BPD", cn:"McLean边缘型人格障碍筛查量表", desc:"10题是/否快速筛查BPD", case:"来访者情绪不稳定、人际关系强烈波动，需初筛是否需转介BPD专项评估", link:"https://novopsych.com/wp-content/uploads/2023/02/msi-bpd-borderline-personality-disorder-assessment-blank-form.pdf", needsVerification:true, evidence:"未找到McLean医院官方直发链接，此为第三方临床工具站(novopsych.com)转载版本，建议核实内容与原始2003年量表一致"}
+  ]
+},
+{
+  name:"睡眠评估（新增分类）",
+  tools:[
+    {en:"PSQI", cn:"匹兹堡睡眠质量指数", desc:"19题月度睡眠质量综合评估，7个成分分", case:"患者主诉长期睡眠差，需评估睡眠质量各维度", link:"https://www.sleep.pitt.edu/psqi", needsVerification:true, evidence:"匹兹堡大学官网(sleep.pitt.edu/psqi)明确：非商业性研究/教育用途免费可复印，须注明版权来源；商业用途需另行授权"},
+    {en:"ISI", cn:"失眠严重程度指数", desc:"7题失眠严重度自评（近2周）", case:"患者主诉入睡困难/早醒，需快速量化失眠严重度", link:"https://www.apaservices.org/practice/reimbursement/health-registry/insomnia-severity.pdf", needsVerification:true, evidence:"版权归Mapi Research Trust/Morin所有，此为APA Services官网标注「经许可使用」转载的临床版本，非作者官方直链"}
+  ]
+},
+{
+  name:"进食障碍评估（新增分类）",
+  tools:[
+    {en:"EAT-26", cn:"进食态度测试", desc:"26题进食障碍风险筛查（节食/暴食/口腔控制）", case:"青少年/成人体重及饮食行为明显异常，需筛查厌食/贪食风险", link:"https://www.eat-26.com/", needsVerification:true, evidence:"作者David Garner官方网站(eat-26.com)明确可免费在线测试及下载"},
+    {en:"SCOFF", cn:"SCOFF进食障碍筛查问卷", desc:"5题极简是/否筛查，2分钟完成", case:"初级保健/门诊快速筛查是否需要转介专项进食障碍评估", link:"https://www.rightdecisions.scot.nhs.uk/media/go5jp0zr/scoff-questionnaire.pdf", needsVerification:true, evidence:"原始1999年论文即公开全部题目，属可自由使用；此链接为NHS Scotland官方转载版本"}
+  ]
+},
+{
+  name:"ADHD专项评估（新增分类）",
+  tools:[
+    {en:"ASRS v1.1", cn:"成人ADHD自评量表", desc:"WHO/哈佛联合开发，18题（含6题快筛版）", case:"成人怀疑ADHD，需初步自评筛查后再转介结构化诊断", link:"https://www.hcp.med.harvard.edu/ncs/ftpdir/adhd/adhd/Old%20Versions/6Question-ADHD-ASRS-v1-1.pdf", needsVerification:true, evidence:"哈佛医学院官网(hcp.med.harvard.edu)直发，WHO版权，标注免费用于临床；注意此链接路径含Old Versions字样，建议核实是否有更新版本"},
+    {en:"Vanderbilt", cn:"Vanderbilt ADHD诊断评估量表", desc:"6-12岁儿童ADHD评估，家长版/教师版", case:"儿童学校/家庭出现注意力不集中或多动行为，家长或老师怀疑ADHD", link:"https://nichq.org/downloadable/nichq-vanderbilt-assessment-scales/", needsVerification:true, evidence:"NICHQ官网确认第一版可免费下载，引用需注明NICHQ；2、3版权限未明确说明"}
+  ]
+},
+{
+  name:"文化适应评估（新增分类）",
+  tools:[
+    {en:"SL-ASIA", cn:"Suinn-Lew亚裔自我认同文化适应量表", desc:"21-26题，评估亚裔来访者的文化适应/涵化程度", case:"华人/亚裔来访者存在代际文化冲突或身份认同议题，需评估涵化水平", link:"https://www.apa.org/pi/about/publications/caregivers/practice-settings/assessment/tools/suinn-lew", needsVerification:true, evidence:"APA(美国心理学会)官网直接收录并说明作者Suinn已公开授权使用，来源较权威"}
+  ]
+}
+];
+
+// build overview
+const ovList = document.getElementById('overviewList');
+overview20.forEach((t,i)=>{
+  const li = document.createElement('li');
+  const parts = t.split('：');
+  li.innerHTML = `<b>${i+1}. ${parts[0]}</b>：${parts[1]||''}`;
+  ovList.appendChild(li);
+});
+
+// build category chips
+const catChips = document.getElementById('catChips');
+const allChip = document.createElement('div');
+allChip.className='cat-chip active';
+allChip.textContent='全部';
+allChip.onclick=()=>filterCategory('全部',allChip);
+catChips.appendChild(allChip);
+categories.forEach(cat=>{
+  const chip = document.createElement('div');
+  chip.className='cat-chip';
+  chip.textContent = cat.name;
+  chip.onclick = ()=>filterCategory(cat.name, chip);
+  catChips.appendChild(chip);
+});
+
+function filterCategory(name, el){
+  document.querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('section.category').forEach(sec=>{
+    if(sec.id==='overviewSection') return;
+    const match = (name==='全部' || sec.dataset.name===name);
+    sec.style.display = match ? '' : 'none';
+    if(name!=='全部' && match) sec.classList.add('open');
+  });
+  document.getElementById('overviewSection').style.display = (name==='全部') ? '' : 'none';
+}
+
+// build category sections
+const container = document.getElementById('categoriesContainer');
+document.querySelector('#overviewSection h2').onclick = ()=>document.getElementById('overviewSection').classList.toggle('open');
+categories.forEach(cat=>{
+  const sec = document.createElement('section');
+  sec.className='category';
+  sec.dataset.name = cat.name;
+  sec.innerHTML = `<h2>${cat.name}</h2><div class="grid"></div>`;
+  sec.querySelector('h2').onclick = ()=>sec.classList.toggle('open');
+  const grid = sec.querySelector('.grid');
+  cat.tools.forEach(tool=>{
+    const card = document.createElement('div');
+    card.className='card';
+    card.dataset.search = (tool.en+' '+tool.cn+' '+tool.desc+' '+tool.case).toLowerCase();
+    let extra = '';
+    if(tool.link){
+      extra = `<a class="tool-link" href="${tool.link}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">🔗 官方/工具网站</a>`;
+    } else if(tool.alt){
+      extra = `<div class="alt-box">⚠️ 该工具本身无免费公开版（版权工具）。可用免费<b>替代工具</b>：${tool.alt.name}${tool.alt.cn?'（'+tool.alt.cn+'）':''}${tool.alt.link?`<br><a class="tool-link" href="${tool.alt.link}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">🔗 替代工具官网</a>`:''}</div>`;
+    } else if(tool.internalAlt){
+      extra = `<div class="internalalt-box">💡 ${tool.internalAlt}</div>`;
+    } else if(tool.noCopyright){
+      extra = `<div class="noalt-box">ℹ️ 非版权量表/临床技术，可自由使用，无需替代</div>`;
+    } else {
+      extra = `<div class="noalt-box">未找到免费版本或已验证的免费替代工具（多为Pearson/PAR/MHS等商业出版商版权测验）</div>`;
+    }
+    const verifyBadge = tool.needsVerification ? `<div class="verify-badge">⚠️ 新增·需要额外验证</div>` : '';
+    const evidenceLine = tool.evidence ? `<div class="evidence-line">📎 证据：${tool.evidence}</div>` : '';
+    card.innerHTML = `
+      ${verifyBadge}
+      <h3>${tool.en}</h3>
+      <div class="cn-name">${tool.cn}</div>
+      <div class="desc">${tool.desc}</div>
+      ${extra}
+      ${evidenceLine}
+      <div class="case"><b>典型案例：</b>${tool.case}</div>
+    `;
+    card.onclick = ()=>card.classList.toggle('expanded');
+    grid.appendChild(card);
+  });
+  container.appendChild(sec);
+});
+
+// search
+document.getElementById('search').addEventListener('input', e=>{
+  const q = e.target.value.trim().toLowerCase();
+  let anyVisible = false;
+  document.querySelectorAll('.card').forEach(card=>{
+    const match = !q || card.dataset.search.includes(q);
+    card.style.display = match ? '' : 'none';
+    if(match) anyVisible = true;
+  });
+  document.querySelectorAll('section.category').forEach(sec=>{
+    if(sec.id==='overviewSection'){
+      sec.style.display = q ? 'none' : '';
+      return;
+    }
+    const visibleCards = sec.querySelectorAll('.card:not([style*="display: none"])');
+    const hasMatch = visibleCards.length>0;
+    sec.style.display = (q && !hasMatch) ? 'none' : '';
+    if(q && hasMatch) sec.classList.add('open');
+  });
+  document.getElementById('empty-msg').style.display = (q && !anyVisible) ? '' : 'none';
+  if(q){
+    document.querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('active'));
+    catChips.firstChild.classList.add('active');
+  }
+});
+
+// ===== quiz mode =====
+let quizPool = [];
+categories.forEach(cat=>{
+  cat.tools.forEach(t=>quizPool.push({...t, category:cat.name}));
+});
+let quizOrder = [];
+let quizIndex = 0;
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function setMode(mode){
+  const browseBtn = document.getElementById('browseBtn');
+  const quizBtn = document.getElementById('quizBtn');
+  const browseView = document.getElementById('browseView');
+  const quizView = document.getElementById('quiz');
+  if(mode==='browse'){
+    browseBtn.classList.add('active'); quizBtn.classList.remove('active');
+    browseView.style.display=''; quizView.classList.remove('active');
+  } else {
+    quizBtn.classList.add('active'); browseBtn.classList.remove('active');
+    browseView.style.display='none'; quizView.classList.add('active');
+    if(quizOrder.length===0){
+      quizOrder = shuffle([...Array(quizPool.length).keys()]);
+      quizIndex = 0;
+      renderQuiz();
+    }
+  }
+}
+
+function renderQuiz(){
+  if(quizIndex >= quizOrder.length){
+    quizOrder = shuffle([...Array(quizPool.length).keys()]);
+    quizIndex = 0;
+  }
+  const item = quizPool[quizOrder[quizIndex]];
+  document.getElementById('quizProgress').textContent = `第 ${quizIndex+1} / ${quizPool.length} 题 · 类别：${item.category}`;
+  document.getElementById('quizCase').textContent = '案例：' + item.case;
+  document.getElementById('quizToolName').textContent = `${item.en}（${item.cn}）${item.needsVerification?' ⚠️新增·需验证':''}`;
+  document.getElementById('quizReason').textContent = item.desc;
+  let qLink = '';
+  if(item.link){
+    qLink = `<a class="tool-link" href="${item.link}" target="_blank" rel="noopener noreferrer">🔗 官方/工具网站</a>`;
+  } else if(item.alt){
+    qLink = `<div class="alt-box">⚠️ 无免费公开版，可用替代：${item.alt.name}${item.alt.cn?'（'+item.alt.cn+'）':''}${item.alt.link?`<br><a class="tool-link" href="${item.alt.link}" target="_blank" rel="noopener noreferrer">🔗 替代工具官网</a>`:''}</div>`;
+  } else if(item.internalAlt){
+    qLink = `<div class="internalalt-box">💡 ${item.internalAlt}</div>`;
+  } else if(item.noCopyright){
+    qLink = `<div class="noalt-box">ℹ️ 非版权量表/临床技术，无需替代</div>`;
+  } else {
+    qLink = `<div class="noalt-box">未找到免费版本或已验证的替代工具</div>`;
+  }
+  if(item.evidence) qLink += `<div class="evidence-line">📎 证据：${item.evidence}</div>`;
+  document.getElementById('quizLink').innerHTML = qLink;
+  document.getElementById('quizAnswer').classList.remove('show');
+}
+
+function revealAnswer(){
+  document.getElementById('quizAnswer').classList.add('show');
+}
+
+function nextQuiz(){
+  quizIndex++;
+  renderQuiz();
+}
+</script>
+</body>
+</html>
