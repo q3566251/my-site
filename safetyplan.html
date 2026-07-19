@@ -161,16 +161,40 @@ function renderAll(){
   c.appendChild(el(`<div class="card" id="sec-a">
     <h2>A. Current SI（现在有没有想死）</h2>
     <div class="sub">按顺序问：passive death wish → active SI → method → intent → plan</div>
-    ${q('cur_death_wish','1) 被动死亡意愿 Passive death wish','Have you wished you were dead or wished you could go to sleep and not wake up?',['Denied','Endorsed'])}
-    ${q('cur_active_si','2) 主动自杀意念 Active suicidal thought','Have you actually had thoughts of killing yourself?<br>你有没有真的想过要杀死自己？',['Denied','Endorsed'])}
+    ${q('cur_hosp_history','1) 住院史 Hospitalization history','Have you ever been hospitalized for psychiatric or mental health reasons? When, and why?<br>你有没有因为精神/心理问题住过院？什么时候，因为什么？',['否 No','是 Yes'])}
+    ${q('cur_death_wish','2) 被动死亡意愿 Passive death wish','Have you wished you were dead or wished you could go to sleep and not wake up?<br>你有没有希望自己死掉，或希望睡着后不再醒来？',['Denied','Endorsed'])}
+    <div class="qblock">
+      <div class="qtext">3) 主动自杀意念 Active suicidal thought</div>
+      <div class="prompt">"Have you actually had thoughts of killing yourself?<br>你有没有真的想过要杀死自己？"</div>
+      ${radioRow('cur_active_si_r', ['Denied','Endorsed'])}
+      <textarea id="cur_active_si" placeholder="记录 / 补充细节…"></textarea>
+      <div class="prompt" style="margin-top:12px;">"If endorsed — on a 0–10 scale, how strong is the intent to act on these thoughts right now?<br>如果有，现在想要行动的intent强度是多少，0–10？"</div>
+      <input type="text" id="cur_active_si_intent" placeholder="Intent 0–10">
+    </div>
     <div class="qblock">
       <div class="qtext">2b) 自伤 Self-harm</div>
-      <div class="prompt">"Have you hurt yourself on purpose, even without wanting to die? What method, and how often?<br>你有没有故意伤害过自己，即使不是想死？用什么方法，多久一次？"</div>
-      <textarea id="sh_method_freq" placeholder="Method & frequency 方法与频率…"></textarea>
-      <div class="prompt" style="margin-top:12px;">"When was the most recent time?<br>最近一次是什么时候？"</div>
-      <input type="text" id="sh_last_occurrence" placeholder="最近一次时间 Last occurrence">
-      <div class="prompt" style="margin-top:12px;">"On a 0–10 scale, how strong is the urge, and can you resist it?<br>冲动强度0–10，是否可控？"</div>
-      <textarea id="sh_urge_control" placeholder="Urge intensity / controllability 冲动强度/可控性…"></textarea>
+      <div class="prompt">"Have you hurt yourself on purpose, even without wanting to die? How — cutting, burning, hitting, other?<br>你有没有故意伤害过自己，即使不是想死？用什么方式——割伤、烧伤、撞击、还是其他？"</div>
+      <textarea id="sh_method_detail" placeholder="具体方式与部位 Method & body location（如：用刀片割手臂）…"></textarea>
+
+      <div class="prompt" style="margin-top:12px;">"How deep are the cuts/wounds — surface scratches, or deep enough to need medical care?<br>伤口有多深——表浅划痕，还是深到需要医疗处理？"</div>
+      <div class="radiorow">
+        <label><input type="radio" name="sh_depth_r" value="表浅 Superficial"><span>表浅 Superficial</span></label>
+        <label><input type="radio" name="sh_depth_r" value="中度 Moderate"><span>中度 Moderate</span></label>
+        <label><input type="radio" name="sh_depth_r" value="深/需医疗处理 Deep — needs medical care"><span>深/需医疗处理 Deep — needs medical care</span></label>
+      </div>
+
+      <div class="prompt" style="margin-top:12px;">"How many cuts/marks in a typical episode? How intense does it feel — mild sting, or overwhelming?<br>每次通常几道/几处？强度如何——轻微刺痛，还是很强烈？"</div>
+      <textarea id="sh_count_intensity" placeholder="数量与强度 Count per episode & intensity（如：3–5道，强度8/10）…"></textarea>
+
+      <div class="prompt" style="margin-top:12px;">"How often does this happen, and how long has this been going on for you?<br>多久一次？这种情况持续多久了（从第一次到现在）？"</div>
+      <div class="custom-row">
+        <input type="text" id="sh_frequency" placeholder="频率 Frequency（如：每周1-2次）">
+        <input type="text" id="sh_duration" placeholder="持续时长 Duration since onset（如：约2年）">
+      </div>
+
+      <div class="prompt" style="margin-top:12px;">"What happens right after — do you clean/treat the wound, hide it, tell anyone, feel relief, guilt, or shame?<br>之后会做什么——清理/处理伤口、隐藏、告诉别人、感到释然、内疚还是羞耻？"</div>
+      <textarea id="sh_post_behavior" placeholder="事后行为与感受 Post-harm behavior & feelings…"></textarea>
+
       <div class="prompt" style="margin-top:12px;">"What does it do for you — relief, self-punishment, or a cry for help?<br>自伤的作用是什么——缓解情绪、惩罚自己、还是求助信号？"</div>
       <div class="radiorow">
         <label><input type="radio" name="sh_function_r" value="缓解情绪 Emotion relief"><span>缓解情绪 Emotion relief</span></label>
@@ -179,9 +203,9 @@ function renderAll(){
         <label><input type="radio" name="sh_function_r" value="混合/不确定 Mixed"><span>混合/不确定 Mixed</span></label>
       </div>
     </div>
-    ${q('cur_method','3) 方法 Method','Have you thought about how you might do it? / What method came to mind? / Is this available to you?',['无 Method','有 Method — 无 Access','有 Method — 有 Access'])}
-    ${q('cur_intent','4) 意图 Intent','When you had those thoughts, did any part of you intend to act on them? (0–10)',['无 Intent','部分 Intent','明确 Intent'])}
-    ${q('cur_plan','5) 计划 Plan','Have you worked out details about how, when, or where? Did you rehearse or prepare?',['无 Plan','有 Plan 细节'])}
+    ${q('cur_method','4) 方法 Method','Have you thought about how you might do it? / What method came to mind? / Is this available to you?',['无 Method','有 Method — 无 Access','有 Method — 有 Access'])}
+    ${q('cur_intent','5) 意图 Intent','When you had those thoughts, did any part of you intend to act on them? (0–10)',['无 Intent','部分 Intent','明确 Intent'])}
+    ${q('cur_plan','6) 计划 Plan','Have you worked out details about how, when, or where? Did you rehearse or prepare?',['无 Plan','有 Plan 细节'])}
   </div>`));
 
   c.appendChild(el(`<div class="card" id="sec-b">
@@ -199,10 +223,22 @@ function renderAll(){
     <h2>C. History（Lifetime + Recent）</h2>
     <div class="sub">不要只问"有没有自杀过"——要问最严重的一次、attempt 类型、为什么没做、强度</div>
     ${q('hist_onset','1a) 最初起病时间 Onset','When did these thoughts first start? How long has this been part of your life?',null)}
-    ${q('hist_worst','1b) 最严重的一次发作 Worst episode','What was the closest you ever came to killing yourself? At that time, was it just thoughts, or did you intend to act?',null)}
+    <div class="qblock">
+      <div class="qtext">1b) 最严重的一次发作 Worst episode（trigger）</div>
+      <div class="prompt">"What was the closest you ever came to killing yourself? At that time, was it just thoughts, or did you intend to act?<br>你曾经离自杀最近的一次是什么时候？当时只是想法，还是有intent要行动？"</div>
+      <textarea id="hist_worst" placeholder="最严重的一次经过 Worst episode details…"></textarea>
+
+      <div class="prompt" style="margin-top:12px;">"When was the most recent time you had these thoughts?<br>最近一次出现这种想法是什么时候？"</div>
+      <input type="text" id="hist_most_recent" placeholder="最近一次时间 Most recent occurrence">
+
+      <div class="prompt" style="margin-top:12px;">"How often does this happen — daily, weekly, only under specific triggers?<br>多久出现一次——每天、每周、还是特定诱因下才有？"</div>
+      <textarea id="hist_frequency" placeholder="频率 Frequency…"></textarea>
+
+      <div class="prompt" style="margin-top:12px;">"When these thoughts happen, how long do they last? Can you control or redirect them?<br>这些想法出现时会持续多久？能不能控制或转移注意力？"</div>
+      <textarea id="hist_duration_control" placeholder="持续时长与可控性 Duration & controllability…"></textarea>
+    </div>
     ${q('hist_attempt','2) 既往尝试类型 Attempt 类型','Have you ever tried to kill yourself? Did you ever begin or prepare to act, then stop yourself?',['无 Attempt/预备行为','Aborted/Interrupted','Actual Attempt'])}
     ${q('hist_deterrent','3) 为什么没有做 Deterrents','What stopped you from acting on it? Do those reasons still stop you now?',null)}
-    ${q('hist_intensity','4) 强度 Intensity（频率/持续/可控性）','How often do these thoughts happen? How long do they last? Can you control or redirect them?',null)}
   </div>`));
 
   const riskItems = ["既往 attempt / aborted / preparatory behavior","当前 SI 伴 method/intent/plan","近期恶化的抑郁、绝望、无助、trapped 感",
@@ -338,9 +374,10 @@ function buildNote(){
 Generated: ${new Date().toLocaleString()}
 
 ── A. CURRENT SI ──
+Hospitalization history 住院史: ${radioVal('cur_hosp_history_r')} — ${val('cur_hosp_history')}
 Passive death wish: ${radioVal('cur_death_wish_r')} — ${val('cur_death_wish')}
-Active SI: ${radioVal('cur_active_si_r')} — ${val('cur_active_si')}
-Self-harm 自伤 — Method/frequency: ${val('sh_method_freq')} | Last occurrence 最近一次: ${val('sh_last_occurrence')} | Urge/control 冲动可控性: ${val('sh_urge_control')} | Function 功能: ${radioVal('sh_function_r')}
+Active SI: ${radioVal('cur_active_si_r')} — ${val('cur_active_si')} | Intent (0–10): ${val('cur_active_si_intent')}
+Self-harm 自伤 — Method/location 方式部位: ${val('sh_method_detail')} | Depth 深度: ${radioVal('sh_depth_r')} | Count/intensity 数量强度: ${val('sh_count_intensity')} | Frequency 频率: ${val('sh_frequency')} | Duration 持续时长: ${val('sh_duration')} | Post-harm 事后行为: ${val('sh_post_behavior')} | Function 功能: ${radioVal('sh_function_r')}
 Method: ${radioVal('cur_method_r')} — ${val('cur_method')}
 Intent: ${radioVal('cur_intent_r')} — ${val('cur_intent')}
 Plan: ${radioVal('cur_plan_r')} — ${val('cur_plan')}
@@ -356,9 +393,11 @@ Reduce means access now: ${val('hr_reduce_access_now')}
 ── C. HISTORY ──
 Onset: ${val('hist_onset')}
 Worst episode: ${val('hist_worst')}
+Most recent occurrence 最近一次: ${val('hist_most_recent')}
+Frequency 频率: ${val('hist_frequency')}
+Duration/controllability 持续时长与可控性: ${val('hist_duration_control')}
 Attempt history: ${radioVal('hist_attempt_r')} — ${val('hist_attempt')}
 Deterrents: ${val('hist_deterrent')}
-Intensity (freq/duration/control): ${val('hist_intensity')}
 
 ── D. RISK / PROTECTIVE FACTORS ──
 Risk factors endorsed: ${riskFactors.length? riskFactors.join('; ') : '无勾选'}
