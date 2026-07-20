@@ -449,6 +449,39 @@ const DATA = [
  disorders:["MDD"],
  notes:"补充内容（非原始笔记）：与 CBT 并列 MDD 两大一线循证心理治疗之一，通常 12-16 次；IPSRT 即是 IPT 在双相障碍上的节律强化版本。"},
 
+{id:"behavioral_activation", cat:"cbt", en:"Behavioral Activation", full:"BA", cn:"行为激活", supplement:true,
+ core:"抑郁常伴随退缩回避、放弃原本有意义的活动，形成恶性循环；治疗不直接处理想法，而是先系统性地重新投入有价值 / 有掌控感的活动，情绪往往随之改善。",
+ keywords:["avoidance","activity scheduling","reward","MDD"],
+ techniques:[
+   {name:"活动监测", desc:"记录当前的日常活动与对应情绪，识别回避模式"},
+   {name:"活动排程", desc:"按价值观 / 掌控感 / 愉悦感系统性安排活动，无论当下是否有动力，先行动再等情绪跟上"}
+ ],
+ example:"来访者因抑郁推掉所有社交、整天窝在床上刷手机 → 不先纠正「都是我不好」的想法，而是先从一件小事（如下楼散步10分钟）开始逐步重建有意义的日常活动。",
+ disorders:["MDD"],
+ notes:"补充内容（非原始笔记）：可作为 CBT 的一个模块，也可作为独立疗法使用，被多项大型试验（如 COBRA 研究）证实疗效不逊于完整 CBT。"},
+
+{id:"mbct", cat:"cbt", en:"Mindfulness-Based Cognitive Therapy", full:"MBCT", cn:"正念认知疗法", founder:"Segal, Williams & Teasdale", supplement:true,
+ core:"结合正念冥想与认知治疗元素，专门用于预防抑郁症复发——帮助来访者及早识别复发征兆的思维模式，并以不评判的觉察替代反刍式卷入。",
+ keywords:["relapse prevention","decentering","rumination","MDD"],
+ techniques:[
+   {name:"正念练习", desc:"如身体扫描、正念呼吸，训练对当下体验的觉察而不评判"},
+   {name:"去中心化 Decentering", desc:"帮助来访者把「想法」看作念头本身，而非等同于自己或事实，减少反刍"}
+ ],
+ example:"有过三次抑郁发作史的来访者，在情绪略微低落时习惯性开始反刍「我又要不行了」→ 用正念练习帮助其觉察到这个反刍模式正在启动，及早跳出而不被卷入。",
+ disorders:["MDD（复发预防）"],
+ notes:"补充内容（非原始笔记）：主要用于有反复发作史（≥3次）抑郁的复发预防，而非急性期首选。"},
+
+{id:"cft", cat:"cbt", en:"Compassion-Focused Therapy", full:"CFT", cn:"慈悲聚焦疗法", founder:"Paul Gilbert", supplement:true,
+ core:"基于「威胁-驱动-抚慰」三套情绪调节系统的进化心理学模型：高羞耻感 / 自我批评的来访者往往威胁系统过度活跃、抚慰系统发展不足，治疗聚焦培养自我慈悲以激活抚慰系统。",
+ keywords:["shame","self-criticism","soothing system","self-compassion"],
+ techniques:[
+   {name:"慈悲心训练 Compassionate Mind Training", desc:"系统性练习培养自我慈悲的能力，如慈悲想象、慈悲自我对话"},
+   {name:"识别三套情绪系统", desc:"帮助来访者识别自己当下是被威胁系统（焦虑 / 自我攻击）主导，还是能接入抚慰系统（安全 / 温和）"}
+ ],
+ example:"来访者对自己的失误极度苛责，说「换成朋友我肯定会安慰他，但对自己完全做不到」→ 用慈悲聚焦练习，引导其对自己练习原本对朋友才会有的温和态度。",
+ disorders:["强烈羞耻感 / 自我批评相关议题"],
+ notes:"补充内容（非原始笔记）：常被归为 CBT「第三浪潮」疗法之一，与 ACT、DBT 并列。"},
+
 {id:"exposure_therapy", cat:"exposure", en:"Exposure Therapy", full:"", cn:"暴露疗法",
  core:"打破「情境 / 感觉 = 危险」的回避模式，通过反复接触让神经系统学习「不危险」。",
  keywords:["avoidance","systematic desensitization","in-vivo","interoceptive"],
@@ -506,6 +539,40 @@ const DATA = [
  disorders:["PTSD"],
  notes:"补充内容（非原始笔记）：与 PE、EMDR 并列为 PTSD 一线疗法，通常 12 次；可选择是否包含书面创伤叙述（CPT+A / CPT-C 两种形式）。"},
 
+{id:"somatic_experiencing", cat:"exposure", en:"Somatic Experiencing", full:"SE", cn:"躯体经验疗法", founder:"Peter Levine", supplement:true,
+ core:"创伤发生时未能完成的生理性防御反应（战斗 / 逃跑 / 僵住）会「卡」在神经系统里；治疗通过追踪身体感觉、少量释放这些被卡住的能量来处理创伤。",
+ keywords:["titration","pendulation","nervous system","body sensations"],
+ techniques:[
+   {name:"滴定 Titration", desc:"每次只处理一小部分创伤激活，避免来访者被淹没式的情绪冲击"},
+   {name:"摆荡 Pendulation", desc:"引导来访者在「感受激活 / 不适」与「感受资源 / 平静」之间来回移动注意力"},
+   {name:"追踪身体感觉", desc:"邀请来访者描述、追踪身体内的感觉变化，如发抖、发热、紧绷感的释放"}
+ ],
+ example:"来访者描述车祸经历时双腿不自主发抖 → 治疗师不打断，引导其继续追踪这个发抖的感觉，让身体完成当初被打断的「逃跑」反应。",
+ disorders:["PTSD","Trauma-related Disorders"],
+ notes:"补充内容（非原始笔记）：临床应用广泛，但随机对照试验证据仍少于 PE / CPT / EMDR 等一线疗法，通常作为辅助或替代选项。"},
+
+{id:"polyvagal", cat:"exposure", en:"Polyvagal Theory", full:"", cn:"多迷走神经理论", founder:"Stephen Porges", supplement:true,
+ core:"提出自主神经系统的三种状态：腹侧迷走（安全 / 社交参与）、交感神经（战斗 / 逃跑）、背侧迷走（僵住 / 关闭），为创伤知情照护提供理解「身体反应」的语言框架。",
+ keywords:["ventral vagal","sympathetic","dorsal vagal","neuroception"],
+ techniques:[
+   {name:"识别当下的神经系统状态", desc:"帮助来访者用「我现在是不是在僵住/关闭状态」代替单纯的情绪标签"},
+   {name:"共同调节 Co-regulation", desc:"治疗师用自身平稳的声音、姿态、呼吸帮助来访者的神经系统回到「安全」状态"}
+ ],
+ example:"来访者讨论某段经历时突然语速变慢、目光呆滞、答非所问 → 治疗师判断这可能是背侧迷走「关闭」状态，先用温和缓慢的语调帮助来访者重新回到当下，而非继续追问细节。",
+ disorders:["创伤知情照护通用框架"],
+ notes:"补充内容（非原始笔记）：是被广泛使用的理论框架而非具体治疗技术；其部分神经解剖学主张在学界存在争议，使用时更多是帮助来访者理解身体反应的语言，而非已被完全证实的神经科学定论。"},
+
+{id:"window_tolerance", cat:"exposure", en:"Window of Tolerance", full:"", cn:"耐受窗", founder:"Dan Siegel", supplement:true,
+ core:"描述一个人能够有效应对、整合信息的「唤醒区间」；超出上限是过度唤醒（焦虑 / 惊恐），低于下限是低唤醒（麻木 / 解离），治疗目标是帮来访者识别自己何时「出窗」并逐步扩大耐受窗。",
+ keywords:["hyperarousal","hypoarousal","dysregulation"],
+ techniques:[
+   {name:"识别唤醒区间", desc:"帮助来访者用具体身体 / 情绪线索区分自己是过度唤醒、低唤醒、还是在耐受窗内"},
+   {name:"回窗技巧", desc:"结合接地、呼吸、感官锚定等方式，帮助来访者从过度 / 低唤醒状态回到耐受窗内"}
+ ],
+ example:"来访者描述与家人争吵后「整个人像断电一样，什么都感觉不到」→ 用耐受窗解释这是低唤醒 / 解离状态，先做接地练习帮助其回到可以工作的状态，而非立刻处理争吵内容。",
+ disorders:["创伤知情照护通用框架"],
+ notes:"补充内容（非原始笔记）：常与多迷走神经理论搭配使用，是理解情绪调节而非具体技术流程的框架性工具。"},
+
 {id:"tfcbt", cat:"exposure", en:"TF-CBT", full:"Trauma-Focused CBT", cn:"创伤聚焦认知行为疗法",
  core:"强调创伤记忆处理，聚焦侵入性闪回与过度警觉，核心是创伤叙事与认知重建。",
  keywords:["intrusive flashbacks","hypervigilance","trauma narrative","cognitive restructuring"],
@@ -526,6 +593,40 @@ const DATA = [
  example:"来访者卡住 / 过度执着于丧失，表现为 prolonged grief。",
  disorders:["Complicated Grief 复杂性哀伤"],
  notes:"若合并 PTSD，则改用 Trauma-Focused CBT（TF-CBT），核心为创伤记忆处理。"},
+
+{id:"kubler_ross", cat:"exposure", en:"Kübler-Ross Five Stages", full:"", cn:"库伯勒-罗斯五阶段哀伤模型", founder:"Elisabeth Kübler-Ross", supplement:true,
+ core:"否认→愤怒→讨价还价→抑郁→接受，是最广为人知的哀伤理论，但当代哀伤研究已不再将其视为线性 / 普适的临床模型。",
+ keywords:["denial","anger","bargaining","depression","acceptance"],
+ techniques:[
+   {name:"五阶段框架", desc:"否认 Denial、愤怒 Anger、讨价还价 Bargaining、抑郁 Depression、接受 Acceptance——原本用于描述临终病人面对死亡的心理反应"}
+ ],
+ example:"常被借用来描述丧亲者的哀伤反应，帮助来访者理解「愤怒或讨价还价也是哀伤的正常部分」，而非要求其按顺序「走完」五阶段。",
+ disorders:["哀伤心理教育"],
+ notes:"补充内容（非原始笔记）：原本是 Kübler-Ross 描述临终患者反应提出的，并非专为丧亲哀伤设计；当代研究（如 Dual Process Model）认为哀伤并非线性阶段，实际应用中更适合作科普 / 心理教育语言，而非机械的评估工具。"},
+
+{id:"dual_process", cat:"exposure", en:"Dual Process Model", full:"DPM", cn:"双程哀伤模型", founder:"Margaret Stroebe & Henk Schut", supplement:true,
+ core:"哀伤中的健康适应，是在「面对丧失」（Loss-Orientation）与「重建生活」（Restoration-Orientation）两者之间来回摆荡（oscillation），而非单向走完某个阶段。",
+ keywords:["loss-orientation","restoration-orientation","oscillation"],
+ techniques:[
+   {name:"识别摆荡状态", desc:"帮助来访者识别自己当下是处在「面对丧失」（沉浸悲伤、回忆逝者）还是「重建生活」（处理现实事务、暂时转移注意力）"},
+   {name:"正常化摆荡", desc:"让来访者理解在两者间来回切换是适应性的，而非「逃避悲伤」或「不够悲伤」"}
+ ],
+ example:"来访者因某天出去和朋友聚会感到内疚，觉得自己「不该这么快就开心起来」→ 用双程模型说明这种在丧失与重建间的摆荡本身是健康的哀伤过程。",
+ disorders:["哀伤相关咨询","Complicated Grief"],
+ notes:"补充内容（非原始笔记）：当代主流哀伤理论，比 Kübler-Ross 阶段论更受哀伤研究学界认可。"},
+
+{id:"worden_tasks", cat:"exposure", en:"Worden's Four Tasks of Mourning", full:"", cn:"沃登哀悼四项任务", founder:"J. William Worden", supplement:true,
+ core:"把哀伤看作一系列「任务」而非被动经历的「阶段」，来访者可以主动完成这些任务，更贴近临床实操。",
+ keywords:["accept the loss","process the pain","adjust","find enduring connection"],
+ techniques:[
+   {name:"任务一：接受丧失的现实", desc:"从理智和情感上真正承认逝者已经离开"},
+   {name:"任务二：处理哀伤的痛苦", desc:"允许自己感受并经历随丧失而来的情绪痛苦，而非压抑或回避"},
+   {name:"任务三：适应没有逝者的世界", desc:"调整因逝者缺席而受影响的外在生活角色、内在自我认同、以及信仰 / 价值观"},
+   {name:"任务四：为逝者找到持续的情感联结，同时继续生活", desc:"不是「忘记」或「放下」逝者，而是带着这份联结重新投入生活"}
+ ],
+ example:"丧偶来访者迟迟不愿处理伴侣的遗物 → 评估其卡在「任务一：接受丧失现实」，而非直接假设其「不够坚强」。",
+ disorders:["哀伤相关咨询","Complicated Grief"],
+ notes:"补充内容（非原始笔记）：「任务」框架强调来访者的主动性，比阶段论更适合用来评估来访者具体卡在哪个环节。"},
 
 {id:"phase_trauma", cat:"exposure", en:"Phase-Oriented Trauma Therapy", full:"", cn:"分阶段创伤治疗",
  core:"安全优先，再逐步进入创伤处理，最后整合与康复。",
@@ -589,6 +690,29 @@ const DATA = [
  example:"来访者未解决的父母冲突 → 用「空椅子」对话表达未说出口的话。来访者表达在断言自己需求方面的困难 → 治疗师鼓励扮演情景练习断言。",
  disorders:["未解决的关系冲突","低自我觉察","创伤后表达困难"],
  notes:"与 DBT 的正念不同：DBT 的 mindfulness 是为了觉察身体的情绪信号；Gestalt 是为了让来访者觉察自己对人际冲突的反应模式。与存在疗法的区别：Gestalt 是此时此地的体验与责任，存在疗法是对存在意义本身的探索。"},
+
+{id:"ifs", cat:"humanistic", en:"Internal Family Systems", full:"IFS", cn:"内在家庭系统", founder:"Richard Schwartz", supplement:true,
+ core:"认为心灵天然由多个「部分」（parts）组成，每个部分都有其保护性意图；治疗帮助来访者从核心的「自我」（Self）出发，理解并整合这些部分，而非试图消灭它们。",
+ keywords:["parts","exiles","managers","firefighters","Self"],
+ techniques:[
+   {name:"识别部分", desc:"区分「流放者」Exiles（承载创伤 / 痛苦的受伤部分）、「管理者」Managers（预防性的保护部分，如完美主义、控制）、「消防员」Firefighters（危机应对的反应性部分，如暴食、麻痹自己）"},
+   {name:"从 Self 出发对话", desc:"帮助来访者从平静、好奇、慈悲的「自我」状态出发，与各部分对话，而非被部分「劫持」"},
+   {name:"卸负 Unburdening", desc:"帮助流放者部分释放长期携带的创伤情绪 / 信念"}
+ ],
+ example:"来访者一边想请假休息，一边被内心「不许偷懒」的声音谴责 → 用 IFS 区分「想休息的疲惫部分」与「谴责的管理者部分」，帮助来访者从 Self 出发理解两者都在试图保护自己。",
+ disorders:["复杂性创伤","内在冲突 / 自我批评相关议题"],
+ notes:"补充内容（非原始笔记）：近年在创伤治疗领域非常流行，技术上与 Gestalt 的空椅对话有相通之处；正式随机对照试验证据仍在积累中，已被部分机构（如 SAMHSA）列入创伤相关循证实践名录。"},
+
+{id:"play_therapy", cat:"humanistic", en:"Child-Centered Play Therapy", full:"", cn:"儿童中心游戏治疗", founder:"Virginia Axline", supplement:true,
+ core:"以游戏作为儿童（约3-12岁）表达内心世界的「语言」，源自 Rogers 的人本理念：相信儿童天生具有自我引导、自我疗愈的能力。",
+ keywords:["play as language","non-directive","child-centered"],
+ techniques:[
+   {name:"非指导性跟随", desc:"治疗师跟随儿童主导的游戏内容，不给指令、不评判，营造允许自由表达的安全空间"},
+   {name:"反映", desc:"用语言反映儿童游戏中表达的情绪与主题，帮助其逐渐用语言理解自己的体验"}
+ ],
+ example:"经历父母离婚的孩子反复用玩偶演出「爸爸和妈妈的娃娃吵架、然后分开住」的情节 → 治疗师不打断或引导剧情，只是反映娃娃们的情绪，让孩子在安全的游戏空间里处理这段经历。",
+ disorders:["幼儿创伤 / 适应困难","幼儿情绪行为问题"],
+ notes:"补充内容（非原始笔记）：这里指人本取向的「儿童中心游戏治疗」（Axline，师从 Rogers）；游戏治疗也有精神动力、认知行为等其他理论取向的版本，技术会不同。"},
 
 {id:"psychodynamic", cat:"psychodynamic", en:"Psychodynamic Therapy", full:"", cn:"心理动力学疗法",
  core:"更现代、较短期，重点是当前问题与未解决的情感冲突，探索无意识冲突与移情。",
@@ -657,6 +781,18 @@ const DATA = [
  disorders:["叛逆青少年","家庭冲突 / 系统性问题"],
  notes:"叛逆期青少年若涉及家庭冲突和系统性问题，Structural Family Therapy 或 FFT 常被列入选项。"},
 
+{id:"bowen", cat:"family", en:"Bowen Family Systems Theory", full:"", cn:"鲍文家庭系统理论", founder:"Murray Bowen", supplement:true,
+ core:"家庭是一个情感单位；核心概念是「自我分化」——在情感与理智之间、在亲密与独立之间保持平衡的能力，分化程度会代际传递。",
+ keywords:["differentiation of self","triangles","multigenerational transmission"],
+ techniques:[
+   {name:"评估分化程度", desc:"了解来访者在关系中是否容易被情绪淹没、或过度疏离切断（emotional cutoff）"},
+   {name:"识别三角关系 Triangles", desc:"找出家庭中两人关系紧张时，第三人（或议题）如何被卷入以缓解焦虑"},
+   {name:"家系图 Genogram", desc:"绘制三代以上家庭图谱，追踪情感模式的代际传递"}
+ ],
+ example:"来访者与母亲的冲突总是通过父亲传话、从不直接沟通 → 用三角关系概念，帮助来访者理解父亲在其中扮演的「缓冲」角色，并练习直接与母亲沟通以提升自我分化。",
+ disorders:["家庭系统评估通用框架"],
+ notes:"补充内容（非原始笔记）：家庭治疗领域最基础的理论之一，许多其他家庭疗法（如结构式）都受其影响；概念性较强，不完全等同于一套具体操作步骤。"},
+
 {id:"fft", cat:"family", en:"FFT", full:"Functional Family Therapy", cn:"功能性家庭治疗",
  core:"改善青少年儿童行为问题，聚焦参与、行为改变与泛化。",
  keywords:["adolescent behavior problems","engagement","generalization"],
@@ -667,6 +803,17 @@ const DATA = [
  example:"青少年偷窃 → 治疗师改善家庭沟通，并设计行为奖励系统。",
  disorders:["青少年行为问题","叛逆 / 家庭冲突"],
  notes:""},
+
+{id:"mst", cat:"family", en:"Multisystemic Therapy", full:"MST", cn:"多系统疗法", founder:"Scott Henggeler", supplement:true,
+ core:"针对涉及严重违法 / 反社会行为的青少年，同时干预家庭、同伴、学校、社区多个系统，治疗师小案量、高强度、可全天候介入。",
+ keywords:["juvenile justice","home-based","intensive","multiple systems"],
+ techniques:[
+   {name:"多系统评估", desc:"评估青少年问题行为在家庭、同伴、学校、社区各系统中的驱动因素"},
+   {name:"以家庭为核心的高强度介入", desc:"赋能家长成为长期的行为管理者，治疗师提供24小时可及性支持，通常在家中 / 社区进行"}
+ ],
+ example:"青少年因多次入店行窃、逃学面临司法系统介入 → MST团队同时介入家庭管教方式、更换不良同伴圈、协调学校资源，而非仅做个案咨询。",
+ disorders:["严重青少年违法 / 反社会行为"],
+ notes:"补充内容（非原始笔记）：适用于比一般「叛逆」更严重、已涉入司法系统的青少年个案，与 Structural Family Therapy / FFT 相比强度更高、涉及系统更广。"},
 
 {id:"pcit", cat:"family", en:"Parent-Child Interaction Therapy", full:"PCIT", cn:"亲子互动治疗", supplement:true,
  core:"治疗师通过耳麦实时指导家长，分两阶段改善年幼儿童（约2-7岁）的对立违抗行为：先修复关系温度，再建立一致的管教方式。",
@@ -853,7 +1000,7 @@ const DATA = [
    障碍速查表 LOOKUP TABLE
 ========================================================= */
 const LOOKUP = [
-{disorder:"GAD / MDD", cue:"—", kw:"worry / hopelessness", therapy:[{id:"cbt",label:"CBT"},{id:"ipt",label:"IPT（仅MDD）"}]},
+{disorder:"GAD / MDD", cue:"—", kw:"worry / hopelessness", therapy:[{id:"cbt",label:"CBT"},{id:"ipt",label:"IPT（仅MDD）"},{id:"behavioral_activation",label:"BA（仅MDD）"},{id:"mbct",label:"MBCT（复发预防）"}]},
 {disorder:"Bipolar Disorder (BD) 双相障碍", cue:"家庭冲突 / 沟通　vs　作息与人际节律", kw:"family conflict / social rhythm", therapy:[{id:"fft",label:"FFT"},{id:"ipsrt",label:"IPSRT"}]},
 {disorder:"Panic Disorder 惊恐障碍", cue:"内在害怕（身体感觉）", kw:"心跳快 = 危险", therapy:[{id:"cbt",label:"CBT"},{id:"exposure_therapy",label:"Interoceptive Exposure"}]},
 {disorder:"Specific Phobia 特定恐惧症", cue:"外在害怕（物体 / 情境）", kw:"飞机更容易避免", therapy:[{id:"exposure_therapy",label:"系统脱敏 / 现实暴露"}]},
@@ -870,7 +1017,7 @@ const LOOKUP = [
 {disorder:"ADHD", cue:"儿童 → 行为训练；成人 → CBT", kw:"inattention", therapy:[{id:"behavior_therapy",label:"儿童行为训练"},{id:"cbt",label:"成人 CBT"}]},
 {disorder:"ASD 孤独症谱系", cue:"行为矫正", kw:"repetitive / social skills", therapy:[{id:"aba",label:"ABA"}]},
 {disorder:"Schizophrenia 精神分裂症", cue:"药物 + 家庭教育", kw:"relapse prevention", therapy:[{label:"Psychoeducation + Family Intervention"}]},
-{disorder:"Oppositional / Defiant Adolescents 叛逆青少年", cue:"叛逆、家庭冲突", kw:"defiance / family", therapy:[{id:"structural_family",label:"Structural Family Therapy"},{id:"fft",label:"FFT"}]},
+{disorder:"Oppositional / Defiant Adolescents 叛逆青少年", cue:"叛逆、家庭冲突", kw:"defiance / family", therapy:[{id:"structural_family",label:"Structural Family Therapy"},{id:"fft",label:"FFT"},{id:"mst",label:"MST（更严重/涉司法）"}]},
 {disorder:"Disruptive Behavior (Young Children) 幼儿破坏性行为", cue:"约2-7岁，需家长实时指导", kw:"noncompliance / tantrums", therapy:[{id:"pcit",label:"PCIT"}]},
 {disorder:"BPD 边缘型人格障碍", cue:"情绪爆发 / 冲动", kw:"—", therapy:[{id:"dbt",label:"① DBT"},{id:"cbt",label:"② CBT"},{id:"schema",label:"③ Schema Therapy"},{id:"mbt",label:"MBT"},{id:"tfp",label:"TFP"}]},
 {disorder:"ASPD 反社会型人格障碍", cue:"insight 低", kw:"—", therapy:[{id:"behavior_therapy",label:"Behavioral"},{id:"cbt",label:"CBT"}]},
