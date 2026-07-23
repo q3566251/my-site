@@ -44,7 +44,8 @@ h1{font-size:clamp(28px,4.5vw,44px);font-weight:900;margin:0 0 12px;color:var(--
 @keyframes mm{from{transform:rotate(60deg)}to{transform:rotate(420deg)}}
 
 /* ---------- Function-check module ---------- */
-.func-check{max-width:960px;margin:0 auto;padding:0 20px 44px;}
+.legend{max-width:760px;margin:0 auto 8px;padding:10px 20px;text-align:center;font-size:13px;color:var(--ink-soft);}
+.func-check{max-width:960px;margin:0 auto;padding:0 20px;}
 .tier-desc{background:var(--soft-bg);border-left:4px solid var(--brass);padding:16px 20px;border-radius:8px;color:var(--ink-soft);font-size:14.5px;margin-bottom:24px;}
 .func-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px;}
 .func-col{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow);}
@@ -65,7 +66,7 @@ nav.tiers{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:0 
 .tier-btn:hover{border-color:var(--brass);}
 .tier-btn.active{background:var(--brass);border-color:var(--brass);color:#fff;}
 
-section.tier-panel{display:none;max-width:960px;margin:0 auto;padding:36px 20px 20px;}
+section.tier-panel{display:none;max-width:960px;margin:0 auto;padding:20px 20px 20px;}
 section.tier-panel.active{display:block;}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-bottom:36px;}
@@ -75,10 +76,16 @@ section.tier-panel.active{display:block;}
 .card ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-soft);}
 .card li{margin-bottom:6px;}
 
-.domain-title{display:flex;align-items:center;gap:10px;margin:44px 0 16px;}
+.domain-title{display:flex;align-items:center;gap:10px;margin:0;padding:14px 2px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;}
 .domain-title .tag{width:8px;height:8px;border-radius:50%;background:var(--clay);flex:none;}
 .domain-title.urgent .tag{display:none;}
 .domain-title h2{font-size:21px;margin:0;}
+.domain-title:hover{opacity:.75;}
+.domain-title::after{content:'▸';margin-left:auto;color:var(--brass-dark);font-size:15px;transition:transform .2s ease;flex:none;}
+.domain-title.open::after{transform:rotate(90deg);}
+.domain-body{display:none;}
+.domain-body.open{display:block;padding:18px 2px 8px;animation:fadeIn .15s ease;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .pendant-icon{flex:none;}
 
 .test-box{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px;}
@@ -95,6 +102,13 @@ footer p{margin:4px 0;}
   .clock-wrap{width:130px;height:130px;}
   .func-grid{grid-template-columns:1fr;}
   .warn-box ul{columns:1;}
+}
+@media print{
+  .domain-body{display:block!important;padding:12px 2px!important;}
+  .domain-title::after{display:none;}
+  .domain-title{cursor:default;border-bottom:1px solid #999;}
+  nav.tiers{display:none;}
+  section.tier-panel{display:block!important;}
 }
 </style>
 </head>
@@ -125,9 +139,33 @@ footer p{margin:4px 0;}
   </div>
 </header>
 
+<div class="legend">下方前五个版块（老人钟、功能速查、感官功能、认知与行动力支持、NYC福利）适用于所有来访者；再往下的三个分级标签页（完全自理/拐杖/轮椅）提供随行动能力而异的安全清单与活动建议。</div>
+
+<!-- ================= 紧急呼叫与跌倒警报器（老人钟）— 置顶，所有层级都需要 ================= -->
+<section class="func-check" id="pers">
+  <div class="domain-title urgent"><svg class="pendant-icon" width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--urgent)" stroke-width="2"/><circle cx="13" cy="13" r="5" fill="var(--urgent)"/></svg><h2>紧急呼叫与跌倒警报器（老人钟）</h2></div>
+  <div class="domain-body">
+  <div class="tier-desc">不受行动能力分级限制，所有独居或有跌倒风险的来访者都建议评估——这里的"老人钟"指跌倒/紧急呼叫报警器，按下即可连接24小时人工客服，并非字面意义上的时钟。</div>
+  <div class="test-box">
+    <h3>装置原理</h3>
+    <p>可挂在脖子或戴在手腕上的按键装置，按下后连接人工客服中心，客服通话确认情况后按需联系家属或直接拨打911。部分新款具备自动跌倒侦测（即使昏迷或来不及按键也可能报警），但准确率并非100%，能按键时仍应主动按。</p>
+    <h3>费用与保险</h3>
+    <p>Original Medicare（Part A/B）不覆盖此类装置，因其不属于"耐用医疗器材"分类；部分Medicare Advantage计划将其列为补充福利，需查看具体保单条款。持有Medicaid者，可通过纽约州Medicaid居家护理计划（如MLTC、Personal Care）申请PERS，需经个案经理审批。自费价格因服务商而异，一般每月约US$20-50，部分品牌（如Life Alert）可能更高，另有一次性设备/开通费。</p>
+    <p class="note">收入过高不符合Medicaid资格者，可申请EISEP（扩大老年居家服务项目，60岁以上、ADL受限即可），按收入滑动收费，可补贴PERS费用——详见下方"NYC老年人福利总览"。</p>
+    <p class="note urgent-note">谨防诈骗：接到声称"免费赠送"警报器的陌生来电时，先与家人或PCP核实，不要立即提供个人信息或医保号。</p>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="num">完全自理</div><h3>适合类型与话术</h3><ul><li>仍会独自外出，建议带GPS定位的蜂窝网络移动款，或具跌倒侦测的智能手表；洗澡佩戴需确认防水</li><li>话术：强调"独立"而非"被监控"——"这样即使你想一个人去散步、洗澡，家人也能放心"</li></ul></div>
+    <div class="card"><div class="num">拐杖/助行器</div><h3>适合类型与话术</h3><ul><li>跌倒多发生在浴室/如厕，首选防水挂绳式按钮，浴室、床边可各装墙壁拉绳求助按钮；仍规律外出者可搭配GPS款</li><li>话术：具体到情境更易接受——"洗澡时万一滑倒，你按一下就有人来"</li></ul></div>
+    <div class="card"><div class="num">轮椅/卧床</div><h3>适合类型与话术</h3><ul><li>有专职照护者在旁时，重点是"呼叫铃在手边"；可考虑床垫/轮椅感应垫（离床/离座警报）；独自在家时段长仍建议配按键式挂绳</li><li>话术对象常是照护者/家属：重点在"如何第一时间发现异常"而非"独立感"</li></ul></div>
+  </div>
+</div>
+</section>
+
 <!-- ================= 功能变化速查（跨层级） ================= -->
 <section class="func-check" id="func-check">
   <div class="domain-title"><span class="tag"></span><h2>功能变化速查：维持中还是在下降？</h2></div>
+  <div class="domain-body">
   <div class="tier-desc">用于快速判断来访者目前更接近哪一档，或本次随访较上次是否出现功能下降。逐项在会谈中口头确认或观察即可，不需要来访者书面填写。</div>
   <div class="func-grid">
     <div class="func-col">
@@ -166,12 +204,66 @@ footer p{margin:4px 0;}
     </ul>
     <p>若功能较此前评估明显下降，建议下调适用层级、重新排查居家安全与警报器配置，并与PCP讨论是否需要PT/OT或神经心理转介。</p>
   </div>
+</div>
 </section>
+
+<!-- ================= 感官功能（跨层级） ================= -->
+<section class="func-check" id="sensory">
+  <div class="domain-title"><span class="tag"></span><h2>感官功能：视力与听力受损的活动调整</h2></div>
+  <div class="domain-body">
+  <div class="tier-desc">视力或听力衰退可能发生在任何行动能力层级；下方先列资源，再按行动能力给出叠加建议——不必再到各分级标签页里找。</div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>视力受损：资源与调整</h3><ul><li><a href="https://www.nypl.org/locations/heiskell" target="_blank" rel="noopener">Andrew Heiskell Braille and Talking Book Library</a> — NYPL旗下，免费提供有声书/盲文书（西20街，(212) 206-5400）</li><li><a href="https://lighthouseguild.org/" target="_blank" rel="noopener">Lighthouse Guild</a> — 低视力康复、志愿者朗读服务、辅助科技培训，(800) 284-4422</li><li>活动调整：大字体扑克牌/麻将、有声书App、手机朗读功能（如Seeing AI、Be My Eyes）</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>听力受损：资源与调整</h3><ul><li>FCC资助的免费字幕电话（CapTel/CaptionCall/ClearCaptions），需自行认证听损资格</li><li>助听器：Original Medicare通常不覆盖，部分Medicare Advantage计划提供补助，需查保单</li><li>活动调整：字幕电视/视频通话、书写板沟通、团体活动优先安排面对面而非电话联络</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>与警报器（老人钟）结合</h3><ul><li>为听损者选择强光闪烁/振动提醒款PERS</li><li>为视损者选择大按键/语音播报款PERS</li><li>视听同时受损或认知合并受限时，优先选操作最简化的一键式装置</li></ul></div>
+  </div>
+  <div class="tier-desc">按行动能力叠加的具体建议</div>
+  <div class="grid">
+    <div class="card"><div class="num">完全自理</div><h3>视力/听力 + 独立行走</h3><ul><li>视力：白手杖定向训练，熟悉固定路线优先于探索新路线；过马路格外谨慎，可评估Access-A-Ride</li><li>听力：外出社交主动告知同伴需面对面说话；过马路留意无法听到鸣笛的风险</li></ul></div>
+    <div class="card"><div class="num">拐杖/助行器</div><h3>视力/听力 + 拐杖/助行器</h3><ul><li>视力：双重平衡负担，家中动线需固定不挪动家具，楼梯口加对比色警示条</li><li>听力：助行器摩擦声可能掩盖环境警示音，户外移动更依赖视觉确认</li></ul></div>
+    <div class="card"><div class="num">轮椅/卧床</div><h3>视力/听力 + 轮椅/卧床</h3><ul><li>视力：提高触觉与听觉活动比重（音乐、有声书、触摸熟悉织物），物品摆放固定</li><li>听力：依赖视觉/触觉沟通，警报器改用强光闪烁款，床边可加振动叫醒装置</li></ul></div>
+  </div>
+</div>
+</section>
+
+<!-- ================= 认知与行动力支持（跨层级） ================= -->
+<section class="func-check" id="cognition-strength">
+  <div class="domain-title"><span class="tag"></span><h2>认知与行动力支持：失智照护、跌倒预防与力量训练</h2></div>
+  <div class="domain-body">
+  <div class="tier-desc">适用于所有层级，尤其在认知筛查提示风险或跌倒史阳性时可直接转介使用。</div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>失智症/认知障碍支持 — <a href="https://wearecaringkind.org/" target="_blank" rel="noopener">CaringKind</a></h3><ul><li>纽约市失智症/阿兹海默症支持机构，免费热线(646) 744-2900</li><li>支持团体提供普通话、粤语、英语、西班牙语等多语言版本</li><li>MedicAlert® NYC走失安全项目：为有走失风险者提供定位手环，与跌倒警报"老人钟"功能不同，两者可并用</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>跌倒预防实证课程</h3><ul><li>Stepping On（7周课程，适合仍独立居住者）</li><li>Tai Chi for Arthritis and Fall Prevention（持续班，建议长期参与）</li><li>A Matter of Balance（8节，适合因"怕跌倒"而减少活动者）</li><li>均可致电NYC Aging或所在社区老年中心查询开班时间</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>力量训练</h3><ul><li>老年中心常设坐姿阻力带/哑铃班，通常从1磅起逐步增加</li><li>建议先经PCP/PT评估再开始阻力训练，尤其骨质疏松或近期手术者</li></ul></div>
+  </div>
+</div>
+</section>
+
+<!-- ================= NYC 在地资源（跨层级） ================= -->
+<section class="func-check" id="nyc-resources">
+  <div class="domain-title"><span class="tag"></span><h2>NYC 老年人福利总览（衣食住行）</h2></div>
+  <div class="domain-body">
+  <div class="tier-desc">纽约市/纽约州层面的通用福利，不受行动能力分级限制，可在建议"打发时间"活动或申请协助时一并提及。</div>
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>交通优惠</h3><ul><li><a href="https://access.nyc.gov/programs/mta-reduced-fare-program/" target="_blank" rel="noopener">MTA老年优惠票</a>：65岁以上或持资格残障证明，地铁/公交半价，现可用OMNY卡领取</li><li><a href="https://www.nyc.gov/site/fairfares/index.page" target="_blank" rel="noopener">Fair Fares NYC</a>：低收入市民地铁公交半价，需经ACCESS HRA申请</li><li><a href="https://www.mta.info/accessibility/paratransit" target="_blank" rel="noopener">Access-A-Ride</a>：适用因残障无法自行搭乘固定路线地铁/公交者（非仅年龄即可申请），可用于往返日间照料项目</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>文化机构优惠</h3><ul><li><a href="https://www.culturepass.nyc/" target="_blank" rel="noopener">Culture Pass</a>：凭布鲁克林公共图书馆(BPL)或纽约公共图书馆(NYPL)借书证，可免费预约100多家文化机构门票</li><li>布鲁克林博物馆：建议捐款制</li><li>惠特尼美术馆：周五17:00-22:00及每月第二个周日免费</li><li>古根海姆：周一/周六16:00-17:30随意付费（最低US$1）</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>市民卡与总咨询</h3><ul><li><a href="https://www.nyc.gov/site/idnyc/index.page" target="_blank" rel="noopener">IDNYC市民卡</a>：多家文化机构折扣/免费会员资格</li><li>311 或 <a href="https://www.nyc.gov/site/dfta/index.page" target="_blank" rel="noopener">NYC Aging</a>（原DFTA，212-244-6469）：查询本地老年中心、申请各类老年福利的总入口</li><li><a href="https://access.nyc.gov/" target="_blank" rel="noopener">ACCESS NYC</a> 福利筛查工具，可一次查多项资格</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>住房</h3><ul><li><a href="https://www.nyc.gov/site/rentfreeze/index.page" target="_blank" rel="noopener">SCRIE</a>：62岁以上，家庭年收入≤US$50,000，须住在租金管制/稳定或Mitchell-Lama/HDFC合作公寓，冻结租金不再随涨幅上调</li><li>DRIE：18岁以上且领取合格残障福利（SSI/SSDI/VA），条件与SCRIE类似，同一页面申请</li><li>NYC Aging可免费协助申请；<a href="https://housingconnect.nyc.gov/" target="_blank" rel="noopener">NYC Housing Connect</a>提供含老年优先的可负担住房摇号</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>食物与居家照护（含PERS申请）</h3><ul><li>老年中心热午餐（congregate meal）与老年送餐服务（Home-Delivered Meals），可经NYC Aging/311申请</li><li><a href="https://aging.ny.gov/expanded-home-services" target="_blank" rel="noopener">EISEP（扩大老年居家服务项目）</a>：60岁以上、日常生活活动受限、且不符合Medicaid资格者可申请，按收入滑动收费，可致电NY Connects 1-800-342-9871咨询</li><li>EISEP可补贴居家照护及"老人钟"PERS装置——是Medicaid之外，来访者可主动申请PERS的具体途径</li></ul></div>
+    <div class="card"><div class="num">06</div><h3>医疗与药费</h3><ul><li><a href="https://www.health.ny.gov/health_care/epic/" target="_blank" rel="noopener">EPIC</a>：65岁以上，单身年收入≤US$75,000/夫妻≤US$100,000，且非全额Medicaid，协助负担Medicare Part D自付额与保费</li><li>电话1-800-332-3742（TTY 1-800-290-9138）</li></ul></div>
+    <div class="card"><div class="num">07</div><h3>安全与维权</h3><ul><li><a href="https://www.nyc.gov/site/hra/help/adult-protective-services.page" target="_blank" rel="noopener">Adult Protective Services</a>（成人保护服务）：NYC举报专线(718) 557-1399；布鲁克林分局(718) 722-4830</li><li>纽约州老年虐待热线1-844-697-3505</li><li>疑似身体/情感/财务虐待或自我忽视均可匿名举报</li></ul></div>
+  </div>
+</div>
+</section>
+
+<!-- ================= NYC 在地资源结束 ================= -->
 
 <nav class="tiers">
   <button class="tier-btn active" data-tier="full">完全自理 · 独立行走</button>
   <button class="tier-btn" data-tier="cane">使用拐杖/助行器</button>
   <button class="tier-btn" data-tier="wheelchair">轮椅 / 卧床</button>
+  <button class="tier-btn" data-tier="vision">视力障碍</button>
+  <button class="tier-btn" data-tier="hearing">听力障碍</button>
 </nav>
 
 <!-- ================= 完全自理 ================= -->
@@ -179,29 +271,18 @@ footer p{margin:4px 0;}
   <div class="tier-desc">四肢健全、可独立步行的来访者。重点从"预防"转向"维持"：防止孤立、维持认知刺激、鼓励其继续承担部分家庭/社区角色，避免因过度保护而加速功能衰退。</div>
 
   <div class="domain-title"><span class="tag"></span><h2>居家安全</h2></div>
+  <div class="domain-body">
   <div class="grid">
     <div class="card"><div class="num">01</div><h3>环境</h3><ul><li>浴室防滑垫，夜灯</li><li>楼梯扶手是否牢固</li><li>地毯边缘/电线是否绊脚</li></ul></div>
     <div class="card"><div class="num">02</div><h3>用药与就医</h3><ul><li>是否有固定PCP并按时复诊</li><li>用药是否有人核对（防重复/漏服）</li><li>多重用药(polypharmacy)是否请医生定期review</li><li>是否独自开车，视力是否评估过</li></ul></div>
     <div class="card"><div class="num">03</div><h3>紧急应对</h3><ul><li>是否知道如何联系家人/911</li><li>独居时是否有人每日联系</li><li>紧急联络卡是否放在钱包/冰箱上</li></ul></div>
     <div class="card"><div class="num">04</div><h3>跌倒风险自评</h3><ul><li>视力模糊/白内障是否处理</li><li>是否服用镇静/安眠类药物</li><li>起身是否头晕（体位性低血压）</li><li>近一年是否已跌倒过一次</li></ul></div>
-    <div class="card"><div class="num">05</div><h3>诈骗与财务安全</h3><ul><li>冒充政府/银行/亲属求救的电话诈骗</li><li>陌生来电推销"免费"医疗警报器需格外小心</li><li>大额转账前先与信任家属核对</li><li>避免向陌生来电透露医保/社安号</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>诈骗与财务安全</h3><ul><li>冒充政府/银行/亲属求救的电话诈骗</li><li>陌生来电推销"免费"医疗警报器需格外小心</li><li>大额转账前先与信任家属核对</li><li>避免向陌生来电透露医保/社安号</li><li>频繁搭乘赌场巴士有时源于孤独感或经济压力而非单纯娱乐，注意筛查是否已发展为病态赌博；<a href="https://en.wikipedia.org/wiki/Hamilton-Madison_House" target="_blank" rel="noopener">Hamilton-Madison House</a>提供中文病态赌博咨询</li></ul></div>
   </div>
 
-  <div class="domain-title urgent"><svg class="pendant-icon" width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--urgent)" stroke-width="2"/><circle cx="13" cy="13" r="5" fill="var(--urgent)"/></svg><h2>紧急呼叫与跌倒警报器（老人钟）</h2></div>
-  <div class="test-box">
-    <p class="note">这里的"老人钟"指跌倒/紧急呼叫报警器 — 按下即可连接24小时人工客服，并非字面意义上的时钟。</p>
-    <h3>装置原理</h3>
-    <p>可挂在脖子或戴在手腕上的按键装置，按下后连接人工客服中心，客服通话确认情况后按需联系家属或直接拨打911。部分新款具备自动跌倒侦测（即使昏迷或来不及按键也可能报警），但准确率并非100%，能按键时仍应主动按。</p>
-    <h3>适合该层级的类型</h3>
-    <p>此层级来访者仍会独自外出（买菜、散步、去活动中心），建议选择带GPS定位的蜂窝网络移动款，或具备跌倒侦测功能的智能手表；日常洗澡佩戴需确认防水。</p>
-    <h3>费用与保险</h3>
-    <p>Original Medicare（Part A/B）不覆盖此类装置，因其不属于"耐用医疗器材"分类；部分Medicare Advantage计划将其列为补充福利，需查看具体保单条款。持有Medicaid者，可通过纽约州Medicaid居家护理计划（如MLTC、Personal Care）申请PERS，需经个案经理审批。自费价格因服务商而异，一般每月约US$20-50，部分品牌（如Life Alert）可能更高，另有一次性设备/开通费。</p>
-    <p class="note urgent-note">谨防诈骗：接到声称"免费赠送"警报器的陌生来电时，先与家人或PCP核实，不要立即提供个人信息或医保号。</p>
-    <h3>沟通话术方向</h3>
-    <p>强调"独立"而非"被监控"，例如："这样即使你想一个人去散步、洗澡，家人也能放心" —— 减少来访者觉得被剥夺自主权的抵触感。</p>
   </div>
-
-  <div class="domain-title"><span class="tag"></span><h2>认知筛查：数数与画钟测验</h2></div>
+<div class="domain-title"><span class="tag"></span><h2>认知筛查：数数与画钟测验</h2></div>
+  <div class="domain-body">
   <div class="test-box">
     <span class="pill">定向力</span><span class="pill">注意与计算</span><span class="pill">回忆</span><span class="pill">视空间</span>
     <h3>倒数练习（100 连续减 7）</h3>
@@ -212,10 +293,12 @@ footer p{margin:4px 0;}
     <p>请来访者在空白圆圈中画出时钟数字，并画出指向"11点10分"的指针；观察数字排列、指针位置、整体空间布局是否正确。</p>
     <h3>今日定向</h3>
     <p>询问年、月、日、星期几、当前地点，判断时间与地点定向力是否完整。</p>
-    <p class="note urgent-note">关于MMSE：正式版MMSE现由PAR公司持有版权，机构须付费购买才能合法使用，不可自行复印传播。若未购买正式授权，建议改用完全免费、可用于临床教育用途的Mini-Cog（三词回忆+画钟测验，满分5分，&lt;3分提示需要进一步评估），必要时再转介正式神经心理评估。</p>
+    <p class="note urgent-note">关于MMSE：正式版MMSE现由PAR公司持有版权，机构须付费购买才能合法使用，不可自行复印传播。若未购买正式授权，建议改用完全免费、可用于临床教育用途的<a href="https://mini-cog.com/" target="_blank" rel="noopener">Mini-Cog</a>（三词回忆+画钟测验，满分5分，&lt;3分提示需要进一步评估，官网亦提供多语言版本），必要时再转介正式神经心理评估。</p>
   </div>
 
-  <div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  </div>
+<div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  <div class="domain-body">
   <div class="grid">
     <div class="card"><div class="num">01</div><h3>怀旧金曲</h3><ul><li>播放来访者年轻时熟悉的老歌</li><li>邀请其跟唱或哼唱旋律</li><li>可结合语言背景（粤语老歌、国语老歌、邓丽君等）</li></ul></div>
     <div class="card"><div class="num">02</div><h3>合唱/团体</h3><ul><li>社区中心老年合唱团</li><li>教会诗班/团体节庆歌曲活动</li></ul></div>
@@ -223,15 +306,21 @@ footer p{margin:4px 0;}
     <div class="card"><div class="num">04</div><h3>音乐与情绪</h3><ul><li>怀旧疗法：按文化背景挑选曲目唤起正向回忆</li><li>可用于安抚焦虑、提升情绪</li></ul></div>
   </div>
 
-  <div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  </div>
+<div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  <div class="domain-body">
   <div class="grid">
     <div class="card"><div class="num">01</div><h3>与家人共同</h3><ul><li>教孙辈做家乡菜/方言/书法</li><li>每周固定的家庭视频/聚餐</li><li>整理老照片、讲家族故事</li><li>按农历节气一起包粽子/包饺子</li></ul></div>
     <div class="card"><div class="num">02</div><h3>独立可做</h3><ul><li>散步、太极、园艺</li><li>阅读、书法、麻将/棋牌</li><li>社区免费英语班或华人社团活动</li><li>社区图书馆/庙宇志愿服务</li></ul></div>
     <div class="card"><div class="num">03</div><h3>PCP随访提醒</h3><ul><li>建议每3-6个月随访一次</li><li>核对新增/调整的用药</li><li>询问是否需要跌倒风险、骨密度、听力视力筛查</li></ul></div>
     <div class="card"><div class="num">04</div><h3>手工与益智</h3><ul><li>剪纸/编织/串珠手作</li><li>拼图、数独、猜谜语</li><li>整理老照片、做成相册</li></ul></div>
-    <div class="card"><div class="num">05</div><h3>户外与社区活动</h3><ul><li>门球/木球（华人社区中心常见）</li><li>公园下棋角、象棋摊</li><li>耆英活动中心课程（法拉盛、8大道等）</li><li>遛鸟/观鸟</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>户外与社区活动</h3><ul><li>门球/木球（华人社区中心常见）</li><li>公园下棋角、象棋摊</li><li>耆英活动中心课程（法拉盛、8大道等）</li><li>遛鸟/观鸟</li><li>每年8月法拉盛草原可乐娜公园<a href="https://en.wikipedia.org/wiki/Hong_Kong_Dragon_Boat_Festival_in_New_York" target="_blank" rel="noopener">香港龙舟节</a>——免费观赏，含美食与表演，适合全家出游</li></ul></div>
     <div class="card"><div class="num">06</div><h3>数字与文娱</h3><ul><li>微信视频通话孙辈</li><li>YouTube听老戏曲/评书</li><li>抄经、礼佛、静坐冥想</li></ul></div>
+    <div class="card"><div class="num">07</div><h3>布鲁克林在地机构</h3><ul><li><a href="https://www.bca.net/eng/seniorcitizens.html" target="_blank" rel="noopener">BCA Sunset Park Asian Senior Center</a> — 5211 8th Ave, (718) 436-6702</li><li>BCA Sixth Avenue Senior Center — 545 60th St, (718) 567-9311（服务Bay Ridge与Sunset Park）</li><li><a href="https://www.bayridgecenter.org/" target="_blank" rel="noopener">Bay Ridge Center</a> — 15 Bay Ridge Ave, (718) 748-0650（营养/健身/科技课程，会员免费）</li></ul></div>
+    <div class="card"><div class="num">08</div><h3>终身学习：CUNY老年旁听</h3><ul><li>纽约州60岁以上居民可在<a href="https://www.cuny.edu/about/administration/offices/legal-affairs/university-tuition-fee-manual/x-special-programs-and-situations/" target="_blank" rel="noopener">CUNY</a>所有分校免费旁听本科课程（视名额而定），仅需缴约US$65-80/学期杂费</li><li>与在校学生同堂上课，是真正的新技能学习，而非单纯"打发时间"</li><li><a href="https://www.kbcc.cuny.edu/senioraudit/index.html" target="_blank" rel="noopener">Kingsborough Community College</a>（布鲁克林）地理上较Sunset Park/Bay Ridge更近，可优先考虑</li></ul></div>
+    <div class="card"><div class="num">09</div><h3>传承与技能型志愿服务</h3><ul><li>用手机录音功能录制"家族口述史"，讲给孙辈听或长期留存，而非只被动怀旧</li><li>曾有专业技能（会计、教师、厨师、手艺等）者，可在社区中心开一次分享课或长期担任志愿导师——从"被照顾"转为"被需要"</li><li>退休财会背景者可了解<a href="https://www.usa.gov/help-filing-taxes" target="_blank" rel="noopener">VITA免费报税志愿项目</a>；退休教师可询问图书馆课后辅导志愿角色</li></ul></div>
   </div>
+</div>
 </section>
 
 <!-- ================= 拐杖/助行器 ================= -->
@@ -239,6 +328,7 @@ footer p{margin:4px 0;}
   <div class="tier-desc">需借助拐杖或助行器行走的来访者。安全重点转向"防跌"，活动设计需减少远距离移动需求，同时避免因行动受限而产生的自我价值感下降。</div>
 
   <div class="domain-title"><span class="tag"></span><h2>居家安全</h2></div>
+  <div class="domain-body">
   <div class="grid">
     <div class="card"><div class="num">01</div><h3>移动路径</h3><ul><li>常走路线是否清空杂物</li><li>助行器高度是否调整合适</li><li>是否有坐式淋浴椅/扶手</li></ul></div>
     <div class="card"><div class="num">02</div><h3>用药与就医</h3><ul><li>PCP是否评估过跌倒风险</li><li>是否有骨密度/关节相关检查</li><li>是否需要理疗（PT）转介</li></ul></div>
@@ -247,19 +337,9 @@ footer p{margin:4px 0;}
     <div class="card"><div class="num">05</div><h3>诈骗与财务安全</h3><ul><li>行动不便者更易被上门推销盯上</li><li>陌生人上门先电话核实身份</li><li>不轻易签署陌生文件</li></ul></div>
   </div>
 
-  <div class="domain-title urgent"><svg class="pendant-icon" width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--urgent)" stroke-width="2"/><circle cx="13" cy="13" r="5" fill="var(--urgent)"/></svg><h2>紧急呼叫与跌倒警报器（老人钟）</h2></div>
-  <div class="test-box">
-    <p class="note">这里的"老人钟"指跌倒/紧急呼叫报警器 — 按下即可连接24小时人工客服，并非字面意义上的时钟。</p>
-    <h3>适合该层级的类型</h3>
-    <p>此层级跌倒多发生在浴室/如厕过程中，首选可防水佩戴入浴室的挂绳式按钮；也可在浴室、床边各装一个墙壁拉绳式求助按钮。若仍规律外出（如去日间照料中心），可搭配GPS移动款。</p>
-    <h3>费用与保险</h3>
-    <p>Original Medicare不覆盖此类装置；部分Medicare Advantage计划提供补充福利。持Medicaid者可经MLTC/Personal Care个案经理申请。自费一般每月约US$20-50，另有开通费，具体因服务商而异。</p>
-    <p class="note urgent-note">谨防诈骗：陌生来电声称"免费赠送"警报器时，先与家人核实再提供个人信息。</p>
-    <h3>沟通话术方向</h3>
-    <p>具体到情境更易被接受，例如："洗澡时万一滑倒，你按一下就有人来" —— 比抽象谈"安全"更有说服力。</p>
   </div>
-
-  <div class="domain-title"><span class="tag"></span><h2>认知筛查：数数与画钟测验</h2></div>
+<div class="domain-title"><span class="tag"></span><h2>认知筛查：数数与画钟测验</h2></div>
+  <div class="domain-body">
   <div class="test-box">
     <h3>倒数练习（简化版）</h3>
     <p>若连续减7有困难，可改为20倒数到1，或说出一周七天倒序，降低操作难度但保留筛查价值。</p>
@@ -270,13 +350,17 @@ footer p{margin:4px 0;}
     <p class="note urgent-note">正式MMSE需向PAR公司付费购买，未购买授权时建议改用免费的Mini-Cog（三词回忆+画钟测验）作为初筛。</p>
   </div>
 
-  <div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  </div>
+<div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  <div class="domain-body">
   <div class="grid">
     <div class="card"><div class="num">01</div><h3>坐姿进行</h3><ul><li>坐着跟唱，配合手部打拍子</li><li>使用耳机播放熟悉曲目，降低环境干扰</li></ul></div>
     <div class="card"><div class="num">02</div><h3>辅助工具</h3><ul><li>防滑桌面固定歌词本/平板</li><li>方便坐姿翻看歌词，减少手部负担</li></ul></div>
   </div>
 
-  <div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  </div>
+<div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  <div class="domain-body">
   <div class="grid">
     <div class="card"><div class="num">01</div><h3>与家人共同</h3><ul><li>坐着教孙辈折纸/编织</li><li>家庭视频通话固定时段</li></ul></div>
     <div class="card"><div class="num">02</div><h3>独立可做</h3><ul><li>室内座椅体操、拉伸</li><li>拼图、纸牌、看电视剧追剧</li><li>用助行器篮子短途遛弯取信，维持出门动力</li><li>阳台/窗边园艺（盆栽）</li></ul></div>
@@ -284,7 +368,11 @@ footer p{margin:4px 0;}
     <div class="card"><div class="num">04</div><h3>手工与益智（坐姿）</h3><ul><li>串珠、剪纸等坐姿手作</li><li>数独、填字、猜谜语</li><li>整理老照片相册</li></ul></div>
     <div class="card"><div class="num">05</div><h3>社区与团体活动</h3><ul><li>日间照料中心（Senior Day Program）团体活动</li><li>社区中心坐姿八段锦班</li><li>有人接送时参加教会/庙宇小组聚会</li></ul></div>
     <div class="card"><div class="num">06</div><h3>数字与文娱</h3><ul><li>微信视频通话</li><li>听广播/评书、看老戏曲录像</li><li>简单手机游戏（如消消乐）</li></ul></div>
+    <div class="card"><div class="num">07</div><h3>布鲁克林在地机构（可询问接送）</h3><ul><li><a href="https://nyulangone.org/care-services/family-health-centers-at-nyu-langone/community-based-programs-family-health-centers-at-nyu-langone/older-adult-services-at-family-health-centers-at-nyu-langone" target="_blank" rel="noopener">NYU Langone Sunset Park Older Adult Center</a> — 4520 4th Ave, (718) 210-1050</li><li>NYU Langone Shore Hill Older Adult Center（Bay Ridge）— 9000 Shore Rd, (718) 630-7588</li><li>两处均提供瑜伽、电脑班、外出活动与支持性咨询，建议致电询问是否有接送服务</li></ul></div>
+    <div class="card"><div class="num">08</div><h3>传承与意义感</h3><ul><li>用手机录音录制"家族口述史"，不受行动能力限制，讲给孙辈听或长期留存</li><li>曾有专业技能者，可考虑电话/视频形式指导他人（如教一道菜的做法），从"被照顾"转为"被需要"</li></ul></div>
+    <div class="card"><div class="num">09</div><h3>终身学习</h3><ul><li>纽约州60岁以上居民可免费旁听CUNY本科课程，若家人可接送，<a href="https://www.kbcc.cuny.edu/senioraudit/index.html" target="_blank" rel="noopener">Kingsborough Community College</a>（布鲁克林）距离较近</li><li>亦可询问社区中心是否有到校交通协助</li></ul></div>
   </div>
+</div>
 </section>
 
 <!-- ================= 轮椅/卧床 ================= -->
@@ -292,6 +380,7 @@ footer p{margin:4px 0;}
   <div class="tier-desc">轮椅使用者或卧床来访者。重点在"防止并发症"（压疮、肌肉萎缩）与"维持社会连接"，认知与情绪支持比运动类活动更为核心。</div>
 
   <div class="domain-title"><span class="tag"></span><h2>居家安全</h2></div>
+  <div class="domain-body">
   <div class="grid">
     <div class="card"><div class="num">01</div><h3>皮肤与体位</h3><ul><li>定时翻身/减压垫使用</li><li>轮椅刹车、脚踏板是否安全</li></ul></div>
     <div class="card"><div class="num">02</div><h3>用药与就医</h3><ul><li>是否有居家护理/上门PCP服务</li><li>吞咽功能是否评估（误吸风险）</li></ul></div>
@@ -300,19 +389,9 @@ footer p{margin:4px 0;}
     <div class="card"><div class="num">05</div><h3>诈骗与财务安全</h3><ul><li>卧床/轮椅来访者更依赖照护者转达信息</li><li>留意照护者是否有不当财务经手行为</li><li>大额支出请家属定期核对账目</li></ul></div>
   </div>
 
-  <div class="domain-title urgent"><svg class="pendant-icon" width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11" fill="none" stroke="var(--urgent)" stroke-width="2"/><circle cx="13" cy="13" r="5" fill="var(--urgent)"/></svg><h2>紧急呼叫与跌倒警报器（老人钟）</h2></div>
-  <div class="test-box">
-    <p class="note">这里的"老人钟"指跌倒/紧急呼叫报警器 — 按下即可连接24小时人工客服，并非字面意义上的时钟。</p>
-    <h3>适合该层级的类型</h3>
-    <p>若有专职照护者在旁，重点是"呼叫铃在手边"，GPS外出定位并非必要；可考虑床垫/轮椅感应垫（离床/离座警报），提醒照护者来访者试图自行转移的时刻。若独自在家时段较长，仍建议配备按键式挂绳。</p>
-    <h3>费用与保险</h3>
-    <p>Original Medicare不覆盖此类装置；持Medicaid者可在申请居家护理服务（MLTC个案管理）时一并申请PERS及床边设备，需经审批。</p>
-    <p class="note urgent-note">谨防诈骗：任何声称"免费"赠送设备的陌生来电，先请家属核实来源。</p>
-    <h3>沟通话术方向</h3>
-    <p>此层级的沟通对象常是照护者/家属而非来访者本人（若认知严重受损），话术重点在于"如何第一时间发现异常"而非"独立感"。</p>
   </div>
-
-  <div class="domain-title"><span class="tag"></span><h2>认知筛查：数数与画钟测验</h2></div>
+<div class="domain-title"><span class="tag"></span><h2>认知筛查：数数与画钟测验</h2></div>
+  <div class="domain-body">
   <div class="test-box">
     <h3>轻量化筛查</h3>
     <p>优先简短对话式提问（今天星期几、在哪里、家人姓名），避免过长测验引起疲劳。</p>
@@ -321,12 +400,16 @@ footer p{margin:4px 0;}
     <p class="note urgent-note">若需正式量表，MMSE须向PAR购买授权；免费的Mini-Cog（三词回忆+画钟）可作为初筛，但此层级来访者若手部/语言能力受限，画钟部分可能无法完成，需在记录中注明。</p>
   </div>
 
-  <div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  </div>
+<div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  <div class="domain-body">
   <div class="grid">
     <div class="card"><div class="num">01</div><h3>被动聆听</h3><ul><li>播放熟悉旧曲，鼓励轻声跟唱或打拍</li><li>音乐可用于安抚焦躁情绪</li><li>家属可录制家人声音搭配熟悉旋律播放</li></ul></div>
   </div>
 
-  <div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  </div>
+<div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  <div class="domain-body">
   <div class="grid">
     <div class="card"><div class="num">01</div><h3>与家人共同</h3><ul><li>家人朗读新闻/家书</li><li>看老照片、听家人讲近况</li></ul></div>
     <div class="card"><div class="num">02</div><h3>独立可做</h3><ul><li>广播剧、有声书</li><li>简单手部活动（握力球）</li></ul></div>
@@ -334,12 +417,107 @@ footer p{margin:4px 0;}
     <div class="card"><div class="num">04</div><h3>床边手工与感官活动</h3><ul><li>简单编织、揉纸团（维持精细动作）</li><li>闻香、触摸不同织物（感官刺激）</li><li>看老照片、播放熟悉音乐</li></ul></div>
     <div class="card"><div class="num">05</div><h3>陪伴与社交</h3><ul><li>视频通话，让来访者看到孙辈</li><li>机构允许时安排宠物探访（pet therapy）</li><li>志愿者/教友床边探视</li></ul></div>
     <div class="card"><div class="num">06</div><h3>精神与安宁活动</h3><ul><li>念经、祷告</li><li>听诵经/佛乐录音</li><li>静坐、引导式呼吸放松</li></ul></div>
+    <div class="card"><div class="num">07</div><h3>适合该层级的日间项目</h3><ul><li>NYU Langone "Seniors in Touch" —— Bay Ridge的社交型成人日间项目，专为认知或身体功能受损的老年人设计</li><li>可致电<a href="https://nyulangone.org/care-services/family-health-centers-at-nyu-langone/community-based-programs-family-health-centers-at-nyu-langone/older-adult-services-at-family-health-centers-at-nyu-langone" target="_blank" rel="noopener">Shore Hill Older Adult Center</a> (718) 630-7588 咨询转介</li><li>往返可考虑申请Access-A-Ride接送</li></ul></div>
+    <div class="card"><div class="num">08</div><h3>传承与意义感</h3><ul><li>即使卧床，仍可由家属录制其口述的家族故事/人生经历，整理成文字或音频留给后代</li><li>让来访者"讲述"而非只"被讲述"，是维持自我认同感的重要方式，而非单纯消磨时间</li></ul></div>
+  </div>
+</div>
+</section>
+
+<!-- ================= 视力障碍 ================= -->
+<section class="tier-panel" id="vision">
+  <div class="tier-desc">以视力障碍（低视力或全盲）为主要考量的来访者，可能同时具备任一行动能力层级；本页聚焦视觉功能受限本身带来的调整，行动能力相关内容仍请参考上方三个层级标签。</div>
+
+  <div class="domain-title"><span class="tag"></span><h2>居家安全</h2></div>
+  <div class="domain-body">
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>环境改造</h3><ul><li>对比色标记台阶边缘/门框</li><li>移除地面杂物与松动地毯</li><li>固定家具位置，不再随意挪动</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>用药与就医</h3><ul><li>药盒使用触觉分格或语音提醒App，不能仅靠标签颜色区分</li><li>请PCP评估是否需要转介低视力门诊（如Lighthouse Guild）</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>紧急应对</h3><ul><li>PERS优先选大按键/语音播报款</li><li>联系人卡制作大字体或触觉标记版本</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>跌倒风险</h3><ul><li>视力是跌倒的重要危险因素之一</li><li>光线昏暗处加装夜灯，移除地毯/门槛等易绊倒物</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>诈骗与财务安全</h3><ul><li>视损者常需他人代读文件，需留意代读过程中的信息篡改风险</li><li>重要文件建议请信任家属或Lighthouse Guild朗读服务协助</li></ul></div>
+  </div>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>认知筛查：改为完全口头版本</h2></div>
+  <div class="domain-body">
+  <div class="test-box">
+    <p class="note urgent-note">重要提醒：画钟测验等图形类项目对全盲或严重低视力者不适用，需改用纯口头认知筛查，避免因视觉任务表现不佳而被误判为认知功能下降。</p>
+    <h3>倒数练习 / 三词回忆 / 今日定向</h3>
+    <p>与其他层级相同，均为口头形式，天然适配视力障碍来访者，可直接使用。</p>
+    <h3>关于Mini-Cog</h3>
+    <p>Mini-Cog包含画钟测验，对全盲者应跳过该项，仅保留三词回忆部分，或改用其他纯听觉的认知筛查方式，并在记录中注明调整原因。</p>
+  </div>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  <div class="domain-body">
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>有声内容优势</h3><ul><li>音乐、广播剧、播客对视损者尤其有价值</li><li>是文字阅读的重要替代</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>朗读志愿者</h3><ul><li><a href="https://lighthouseguild.org/" target="_blank" rel="noopener">Lighthouse Guild Reading Services</a></li><li>志愿者朗读信件/账单/书籍，周一至周五10am-5pm，(646) 874-8683</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>有声书资源</h3><ul><li><a href="https://www.nypl.org/locations/heiskell" target="_blank" rel="noopener">Andrew Heiskell Braille and Talking Book Library</a></li><li>NYPL旗下，免费提供，西20街，(212) 206-5400</li></ul></div>
+  </div>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  <div class="domain-body">
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>触觉手工</h3><ul><li>编织、揉面</li><li>盲文学习（如有意愿）</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>有声书/播客</h3><ul><li>按兴趣主题订阅</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>家人协助</h3><ul><li>录制"有声相册"——描述老照片内容并录音</li><li>弥补视觉记忆活动的缺失</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>PCP随访提醒</h3><ul><li>评估白内障/黄斑变性等可矫正病因</li><li>转介低视力康复服务</li></ul></div>
+  </div>
+  </div>
+</section>
+
+<!-- ================= 听力障碍 ================= -->
+<section class="tier-panel" id="hearing">
+  <div class="tier-desc">以听力障碍为主要考量的来访者，可能同时具备任一行动能力层级；本页聚焦听觉功能受限本身带来的调整，行动能力相关内容仍请参考上方三个层级标签。</div>
+
+  <div class="domain-title"><span class="tag"></span><h2>居家安全</h2></div>
+  <div class="domain-body">
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>环境改造</h3><ul><li>门铃/电话加装闪光提示器</li><li>烟雾报警器换成闪光+震动款（标准声音警报可能听不到）</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>用药与就医</h3><ul><li>确认是否需要助听器验配</li><li>Original Medicare通常不覆盖，部分Medicare Advantage有补助</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>紧急应对</h3><ul><li>PERS优先选强光闪烁/震动款而非纯声音提示</li><li>随身携带书写板或沟通卡</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>跌倒风险</h3><ul><li>可能听不到地面警示声（如管理员广播、他人提醒）</li><li>居家安全需更依赖视觉标记</li></ul></div>
+    <div class="card"><div class="num">05</div><h3>诈骗与财务安全</h3><ul><li>电话诈骗影响相对较小（常直接挂断）</li><li>但需警惕短信/邮件类诈骗，确认重要通知是否有文字版本</li></ul></div>
+  </div>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>认知筛查：确保沟通方式清晰</h2></div>
+  <div class="domain-body">
+  <div class="test-box">
+    <p class="note urgent-note">重要提醒：认知筛查项目（数数/画钟/定向）对听损者均可正常进行，不需跳过，但须确保指令清晰传达——面对面、放慢语速、辅以书面文字，避免因"听不清指令"被误判为认知反应迟钝。</p>
+    <h3>倒数练习 / 画钟测验 / 今日定向</h3>
+    <p>可用书面卡片呈现指令，来访者口头或书写作答均可，其余流程与其他层级相同。</p>
+  </div>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>唱歌 / 音乐活动</h2></div>
+  <div class="domain-body">
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>震动感受音乐</h3><ul><li>贴近音箱感受节奏震动</li><li>部分助听器有专门的音乐模式</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>字幕视频/K歌</h3><ul><li>使用带字幕的音乐视频</li><li>卡拉OK歌词同步显示</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>手语歌曲</h3><ul><li>留意社区是否有手语合唱/表演资源</li></ul></div>
+  </div>
+  </div>
+
+  <div class="domain-title"><span class="tag"></span><h2>家庭活动 &amp; 打发时间</h2></div>
+  <div class="domain-body">
+  <div class="grid">
+    <div class="card"><div class="num">01</div><h3>字幕电视/视频通话</h3><ul><li>优先选择带字幕功能的设备</li></ul></div>
+    <div class="card"><div class="num">02</div><h3>书写板沟通游戏</h3><ul><li>猜字谜、写字接龙等书面互动游戏</li></ul></div>
+    <div class="card"><div class="num">03</div><h3>CapTel字幕电话</h3><ul><li>FCC资助免费提供</li><li>便于日常联系家人</li></ul></div>
+    <div class="card"><div class="num">04</div><h3>PCP随访提醒</h3><ul><li>评估是否需要助听器验配或耳鼻喉科转介</li><li>确认是否为可逆性因素（如耳垢堵塞）</li></ul></div>
+  </div>
   </div>
 </section>
 
 <footer>
   <p>供咨询会谈参考使用，非诊断工具，认知筛查结果异常建议转介正式神经心理评估。</p>
   <p>内容参考CDC老年跌倒数据、Medicare.gov、纽约州Medicaid居家护理PERS政策及Mini-Cog公开资料整理，具体保险覆盖请以承保方最新条款为准。</p>
+  <p>布鲁克林机构地址、电话及MTA/文化机构优惠信息整理自各官方网站，联系方式与活动时间可能变动，建议转介前致电确认。</p>
+  <p>EISEP、SCRIE/DRIE、EPIC、Adult Protective Services等福利信息整理自NY State Office for the Aging、ACCESS NYC、NYS OCFS官网；CaringKind、Lighthouse Guild信息整理自机构官网，具体资格与金额请以最新官方公告为准。</p>
 </footer>
 
 <script>
@@ -349,6 +527,26 @@ document.querySelectorAll('.tier-btn').forEach(btn=>{
     document.querySelectorAll('.tier-panel').forEach(p=>p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById(btn.dataset.tier).classList.add('active');
+  });
+});
+document.querySelectorAll('.domain-title').forEach(dt=>{
+  dt.setAttribute('tabindex','0');
+  dt.setAttribute('role','button');
+  dt.setAttribute('aria-expanded','false');
+  const toggle=()=>{
+    dt.classList.toggle('open');
+    const body = dt.nextElementSibling;
+    if(body && body.classList.contains('domain-body')){
+      body.classList.toggle('open');
+    }
+    dt.setAttribute('aria-expanded', dt.classList.contains('open') ? 'true' : 'false');
+  };
+  dt.addEventListener('click', toggle);
+  dt.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter' || e.key===' '){
+      e.preventDefault();
+      toggle();
+    }
   });
 });
 document.querySelectorAll('.func-item input').forEach(cb=>{
