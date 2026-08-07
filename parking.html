@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>749 61st St 扫街地图 · Rendr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root{
+    --page-bg:#f7f1e8;
+    --soft-bg:#f2e7d9;
+    --card-bg:#fdf9f4;
+    --ink:#2b2318;
+    --ink-soft:#7a6b56;
+    --line:#e4d3b4;
+    --red:#b3341f;
+    --red-soft:#f3e1d6;
+    --green:#4c7a52;
+    --green-soft:#e4ecdd;
+    --amber:#e0a521;
+    --amber-soft:#f7ecd2;
+    --gold:#b3852f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;background:var(--page-bg);
+    font-family:'Noto Sans SC',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;}
+  #map{position:fixed;inset:0;width:100%;height:100%;}
+
+  .panel{
+    position:fixed;top:12px;left:12px;z-index:1000;
+    width:308px;max-width:calc(100vw - 24px);
+    background:var(--card-bg);border:1px solid var(--line);border-radius:14px;
+    box-shadow:0 8px 24px rgba(43,35,24,.2);overflow:hidden;
+  }
+  .panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:12px 14px;cursor:pointer;user-select:none;}
+  .panel-head h1{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:900;margin:0;line-height:1.3;}
+  .panel-head .sub{display:block;font-size:11px;font-weight:500;color:var(--ink-soft);margin-top:1px;}
+  .panel-head .toggle{font-size:13px;color:var(--ink-soft);flex:none;}
+  .panel-body{padding:0 14px 14px;}
+
+  .live-line{font-size:12.5px;line-height:1.5;padding:9px 11px;border-radius:9px;margin-bottom:10px;font-weight:600;}
+  .live-line.ok{background:var(--green-soft);color:#33562f;}
+  .live-line.warn{background:var(--red-soft);color:#7a2c1a;}
+  .live-line.amber{background:var(--amber-soft);color:#7a5218;}
+
+  .search-row{display:flex;gap:6px;margin-bottom:10px;}
+  .search-row input{flex:1;min-width:0;padding:8px 10px;border-radius:8px;border:1px solid var(--line);
+    font-size:13px;font-family:inherit;background:#fff;color:var(--ink);}
+  .search-row input:focus{outline:2px solid var(--gold);outline-offset:1px;}
+  .search-row button{border:none;background:var(--ink);color:#fff;border-radius:8px;padding:0 13px;
+    font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .search-row button:hover{background:var(--red);}
+  .search-msg{font-size:11.5px;color:var(--ink-soft);margin:-4px 0 10px;min-height:1.3em;}
+
+  .day-row{display:flex;gap:4px;margin-bottom:8px;}
+  .day-btn{flex:1;padding:7px 0;border-radius:6px;border:1px solid var(--line);background:#fff;
+    font-size:12px;color:var(--ink-soft);cursor:pointer;font-family:inherit;font-weight:600;}
+  .day-btn.today{border-color:var(--gold);color:var(--gold);}
+  .day-btn.sel{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+  .legend{display:flex;flex-wrap:wrap;gap:5px 12px;font-size:10.5px;color:var(--ink-soft);
+    margin-top:11px;padding-top:10px;border-top:1px solid var(--line);}
+  .legend span{display:inline-flex;align-items:center;gap:4px;}
+  .legend i{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none;}
+  .prov{font-size:10px;color:var(--ink-soft);opacity:.75;margin-top:8px;}
+
+  .map-home-btn{
+    background:var(--card-bg);border:2px solid var(--ink);border-radius:7px;
+    padding:7px 12px;font-family:'Noto Sans SC',sans-serif;font-weight:700;font-size:12.5px;
+    color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 var(--ink);white-space:nowrap;
+  }
+  .map-home-btn:hover{background:var(--red);color:#fff;border-color:var(--red);}
+
+  .side-tooltip{
+    background:var(--card-bg)!important;border:1px solid var(--ink)!important;color:var(--ink)!important;
+    font-family:'Noto Sans SC',sans-serif!important;font-size:12px!important;font-weight:600!important;
+    border-radius:7px!important;padding:5px 9px!important;box-shadow:2px 2px 0 rgba(43,35,24,.25)!important;
+    opacity:1!important;line-height:1.5;
+  }
+  .side-tooltip::before{border-top-color:var(--ink)!important;}
+
+  @media (max-width:480px){
+    .panel{width:calc(100vw - 24px);}
+  }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div class="panel" id="panel">
+  <div class="panel-head" onclick="togglePanel()">
+    <h1>Sunset Park<span class="sub">52nd–61st St · 7th–9th Ave</span></h1>
+    <span class="toggle" id="toggle-icon">▲</span>
+  </div>
+  <div class="panel-body" id="panel-body">
+    <div class="live-line" id="live-line">读取中…</div>
+
+    <div class="search-row">
+      <input id="geo-search" type="text" placeholder="搜索地址 / 街道…" onkeydown="if(event.key==='Enter')doSearch()">
+      <button onclick="doSearch()">搜索</button>
+    </div>
+    <div class="search-msg" id="search-msg"></div>
+
+    <div class="day-row" id="day-row"></div>
+
+    <div class="legend">
+      <span><i style="background:var(--green)"></i>不排这天</span>
+      <span><i style="background:var(--amber)"></i>这天要扫/还没扫完</span>
+      <span><i style="background:var(--red)"></i>今天10点组已扫完，可以去</span>
+    </div>
+    <div class="prov">时间来源：61st / 60th St 现场核实，其余按同规律套用（2026-08）· 点⌂回 Rendr</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* ---------------- 数据 ---------------- *//* ---- 路口坐标表（逐个查证），后面新增街区时只要在这里/下面 ZONES 加坐标或加一行规则 ---- */
+const CORNERS = {
+  '7-44':[40.6458162,-74.0024099],'7-45':[40.6452525,-74.0030091],'7-46':[40.6446972,-74.0035844],
+  '7-47':[40.6441318,-74.0041642],'7-48':[40.6435718,-74.0047481],'7-49':[40.6430151,-74.0053340],
+  '7-50':[40.6424523,-74.0059181],'7-51':[40.6418922,-74.0064974],'7-52':[40.6413367,-74.0070823],
+  '7-53':[40.6407729,-74.0076629],'7-54':[40.6402131,-74.0082420],'7-55':[40.6396518,-74.0088259],
+  '7-56':[40.6390830,-74.0094176],'7-57':[40.6385321,-74.0099915],'7-58':[40.6379700,-74.0105775],
+  '7-59':[40.6374109,-74.0111600],'7-60':[40.6368279,-74.0117638],'7-61':[40.6362523,-74.0123663],
+  '8-44':[40.6444867,-74.0002149],'8-45':[40.6439294,-74.0007984],'8-46':[40.6433656,-74.0013841],
+  '8-47':[40.6428066,-74.0019658],'8-48':[40.6422465,-74.0025432],'8-49':[40.6416817,-74.0031338],
+  '8-50':[40.6411218,-74.0037135],'8-51':[40.6405648,-74.0042974],'8-52':[40.6400043,-74.0048788],
+  '8-53':[40.6394436,-74.0054617],'8-54':[40.6388902,-74.0060436],'8-55':[40.6383274,-74.0066304],
+  '8-56':[40.6377669,-74.0072090],'8-57':[40.6372055,-74.0077896],'8-58':[40.6366437,-74.0083723],
+  '8-59':[40.6360826,-74.0089571],'8-60':[40.6355010,-74.0095622],'8-61':[40.6349224,-74.0101631],
+  '9-44':[40.6431541,-73.9980143],'9-45':[40.6425952,-73.9985938],'9-46':[40.6420351,-73.9991794],
+  '9-47':[40.6414757,-73.9997610],'9-48':[40.6409152,-74.0003413],'9-49':[40.6403532,-74.0009283],
+  '9-50':[40.6397964,-74.0015142],'9-51':[40.6392347,-74.0020941],'9-52':[40.6386755,-74.0026760],
+  '9-53':[40.6381128,-74.0032570],'9-54':[40.6375549,-74.0038348],'9-55':[40.6369929,-74.0044229],
+  '9-56':[40.6364334,-74.0050062],'9-57':[40.6358742,-74.0055875],'9-58':[40.6353108,-74.0061717],
+  '9-59':[40.6347534,-74.0067541],'9-60':[40.6341741,-74.0073533],'9-61':[40.6335931,-74.0079644],
+  '6-52':[40.6426669,-74.0092822],'6-53':[40.6421027,-74.0098667],'6-54':[40.6415407,-74.0104518],
+  '6-55':[40.6409797,-74.0110345],'6-56':[40.6404070,-74.0116069],'6-57':[40.6398588,-74.0121797],
+  '6-58':[40.6392984,-74.0127846],'6-59':[40.6387424,-74.0133630],'6-60':[40.6381584,-74.0139668],
+  '6-61':[40.6375770,-74.0145700],
+  '5-47':[40.6467920,-74.0085751],'5-48':[40.6462372,-74.0091621],'5-49':[40.6456757,-74.0097391],
+  '5-50':[40.6451155,-74.0103204],'5-51':[40.6445583,-74.0109059],'5-52':[40.6439960,-74.0114923],
+  '5-53':[40.6434342,-74.0120686],'5-54':[40.6428707,-74.0126486],'5-55':[40.6423080,-74.0132361],
+  '5-56':[40.6417601,-74.0138087],'5-57':[40.6412016,-74.0143867],
+  '6-47':[40.6454621,-74.0063728],'6-48':[40.6449044,-74.0069554],'6-49':[40.6443437,-74.0075332],
+  '6-50':[40.6437878,-74.0081149],'6-51':[40.6432205,-74.0087044],
+  '7-68':[40.6323392,-74.0166976],'7-75':[40.6265618,-74.0178915],
+  'fh-61':[40.6326221,-74.0063594],'fh-47':[40.6393659,-73.9962741],
+  '8-62':[40.6343649,-74.0107373],'8-63':[40.6338015,-74.0113271],'8-64':[40.6332375,-74.0119100],
+  '8-65':[40.6326401,-74.0125323],'8-66':[40.6320222,-74.0131815],'8-67':[40.6314972,-74.0137274],
+  '8-68':[40.6309182,-74.0143300],'8-69':[40.6303630,-74.0149066],'8-70':[40.6298020,-74.0154880],
+  '8-71':[40.6292432,-74.0160730],'8-72':[40.6286777,-74.0166455],'8-73':[40.6281138,-74.0172458],
+  '9-62':[40.6330474,-74.0085548],'9-63':[40.6324683,-74.0091173],'9-64':[40.6319086,-74.0097170],
+  '9-65':[40.6313127,-74.0103355],'9-66':[40.6307035,-74.0109743],'9-67':[40.6301563,-74.0115370],
+  '9-68':[40.6295908,-74.0121183],'9-69':[40.6290320,-74.0127089],
+  '9-70':[40.6284724,-74.0132871],'9-71':[40.6279136,-74.0138721],'9-72':[40.6273481,-74.0144446],
+  '9-73':[40.6267842,-74.0150449] /* 70-73：8th确认坐标+7对已验证的8→9偏移量平均值(误差<1米)算出，非逐个查证 */
+};
+function ord(n){ const s=["th","st","nd","rd"]; const v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); }
+/* 给两个路口点 + 两侧规则(label/weekday/start/end)，算出两条偏移线和标签点。
+   CCW（逆时针那一侧）固定对应 specs[0]，CW 对应 specs[1] —— 全文统一，不用每条街重新判断方向 */
+function buildSides(ptA, ptB, specs, LINE_OFF, LABEL_OFF){
+  LINE_OFF = LINE_OFF||5.5; LABEL_OFF = LABEL_OFF||16;
+  const latRef=(ptA[0]+ptB[0])/2, mLat=111320, mLng=111320*Math.cos(latRef*Math.PI/180);
+  const toXY=p=>({x:p[1]*mLng,y:p[0]*mLat}), toLL=xy=>[+(xy.y/mLat).toFixed(7),+(xy.x/mLng).toFixed(7)];
+  const a=toXY(ptA), b=toXY(ptB);
+  const dx=b.x-a.x, dy=b.y-a.y, len=Math.sqrt(dx*dx+dy*dy);
+  const ux=dx/len, uy=dy/len;
+  const dirCCW={x:-uy,y:ux}, dirCW={x:uy,y:-ux};
+  const midX=(a.x+b.x)/2, midY=(a.y+b.y)/2;
+  const line=(dir,off)=>[toLL({x:a.x+dir.x*off,y:a.y+dir.y*off}), toLL({x:b.x+dir.x*off,y:b.y+dir.y*off})];
+  const anchor=(dir,off)=>toLL({x:midX+dir.x*off,y:midY+dir.y*off});
+  return [
+    {label:specs[0].label, weekday:specs[0].weekday, start:specs[0].start, end:specs[0].end, line:line(dirCCW,LINE_OFF), anchor:anchor(dirCCW,LABEL_OFF)},
+    {label:specs[1].label, weekday:specs[1].weekday, start:specs[1].start, end:specs[1].end, line:line(dirCW,LINE_OFF),  anchor:anchor(dirCW,LABEL_OFF)}
+  ];
+}
+
+/* ============ 数据从这里开始：以后加/改街区，只用改这两个数组 ============ */
+const CROSS_ZONES = [ // 横向街道，在两条大道之间；streets 里每个数字自动生成一个街区
+  { streets:[55,56,57,58,59,61], a:'7', b:'8',
+    specs:[{label:'右侧',weekday:4,start:'11:30',end:'13:00'},{label:'左侧',weekday:5,start:'11:30',end:'13:00'}] },
+  { streets:[52,53,54], a:'7', b:'8',
+    specs:[{label:'右侧',weekday:1,start:'9:30',end:'11:00'},{label:'左侧',weekday:4,start:'9:30',end:'11:00'}] },
+  { streets:[44,45,46,47,48,49,50,51], a:'7', b:'8',
+    specs:[{label:'右侧',weekday:3,start:'11:30',end:'13:00'},{label:'左侧',weekday:2,start:'11:30',end:'13:00'}] },
+  { streets:[52,53,54,55,56,57,58,59,60,61], a:'9', b:'8',
+    specs:[{label:'左侧',weekday:4,start:'9:30',end:'11:00'},{label:'右侧',weekday:1,start:'9:30',end:'11:00'}] },
+  { streets:[52,53,54,55,56,57,58,59,60,61], a:'6', b:'7',
+    specs:[{label:'右侧',weekday:4,start:'11:30',end:'13:00'},{label:'左侧',weekday:5,start:'11:30',end:'13:00'}] },
+  { streets:[47,48,49,50,51,52,53,54,55,56,57], a:'5', b:'6',
+    specs:[{label:'右侧',weekday:4,start:'8:30',end:'10:00'},{label:'左侧',weekday:3,start:'8:30',end:'10:00'}] },
+  { streets:[62,63,64,65,66,67,68,69,70,71,72,73], a:'9', b:'8',
+    specs:[{label:'左侧',weekday:4,start:'11:30',end:'13:00'},{label:'右侧',weekday:3,start:'11:30',end:'13:00'}] }
+];
+const AVENUE_ZONES = [ // 纵向大道本身一整段；streetA→streetB 是取值方向，别改顺序
+  { ave:9, streetA:60, streetB:52, specs:[{label:'上面',weekday:1,start:'9:30',end:'11:00'},{label:'下面',weekday:4,start:'9:30',end:'11:00'}] },
+  { ave:9, streetA:51, streetB:44, specs:[{label:'上面',weekday:1,start:'8:30',end:'10:00'},{label:'下面',weekday:4,start:'8:30',end:'10:00'}] },
+  { ave:7, streetA:68, streetB:75, nameOverride:"7th Ave · 68th St–Bay Ridge Pkwy(75th)",
+    specs:[{label:'下面',weekday:4,start:'11:30',end:'13:00'},{label:'上面',weekday:[1,2,3,4,5],start:'7:00',end:'10:00'}] },
+  { ave:'fh', streetA:61, streetB:47, nameOverride:"Fort Hamilton Pkwy · 61st–47th St",
+    specs:[{label:'上面',weekday:1,start:'8:30',end:'10:00'},{label:'下面',weekday:4,start:'8:30',end:'10:00'}] }
+];
+/* ======================================================================= */
+
+const blocks = [];
+CROSS_ZONES.forEach(z=>{
+  z.streets.forEach(n=>{
+    blocks.push({ name:`${ord(n)} St · ${z.a}th–${z.b}th Ave`, sides:buildSides(CORNERS[z.a+'-'+n], CORNERS[z.b+'-'+n], z.specs) });
+  });
+});
+AVENUE_ZONES.forEach(z=>{
+  const name = z.nameOverride || `${z.ave}th Ave · ${ord(z.streetB)}–${ord(z.streetA)} St`;
+  blocks.push({ name, sides:buildSides(CORNERS[z.ave+'-'+z.streetA], CORNERS[z.ave+'-'+z.streetB], z.specs) });
+});
+const holidays2026 = [
+  "2026-01-01","2026-01-06","2026-01-19","2026-02-12","2026-02-16","2026-02-17","2026-02-18",
+  "2026-03-03","2026-03-20","2026-03-21","2026-04-02","2026-04-03","2026-04-08","2026-04-09",
+  "2026-04-10","2026-05-14","2026-05-22","2026-05-23","2026-05-25","2026-05-27","2026-05-28",
+  "2026-06-19","2026-07-03","2026-07-04","2026-07-23","2026-08-15","2026-09-07","2026-09-12",
+  "2026-09-13","2026-09-21","2026-09-26","2026-09-27","2026-10-03","2026-10-04","2026-10-12",
+  "2026-11-01","2026-11-03","2026-11-08","2026-11-11","2026-11-26","2026-12-08","2026-12-25"
+]; // 2026 全市 ASP 暂停日（来源 nyc.gov），仅用于「今天」的实时判断
+const weekdayCN = ["周日","周一","周二","周三","周四","周五","周六"];
+const dayOrder = [1,2,3,4,5,6,0]; // 周一..周日
+
+function toMinutes(hhmm){ const [h,m]=hhmm.split(':').map(Number); return h*60+m; }
+function localISO(d){
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+/* side.weekday 平时是单个数字；像"周一到周五"这种，写成数组 [1,2,3,4,5] 也支持 */
+function matchesDay(side, dow){
+  return Array.isArray(side.weekday) ? side.weekday.includes(dow) : side.weekday===dow;
+}
+function dayLabel(side){
+  if (!Array.isArray(side.weekday)) return weekdayCN[side.weekday];
+  const d = side.weekday;
+  const contiguous = d.length>1 && d.every((v,i)=> i===0 || v===d[i-1]+1);
+  return contiguous ? `${weekdayCN[d[0]]}–${weekdayCN[d[d.length-1]]}` : d.map(v=>weekdayCN[v]).join('、');
+}
+function sideState(side, dow, nowMin){
+  if (!matchesDay(side, dow)) return null;
+  const s=toMinutes(side.start), e=toMinutes(side.end);
+  if (nowMin<s) return 'before';
+  if (nowMin<e) return 'active';
+  return 'after';
+}
+/* 星期选择器：选中的星期是否排这一侧，本身跟「现在几点」无关（点周四，所有周四排班的线一起变黄）。
+   单日的（一周就一次，比如周四）：红色只留给「今天 + 10点结束」这一种，过了10点才变红＝可以去占；
+   11点/13点结束的，就算过了自己的结束时间，今天选中也还是黄色，不变红。
+   多日的（周一到周五这种每天都重复的）：不用等"今天过了几点"，选中就是红——这种不是"一周一次"，
+   本身大部分时间都能停，直接红更符合实际 */
+function previewColor(side, dow, isToday, nowMin){
+  if (!matchesDay(side, dow)) return {hex:'#4c7a52'};
+  if (Array.isArray(side.weekday)) return {hex:'#b3341f'};
+  if (isToday && side.end === '10:00' && nowMin >= toMinutes(side.end)) return {hex:'#b3341f'};
+  return {hex:'#e0a521'};
+}
+
+/* ---------------- 地图 ---------------- */
+const center = [40.635686, -74.011048];
+/* 数据实际范围是 lat 40.6266~40.6468、lng -74.0179~-73.9980（106个路口点算出来的），
+   四周各留一点边距——不用整个布鲁克林，这样瓦片加载范围小很多，没那么容易卡 */
+const DATA_BOUNDS = [[40.620,-74.026],[40.653,-73.990]];
+const map = L.map('map', {
+  zoomControl:false,
+  maxBounds: DATA_BOUNDS,
+  maxBoundsViscosity: 1.0,
+  minZoom: 13,
+  keepBuffer: 1
+}).setView(center, 18);
+L.control.zoom({position:'bottomright'}).addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors', maxZoom: 19,
+  bounds: DATA_BOUNDS, keepBuffer: 1
+}).addTo(map);
+
+const mainIcon = L.divIcon({
+  className:'',
+  html:'<div style="width:16px;height:16px;border-radius:50%;background:#a5402c;border:3px solid #fff;box-shadow:0 0 0 5px rgba(165,64,44,.25),0 2px 6px rgba(0,0,0,.35);"></div>',
+  iconSize:[16,16], iconAnchor:[8,8]
+});
+L.marker(center, {icon:mainIcon}).addTo(map).bindPopup('<b>749 61st St</b><br>Rendr');
+
+const HomeControl = L.Control.extend({
+  options:{position:'topright'},
+  onAdd:function(){
+    const btn = L.DomUtil.create('button','map-home-btn');
+    btn.type='button'; btn.innerHTML='⌂ 回到 Rendr';
+    L.DomEvent.on(btn,'click',function(e){ L.DomEvent.stop(e); map.setView(center,18); });
+    L.DomEvent.disableClickPropagation(btn);
+    return btn;
+  }
+});
+map.addControl(new HomeControl());
+
+blocks.forEach(block=>{
+  block.sides.forEach(side=>{
+    side.layer = L.polyline(side.line, {color:'#4c7a52', weight:7, opacity:0.9, lineCap:'round'}).addTo(map);
+  });
+});
+
+let searchMarker = null;
+
+/* ---------------- 面板折叠 ---------------- */
+let panelOpen = true;
+function togglePanel(){
+  panelOpen = !panelOpen;
+  document.getElementById('panel-body').style.display = panelOpen ? 'block' : 'none';
+  document.getElementById('toggle-icon').textContent = panelOpen ? '▲' : '▼';
+}
+
+/* ---------------- 星期选择器 ---------------- */
+let selectedDow = new Date().getDay();
+function buildDayRow(){
+  const row = document.getElementById('day-row');
+  row.innerHTML = '';
+  const todayDow = new Date().getDay();
+  dayOrder.forEach(dow=>{
+    const btn = document.createElement('button');
+    btn.className = 'day-btn' + (dow===todayDow?' today':'') + (dow===selectedDow?' sel':'');
+    btn.textContent = weekdayCN[dow][1];
+    btn.onclick = ()=>{ selectedDow = dow; refreshAll(); };
+    row.appendChild(btn);
+  });
+}
+
+/* ---------------- 总刷新：实时状态条（跨所有街区找最紧急的）+ 地图每一侧配色 ---------------- */
+function refreshAll(){
+  const now = new Date();
+  const todayDow = now.getDay();
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  const todayISO = localISO(now);
+  const holidaySuspended = holidays2026.includes(todayISO);
+  const dateLabel = `${now.getMonth()+1}月${now.getDate()}日 · ${weekdayCN[todayDow]}`;
+
+  /* 实时状态条：扫一遍所有街区/两侧，找「现在」最紧急的一条（进行中 > 稍后 > 都没有） */
+  let urgent = null; // {cls, block, side}
+  blocks.forEach(block=>{
+    block.sides.forEach(side=>{
+      const st = sideState(side, todayDow, nowMin);
+      if (st==='active' && (!urgent || urgent.cls!=='warn')) urgent = {cls:'warn', block, side, st};
+      if (st==='before' && !urgent) urgent = {cls:'amber', block, side, st};
+    });
+  });
+  const liveEl = document.getElementById('live-line');
+  if (holidaySuspended){
+    liveEl.className = 'live-line ok';
+    liveEl.textContent = `现在（${dateLabel}）全市暂停扫街，都能停`;
+  } else if (urgent){
+    liveEl.className = 'live-line ' + urgent.cls;
+    const verb = urgent.st==='active' ? '正在扫街，别停' : '今天稍后扫街';
+    liveEl.textContent = `现在（${dateLabel}）· ${urgent.block.name} ${urgent.side.label}：${verb} ${urgent.side.start}–${urgent.side.end}`;
+  } else {
+    liveEl.className = 'live-line ok';
+    liveEl.textContent = `现在（${dateLabel}）都能停`;
+  }
+
+  /* 地图每一侧：颜色跟星期选择器走；如果选的正好是今天且这一侧已经过了结束时间，变红＝可以去占了 */
+  const isToday = selectedDow === todayDow;
+  blocks.forEach(block=>{
+    block.sides.forEach(side=>{
+      const v = previewColor(side, selectedDow, isToday, nowMin);
+      side.layer.setStyle({color:v.hex});
+      side.layer.unbindTooltip().bindTooltip(
+        `<b>${side.label}</b><br>${dayLabel(side)} ${side.start}–${side.end}`,
+        {permanent:true, direction:'top', className:'side-tooltip', offset:[0,-6]}
+      ).openTooltip(side.anchor);
+    });
+  });
+
+  buildDayRow();
+}
+refreshAll();
+setInterval(refreshAll, 60000); // 每分钟自动刷新实时状态
+
+/* ---------------- 地址搜索（OpenStreetMap Nominatim，免费无需 key）---------------- */
+async function doSearch(){
+  const input = document.getElementById('geo-search');
+  const msg = document.getElementById('search-msg');
+  const q = input.value.trim();
+  if(!q){ return; }
+  msg.textContent = '搜索中…';
+  try{
+    const viewbox = `${DATA_BOUNDS[0][1]},${DATA_BOUNDS[1][0]},${DATA_BOUNDS[1][1]},${DATA_BOUNDS[0][0]}`;
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&viewbox=${viewbox}&bounded=1&q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+    if(data && data.length){
+      const {lat, lon, display_name} = data[0];
+      map.setView([+lat, +lon], 17);
+      if(searchMarker) map.removeLayer(searchMarker);
+      searchMarker = L.marker([+lat, +lon]).addTo(map).bindPopup(display_name).openPopup();
+      msg.textContent = '';
+    } else {
+      msg.textContent = '这个范围内没找到，换个说法试试。';
+    }
+  } catch(e){
+    msg.textContent = '搜索失败，检查一下网络。';
+  }
+}
+</script>
+</body>
+</html>
