@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACE — High-Functioning Client Technique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page-bg:#f7f1e8;
+    --soft-bg:#f2e7d9;
+    --card-bg:#fdf9f4;
+    --ink:#372c22;
+    --ink-soft:#8c7a65;
+    --ink-faint:#b7a68d;
+    --border:#e4d5bd;
+    --border-soft:#ecdfc9;
+
+    --r:#9c6b4a; --r-tint:#f1e2d3; --r-line:#dcc3a6;
+    --a:#a94e3a; --a-tint:#f3ddd4; --a-line:#dfb7a9;
+    --c:#69784a; --c-tint:#e6ead9; --c-line:#c3cca9;
+    --e:#b28a34; --e-tint:#f2e6c6; --e-line:#dfc888;
+
+    --shadow: 0 2px 14px rgba(55,44,34,0.07);
+    --shadow-sm: 0 1px 6px rgba(55,44,34,0.05);
+    --radius: 14px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:'Noto Sans SC', sans-serif;
+    font-weight:400;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Noto Serif SC', serif;
+    font-weight:700;
+    color:var(--ink);
+    margin:0 0 .5em;
+  }
+  p{margin:0 0 1em;}
+  a{color:inherit;}
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- NAV ---------- */
+  nav.topnav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,241,232,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  nav.topnav .navwrap{
+    max-width:920px; margin:0 auto; padding:0 24px;
+    display:flex; gap:4px; overflow-x:auto;
+    scrollbar-width:none;
+  }
+  nav.topnav .navwrap::-webkit-scrollbar{display:none;}
+  nav.topnav a{
+    flex:none;
+    font-size:13px; font-weight:500; letter-spacing:.02em;
+    color:var(--ink-soft); text-decoration:none;
+    padding:14px 12px; white-space:nowrap;
+    border-bottom:2px solid transparent;
+    transition:color .15s, border-color .15s;
+  }
+  nav.topnav a:hover{color:var(--ink); border-bottom-color:var(--ink-faint);}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding:64px 0 40px;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12.5px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-soft); font-weight:600;
+    margin-bottom:18px;
+  }
+  .eyebrow .dot{width:5px; height:5px; border-radius:50%; background:var(--a);}
+  h1.title{
+    font-size:clamp(46px, 9vw, 78px);
+    letter-spacing:.01em;
+    line-height:1;
+    background:linear-gradient(120deg, var(--r), var(--a) 35%, var(--c) 68%, var(--e));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .subtitle{
+    font-family:'Noto Serif SC', serif;
+    font-size:20px; color:var(--ink); font-weight:600;
+    margin-top:6px;
+  }
+  .tags{
+    margin-top:18px; display:flex; gap:14px; flex-wrap:wrap;
+    font-size:14px; color:var(--ink-soft);
+  }
+  .tags span{display:inline-flex; align-items:center; gap:6px;}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:56px 0;}
+  section.tight{padding:40px 0;}
+  section + section{border-top:1px solid var(--border-soft);}
+  .sec-label{
+    font-size:12.5px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-faint); font-weight:600; margin-bottom:10px;
+  }
+  h2.sec-title{font-size:28px;}
+  .sec-desc{color:var(--ink-soft); font-size:15px; max-width:640px;}
+
+  /* ---------- OVERVIEW CARDS ---------- */
+  .overview-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:28px;
+  }
+  @media(max-width:760px){.overview-grid{grid-template-columns:1fr 1fr;}}
+  .ov-card{
+    background:var(--card-bg); border:1px solid var(--border);
+    border-radius:var(--radius); padding:20px 18px;
+    box-shadow:var(--shadow-sm);
+  }
+  .ov-card .badge{
+    width:38px; height:38px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Noto Serif SC', serif; font-weight:700; font-size:19px;
+    color:#fff; margin-bottom:14px;
+  }
+  .badge.r{background:var(--r);} .badge.a{background:var(--a);}
+  .badge.c{background:var(--c);} .badge.e{background:var(--e);}
+  .ov-card .en{font-weight:700; font-size:15.5px;}
+  .ov-card .zh{font-size:13.5px; color:var(--ink-soft); margin:2px 0 10px;}
+  .ov-card .desc{font-size:13px; color:var(--ink-soft); line-height:1.6; margin:0;}
+
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    background:var(--soft-bg); border:1px solid var(--border);
+    border-radius:var(--radius); padding:22px 24px; margin-top:24px;
+  }
+  .callout .pin{font-weight:700; margin-bottom:8px; display:flex; gap:8px; align-items:baseline;}
+  .callout p{font-size:14.5px; color:var(--ink); margin-bottom:8px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout .insight{
+    margin-top:14px; padding-top:14px; border-top:1px dashed var(--border);
+    font-size:14.5px; color:var(--ink-soft); font-style:italic;
+  }
+  .callout .insight b{color:var(--ink); font-style:normal;}
+
+  /* ---------- DEMO / DIALOGUE ---------- */
+  .demo-block{
+    background:var(--card-bg); border:1px solid var(--border);
+    border-radius:var(--radius); padding:24px 26px; margin-top:20px;
+    box-shadow:var(--shadow-sm);
+  }
+  .demo-head{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
+  .demo-head h3{font-size:17px; margin:0;}
+  .demo-tag{
+    font-size:12px; font-weight:600; color:var(--ink-soft);
+    background:var(--soft-bg); border:1px solid var(--border);
+    padding:4px 10px; border-radius:20px;
+  }
+  .dialogue .line{
+    display:flex; gap:12px; padding:10px 0; align-items:flex-start;
+  }
+  .dialogue .who{
+    flex:none; width:74px;
+    font-size:12.5px; font-weight:700; color:var(--ink-soft);
+    padding-top:2px;
+  }
+  .dialogue .txt{
+    flex:1; font-size:14.5px; padding:10px 14px; border-radius:10px;
+    background:var(--soft-bg); border:1px solid var(--border-soft);
+  }
+  .dialogue .line.client .txt{
+    background:#fff; border-style:dashed; font-style:italic; color:var(--ink);
+  }
+  .dialogue .line.r .who{color:var(--r);} .dialogue .line.r .txt{background:var(--r-tint); border-color:var(--r-line);}
+  .dialogue .line.a .who{color:var(--a);} .dialogue .line.a .txt{background:var(--a-tint); border-color:var(--a-line);}
+  .dialogue .line.c .who{color:var(--c);} .dialogue .line.c .txt{background:var(--c-tint); border-color:var(--c-line);}
+  .dialogue .line.e .who{color:var(--e);} .dialogue .line.e .txt{background:var(--e-tint); border-color:var(--e-line);}
+
+  .demo-outcome{
+    margin-top:14px; padding:14px 16px; border-radius:10px;
+    background:var(--ink); color:var(--page-bg);
+    font-size:14px; line-height:1.7;
+  }
+  .demo-outcome b{color:#fff;}
+
+  .demo-strategy{
+    margin-top:14px; padding:14px 16px; border-radius:10px;
+    background:#fff; border:1px dashed var(--border);
+    font-size:13.5px; color:var(--ink-soft);
+  }
+  .demo-strategy b{color:var(--ink); font-weight:700;}
+  .demo-strategy ul{margin:8px 0 0; padding-left:18px;}
+  .demo-strategy li{margin-bottom:4px;}
+
+  /* ---------- TWO COLUMN CRITERIA ---------- */
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px;}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr;}}
+  .crit-box{border-radius:var(--radius); padding:20px 22px; border:1px solid var(--border);}
+  .crit-box.yes{background:var(--c-tint); border-color:var(--c-line);}
+  .crit-box.no{background:var(--a-tint); border-color:var(--a-line);}
+  .crit-box .crit-title{font-weight:700; margin-bottom:10px; font-size:15px;}
+  .crit-box.yes .crit-title{color:var(--c);}
+  .crit-box.no .crit-title{color:var(--a);}
+  .crit-box .quote{font-size:14px; margin-bottom:6px; color:var(--ink);}
+
+  /* ---------- INSIGHT PATHS ---------- */
+  .path-card{
+    background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius);
+    padding:18px 22px; margin-top:14px; display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+    box-shadow:var(--shadow-sm);
+  }
+  .path-name{flex:none; width:150px; font-weight:700; font-size:14.5px;}
+  .path-flow{display:flex; align-items:center; gap:8px; font-family:'Noto Serif SC',serif; font-weight:700; font-size:16px; flex-wrap:wrap;}
+  .path-flow .step{width:30px;height:30px;border-radius:8px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .path-flow .arrow{color:var(--ink-faint); font-weight:400;}
+  .path-note{flex:1; min-width:180px; font-size:13px; color:var(--ink-soft);}
+
+  /* ---------- THEME BOX ---------- */
+  .theme-box{
+    background:linear-gradient(135deg, var(--e-tint), var(--soft-bg));
+    border:1px solid var(--e-line); border-radius:var(--radius);
+    padding:26px 28px; margin-top:24px;
+  }
+  .theme-box .theme-lead{font-size:15px; margin-bottom:4px;}
+  .theme-box .theme-lead b{color:var(--a);}
+
+  /* ---------- SCRIPT / QUICK REFERENCE ---------- */
+  .script-card{
+    background:var(--ink); color:var(--page-bg);
+    border-radius:var(--radius); padding:22px 24px; margin-top:16px;
+  }
+  .script-card h4{color:#fff; font-size:14.5px; margin-bottom:14px; font-family:'Noto Sans SC',sans-serif; font-weight:700;}
+  .script-card .sline{display:flex; gap:10px; padding:6px 0; font-size:14px; line-height:1.6;}
+  .script-card .sline b{flex:none; width:20px;}
+  .script-card .sline.r b{color:#dcb894;} .script-card .sline.a b{color:#e5a494;}
+  .script-card .sline.c b{color:#b7c98f;} .script-card .sline.e b{color:#e3c877;}
+
+  /* ---------- DEEP DIVE ACCORDIONS ---------- */
+  details.deep{
+    background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius);
+    margin-top:14px; box-shadow:var(--shadow-sm); overflow:hidden;
+  }
+  details.deep summary{
+    list-style:none; cursor:pointer; padding:18px 22px;
+    display:flex; align-items:center; gap:14px; font-weight:700; font-size:15px;
+  }
+  details.deep summary::-webkit-details-marker{display:none;}
+  details.deep summary::after{
+    content:'+'; margin-left:auto; font-size:20px; color:var(--ink-faint); font-weight:400;
+  }
+  details.deep[open] summary::after{content:'–';}
+  details.deep .deep-body{padding:0 22px 22px;}
+  .deep-item{
+    padding:14px 0; border-top:1px solid var(--border-soft);
+  }
+  .deep-item:first-child{border-top:none;}
+  .deep-item .di-title{font-weight:700; font-size:14px; margin-bottom:6px;}
+  .deep-item .di-ex{font-size:13.5px; color:var(--ink-soft); margin-top:6px;}
+  .deep-item .di-ex .pt-line{display:block; margin-bottom:3px;}
+  .deep-item .di-ex .pt{color:var(--ink-faint);}
+  .note-inline{
+    font-size:13px; color:var(--ink-soft); background:var(--soft-bg);
+    border-left:3px solid var(--ink-faint); padding:10px 14px; border-radius:0 8px 8px 0; margin-top:12px;
+  }
+
+  /* ---------- placeholder for JS-free anchor targets ---------- */
+  [id]{scroll-margin-top:64px;}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="navwrap">
+    <a href="#overview">总览</a>
+    <a href="#deep-r">R 拆解</a>
+    <a href="#deep-a">A 拆解</a>
+    <a href="#deep-c">C 拆解</a>
+    <a href="#deep-e">E 拆解</a>
+    <a href="#demos">示范</a>
+    <a href="#stuck">"有用"卡点</a>
+    <a href="#criteria">判断标准</a>
+    <a href="#paths">Insight 路径</a>
+    <a href="#theme">卡住即主题</a>
+    <a href="#script">最短可说版</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>High-Functioning Client Technique</div>
+    <h1 class="title">RACE</h1>
+    <div class="subtitle">⏱ Session technique for resistant clients · ✓ 4 steps in sequence</div>
+    <div class="tags">
+      <span>Reflect → Agitate → Concretize → Elicit</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section id="overview">
+  <div class="wrap">
+    <div class="sec-label">Overview</div>
+    <h2 class="sec-title">四个步骤</h2>
+    <p class="sec-desc">高功能来访者习惯理智化（intellectualize）。RACE 不靠治疗师去说服，而是让来访者自己感受到不一致，自己说出需要改变的地方。</p>
+
+    <div class="overview-grid">
+      <div class="ov-card">
+        <div class="badge r">R</div>
+        <div class="en">Reflect</div>
+        <div class="zh">复述</div>
+        <p class="desc">mirror back what they said</p>
+      </div>
+      <div class="ov-card">
+        <div class="badge a">A</div>
+        <div class="en">Agitate</div>
+        <div class="zh">制造不一致感</div>
+        <p class="desc">highlight the gap between what they say and what they do</p>
+      </div>
+      <div class="ov-card">
+        <div class="badge c">C</div>
+        <div class="en">Concretize</div>
+        <div class="zh">拉到具体情境</div>
+        <p class="desc">pull them into a specific real situation</p>
+      </div>
+      <div class="ov-card">
+        <div class="badge e">E</div>
+        <div class="en">Elicit</div>
+        <div class="zh">让他自己说需要</div>
+        <p class="desc">let them voice their own need for change</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="pin">📌 抓住感觉</div>
+      <p>说完后你什么感觉？现在什么感觉？到 core experience 时继续 explore。</p>
+      <p>"你感觉……" 太长就 rephrase，重点永远是最后一句。</p>
+      <div class="insight"><b>为什么对高功能来访者有效：</b>他们擅长分析和讲故事，RACE 把他们从"讲道理"拉回"当下的感受"，不靠治疗师下结论，而是让不一致自己浮出水面。</div>
+    </div>
+  </div>
+</section>
+
+<section id="deep-dive">
+  <div class="wrap">
+    <div class="sec-label">Deep Dive</div>
+    <h2 class="sec-title">四个字母，逐个拆解</h2>
+    <p class="sec-desc">点开展开每一部分的完整层次与例句。</p>
+
+    <details class="deep" id="deep-r" open>
+      <summary><span class="badge r" style="width:28px;height:28px;font-size:14px;">R</span> Reflect（复述）— 不只是重复内容，有 4 个层次</summary>
+      <div class="deep-body">
+        <div class="deep-item">
+          <div class="di-title">1 · Rephrase（重述内容）</div>
+          <div class="di-ex"><span class="pt-line"><span class="pt">病人：</span>"我不想依赖别人。"</span><span class="pt-line"><span class="pt">你：</span>"你希望更独立一点。"</span></div>
+        </div>
+        <div class="deep-item">
+          <div class="di-title">2 · Reflect Feeling（反映情绪）</div>
+          <div class="di-ex"><span class="pt-line"><span class="pt">病人：</span>"每次要找别人帮忙我都很烦。"</span><span class="pt-line"><span class="pt">你：</span>"那种感觉让你很挫败。"</span></div>
+        </div>
+        <div class="deep-item">
+          <div class="di-title">3 · Reflect Meaning（反映意义）</div>
+          <div class="di-ex"><span class="pt-line"><span class="pt">病人：</span>"我讨厌依赖别人。"</span><span class="pt-line"><span class="pt">你：</span>"对你来说，依赖别人好像代表自己不够好。"</span></div>
+        </div>
+        <div class="deep-item">
+          <div class="di-title">4 · Reflect Core Theme（反映核心主题）</div>
+          <div class="di-ex"><span class="pt-line"><span class="pt">病人：</span>"我总是需要别人。"</span><span class="pt-line"><span class="pt">你：</span>"你好像一直在努力证明自己可以靠自己。"</span></div>
+          <div class="note-inline">这个已经接近治疗层面了。</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="deep" id="deep-a" open>
+      <summary><span class="badge a" style="width:28px;height:28px;font-size:14px;">A</span> Agitate（制造不一致）— A 不是挑战（challenge），是把矛盾放到桌上</summary>
+      <div class="deep-body">
+        <div class="deep-item">
+          <div class="di-title">认知 vs 行为</div>
+          <div class="di-ex">"你说咨询不会有用，但你还是来了。"</div>
+        </div>
+        <div class="deep-item">
+          <div class="di-title">目标 vs 现实</div>
+          <div class="di-ex">"你很想独立，但现在好像常常不得不依赖别人。"</div>
+        </div>
+        <div class="deep-item">
+          <div class="di-title">希望 vs 恐惧</div>
+          <div class="di-ex">"你很希望跟别人靠近，但又很怕自己成为负担。"</div>
+        </div>
+        <div class="deep-item">
+          <div class="di-title">价值观 vs 自我评价</div>
+          <div class="di-ex">"你会照顾很多人，但对自己却非常严厉。"</div>
+          <div class="note-inline">这类 A 通常威力很大。</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="deep" id="deep-c" open>
+      <summary><span class="badge c" style="width:28px;height:28px;font-size:14px;">C</span> Concretize（具体化）— 从头脑回到现实</summary>
+      <div class="deep-body">
+        <div class="deep-item"><div class="di-title">找例子</div><div class="di-ex">"最近一次是什么时候？"</div></div>
+        <div class="deep-item"><div class="di-title">找情绪</div><div class="di-ex">"当时你是什么感觉？"</div></div>
+        <div class="deep-item"><div class="di-title">找身体</div><div class="di-ex">"你身体哪里最有感觉？"</div></div>
+        <div class="deep-item"><div class="di-title">找画面</div><div class="di-ex">"那一幕是什么样子？"</div></div>
+        <div class="deep-item"><div class="di-title">找第一反应</div><div class="di-ex">"脑子里第一句话是什么？"</div></div>
+        <div class="deep-item">
+          <div class="di-title">找意义</div><div class="di-ex">"当时这件事对你意味着什么？"</div>
+          <div class="note-inline">C 不只是事件。它是把抽象拉回体验（experience）。</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="deep" id="deep-e" open>
+      <summary><span class="badge e" style="width:28px;height:28px;font-size:14px;">E</span> Elicit（让他说需要）— 帮病人把隐含的需求说出来</summary>
+      <div class="deep-body">
+        <div class="note-inline" style="margin:0 0 10px;">很多病人只会说"我不要这样"，不会说"我想要什么"。</div>
+        <div class="note-inline" style="margin:0 0 14px;">而且 E 通常不是问一次就出来的——表层答案很正常，换个问法再问，或退回 C 再具体化一轮，来回几次才会真正触到核心。</div>
+        <div class="deep-item"><div class="di-title">想改变什么</div><div class="di-ex">"如果可以有一点不一样，你希望哪里先改变？"</div></div>
+        <div class="deep-item"><div class="di-title">想得到什么</div><div class="di-ex">"你最希望从咨询得到什么？"</div></div>
+        <div class="deep-item">
+          <div class="di-title">想相信什么</div>
+          <div class="di-ex"><span class="pt-line"><span class="pt">病人：</span>"我很没用。"</span><span class="pt-line"><span class="pt">你：</span>"如果不用相信自己没用，你希望自己相信什么？"</span></div>
+        </div>
+        <div class="deep-item">
+          <div class="di-title">内心渴求什么</div>
+          <div class="di-ex"><span class="pt-line"><span class="pt">病人：</span>"我不想依赖别人。"</span><span class="pt-line"><span class="pt">你：</span>"那个很想独立的部分，真正渴望的是什么？"</span></div>
+          <div class="note-inline">常见答案：自由 / 安全感 / 被尊重 / 被爱 / 不要成为负担。到这里就接近治疗核心了。</div>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<section id="demos">
+  <div class="wrap">
+    <div class="sec-label">Demonstrations</div>
+    <h2 class="sec-title">完整示范</h2>
+    <p class="sec-desc">同一套 RACE，在不同 insight 层级的来访者身上，走法完全不同。</p>
+
+    <div class="callout" style="margin-top:16px;">
+      <div class="pin">🔁 示范是压缩版</div>
+      <p>下面的对话为了讲清楚步骤而压缩了。现实中 E 很少一次就问出核心——常见的是问了只得到表层答案，需要换句话重问，或退回 C 再具体化一轮，来回好几次才会真正触到核心。一次没反应不代表方向错了，继续走就好。</p>
+    </div>
+
+    <div class="demo-block">
+      <div class="demo-head">
+        <h3>示范一 · High Insight</h3>
+        <span class="demo-tag">R → A → C → C → E</span>
+      </div>
+      <div class="dialogue">
+        <div class="line client"><div class="who">来访者</div><div class="txt">我知道应该放下，但就是放不下。</div></div>
+        <div class="line r"><div class="who">R</div><div class="txt">理智上接受了，情绪上还没有。</div></div>
+        <div class="line a"><div class="who">A</div><div class="txt">一年过去了，这件事似乎仍然影响着你。</div></div>
+        <div class="line c"><div class="who">C</div><div class="txt">最近一次想到她是什么时候？</div></div>
+        <div class="line client"><div class="who">来访者</div><div class="txt">上周经过以前一起吃饭的餐厅。</div></div>
+        <div class="line c"><div class="who">C</div><div class="txt">当时你停下来了吗？脑子里出现什么画面？</div></div>
+        <div class="line client"><div class="who">来访者</div><div class="txt">想到以前她坐在我对面。</div></div>
+        <div class="line e"><div class="who">E</div><div class="txt">那一刻最痛的部分是什么？</div></div>
+        <div class="line client"><div class="who">来访者</div><div class="txt">我觉得再也不会有人那样爱我了。</div></div>
+      </div>
+      <div class="demo-outcome">核心浮现 — 问题不是前女友，而是：<b>"我不相信自己还值得被爱。"</b></div>
+      <div class="demo-strategy"><b>RACE 最强的地方：</b>从故事 → 矛盾 → 具体场景 → 核心意义。高功能来访者会一直停留在故事和分析层面，RACE 就是把他往下挖。</div>
+    </div>
+
+    <div class="demo-block">
+      <div class="demo-head">
+        <h3>示范二 · Low Insight</h3>
+        <span class="demo-tag">R → C → C → C → C</span>
+      </div>
+      <div class="dialogue">
+        <div class="line client"><div class="who">来访者</div><div class="txt">都是我妈的问题。</div></div>
+        <div class="line r"><div class="who">R</div><div class="txt">你觉得妈妈给你很大压力。</div></div>
+        <div class="line a"><div class="who">A</div><div class="txt">但你好像也因此一直很痛苦。</div></div>
+        <div class="line c"><div class="who">C</div><div class="txt">上次跟妈妈冲突是什么时候？</div></div>
+        <div class="line e"><div class="who">E</div><div class="txt">这件事对你意味着什么？</div></div>
+        <div class="line client"><div class="who">来访者</div><div class="txt">不知道…… 反正就是她有问题。没什么。</div></div>
+      </div>
+      <div class="demo-outcome">Low insight 常见回答是"不知道 / 没什么" — <b>直接卡住</b>，因为 Elicit 需要 mentalization、self-awareness、emotional vocabulary，很多 low insight client 这些能力还没建立。</div>
+      <div class="demo-strategy">
+        <b>Low Insight 策略：R → C → C → C → C</b>，不断具体化，先建立觉察：
+        <ul>
+          <li>"她哪里让你生气？"</li>
+          <li>"当时她说了什么？"</li>
+          <li>"你身体有什么反应？"</li>
+          <li>"你后来做了什么？"</li>
+          <li>"你希望她怎么做？"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stuck">
+  <div class="wrap">
+    <div class="sec-label">Stuck Point · 专题</div>
+    <h2 class="sec-title">"有用"卡点 — 从 C 卡住到 E</h2>
+    <p class="sec-desc">最常见的卡点触发句：来访者说"这个方法有用 / work"。这本身就是一种理智化防御——用"有效"关闭情绪探索。拆解方式如下。</p>
+
+    <div class="demo-strategy" style="margin-top:24px;">
+      <b>A 的方向 — 不用额外制造，矛盾已经摆在桌上：</b>
+      如果真的"有用"，来访者为什么还要谈这件事、还要来做治疗？"有用"和"还在这里"本身就矛盾。
+      <ul>
+        <li>"如果这个方法真的都有用，是什么让你今天还是想聊这个？"</li>
+        <li>或抓不一致："你说'有用'的时候声音很平，但刚刚讲到这件事，你皱了一下眉。"</li>
+      </ul>
+    </div>
+
+    <div class="demo-strategy">
+      <b>C 的方向 — 这正是你已经想到的那一步：</b>
+      "有用"是一个概括性判断，C 的任务就是拆穿概括、找反例。
+      <ul>
+        <li>"有没有一次，这个方法没用？"</li>
+        <li>"上一次它失灵，是什么时候？"</li>
+        <li>"什么情况下最容易失灵？"</li>
+      </ul>
+      找到那个具体时刻后，别停在"有一次没用"这句话上——继续用 C 的六个抓手（情绪／身体／画面／第一反应）往下挖那个瞬间。
+    </div>
+
+    <div class="demo-strategy">
+      <b>E 的方向：</b>
+      在"失灵"的那个具体时刻里问"当时真正需要的是什么"——这通常就是"有用"这个防御一直在挡住、没被说出来的需求。
+    </div>
+
+    <div class="demo-block">
+      <div class="demo-head">
+        <h3>示范三 · "有用"卡点</h3>
+        <span class="demo-tag">R → A → C → C → E</span>
+      </div>
+      <div class="dialogue">
+        <div class="line client"><div class="who">来访者</div><div class="txt">我一直靠让自己很忙来处理压力，这个方法很有用。</div></div>
+        <div class="line r"><div class="who">R</div><div class="txt">忙起来，好像真的能把压力压下去。</div></div>
+        <div class="line a"><div class="who">A</div><div class="txt">如果真的都有用，是什么让你今天还是想聊这个？</div></div>
+        <div class="line client"><div class="who">来访者</div><div class="txt">……可能因为最近有点撑不住了。</div></div>
+        <div class="line c"><div class="who">C</div><div class="txt">最近一次这个方法没用，是什么时候？</div></div>
+        <div class="line client"><div class="who">来访者</div><div class="txt">上周日，家里没什么事让我忙，我一个人在家，突然觉得很不安。</div></div>
+        <div class="line c"><div class="who">C</div><div class="txt">那天你身体有什么感觉？脑子里出现了什么？</div></div>
+        <div class="line client"><div class="who">来访者</div><div class="txt">胸口很闷，一直在想是不是哪里没做好。</div></div>
+        <div class="line e"><div class="who">E</div><div class="txt">那天最需要的是什么？</div></div>
+        <div class="line client"><div class="who">来访者</div><div class="txt">……可能只是希望有人能告诉我，我不用一直做才有价值。</div></div>
+      </div>
+      <div class="demo-outcome">核心浮现 — 忙碌不是压力管理工具，而是在逃避：<b>"停下来就没有价值"</b> 的恐惧。</div>
+    </div>
+
+    <div class="script-card">
+      <h4>最短可说版 — "有用"卡点</h4>
+      <div class="sline a"><b>A</b><span>"如果真的都有用，是什么让你还想说这个？"</span></div>
+      <div class="sline c"><b>C</b><span>"最近一次没用 / 失灵是什么时候？当时身体、脑子里出现了什么？"</span></div>
+      <div class="sline e"><b>E</b><span>"那次真正需要的是什么？"</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="criteria">
+  <div class="wrap">
+    <div class="sec-label">Judgment</div>
+    <h2 class="sec-title">判断标准 — 什么时候可以进 E</h2>
+    <div class="two-col">
+      <div class="crit-box yes">
+        <div class="crit-title">✅ 可以开始 E</div>
+        <div class="quote">"我觉得自己被忽视了。"</div>
+        <div class="quote">"我害怕失败。"</div>
+        <div class="quote">"我其实很失望。"</div>
+      </div>
+      <div class="crit-box no">
+        <div class="crit-title">❌ 继续 C，不要急</div>
+        <div class="quote">"不知道。"</div>
+        <div class="quote">"没事。"</div>
+        <div class="quote">"反正就是烦。"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="paths" class="tight">
+  <div class="wrap">
+    <div class="sec-label">Insight Levels</div>
+    <h2 class="sec-title">三种 Insight Level 路径</h2>
+
+    <div class="path-card">
+      <div class="path-name">High insight</div>
+      <div class="path-flow">
+        <span class="step" style="background:var(--r)">R</span><span class="arrow">→</span>
+        <span class="step" style="background:var(--a)">A</span><span class="arrow">→</span>
+        <span class="step" style="background:var(--c)">C</span><span class="arrow">→</span>
+        <span class="step" style="background:var(--e)">E</span>
+      </div>
+      <div class="path-note">一次走完整套</div>
+    </div>
+
+    <div class="path-card">
+      <div class="path-name">Moderate insight</div>
+      <div class="path-flow">
+        <span class="step" style="background:var(--r)">R</span><span class="arrow">→</span>
+        <span class="step" style="background:var(--a)">A</span><span class="arrow">→</span>
+        <span class="step" style="background:var(--c)">C</span><span class="arrow">→</span>
+        <span class="step" style="background:var(--e)">E</span>
+      </div>
+      <div class="path-note">需要很多辅助（多轮 C 铺垫）</div>
+    </div>
+
+    <div class="path-card">
+      <div class="path-name">Low insight</div>
+      <div class="path-flow">
+        <span class="step" style="background:var(--r)">R</span><span class="arrow">→</span>
+        <span class="step" style="background:var(--c)">C</span><span class="arrow">→</span>
+        <span class="step" style="background:var(--c)">C</span><span class="arrow">→</span>
+        <span class="step" style="background:var(--c)">C</span><span class="arrow">→</span>
+        <span class="step" style="background:var(--c)">C</span>
+      </div>
+      <div class="path-note">先培养观察能力，E 很后面才出现</div>
+    </div>
+  </div>
+</section>
+
+<section id="theme">
+  <div class="wrap">
+    <div class="sec-label">Meta Insight</div>
+    <h2 class="sec-title">但其实这可能正是主题</h2>
+    <div class="theme-box">
+      <p class="theme-lead">如果一个来访者来了 5 次都在说 <b>"我不知道我要什么"</b> ——</p>
+      <p class="theme-lead">那可能不是治疗卡住，那可能就是他的核心困境本身。</p>
+    </div>
+
+    <div class="demo-block">
+      <div class="demo-head"><h3>示范</h3></div>
+      <div class="dialogue">
+        <div class="line r"><div class="who">R</div><div class="txt">你花了很多时间想弄清楚自己到底要什么。</div></div>
+        <div class="line a"><div class="who">A</div><div class="txt">但好像越努力弄清楚，反而越不确定。</div></div>
+        <div class="line c"><div class="who">C</div><div class="txt">最近一次你又陷入这种犹豫是什么时候？</div></div>
+        <div class="line e"><div class="who">E</div><div class="txt">如果有一天你不用百分之百确定才能行动，会发生什么？</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="script" class="tight">
+  <div class="wrap">
+    <div class="sec-label">Quick Script</div>
+    <h2 class="sec-title">最短可说版</h2>
+    <p class="sec-desc">如果下次又卡在"不知道要什么"：</p>
+    <div class="script-card">
+      <div class="sline r"><b>R</b><span>"你已经想了很久，还是不知道自己真正需要什么。"</span></div>
+      <div class="sline a"><b>A</b><span>"但好像越努力想明白，反而越卡住。"</span></div>
+      <div class="sline c"><b>C</b><span>"最近一次你被这个问题困住是什么时候？"</span></div>
+      <div class="sline e"><b>E</b><span>"如果暂时不用找到正确答案，你现在最在意的是什么？"</span></div>
+    </div>
+    <div class="note-inline">送你一句适合这类来访者的提醒：<i>（这句提醒待补充 — 原始笔记中这句话未附上，先留空，想到后可以直接编辑这段替换。）</i></div>
+  </div>
+</section>
+
+
+<footer style="padding:36px 0 60px; text-align:center; color:var(--ink-faint); font-size:12.5px;">
+  RACE — Reflect · Agitate · Concretize · Elicit
+</footer>
+
+</main>
+
+</body>
+</html>
