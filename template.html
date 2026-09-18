@@ -2,112 +2,208 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>Template</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Template (Copy)</title>
 <style>
 *{box-sizing:border-box;}
-body{
-  margin:0;background:#e9e9e9;font-family:Arial, sans-serif;color:#000;
-  padding:40px 0;
-}
-.page{
-  max-width:850px;margin:0 auto;background:#fff;padding:60px 70px;
-  box-shadow:0 1px 4px rgba(0,0,0,0.2);
-  outline:none;
-}
+body{margin:0;background:#e9e9e9;font-family:Arial, sans-serif;color:#000;padding:40px 16px;}
+.wrap{max-width:1040px;margin:0 auto;display:flex;gap:20px;align-items:flex-start;}
+nav{width:170px;flex:none;position:sticky;top:20px;display:flex;flex-direction:column;gap:6px;}
+nav button{text-align:left;padding:10px 14px;border:0;border-left:3px solid transparent;background:#fff;color:#000;font:14px Arial,sans-serif;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.15);}
+nav button:hover{background:#f5f5f5;}
+nav button.on{border-left-color:#000;font-weight:700;}
+.main{flex:1;min-width:0;}
+.page{background:#fff;padding:60px 70px;box-shadow:0 1px 4px rgba(0,0,0,0.2);outline:none;min-height:80vh;overflow-x:auto;}
+.page[hidden]{display:none;}
 h1{font-size:26px;font-weight:400;margin:0 0 20px;}
 p{margin:0 0 8px;font-size:12.5pt;line-height:1.5;}
 ul{margin:0 0 8px 24px;padding:0;}
 li{font-size:12.5pt;line-height:1.5;}
 b{font-weight:700;}
+table{border-collapse:collapse;width:100%;margin-bottom:16px;}
+td{border:1px solid #ccc;padding:6px 10px;}
+td.k{font-weight:700;}
+td.k:first-child{width:22%;}
 .tip{color:#999;font-size:11px;text-align:center;margin-bottom:14px;}
+@media(max-width:760px){.wrap{flex-direction:column;}nav{width:100%;position:static;flex-direction:row;flex-wrap:wrap;}.page{padding:30px 22px;}}
 </style>
 </head>
 <body>
 <div class="tip">点击下方文档任意处即可直接编辑 / 添加内容</div>
-<div class="page" contenteditable="true">
-
+<div class="wrap">
+<nav>
+<button data-p="home" class=on>Template</button>
+<button data-p="hpi">HPI</button>
+<button data-p="mse">MSE</button>
+<button data-p="scales">PHQ-9 / GAD-7</button>
+</nav>
+<div class="main">
+<div class="page" id="home" contenteditable="true">
 <h1>Template</h1>
 
-<p>Court history: </p>
-<p>Chief complaint: please complete reliability, <b>if more than pt, put verbal consent.</b></p>
-<p>the patient presents with spouse to complete intake assessment. With the patient's verbal consent, the spouse remain in session and contributed to the intake assessment</p>
-<p>&nbsp;</p>
-
-<p><b>Past Psychiatric History:</b></p>
+<p><b>Court case</b></p>
 <ul>
-<li>denied at this time or none being reported at this time</li>
-<li>No significant history reported</li>
-<li><b>receiving mental health treatment from Dr. Chen Jianping.</b></li>
+<li>Pt denied any hx of <b>legal involvement</b>.</li>
+<li>Pt reported <b>current legal involvement</b>.</li>
 </ul>
-
-<p><b>Substance Use History</b>: denied at this time or none being reported at this time</p>
-
-<p><b>Medical History:</b></p>
+<p><b>Annual Physical / Wellness Visit:</b></p>
+<p><b>Chief Complaint / Reliability, please complete reliability</b></p>
 <ul>
-<li><b>Symptoms are being monitored by PCP if they're seeing PCP for it</b></li>
-<li><b>the patient is currently taking medication prescribed by PCP to manage the symptoms if they're taking med</b></li>
+<li>Pt presented <b>with spouse</b> for an initial intake assessment. With pt's <b>verbal consent</b>, spouse remained in session and provided collateral information.</li>
+<li>Information was obtained primarily through pt <b>self-report</b>.</li>
+</ul>
+<p><b>Past Psychiatric History</b></p>
+<ul>
+<li>Pt denied any hx of <b>psychiatric/mental health treatment</b>.</li>
+<li>Pt denied any hx of <b>psychiatric hospitalization</b>.</li>
+<li>Pt reported receiving mental health treatment from <b>Dr. Chen Jianping</b>.</li>
+</ul>
+<p><b>Substance Use History</b></p>
+<ul>
+<li>Pt denied any hx of <b>substance use</b>.</li>
+</ul>
+<p><b>Medical History</b></p>
+<ul>
+<li><b>Symptoms are being <b>monitored by PCP</b> if they're seeing PCP for it</b></li>
+<li><b>the patient is currently taking medication <b>prescribed by PCP</b> to manage the symptoms if they're taking med</b></li>
 <li>Denied history of hospitalization and major medical illness</li>
+<li><b>no significant medical hx</b> being reported at this time</li>
+<li>Pt denied any hx of <b>major medical illness</b>.</li>
+<li>Pt reported that medical conditions are currently <b>monitored by PCP</b>.</li>
+<li>Pt reported taking medications as <b>prescribed by PCP</b>.</li>
+<li>Pt reported a hx of <b>hypertension, hyperlipidemia, and hyperglycemia</b>.</li>
+<li>Pt reported taking <b>zolpidem tartrate 5 mg</b>.</li>
+<li>Pt denied any hx of <b>medical hospitalization</b>.</li>
 </ul>
-
-<p><b>Pt reproted high blood pressure, High cholesterol, hyperglycemia, currently taking zolpidem tartrate 5 mg tablet</b></p>
+<p>&nbsp;</p>
+<p><b>Social History</b></p>
+<p><b>Living Situation</b></p>
+<ul>
+<li>Pt currently resides in a <b>rented apartment</b> <b>with spouse</b>, and having own room.</li>
+<li>Pt currently resides in a <b>self-owned house</b> with family.</li>
+<li>Pt reported a <b>stable</b> living environment.</li>
+</ul>
+<p><b>Marital Status</b></p>
+<p>&nbsp;</p>
+<p><b>Education</b></p>
+<ul>
+<li>Pt completed high school.</li>
+</ul>
+<p><b>Employment</b></p>
+<p>&nbsp;</p>
+<p><b>Financial Situation</b></p>
+<ul>
+<li>Pt described financial situation as <b>stable</b>. income resources: what partner did</li>
+<li>Pt described financial situation as <b>fair</b>.</li>
+<li>Pt reported <b>financial difficulties</b>.</li>
+</ul>
+<p><b>Social Support</b></p>
+<ul>
+<li>Pt identified family members as primary sources of support.</li>
+<li>Pt identified friends and family as sources of emotional support.</li>
+<li>Pt reported <b>limited social support</b>.</li>
+</ul>
+<p><b>Religion / Spirituality</b></p>
+<p>&nbsp;</p>
+<p><b>Family History</b></p>
+<ul>
+<li>Pt denied any known <b>family hx of psychiatric disorders</b>.</li>
+<li>Pt reported maintaining a <b>positive relationship</b> with family members.</li>
+<li>Pt reported ongoing <b>interpersonal conflicts</b> with family members.</li>
+</ul>
+<p><b>Children</b></p>
+<ul>
+<li>Pt reported having two adult daughters, one residing in Staten Island and the other in Florida.</li>
+<li>Pt reported maintaining regular contact with children.</li>
+</ul>
+<p><b>Trauma History</b></p>
+<ul>
+<li>Pt denied any hx of <b>trauma</b>.</li>
+<li>Pt reported a hx of <b>traumatic experiences</b>.</li>
+</ul>
+<p><b>Interests / Hobbies</b></p>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 
-<p>protective factor: family willing to join?</p>
-<p>&nbsp;</p>
-<p>risk factor:,</p>
-<p>&nbsp;</p>
-<p>safety plan,</p>
-<p>&nbsp;</p>
-
-<p><b>Social History:</b></p>
-<p>Living condition: living in a rented/self-own house/apartment, living with wife</p>
-<p>Marital status: married</p>
-<p>Children: two adult daughter, one resides in staten island, one resides in FL.</p>
-<p>Education: high school</p>
-<p>Employment: retired</p>
-<p>Financial situation: fair, <b>sources of income</b>, patient and the husband <b>hold a full time job</b></p>
-<p>Social support: <b>friends, family?</b></p>
-<p>Religion or spirituality: none</p>
-<p>Immigration history: <b>Pending</b></p>
-<p>interest/habit:</p>
+<p><b>Psychiatric Evaluation:</b></p>
+<ul>
+<li><b>pending if symptom worse</b></li>
+<li>Recommend Psychiatric Consultation for medication management. Pt <b>agreed</b>.</li>
+<li>Psychiatric evaluation <b>completed on</b></li>
+<li>Recommend Psychiatric Consultation for medication management. Pt <b>declined</b>. Will continue to engage patient for psych consultation as needed.</li>
+<li>Patient is receiving medication management through <b>BHI program</b>.</li>
+<li>Patient is actively enrolled into <b>BHI program</b>. Discussed medication management with pt through <b>BHI program</b>. Pt <b>declined</b> at this time.</li>
+</ul>
+<p><b>Other referrals:</b></p>
 <p>&nbsp;</p>
 
-<p><b>Family History:</b> the patient's relationship with the children and the partner</p>
+<p><b>Follow-up:</b></p>
+<ul>
+<li>Return <b>4 weeks</b>, because the therapist is at <b>full capacity</b>, or earlier if needed.</li>
+<li>Pt reported no current concerns and stated that they do not feel additional therapy is needed at this time. Pt <b>declined further treatment</b>. Therapist discussed the option of continued care and encouraged pt to seek services if symptoms recur or worsen. Pt verbalized understanding. <b>No further appointments scheduled</b> at pt's request.</li>
+<li>psychotherapy: <b>updated on 09/11/2026</b>: Pt reported feeling better, no concern at this time and <b>requested to terminate treatment</b> due to a busy work schedule.</li>
+<li><b>Treatment Plan Achieved</b> on 09/11/2026</li>
+</ul>
 <p>&nbsp;</p>
 
-<p><b>Risk Assessment:</b> Please see HPI or low risk</p>
-<p>Recent life upheaval: experiencing significant relationship stressors</p>
-<p>History of trauma: <b>denied at this time or none being reported at this time</b></p>
-<p>Risk of harm: Patient denied suicidal/homicidal ideas or intentions.</p>
+<p><b>Risk Assessment:</b></p>
+<ul>
+<li><b>risk level</b></li>
+<li>contain risk factors but pt is <b>willing to make positive change</b>.</li>
+<li>Low acute risk; elevated chronic risk due to psychiatric history.</li>
+</ul>
+<p>Recent life upheaval: the son demands the patient to move out.</p>
+<p>History of trauma: denied at this time.</p>
+<p>Risk of harm:</p>
+<ul>
+<li>Patient denied <b>suicidal/homicidal ideas or intentions</b>.</li>
+<li>Patient reported <b>passive</b> suicidal/homicidal ideas but denied any concrete plans.</li>
+<li>Patient reported <b>imminent danger</b> to self or others. <b>Crisis intervention</b> provided during the visit.</li>
+<li>The patient reported suicidal thought with <b>plan of jumping off from the bridge</b>, <b>no attempt</b>. Pt reported a desire to continue seeing his son and daughter's future as a <b>protective factor</b>. The therapist reviewed <b>safety planning</b> with the patient. The therapist also conducted safety assessment with the patient who denied having any urge/intent/impulse of suicidal or homicidal ideation at this time.</li>
+</ul>
+</div>
+<div class="page" id="hpi" contenteditable="true" hidden>
+<h1>HPI</h1>
+<p><b>Cantonese-speaking female</b> who was <b>transferred from a previous therapist</b> for continuation of psychotherapy. The patient had completed <b>#  psychotherapy sessions</b> with the former therapist prior to transfer.</p>
 <p>&nbsp;</p>
-
-<h1 style="font-size:22px;">MSE</h1>
-<table style="border-collapse:collapse;width:100%;margin-bottom:16px;">
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;width:22%;">Item</td><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">好 → 差排序</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">General Appearance</td><td style="border:1px solid #ccc;padding:6px 10px;">well-groomed / appropriate dress → casually dressed → mildly unkempt → disheveled → poorly groomed / poor hygiene → bizarre / inappropriate</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Build/Stature 身材</td><td style="border:1px solid #ccc;padding:6px 10px;">within normal limits → thin / overweight → underweight / obese → frail / cachectic 体弱 / 恶病质</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Posture 坐姿</td><td style="border:1px solid #ccc;padding:6px 10px;">within normal limits / upright / relaxed → mildly tense / guarded → slouched 懒散 → rigid 僵硬 → abnormal posture or uses assistive device (cane)</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Eye Contact</td><td style="border:1px solid #ccc;padding:6px 10px;">good → fair / intermittent → avoidant → poor → intense/staring</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Activity</td><td style="border:1px solid #ccc;padding:6px 10px;">within normal limits → mildly restless → hyperactive / hypoactive → agitated → severely slowed / immobile</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Attitude Toward Examiner</td><td style="border:1px solid #ccc;padding:6px 10px;">cooperative / pleasant → guarded → defensive → evasive → suspicious → hostile / uncooperative</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Psychomotor Activity<br>他的身体动作有没有躁动或迟缓</td><td style="border:1px solid #ccc;padding:6px 10px;">within normal limits → mild fidgeting/restlessness → agitation → psychomotor retardation → severe agitation / severe slowing&nbsp;&nbsp;&nbsp;&nbsp;Ex: Mild psychomotor agitation evidenced by repetitive finger rubbing.</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Attention/Concentration</td><td style="border:1px solid #ccc;padding:6px 10px;">alert / attentive → mildly distractible → impaired concentration → poor attention → unable to sustain attention</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Speech</td><td style="border:1px solid #ccc;padding:6px 10px;">normal rate/rhythm → soft / loud / minimal → rapid / slow → pressured pt 好像被一股内在力量推着一直说，很难停、很难打断、话题不断往前冲。 → mumbled 嘟囔的说 / incoherent</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Affect</td><td style="border:1px solid #ccc;padding:6px 10px;">full / appropriate / congruent → mildly restricted → constricted → blunted → flat → labile / inappropriate</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Mood</td><td style="border:1px solid #ccc;padding:6px 10px;">euthymic → neutral → mildly anxious/sad/irritable → depressed/anxious/angry → severely depressed / elevated / labile 不稳定的</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Thought Process</td><td style="border:1px solid #ccc;padding:6px 10px;">intact/logical / linear 一条线讲完，不绕 / goal-directed → circumstantial → tangential → flight of ideas → loose associations 话题连接变松 → disorganized</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Thought Content</td><td style="border:1px solid #ccc;padding:6px 10px;">rational/non-psychotic → mild preoccupation → obsessive/ruminative 反复纠结 → paranoid ideation → SI/HI → delusional content</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Delusions</td><td style="border:1px solid #ccc;padding:6px 10px;">none reported → questionable suspicious beliefs → persecutory/paranoid/grandiose/somatic/religious delusions</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Perception</td><td style="border:1px solid #ccc;padding:6px 10px;">within normal limits → mild perceptual disturbance → depersonalization/derealization → illusions 错觉 → hallucinations</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Hallucinations</td><td style="border:1px solid #ccc;padding:6px 10px;">denies → none observed but unclear → auditory/visual/tactile/olfactory → command hallucinations</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Cognition</td><td style="border:1px solid #ccc;padding:6px 10px;">within normal limits → mild memory/concentration issue → impaired memory/orientation → confused → severely impaired</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Intelligence Estimate</td><td style="border:1px solid #ccc;padding:6px 10px;">above average → average → below average → unable to assess</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Insight</td><td style="border:1px solid #ccc;padding:6px 10px;">good → fair → limited → poor</td></tr>
-<tr><td style="border:1px solid #ccc;padding:6px 10px;font-weight:700;">Judgment</td><td style="border:1px solid #ccc;padding:6px 10px;">good → fair → limited → poor / impaired</td></tr>
+<p><b>Safety Assessment:</b></p>
+<p>Pt denied any <b>SI, suicidal plan, intent, urges, and preparatory behaviors</b> at this time.</p>
+<p>Pt denied any hx of <b>suicide attempts, self-harm, or psychiatric hospitalization</b>.</p>
+<p>Pt denied any <b>HI, AH, and VH</b> at this time.</p>
+<p><b>Passive SI:</b> Pt endorsed <b>passive SI</b>, including <b>thoughts of being better off dead</b>, but denied active SI.</p>
+<p><b>Active SI:</b> Pt endorsed <b>active SI without</b> a specific <b>method, plan, or intent</b>.</p>
+<p><b>SI with method:</b> Pt endorsed <b>active SI involving [method]</b> but denied a specific plan or intent.</p>
+<p><b>SI with intent:</b> Pt endorsed <b>active SI with intent to act</b> but denied having a specific plan.</p>
+<p><b>SI with plan and intent:</b> Pt endorsed <b>active SI with a specific plan</b> involving <b>[method]</b> and <b>intent to act</b>.</p>
+</div>
+<div class="page" id="mse" contenteditable="true" hidden>
+<h1>MSE</h1>
+<table>
+<tr><td class="k">Item</td><td class=k>好 → 差排序</td></tr>
+<tr><td class="k">General Appearance</td><td>well-groomed / appropriate dress → casually dressed → mildly unkempt → disheveled → poorly groomed / poor hygiene → bizarre / inappropriate</td></tr>
+<tr><td class="k">Build/Stature 身材</td><td>within normal limits → thin / overweight → underweight / obese → frail / cachectic 体弱 / 恶病质</td></tr>
+<tr><td class="k">Posture 坐姿</td><td>within normal limits / upright / relaxed → mildly tense / guarded → slouched 懒散 → rigid 僵硬 → abnormal posture or uses assistive device (cane)</td></tr>
+<tr><td class="k">Eye Contact</td><td>good → fair / intermittent → avoidant → poor → intense/staring</td></tr>
+<tr><td class="k">Activity</td><td>within normal limits → mildly restless → hyperactive / hypoactive → agitated → severely slowed / immobile</td></tr>
+<tr><td class="k">Attitude Toward Examiner</td><td>cooperative / pleasant → guarded → defensive → evasive → suspicious → hostile / uncooperative</td></tr>
+<tr><td class="k">Psychomotor Activity<br>他的身体动作有没有躁动或迟缓</td><td>within normal limits → mild fidgeting/restlessness → agitation → psychomotor retardation → severe agitation / severe slowing&nbsp;&nbsp;&nbsp;&nbsp;Ex: Mild psychomotor agitation evidenced by repetitive finger rubbing.</td></tr>
+<tr><td class="k">Attention/Concentration</td><td>alert / attentive → mildly distractible → impaired concentration → poor attention → unable to sustain attention</td></tr>
+<tr><td class="k">Speech</td><td>normal rate/rhythm → soft / loud / minimal → rapid / slow → pressured pt 好像被一股内在力量推着一直说，很难停、很难打断、话题不断往前冲。 → mumbled 嘟囔的说 / incoherent</td></tr>
+<tr><td class="k">Affect</td><td>full / appropriate / congruent → mildly restricted → constricted → blunted → flat → labile / inappropriate</td></tr>
+<tr><td class="k">Mood</td><td>euthymic → neutral → mildly anxious/sad/irritable → depressed/anxious/angry → severely depressed / elevated / labile 不稳定的</td></tr>
+<tr><td class="k">Thought Process</td><td>intact/logical / linear 一条线讲完，不绕 / goal-directed → circumstantial → tangential → flight of ideas → loose associations 话题连接变松 → disorganized</td></tr>
+<tr><td class="k">Thought Content</td><td>rational/non-psychotic → mild preoccupation → obsessive/ruminative 反复纠结 → paranoid ideation → SI/HI → delusional content</td></tr>
+<tr><td class="k">Delusions</td><td>none reported → questionable suspicious beliefs → persecutory/paranoid/grandiose/somatic/religious delusions</td></tr>
+<tr><td class="k">Perception</td><td>within normal limits → mild perceptual disturbance → depersonalization/derealization → illusions 错觉 → hallucinations</td></tr>
+<tr><td class="k">Hallucinations</td><td>denies → none observed but unclear → auditory/visual/tactile/olfactory → command hallucinations</td></tr>
+<tr><td class="k">Cognition</td><td>within normal limits → mild memory/concentration issue → impaired memory/orientation → confused → severely impaired</td></tr>
+<tr><td class="k">Intelligence Estimate</td><td>above average → average → below average → unable to assess</td></tr>
+<tr><td class="k">Insight</td><td>good → fair → limited → poor</td></tr>
+<tr><td class="k">Judgment</td><td>good → fair → limited → poor / impaired</td></tr>
 </table>
-<p>&nbsp;</p>
-
-<h1 style="font-size:22px;">PHQ-9 (Since)</h1>
+</div>
+<div class="page" id="scales" contenteditable="true" hidden>
+<h1>PHQ-9 (Since)</h1>
 
 <p><b>1. Anhedonia</b></p>
 <ul>
@@ -173,7 +269,7 @@ b{font-weight:700;}
 </ul>
 
 <p>&nbsp;</p>
-<h1 style="font-size:22px;">GAD-7</h1>
+<h1>GAD-7</h1>
 
 <p><b>1. Feeling Nervous, Anxious, or On Edge（焦虑/紧绷状态）</b></p>
 <ul>
@@ -225,5 +321,16 @@ b{font-weight:700;}
 </ul>
 
 </div>
+</div>
+</div>
+<script>
+document.querySelectorAll('nav button').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x===b);});
+    document.querySelectorAll('.page').forEach(function(p){p.hidden=p.id!==b.dataset.p;});
+    window.scrollTo(0,0);
+  };
+});
+</script>
 </body>
 </html>
