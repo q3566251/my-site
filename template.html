@@ -7,8 +7,9 @@
 <style>
 *{box-sizing:border-box;}
 body{margin:0;background:#e9e9e9;font-family:Arial, sans-serif;color:#000;padding:40px 16px;}
+.topbar{max-width:1040px;margin:0 auto 14px;display:flex;flex-direction:column;align-items:center;gap:8px;}
 .wrap{max-width:1040px;margin:0 auto;display:flex;gap:20px;align-items:flex-start;}
-nav{width:170px;flex:none;position:sticky;top:20px;display:flex;flex-direction:column;gap:6px;}
+nav{width:170px;flex:none;display:flex;flex-direction:column;gap:6px;}
 nav button{text-align:left;padding:10px 14px;border:0;border-left:3px solid transparent;background:#fff;color:#000;font:14px Arial,sans-serif;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.15);}
 nav button:hover{background:#f5f5f5;}
 nav button.on{border-left-color:#000;font-weight:700;}
@@ -24,12 +25,31 @@ table{border-collapse:collapse;width:100%;margin-bottom:16px;}
 td{border:1px solid #ccc;padding:6px 10px;}
 td.k{font-weight:700;}
 td.k:first-child{width:22%;}
-.tip{color:#999;font-size:11px;text-align:center;margin-bottom:14px;}
-@media(max-width:760px){.wrap{flex-direction:column;}nav{width:100%;position:static;flex-direction:row;flex-wrap:wrap;}.page{padding:30px 22px;}}
+.tip{color:#999;font-size:11px;text-align:center;}
+.search-wrap{position:relative;width:100%;max-width:420px;}
+#searchBox{width:100%;padding:9px 12px;border:1px solid #ccc;border-radius:4px;font:13px Arial,sans-serif;box-sizing:border-box;background:#fff;}
+#searchBox:focus{outline:2px solid #999;}
+.search-results{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid #ccc;box-shadow:0 2px 8px rgba(0,0,0,0.2);max-height:300px;overflow-y:auto;z-index:100;}
+.sr-item{padding:8px 10px;font-size:12.5px;line-height:1.4;border-bottom:1px solid #eee;cursor:pointer;}
+.sr-item:hover{background:#f5f5f5;}
+.sr-tag{display:inline-block;background:#eee;color:#555;font-size:10.5px;padding:1px 6px;border-radius:3px;margin-right:6px;vertical-align:1px;}
+.sr-empty{padding:8px 10px;font-size:12.5px;color:#999;}
+.hl{background:#fff59d;transition:background 1.2s ease;}
+@media(max-width:480px){
+  .wrap{flex-direction:column;}
+  nav{width:100%;flex-direction:row;flex-wrap:wrap;}
+  .page{padding:30px 22px;}
+}
 </style>
 </head>
 <body>
+<div class="topbar">
 <div class="tip">点击下方文档任意处即可直接编辑 / 添加内容</div>
+<div class="search-wrap">
+<input type="text" id="searchBox" placeholder="搜索内容关键词…" autocomplete="off">
+<div class="search-results" id="searchResults"></div>
+</div>
+</div>
 <div class="wrap">
 <nav>
 <button data-p="home" class=on>Template</button>
@@ -139,9 +159,11 @@ td.k:first-child{width:22%;}
 
 <p><b>Follow-up:</b></p>
 <ul>
+<li>Plan: No future therapy appointed will be needed at this time, if the pt terminated.</li>
 <li>Return <b>4 weeks</b>, because the therapist is at <b>full capacity</b>, or earlier if needed.</li>
 <li>Pt reported no current concerns and stated that they do not feel additional therapy is needed at this time. Pt <b>declined further treatment</b>. Therapist discussed the option of continued care and encouraged pt to seek services if symptoms recur or worsen. Pt verbalized understanding. <b>No further appointments scheduled</b> at pt's request.</li>
 <li>psychotherapy: <b>updated on 09/11/2026</b>: Pt reported feeling better, no concern at this time and <b>requested to terminate treatment</b> due to a busy work schedule.</li>
+<li><b>Treatment Recommendations:</b> A clinic or outpatient treatment setting is recommended because patient is impaired to the degree that there is relatively mild interference with interpersonal /occupational functioning.<br><b>Psychotherapy:</b> psychotherapy updated on 09/11/2026: Pt reported feeling better, no concern at this time and requested to terminate treatment due to a busy work schedule.<br><b>Psychiatric Evaluation:</b> Recommend Psychiatric Consultation for medication management. Pt declined due to symptoms has improved. Will continue to engage patient for psych consultation as needed.</li>
 <li><b>Treatment Plan Achieved</b> on 09/11/2026</li>
 </ul>
 <p>&nbsp;</p>
@@ -180,18 +202,18 @@ td.k:first-child{width:22%;}
 <h1>MSE</h1>
 <table>
 <tr><td class="k">Item</td><td class=k>好 → 差排序</td></tr>
-<tr><td class="k">General Appearance</td><td>well-groomed / appropriate dress → casually dressed → mildly unkempt → disheveled → poorly groomed / poor hygiene → bizarre / inappropriate</td></tr>
-<tr><td class="k">Build/Stature 身材</td><td>within normal limits → thin / overweight → underweight / obese → frail / cachectic 体弱 / 恶病质</td></tr>
-<tr><td class="k">Posture 坐姿</td><td>within normal limits / upright / relaxed → mildly tense / guarded → slouched 懒散 → rigid 僵硬 → abnormal posture or uses assistive device (cane)</td></tr>
+<tr><td class="k">General Appearance</td><td>well-groomed / appropriately dressed → Casually dressed（穿 T-shirt、牛仔裤等休闲服装） → Mildly unkempt（头发稍乱，衣服略显凌乱） → Disheveled（头发蓬乱、衣服皱乱，整体明显不整齐） → Poorly groomed（头发明显缺乏打理，整体仪容欠佳） → Poor hygiene（明显体味、衣服有污渍，或可观察到个人清洁不足） → Bizarre appearance（穿着或装扮明显不同寻常，且无法仅用文化或个人风格解释） / Inappropriately dressed（寒冷天气穿着明显不足，或衣着明显不适合当前环境）</td></tr>
+<tr><td class="k">Build/Stature 身材</td><td>within normal limits / thin / overweight / underweight / obese / Frail（身体显得虚弱，例如动作缓慢、站立不稳；不能仅凭外观确诊衰弱） / Cachectic（明显消瘦，伴肌肉流失；不能仅凭外观确诊恶病质）</td></tr>
+<tr><td class="k">Posture 坐姿</td><td>within normal limits / upright（坐姿端正，背部挺直） / relaxed / mildly tense / guarded / slouched（弯腰驼背） / rigid（身体姿势明显僵硬，缺乏自然活动） / abnormal posture / uses assistive device</td></tr>
 <tr><td class="k">Eye Contact</td><td>good → fair / intermittent → avoidant → poor → intense/staring</td></tr>
-<tr><td class="k">Activity</td><td>within normal limits → mildly restless → hyperactive / hypoactive → agitated → severely slowed / immobile</td></tr>
+<tr><td class="k">Activity</td><td>within normal limits → mildly restless（轻度坐立不安） → hyperactive（活动量增加） / hypoactive（活动量减少） → markedly decreased activity（活动显著减少） / immobile（几乎不动）</td></tr>
 <tr><td class="k">Attitude Toward Examiner</td><td>cooperative / pleasant → guarded → defensive → evasive → suspicious → hostile / uncooperative</td></tr>
-<tr><td class="k">Psychomotor Activity<br>他的身体动作有没有躁动或迟缓</td><td>within normal limits → mild fidgeting/restlessness → agitation → psychomotor retardation → severe agitation / severe slowing&nbsp;&nbsp;&nbsp;&nbsp;Ex: Mild psychomotor agitation evidenced by repetitive finger rubbing.</td></tr>
-<tr><td class="k">Attention/Concentration</td><td>alert / attentive → mildly distractible → impaired concentration → poor attention → unable to sustain attention</td></tr>
-<tr><td class="k">Speech</td><td>normal rate/rhythm → soft / loud / minimal → rapid / slow → pressured pt 好像被一股内在力量推着一直说，很难停、很难打断、话题不断往前冲。 → mumbled 嘟囔的说 / incoherent</td></tr>
+<tr><td class="k">Psychomotor Activity<br>他的身体动作有没有躁动或迟缓</td><td>within normal limits → mild fidgeting（小的动作） → Psychomotor agitation（持续来回踱步、不停搓手，难以安坐） / psychomotor retardation → Tremor（双手出现不自主、有节律的颤抖） / Tics（突然、反复眨眼或耸肩） / Stereotyped movements（持续以固定模式前后摇晃身体）&nbsp;&nbsp;&nbsp;&nbsp;Ex: Mild psychomotor agitation evidenced by repetitive finger rubbing.</td></tr>
+<tr><td class="k">Attention/Concentration</td><td>intact → mildly distractible → impaired → unable to sustain attention / unable to assess</td></tr>
+<tr><td class="k">Speech</td><td>normal rate/rhythm/volume / soft / loud / rapid / slow / pressured（不停地说话） / reduced speech / mumbled（嘟囔） / slurred（发音模糊） / prolonged response latency（明显停顿很久才开始回答）</td></tr>
 <tr><td class="k">Affect</td><td>full / appropriate / congruent → mildly restricted → constricted → blunted → flat → labile / inappropriate</td></tr>
 <tr><td class="k">Mood</td><td>euthymic → neutral → mildly anxious/sad/irritable → depressed/anxious/angry → severely depressed / elevated / labile 不稳定的</td></tr>
-<tr><td class="k">Thought Process</td><td>intact/logical / linear 一条线讲完，不绕 / goal-directed → circumstantial → tangential → flight of ideas → loose associations 话题连接变松 → disorganized</td></tr>
+<tr><td class="k">Thought Process</td><td>intact/logical / linear 一条线讲完，不绕 / goal-directed → circumstantial → tangential → flight of ideas → loose associations 话题连接变松 → disorganized / Perseverative（无论问什么，都不断回到「地铁太吵了」） / Thought blocking（说到一半突然中断，并表示忘记刚才想说什么）</td></tr>
 <tr><td class="k">Thought Content</td><td>rational/non-psychotic → mild preoccupation → obsessive/ruminative 反复纠结 → paranoid ideation → SI/HI → delusional content</td></tr>
 <tr><td class="k">Delusions</td><td>none reported → questionable suspicious beliefs → persecutory/paranoid/grandiose/somatic/religious delusions</td></tr>
 <tr><td class="k">Perception</td><td>within normal limits → mild perceptual disturbance → depersonalization/derealization → illusions 错觉 → hallucinations</td></tr>
@@ -331,6 +353,59 @@ document.querySelectorAll('nav button').forEach(function(b){
     window.scrollTo(0,0);
   };
 });
+
+(function(){
+  var idx=[];
+  document.querySelectorAll('.page').forEach(function(page){
+    var label=page.querySelector('h1')?page.querySelector('h1').textContent:page.id;
+    page.querySelectorAll('p, li, td').forEach(function(el){
+      var t=el.textContent.replace(/\s+/g,' ').trim();
+      if(!t||t===' ') return;
+      idx.push({el:el,pageId:page.id,label:label,text:t});
+    });
+  });
+
+  var box=document.getElementById('searchBox');
+  var results=document.getElementById('searchResults');
+
+  function closeResults(){results.style.display='none';results.innerHTML='';}
+
+  box.addEventListener('input',function(){
+    var q=box.value.trim().toLowerCase();
+    if(!q){closeResults();return;}
+    var matches=idx.filter(function(it){return it.text.toLowerCase().indexOf(q)!==-1;}).slice(0,20);
+    results.innerHTML='';
+    if(!matches.length){
+      results.innerHTML='<div class="sr-empty">未找到匹配内容</div>';
+      results.style.display='block';
+      return;
+    }
+    matches.forEach(function(m){
+      var row=document.createElement('div');
+      row.className='sr-item';
+      var snippet=m.text.length>100?m.text.slice(0,100)+'…':m.text;
+      row.innerHTML='<span class="sr-tag">'+m.label+'</span>'+snippet;
+      row.onclick=function(){
+        document.querySelectorAll('nav button').forEach(function(btn){btn.classList.toggle('on',btn.dataset.p===m.pageId);});
+        document.querySelectorAll('.page').forEach(function(p){p.hidden=p.id!==m.pageId;});
+        closeResults();
+        box.value='';
+        setTimeout(function(){
+          m.el.scrollIntoView({behavior:'smooth',block:'center'});
+          document.querySelectorAll('.hl').forEach(function(x){x.classList.remove('hl');});
+          m.el.classList.add('hl');
+          setTimeout(function(){m.el.classList.remove('hl');},2500);
+        },50);
+      };
+      results.appendChild(row);
+    });
+    results.style.display='block';
+  });
+
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.search-wrap')) closeResults();
+  });
+})();
 </script>
 </body>
 </html>
