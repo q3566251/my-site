@@ -6,14 +6,13 @@
 <title>Template (Copy)</title>
 <style>
 *{box-sizing:border-box;}
-body{margin:0;background:#e9e9e9;font-family:Arial, sans-serif;color:#000;padding:40px 16px;}
-.topbar{max-width:850px;margin:0 auto 14px;display:flex;flex-direction:column;align-items:center;gap:8px;}
-.wrap{max-width:1230px;margin:0 auto;display:flex;gap:20px;align-items:flex-start;}
-nav{width:170px;flex:none;display:flex;flex-direction:column;gap:6px;}
-.nav-balance{width:170px;flex:none;}
-nav button{text-align:left;padding:10px 14px;border:0;border-left:3px solid transparent;background:#fff;color:#000;font:14px Arial,sans-serif;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.15);}
-nav button:hover{background:#f5f5f5;}
-nav button.on{border-left-color:#000;font-weight:700;}
+body{margin:0;background:#e9e9e9;font-family:Arial, sans-serif;color:#000;padding:0 16px 40px;}
+.topbar{position:sticky;top:0;z-index:50;background:#e9e9e9;border-bottom:1px solid #ccc;margin:0 -16px 20px;padding:10px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.wrap{max-width:850px;margin:0 auto;}
+nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;}
+nav button{padding:6px 16px;border:1px solid transparent;border-radius:16px;background:#fff;color:#000;font:14px Arial,sans-serif;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.15);}
+nav button:hover{border-color:#999;}
+nav button.on{background:#000;color:#fff;font-weight:700;}
 .main{flex:1;min-width:0;}
 .page{background:#fff;padding:60px 70px;box-shadow:0 1px 4px rgba(0,0,0,0.2);outline:none;min-height:80vh;overflow-x:auto;}
 .page[hidden]{display:none;}
@@ -36,12 +35,7 @@ td.k:first-child{width:22%;}
 .sr-tag{display:inline-block;background:#eee;color:#555;font-size:10.5px;padding:1px 6px;border-radius:3px;margin-right:6px;vertical-align:1px;}
 .sr-empty{padding:8px 10px;font-size:12.5px;color:#999;}
 .hl{background:#fff59d;transition:background 1.2s ease;}
-@media(max-width:480px){
-  .wrap{flex-direction:column;}
-  nav{width:100%;flex-direction:row;flex-wrap:wrap;}
-  .nav-balance{display:none;}
-  .page{padding:30px 22px;}
-}
+@media(max-width:480px){.page{padding:30px 22px;}}
 </style>
 </head>
 <body>
@@ -51,14 +45,14 @@ td.k:first-child{width:22%;}
 <input type="text" id="searchBox" placeholder="搜索内容关键词…" autocomplete="off">
 <div class="search-results" id="searchResults"></div>
 </div>
-</div>
-<div class="wrap">
 <nav>
 <button data-p="home" class=on>Template</button>
 <button data-p="hpi">HPI</button>
 <button data-p="mse">MSE</button>
 <button data-p="scales">PHQ-9 / GAD-7</button>
 </nav>
+</div>
+<div class="wrap">
 <div class="main">
 <div class="page" id="home" contenteditable="true">
 <h1>Template</h1>
@@ -106,13 +100,11 @@ td.k:first-child{width:22%;}
 <li>Pt reported a <b>stable</b> living environment.</li>
 </ul>
 <p><b>Marital Status</b></p>
-<p>&nbsp;</p>
 <p><b>Education</b></p>
 <ul>
 <li>Pt completed high school.</li>
 </ul>
 <p><b>Employment</b></p>
-<p>&nbsp;</p>
 <p><b>Financial Situation</b></p>
 <ul>
 <li>Pt described financial situation as <b>stable</b>. income resources: what partner did</li>
@@ -126,7 +118,6 @@ td.k:first-child{width:22%;}
 <li>Pt reported <b>limited social support</b>.</li>
 </ul>
 <p><b>Religion / Spirituality</b></p>
-<p>&nbsp;</p>
 <p><b>Family History</b></p>
 <ul>
 <li>Pt denied any known <b>family hx of psychiatric disorders</b>.</li>
@@ -346,7 +337,6 @@ td.k:first-child{width:22%;}
 
 </div>
 </div>
-<div class="nav-balance"></div>
 </div>
 <script>
 document.querySelectorAll('nav button').forEach(function(b){
