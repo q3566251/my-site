@@ -106,7 +106,7 @@
 
   @media print{
     body{background:#fff; zoom:1;}
-    nav.toc, .summary-actions, .noprint, #sec-clinical-ref{display:none !important;}
+    nav.toc, .summary-actions, .noprint, #sec-clinical-ref, #sec-doc-examples{display:none !important;}
     .card{box-shadow:none; border:1px solid #ccc; break-inside:avoid; position:static;}
     .shell{max-width:100%; padding:10px;}
     #summaryCard{break-before:page;}
@@ -331,6 +331,35 @@ function renderAll(){
         <li><strong>若 pt 完全无法说出任何 reason for living</strong> 或任何微小的下一步 → 视为风险上升信号，重新评估 risk level，考虑增加接触频率 / psychiatry consult / 是否需要 higher level of care。</li>
         <li><strong>保持 in-session 稳定</strong> — 不急于"修正"认知，先建立安全与被理解感，再逐步引入 behavioral activation 或 cognitive restructuring（识别"什么都不想"背后具体被回避的任务/情绪）。</li>
       </ol>
+    </div>
+  </div>`));
+
+  c.appendChild(el(`<div class="card" id="sec-doc-examples">
+    <h2>How to Document · Passive vs Active SI 记录示范</h2>
+    <div class="sub">仅供参考 — 不进入下载/打印的note</div>
+
+    <div class="qblock">
+      <div class="qtext">定义 Definitions</div>
+      <ul style="margin:6px 0 0; padding-left:20px; font-size:.9rem; line-height:1.9;">
+        <li><strong>Passive SI：</strong>thought w/ no plan, no attempt; like "I'm okay if I die tomorrow" or "if I get hit by a car, I don't mind."</li>
+        <li><strong>Active SI：</strong>thought with plan(s), like "I want to jump off the building NOW" → then we will have to further assess.</li>
+      </ul>
+    </div>
+
+    <div class="qblock">
+      <div class="qtext">Scenario I — 有plan，但因保护因素不会执行</div>
+      <div class="prompt">Pt says: "I want to jump off the building every day, but I won't do it now because I can't leave my kids behind."</div>
+      <div style="font-size:.9rem; line-height:1.8; background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px;">
+        <strong>How to document:</strong> The patient reports having suicidal thought with plan nearly every day, no attempt; children serve as protective factors. The writer conducted suicidal assessment. The patient denied having any urge/intent/impulse of SI/HI at this time.
+      </div>
+    </div>
+
+    <div class="qblock">
+      <div class="qtext">Scenario II — 有plan，且无法保证session后的安全</div>
+      <div class="prompt">Pt says: "I want to jump off the building every day, but I cannot say I will not do it after our session."</div>
+      <div style="font-size:.9rem; line-height:1.8; background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px;">
+        <strong>How to document:</strong> The patient reports having an active suicidal thought with plan of jumping off the building. The patient cannot ensure their own safety as the patient stated that they might activate the plan to complete the suicide after session. The therapist expressed worries and discussed with the patient the importance of going to the hospital for further assessment. The patient agreed. The therapist activated EMS and 911 service. The patient will be sent to NYU Langone for further assessment.
+      </div>
     </div>
   </div>`));
 
