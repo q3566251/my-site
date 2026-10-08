@@ -776,5 +776,118 @@ function stopAll() {
 
 renderContent();
 </script>
+<script>
+Object.assign(CATS,{
+ pdA:{label:'Cluster A · Odd/Eccentric',ac:'#8a5a2b',bg:'#fbf3ea',bd:'#e0c39f'},
+ pdB:{label:'Cluster B · Dramatic/Emotional',ac:'#b03a5b',bg:'#fff0f3',bd:'#eba9bb'},
+ pdC:{label:'Cluster C · Anxious/Fearful',ac:'#2f7f8f',bg:'#eef9fb',bd:'#9fd3dc'}});
+CAT_ORDER.splice(CAT_ORDER.indexOf('technique'),0,'pdA','pdB','pdC');
+const X=a=>a.map(([vs,q,a])=>({vs,q,a}));
+function mk(id,name,full,cat,mn,dur,cnt,items,note,diff){
+ return {id,name,full,cat,mn,mnTTS:mn.split('').join('. ')+'.',dur,cnt,
+  ls:items.map(i=>({l:i[0],display:i[2]?i[1]+' — '+i[2]:i[1],tts:[i[1]+'.'].concat(i[2]?[i[2]+'.']:[])})),
+  note,diff:X(diff)};}
+const LF='Lifelong pattern';
+DISORDERS.push(
+mk('sad','SAD','Social Anxiety Disorder (Social Phobia)','anxiety','FEARS','≥6 months','Fear of negative evaluation + avoidance/distress',[
+ ['F','Fear of negative evaluation','criticism, rejection, embarrassment, humiliation'],
+ ['E','Exposure to social situations','conversations, meeting people, eating in public, presentations'],
+ ['A','Always provokes anxiety','social situations almost always trigger fear'],
+ ['R','Runs away or endures','avoidance OR tolerates with intense distress'],
+ ['S','Significant impairment','work, school, relationships affected']],
+ 'Fear must be out of proportion to actual threat and persist ≥6 months.',[
+ ['AvPD','你的害怕只在特定场合（演讲、吃饭），还是几乎一辈子都觉得自己不够好？','SAD = 情境性，"别人可能拒绝我"。AvPD = 终身广泛，"我是可被拒绝的人"。'],
+ ['Schizoid PD','如果保证没有人会评价你，你会想跟人亲近吗？','SAD = 想要关系但害怕。Schizoid = 本来就不想要。'],
+ ['Agoraphobia','你怕的是被别人看、被评价，还是怕出事时逃不掉、没人帮？','SAD = 怕被评价。Agoraphobia = 怕无法逃离或无法求助。'],
+ ['Claustrophobia vs Agoraphobia','如果知道有人会来救你，你还能留在这里吗？','能留下 → Agoraphobia（怕得不到帮助）。就算有人来救还是待不住 → Claustrophobia（怕被困本身）。']]),
+mk('paranoid','Paranoid PD','Paranoid Personality Disorder','pdA','DISTRUST',LF,'Pervasive distrust and suspiciousness',[
+ ['D','Doubts loyalty of others'],['I','Interprets benign remarks as threats'],['S','Suspicious without evidence'],['T','Trusts nobody'],['R','Reluctant to confide'],['U','Unforgiving, holds grudges'],['S','Sees attacks on character'],['T','Threat-focused thinking']],
+ 'Core belief: "People will hurt, deceive, or exploit me." No delusions, no psychosis.',[
+ ['Delusional D/O','怀疑是对所有人的长期性格，还是围绕一件具体事情、100%确信？','Paranoid PD = 终身、泛化、无固定妄想。DD = 固定的具体妄想。']]),
+mk('schizoid','Schizoid PD','Schizoid Personality Disorder','pdA','LONER',LF,'Detachment from relationships',[
+ ['L','Likes solitary activities'],['O','Overly detached emotionally'],['N','No close friends'],['E','Enjoys being alone'],['R','Restricted affect']],
+ 'Core belief: "I don\'t need people." SAD wants relationships but fears them; Schizoid often does not desire them.',[
+ ['SAD','如果没有被评价的风险，你会想要朋友吗？','SAD 想要但害怕；Schizoid 通常不想要。'],
+ ['Autism','你是不想社交，还是不知道怎么社交？','Schizoid = 不想要。ASD = 读不懂社交信号 + 重复行为。']]),
+mk('schizotypal','Schizotypal PD','Schizotypal Personality Disorder','pdA','MAGIC',LF,'Odd beliefs + social deficits',[
+ ['M','Magical thinking'],['A','Anxiety in social situations'],['G','Goes off topic (odd speech)'],['I','Ideas of reference'],['C','Curious/perceptual distortions']],
+ 'Core belief: "I\'m different from other people." Mild schizophrenia-spectrum traits without full psychosis.',[
+ ['Schizophrenia','这些奇怪想法有没有变成100%确信的妄想，或真实的幻听？','有 → psychotic disorder。没有 → Schizotypal。']]),
+mk('aspd','Antisocial PD','Antisocial Personality Disorder','pdB','CRIMINAL','≥18 years old + Conduct Disorder before age 15','Pervasive disregard for others\' rights',[
+ ['C','Conduct disorder history'],['R','Reckless disregard for safety'],['I','Impulsive'],['M','Manipulative/deceitful'],['I','Irresponsible'],['N','No remorse'],['A','Aggressive'],['L','Lies repeatedly']],
+ 'Core belief: "Rules don\'t apply to me."',[
+ ['Narcissistic PD','做错事时，他是不在乎，还是需要别人觉得他很特别？','ASPD = 违规、攻击、无悔。NPD = 需要被崇拜、被认为特别。']]),
+mk('bpd','Borderline PD','Borderline Personality Disorder','pdB','BORDERLINE',LF,'5 of 9 symptoms',[
+ ['B','Bursts of anger'],['O','Out-of-control emotions'],['R','Relationship instability'],['D','Desperate to avoid abandonment'],['E','Empty feeling'],['R','Recurrent suicidality/self-harm'],['L','Labile mood'],['I','Identity disturbance'],['N','No stable self-image'],['E','Extreme impulsivity']],
+ 'Core belief: "Don\'t leave me." Highest self-harm risk among PDs.',[
+ ['Bipolar','情绪变化是持续好几天的阶段，还是几小时内被人际事件触发？','Bipolar = 几天的阶段，不睡不累。BPD = 几小时内、人际触发。'],
+ ['Histrionic PD','你是怕被抛弃而崩溃，还是想被注意？','BPD = 怕被抛弃、空虚、自伤。HPD = 要被注意，戏剧化。']]),
+mk('hpd','Histrionic PD','Histrionic Personality Disorder','pdB','ATTENTION',LF,'Excessive attention seeking',[
+ ['A','Attention seeking'],['T','Theatrical emotions'],['T','Tries to be center of attention'],['E','Emotional but shallow'],['N','Needs approval'],['T','Talks dramatically'],['I','Inappropriately seductive'],['O','Overestimates closeness'],['N','Needs reassurance']],
+ 'Core belief: "Notice me."',[
+ ['Narcissistic PD','你要的是被关注、被喜欢，还是被崇拜、被认为比别人强？','HPD = 要被注意/喜欢。NPD = 要被崇拜、优越。']]),
+mk('npd','Narcissistic PD','Narcissistic Personality Disorder','pdB','GRAND',LF,'Grandiosity + admiration seeking',[
+ ['G','Grandiose'],['R','Requires admiration'],['A','Arrogant'],['N','Needs special treatment'],['D','Deficient empathy']],
+ 'Core belief: "I am special." Vulnerable subtype may secretly have fragile self-esteem.',[
+ ['Bipolar I (mania)','自大感是一直都有，还是只在几天高能量不睡的时期才有？','NPD = 终身稳定。Mania = 阶段性，伴随少睡、话多、冲动。']]),
+mk('avpd','AvPD','Avoidant Personality Disorder','pdC','AVOIDED',LF+' (begins by early adulthood)','4 of 7 symptoms',[
+ ['A','Avoids occupational activities','avoids jobs/tasks requiring significant interpersonal contact'],
+ ['V','Verifies acceptance first','won\'t engage unless certain of being liked'],
+ ['O','Occupied with criticism/rejection','constantly worried about being criticized or rejected'],
+ ['I','Intimate relationships restricted','avoids closeness unless guaranteed acceptance'],
+ ['D','Deep feelings of inadequacy','"I\'m inferior," "I\'m not good enough"'],
+ ['E','Easily embarrassed','extremely sensitive to shame or ridicule'],
+ ['D','Dislikes new situations','avoids unfamiliar people/activities due to fear of embarrassment']],
+ 'Core belief: "I am inadequate." SAD: "People may reject me." AvPD: "I am rejectable."',[
+ ['SAD','你的害怕只在特定社交场合，还是几乎一辈子、所有关系里都觉得自己不够好？','SAD = 情境性。AvPD = 终身、广泛、核心是自我价值。'],
+ ['Dependent PD','你躲开人是怕被拒绝，还是离不开人、怕被丢下？','AvPD = 想要关系但怕被拒绝而退缩。DPD = 紧黏关系、怕独处。']]),
+mk('dpd','Dependent PD','Dependent Personality Disorder','pdC','DEPEND',LF,'Excessive need to be cared for',[
+ ['D','Difficulty making decisions'],['E','Excessive advice needed'],['P','People take responsibility for them'],['E','Expresses disagreement rarely'],['N','Needs constant support'],['D','Distressed when alone']],
+ 'Core belief: "I cannot survive alone."',[
+ ['AvPD','你躲开人是怕被拒绝，还是离不开人、怕被丢下？','DPD = 黏附、顺从、怕独处。AvPD = 想要但怕被拒绝而退缩。']]),
+mk('ocpd','OCPD','Obsessive-Compulsive Personality Disorder','pdC','PERFECT',LF,'Perfectionism, control, rigidity',[
+ ['P','Perfectionism interferes with task completion'],['E','Excessive devotion to work'],['R','Rigid morality'],['F','Frugal spending'],['E','Excessive control'],['C','Cannot delegate'],['T','Throws nothing away']],
+ 'Core belief: "There is one correct way." OCPD ≠ OCD.',[
+ ['OCD','这些想法和做法，你自己觉得烦、想停吗？','OCD = ego-dystonic（"我讨厌这些想法"）。OCPD = ego-syntonic（"我是对的"）。']])
+);
+const byId=i=>DISORDERS.find(x=>x.id===i);
+byId('bp1').diff=X([
+ ['Bipolar II','高涨期有没有影响工作、需要住院，或出现妄想/幻觉？','有 → Bipolar I。没有，还能正常工作 → Bipolar II。'],
+ ['ADHD','高能量是连续几天不睡也不累，还是一天内忽高忽低、不睡会累？','Bipolar = 几天、不需睡眠。ADHD = 一天内波动、不睡会累。'],
+ ['BPD','情绪变化是几天一个阶段，还是几小时内被人际事件触发？','Bipolar = 阶段性。BPD = 短时间、人际触发。']]);
+byId('bp2').diff=X([
+ ['MDD','有没有过连续几天精力爆棚、睡很少却不累、还比平时更能干？','有 → Bipolar II。从来没有 → MDD。'],
+ ['Bipolar I','那段高能量期有没有影响工作、住院或出现精神病症状？','有 → Bipolar I。没有 → 仍是 Bipolar II。'],
+ ['Cyclothymia','低落期有没有达到完整的重度抑郁（MDD）？','达到 → Bipolar II。从没达到 → Cyclothymia。']]);
+byId('cyclo').diff=X([
+ ['Bipolar II','这两年里有没有出现过完整的重度抑郁发作？','有 → Bipolar II。从未达到 MDD 或 mania 标准 → Cyclothymia。'],
+ ['BPD','起伏是以几周/几个月为单位，还是几小时内被人际事件触发？','Cyclothymia = 慢周期，≥2年。BPD = 快速、人际触发。']]);
+function toggleDiff(did){const el=document.getElementById('df-'+did);if(!el)return;const o=el.classList.toggle('open');el.previousElementSibling.textContent=o?'🔍 收起 ▲':'🔍 Differential ▼';}
+function renderContent(){
+ const ds=filtered(),g={};
+ ds.forEach(d=>{(g[d.cat]=g[d.cat]||[]).push(d);});
+ let html='';
+ CAT_ORDER.filter(k=>g[k]).forEach(ck=>{
+  const cat=CATS[ck];
+  html+=`<div class="section"><div class="section-title"><span class="cat-dot" style="background:${cat.ac}"></span>${cat.label}</div>`;
+  g[ck].forEach(d=>{
+   html+=`<div class="disorder-block"><div class="disorder-header" id="dh-${d.id}" onclick="onClickDisorder('${d.id}')"><div class="dh-bar" style="background:${cat.ac}"></div><div class="dh-info"><div class="dh-name" style="color:${cat.ac}">${d.name}</div><div class="dh-full">${d.full}</div><div class="dh-meta">⏱ ${d.dur} · ✓ ${d.cnt}</div></div><div class="dh-mn" style="color:${cat.ac}">${d.mn}</div></div><div class="progress-bar"><div class="progress-fill" id="pg-${d.id}" style="background:${cat.ac}"></div></div><div class="letter-items">`;
+   d.ls.forEach((it,i)=>{html+=`<div class="letter-item" id="li-${d.id}-${i}" onclick="onClickLetter('${d.id}',${i})"><span class="li-letter" style="color:${cat.ac}">${it.l}</span><span class="li-meaning">${it.display}</span></div>`;});
+   html+='</div>';
+   if(d.note)html+=`<div class="note-block" id="nt-${d.id}" style="background:${cat.bg};color:${cat.ac};border:1px solid ${cat.bd}" onclick="onClickNote('${d.id}')">📌 ${d.note}</div>`;
+   if(d.diff)html+=`<div class="detail-toggle" onclick="toggleDiff('${d.id}')">🔍 收起 ▲</div><div class="detail-block open" id="df-${d.id}">${d.diff.map(x=>`<div class="dx">vs ${x.vs}</div><div class="dv">❓ ${x.q}</div><div class="dt">${x.a}</div>`).join('')}</div>`;
+   if(d.detail)html+=`<div class="detail-toggle" onclick="toggleDetail('${d.id}')">📖 展开临床示范 ▼</div><div class="detail-block" id="dt-${d.id}">${d.detail}</div>`;
+   html+='</div>';
+  });
+  html+='</div>';
+ });
+ document.getElementById('content').innerHTML=html;
+}
+document.querySelector('.mbtn[onclick*="technique"]').insertAdjacentHTML('beforebegin',
+ ['A','B','C'].map(c=>`<button class="mbtn" onclick="setFilter('pd${c}',this)">PD-${c}</button>`).join(''));
+document.querySelector('.header p').textContent='28 Disorders + 3 Techniques · 点击朗读 · 自动播放全部记忆法';
+renderContent();
+</script>
+
 </body>
 </html>
