@@ -129,9 +129,22 @@ main{max-width:760px;margin:0 auto;padding:16px 16px 60px;}
   font-size:0.72rem;color:var(--text-sub);
   margin-top:8px;
 }
+body.locked .top, body.locked main{display:none;}
+#dot{
+  display:none;
+  position:fixed;left:6px;bottom:6px;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--border);
+  cursor:pointer;
+  z-index:50;
+}
+body.locked #dot{display:block;}
 </style>
 </head>
-<body>
+<body class="locked">
+
+<div id="dot" title=""></div>
 
 <div class="top">
   <h1>网站总览</h1>
@@ -150,53 +163,37 @@ main{max-width:760px;margin:0 auto;padding:16px 16px 60px;}
 <script>
 // ============ 数据区：新增网站直接在此加一条 { url, desc } ============
 const DATA = [
-  {group:"临床/工作工具", items:[
+  {group:"上班用的", items:[
+    {url:"race.html", desc:"race"},
     {url:"template.html", desc:"初诊评估模板"},
     {url:"safetyplan.html", desc:"安全计划 / 临床安全评估工具"},
+    {url:"elder.html", desc:"老年人功能与安全评估资源"},
+    {url:"child.html", desc:"NYC 儿童资源指南"},
+    {url:"assessment.html", desc:"评估工具速查表"},
+    {url:"technique.html", desc:"心理辅导技巧"},
+    {url:"worksheet.html", desc:"临床工作表工具"},
+    {url:"rate.html", desc:"治疗进展回顾worksheet"},
+  ]},
+  {group:"临床/工作工具", items:[
+    {url:"famous.html", desc:"名人相关内容"},
     {url:"case.html", desc:"临床案例库"},
     {url:"vocabulary.html", desc:"临床术语参考"},
     {url:"vocabulary1.html", desc:"临床术语参考（更新版）"},
-    {url:"worksheet.html", desc:"临床工作表工具"},
     {url:"worksheetlink.html", desc:"工作表链接页"},
     {url:"lmhc.html", desc:"LMHC 相关需求页"},
-    {url:"technique.html", desc:"心理辅导技巧"},
   ]},
-  {group:"生活/其他工具", items:[
-    {url:"resources.html", desc:"资源汇总页"},
-    {url:"services.html", desc:"服务介绍页"},
-    {url:"rendr.html", desc:"Rendr 相关内容"},
-    {url:"journal.html", desc:"日志页面"},
-    {url:"journal-editor.html", desc:"日志编辑器"},
-    {url:"journal-md", desc:"日志 markdown 内容"},
-    {url:"journal-posts", desc:"日志文章（中英）"},
-    {url:"post.html", desc:"文章渲染页"},
-    {url:"posts.json", desc:"文章数据"},
+  {group:"日常网站", items:[
+    {url:"bestwellnesstherapy.com/zebin", desc:"自我履历"},
+    {url:"bestwellnesstherapy.com/online", desc:"自我 online 介绍"},
+    {url:"bestwellnesstherapy.com/nutrition", desc:"健身营养"},
+    {url:"bestwellnesstherapy.com/investment", desc:"投资回顾"},
+    {url:"bestwellnesstherapy.com/travel", desc:"欧洲30天之旅"},
+    {url:"bestwellnesstherapy.com/food", desc:"NYC 食物吃的"},
     {url:"investment.html", desc:"投资分析"},
     {url:"inflation.html", desc:"通胀相关分析"},
     {url:"creditcard.html", desc:"信用卡优化"},
     {url:"car.html", desc:"洗车/汽车相关"},
     {url:"gym.html", desc:"健身内容"},
-    {url:"nutrition.html", desc:"营养相关"},
-    {url:"nutritiongirl.html", desc:"营养相关（另一版）"},
-    {url:"food.html", desc:"食物/美食"},
-    {url:"travel.html", desc:"旅行内容"},
-    {url:"hotel", desc:"酒店相关"},
-    {url:"hotel1.html", desc:"酒店相关（重命名版）"},
-    {url:"philadelphia.html", desc:"费城相关"},
-    {url:"sleep.html", desc:"睡眠相关"},
-    {url:"famous.html", desc:"名人相关内容"},
-    {url:"adhd", desc:"ADHD 教育指南"},
-  ]},
-  {group:"日常网站", items:[
-    {url:"bestwellnesstherapy.com/therapy", desc:"介绍疗法提供什么"},
-    {url:"bestwellnesstherapy.com/treatment", desc:"心理辅导师的技巧大全"},
-    {url:"bestwellnesstherapy.com/zebin", desc:"自我履历"},
-    {url:"bestwellnesstherapy.com/online", desc:"自我 online 介绍"},
-    {url:"bestwellnesstherapy.com/nutrition", desc:"健身营养"},
-    {url:"bestwellnesstherapy.com/investment", desc:"投资回顾"},
-    {url:"bestwellnesstherapy.com/lmhc", desc:"心理辅导 NYC 的需求"},
-    {url:"bestwellnesstherapy.com/travel", desc:"欧洲30天之旅"},
-    {url:"bestwellnesstherapy.com/food", desc:"NYC 食物吃的"},
   ]},
   {group:"Z5S 框架介绍", items:[
     {url:"bestwellnesstherapy.com/z5s/evidence", desc:"Z5S 引用的临床论文与讨论"},
@@ -224,9 +221,17 @@ const DATA = [
     {url:"TD1", desc:"塔防游戏（版本1）"},
   ]},
   {group:"家人相关", items:[
-    {url:"dad", desc:"爸爸相关内容"},
-    {url:"dad1.html", desc:"爸爸相关内容（版本1）"},
-    {url:"mom.html", desc:"妈妈相关内容"},
+    {url:"dad", desc:"爸爸相关内容+蜘蛛纸牌"},
+    {url:"dad1.html", desc:"爸爸相关内容（版本1）+路考英文"},
+    {url:"mom.html", desc:"妈妈相关内容+停车"},
+  ]},
+  {group:"没什么用的", items:[
+    {url:"resources.html", desc:"资源汇总页"},
+    {url:"services.html", desc:"服务介绍页"},
+    {url:"rendr.html", desc:"Rendr 相关内容"},
+    {url:"adhd", desc:"ADHD 教育指南"},
+    {url:"bestwellnesstherapy.com/therapy", desc:"介绍疗法提供什么"},
+    {url:"bestwellnesstherapy.com/treatment", desc:"心理辅导师的技巧大全"},
   ]},
 ];
 // =====================================================================
@@ -365,6 +370,11 @@ function renderAll(){
 
 document.getElementById('search').addEventListener('input', renderResults);
 renderAll();
+
+// ============ 左下角小圆点：点击后进入 ============
+document.getElementById('dot').addEventListener('click', ()=>{
+  document.body.classList.remove('locked');
+});
 </script>
 </body>
 </html>
