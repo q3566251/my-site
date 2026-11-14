@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Session Worksheets</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f1e8;--soft:#f2e7d9;--card:#fdf9f4;--ink:#3b3228;--mut:#7a6c5d;--line:#d9c9b4;--acc:#9a6b3f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241e18;--soft:#2e261e;--card:#2a231c;--ink:#efe5d6;--mut:#b3a38f;--line:#4a3f33;--acc:#d6a56f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Noto Sans SC",system-ui,sans-serif}
+.wrap{max-width:780px;margin:0 auto;padding:18px 14px 40px}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tabs button,.bar button{font:500 14px inherit;padding:9px 14px;border-radius:8px;border:1px solid var(--acc);background:transparent;color:var(--acc);cursor:pointer}
+.tabs button.on,.bar button.p{background:var(--acc);color:#fff}
+.bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.form{display:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+.form.show{display:block}
+h1{font:600 22px "Noto Serif SC",Georgia,serif;margin:0}h1 small{display:block;font-size:.72em;font-weight:500;margin-top:2px}
+.sub{color:var(--mut);font-size:13px;margin:2px 0 14px}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.f{font-size:12px;color:var(--mut);display:block}
+input{width:100%;font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);padding:4px 0;outline:0}
+textarea{width:100%;font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:8px;padding:8px;min-height:90px;resize:vertical;margin-top:4px;outline:0}
+.hd{font:600 15px "Noto Serif SC",Georgia,serif;color:var(--acc);margin:16px 0 0}.row{padding:12px 0;border-top:1px dashed var(--line)}
+.q{font-weight:500}
+.sc{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.sc button{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:transparent;color:var(--ink);font:500 13px inherit;cursor:pointer}
+.sc button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.ends{font-size:11px;color:var(--mut);display:flex;justify-content:space-between;max-width:440px;margin-top:2px}
+@media (max-width:560px){.meta{grid-template-columns:1fr}.sc button{width:28px;height:28px}}
+@media print{
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ @page{margin:10mm}
+ body{background:#fff;color:#3b3228;font-size:12px;line-height:1.35}.wrap{padding:0;max-width:none}
+ .tabs,.bar,.noprint{display:none}
+ .form{border:0;padding:0;background:#fff}
+ h1{font-size:19px;color:#9a6b3f;background:#f2e7d9;border-left:5px solid #9a6b3f;padding:6px 12px;border-radius:4px}
+ .sub{color:#7a6c5d;margin:6px 0 8px}.meta{margin-bottom:6px;gap:10px}
+ .f{color:#7a6c5d}input{color:#3b3228;border-bottom:1px solid #9a6b3f}
+ textarea{color:#3b3228;border:0;border-radius:0;min-height:50px;padding:2px 0;margin-top:2px;background:repeating-linear-gradient(#fff,#fff 23px,#d9c9b4 24px)}
+ .row{padding:6px 0;border-top:1px solid #e6d9c6}
+ .hd{font-size:14px;margin:8px 0 2px}
+ .q{color:#3b3228}
+ .sc{gap:7px;margin-top:4px}.sc button{width:26px;height:26px;font-size:11px;border:1.5px solid #9a6b3f;color:#9a6b3f;background:#fdf9f4}
+ .sc button.on{background:#9a6b3f!important;color:#fff!important}
+ .ends{color:#7a6c5d;max-width:none}
+}
+</style></head><body><div class="wrap">
+<div class="tabs" id="tabs"></div>
+<div class="bar"><button class="p" onclick="window.print()">Print 打印</button><button onclick="blank()">Print blank 打印空白</button><button onclick="clearAll()">Clear 清空</button></div>
+<div id="forms"></div>
+</div>
+<script>
+var F=[
+{t:"1 · Treatment Progress 治疗进展",h:"Therapy Treatment Progress Review · 治疗进展回顾",s:"Check-in every 2–3 sessions · 每2–3次会谈填写一次 · 0 = lowest 最低 · 10 = highest 最高",
+ q:[{x:"I feel heard and understood in session · 在会谈中，我感到被听到、被理解",l:["Not at all 完全没有","Completely 完全是"]},{x:"Sessions focus on what I need · 会谈的内容是我需要的",l:["Not at all 完全没有","Completely 完全是"]},{x:"I feel comfortable with the current approach, and it suits me · 我对目前的治疗方式感到舒服，也适合我",l:["Not at all 完全没有","Completely 完全是"]},{x:"Therapy has been helpful so far · 到目前为止，治疗对我有帮助",l:["Not at all 完全没有","Very 非常有帮助"]},
+ {x:"Anything that feels off in therapy · 治疗中有什么让我觉得不对劲的地方",a:1},{x:"What I have learned · 我学到了什么",a:1},{x:"What I still want to learn · 我还想学什么",a:1},{x:"One thing I want to try or do before my next visit · 下次来访前，我想尝试或去做的一件事",a:1}]},
+{t:"2 · Session Review 会谈回顾",h:"Reviewing Myself and My Therapist in Session · 回顾我自己与心理辅导师在会谈中的表现",s:"0 = lowest 最低 · 10 = highest 最高",
+ q:[{hd:"Me · 我自己"},{x:"How open and honest I have been · 我有多开放、坦诚",l:["Not at all 完全没有","Fully 完全"]},{x:"How engaged I have been · 我有多投入",l:["Not at all 完全没有","Fully 完全"]},{x:"My progress toward my goals · 我朝目标前进了多少",l:["None 没有","A lot 很多"]},{x:"How much I apply what I learn in daily life · 我把所学用在日常生活的程度",l:["Not at all 完全没有","A lot 很多"]},
+ {hd:"My therapist · 我的心理辅导师"},{x:"My therapist and I agree on my goals · 我和心理辅导师对我想达到的目标看法一致",l:["Not at all 完全没有","Completely 完全是"]},{x:"I can talk about difficult things with my therapist · 我能和心理辅导师谈困难的事",l:["Not at all 完全没有","Completely 完全是"]},{x:"I trust my therapist · 我信任我的心理辅导师",l:["Not at all 完全没有","Completely 完全是"]},{x:"I feel respected by my therapist · 我感到被心理辅导师尊重",l:["Not at all 完全没有","Completely 完全是"]}]}];
+var G={},cur=0,tb="",fm="";
+F.forEach(function(f,i){tb+='<button data-t="'+i+'">'+f.t+'</button>';
+fm+='<section class="form" id="f'+i+'"><h1>'+f.h.replace(" · ","<small>")+'</small></h1><div class="sub">'+f.s+'</div><div class="meta"><div><label class="f">Date 日期</label><input></div><div><label class="f">Sessions Completed 已完成会谈次数</label><input></div></div>';
+f.q.forEach(function(q,j){if(q.hd){fm+='<h2 class="hd">'+q.hd+'</h2>';return}fm+='<div class="row"><div class="q">'+q.x+'</div>';
+if(q.a)fm+='<textarea></textarea>';else{fm+='<div class="sc" data-id="'+i+'_'+j+'">';for(var n=0;n<=10;n++)fm+='<button type="button" data-n="'+n+'">'+n+'</button>';fm+='</div><div class="ends"><span>0 · '+q.l[0]+'</span><span>10 · '+q.l[1]+'</span></div>'}
+fm+='</div>'});fm+='</section>'});
+document.getElementById("tabs").innerHTML=tb;document.getElementById("forms").innerHTML=fm;
+function go(i){cur=i;document.querySelectorAll(".form").forEach(function(e,k){e.classList.toggle("show",k==i)});document.querySelectorAll(".tabs button").forEach(function(e,k){e.classList.toggle("on",k==i)})}
+document.addEventListener("click",function(e){var t=e.target.closest(".tabs button");if(t)return go(+t.dataset.t);
+var b=e.target.closest(".sc button");if(!b)return;var s=b.parentNode,was=b.classList.contains("on");
+s.querySelectorAll("button").forEach(function(x){x.classList.remove("on")});if(!was)b.classList.add("on")});
+function clearAll(){document.querySelectorAll(".on:not(.tabs button)").forEach(function(x){x.classList.remove("on")});document.querySelectorAll(".sc .on").forEach(function(x){x.classList.remove("on")});document.querySelectorAll(".form input,.form textarea").forEach(function(x){x.value=""})}
+function blank(){clearAll();window.print()}
+go(0);
+</script></body></html>
