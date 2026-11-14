@@ -18,6 +18,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{
+  zoom:0.9;
   background:var(--page-bg);
   font-family:'Noto Sans SC',sans-serif;
   color:var(--text-main);
@@ -33,8 +34,9 @@ h1{
   font-size:1.25rem;
   color:var(--accent-dark);
   margin-bottom:10px;
+  text-align:center;
 }
-.search-row{display:flex;gap:8px;}
+.search-row{display:flex;gap:8px;max-width:760px;margin:0 auto;}
 #search{
   flex:1;
   padding:10px 14px;
@@ -151,8 +153,6 @@ body.locked #dot{display:block;}
   <div class="search-row">
     <input type="text" id="search" placeholder="搜索网址 / 描述">
   </div>
-  <div class="tags-row" id="tagsRow"></div>
-  <div class="hint">点击每行右侧「+标签」可自定义分类，标签会保存在本地浏览器</div>
 </div>
 
 <main>
@@ -236,48 +236,9 @@ const DATA = [
 ];
 // =====================================================================
 
-const STORAGE_KEY = 'site_ref_tags_v1';
-let myTags = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); // {url: [tag,tag]}
 let collapsedGroups = JSON.parse(localStorage.getItem('site_ref_collapsed_v1') || '{}');
-let activeFilterTag = null;
 
-function saveTags(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(myTags)); }
 function saveCollapsed(){ localStorage.setItem('site_ref_collapsed_v1', JSON.stringify(collapsedGroups)); }
-
-function allCustomTags(){
-  const set = new Set();
-  Object.values(myTags).forEach(arr => arr.forEach(t => set.add(t)));
-  return Array.from(set).sort();
-}
-
-function renderTagsRow(){
-  const tags = allCustomTags();
-  let html = '';
-  tags.forEach(t => {
-    html += `<span class="tag-pill ${activeFilterTag===t?'active':''}" data-tag="${t}">${t} ✕</span>`;
-  });
-  document.getElementById('tagsRow').innerHTML = html || '<span class="hint" style="margin:0;">还没有自定义标签，点某一行的「+标签」即可添加</span>';
-  document.querySelectorAll('.tag-pill').forEach(el=>{
-    el.addEventListener('click', (e)=>{
-      const t = el.dataset.tag;
-      if(e.target === el && el.textContent.includes('✕') === false) return;
-      // toggle filter, ✕ removes tag entirely if clicked precisely on remove zone -- simplify: click filters, shift+click deletes
-      if(e.shiftKey){
-        if(confirm(`删除标签「${t}」？`)){
-          Object.keys(myTags).forEach(url=>{
-            myTags[url] = myTags[url].filter(x=>x!==t);
-          });
-          saveTags();
-          activeFilterTag = activeFilterTag===t ? null : activeFilterTag;
-          renderAll();
-        }
-      } else {
-        activeFilterTag = activeFilterTag === t ? null : t;
-        renderAll();
-      }
-    });
-  });
-}
 
 function makeHref(url){
   const first = url.split(' ')[0];
@@ -300,10 +261,7 @@ function renderResults(){
 
   DATA.forEach(g => {
     const items = g.items.filter(it => {
-      const matchesQ = !q || it.url.toLowerCase().includes(q) || it.desc.toLowerCase().includes(q) || g.group.toLowerCase().includes(q);
-      const tags = myTags[it.url] || [];
-      const matchesTag = !activeFilterTag || tags.includes(activeFilterTag);
-      return matchesQ && matchesTag;
+      return !q || it.url.toLowerCase().includes(q) || it.desc.toLowerCase().includes(q) || g.group.toLowerCase().includes(q);
     });
     if(items.length === 0) return;
     total += items.length;
@@ -315,14 +273,9 @@ function renderResults(){
       </div>
       <div class="group-body">`;
     items.forEach(it => {
-      const tags = myTags[it.url] || [];
-      const tagHtml = tags.length
-        ? tags.map(t=>`<span class="my-tag" data-url="${it.url}" data-tag="${t}">${t}</span>`).join('')
-        : `<span class="my-tag empty" data-url="${it.url}">+标签</span>`;
       html += `<div class="row">
         <a href="${makeHref(it.url)}" target="_blank" title="${it.url}">${makeLabel(it.url)}</a>
         <span class="desc" title="${it.desc}">${it.desc}</span>
-        ${tagHtml}
       </div>`;
     });
     html += `</div></div>`;
@@ -340,31 +293,9 @@ function renderResults(){
       g.classList.toggle('collapsed');
     });
   });
-
-  document.querySelectorAll('.my-tag').forEach(el=>{
-    el.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      const url = el.dataset.url;
-      const existingTag = el.dataset.tag;
-      if(existingTag){
-        if(confirm(`移除标签「${existingTag}」？`)){
-          myTags[url] = (myTags[url]||[]).filter(t=>t!==existingTag);
-          saveTags(); renderAll();
-        }
-      } else {
-        const t = prompt('给这个网站加一个标签（如：常用、待整理、投资类）：');
-        if(t && t.trim()){
-          myTags[url] = myTags[url] || [];
-          if(!myTags[url].includes(t.trim())) myTags[url].push(t.trim());
-          saveTags(); renderAll();
-        }
-      }
-    });
-  });
 }
 
 function renderAll(){
-  renderTagsRow();
   renderResults();
 }
 
